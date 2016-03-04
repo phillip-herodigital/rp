@@ -203,6 +203,7 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', 'sc
         },
 
         getOfferData: function(offerId) {
+            if (offerId != undefined) {
             return _(services)
             .pluck('offerInformationByType').flatten().filter(function (offer) {
                     if (typeof offer != 'undefined' && _(offer.key).intersection(['Mobile'])) {
@@ -210,6 +211,10 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', 'sc
                     }
                 })
             .pluck('value').flatten().pluck('availableOffers').flatten().filter({ id: offerId }).first().data;
+            }
+            else {
+                return null;
+            }
         },
 
         getOfferPrice: function(offerId) {
@@ -275,7 +280,12 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', 'sc
         },
 
         getDeviceDetails: function (device) {
-            return _.find(cart.items, { imeiNumber: device.imeiNumber });
+            if (device != undefined) {
+                return _.find(cart.items, { imeiNumber: device.imeiNumber });
+            }
+            else {
+                return null;
+            }
         },
 
         getProratedCost: function() {

@@ -67,7 +67,10 @@
         var location = $scope.data.serviceLocation;
         location.address.line1 = $scope.phoneOptions.imeiNumber;
         enrollmentCartService.addService({ location: location });
-        enrollmentService.setServiceInformation(true);
+        enrollmentService.isLoading = true;
+        enrollmentService.setServiceInformation(true).then(function(value) {
+            enrollmentService.isLoading = false;
+        });
     };
 
     $scope.addInternational = function () {

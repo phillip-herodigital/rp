@@ -1493,6 +1493,23 @@
             width: 70%;
             float: none;
             display: inline-block;
+
+            h2 {
+                color: #013c5b;
+                font-size: 20px;
+            }
+
+            .details {
+                color: #4f595e;
+            }
+
+            h3 {
+                color: #225671;
+            }
+
+            p.note {
+                color: #646d71;
+            }
         }
         .line-item {
             margin-top: 20px;
@@ -1575,7 +1592,7 @@
             font-weight: 500;
             margin-top: 0;
             margin-bottom: 0;
-            font-size: 16px;
+            font-size: 18px;
         }
         footer {
             text-align: right;
@@ -1589,7 +1606,7 @@
         .line-item {
             margin-left: 15px;
 
-            &:first-child {
+            &:first-child, &:last-child {
                 margin-left: -15px;
             }
         }
@@ -2288,9 +2305,10 @@
         .description {
             font-weight: 600;
             &.fee {
-                font-size: 12px;
+                font-size: 16px;
                 font-weight: 300;
                 margin: 3px 0;
+                width: 70%;
                 clear: left;
             }
         }
@@ -2305,6 +2323,7 @@
         }
         .description {
             font-weight: 600;
+            font-size: 16px;
             &.phone {
                 width: 100%;
                 font-size: 12px;
@@ -2341,7 +2360,7 @@
     .cart-product{
         min-width:245px;
 		.description{
-			max-width:70%;
+			max-width:71%;
 		}
 		@include breakpoint(small-medium) {
 			min-width:0;
@@ -2360,7 +2379,7 @@
     .description {
         position: relative;
         float: left;
-        width:calc(100% - 65px);
+        width: 71%;
         font-size: 14px;
         font-weight: 400;
 		
@@ -2486,7 +2505,7 @@
             margin: 10px 0 0;
             font-size: 12px;
             font-weight: 600;
-            color: #737373;
+            color: #6b6b6b;
             text-transform: uppercase;
         }
         .offer {

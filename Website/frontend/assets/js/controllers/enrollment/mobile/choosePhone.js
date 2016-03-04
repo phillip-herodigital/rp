@@ -252,8 +252,6 @@
             imeiNumber: $scope.phoneOptions.imeiNumber
         };
         enrollmentCartService.addDeviceToCart(item);
-        $scope.addDevice.imeiNumber.$setValidity('required', true);
-        $scope.addDevice.imeiNumber.suppressValidationMessages = true;
         $scope.clearPhoneSelection();
         if ($scope.showCaptcha) {
             reCAPTCHA.reload($scope.widgetId);
@@ -262,7 +260,7 @@
     $scope.showUnlockingModal = function () {
         $modal.open({
             'scope': $scope,
-            'templateUrl': 'networkUnlocking/sprint'
+            'templateUrl': 'networkUnlocking'
         })
     };
 
@@ -282,8 +280,13 @@
         if ($scope.phoneVerified) {
             $scope.addDeviceToCart();
         }
+        document.getElementById("imeiNumber").blur();
         $scope.clearPhoneSelection();
         $scope.phoneVerified = false;
         enrollmentStepsService.setStep('phoneFlowPlans');
+        enrollmentStepsService.hideStep('phoneFlowDevices');
+        $scope.addDevice.imeiNumber.suppressValidationMessages = true;
+        $scope.mobileEnrollmentService.currentStepNumber = 2;
+        $scope.addDevice.$setPristine();
     };
 }]);

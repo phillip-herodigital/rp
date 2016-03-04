@@ -187,7 +187,7 @@
                                 <div class="item plan-select" ng-show="currentMobileLocationInfo().offerInformationByType.length > 0 && !excludedStates && !zipCodeInvalid">
                                     <hr />
                                     <div class="label">
-                                        <label>Select Your Rate Plan</label>
+                                        <label>@Html.Sitecore().Field("Text - Select Your Rate Plan")</label>
                                         <span class="location-text" ng-show="!showChangeLocation">
                                             @Html.Sitecore().Field("It looks like youre in") {{ geoLocation.city }}, {{ geoLocation.state }} {{ geoLocation.postalCode5 }} <a href="" ng-click="showChangeLocation = true">@Html.Sitecore().Field("Change Text")</a>
                                         </span>
@@ -217,27 +217,24 @@
                                         <a>@Html.Sitecore().Field("Hide Plan Details")</a>
                                     </div>
                                     <div class="disclaimer">
-                                        <p>*Stream International Plus Disclaimer: Lorem ipsum dolor sit amet, consectetur adipisicing elit,</p>
+                                        <p>@Html.Sitecore().Field("Text - Stream International Plus Disclaimer")</p>
                                     </div>
                                 </div>
                                 <div class="line-summary clearfix">
                                     <div class="not-cost">
-                                        <label>Line Summary</label>
+                                        <label>@Html.Sitecore().Field("Text - Line Summary")</label>
                                         <div ng-if="selectedPlan.id">
-                                            <p class="description">
-                                                Individual Plan + {{selectedPlan.data}}
-                                                <span ng-hide="selectedPlan.data == 'Unlimited'">GB</span> Data Plan
-                                            </p>
+                                            <p class="description">@Html.Sitecore().Field("Text - Individual Plan plus Data")</p>
                                             <div class="international-calling clearfix">
                                                 <p class="includes-international" ng-show="selectedPlan.includesInternational">
                                                     <i class="icon-international-phone"></i>
-                                                    Includes Stream International Plus
+                                                    @Html.Sitecore().Field("Text - Includes Stream International")
                                                 </p>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="monthy-cost">
-                                        <p>Monthly Cost</p>
+                                        <p>@Html.Sitecore().Field("Text - Monthly Cost")</p>
                                         <div ng-if="selectedPlan.id">
                                             <p class="cost">{{selectedPlan.rates[0].rateAmount | currency}}/mo</p>
                                         </div>
@@ -245,19 +242,19 @@
                                     <div class="get-international clearfix" ng-show="selectedPlan.includesInternational == false">
                                         <i class="icon-international-phone-large"></i>
                                         <div class="text">
-                                            <p class="title">Stream International Plus</p>
-                                            <p>Unlimited lorem ipsem dolor sit $4.99/mo</p>
-                                            <a href="">show details</a>
+                                            <p class="title">@Html.Sitecore().Field("Text - Stream International")</p>
+                                            <p>@Html.Sitecore().Field("Text - Unlimited for 499 mo")</p>
+                                            <a href="">@Html.Sitecore().Field("Link - Show Details")</a>
                                         </div>
-                                        <button class="button" type="button" ng-click="addInternational()">Add for $4.99/mo</button>
+                                        <button class="button" type="button" ng-click="addInternational()">@Html.Sitecore().Field("Button - Add for 499 mo")</button>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <footer class="clearfix" ng-hide="showChangeLocation">
-                            <a class="back" href="">Back</a>
-                            <button class="button" ng-submit ng-disabled="configureData.$invalid">Check Out</button>
-                            <button class="button add-line" type="button" ng-click="addLine()" ng-disabled="configureData.$invalid">+Add Another Line</button>
+                            <a class="back" href="">@Html.Sitecore().Field("Link - Back")</a>
+                            <button class="button" ng-submit ng-disabled="configureData.$invalid">@Html.Sitecore().Field("Button - Check Out")</button>
+                            <button class="button add-line" type="button" ng-click="addLine()" ng-disabled="configureData.$invalid">@Html.Sitecore().Field("Button - Add Another Line")</button>
                         </footer>
                     </form>
                     <div class="location-section clearfix">
@@ -320,21 +317,21 @@
 </div>
 <div class="coverage-map-fade"></div>
 
-<div class="data-calculator-container hidden">
+@*<div class="data-calculator-container hidden">
     <a class="close" onclick="$('.data-calculator-container').addClass('hidden')" href=""><i class="icon-close"></i></a>
     <div class="inner">
         @Html.Partial("~/Views/Components/Marketing/Mobile/Mobile Usage Calculator.cshtml", new StreamEnergy.MyStream.Models.Marketing.UsageCalculator { IsModal = true, ShowManualCalculator = true, IsJavascriptSubmit = true })
     </div>
     
 </div>
-<div class="data-calculator-fade"></div>
+<div class="data-calculator-fade"></div>*@
 
 <script type="text/ng-template" id="indPlanList/Mobile">
     <div class="btn-group btn-group-options mobile-plans">
-        <div class="button" ng-class="{selected: selectedPlan.data === plan.data}" ng-click="selectPlan(plan.id)" data-uncheckable ng-repeat="plan in typedOffers.value.availableOffers | filter:filterPlans | orderBy:'sortOrder'" ng-class="{'is-recommended':plan.recommended}">
+        <div class="button" ng-class="{selected: selectedPlan.data === plan.data}" ng-click="selectPlan(plan.id)" ng-repeat="plan in typedOffers.value.availableOffers | filter:filterPlans | orderBy:'sortOrder'" ng-class="{'is-recommended':plan.recommended}">
             <div class="size-speed">
                 <div class="size">{{ plan.data }} <span ng-if="plan.data != 'Unlimited'">@Html.Sitecore().Field("GB Text")</span></div>
-                <div class="speed">4G LTE DATA</div>
+                <div class="speed">@Html.Sitecore().Field("Text - 4G LTE Data")</div>
             </div>
             <hr />
             <div class="price">
@@ -346,7 +343,7 @@
                     <hr />
                     <span>
                         <i class="icon-international-phone"></i>
-                        Stream International Plus*
+                        @Html.Sitecore().Field("Text - Stream International")
                     </span>
                 </div>
             </div>
@@ -356,16 +353,6 @@
         </div>
     </div>
 </script>
-
-<script type="text/ng-template" id="indPlanList/TexasElectricity">
-</script>
-<script type="text/ng-template" id="groupPlanList/TexasElectricity">
-</script>
-<script type="text/ng-template" id="indPlanList/GeorgiaGas">
-</script>
-<script type="text/ng-template" id="groupPlanList/GeorgiaGas">
-</script>
-
 <script type="text/ng-template" id="searchbox.tpl.html">
     <input type="text" id="gmap-search-input" placeholder="" />
 </script>

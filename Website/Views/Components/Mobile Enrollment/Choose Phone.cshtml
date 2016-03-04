@@ -11,15 +11,6 @@
                             <div ng-show="!phoneVerified">
                                 <h1>@Html.Sitecore().Field("Verify Phone Heading")</h1>
                             </div>
-                            <div ng-show="phoneVerified">
-                                <div ng-show="!deviceResponseMessage && phoneManufacturer == 'Apple Inc' && networkType == 'GSM'" class="device-error">
-                                    @Html.Sitecore().Field("Apple GSM Message")
-                                </div>
-                                <div ng-show="!deviceResponseMessage && (phoneManufacturer != 'Apple Inc' || networkType != 'GSM') && (phoneOptions.supportsLte || networkType != 'CDMA')">
-                                    <h1 class="success-message">@Html.Sitecore().Field("Congratulations")</h1>
-                                    @Html.Sitecore().Field("Eligible Device Message")
-                                </div>
-                            </div>
                         </header>
                         <div class="content" ng-show="!phoneVerified">
                             <div class="phone-line clearfix" ng-repeat="item in getCartDevices()">
@@ -31,7 +22,7 @@
                                     <dd ng-if="item.iccidNumber">{{ item.iccidNumber}}</dd>
                                     <dt>@Html.Sitecore().Field("Phone Number Label")</dt>
                                     <dd ng-if="item.transferInfo == null">@Html.Sitecore().Field("Assigning New Number Text")</dd>
-                                    <dd ng-if="item.transferInfo == null">{{ item.transferInfo.phoneNumber }}</dd>
+                                    <dd ng-if="item.transferInfo != null">{{ item.transferInfo.phoneNumber }}</dd>
                                 </dl>
                                 <a href="" ng-click="editMobileDevice(location, item)">@Html.Sitecore().Field("Edit")</a><a href="" ng-click="deleteMobileDevice(location, item)">@Html.Sitecore().Field("Remove Line Link Text")</a>
                             </div>
@@ -44,10 +35,10 @@
                                             @Html.Sitecore().Field("Enter Number")
                                             <a href="" ng-click="showModal('instructions/imei');">@Html.Sitecore().Field("What Is This")</a>
                                         </label>
-                                        <input class="full" name="imeiNumber" type="text" ng-model="phoneOptions.imeiNumber" data-val="true" data-val-required placeholder="@Html.Sitecore().Field("Enter Number")" />
+                                        <input class="full" name="imeiNumber" id="imeiNumber" type="text" ng-model="phoneOptions.imeiNumber" data-val="true" data-val-required placeholder="@Html.Sitecore().Field("Enter Number")" />
                                     </div>
                                     <div class="input-group-btn">
-                                        <button type="button" ng-submit ng-disabled="addDevice.$invalid">@Html.Sitecore().Field("Check Text")</button>
+                                        <button ng-submit ng-disabled="addDevice.$invalid">@Html.Sitecore().Field("Check Text")</button>
                                     </div>
                                 </div><!-- /input-group -->
                                 <div class="input-group" ng-if="showCaptcha">
@@ -64,7 +55,7 @@
                                     @Html.Sitecore().Field("Duplicate Device Error Message")
                                 </div>
                                 <div ng-show="!phoneOptions.supportsLte">
-                                    @Html.Sitecore().Field("Non LTE CDMA Message")
+                                    @Html.Sitecore().Field("Non LTE Message")
                                 </div>
                             </div>
                             <div>
@@ -80,30 +71,14 @@
         </div>
     </div>
 </div>
-<script type="text/ng-template" id="networkUnlocking/att">
+<script type="text/ng-template" id="networkUnlocking">
     <div class="mobile-enrollment-modal">
         <div class="modal-header">
             <a href="" ng-click="$dismiss()">Close</a>
-            <h2>@Html.Sitecore().Field("Header - Unlock ATT")</h2>
+            <h2>@Html.Sitecore().Field("Header - Unlock")</h2>
         </div>
         <div class="modal-body">
-            @Html.Sitecore().Field("Content - Unlock ATT")
-        </div>
-        @*
-            <div class="modal-footer">
-                @Html.Sitecore().Field("Footer - Unlock ATT")
-            </div>
-        *@
-    </div>
-</script>
-<script type="text/ng-template" id="networkUnlocking/sprint">
-    <div class="mobile-enrollment-modal">
-        <div class="modal-header">
-            <a href="" ng-click="$dismiss()">Close</a>
-            <h2>@Html.Sitecore().Field("Header - Unlock Sprint")</h2>
-        </div>
-        <div class="modal-body">
-            @Html.Sitecore().Field("Content - Unlock Sprint")
+            @Html.Sitecore().Field("Content - Unlock")
         </div>
         @*
             <div class="modal-footer">
