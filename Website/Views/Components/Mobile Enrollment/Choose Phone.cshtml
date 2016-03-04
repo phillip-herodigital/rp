@@ -21,7 +21,7 @@
                                     <dt ng-if="item.iccidNumber">@Html.Sitecore().Field("ICCID Label")</dt>
                                     <dd ng-if="item.iccidNumber">{{ item.iccidNumber}}</dd>
                                     <dt>@Html.Sitecore().Field("Phone Number Label")</dt>
-                                    <dd ng-if="item.transferInfo == null">@Html.Sitecore().Field("Assigning New Number Text")</dd>
+                                    <dd ng-if="item.transferInfo != null">@Html.Sitecore().Field("Assigning New Number Text")</dd>
                                     <dd ng-if="item.transferInfo != null">{{ item.transferInfo.phoneNumber }}</dd>
                                 </dl>
                                 <a href="" ng-click="editMobileDevice(location, item)">@Html.Sitecore().Field("Edit")</a><a href="" ng-click="deleteMobileDevice(location, item)">@Html.Sitecore().Field("Remove Line Link Text")</a>

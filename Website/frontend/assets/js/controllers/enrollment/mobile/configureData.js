@@ -69,6 +69,7 @@
         enrollmentCartService.addService({ location: location });
         enrollmentService.isLoading = true;
         enrollmentService.setServiceInformation(true).then(function(value) {
+            $scope.selectedPlan = {};
             enrollmentService.isLoading = false;
         });
     };
@@ -111,6 +112,7 @@
                 console.log(data);
             });
         enrollmentStepsService.setStep('phoneFlowDevices');
+        enrollmentStepsService.hideStep('phoneFlowPlans');
     };
 
     $scope.editDevice = function() {
@@ -169,7 +171,9 @@
         coverageMap.removeClass('hidden-map');
         var center = $scope.mapInstance.getCenter();
         google.maps.event.trigger($scope.mapInstance, 'resize');
-        $scope.mapInstance.setCenter(center); 
+        $scope.mapInstance.setCenter(center);
+        $scope.selectedNetwork = 'sprint';
+        $scope.mapInstance.selectedNetwork = 'sprint';
     };
     $scope.showCalculator = function () {
         dataCalculator.removeClass('hidden');
@@ -249,6 +253,11 @@
     };
 
     $scope.layers = {
+        att: {
+            att_voice_roam: false,
+            att_data_roam: false,
+            att_lte: false
+        },
         sprint: {
             sprint_voice_roam: true,
             sprint_data_roam: true,

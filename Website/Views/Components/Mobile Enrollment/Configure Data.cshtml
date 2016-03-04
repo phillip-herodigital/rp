@@ -74,7 +74,7 @@
                                     </div>
                                     <div class="clearfix"></div>
                                     <div>
-                                        <input type="checkbox" ng-model="phoneOptions.missingIccid" /> @Html.Sitecore().Field("I dont have ICCID")
+                                        <label><input type="checkbox" ng-model="phoneOptions.missingIccid" /> @Html.Sitecore().Field("I dont have ICCID")</label>
                                         <div class="device-error" ng-show="phoneOptions.missingIccid && phoneOptions.phoneOS != 'Apple'">
                                             @Html.Sitecore().Field("ICC Error Message")
                                         </div>
@@ -292,6 +292,9 @@
         <div class="wrapper">
             <article class="coverage-map" ng-controller="MobileEnrollmentConfigureDataCtrl">
                 <div class="form">
+                    <ul class="network-toggle">
+                        <li><a href="" ng-class="{active:mapInstance.selectedNetwork == 'sprint'}" ng-model="selectedNetwork" btn-radio="'sprint'">@item.Fields["CDMA Network"].Value</a></li>
+                    </ul>
                     <div class="item">
                         <label for="gmap-search-input">@item.Fields["Enter Zip Code"].Value</label>
                         <div id="gmap-search"></div>

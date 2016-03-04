@@ -284,7 +284,6 @@
         $scope.clearPhoneSelection();
         $scope.phoneVerified = false;
         enrollmentStepsService.setStep('phoneFlowPlans');
-        enrollmentStepsService.hideStep('phoneFlowDevices');
         $scope.addDevice.imeiNumber.suppressValidationMessages = true;
         $scope.mobileEnrollmentService.currentStepNumber = 2;
         $scope.addDevice.$setPristine();
