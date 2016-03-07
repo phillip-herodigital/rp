@@ -34,7 +34,7 @@
                                     <i class="icon-my-device"></i>
                                     <label class="my-device">@Html.Sitecore().Field("My Device")</label>
                                     <div class="edit-remove">
-                                        <a href="" ng-click="editDeviceNumber(location, item)">@Html.Sitecore().Field("Edit")</a> | <a href="" ng-click="deleteMobileDevice(location, item)">@Html.Sitecore().Field("Remove")</a>
+                                        <a href="" ng-click="editDeviceNumber(location, item)">@Html.Sitecore().Field("Edit")</a> | <a href="" ng-click="deleteMobileLine()">@Html.Sitecore().Field("Remove")</a>
                                     </div>
                                     <p class="IMEI">
                                         <span class="heading">@Html.Sitecore().Field("MEID IMEI Number")</span> <span id="DeviceID">{{ phoneOptions.imeiNumber }}</span>
@@ -292,9 +292,6 @@
         <div class="wrapper">
             <article class="coverage-map" ng-controller="MobileEnrollmentConfigureDataCtrl">
                 <div class="form">
-                    <ul class="network-toggle">
-                        <li><a href="" ng-class="{active:mapInstance.selectedNetwork == 'sprint'}" ng-model="selectedNetwork" btn-radio="'sprint'">@item.Fields["CDMA Network"].Value</a></li>
-                    </ul>
                     <div class="item">
                         <label for="gmap-search-input">@item.Fields["Enter Zip Code"].Value</label>
                         <div id="gmap-search"></div>
@@ -305,13 +302,13 @@
                 </ui-gmap-google-map>
                 <ul class="layer-toggle">
                     <li>
-                        <input type="checkbox" id="sprint_voice" ng-model="layers.sprint.sprint_voice_roam" /> <label for="sprint_voice">@item.Fields["Voice"].Value</label>
+                        <input type="checkbox" id="sprint_voice" ng-model="layers.sprint_voice_roam" /> <label for="sprint_voice">@item.Fields["Voice"].Value</label>
                     </li>
                     <li>
-                        <input type="checkbox" id="sprint_data" ng-model="layers.sprint.sprint_data_roam" /> <label for="sprint_data">@item.Fields["Data"].Value</label>
+                        <input type="checkbox" id="sprint_data" ng-model="layers.sprint_data_roam" /> <label for="sprint_data">@item.Fields["Data"].Value</label>
                     </li>
                     <li>
-                        <input type="checkbox" id="sprint_lte" ng-model="layers.sprint.sprint_lte" /> <label for="sprint_lte">@item.Fields["LTE"].Value</label>
+                        <input type="checkbox" id="sprint_lte" ng-model="layers.sprint_lte" /> <label for="sprint_lte">@item.Fields["LTE"].Value</label>
                     </li>
                 </ul>
             </article>
@@ -331,7 +328,7 @@
 
 <script type="text/ng-template" id="indPlanList/Mobile">
     <div class="btn-group btn-group-options mobile-plans">
-        <div class="button" ng-class="{selected: selectedPlan.data === plan.data}" ng-click="selectPlan(plan.id)" ng-repeat="plan in typedOffers.value.availableOffers | filter:filterPlans | orderBy:'sortOrder'" ng-class="{'is-recommended':plan.recommended}">
+        <div class="button" ng-class="{selected: selectedPlan.data === plan.data, 'is-recommended': plan.recommended}" ng-click="selectPlan(plan.id)" ng-repeat="plan in typedOffers.value.availableOffers | filter:filterPlans | orderBy:'sortOrder'">
             <div class="size-speed">
                 <div class="size">{{ plan.data }} <span ng-if="plan.data != 'Unlimited'">@Html.Sitecore().Field("GB Text")</span></div>
                 <div class="speed">@Html.Sitecore().Field("Text - 4G LTE Data")</div>
@@ -351,7 +348,7 @@
                 </div>
             </div>
             <hr />
-            <button class="button" ng-hide="selectedPlan.id == plan.id">@Html.Sitecore().Field("Select Text")</button>
+            <button class="button" type="button" ng-hide="selectedPlan.id == plan.id">@Html.Sitecore().Field("Select Text")</button>
             <div ng-show="selectedPlan.id == plan.id" class="check"></div>
         </div>
     </div>

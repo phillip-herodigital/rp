@@ -5,6 +5,7 @@
     $scope.formFields = {
         chosenPlanId: undefined
     };
+    var activeServiceIndex = enrollmentCartService.getActiveServiceIndex;
     $scope.requestedPlanAvailable = false;
     $scope.showChangeLocation = $scope.geoLocation.postalCode5 == '';
     $scope.excludedStates = false;
@@ -66,12 +67,19 @@
     var addService = function () {
         var location = $scope.data.serviceLocation;
         location.address.line1 = $scope.phoneOptions.imeiNumber;
-        enrollmentCartService.addService({ location: location });
-        enrollmentService.isLoading = true;
-        enrollmentService.setServiceInformation(true).then(function(value) {
-            $scope.selectedPlan = {};
-            enrollmentService.isLoading = false;
+        var offerInfo = [{
+            key: "Mobile",
+            value: {
+                availableOffers: $scope.availableOffers,
+                errors: [],
+                offerSelections: []
+            }
+        }];
+        enrollmentCartService.addService({
+            location: location,
+            offerInformationByType: offerInfo
         });
+        $scope.selectedPlan = {};
     };
 
     $scope.addInternational = function () {
@@ -87,18 +95,13 @@
     }
 
     $scope.addLine = function () {
-        var device = $scope.phoneOptions;
-        var offer = [{
-            offerId: $scope.selectedPlan.id,
-            offer: $scope.selectedPlan,
-        }];
         var offerSelections = [{
             offerId: $scope.selectedPlan.id,
             offerOption: {
                 optionType: 'Mobile',
                 activationDate: new Date(),
-                esnNumber: device.imeiNumber,
-                imeiNumber: device.imeiNumber,
+                esnNumber: $scope.phoneOptions.imeiNumber,
+                imeiNumber: $scope.phoneOptions.imeiNumber,
                 inventoryItemID: $scope.selectedPlan.mobileInventory[0].id,
             }
         }];
@@ -118,6 +121,27 @@
     $scope.editDevice = function() {
         $scope.setCurrentStep('choose-phone');
     };
+
+    $scope.deleteMobileLine = function () {
+        enrollmentCartService.removeDeviceFromCart($scope.phoneOptions);
+        enrollmentCartService.removeService(enrollmentCartService.getActiveService())
+        var devicesCount = enrollmentCartService.getDevicesCount();
+        var serviceType = enrollmentCartService.getActiveServiceType();
+        if (devicesCount == 0 && serviceType == 'Mobile') {
+            enrollmentStepsService.setFlow('mobile', false).setStep('phoneFlowDevices');
+        } else {
+            //make a server call to update the cart with the correct devices & services
+            enrollmentService.setAccountInformation().then(
+            function (value) {
+                enrollmentService.setSelectedOffers();
+            },
+            function (data) {
+                console.log(data);
+            });
+            enrollmentStepsService.setStep('phoneFlowDevices');
+            enrollmentStepsService.hideStep('phoneFlowPlans');
+        }
+    }
 
     $scope.addUtilityAddress = function () {
         // save the mobile offer selections
@@ -207,7 +231,11 @@
                     $scope.zipCodeInvalid = false;
                     if (activeService && !$scope.excludedState) {
                         activeService.location = $scope.data.serviceLocation;
-                        enrollmentService.setSelectedOffers(true);
+                        enrollmentService.setSelectedOffers(true).then(function () {
+                            $scope.availableOffers = enrollmentCartService.getActiveService().offerInformationByType[0].value.availableOffers;
+                        }, function(){
+                            console.log("no available offers")
+                        });
                     }
                     else {
                         enrollmentCartService.addService({ location: $scope.data.serviceLocation });
@@ -253,16 +281,9 @@
     };
 
     $scope.layers = {
-        att: {
-            att_voice_roam: false,
-            att_data_roam: false,
-            att_lte: false
-        },
-        sprint: {
             sprint_voice_roam: true,
             sprint_data_roam: true,
             sprint_lte: true
-        }
     };
     $scope.superCents = function (planCost) {
         if (planCost == null) return null;
@@ -307,9 +328,13 @@
         }
     });
 
+    $scope.$watch('layers', function (newVal, oldVal) {
+        $scope.updateMapLayers();
+    }, true);
+
     $scope.updateMapLayers = function () {
         var layers = [];
-        angular.forEach($scope.layers[$scope.selectedNetwork], function (value, key) {
+        angular.forEach($scope.layers, function (value, key) {
             if (value == true) {
                 layers.push(key);
             }
