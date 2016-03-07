@@ -10,6 +10,8 @@ namespace StreamEnergy.DomainModels.Enrollments
     [Serializable]
     public class OnlineAccount : ISanitizable, IValidatableObject
     {
+        public bool HasUsernameBeenAddedToMembership { get; set; }
+
         [Required(ErrorMessage = "Username Required")]
         public string Username { get; set; }
 
@@ -31,7 +33,7 @@ namespace StreamEnergy.DomainModels.Enrollments
         {
             if (Username != null)
             {
-                if (Membership.FindUsersByName(Username).Count > 0)
+                if (!HasUsernameBeenAddedToMembership && Membership.FindUsersByName(Username).Count > 0)
                     yield return new ValidationResult("Username In Use", new[] { "Username" });
             }
 
