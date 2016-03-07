@@ -1,0 +1,70 @@
+﻿@{
+    // Video
+    var videoID = Html.Sitecore().CurrentItem.Fields["YouTube ID"].Value;
+    var embedUrl = !string.IsNullOrEmpty(videoID) ? "//www.youtube.com/embed/" + videoID : "";
+
+}
+
+<article class="win-back win-back-2" ng-if="!esiIdInvalid">
+    <div class="intro" style="@Html.AsBackgroundStyle("banner image")">
+        <h1>@Html.Sitecore().Field("Header")</h1>
+    </div>
+    <div class="switch">
+        <a href="" ng-click="scrollTo('GetStarted')" class="button">@Html.Sitecore().Field("Switch Button")</a>
+    </div>
+
+    <div>
+        <h3>@Html.Sitecore().Field("Lowest Rate")</h3>
+        <div class="price">
+            @Html.Sitecore().Field("Rate")
+        </div>
+    </div>
+
+    <div>
+        <p class="rate-disclaimer">@Html.Sitecore().Field("Rate disclaimer")</p>
+        <hr>
+        <div class="new-rate">
+            <h3>@Html.Sitecore().Field("New Rate Header")</h3>
+            <p>@Html.Sitecore().Field("New Rate Paragraph")</p>
+        </div>
+        <h3 class="switching-back">@Html.Sitecore().Field("Switching Header")</h3>
+        <p class="sub-header">@Html.Sitecore().Field("Switching Subheader")</p>
+        <p class="how-it-works">@Html.Sitecore().Field("How It Works")</p>
+        <div class="how-it-works-list">@Html.Sitecore().Field("How It Works List")</div>
+        <div class="get-started">
+            <a href="" ng-click="scrollTo('GetStarted')" class="button">@Html.Sitecore().Field("Switching Button")</a>
+        </div>
+    </div>
+
+    @if (embedUrl != "")
+    {
+        <div class="video-container">
+            <iframe ng-src="@embedUrl" frameborder="0" allowfullscreen></iframe>
+        </div>
+    }
+
+    <div class="reasons">
+        <div class="wrapper">
+            <h2>@Html.Sitecore().Field("Reasons Header")</h2>
+            <div class="grid three">
+                <div class="col simple-billing">
+                    <h4><strong>@Html.Sitecore().Field("Reason 1 Header")</strong></h4>
+                    <p>@Html.Sitecore().Field("Reason 1 Paragraph")</p>
+                </div>
+                <div class="col best-rate">
+                    <h4><strong>@Html.Sitecore().Field("Reason 2 Header")</strong></h4>
+                    <p>@Html.Sitecore().Field("Reason 2 Paragraph")</p>
+                </div>
+                <div class="col customer-service">
+                    <h4><strong>@Html.Sitecore().Field("Reason 3 Header")</strong></h4>
+                    <p>@Html.Sitecore().Field("Reason 3 Paragraph")</p>
+                </div>
+            </div>
+            <p class="asterisk">@Html.Sitecore().Field("Reasons Footnote")</p>
+        </div>
+    </div>
+    <div class="lock-in">
+        <h2>@Html.Sitecore().Field("Lock In Header")</h2>
+        <a href="" ng-click="scrollTo('GetStarted')" class="button">@Html.Sitecore().Field("Lock In Button")</a>
+    </div>
+</article>
