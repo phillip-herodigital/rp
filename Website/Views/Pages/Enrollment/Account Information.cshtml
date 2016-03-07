@@ -61,6 +61,16 @@
                         <div class="content">
                             <h3>@Html.Sitecore().Field("Personal Information Header")</h3>
                             <div class="group">
+                                <div class="item" ng-show="contacts.options.length > 1">
+                                    <label>@Html.Sitecore().Field("Select Existing Contact Info Label")</label>
+                                    <select ng-model="contacts.selectedContact"
+                                            ng-change="updateAccountInformation()"
+                                            ng-options="contact as contact.mailingAddress | address for contact in contacts.options">
+                                        <option value="">@Html.Sitecore().Field("Select Option Please Choose")</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="group">
                                 <div class="item group-col" @Html.Validation().ErrorClass(m => m.ContactInfo.Name.First)>
                                     <label for="@Html.IdFor(m => m.ContactInfo.Name.First)">@Html.Sitecore().Field("First Name Label")</label>
                                     @Html.TextBoxFor(m => m.ContactInfo.Name.First, new { ng_model = "accountInformation.contactInfo.name.first" })
@@ -94,7 +104,7 @@
                                                         new
                                                         {
                                                             ng_model = "accountInformation.contactInfo.phone[0].category",
-                                                            ng_options = "type.name as type.display for type in phoneTypes|filter:filter2|filter:filterCustomerType"
+                                                            ng_options = "type.name as type.display for type in phoneTypes|filter:filter1|filter:filterCustomerType"
                                                         }))
                                         @firstPhone.ValidationMessageFor(m => ((TypedPhone)m).Category)
                                     </div>
@@ -103,10 +113,10 @@
 
                             <div class="additional-field-item item">
                                 <ul class="checkbox-list">
-                                    <li><input type="checkbox" name="additional-phone-number" id="additional-phone-number" ng-model="additionalInformation.showAdditionalPhoneNumber" ng-change="showAdditionalPhoneNumberChanged()"><label for="additional-phone-number">@Html.Sitecore().Field("Add additional phone number")</label></li>
+                                    <li><input type="checkbox" name="additional-phone-number" id="additional-phone-number" ng-model="accountInformation.showAdditionalPhoneNumber" ng-change="showAdditionalPhoneNumberChanged()"><label for="additional-phone-number">@Html.Sitecore().Field("Add additional phone number")</label></li>
                                 </ul>
                             </div>
-                            <div class="additional-field-group" ng-show="accountInformation.contactInfo.phone.length > 1">
+                            <div class="additional-field-group" ng-show="accountInformation.showAdditionalPhoneNumber">
                                 <div class="group">
                                     @using (var secondPhone = Html.ClientRepeater(m => m.ContactInfo.Phone, "1").Shortcut(m => (TypedPhone)m))
                                     {
@@ -122,7 +132,7 @@
                                                         new
                                                         {
                                                             ng_model = "accountInformation.contactInfo.phone[1].category",
-                                                            ng_options = "type.name as type.display for type in phoneTypes|filter:filter1|filter:filterCustomerType",
+                                                            ng_options = "type.name as type.display for type in phoneTypes|filter:filter2|filter:filterCustomerType",
                                                             data_val_if = "accountInformation.contactInfo.phone.length > 1"
                                                         }))
                                             @secondPhone.ValidationMessageFor(m => ((TypedPhone)m).Category)
@@ -194,7 +204,7 @@
                                 <div class="item" ng-show="cartHasUtility()">
                                     <ul class="checkbox-list">
                                         <li>
-                                            <input type="checkbox" name="same-address-mailing" id="same-address-mailing" ng-model="accountInformation.mailingAddressSame" ng-checked="cartHasUtility()">
+                                            <input type="checkbox" name="same-address-mailing" id="same-address-mailing" ng-click="mailingAddressSameChanged()" ng-model="accountInformation.mailingAddressSame" ng-checked="cartHasUtility()">
                                             <label for="same-address-mailing">@Html.Sitecore().Field("Same Address Label")</label>
                                         </li>
                                     </ul>
@@ -342,7 +352,7 @@
                         </div>
                     </article>
                     @* User Account Creation *@
-                    <article class="form enrollment__box enrollment__box--account-creation" ng-if="!isRenewal && false">
+                    <article class="form enrollment__box enrollment__box--account-creation" ng-if="!isRenewal">
                         <header>
                             <h1>@Html.Sitecore().Field("Create Online Account Header")</h1>@*Social box header: Social Box Header*@
                         </header>
