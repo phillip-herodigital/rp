@@ -1381,11 +1381,10 @@ article.win-back-2 {
     }
     .video-container {
         position: relative;
-        padding-bottom: 56.25%;
+        padding-bottom: 56.25%; 
         padding-top: 35px;
         height: 0;
         overflow: hidden;
-        margin-bottom: 20px;
         iframe {
             position: absolute;
             top:0;
