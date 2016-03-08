@@ -3,7 +3,6 @@
  * This is used to control aspects of single page enrollment.
  */
 ngApp.controller('EnrollmentSinglePageCtrl', ['$scope', 'enrollmentService', 'scrollService', 'enrollmentCartService', '$modal', 'validation', 'analytics', '$http', function ($scope, enrollmentService, scrollService, enrollmentCartService, $modal, validation, analytics, $http) {
-
     $scope.getClientData = function (serviceLocation) {
         enrollmentService.isLoading = true;
         if (serviceLocation == undefined) {
@@ -18,7 +17,11 @@ ngApp.controller('EnrollmentSinglePageCtrl', ['$scope', 'enrollmentService', 'sc
         $scope.addressIneligible = false;
         $scope.ssnMismatch = false;
         $scope.item = {};
-        $http.post('/api/enrollment/previousClientData', serviceLocation)
+        var requestData = {
+            serviceLocation: serviceLocation,
+            planId: $scope.utilityEnrollment.requestedPlanId
+        };
+        $http.post('/api/enrollment/previousClientData', requestData)
             .success(function (data) {
                 enrollmentService.isLoading = false;
                 if (data.validations.length) {
@@ -45,13 +48,15 @@ ngApp.controller('EnrollmentSinglePageCtrl', ['$scope', 'enrollmentService', 'sc
                 }
                 
             }).error(function() {
-                $scope.isLoading = false;
+                enrollmentService.isLoading = false;
                 $scope.esiIdInvalid = true;
                 $scope.addressEditing = true;
             });
     };
 
-    $scope.getClientData();
+    $scope.$watch('utilityEnrollment.requestedPlanId', function(){
+        $scope.getClientData();
+    });
 
     $scope.accountInformation = enrollmentService.accountInformation;
     var sci = $scope.accountInformation.secondaryContactInfo;
