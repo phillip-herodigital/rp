@@ -763,7 +763,8 @@ FROM [SwitchBack] WHERE ESIID=@esiId";
                 await stateMachine.Process(typeof(DomainModels.Enrollments.AccountInformationState));
             else
                 await stateMachine.ContextUpdated();
-
+            /* Disable logged in enrollment for now
+            
             if (currentUser.StreamConnectCustomerId != Guid.Empty && stateMachine.Context.LoggedInCustomerId == Guid.Empty)
             {
                 var accounts = (await accountService.GetAccounts(currentUser.StreamConnectCustomerId)).Take(3);
@@ -782,7 +783,7 @@ FROM [SwitchBack] WHERE ESIID=@esiId";
                                          MailingAddress = account.Details.BillingAddress,
                                      }).ToArray();
             }
-
+            */
             return ClientData(typeof(DomainModels.Enrollments.AccountInformationState));
         }
 
