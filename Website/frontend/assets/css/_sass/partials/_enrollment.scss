@@ -211,7 +211,7 @@
     }
 
     .content{
-        background:#fafafa;
+        background:#fafbfc;
     }
 
     .checkbox-list {
@@ -410,7 +410,6 @@
         padding-left: $enrollment-module-horizontal-padding;
         padding-right: $enrollment-module-horizontal-padding;
         margin-bottom: 0;
-        background-color: $enrollment-secondary-color;
     }
 
 
@@ -694,13 +693,12 @@
 .enrollment__box {
     overflow: visible;
     border-color: $enrollment-dark-border-color;
-    background-color: #fdfdfd;
+    background-color: #fafbfc;
     header {
         background-color: #fff;
         background-image: none;
         border-bottom: 1px solid $enrollment-light-border-color;
         font-size: 18px;
-        color: #47545b;
     }
     h1 {
         font-size: $enrollment-module-h1-size;
@@ -713,7 +711,7 @@
         font-size: $enrollment-module-h3-size;
         color: $enrollment-module-h3-color;
         text-transform: none;
-        font-weight: 500;
+        font-weight: 600;
         margin: 5px 0;
         width: 100%;
     }
@@ -759,7 +757,6 @@
         text-transform: none !important;
         font-weight: 500;
         font-size: 16px;
-        color: #636363;
         margin-bottom: 8px;
     }
     hr {
@@ -770,6 +767,10 @@
     .content {
         .stretch-full {
             margin: -25px ($enrollment-module-horizontal-padding * -1);
+        }
+
+        .services-header {
+            margin-bottom: 35px;
         }
     }
     .customer-type {
@@ -830,11 +831,84 @@
     }
 }
 
-/* Commenting out the social login
+
 .enrollment__box--account-creation {
     .content {
-        padding-top: 0;
+        p {
+            font-size: 18px;
+            font-weight: 400;
+            color: #47545b;
+        }
+
+        .autopay {
+            h3 {
+                font-size: 24px;
+            }
+
+            p.note {
+                font-size: 15px;
+                font-weight: 300;
+                color: #616b71;
+                font-style: italic;
+            }
+
+            i.icon-autopay-calendar {
+                background-image: url('../i/icon/autopay-small.png');
+                background-position: 0px 0px;
+                height: 26px;
+                width: 26px;
+                float: left;
+                margin-right: 10px;
+            }
+
+            strong, bold {
+                color: #2d9a36;
+            }
+        }
+
+        .onlineAccountInfo {
+
+            .disabled {
+                opacity: 0.3;
+            }
+
+            input[type="radio"]:first-of-type {
+                margin-bottom: 18px;
+            }
+
+            .item {
+                padding-left: 18px;
+
+                label {
+                    font-size: 14px;
+                    color: #000000;
+                }
+
+                .note {
+                    margin: 5px 0 0 0;
+                    font-size: 14px;
+                    font-weight: 200;
+                    line-height: 1;
+                    color: #6a6a6a;
+                }
+            }
+
+            .radio-note {
+                padding-left: 18px;
+                margin: 0;
+                font-style: italic;
+                font-size: 15px;
+                font-weight: 300;
+            }
+
+            label.radio {
+                font-size: 18px;
+                font-weight: 300;
+                color: #000000;
+            }
+        }
     }
+    /* Commenting out the social login
     .social-box { 
         background: #f4f4f4;
         margin: 0 (-$enrollment-module-horizontal-padding) 30px (-$enrollment-module-horizontal-padding);
@@ -859,9 +933,8 @@
             text-align: center;
             @include border-radius(21px);
             padding-top: 10px;
-        }
-    }    
-}*/
+        }*/
+}
 
 /*
     Bulleted enrollment navigation
@@ -1336,6 +1409,19 @@
     .content {
         @include border-radius(0 0 5px 5px);
     }
+    article.associate-referal {
+        p {
+            font-size: 16px;
+            font-weight: 400;
+            color: #47545b
+        }
+
+        label.associate-name {
+            font-size: 14px;
+            font-weight: 400;
+            color: #000000;
+        }
+    }
 }
 
 .cleanse-address {
@@ -1398,32 +1484,38 @@
         border: none;
         border-top: 1px solid #ddd;
     }
+
     .security-code {
         @include breakpoint(medium) {
             clear: left;
             margin-top: 20px;
         }
     }
+
     .example {
         @include breakpoint(small) {
             margin-top: -15px;
         }
+
         .single-link {
             @include breakpoint(medium) {
                 margin-top: 52px;
             }
         }
     }
+
     .enrollment__cart {
         hr {
             margin: 15px -18px;
         }
     }
+
     .seperator {
         overflow: hidden;
         text-align: center;
         text-transform: uppercase;
         margin-bottom: 25px;
+
         &:before,
         &:after {
             background-color: #000;
@@ -1434,61 +1526,74 @@
             vertical-align: middle;
             width: 50%;
         }
+
         &:before {
             right: 0.5em;
             margin-left: -50%;
             background-color: #ccc;
         }
+
         &:after {
             left: 0.5em;
             margin-right: -50%;
             background-color: #ccc;
         }
     }
+
     .explanation {
         font-size: 13px;
     }
+
     .terms-agreement {
         .item {
             padding-right: 0;
+
             .terms {
                 margin-bottom: 10px;
             }
         }
     }
+
     .services-header {
-        background-color: #fafafa;
+        background-color: #fcfcfc;
         padding: 5px 20px;
-        margin: -20px -20px 0;
+        margin: -10px -20px 0;
+
         .service-title {
             display: inline-block;
-            font-size: 16px;
+            font-size: 18px;
             font-weight: 600;
         }
+
         .service-description {
             display: inline-block;
             float: right;
-            font-size: 14px;
-            color: #979797;
+            font-size: 16px;
+            color: #225671;
             padding-top: 3px;
+            font-weight: 300;
         }
     }
+
     .content {
-        background-color: #fff;
+        background-color: #fcfcfc;
     }
+
     .mobile-services, .energy-services {
         .plan-details {
-
         }
+
         .condition {
             color: #999;
             font-size: 12px;
             font-weight: 600;
             text-transform: uppercase;
         }
+
         .model {
             margin: 0;
         }
+
         .description {
             width: 70%;
             float: none;
@@ -1511,58 +1616,73 @@
                 color: #646d71;
             }
         }
+
         .line-item {
             margin-top: 20px;
         }
+
         .rate {
             width: 29%;
             display: inline-block;
             text-align: right;
             font-weight: 400;
             vertical-align: top;
+
             &.device-price {
                 margin-top: 17px;
             }
         }
+
         table {
             margin-top: 20px;
         }
+
         .plan-summary-image, .phone-summary-image {
             position: absolute;
             left: 20px;
             top: 0;
+
             img {
                 max-width: 60px;
             }
+
             @include breakpoint(small) {
                 position: relative;
             }
         }
+
         .plan-summary, .phone-summary {
             padding-left: 100px;
             position: relative;
             margin: 20px 0 40px;
             border-bottom: 1px solid #e6e6e6;
             padding-bottom: 30px;
+
             &:last-child {
                 border-bottom: none;
                 padding-bottom: 0;
                 margin-bottom: 0;
             }
+
             &.no-img {
                 padding-left: 0;
             }
+
             .items-monthly {
                 margin-top: 20px;
             }
+
             @include breakpoint(small) {
                 padding-left: 0;
             }
+
             tr.ez-pay {
                 border: 2px solid #0071b9;
             }
+
             td {
                 border: none;
+
                 .blue {
                     color: #0071b9;
                     font-size: 15px;
@@ -1570,17 +1690,17 @@
                 }
             }
         }
-        .phone-summary {
-            min-height: 140px;
-        }
+
         .contact {
             float: left;
             width: 100%;
+
             @include breakpoint(small) {
                 word-wrap: break-word;
                 margin-bottom: 10px;
             }
         }
+
         h2 {
             font-weight: 600;
             margin-bottom: 5px;
@@ -1588,26 +1708,69 @@
             color: #333;
             font-size: 20px;
         }
+
         h3 {
             font-weight: 500;
             margin-top: 0;
             margin-bottom: 0;
             font-size: 18px;
         }
+
         footer {
             text-align: right;
         }
+
         p {
             margin: 0 0 5px;
             font-size: 16px;
         }
     }
+
     .mobile-services {
         .line-item {
             margin-left: 15px;
 
-            &:first-child, &:last-child {
+            &.subheading {
                 margin-left: -15px;
+            }
+        }
+
+        i.autopay-small {
+            background-image: url('../i/icon/autopay-17x17.png');
+            background-position: 0px 0px;
+            height: 17px;
+            width: 17px;
+            float: left;
+            margin-right: 10px;
+        }
+    }
+
+    .card-details {
+
+        footer.autopay-activation {
+            background-image: url('../i/bg/autopay-activation-bg.png');
+            background-repeat: no-repeat;
+            background-position: 35px -80px;
+            background-color: #2d9a36;
+
+            padding: 10px 30px 30px;
+
+            h2 {
+                font-size: 30px;
+            }
+
+            h2, p {
+                color: #ffffff;
+            }
+
+            p {
+                max-width: 400px;
+            }
+
+            button {
+                color: #000000;
+                background-image: none;
+                background-color: #ffffff;
             }
         }
     }
@@ -1740,14 +1903,17 @@
  */
 .enrollment__order-confirmation {
     margin-top: 20px;
+
     .print {
         float: right;
         font-size: 14px;
         margin-top: 5px;
+
         i {
             margin-top: -3px;
         }
     }
+
     .notice.alert {
         background-image: none;
         @include border-radius(0);
@@ -1758,62 +1924,138 @@
         padding: 20px;
         margin: 0 -20px 15px;
     }
+
+    .next-steps {
+
+        .mobile-header-content {
+            color: #013c5b;
+
+            .account-number {
+                font-size: 24px;
+                font-weight: 400;
+            }
+
+            h3 {
+                margin-top: 20px;
+            }
+
+            .contact, .details, .note {
+                font-weight: 400;
+                font-size: 18px;
+
+                &.name {
+                    font-weight: 500;
+                    font-size: 20px;
+                }
+            }
+
+            .note {
+                margin: 30px 0;
+                max-width: 500px;
+            }
+        }
+
+        footer {
+            padding: 0;
+
+            .border {
+                background-image: url('../i/bg/stream-account-header.png');
+                background-position: 0 0;
+                height: 5px;
+            }
+
+            .stream-account {
+                background-color: #97c93d;
+                color: #ffffff;
+                margin: 0;
+                font-size: 20px;
+                text-transform: uppercase;
+                padding: 10px 20px;
+            }
+
+            .content {
+                padding: 20px;
+                background-color: #f2f6f9;
+
+                .contact {
+                    font-weight: 300;
+                    font-size: 18px;
+                    color: #013c5b;
+                }
+            }
+        }
+    }
+
     .next-steps {
         .content {
             @include border-radius(0 0 5px 5px);
         }
+
         .step {
             display: inline-block;
             width: 32%;
             vertical-align: top;
+
             @include breakpoint(small) {
                 display: block;
                 width: 100%;
                 margin-top: 10px;
             }
+
             .step-number {
                 display: table-cell;
                 font-size: 40px;
                 line-height: 1.1;
+
                 &.number-one {
                     padding-right: 11px;
                 }
             }
+
             .step-description {
                 display: table-cell;
                 vertical-align: top;
                 padding-left: 10px;
+
                 @include breakpoint(small) {
                     vertical-align: middle;
                 }
             }
         }
     }
+
     .promo-box {
         min-height: 120px;
     }
+
     dl {
         margin-bottom: 20px;
+
         dt {
             display: inline-block;
             font-weight: 600;
         }
+
         dd {
             display: inline-block;
             text-align: left;
-            margin-bottom: 10px; 
+            margin-bottom: 10px;
         }
-    }   
+    }
+
     .plan-documents {
         .docs {
             text-align: right;
+
             @include breakpoint(medium) {
                 width: 40%;
             }
+
             @include breakpoint(small) {
                 text-align: left;
                 margin-bottom: 10px;
             }
+
             ul {
                 list-style-type: none;
                 margin: 0;
@@ -1821,26 +2063,69 @@
             }
         }
     }
+
     .monthly-cost {
         .content {
             @include border-radius(0 0 5px 5px);
+            padding: 30px 30px 20px;
+
+            .plan-summary {
+                padding-left: inherit;
+            }
+
+            .mobile-services {
+                .line-item, .line-item:first-child {
+                    margin-left: inherit;
+                }
+
+                .line-item:last-child {
+                    margin-left: 15px;
+                }
+
+                .autopay {
+                    color: #289531;
+                    font-size: 18px;
+                    font-weight: 600;
+                    width: 50%;
+                    float: left;
+
+                    i.autopay-small {
+                        background-image: url('../i/icon/autopay-small.png');
+                        background-position: 0;
+                        height: 26px;
+                        width: 26px;
+                        float: left;
+                        margin-right: 10px;
+                    }
+
+                    .autopay-total {
+                        float: left;
+                        width: 50%;
+                    }
+                }
+            }
         }
     }
+
     .confirm-personal-info {
         .content {
             @include border-radius(5px);
         }
+
         .contact {
             float: left;
             width: 100%;
+
             @include breakpoint(small) {
                 word-wrap: break-word;
                 margin-bottom: 10px;
             }
         }
+
         a {
             font-size: 15px;
         }
+
         h2 {
             font-weight: 600;
             margin-bottom: 5px;
@@ -1849,15 +2134,15 @@
             font-size: 24px;
         }
     }
+
     .services-header {
-        background-color: #fafafa;
-        padding: 5px 20px;
-        margin: -20px -20px 0;
+
         .service-title {
             display: inline-block;
-            font-size: 16px;
-            font-weight: 600;
+            font-size: 24px;
+            font-weight: 400;
         }
+
         .service-description {
             display: inline-block;
             float: right;
@@ -1866,79 +2151,137 @@
             padding-top: 3px;
         }
     }
+
     .content {
         background-color: #fff;
     }
+
     .mobile-services, .energy-services {
         .plan-details {
-
         }
+
         .condition {
             color: #999;
             font-size: 12px;
             font-weight: 600;
             text-transform: uppercase;
         }
+
         .model {
             margin: 0;
         }
+
         .description {
             width: 70%;
             float: none;
             display: inline-block;
         }
+
         .line-item {
             margin-top: 20px;
+
+            .details {
+                color: #4f595e;
+            }
         }
+
         .rate {
             width: 29%;
             display: inline-block;
             text-align: right;
             font-weight: 600;
             vertical-align: top;
+
             &.device-price {
                 margin-top: 17px;
             }
         }
+
         .plan-summary-image, .phone-summary-image {
             position: absolute;
             left: 20px;
             top: 0;
+
             img {
                 max-width: 60px;
             }
+
             @include breakpoint(small) {
                 position: relative;
             }
         }
+
         .plan-summary, .phone-summary {
             padding-left: 100px;
             position: relative;
             margin: 20px 0 40px;
             border-bottom: 1px solid #e6e6e6;
             padding-bottom: 30px;
+
+            .subheading {
+                font-size: 20px;
+                font-weight: 500;
+                color: #013c5b;
+            }
+
             &:last-child {
                 border-bottom: none;
                 padding-bottom: 0;
                 margin-bottom: 0;
             }
+
+            &.autopaySpacing {
+                border-bottom: 1px solid #e6e6e6;
+                padding-bottom: 30px;
+                margin-bottom: 20px;
+            }
+
+            &.autopay {
+                border-bottom: 1px solid #e6e6e6;
+                padding-bottom: 30px;
+                margin-bottom: 20px;
+
+                i.icon-autopay {
+                    background-image: url('../i/icon/autopay-large.png');
+                    background-position: 0;
+                    height: 45px;
+                    width: 45px;
+                }
+
+                .description, .rate {
+                    h2 {
+                        color: #2d9a36;
+                    }
+                }
+                .rate {
+                    color: #2d9a36;
+                    font-size: 18px;
+                    font-weight: 700;
+                }
+            }
+
             &.no-img {
                 padding-left: 0;
             }
+
             .items-monthly {
                 margin-top: 20px;
             }
+
             @include breakpoint(small) {
                 padding-left: 0;
             }
+
             .included-thermostat {
                 background-color: #f4f8f9;
                 margin: 5px 0 0 0;
                 padding: 10px 10px 5px;
                 min-width: 200px;
+
                 img {
                     display: inline-block;
                 }
+
                 span {
                     display: inline-block;
                     vertical-align: top;
@@ -1949,17 +2292,17 @@
                 }
             }
         }
-        .phone-summary {
-            min-height: 140px;
-        }
+
         .contact {
             float: left;
             width: 100%;
+
             @include breakpoint(small) {
                 word-wrap: break-word;
                 margin-bottom: 10px;
             }
         }
+
         h2 {
             font-weight: 600;
             margin-bottom: 5px;
@@ -1967,45 +2310,55 @@
             color: #333;
             font-size: 20px;
         }
+
         h3 {
             font-weight: 500;
             margin-top: 0;
             margin-bottom: 0;
             font-size: 16px;
         }
+
         footer {
             text-align: right;
         }
+
         p {
             margin: 0 0 5px;
             font-size: 16px;
         }
     }
+
     .mobile-services {
         .line-item {
             margin-left: 15px;
+
             .next-steps {
                 margin-left: -30px;
+
                 @include breakpoint(small) {
                     margin-left: 0;
                 }
             }
+
             &.next-steps-content {
                 background-color: #fff6c6;
                 border-top: 1px solid #ffe973;
                 border-bottom: 1px solid #ffe973;
                 margin: 20px -20px 20px -120px;
                 padding: 30px 20px 30px 135px;
+
                 @include breakpoint(small) {
                     margin: 10px -20px;
                     padding: 10px;
                 }
             }
-            &:first-child {
+
+            &:first-child, &:last-child {
                 margin-left: -15px;
             }
         }
     }
+
     @include breakpoint(small) {
         dl {
             dt, dd {
@@ -2013,7 +2366,7 @@
                 width: 100%;
             }
         }
-    }    
+    }
 }
 
 .shop-phones-overlay{
@@ -4489,6 +4842,9 @@ h3.success-message{
 
                     .includes-international {
                         font-style: italic;
+                        font-size: 18px;
+                        font-weight: 400;
+                        color: #595959;
 
                         i.icon-international-phone {
                             background-image: url('../i/icon/international-phone.png');
@@ -4505,6 +4861,7 @@ h3.success-message{
                 font-size: 18px;
                 font-weight: 400;
                 background-color: #f5f6f7;
+                border-radius: 5px;
 
                 p {
                     margin: 0;
@@ -4520,6 +4877,7 @@ h3.success-message{
                 background-color: #ffffff;
                 padding: 20px;
                 margin: 20px 0;
+                border: 1px solid #dfe0e0;
 
                 i.icon-international-phone-large {
                     background-image: url('../i/icon/international-phone-large.png');
@@ -4535,8 +4893,10 @@ h3.success-message{
                     float: left;
 
                     .title {
-                        font-weight: 700;
+                        font-weight: 500;
+                        font-size: 20px;
                         font-style: italic;
+                        color: #013c5b;
                     }
 
                     p {

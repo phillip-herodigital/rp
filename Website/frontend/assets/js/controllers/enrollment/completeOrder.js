@@ -13,7 +13,14 @@ ngApp.controller('EnrollmentCompleteOrderCtrl', ['$scope', 'enrollmentService', 
     $scope.w9BusinessData = {};
     $scope.getCartCount = enrollmentCartService.getCartCount;
     $scope.getCartItems = enrollmentCartService.getCartItems;  
-    $scope.getCartTotal = enrollmentCartService.calculateCartTotal;  
+    $scope.getCartTotal = function () {
+        if ($scope.autopay) {
+            return enrollmentCartService.calculateCartTotal() - (20 * $scope.getDevicesCount());
+        }
+        else {
+            return enrollmentCartService.calculateCartTotal();
+        }
+    }
     $scope.cartHasTxLocation = enrollmentCartService.cartHasTxLocation;
     $scope.isRenewal = enrollmentService.isRenewal;
     $scope.cartHasUtility = enrollmentCartService.cartHasUtility;
@@ -30,6 +37,12 @@ ngApp.controller('EnrollmentCompleteOrderCtrl', ['$scope', 'enrollmentService', 
     $scope.getDeviceDetails = enrollmentCartService.getDeviceDetails;
     $scope.llcClassifcation = '';
     $scope.currentDate = new Date();
+
+    $scope.autopay = true;
+    $scope.autopayDiscount = 20;
+    $scope.addAutopay = function () {
+        enrollmentStepsService.setStep("accountInformation");
+    }
 
     _.intersectionObjects = _.intersect = function(array) {
     var slice = Array.prototype.slice;
@@ -73,6 +86,7 @@ ngApp.controller('EnrollmentCompleteOrderCtrl', ['$scope', 'enrollmentService', 
             enrollmentService.setConfirmOrder({
                 additionalAuthorizations: $scope.completeOrder.additionalAuthorizations,
                 agreeToTerms: $scope.completeOrder.agreeToTerms,
+                agreeToAutoPayTerms: $scope.completeOrder.agreeToAutoPayTerms,
                 paymentInfo: paymentInfo,
                 depositAlternatives: depositAlternatives,
                 depositWaivers: depositWaivers,

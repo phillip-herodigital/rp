@@ -1266,6 +1266,7 @@
     <Content Include="frontend\assets\i\bg2x\trade-and-save.png" />
     <Content Include="frontend\assets\i\bg2x\ui-slider-handle.png" />
     <Content Include="frontend\assets\i\bg2x\verisign-logo.png" />
+    <Content Include="frontend\assets\i\bg\autopay-activation-bg.png" />
     <Content Include="frontend\assets\i\bg\banner-bottom-mobile.png" />
     <Content Include="frontend\assets\i\bg\banner-bottom.png" />
     <Content Include="frontend\assets\i\bg\bbb2x.png" />
@@ -1304,6 +1305,7 @@
     <Content Include="frontend\assets\i\bg\protective-bundle-bg.png" />
     <Content Include="frontend\assets\i\bg\savings-background.png" />
     <Content Include="frontend\assets\i\bg\state-tabs.png" />
+    <Content Include="frontend\assets\i\bg\stream-account-header.png" />
     <Content Include="frontend\assets\i\bg\texas-icon.png" />
     <Content Include="frontend\assets\i\bg\texas-white-icon.png" />
     <Content Include="frontend\assets\i\bg\trade-and-save.png" />
@@ -1517,6 +1519,9 @@
     <Content Include="frontend\assets\i\icon\arrow-right-white.png" />
     <Content Include="frontend\assets\i\icon\arrow-right.png" />
     <Content Include="frontend\assets\i\icon\att.png" />
+    <Content Include="frontend\assets\i\icon\autopay-17x17.png" />
+    <Content Include="frontend\assets\i\icon\autopay-large.png" />
+    <Content Include="frontend\assets\i\icon\autopay-small.png" />
     <Content Include="frontend\assets\i\icon\bbb.png" />
     <Content Include="frontend\assets\i\icon\bill-analysis-circle.png" />
     <Content Include="frontend\assets\i\icon\bill-analysis.png" />
@@ -1908,10 +1913,8 @@
     <Content Include="frontend\assets\js\controllers\enrollment\enrollmentConfirmation.js" />
     <Content Include="frontend\assets\js\controllers\enrollment\main.js" />
     <Content Include="frontend\assets\js\controllers\enrollment\mobile\chooseNetwork.js" />
-    <Content Include="frontend\assets\js\controllers\enrollment\mobile\choosePhone - Copy.js" />
     <Content Include="frontend\assets\js\controllers\enrollment\mobile\choosePhone.js" />
     <Content Include="frontend\assets\js\controllers\enrollment\mobile\completeOrder.js" />
-    <Content Include="frontend\assets\js\controllers\enrollment\mobile\configureData - Copy.js" />
     <Content Include="frontend\assets\js\controllers\enrollment\mobile\configureData.js" />
     <Content Include="frontend\assets\js\controllers\enrollment\mobile\mobileCart.js" />
     <Content Include="frontend\assets\js\controllers\enrollment\mobile\mobileEnrollmentProgressBar.js" />

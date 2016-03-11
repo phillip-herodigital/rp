@@ -983,6 +983,7 @@ FROM [SwitchBack] WHERE ESIID=@esiId";
             }
             stateMachine.Context.AdditionalAuthorizations = request.AdditionalAuthorizations ?? new Dictionary<AdditionalAuthorization, bool>();
             stateMachine.Context.AgreeToTerms = request.AgreeToTerms;
+            stateMachine.Context.AgreeToAutoPayTerms = request.AgreeToAutoPayTerms;
             stateMachine.Context.W9BusinessData = request.W9BusinessData;
             foreach (var locationService in stateMachine.Context.Services)
             {

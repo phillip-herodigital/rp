@@ -62,6 +62,9 @@
                                 <a href="" ng-click="showLightbox('compatible-devices')">@Html.Sitecore().Field("Check Compatible Devices Message")</a>
                             </div>
                         </div>
+                        <footer ng-if="getDevicesCount() > 0">
+                            <button class="button" type="button" ng-click="continue()">Continue</button>
+                        </footer>
                     </article>
                 </form>
             </section>

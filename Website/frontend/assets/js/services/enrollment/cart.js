@@ -330,12 +330,13 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', 'sc
             return total + getProratedCost();
         },
 
-        getEstimatedMonthlyTotal: function() {
-            var plan = cart.dataPlan;
-            var total = parseFloat(plan.price, 10) + getTotalFees();
-            for (var i=0; i<cart.items.length; i++) {
-                total += (typeof cart.items[i].warranty != 'undefined' && cart.items[i].warranty == 'accept') ? 9.99 : 0;
-                total += (typeof cart.items[i].buyingOption != 'undefined' && cart.items[i].buyingOption != 'New') ? parseFloat(cart.items[i].price, 10) : 0;
+        calculateMobileMonthlyTotal: function () {
+            var total = 0;
+            for (var i = 0; i < services.length; i++) {
+                if (services[i].offerInformationByType[0].key == "Mobile") {
+                    total += (services[i].offerInformationByType[0].value.offerSelections[0].payments.requiredAmounts[0].phoneCharge);
+                    total += (services[i].offerInformationByType[0].value.offerSelections[0].payments.requiredAmounts[0].taxTotal);
+                }
             }
             return total;
         },

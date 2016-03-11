@@ -328,7 +328,55 @@
                             </div>
                         </div>
                     </article>
-                    <article class="form enrollment__box" ng-if="!associateInformation">
+                    @* User Account Creation *@
+                    <article class="form enrollment__box enrollment__box--account-creation" ng-if="!isRenewal" id="create-online-account">
+                        <header>
+                            <h1>@Html.Sitecore().Field("Create Online Account Header")</h1>@*Social box header: Social Box Header*@
+                        </header>
+                        <div class="content">
+                            @*<div class="social-box">
+                    <p>@Html.Sitecore().Field("Social Box Intro")</p>
+                    <p class="social-buttons">
+                        <a class="button social facebook" href=""><span class="icon-holder"><i class="icon-facebook"></i></span> @Html.Sitecore().Field("Social Box Facebook")</a>
+                        <a class="button social twitter" href=""><span class="icon-holder"><i class="icon-twitter"></i></span> @Html.Sitecore().Field("Social Box Twitter")</a>
+                        <a class="button social linkedin" href=""><span class="icon-holder"><i class="icon-linkedin"></i></span> @Html.Sitecore().Field("Social Box LinkedIn")</a>
+                    </p>
+                    <div class="seperator">@Html.Sitecore().Field("Seperator")</div>
+                </div>
+                <h2>@Html.Sitecore().Field("Create Online Account Header")</h2>*@
+                            <p>@Html.Sitecore().Field("Online Account Paragraph")</p>
+                            <div class="autopay">
+                                <i class="icon-autopay-calendar"></i>
+                                <h3>With AutoPay &amp; My Stream Account, save <strong>$20.00!</strong></h3>
+                                <p class="note">To receive the AutoPay Activation Refund, you’ll need to create a My Stream Account.</p>
+                            </div>
+                            <hr class="content-divider" />
+                            <div class="onlineAccountInfo">
+                                <input type="radio" name="creatOnlineAccount" ng-value="true" ng-model="createOnlineAccount" /><label class="radio" for="createOnlineAccount">Yes, I'd like to create an online account</label>
+                                <div class="item" ng-class="{disabled: !createOnlineAccount}" @Html.Validation().ErrorClass(m => m.OnlineAccount.Username)>
+                                    <label for="@Html.IdFor(m => m.OnlineAccount.Username)">@Html.Sitecore().Field("Username Optional Label")</label>
+                                    @Html.TextBoxFor(m => m.OnlineAccount.Username, new { data_val_if = "accountInformation.onlineAccount.username", ng_model = "accountInformation.onlineAccount.username", autocomplete = "off" })
+                                    @Html.ValidationMessageFor(m => m.OnlineAccount.Username)
+                                </div>
+                                <div class="group" ng-class="{disabled: !createOnlineAccount}">
+                                    <div class="item group-col" @Html.Validation().ErrorClass(m => m.OnlineAccount.Password)>
+                                        <label for="@Html.IdFor(m => m.OnlineAccount.Password)">@Html.Sitecore().Field("Password Optional Label")</label>
+                                        @Html.PasswordFor(m => m.OnlineAccount.Password, new { data_val_if = "accountInformation.onlineAccount.username", ng_model = "accountInformation.onlineAccount.password", autocomplete = "off" })
+                                        @Html.ValidationMessageFor(m => m.OnlineAccount.Password)
+                                        <p class="note">Your password must be at least 8 characters long, contain one letter (a-z), one number (0-9), one special character, and not be the same as your username</p>
+                                    </div>
+                                    <div class="item group-col" @Html.Validation().ErrorClass(m => m.OnlineAccount.ConfirmPassword)>
+                                        <label for="@Html.IdFor(m => m.OnlineAccount.ConfirmPassword)">@Html.Sitecore().Field("Verify Password Label")</label>
+                                        @Html.PasswordFor(m => m.OnlineAccount.ConfirmPassword, new { data_val_if = "accountInformation.onlineAccount.username", ng_model = "accountInformation.onlineAccount.confirmPassword", autocomplete = "off" })
+                                        @Html.ValidationMessageFor(m => m.OnlineAccount.ConfirmPassword)
+                                    </div>
+                                </div>
+                                <input type="radio" name="creatOnlineAccount" ng-value="false" ng-model="createOnlineAccount" /><label for="createOnlineAccount">No, I’ll do this later.</label>
+                                <p class="radio-note">Note: Online account recquired to receive the AutoPay Activation Refund.</p>
+                            </div>
+                        </div>
+                    </article>
+                    <article class="form enrollment__box associate-referal" ng-if="!associateInformation">
                         <header>
                             <h1>@Html.Sitecore().Field("Associate Referral Header")</h1>
                         </header>
@@ -342,47 +390,11 @@
                                 </ul>
                             </div>
                             <div ng-if="additionalInformation.hasAssociateReferral">
-                                @Html.Sitecore().Field("Associate Referral Intro Text")
+                                <p>@Html.Sitecore().Field("Associate Referral Intro Text")</p>
                                 <div class="item" @Html.Validation().ErrorClass(m => m.AssociateName)>
-                                    <label for="@Html.IdFor(m => m.AssociateName)">@Html.Sitecore().Field("Associate Referral Textbox Label")</label>
+                                    <label class="associate-name" for="@Html.IdFor(m => m.AssociateName)">@Html.Sitecore().Field("Associate Referral Textbox Label")</label>
                                     @Html.TextBoxFor(m => m.AssociateName, new { ng_model = "accountInformation.associateName", data_val_if = "!accountInformation.hasAssociateReferral", data_val = "true", data_val_required = Html.Sitecore().Field("Associate Referral Textbox Invalid") })
                                     @Html.ValidationMessageFor(model => model.AssociateName)
-                                </div>
-                            </div>
-                        </div>
-                    </article>
-                    @* User Account Creation *@
-                    <article class="form enrollment__box enrollment__box--account-creation" ng-if="!isRenewal">
-                        <header>
-                            <h1>@Html.Sitecore().Field("Create Online Account Header")</h1>@*Social box header: Social Box Header*@
-                        </header>
-                        <div class="content">
-                            @*<div class="social-box">
-                                    <p>@Html.Sitecore().Field("Social Box Intro")</p>
-                                    <p class="social-buttons">
-                                        <a class="button social facebook" href=""><span class="icon-holder"><i class="icon-facebook"></i></span> @Html.Sitecore().Field("Social Box Facebook")</a>
-                                        <a class="button social twitter" href=""><span class="icon-holder"><i class="icon-twitter"></i></span> @Html.Sitecore().Field("Social Box Twitter")</a>
-                                        <a class="button social linkedin" href=""><span class="icon-holder"><i class="icon-linkedin"></i></span> @Html.Sitecore().Field("Social Box LinkedIn")</a>
-                                    </p>
-                                    <div class="seperator">@Html.Sitecore().Field("Seperator")</div>
-                                </div>
-                                <h2>@Html.Sitecore().Field("Create Online Account Header")</h2>*@
-                            <p>@Html.Sitecore().Field("Online Account Paragraph")</p>
-                            <div class="item" @Html.Validation().ErrorClass(m => m.OnlineAccount.Username)>
-                                <label for="@Html.IdFor(m => m.OnlineAccount.Username)">@Html.Sitecore().Field("Username Optional Label")</label>
-                                @Html.TextBoxFor(m => m.OnlineAccount.Username, new { data_val_if = "accountInformation.onlineAccount.username", ng_model = "accountInformation.onlineAccount.username", autocomplete = "off" })
-                                @Html.ValidationMessageFor(m => m.OnlineAccount.Username)
-                            </div>
-                            <div class="group">
-                                <div class="item group-col" @Html.Validation().ErrorClass(m => m.OnlineAccount.Password)>
-                                    <label for="@Html.IdFor(m => m.OnlineAccount.Password)">@Html.Sitecore().Field("Password Optional Label")</label>
-                                    @Html.PasswordFor(m => m.OnlineAccount.Password, new { data_val_if = "accountInformation.onlineAccount.username", ng_model = "accountInformation.onlineAccount.password", autocomplete = "off" })
-                                    @Html.ValidationMessageFor(m => m.OnlineAccount.Password)
-                                </div>
-                                <div class="item group-col" @Html.Validation().ErrorClass(m => m.OnlineAccount.ConfirmPassword)>
-                                    <label for="@Html.IdFor(m => m.OnlineAccount.ConfirmPassword)">@Html.Sitecore().Field("Verify Password Label")</label>
-                                    @Html.PasswordFor(m => m.OnlineAccount.ConfirmPassword, new { data_val_if = "accountInformation.onlineAccount.username", ng_model = "accountInformation.onlineAccount.confirmPassword", autocomplete = "off" })
-                                    @Html.ValidationMessageFor(m => m.OnlineAccount.ConfirmPassword)
                                 </div>
                             </div>
                         </div>

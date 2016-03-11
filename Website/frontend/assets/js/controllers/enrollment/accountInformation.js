@@ -23,6 +23,7 @@ ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', 'enrollmentServi
     $scope.associateInformation = enrollmentService.associateInformation;
 
     $scope.accountInformation.contactInfo.phone[0].category = "mobile";
+    $scope.createOnlineAccount = true;
     $scope.hasMoveIn = false;
     $scope.hasSwitch = false;
     $scope.$watch(enrollmentCartService.services, function () {

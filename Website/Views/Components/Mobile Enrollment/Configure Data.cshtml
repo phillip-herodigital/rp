@@ -19,7 +19,7 @@
                             @Html.Sitecore().Field("Eligible Device Message")
                         </div>
                     </header>
-                    <form name="configureData" data-val-bind-messages="validations" ng-submit="completeStep()">
+                    <form name="configureData" data-val-bind-messages="validations" ng-submit="completeStep(false)">
                         <div class="content bring-your-own form">
                             <div class="plan-error" ng-show="(mobileEnrollment.requestedPlanId != '' && !requestedPlanAvailable && !planSelection.selectedOffers.Mobile && currentMobileLocationInfo().offerInformationByType) || excludedStates">
                                 <span ng-show="requestedPlanNetwork == networkType && !excludedStates">@Html.Sitecore().Field("Requested Plan Unavailable")</span>
@@ -254,7 +254,7 @@
                         <footer class="clearfix" ng-hide="showChangeLocation">
                             <a class="back" href="">@Html.Sitecore().Field("Link - Back")</a>
                             <button class="button" ng-submit ng-disabled="configureData.$invalid">@Html.Sitecore().Field("Button - Check Out")</button>
-                            <button class="button add-line" type="button" ng-click="addLine()" ng-disabled="configureData.$invalid">@Html.Sitecore().Field("Button - Add Another Line")</button>
+                            <button class="button add-line" type="button" ng-click="completeStep(true)" ng-disabled="configureData.$invalid">@Html.Sitecore().Field("Button - Add Another Line")</button>
                         </footer>
                     </form>
                     <div class="location-section clearfix">

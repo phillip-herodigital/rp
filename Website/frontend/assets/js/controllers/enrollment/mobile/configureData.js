@@ -22,11 +22,8 @@
 
     $scope.$watch("cartDevices.length", function (newVal, oldVal) {
         if (newVal != oldVal) {
-            $scope.itemIndex = newVal - 1;
-            $scope.phoneOptions = $scope.cartDevices[$scope.itemIndex];
-            if ($scope.cartDevices.length > enrollmentCartService.services.length) {
-                addService();
-            }
+            $scope.phoneOptions = $scope.cartDevices[activeServiceIndex()];
+            $scope.selectedPlan = {};
         }
     });
 
@@ -64,9 +61,16 @@
         }
     };
 
-    var addService = function () {
-        var location = $scope.data.serviceLocation;
-        location.address.line1 = $scope.phoneOptions.imeiNumber;
+    var addNewService = function () {
+        var location = {
+            address: {
+                city: $scope.data.serviceLocation.address.city,
+                line1: "",
+                postalCode5: $scope.data.serviceLocation.address.postalCode5,
+                stateAbbreviation: $scope.data.serviceLocation.address.stateAbbreviation
+            },
+            capabilities: $scope.data.serviceLocation.capabilities
+        };
         var offerInfo = [{
             key: "Mobile",
             value: {
@@ -76,10 +80,10 @@
             }
         }];
         enrollmentCartService.addService({
+            eligibility: "success",
             location: location,
             offerInformationByType: offerInfo
         });
-        $scope.selectedPlan = {};
     };
 
     $scope.addInternational = function () {
@@ -93,30 +97,6 @@
         $scope.currentMobileLocationInfo().offerInformationByType[0].value.offerSelections[0].offer = plan;
         $scope.currentMobileLocationInfo().offerInformationByType[0].value.offerSelections[0].offerId = plan.id;
     }
-
-    $scope.addLine = function () {
-        var offerSelections = [{
-            offerId: $scope.selectedPlan.id,
-            offerOption: {
-                optionType: 'Mobile',
-                activationDate: new Date(),
-                esnNumber: $scope.phoneOptions.imeiNumber,
-                imeiNumber: $scope.phoneOptions.imeiNumber,
-                inventoryItemID: $scope.selectedPlan.mobileInventory[0].id,
-            }
-        }];
-
-        $scope.currentMobileLocationInfo().offerInformationByType[0].value.offerSelections = offerSelections;
-        enrollmentService.setAccountInformation(true).then(
-            function (value) {
-                enrollmentService.setSelectedOffers(true);
-            },
-            function (data) {
-                console.log(data);
-            });
-        enrollmentStepsService.setStep('phoneFlowDevices');
-        enrollmentStepsService.hideStep('phoneFlowPlans');
-    };
 
     $scope.editDevice = function() {
         $scope.setCurrentStep('choose-phone');
@@ -154,8 +134,7 @@
         enrollmentStepsService.setFlow('utility', true).setFromServerStep('serviceInformation');
     };
 
-    $scope.completeStep = function () {
-        var device = $scope.phoneOptions;
+    $scope.completeStep = function (addLine) {
         var offer = [{
             offerId: $scope.selectedPlan.id,
             offer: $scope.selectedPlan,
@@ -168,19 +147,21 @@
             offerOption: {
                 optionType: 'Mobile',
                 activationDate: new Date(),
-                esnNumber: device.imeiNumber,
-                imeiNumber: device.imeiNumber,
+                esnNumber: $scope.phoneOptions.imeiNumber,
+                imeiNumber: $scope.phoneOptions.imeiNumber,
                 inventoryItemID: $scope.selectedPlan.mobileInventory[0].id,
             }
         }];
         $scope.currentMobileLocationInfo().offerInformationByType[0].value.offerSelections = offerSelections;
-        enrollmentService.setAccountInformation().then(
-            function (value) {
-                enrollmentService.setSelectedOffers();
-            },
-            function (data) {
-                console.log(data);
-            });
+        $scope.currentMobileLocationInfo().location.address.line1 = angular.copy($scope.phoneOptions.imeiNumber);
+        if (addLine) {
+            addNewService();
+            enrollmentStepsService.setStep('phoneFlowDevices');
+            enrollmentStepsService.hideStep('phoneFlowPlans');
+        }
+        else {
+            enrollmentService.setAccountInformation();
+        }
     };
 
     $scope.showModal = function (templateUrl, size) {
