@@ -28,6 +28,7 @@ ngApp.controller('EnrollmentCartCtrl', ['$scope', 'enrollmentStepsService', 'enr
     $scope.getActiveServiceType = enrollmentCartService.getActiveServiceType;
     $scope.getPlanPrice = enrollmentCartService.getPlanPrice;
     $scope.totalPlanPrice = enrollmentCartService.totalPlanPrice;
+    $scope.getEstimatedMonthlyTotal = enrollmentCartService.getEstimatedMonthlyTotal;
     $scope.associateInformation = enrollmentService.associateInformation;
     $scope.addDeviceError = false;
     $scope.addDataPlanError = false;

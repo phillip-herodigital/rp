@@ -276,6 +276,12 @@
         $scope.iccidInvalid = $scope.addDevice.iccid.$invalid;
     };
 
+    $scope.continue = function () {
+        enrollmentCartService.removeService(enrollmentCartService.getActiveService());
+        enrollmentStepsService.setStep('phoneFlowPlans');
+        enrollmentStepsService.hideStep('phoneFlowDevices');
+    }
+
     $scope.completeStep = function () {  
         if ($scope.phoneVerified) {
             $scope.addDeviceToCart();
