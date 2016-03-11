@@ -1255,6 +1255,146 @@ article.win-back {
 	}
 }
 
+article.win-back-2 {
+    .intro {
+		height: 531px;
+        h1 {
+            margin: 5em 0;
+        }
+    }
+
+    h3 {
+        display: block;
+        margin: 40px auto 10px auto;
+		text-align: center;
+		font-size: 24px;
+        line-height: 28px;
+        color: #58595b;
+        width: 65%;
+      	@include breakpoint(small) {
+			width: 90%;
+		}
+
+		strong {
+			color: #f8a131;
+            font-weight: bold;
+            text-transform: uppercase;
+		}
+	}
+	.price {
+		color: #58595b;
+		font-size: 18px;
+		text-align: center;
+		margin-bottom: 20px;
+		div {
+			background: transparent;
+            background-image: none;
+			color: #58595b;
+			font-size: 28px;
+			width: auto;
+			height: auto;
+			line-height: 24px;
+			display: inline-block;
+			border-radius: 0%;
+            margin-bottom: 20px;
+		}
+	}
+    p.rate-disclaimer {
+        width: 65%;
+        text-align: center;
+        font-size: 14px;
+        color: #666666;
+        font-style: italic;
+        font-weight: 200;
+    }
+
+    hr {
+        margin: 40px 120px;
+        border: 0;
+        border-top: 3px solid #eee;
+    }
+
+    .new-rate {
+		background-image: url("../i/marketing/new-rate.png");
+		background-repeat: no-repeat;
+		background-position: center;
+		height: 139px;
+		width: 804px;
+		margin: 0px auto;
+		color: #fff;
+		h3 {
+            width: 100%;
+			color: #fff;
+			padding-top: 25px;
+			font-size: 30px;
+			font-weight: 500;
+            margin: 0 auto;
+            text-align: center;
+		}
+		p {
+			margin: 0 auto;
+            text-align: center;
+            padding: 15px 80px;
+		}
+		@include breakpoint(small-medium) {
+			background-position: bottom left;
+			border-radius: 10px;
+			background-color: #97c93d;
+			width: auto;
+			height: auto;
+            padding: 5px;
+		}
+	}
+
+    .how-it-works {
+        margin: 0 auto;
+        text-align: center;
+        color: #666666;
+        text-transform: uppercase;
+        font-size: 21px;
+        font-style: italic;
+        font-weight: bold;
+        padding: 5px 0;
+    }
+
+    .how-it-works-list{
+        width: 65%;
+        font-size: 18px;
+        margin: 0 auto;
+        color: #666666;
+        line-height: 28px;
+        @include breakpoint(small) {
+			width: 90%;
+		}
+        strong {
+            font-weight: bold;
+        }
+        a{
+
+        }
+        ul li {
+            list-style-type: disc;
+        }
+    }
+    .get-started {
+        padding-bottom: 20px;
+    }
+    .video-container {
+        position: relative;
+        padding-bottom: 56.25%; 
+        padding-top: 35px;
+        height: 0;
+        overflow: hidden;
+        iframe {
+            position: absolute;
+            top:0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+    }
+}
+
 article.mobile-devices {
     h2 {
         margin-bottom: 0;
