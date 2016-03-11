@@ -964,7 +964,7 @@ article.pay {
     }
 
     .shop-phones {
-        background: image-url('marketing/redesign/Modules/ShopPhones.jpg') top left no-repeat;
+        background: image-url('marketing/redesign/4G_LTE_devices2.png') top left no-repeat;
         border-right: 1px solid #f2f2f2;
 
         @include breakpoint(small) {
@@ -2511,9 +2511,9 @@ article.mobile-pricing-plans {
         // }
 
         .inner {
-            padding-left: 120px;
+            padding-top: 100px;
             //margin: 0 30px;
-            background: center left no-repeat;
+            background: top center no-repeat;
             h3 {
                 color: #3c535c;
                 font-weight: 600;
@@ -2725,17 +2725,17 @@ article.mobile-additional-services > .wrapper {
         }
         &.swapit {
             .inner {
-                @include retina-background("swapit.png", "icon");
+                @include retina-background("device-assistant.png", "icon");
             }
         }
         &.device-assistant {
             .inner {
-                @include retina-background("device-assistant.png", "icon");
+                @include retina-background("calculator.png", "icon");
             }
         }
         &.global {
             .inner {
-                @include retina-background("global.png", "icon");
+                @include retina-background("swapit.png", "icon");
             }
         }
     }
@@ -2910,6 +2910,7 @@ article.mobile-additional-services > .wrapper {
 
 article.marketing.mobile.cdma-pricing-plans {
 	background-color: #f3f6f7;
+	margin-bottom: 20px;
 	.wrapper {
 		h1 strong {
 			color: #f4b60a;
@@ -2937,9 +2938,9 @@ article.marketing.mobile.cdma-pricing-plans {
 				}
 				h2 {
 					color: #fff;
-					font-size: 18px;
+					font-size: 16px;
 					font-style: italic;
-					padding: 10px 10px 0 10px;
+					padding: 10px 3px 0 3px;
 					margin-bottom: 0px;
 				}
 				h2, p.plus, p.data, p.lte {
@@ -3001,7 +3002,23 @@ article.marketing.mobile.cdma-pricing-plans {
 					background-color: #e69511;
 					background-image: linear-gradient(#efaf01, #eb9900);
 					margin-bottom: 1em;
+					&.plan-button {
+						background-color: #2aa4dc;
+						background-image: linear-gradient(#008cd2, #2aa4dc);
+					}
 				}
+			}
+		}
+		.check {
+			background-color: #eff2f3;
+			background-image: linear-gradient(#eff2f3, #f0f3f4);
+			margin-top: 50px;
+			padding: 50px 0px;
+			span {
+				background-color: #fff;
+				padding: 20px;
+				box-shadow: 0px 2px 5px #ccc;
+				max-width: 200px;
 			}
 		}
 		.plan-features {
@@ -3025,6 +3042,11 @@ article.marketing.mobile.cdma-pricing-plans {
 			}
 		}
 	}
+	.mobile-plans {
+		.plan-features {
+			margin-top: -20px;
+		}
+	}
 	.footnote {
 		background: url('../i/marketing/redesign/Modules/module_background.png?1440631907') no-repeat center top;
 		padding-top: 30px;
@@ -3034,6 +3056,118 @@ article.marketing.mobile.cdma-pricing-plans {
 			font-size: 12px;
 			text-align: left;
 		}
+		&.mobile-plans {
+			background-color: #fff;
+			max-width: 100%;
+			p {
+				max-width: 1060px;
+				margin: auto;
+			}
+		}
+	}
+	.check {
+		background-color: #eff2f3;
+		background-image: linear-gradient(#eff2f3, #f0f3f4);
+		margin-top: 50px;
+		padding: 60px 0px;
+		span {
+			padding: 20px 20px 20px 75px;
+			box-shadow: 0px 2px 5px #ccc;
+			color: #2aa4dc;
+			font-size: 18px;
+			font-weight: 500;
+			&.coverage {
+				background: url('../i/marketing/redesign/sprint_map.png') 10% 50% no-repeat;
+				background-color: #fff;
+				margin-right: 10px;
+				@include breakpoint(small) {
+					display: block;
+					margin: 10px;
+				}
+			}
+			&.device {
+				background: url('../i/marketing/redesign/check-device.png') 10% 50% no-repeat;
+				background-color: #fff;
+				margin-left: 10px;
+				@include breakpoint(small) {
+					display: block;
+					margin: 10px;
+				}
+			}
+		}
+	}
+	.international-plus {
+		background-image: linear-gradient(#eef0f1, #f3f6f7);
+		text-align: left;
+		font-size: 18px;
+		.info {
+			width: 70%;
+			float: left;
+			background: image-url('marketing/redesign/stream_international_plus.png') center left no-repeat;
+			padding-left: 80px;
+			@include breakpoint(small) {
+				width: 100%;
+			}
+			h3 {
+				font-weight: 600;
+				font-style: italic;
+			}
+		}
+		.add-price {
+			width: 30%;
+			float: right;
+			padding-left: 70px;
+			span {
+				font-size: 45px;
+				color: #0090d4;
+				font-weight: 600;
+			}
+			p.cost {
+				margin-top: 0px;
+			}
+			@include breakpoint(small) {
+				width: 100%;
+				float: left;
+			}
+		}
 	}
 }
 
+.autopay-setup {
+	background-image: image-url('marketing/redesign/autopay-setup.png');
+	height: 372px;
+	.autopay-content {
+		text-align: left;
+		width: 40%;
+		color: #fff;
+		h1 {
+			text-align: left;
+		}
+	}
+}
+
+.phone-options {
+	.wrapper {
+		background-image: none;
+	}
+	.check-device {
+		background-color: #f3f6f7;
+		width: 60%;
+		float: left;
+		padding: 30px;
+		.content {
+			background: image-url('marketing/redesign/phones_check_device.png') center left no-repeat;
+			padding: 0px 50px 0px 100px;
+		}
+	}
+	.shop-device {
+		background-color: #f3f6f7;
+		width: 38%;
+		float: right;
+		padding: 30px 30px 30px 10px;
+		.content {
+			background: image-url('marketing/redesign/phones_shop_devices.png') center left no-repeat;
+			padding: 0px 0px 0px 130px;
+		}
+	}
+}
