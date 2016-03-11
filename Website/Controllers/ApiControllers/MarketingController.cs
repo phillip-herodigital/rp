@@ -22,6 +22,8 @@ using StreamEnergy.DomainModels.Accounts;
 using StreamEnergy.DomainModels.Documents;
 using StreamEnergy.MyStream.Models.Marketing;
 using Sitecore.Data.Items;
+using Microsoft.VisualBasic.FileIO;
+using System.Text.RegularExpressions;
 
 namespace StreamEnergy.MyStream.Controllers.ApiControllers
 {
@@ -80,6 +82,69 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 Title = modalTemplate.Fields["Modal Title"].ToString(),
                 Content = modalTemplate.Fields["Modal Content"].ToString(),
             };
+        }
+
+        [HttpGet]
+        [Route("importinternationalrates")]
+        public void ImportInternationalRates(string path)
+        {
+            TemplateItem folderTemplate = Sitecore.Context.Database.GetTemplate("Common/Folder");
+            TemplateItem rateTemplate = Sitecore.Context.Database.GetTemplate("User Defined/Taxonomy/Mobile Enrollment/International Rate");
+            Item RatesFolder = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Taxonomy/Modules/Mobile/International Rates");
+            Item countryItem;
+            Item rateItem;
+
+            using (new Sitecore.SecurityModel.SecurityDisabler())
+            {
+                // Empty the RatesFolder
+                foreach (Item child in RatesFolder.Children)
+                {
+                    child.Delete();
+                }
+
+                TextFieldParser parser = new TextFieldParser(path);
+                parser.TextFieldType = Microsoft.VisualBasic.FileIO.FieldType.Delimited;
+                parser.SetDelimiters(",");
+
+                while (!parser.EndOfData)
+                {
+                    string[] fields = parser.ReadFields();
+                    string pattern = @"[^\w\s\-\$]"; // only allow \w, \s, -, and $ for Sitecore Item names
+                    Regex rgx = new Regex(pattern);
+
+                    string countryName = fields[0];
+                    string countryPhone = fields[1];
+                    string npa = fields[2];
+                    string countryCode = fields[3];
+                    string standardRate = fields[4];
+                    string discountedRate = fields[5];
+                    string countryItemName = rgx.Replace(countryName, "");
+                    string countryPhoneItemName = rgx.Replace(countryPhone, "");
+
+                    countryItem = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Taxonomy/Modules/Mobile/International Rates/" + countryItemName);
+
+                    if (countryItem == null)
+                    {
+                        // Create new folder from country name
+                        countryItem = RatesFolder.Add(countryItemName, folderTemplate);
+                    }
+
+                    // Create new item from rate
+                    rateItem = countryItem.Add(countryPhoneItemName, rateTemplate);
+
+                    rateItem.Editing.BeginEdit();
+                    rateItem.Fields["Country Phone Type"].Value = countryPhone;
+                    rateItem.Fields["NPA"].Value = npa;
+                    rateItem.Fields["Country Code"].Value = countryCode;
+                    rateItem.Fields["Stream Standard Rate"].Value = standardRate;
+                    rateItem.Fields["Stream Discounted Rate"].Value = discountedRate;
+                    rateItem.Editing.EndEdit();
+
+                }
+                parser.Close();
+
+            }
+
         }
 
     }
