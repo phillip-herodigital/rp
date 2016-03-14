@@ -19,7 +19,7 @@
                             @Html.Sitecore().Field("Eligible Device Message")
                         </div>
                     </header>
-                    <form name="configureData" data-val-bind-messages="validations" ng-submit="completeStep(false)">
+                    <form name="configureData" data-val-bind-messages="validations" ng-submit="completeStep(false)" ng-hide="showChangeLocation">
                         <div class="content bring-your-own form">
                             <div class="plan-error" ng-show="(mobileEnrollment.requestedPlanId != '' && !requestedPlanAvailable && !planSelection.selectedOffers.Mobile && currentMobileLocationInfo().offerInformationByType) || excludedStates">
                                 <span ng-show="requestedPlanNetwork == networkType && !excludedStates">@Html.Sitecore().Field("Requested Plan Unavailable")</span>
@@ -29,7 +29,7 @@
                             <div class="plan-error" ng-show="zipCodeInvalid">
                                 @Html.Sitecore().Field("Invalid Zip Code Message")
                             </div>
-                            <div class="item" ng-hide="showChangeLocation">
+                            <div class="item">
                                 <div class="btn-group-options my-device-container">
                                     <i class="icon-my-device"></i>
                                     <label class="my-device">@Html.Sitecore().Field("My Device")</label>
@@ -70,7 +70,7 @@
                                     <div class="btn-group-options iccid" data-val-error="iccid">
                                         <div class="label" ng-class="{ disabled : phoneOptions.missingIccid }">@Html.Sitecore().Field("Label - ICCID Number")</div>
                                         <a class="what-is-this" href="" ng-click="showModal('instructions/iccid')">@Html.Sitecore().Field("What is this Text")</a>
-                                        <input type="text" name="iccid" ng-disabled="phoneOptions.missingIccid" ng-model="phoneOptions.iccidNumber" data-val="true" ng-blur="validateIccid()" data-val-required data-val-regex data-val-regex-pattern="^(8901)(120|490)" data-val-if="networkType == 'CDMA' && phoneOptions.showIccid && !phoneOptions.missingIccid" />
+                                        <input type="text" name="iccid" ng-disabled="phoneOptions.missingIccid" ng-model="phoneOptions.iccidNumber" data-val="true" data-val-required data-val-regex data-val-regex-pattern="^(8901)(120|490)" data-val-if="networkType == 'CDMA' && phoneOptions.showIccid && !phoneOptions.missingIccid" />
                                     </div>
                                     <div class="clearfix"></div>
                                     <div>
@@ -257,19 +257,13 @@
                             <button class="button add-line" type="button" ng-click="completeStep(true)" ng-disabled="configureData.$invalid">@Html.Sitecore().Field("Button - Add Another Line")</button>
                         </footer>
                     </form>
-                    <div class="location-section clearfix">
-                        <div class="clearfix" ng-show="showChangeLocation">
-                            <div class="location-container">
-                                <div class="location-input">
-                                    <form name="lookupZipForm">
-                                        <span>@Html.Sitecore().Field("Enter Zip Code Message")</span>
-                                        <input type="text" name="zipCode" data-val="true" data-val-regex data-val-regex-pattern="^[0-9]{5}$" data-val-if="showChangeLocation" data-val-required="" class="zip-code" ng-model="postalCode5" ng-keyup="$event.keyCode == 13 && lookupZip()">
-                                        <a href="" ng-click="lookupZip()">@Html.Sitecore().Field("Go Text")</a>
-                                    </form>
-                                </div>
-                            </div>
+                    <div class="location-section clearfix" ng-show="showChangeLocation">
+                            <form name="lookupZipForm" class="location-input">
+                                <span>@Html.Sitecore().Field("Enter Zip Code Message")</span>
+                                <input type="text" name="zipCode" data-val="true" data-val-regex data-val-regex-pattern="^[0-9]{5}$" data-val-if="showChangeLocation" data-val-required="" class="zip-code" ng-model="postalCode5" ng-keyup="$event.keyCode == 13 && lookupZip()">
+                                <a href="" ng-click="lookupZip()">@Html.Sitecore().Field("Go Text")</a>
+                            </form>
                             <a href="" class="view-coverage" ng-click="showCoverageMapOverlay()">@Html.Sitecore().Field("View Coverage Text")</a>
-                        </div>
                     </div>
                 </article>
             </section>
@@ -348,8 +342,8 @@
                 </div>
             </div>
             <hr />
-            <button class="button" type="button" ng-hide="selectedPlan.id == plan.id">@Html.Sitecore().Field("Select Text")</button>
-            <div ng-show="selectedPlan.id == plan.id" class="check"></div>
+            <button class="button" type="button" ng-hide="selectedPlan.data === plan.data">@Html.Sitecore().Field("Select Text")</button>
+            <div ng-show="selectedPlan.data === plan.data" class="check"></div>
         </div>
     </div>
 </script>

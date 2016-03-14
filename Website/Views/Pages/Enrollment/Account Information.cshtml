@@ -61,7 +61,7 @@
                         <div class="content">
                             <h3>@Html.Sitecore().Field("Personal Information Header")</h3>
                             <div class="group">
-                                <div class="item" ng-show="contacts.options.length > 1">
+                                <div class="item" ng-show="contacts.options.length> 1">
                                     <label>@Html.Sitecore().Field("Select Existing Contact Info Label")</label>
                                     <select ng-model="contacts.selectedContact"
                                             ng-change="updateAccountInformation()"
@@ -122,7 +122,7 @@
                                     {
                                         <div class="item group-col" @secondPhone.Validation().ErrorClass(m => m.Number)>
                                             <label for="@secondPhone.Fix(h => h.IdFor(m => m.Number))">@Html.Sitecore().Field("Secondary Phone Number Label")</label>
-                                            @secondPhone.Fix(h => h.TextBoxFor(m => m.Number, new { type = "tel", ng_model = "accountInformation.contactInfo.phone[1].number", data_val_if = "accountInformation.contactInfo.phone.length > 1" }))
+                                            @secondPhone.Fix(h => h.TextBoxFor(m => m.Number, new { type = "tel", ng_model = "accountInformation.contactInfo.phone[1].number", data_val_if = "accountInformation.contactInfo.phone.length> 1" }))
                                             @secondPhone.ValidationMessageFor(m => m.Number)
                                         </div>
                                         <div class="item group-col" @secondPhone.Validation().ErrorClass(m => m.Category)>
@@ -334,25 +334,15 @@
                             <h1>@Html.Sitecore().Field("Create Online Account Header")</h1>@*Social box header: Social Box Header*@
                         </header>
                         <div class="content">
-                            @*<div class="social-box">
-                    <p>@Html.Sitecore().Field("Social Box Intro")</p>
-                    <p class="social-buttons">
-                        <a class="button social facebook" href=""><span class="icon-holder"><i class="icon-facebook"></i></span> @Html.Sitecore().Field("Social Box Facebook")</a>
-                        <a class="button social twitter" href=""><span class="icon-holder"><i class="icon-twitter"></i></span> @Html.Sitecore().Field("Social Box Twitter")</a>
-                        <a class="button social linkedin" href=""><span class="icon-holder"><i class="icon-linkedin"></i></span> @Html.Sitecore().Field("Social Box LinkedIn")</a>
-                    </p>
-                    <div class="seperator">@Html.Sitecore().Field("Seperator")</div>
-                </div>
-                <h2>@Html.Sitecore().Field("Create Online Account Header")</h2>*@
                             <p>@Html.Sitecore().Field("Online Account Paragraph")</p>
                             <div class="autopay">
                                 <i class="icon-autopay-calendar"></i>
-                                <h3>With AutoPay &amp; My Stream Account, save <strong>$20.00!</strong></h3>
-                                <p class="note">To receive the AutoPay Activation Refund, you’ll need to create a My Stream Account.</p>
+                                <h3>@Html.Sitecore().Field("AutoPay and Stream Account")</h3>
+                                <p class="note">@Html.Sitecore().Field("AutoPay Activation Refund")</p>
                             </div>
                             <hr class="content-divider" />
                             <div class="onlineAccountInfo">
-                                <input type="radio" name="creatOnlineAccount" ng-value="true" ng-model="createOnlineAccount" /><label class="radio" for="createOnlineAccount">Yes, I'd like to create an online account</label>
+                                <input type="radio" name="creatOnlineAccount" ng-value="true" ng-model="createOnlineAccount" /><label class="radio" for="createOnlineAccount">@Html.Sitecore().Field("Online Account Yes")</label>
                                 <div class="item" ng-class="{disabled: !createOnlineAccount}" @Html.Validation().ErrorClass(m => m.OnlineAccount.Username)>
                                     <label for="@Html.IdFor(m => m.OnlineAccount.Username)">@Html.Sitecore().Field("Username Optional Label")</label>
                                     @Html.TextBoxFor(m => m.OnlineAccount.Username, new { data_val_if = "accountInformation.onlineAccount.username", ng_model = "accountInformation.onlineAccount.username", autocomplete = "off" })
@@ -363,7 +353,7 @@
                                         <label for="@Html.IdFor(m => m.OnlineAccount.Password)">@Html.Sitecore().Field("Password Optional Label")</label>
                                         @Html.PasswordFor(m => m.OnlineAccount.Password, new { data_val_if = "accountInformation.onlineAccount.username", ng_model = "accountInformation.onlineAccount.password", autocomplete = "off" })
                                         @Html.ValidationMessageFor(m => m.OnlineAccount.Password)
-                                        <p class="note">Your password must be at least 8 characters long, contain one letter (a-z), one number (0-9), one special character, and not be the same as your username</p>
+                                        <p class="note">@Html.Sitecore().Field("Password Note")</p>
                                     </div>
                                     <div class="item group-col" @Html.Validation().ErrorClass(m => m.OnlineAccount.ConfirmPassword)>
                                         <label for="@Html.IdFor(m => m.OnlineAccount.ConfirmPassword)">@Html.Sitecore().Field("Verify Password Label")</label>
@@ -371,8 +361,8 @@
                                         @Html.ValidationMessageFor(m => m.OnlineAccount.ConfirmPassword)
                                     </div>
                                 </div>
-                                <input type="radio" name="creatOnlineAccount" ng-value="false" ng-model="createOnlineAccount" /><label for="createOnlineAccount">No, I’ll do this later.</label>
-                                <p class="radio-note">Note: Online account recquired to receive the AutoPay Activation Refund.</p>
+                                <input type="radio" name="creatOnlineAccount" ng-value="false" ng-model="createOnlineAccount" ng-click="accountInformation.onlineAccount = null"/><label class="radio" for="createOnlineAccount">@Html.Sitecore().Field("Online Account No")</label>
+                                <p class="radio-note">@Html.Sitecore().Field("Note Online Account Required")</p>
                             </div>
                         </div>
                     </article>
@@ -384,7 +374,7 @@
                             <div class="item">
                                 <ul class="checkbox-list">
                                     <li>
-                                        <input type="checkbox" name="associate-referral-checkbox-label" id="associate-referral-checkbox-label" ng-model="additionalInformation.hasAssociateReferral">
+                                        <input type = "checkbox" name="associate-referral-checkbox-label" id="associate-referral-checkbox-label" ng-model="additionalInformation.hasAssociateReferral">
                                         <label for="associate-referral-checkbox-label">@Html.Sitecore().Field("Associate Referral Checkbox Label")</label>
                                     </li>
                                 </ul>
@@ -400,8 +390,8 @@
                         </div>
                     </article>
                     <div class="buttons">
-                        <button type="submit" class="primary" ng-disabled="!isFormValid()" data-val-submit>@Html.Sitecore().Field("Button Label")</button>
-                        <button type="submit" class="tertiary" ng-click="resetEnrollment();">
+                        <button type = "submit" class="primary" ng-disabled="!isFormValid()" data-val-submit>@Html.Sitecore().Field("Button Label")</button>
+                        <button type = "submit" class="tertiary" ng-click="resetEnrollment();">
                             <span ng-if="customerType != 'commercial'">@Html.Sitecore().Field("Cancel Enrollment Button")</span>
                             <span ng-if="customerType == 'commercial'">@Html.Sitecore().Field("Cancel Quote Button")</span>
                         </button>
@@ -409,7 +399,7 @@
                 </form>
                 <div class="hide-medium-large time-remaining-mobile">
                     <p class="time-remaining">@Html.Sitecore().Field("Estimated Time Remaining") <strong>@Html.Sitecore().Field("Remaining Minutes")</strong></p>
-                    <p><a href="">@Html.Sitecore().Field("Info needed")</a></p>
+                    <p><a href = ""> @Html.Sitecore().Field("Info needed") </a></p>
                 </div>
             </section>
             <aside>
@@ -420,9 +410,9 @@
 </div>
 }
 
-<script type="text/ng-template" id="offerOptions/TexasElectricity">
-    @using (var offer = Html.ClientRepeater(m => m.Services, "{{$parent.$index}}").ClientRepeater(m => m.SelectedOffers, "{{$index}}"))
-    {
+<script type = "text/ng-template" id="offerOptions/TexasElectricity">
+    @using(var offer = Html.ClientRepeater(m => m.Services, "{{$parent.$index}}").ClientRepeater(m => m.SelectedOffers, "{{$index}}"))
+                                {
     <div @*ng-controller="OfferOptions-TexasElectricity"*@>
         @*<h2>Electricity</h2>*@
         @* No options here since billing address is handled outside of this loop *@
@@ -540,7 +530,7 @@
 <script type="text/ng-template" id="offerOptions/TexasElectricityCommercialQuote">
     @using (var offer = Html.ClientRepeater(m => m.Services, "{{$parent.$index}}").ClientRepeater(m => m.SelectedOffers, "{{$index}}"))
     {
-    <div ng-controller="OfferOptions-TexasElectricityCommercialQuote" ng-if="selectedOffer.optionRules.connectDates.availableConnectDates.length > 0">
+    <div ng-controller="OfferOptions-TexasElectricityCommercialQuote" ng-if="selectedOffer.optionRules.connectDates.availableConnectDates.length> 0">
     <div class="item group-col datepicker" @offer.Validation().ErrorClass(o => ((TexasElectricity.CommercialQuoteOption)o.OfferOption).ConnectDate)>
         <label for="@offer.Fix(h => h.IdFor(o => ((TexasElectricity.CommercialQuoteOption)o.OfferOption).ConnectDate))">@Html.Sitecore().Field("Commercial Service Start Date Label")</label>
         <span class="calendar">
@@ -557,7 +547,7 @@
 <script type="text/ng-template" id="offerOptions/GeorgiaGasCommercialQuote">
     @using (var offer = Html.ClientRepeater(m => m.Services, "{{$parent.$index}}").ClientRepeater(m => m.SelectedOffers, "{{$index}}"))
     {
-        <div ng-controller="OfferOptions-GeorgiaGasCommercialQuote" ng-if="selectedOffer.optionRules.connectDates.availableConnectDates.length > 0">
+        <div ng-controller="OfferOptions-GeorgiaGasCommercialQuote" ng-if="selectedOffer.optionRules.connectDates.availableConnectDates.length> 0">
             <div class="item group-col datepicker" @offer.Validation().ErrorClass(o => ((GeorgiaGas.CommercialQuoteOption)o.OfferOption).ConnectDate)>
                 <label for="@offer.Fix(h => h.IdFor(o => ((GeorgiaGas.CommercialQuoteOption)o.OfferOption).ConnectDate))">@Html.Sitecore().Field("Commercial Service Start Date Label")</label>
                 <span class="calendar">
@@ -574,7 +564,7 @@
 <script type="text/ng-template" id="cleanseAddressesModal">
     <div class="cleanse-address">
         <div class="modal-header">
-            <a href="" ng-click="$dismiss()">Close</a>
+            <a href="" ng-click="$dismiss()">@Html.Sitecore().Field("Close")</a>
             <h2>@Html.Sitecore().Field("Verify Address Header")</h2>
         </div>
         <div class="modal-body scrollable">

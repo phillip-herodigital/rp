@@ -41,6 +41,19 @@
 
     $scope.totalPlanPrice = enrollmentCartService.totalPlanPrice;
 
+    $scope.phoneNumberDisabled = function () {
+        if ($scope.phoneOptions) {
+            return $scope.phoneOptions.showIccid && ($scope.phoneOptions.phoneOS == null ||
+                (($scope.configureData.iccid.$invalid || $scope.phoneOptions.missingIccid) &&
+                $scope.phoneOptions.phoneOS != 'Apple') ||
+                (($scope.configureData.iccid.$invalid && !$scope.phoneOptions.missingIccid) &&
+                $scope.phoneOptions.phoneOS == 'Apple'));
+        }
+        else {
+            return false;
+        }
+    };
+
     $scope.selectPlan = function (planID) {
         var i = _.findIndex($scope.currentMobileLocationInfo().offerInformationByType[0].value.availableOffers, function (o) {
             return _(o.id).contains(planID);
@@ -152,6 +165,18 @@
                 inventoryItemID: $scope.selectedPlan.mobileInventory[0].id,
             }
         }];
+
+        //all analytics
+        analytics.sendVariables(
+            2, 'sprint',
+            3, $scope.selectedPlan.data,
+            4, 1,
+            5, ($scope.phoneOptions.type == "new") ? "New Number" : "Transfer",
+            9, $scope.selectedPlan.id,
+            16, $scope.phoneOptions.imeiNumber,
+            18, $scope.phoneOptions.phoneOS,
+            19, $scope.phoneOptions.iccidNumber);
+
         $scope.currentMobileLocationInfo().offerInformationByType[0].value.offerSelections = offerSelections;
         $scope.currentMobileLocationInfo().location.address.line1 = angular.copy($scope.phoneOptions.imeiNumber);
         if (addLine) {

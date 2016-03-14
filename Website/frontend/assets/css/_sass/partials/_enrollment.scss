@@ -4599,6 +4599,38 @@ h3.success-message{
         }
     }
 
+    .device-error {
+        background-color: #fff6c6;
+        border-top: 1px solid #ffe973;
+        border-bottom: 1px solid #ffe973;
+        margin: 20px -20px -15px;
+        padding: 30px 20px;
+        line-height: 1.2;
+        color: #013c5b;
+        font-size: 20px;
+
+        a {
+            font-size: 20px;
+        }
+
+        span.red {
+            font-weight: 600;
+            color: #f20000;
+        }
+    }
+
+    .disabled {
+        opacity: 0.3;
+    }
+
+    .missing-iccid {
+        padding: 10px 0;
+        color: #365c73;
+        font-weight: 700;
+        font-style: italic;
+        margin-bottom: -25px;
+    }
+
     footer {
 
         .back {
@@ -4807,12 +4839,12 @@ h3.success-message{
                     float: right;
                 }
             }
-            
+
             .disclaimer {
-                    font-weight: 300;
-                    font-size: 14px;
-                    color: #a3a3a4;
-                    font-style: italic;
+                font-weight: 300;
+                font-size: 14px;
+                color: #a3a3a4;
+                font-style: italic;
             }
         }
 
@@ -4996,32 +5028,20 @@ h3.success-message{
     }
 
     .location-section {
-        .location-container {
-            display: inline-block;
-            margin-bottom: 15px;
+        padding: 20px;
 
-            .location-text {
-                a {
-                    margin-left: 5px;
-                }
+        .location-input {
+            float: left;
+
+            input {
+                width: 100px;
+                margin: 0 5px;
             }
         }
 
         a.view-coverage {
             float: right;
-            margin: 5px 15px 0px;
-        }
-
-        .float {
-            float: left;
-        }
-
-        a {
-            margin-left: 5px;
-        }
-
-        input {
-            width: 100px;
+            margin-top: 4px;
         }
     }
 

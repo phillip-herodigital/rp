@@ -91,7 +91,6 @@
                             });
                             $scope.deviceResponseMessage = (responseMessage == undefined) ? null : responseMessage.message;
                             $scope.phoneOptions.showIccid = (data.iccid == undefined || data.iccid == '') && $scope.phoneOptions.supportsLte;
-                            analytics.sendVariables(16, $scope.phoneOptions.imeiNumber);
                             isAttemptsExceeded();
                             $scope.completeStep();
                         }
@@ -214,6 +213,11 @@
         return parseInt(number + '', frombase | 0).toString(tobase | 0);
     };
 
+    function leftPad(n, p, c) {
+        var pad = new Array(1 + p).join(c);
+        return (pad + n).slice(-pad.length);
+    };
+
     function convertToMEIDHex (input) {
         return (leftPad(baseConvert(input.substr(0,10),10,16),8,0) + 
             leftPad(baseConvert(input.substr(10),10,16),6,0)).toUpperCase();
@@ -239,11 +243,6 @@
      * Adds the currently selected phone to the cart
      */
     $scope.addDeviceToCart = function () {
-        // Move to configureData
-        //analytics.sendVariables(5, ($scope.phoneOptions.transferInfo.type == "new") ? "New Number" : "Transfer")
-        //analytics.sendVariables(18, $scope.phoneOptions.phoneOS);
-        //analytics.sendVariables(19, $scope.phoneOptions.iccidNumber);
-
         var item = {
             showIccid: $scope.showIccid,
             phoneOS: "",

@@ -20,7 +20,7 @@ ngApp.controller('EnrollmentCompleteOrderCtrl', ['$scope', 'enrollmentService', 
         else {
             return enrollmentCartService.calculateCartTotal();
         }
-    }
+    };
     $scope.cartHasTxLocation = enrollmentCartService.cartHasTxLocation;
     $scope.isRenewal = enrollmentService.isRenewal;
     $scope.cartHasUtility = enrollmentCartService.cartHasUtility;
@@ -42,7 +42,7 @@ ngApp.controller('EnrollmentCompleteOrderCtrl', ['$scope', 'enrollmentService', 
     $scope.autopayDiscount = 20;
     $scope.addAutopay = function () {
         enrollmentStepsService.setStep("accountInformation");
-    }
+    };
 
     _.intersectionObjects = _.intersect = function(array) {
     var slice = Array.prototype.slice;
