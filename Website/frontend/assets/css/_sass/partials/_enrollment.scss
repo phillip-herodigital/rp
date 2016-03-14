@@ -2741,6 +2741,13 @@
     .modal-footer {
         text-align: left;
     }
+	.modal-body .buy-phone {
+		background: image-url('marketing/redesign/4G_LTE_devices.png') center left no-repeat;
+		background-color: #f3f6f7;
+		padding: 40px 0px 40px 240px;
+		font-size: 24px;
+		font-weight: 400;
+	}
 }
 h3.success-message{
         color:green;
