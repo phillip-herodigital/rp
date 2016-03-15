@@ -1,0 +1,58 @@
+﻿<article class="marketing digital-voice">
+    <div class="voice-choose-equipment">
+        <div class="heading">
+            @Html.Sitecore().Field("Heading Line 1")
+        </div>
+        <div class="wrapper">
+            @Html.Sitecore().Field("Heading Line 2")
+            <div class="grid three">
+                <div class="col ">
+                    <div class="bundle-title">
+                        @Html.Sitecore().Field("Hub Title")
+                    </div>
+                    <div class="bundle-price">
+                        @Html.Sitecore().Field("Hub Price")
+                    </div>
+                    <div class="monthly-cost">
+                        @Html.Sitecore().Field("Monthly Text")
+                    </div>
+                    <div class="buy-link">
+                        <a class="button" href={{hubLink}}>@Html.Sitecore().Field("Buy Button Text")</a>
+                    </div>
+                </div>
+                <div class="col ">
+                    <div class="bundle-title">
+                        @Html.Sitecore().Field("Air Title")
+                    </div>
+                    <div class="bundle-price">
+                        @Html.Sitecore().Field("Air Price")
+                    </div>
+                    <div class="monthly-cost">
+                        @Html.Sitecore().Field("Monthly Text")
+                    </div>
+                    <div class="buy-link">
+                        <a class="button" href={{airLink}}>@Html.Sitecore().Field("Buy Button Text")</a>
+                    </div>
+                    <div class="savings">
+                        <span class="save-text">@Html.Sitecore().Field("Save Text")</span>
+                        <span class="save-percentage">@Html.Sitecore().Field("Save Percentage")</span>
+                    </div>
+                </div>
+                <div class="col ">
+                    <div class="bundle-title">
+                        @Html.Sitecore().Field("Bridge Title")
+                    </div>
+                    <div class="bundle-price">
+                        @Html.Sitecore().Field("Bridge Price")
+                    </div>
+                    <div class="monthly-cost">
+                        @Html.Sitecore().Field("Monthly Text")
+                    </div>
+                    <div class="buy-link">
+                        <a class="button" href={{bridgeLink}}>@Html.Sitecore().Field("Buy Button Text")</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</article>

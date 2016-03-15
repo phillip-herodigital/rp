@@ -1,0 +1,23 @@
+﻿<article class="marketing digital-voice">
+    <div class="voice-intro">
+        <div class="wrapper">
+            @Html.Sitecore().Field("Heading Text")
+            <div class="circle-wrapper">
+                <div class="circle">
+                    <span class="circle-text">@Html.Sitecore().Field("Promo Circle Text")</span>
+                    <hr />
+                    <span class="circle-price">@Html.Sitecore().Field("Promo Circle Price")</span>
+                </div>
+            </div>
+            <div class="intro">
+                @Html.Sitecore().Field("Intro Paragraph")
+                <div class="features">
+                    @Html.Sitecore().Field("Features Left")
+                </div>
+                <div class="features">
+                    @Html.Sitecore().Field("Features Right")
+                </div>
+            </div>
+        </div>
+    </div>
+</article>

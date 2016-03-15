@@ -58,12 +58,35 @@ namespace StreamEnergy.MyStream.Conditions
             {
                 var account = currentUser.Accounts.Where(a => a.AccountType == "Utility").FirstOrDefault();
                 var accountDetails = await accountService.GetAccountDetails(account, false);
+
+                var exclude = account != null && ExcludeProducts(account.SubAccounts);
+
+                if (exclude)
+                    return false;
+
                 return account.SubAccounts.Any(s => s.Capabilities.OfType<RenewalAccountCapability>().Any(c => c.IsEligible));
             }
-            else
+
+            return false;
+        }
+
+        private bool ExcludeProducts(ISubAccount[] accounts)
+        {
+            List<Sitecore.Data.Items.Item> products = Sitecore.Context.Database.GetItem("{0302C34C-EC0F-41B4-BE4F-AD9A28868604}").Children.ToList(); // /sitecore/content/Data/Taxonomy/Excluded Renewal Products
+            string productCode = null;
+
+            foreach (var subAccount in accounts)
             {
-                return false;
+                if (subAccount is TexasElectricityAccount)
+                    productCode = ((TexasElectricityAccount)subAccount).ProductCode;
+                else if (subAccount is GeorgiaGasAccount)
+                    productCode = ((GeorgiaGasAccount)subAccount).ProductCode;
+
+                if (products.Any(a => a.Name == productCode))
+                    return true;
             }
+
+            return false;
         }
     }
 }
