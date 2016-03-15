@@ -416,6 +416,43 @@ article {
         } */
         }
 
+        &.digital-voice {
+            height: 421px;
+            .wrapper {
+                margin: auto;
+                height: 100%;
+                .content {
+                    float: left;
+                    margin-left: 414px;
+                    width: auto;
+                    ul {
+                        list-style-type: none;
+                        display: inline-block;
+                        margin-right: 40px;
+                        li {
+                            margin: 5px 0;
+                        }
+                    }
+                    .button {
+                        vertical-align: middle;
+                    }
+                }
+            }
+            h2 {
+                color: #8e4b9d;
+            }
+            @include breakpoint(small-medium) {
+                height: auto;
+                .wrapper {
+                    padding: 10px;
+                    background-color: rgba(255, 255, 255, 0.7);
+                    .content {
+                        margin-left: auto;
+                    }
+                }
+            }
+        }
+
         &.smart30-thermostat {
             height: 421px;
             color: #ffffff;
