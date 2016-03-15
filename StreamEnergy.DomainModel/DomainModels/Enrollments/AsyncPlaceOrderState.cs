@@ -42,6 +42,7 @@ namespace StreamEnergy.DomainModels.Enrollments
                 if (internalContext.PlaceOrderAsyncResult.IsCompleted)
                 {
                     internalContext.PlaceOrderResult = internalContext.PlaceOrderAsyncResult.Data;
+                    bool hasAllMobile = internalContext.PlaceOrderResult.All(o => o.Offer.OfferType == "Mobile");
                     foreach (var placeOrderResult in internalContext.PlaceOrderResult)
                     {
                         if (placeOrderResult.Details.IsSuccess)
@@ -54,6 +55,8 @@ namespace StreamEnergy.DomainModels.Enrollments
                             }
                         }
                     }
+                    if (hasAllMobile && internalContext.PlaceOrderResult.Any(o => o.Details.PaymentConfirmation.Status != "Success"))
+                        return typeof(CompleteOrderState);
                 }
             }
 

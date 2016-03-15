@@ -703,6 +703,10 @@ FROM [SwitchBack] WHERE ESIID=@esiId";
             {
                 return Models.Enrollment.ExpectedState.VerifyIdentity;
             }
+            else if (stateMachine.State == typeof(CompleteOrderState))
+            {
+                return Models.Enrollment.ExpectedState.ReviewOrder;
+            }
             else //if (stateMachine.Context.Services == null || stateMachine.Context.Services.Length == 0)
             {
                 return Models.Enrollment.ExpectedState.ServiceInformation;
