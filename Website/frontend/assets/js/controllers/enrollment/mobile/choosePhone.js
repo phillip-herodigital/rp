@@ -255,8 +255,6 @@
         if ($scope.showCaptcha) {
             reCAPTCHA.reload($scope.widgetId);
         }
-        $scope.addDevice.imeiNumber.$setValidity('required', true);
-        $scope.addDevice.imeiNumber.suppressValidationMessages = true;
     };
     $scope.showUnlockingModal = function () {
         $modal.open({
@@ -290,8 +288,9 @@
         $scope.clearPhoneSelection();
         $scope.phoneVerified = false;
         enrollmentStepsService.setStep('phoneFlowPlans');
-        $scope.addDevice.imeiNumber.suppressValidationMessages = true;
+        enrollmentStepsService.hideStep("phoneFlowDevices");
         $scope.mobileEnrollmentService.currentStepNumber = 2;
-        $scope.addDevice.$setPristine();
+        $scope.addDevice.imeiNumber.$setValidity('required', true);
+        $scope.addDevice.imeiNumber.suppressValidationMessages = true;
     };
 }]);
