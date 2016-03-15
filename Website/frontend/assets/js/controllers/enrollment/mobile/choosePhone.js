@@ -287,10 +287,10 @@
         }
         $scope.clearPhoneSelection();
         $scope.phoneVerified = false;
+        $scope.addDevice.imeiNumber.$setValidity('required', true);
+        $scope.addDevice.imeiNumber.suppressValidationMessages = true;
         enrollmentStepsService.setStep('phoneFlowPlans');
         enrollmentStepsService.hideStep("phoneFlowDevices");
         $scope.mobileEnrollmentService.currentStepNumber = 2;
-        $scope.addDevice.imeiNumber.$setValidity('required', true);
-        $scope.addDevice.imeiNumber.suppressValidationMessages = true;
     };
 }]);
