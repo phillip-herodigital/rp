@@ -300,7 +300,7 @@
                                         </li>
                                     </ul>
                                 </div>
-                                <div class="item" @Html.Validation().ErrorClass(m => m.AgreeToAutoPayTerms) ng-if="autopay">
+                                <div class="item" @Html.Validation().ErrorClass(m => m.AgreeToAutoPayTerms) ng-if="autopay && cartHasMobile()">
                                     <ul class="checkbox-list">
                                         <li>
                                             @Html.CheckBoxFor(m => m.AgreeToAutoPayTerms, new { ng_model = "completeOrder.agreeToAutoPayTerms", data_val = "true", data_val_required = "" })
@@ -316,7 +316,7 @@
 
                         </div>
                         <div class="buttons">
-                            <button type="submit" class="primary" ng-if="(customerType != 'commercial' || cartHasMobile()) && !isRenewal" ng-click="completeOrder.nonExisting = true" ng-disabled="!completeOrder.agreeToTerms || (autopay && !completeOrder.agreeToAutoPayTerms)" data-val-submit>@Html.Sitecore().Field("Button")</button>
+                            <button type="submit" class="primary" ng-if="(customerType != 'commercial' || cartHasMobile()) && !isRenewal" ng-click="completeOrder.nonExisting = true" ng-disabled="!completeOrder.agreeToTerms || (autopay && cartHasMobile() && !completeOrder.agreeToAutoPayTerms)" data-val-submit>@Html.Sitecore().Field("Button")</button>
                             <button type="submit" class="primary" ng-if="customerType == 'commercial' && !isRenewal && !cartHasMobile()" ng-disabled="!completeOrder.additionalAuthorizations.historicalUsageData" data-val-submit>@Html.Sitecore().Field("Commercial Button")</button>
                             <button type="submit" class="primary" ng-if="isRenewal" ng-disabled="!completeOrder.agreeToTerms" data-val-submit>@Html.Sitecore().Field("Renewal Button")</button>
                             <button type="button" class="tertiary" ng-if="!isRenewal" ng-click="resetEnrollment();">
@@ -631,7 +631,7 @@
                 </div>
                 <div class="rate device-price" ng-if="selectedOffer.payments.requiredAmounts[0].phoneCharge > 0">{{ selectedOffer.payments.requiredAmounts[0].phoneCharge | currency }}</div>
             </div>
-            <div class="line-item autopay subheading" ng-if="autopay">
+            <div class="line-item autopay subheading" ng-if="autopay && cartHasMobile()">
                 <div class="description">
                     <i class="autopay-small"></i>
                     <h2>AutoPay Activation Refund</h2>

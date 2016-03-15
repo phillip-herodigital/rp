@@ -255,6 +255,8 @@
         if ($scope.showCaptcha) {
             reCAPTCHA.reload($scope.widgetId);
         }
+        $scope.addDevice.imeiNumber.$setValidity('required', true);
+        $scope.addDevice.imeiNumber.suppressValidationMessages = true;
     };
     $scope.showUnlockingModal = function () {
         $modal.open({
@@ -285,7 +287,6 @@
         if ($scope.phoneVerified) {
             $scope.addDeviceToCart();
         }
-        document.getElementById("imeiNumber").blur();
         $scope.clearPhoneSelection();
         $scope.phoneVerified = false;
         enrollmentStepsService.setStep('phoneFlowPlans');

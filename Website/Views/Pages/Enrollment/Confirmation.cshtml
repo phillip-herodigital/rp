@@ -29,7 +29,7 @@
                         <p class="note">@Html.Sitecore().Field("Mobile Support Text")</p>
                     </div>
                 </div>
-                <footer ng-if="autopay">
+                <footer ng-if="autopay && cartHasMobile()">
                     <div class="border"></div>
                     <h3 class="stream-account">@Html.Sitecore().Field("My Stream Account")</h3>
                     <div class="content">
@@ -94,7 +94,7 @@
                         <hr class="content-divider" />
                         <div class="plan-summary">
                             <div class="line-item">
-                                <div class="autopay" ng-if="autopay">
+                                <div class="autopay" ng-if="autopay && cartHasMobile()">
                                     <i class="autopay-small"></i>
                                     @Html.Sitecore().Field("AutoPay Enabled Text")
                                 </div>
@@ -334,7 +334,7 @@
                 <div class="rate device-price">{{ selectedOffer.payments.requiredAmounts[0].phoneCharge | currency }}</div>
             </div>
         </div>
-        <div class="phone-summary autopay" ng-if="autopay">
+        <div class="phone-summary autopay" ng-if="autopay && cartHasMobile()">
             <div class="line-item clearfix">
                 <div class="phone-summary-image">
                     <i class="icon-autopay"></i>
