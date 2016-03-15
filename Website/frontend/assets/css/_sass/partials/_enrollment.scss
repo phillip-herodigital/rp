@@ -5,6 +5,9 @@
 
  .modal-lg {
     width: 1000px;
+    @include breakpoint(small) {
+        width: auto;
+    }
  }
  .shopPhones {
     line-height: 1;
@@ -15,6 +18,9 @@
     .inner{
         background: #fafbfc;
         padding: 30px 0 40px 75px;
+        @include breakpoint(small) {
+            padding-left: 0;
+        }
     }
     h2 {
         font-size: 36px;
@@ -474,6 +480,7 @@
                 }
             }
             .plan-name {
+                position: relative;
                 text-align: left;
             }
             .plan-actions {
@@ -1994,12 +2001,18 @@
 
 .shop-phones-overlay{
     .section{
-        float:left;
-        width:50%;
-        text-align:center;
+        float: left;
+        width: 50%;
+        text-align: center;
+        @include breakpoint(small) {
+            width: 100%;
+        }
 
         &:last-of-type{
             padding-left:25px;
+            @include breakpoint(small) {
+                padding-left: 0;
+            }
         }
 
         .carrier{
@@ -2007,27 +2020,40 @@
             margin-bottom:15px;
         }
         .phone-image{
-            img{
+            img {
                 height: 112px;
-                width:100px;
+                width: 100px;
             }
-            float:left;
-            margin-right:15px;
+            float: left;
+            margin-right: 15px;
+            @include breakpoint(small) {
+                float: none;
+                img {
+                    height: auto;
+                    width: auto;
+                }
+            }
         }
 
         .side-content{
-            float:left;
-            margin-top:10px;
-            width:250px;
+            float: left;
+            margin-top: 10px;
+            width: 250px;
 
-            p{
-                float:left;
-                text-align:left;
-                font-size:24px;
-                font-weight:400;
+            p {
+                float: left;
+                text-align: left;
+                font-size: 24px;
+                font-weight: 400;
             }
-            a.button{
-                float:left;
+            a.button {
+                float: left;
+            }
+            @include breakpoint(small) {
+                width: auto;
+                a.button {
+                    float: none;
+                }
             }
         }
         
@@ -2715,6 +2741,13 @@
     .modal-footer {
         text-align: left;
     }
+	.modal-body .buy-phone {
+		background: image-url('marketing/redesign/4G_LTE_devices.png') center left no-repeat;
+		background-color: #f3f6f7;
+		padding: 40px 0px 40px 240px;
+		font-size: 24px;
+		font-weight: 400;
+	}
 }
 h3.success-message{
         color:green;

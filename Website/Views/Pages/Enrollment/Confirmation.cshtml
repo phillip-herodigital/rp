@@ -85,9 +85,9 @@
                             <div class="contact">{{ accountInformation.contactInfo.phone[0].number | phone }}</div>
                             <div class="contact">{{ accountInformation.contactInfo.email.address }}</div>
                             <div class="contact">
-                                {{ accountInformation.mailingAddress.line1 }}<span ng-if="accountInformation.mailingAddress.line2">, {{ accountInformation.mailingAddress.line2 }}</span><br>
-    {{ accountInformation.mailingAddress.city }}, {{ accountInformation.mailingAddress.stateAbbreviation }} {{ accountInformation.mailingAddress.postalCode5 }}
-</div>
+                                {{ accountInformation.mailingAddress.line1 }}<span ng-if="accountInformation.mailingAddress.unitNumber">, {{ accountInformation.mailingAddress.unitNumber }}</span><span ng-if="accountInformation.mailingAddress.line2">, {{ accountInformation.mailingAddress.line2 }}</span><br>
+                                {{ accountInformation.mailingAddress.city }}, {{ accountInformation.mailingAddress.stateAbbreviation }} {{ accountInformation.mailingAddress.postalCode5 }}
+                            </div>
                         </div>
                         <div class="col" ng-if="accountInformation.businessInformationName">
                             <h2>@Html.Sitecore().Field("Header - Business Information")</h2>

@@ -954,6 +954,7 @@
     <Compile Include="Models\Enrollment\ServiceInformation.cs" />
     <Compile Include="Models\Enrollment\VerifyIdentity.cs" />
     <Compile Include="Models\Logger\LogRecorderRequest.cs" />
+    <Compile Include="Models\Currents\CurrentsFeedback.cs" />
     <Compile Include="Models\Marketing\ModalContent.cs" />
     <Compile Include="Models\Marketing\SimActivation.cs" />
     <Compile Include="Models\Marketing\ValidasRequest.cs" />
@@ -1662,10 +1663,10 @@
     <Content Include="Views\Components\Marketing\Lyric FAQs.cshtml" />
     <Content Include="Views\Components\Account\Interstitial.cshtml" />
     <Content Include="Views\Components\Account\Overview\Paperless Billing.cshtml" />
-    <Content Include="Views\Components\Marketing\Voice\Hub Features.cshtml" />
+    <Content Include="Views\Components\Marketing\Voice\Device Features.cshtml" />
     <Content Include="Views\Components\Marketing\Voice\Setup.cshtml" />
     <Content Include="Views\Components\Marketing\Voice\On The Go.cshtml" />
-    <Content Include="Views\Components\Marketing\Voice\Get More.cshtml" />
+    <Content Include="Views\Components\Marketing\Voice\Choose Equipment.cshtml" />
     <Content Include="Views\Components\Marketing\Voice\Lets Be Clear.cshtml" />
     <Content Include="Views\Components\Marketing\One-Time Renewal.cshtml" />
     <Content Include="Views\Components\Marketing\Electricity\Photo 1.cshtml" />
@@ -1682,6 +1683,13 @@
     <Content Include="Views\Components\Marketing\Win Back\Win Back Landing.cshtml" />
     <Content Include="Views\Pages\Marketing\Services\Voice.cshtml" />
     <Content Include="Views\Components\Marketing\Voice\Easy Setup.cshtml" />
+    <Content Include="Views\Pages\Currents\CurrentsFeedback.cshtml" />
+    <Content Include="Views\Components\Marketing\Voice\Voice Intro.cshtml" />
+    <Content Include="Views\Components\Marketing\Win Back\Win Back Landing 2.cshtml" />
+    <Content Include="Views\Components\Marketing\Mobile\CDMA Plans.cshtml" />
+    <Content Include="Views\Components\Marketing\Mobile\Mobile CDMA plans.cshtml" />
+    <Content Include="Views\Components\Marketing\Mobile\Mobile Plans Overview.cshtml" />
+    <Content Include="Views\Components\Marketing\Mobile\Mobile Overview Phones.cshtml" />
     <None Include="Web.Azure-Production Sitecore.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>

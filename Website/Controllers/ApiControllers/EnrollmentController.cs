@@ -160,6 +160,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                     if (!captchaResponse.Success)
                     {
                         await redisDatabase.StringIncrementAsync(redisPrefix + ipAddress);
+                        await redisDatabase.KeyExpireAsync(redisPrefix + ipAddress, TimeSpan.FromMinutes(60));
                         return new VerifyImeiResponse
                         {
                             IsValidImei = false,
@@ -172,6 +173,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                     await redisDatabase.KeyExpireAsync(redisPrefix + ipAddress, TimeSpan.FromMinutes(60));
                 }
                 await redisDatabase.StringIncrementAsync(redisPrefix + ipAddress);
+                await redisDatabase.KeyExpireAsync(redisPrefix + ipAddress, TimeSpan.FromMinutes(60));
             }
 
             if (!string.IsNullOrEmpty(settings.GetSettingsValue("Mobile Enrollment Options", "Allow Fake IMEI Numbers")))
@@ -319,10 +321,10 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         /// </summary>
         [HttpPost]
         [Caching.CacheControl(MaxAgeInMinutes = 0)]
-        public async Task<ClientData> PreviousClientData([FromBody]Location serviceLocation)
+        public async Task<ClientData> PreviousClientData([FromBody]SinglePage request)
         {
-            string esiId = serviceLocation.Capabilities.OfType<DomainModels.Enrollments.TexasElectricity.ServiceCapability>().Single().EsiId;
-            string tdu = serviceLocation.Capabilities.OfType<DomainModels.Enrollments.TexasElectricity.ServiceCapability>().Single().Tdu;
+            string esiId = request.ServiceLocation.Capabilities.OfType<DomainModels.Enrollments.TexasElectricity.ServiceCapability>().Single().EsiId;
+            string tdu = request.ServiceLocation.Capabilities.OfType<DomainModels.Enrollments.TexasElectricity.ServiceCapability>().Single().Tdu;
             // make an external service call to get the data
             await Initialize();
 
@@ -435,7 +437,7 @@ FROM [SwitchBack] WHERE ESIID=@esiId";
 
                             // run the load offers call to get offers for this address
                             stateHelper.InternalContext.AllOffers = await enrollmentService.LoadOffers(new Location[] { location });
-                            var texasElectricityOffer = stateHelper.InternalContext.AllOffers.First().Value.Offers.Where(offer => offer.Id.Contains("TX_R12Switch")).FirstOrDefault() as DomainModels.Enrollments.TexasElectricity.Offer;
+                            var texasElectricityOffer = stateHelper.InternalContext.AllOffers.First().Value.Offers.Where(offer => offer.Id.Contains(request.PlanId)).FirstOrDefault() as DomainModels.Enrollments.TexasElectricity.Offer;
                             var offerOption = new DomainModels.Enrollments.TexasElectricity.OfferOption {};
                             userContext.ContactInfo = customerContact;
                             userContext.SocialSecurityNumber = socialSecurityNumber;
@@ -477,13 +479,13 @@ FROM [SwitchBack] WHERE ESIID=@esiId";
                             {
                                 // make sure the location is eligible for an enrollment
                                 var temp = new DomainModels.Enrollments.ServiceStatusCapability { EnrollmentType = DomainModels.Enrollments.EnrollmentType.Switch };
-                                serviceLocation.Capabilities = new DomainModels.IServiceCapability[]
+                                request.ServiceLocation.Capabilities = new DomainModels.IServiceCapability[]
                                 {
                                     new DomainModels.Enrollments.TexasElectricity.ServiceCapability { Tdu = tdu, EsiId = esiId },
                                     new DomainModels.Enrollments.ServiceStatusCapability { EnrollmentType = DomainModels.Enrollments.EnrollmentType.Switch },
                                     new DomainModels.Enrollments.CustomerTypeCapability { CustomerType = DomainModels.Enrollments.EnrollmentCustomerType.Residential },
                                 };
-                                PremiseVerificationResult isEligible = await enrollmentService.VerifyPremise(serviceLocation);
+                                PremiseVerificationResult isEligible = await enrollmentService.VerifyPremise(request.ServiceLocation);
                                 if (isEligible != PremiseVerificationResult.Success)
                                 {
                                     var ineligibleResult = ClientData(typeof(DomainModels.Enrollments.PaymentInfoState));
@@ -493,14 +495,14 @@ FROM [SwitchBack] WHERE ESIID=@esiId";
                                 }
 
                                 // run the load offers call to get offers for this address
-                                stateHelper.InternalContext.AllOffers = await enrollmentService.LoadOffers(new Location[] { serviceLocation });
-                                var texasElectricityOffer = stateHelper.InternalContext.AllOffers.First().Value.Offers.Where(offer => offer.Id.Contains("TX_R12Switch")).FirstOrDefault() as DomainModels.Enrollments.TexasElectricity.Offer;
+                                stateHelper.InternalContext.AllOffers = await enrollmentService.LoadOffers(new Location[] { request.ServiceLocation });
+                                var texasElectricityOffer = stateHelper.InternalContext.AllOffers.First().Value.Offers.Where(offer => offer.Id.Contains(request.PlanId)).FirstOrDefault() as DomainModels.Enrollments.TexasElectricity.Offer;
                                 var offerOption = new DomainModels.Enrollments.TexasElectricity.OfferOption { };
                                 userContext.Services = new DomainModels.Enrollments.LocationServices[]
                                 {
                                     new DomainModels.Enrollments.LocationServices 
                                     { 
-                                        Location = serviceLocation, 
+                                        Location = request.ServiceLocation, 
                                         SelectedOffers = new DomainModels.Enrollments.SelectedOffer[] 
                                         {
                                             new DomainModels.Enrollments.SelectedOffer
