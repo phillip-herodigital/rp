@@ -1001,7 +1001,7 @@ article.pay {
     }
 
     .shop-phones {
-        background: image-url('marketing/redesign/Modules/ShopPhones.jpg') top left no-repeat;
+        background: image-url('marketing/redesign/4G_LTE_devices2.png') top left no-repeat;
         border-right: 1px solid #f2f2f2;
 
         @include breakpoint(small) {
@@ -2531,10 +2531,14 @@ article.mobile-pricing-plans {
 }
 
 .mobile-manage-links {
+    h1 {
+        margin-bottom: .2em;
+    }
     p.intro {
-        margin: 1em 0;
+        margin: 0 auto 2em auto;
+        width: 65%;
         letter-spacing: (17/1000);
-        font-size: 20px;
+        font-size: 24px;
         text-align: center;
     }
     .col {
@@ -2545,43 +2549,67 @@ article.mobile-pricing-plans {
         // }
 
         .inner {
-            padding-top: 100px;
+            padding-top: 90px;
+            margin-bottom: 25px;
             //margin: 0 30px;
-            background: center top no-repeat;
+            background: 0px 0px no-repeat;
             h3 {
                 color: #3c535c;
                 font-weight: 600;
             }
-            a {
-                color: #178fcd;
-                font-weight: 600;
+            p {
+                margin: 1em 1.2em 0 0;
             }
         }
 
         &.phone {
             .inner {
-                background-image: image-url("marketing/redesign/Modules/choose-phone-icon.png");
+                background-image: image-url("marketing/redesign/Modules/choose-plan-icon.png");
+				background-position: -6% 0% no-repeat;
             }
         }
 
         &.plan {
             .inner {
-                background-image: image-url("marketing/redesign/Modules/choose-plan-icon.png");
+                background-image: image-url("marketing/redesign/Modules/choose-phone-icon.png");
+				background-position: -6% 0% no-repeat;
             }
         }
 
         &.data {
             .inner {
                 background-image: image-url("marketing/redesign/Modules/config-data-icon.png");
+				background-position: -6% 0% no-repeat;
             }
         }
 
         &.account {
             .inner {
                 background-image: image-url("marketing/redesign/Modules/manage-account-icon.png");
+				background-position: -6% 0% no-repeat;
             }
         }
+		&.data-calculator {
+            .inner {
+				@include retina-background("calculator.png", "icon")
+            }
+        }
+		&.device-assistant {
+            .inner {
+				@include retina-background("device-assistant.png", "icon")
+            }
+        }
+		&.swap-it {
+            .inner {
+				@include retina-background("swapit.png", "icon")
+            }
+            }
+		&.global-connect {
+            .inner {
+				@include retina-background("global.png", "icon")
+        }
     }
+}
 }
 
 .mobile-find-savings {
@@ -2737,13 +2765,18 @@ article.mobile-pricing-plans {
         }
     }
 }
+article.mobile-additional-services > .wrapper {
+    background: none;
+}
 
 .mobile-additional-services {
-    background-color: #f3f6f7;
     .col {
         .inner {
-            padding: 0px 30px 0px 100px;
+            padding: 5px 20px 25px 100px;
             background: left top no-repeat;
+            background-position: 15px 25px;
+            background-color: #f3f6f7;
+            margin: 0 0 30px 20px;
             h3 {
                 color: #3c535c;
                 font-weight: 600;
@@ -2753,19 +2786,19 @@ article.mobile-pricing-plans {
                 font-weight: 600;
             }
         }
-        &.trade {
+        &.swapit {
             .inner {
-                @include retina-background("trade.png", "icon");
+                @include retina-background("device-assistant.png", "icon");
             }
         }
         &.device-assistant {
             .inner {
-                @include retina-background("swapit.png", "icon");
+                @include retina-background("calculator.png", "icon");
             }
         }
         &.global {
             .inner {
-                @include retina-background("global.png", "icon");
+                @include retina-background("swapit.png", "icon");
             }
         }
     }
@@ -2911,6 +2944,270 @@ article.mobile-pricing-plans {
     }
 }
 
+.overview-phones {
+    background: url('../i/marketing/redesign/mobile_overview_divider.png') center top repeat-x;
+    margin-top: 20px;
+    div.intro {
+        padding: 20px 0;
+        p {
+            width: 50%;
+            font-size: 20px;
+            margin: 1em auto;
+        }
+    }
+    .wrapper .shop {
+        background: url('../i/marketing/redesign/4G_LTE_devices.png') left center no-repeat;
+        text-align: left;
+        padding: 27px 0 20px 250px;
+        margin: -20px 0;
+        h3 {
+            margin-bottom: .5em;
+            font-weight: 400;
+        }
+        p {
+            margin-top: 0;
+            font-weight: 600;
+        }
+    }
+}
+
+article.marketing.mobile.cdma-pricing-plans {
+    background-color: #f3f6f7;
+    margin-bottom: 20px;
+    .wrapper {
+        h1 strong {
+            color: #f4b60a;
+        }
+        .col {
+            &:first-child, &:last-child {
+                padding: 0px 30px;
+                @include breakpoint(small-medium) {
+                    padding: 0px;
+                }
+            }
+            @include breakpoint(small-medium) {
+                padding: 0px;
+            }
+            .package {
+                background-color: #fff;
+            }
+            
+            .plan-details {
+                background: url('../i/marketing/redesign/plan_background.png') top center no-repeat;
+                background-color: #fff;
+                box-shadow: 1px 1px 10px #ccc;
+                @include breakpoint(small-medium) {
+                    background: none;
+                }
+                h2 {
+                    color: #fff;
+                    font-size: 16px;
+                    font-style: italic;
+                    padding: 10px 3px 0 3px;
+                    margin-bottom: 0px;
+                }
+                h2, p.plus, p.data, p.lte {
+                    @include breakpoint(small-medium) {
+                        background-color: #f4b60a;
+                    }
+                }
+                p {
+                    color: #fff;
+                    font-weight: 600;
+                    margin: 0;
+                    &.plus {
+                        color: #f5d0a3;
+                        font-size: 30px;
+                        line-height: 20px;
+                    }
+                    &.data {
+                        font-size: 30px;
+                        line-height: 30px;
+                        span {
+                            font-size: 24px;
+                        }
+                    }
+                    &.lte {
+                        color: #f5d0a3;
+                        font-size: 12px;
+                        line-height: 12px;
+                    }
+                    &.price {
+                        color: #6b6b6b;
+                        font-size: 40px;
+                        margin: 30px auto 10px auto;
+                        span {
+                            font-size: 20px;
+                            font-weight: 400;
+                        }
+                        &.no-international {
+                            margin-bottom: 60px;
+                        }
+                    }
+                }
+                div.international {
+                    border-top: 1px solid #f1f1f1;
+                    border-bottom: 1px solid #f1f1f1;
+                    background: url('../i/marketing/redesign/stream_international.png') left center no-repeat;
+                    margin-left: 15px;
+                    text-align: left;
+                    p {
+                        color: #6b6b6b;
+                        padding-left: 25px;
+                        margin: 5px 0;
+                        font-size: 14px;
+                        font-style: italic;
+                    }
+                }
+                .button {
+                    background-color: #e69511;
+                    background-image: linear-gradient(#efaf01, #eb9900);
+                    margin-bottom: 1em;
+                    &.plan-button {
+                        background-color: #2aa4dc;
+                        background-image: linear-gradient(#008cd2, #2aa4dc);
+                        margin-top: 1em;
+                    }
+                }
+            }
+        }
+        .check {
+            background-color: #eff2f3;
+            background-image: linear-gradient(#eff2f3, #f0f3f4);
+            margin-top: 50px;
+            padding: 50px 0px;
+            span {
+                background-color: #fff;
+                padding: 20px;
+                box-shadow: 0px 2px 5px #ccc;
+                max-width: 200px;
+            }
+        }
+        .plan-features {
+            margin: 50px 0 30px 0;
+            h3 {
+                color: #f4b60a;
+                font-style: italic;
+                font-weight: 600;
+            }
+            .col ul {
+                list-style-image: url('../i/marketing/redesign/yellow-check.png');
+                li {
+                    text-align: left;
+                    color: #333;
+                    margin-bottom: 10px;
+                    span {
+                        font-size: 12px;
+                        font-style: italic;
+                    }
+                }
+            }
+        }
+    }
+    .mobile-plans {
+        .plan-features {
+            margin-top: -20px;
+        }
+    }
+    .footnote {
+        background: url('../i/marketing/redesign/Modules/module_background.png?1440631907') no-repeat center top;
+        padding-top: 30px;
+        max-width: 1060px;
+        p {
+            margin-top: 0px;
+            font-size: 12px;
+            text-align: left;
+        }
+        &.mobile-plans {
+            background-color: #fff;
+            max-width: 100%;
+            p {
+                max-width: 1060px;
+                margin: auto;
+            }
+        }
+    }
+    .check {
+        background-color: #eff2f3;
+        background-image: linear-gradient(#eff2f3, #f0f3f4);
+        margin-top: 50px;
+        padding: 60px 0px;
+        span {
+            padding: 20px 20px 20px 75px;
+            box-shadow: 0px 2px 5px #ccc;
+            color: #2aa4dc;
+            font-size: 18px;
+            font-weight: 500;
+            &.coverage {
+                background: url('../i/marketing/redesign/sprint_map.png') 10% 50% no-repeat;
+                background-color: #fff;
+                margin-right: 10px;
+                @include breakpoint(small) {
+                    display: block;
+                    margin: 10px;
+                }
+            }
+            &.device {
+                background: url('../i/marketing/redesign/check-device.png') 10% 50% no-repeat;
+                background-color: #fff;
+                margin-left: 10px;
+                @include breakpoint(small) {
+                    display: block;
+                    margin: 10px;
+                }
+            }
+        }
+    }
+    .international-plus {
+        background-image: linear-gradient(#eef0f1, #f3f6f7);
+        text-align: left;
+        font-size: 18px;
+        .info {
+            width: 70%;
+            float: left;
+            background: image-url('marketing/redesign/stream_international_plus.png') center left no-repeat;
+            padding-left: 80px;
+            @include breakpoint(small) {
+                width: 100%;
+            }
+            h3 {
+                font-weight: 600;
+                font-style: italic;
+            }
+        }
+        .add-price {
+            width: 30%;
+            float: right;
+            padding-left: 70px;
+            span {
+                font-size: 45px;
+                color: #0090d4;
+                font-weight: 600;
+            }
+            p.cost {
+                margin-top: 0px;
+            }
+            @include breakpoint(small) {
+                width: 100%;
+                float: left;
+            }
+        }
+    }
+}
+
+.autopay-setup {
+    background-image: image-url('marketing/redesign/autopay-setup.png');
+    height: 372px;
+    .autopay-content {
+        text-align: left;
+        width: 40%;
+        color: #fff;
+        h1 {
+            text-align: left;
+        }
+    }
+}
+
 .footer-service-links {
 	background-color: #f1f1f1;
 	&.marketing .wrapper {
@@ -2934,3 +3231,28 @@ article.mobile-pricing-plans {
 	}
 }
 
+.phone-options {
+    .wrapper {
+        background-image: none;
+    }
+    .check-device {
+        background-color: #f3f6f7;
+        width: 60%;
+        float: left;
+        padding: 30px;
+        .content {
+            background: image-url('marketing/redesign/phones_check_device.png') center left no-repeat;
+            padding: 0px 50px 0px 100px;
+        }
+    }
+    .shop-device {
+        background-color: #f3f6f7;
+        width: 38%;
+        float: right;
+        padding: 30px 30px 30px 10px;
+        .content {
+            background: image-url('marketing/redesign/phones_shop_devices.png') center left no-repeat;
+            padding: 0px 0px 0px 130px;
+        }
+    }
+}

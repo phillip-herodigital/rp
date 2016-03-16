@@ -1686,6 +1686,9 @@
     <Content Include="Views\Pages\Currents\CurrentsFeedback.cshtml" />
     <Content Include="Views\Components\Marketing\Voice\Voice Intro.cshtml" />
     <Content Include="Views\Components\Marketing\Win Back\Win Back Landing 2.cshtml" />
+    <Content Include="Views\Components\Marketing\Mobile\Mobile Plans Overview.cshtml" />
+    <Content Include="Views\Components\Marketing\Mobile\Mobile Overview Phones.cshtml" />
+    <Content Include="Views\Components\Marketing\Mobile\Mobile CDMA Plans.cshtml" />
     <None Include="Web.Azure-Production Sitecore.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>
