@@ -3,17 +3,27 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using StreamEnergy.Processes;
+using System.Web.Security;
+using System.Web;
+using StreamEnergy.DomainModels.Accounts;
+using StreamEnergy.DomainModels.Accounts.Create;
 
 namespace StreamEnergy.DomainModels.Enrollments
 {
     public class AsyncPlaceOrderState : StateBase<UserContext, InternalContext>
     {
         private readonly IEnrollmentService enrollmentService;
+        private readonly DomainModels.Accounts.IAccountService accountService;
+        private readonly ICurrentUser currentUser;
+        private readonly MembershipBuilder membership;
 
-        public AsyncPlaceOrderState(IEnrollmentService enrollmentService)
+        public AsyncPlaceOrderState(IEnrollmentService enrollmentService, DomainModels.Accounts.IAccountService accountService, ICurrentUser currentUser, MembershipBuilder membership)
             : base(typeof(PlaceOrderState), typeof(OrderConfirmationState))
         {
             this.enrollmentService = enrollmentService;
+            this.accountService = accountService;
+            this.currentUser = currentUser;
+            this.membership = membership;
         }
 
         public override bool IgnoreValidation(System.ComponentModel.DataAnnotations.ValidationResult validationResult, UserContext context, InternalContext internalContext)
@@ -62,6 +72,12 @@ namespace StreamEnergy.DomainModels.Enrollments
 
             if (context.W9BusinessData != null)
                 return typeof(GenerateW9State);
+            if (context.OnlineAccount != null)
+            {
+                var profile = await membership.CreateUser(context.OnlineAccount.Username, context.OnlineAccount.Password, globalCustomerId: internalContext.GlobalCustomerId, email: context.ContactInfo.Email.Address);
+                var cookie = FormsAuthentication.GetAuthCookie(context.OnlineAccount.Username, false, "/");
+                HttpContext.Current.Response.AppendCookie(cookie);
+            }
             return await base.InternalProcess(context, internalContext);
         }
 
