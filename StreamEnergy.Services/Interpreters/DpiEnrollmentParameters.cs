@@ -231,7 +231,7 @@ namespace StreamEnergy.Interpreters
 
         private string TranslateRefSiteToSalesSource()
         {
-            switch (queryString["RefSiteID"] ?? queryString["RefSite"])
+            switch (!string.IsNullOrEmpty(queryString["RefSiteID"]) ? queryString["RefSiteID"] : queryString["RefSite"])
             {
                 case "1":
                     return "Paper";
@@ -262,6 +262,7 @@ namespace StreamEnergy.Interpreters
                 case "10": // myignite.com
                     return "MyIgniteHomesite";
                 case "POW":
+                case "11":
                     return "PowerCenter";
             }
             return DefaultSalesSource;
