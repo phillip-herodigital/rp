@@ -2570,48 +2570,48 @@ article.mobile-pricing-plans {
         &.phone {
             .inner {
                 background-image: image-url("marketing/redesign/Modules/choose-plan-icon.png");
-				background-position: -6% 0% no-repeat;
+                background-position: -6% 0% no-repeat;
             }
         }
 
         &.plan {
             .inner {
                 background-image: image-url("marketing/redesign/Modules/choose-phone-icon.png");
-				background-position: -6% 0% no-repeat;
+                background-position: -6% 0% no-repeat;
             }
         }
 
         &.data {
             .inner {
                 background-image: image-url("marketing/redesign/Modules/config-data-icon.png");
-				background-position: -6% 0% no-repeat;
+                background-position: -6% 0% no-repeat;
             }
         }
 
         &.account {
             .inner {
                 background-image: image-url("marketing/redesign/Modules/manage-account-icon.png");
-				background-position: -6% 0% no-repeat;
+                background-position: -6% 0% no-repeat;
             }
         }
-		&.data-calculator {
+        &.data-calculator {
             .inner {
-				@include retina-background("calculator.png", "icon")
+                @include retina-background("calculator.png", "icon")
             }
         }
-		&.device-assistant {
+        &.device-assistant {
             .inner {
-				@include retina-background("device-assistant.png", "icon")
+                @include retina-background("device-assistant.png", "icon")
             }
         }
-		&.swap-it {
+        &.swap-it {
             .inner {
-				@include retina-background("swapit.png", "icon")
+                @include retina-background("swapit.png", "icon")
             }
         }
-		&.global-connect {
+        &.global-connect {
             .inner {
-				@include retina-background("global.png", "icon")
+                @include retina-background("global.png", "icon")
             }
         }
     }
@@ -3209,6 +3209,29 @@ article.marketing.mobile.cdma-pricing-plans {
         color: #fff;
         h1 {
             text-align: left;
+        }
+    }
+}
+
+.footer-service-links {
+    background-color: #f1f1f1;
+    &.marketing .wrapper {
+        padding: 0px 0px 20px 0px;
+    }
+    h4 {
+        color: #28ade0;
+        font-weight: 600;
+    }
+    ul {
+        padding: 0px;
+        margin: 0px;
+        li {
+            list-style: none;
+            padding-bottom: 10px;
+            a {
+                color: #3c535c;
+                font-weight: 600;
+            }
         }
     }
 }
