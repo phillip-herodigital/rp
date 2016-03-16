@@ -661,11 +661,11 @@ article.digital-voice {
         p.outro {
             text-align: center;
             color: #000;
-            border: 34px 0px;
+            margin-top: 50px;
         }
 
         .grid {
-            margin: 0 auto;
+            margin: 10px auto;
             width: 50%;
         }
 
@@ -733,6 +733,7 @@ article.digital-voice {
             text-align: center;
             font-size: 41px;
             font-weight: 400;
+            margin-top: 0;
             b, strong {
                 color: #8e4b9d;
                 text-transform: uppercase;
