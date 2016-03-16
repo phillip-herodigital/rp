@@ -2920,16 +2920,16 @@ article.mobile-pricing-plans {
 		color: #28ade0;
 		font-weight: 600;
 	}
-	a {
-		color: #3c535c;
-		font-weight: 600;
-	}
 	ul {
 		padding: 0px;
 		margin: 0px;
 		li {
 			list-style: none;
 			padding-bottom: 10px;
+			a {
+				color: #3c535c;
+				font-weight: 600;
+			}
 		}
 	}
 }
