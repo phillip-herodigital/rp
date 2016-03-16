@@ -14,6 +14,7 @@
     $scope.itemIndex = 0;
     $scope.cartDevices = enrollmentCartService.getCartDevices();
 
+
     $scope.$watch("showPlanDetails", function(newVal, oldVal) {
         if (newVal != oldVal) {
             console.log("sweet");
@@ -239,6 +240,9 @@
                         activeService.location = $scope.data.serviceLocation;
                         enrollmentService.setSelectedOffers(true).then(function () {
                             $scope.availableOffers = enrollmentCartService.getActiveService().offerInformationByType[0].value.availableOffers;
+                            if ($scope.mobileEnrollment.requestedPlanId != "") {
+                                $scope.selectPlan($scope.mobileEnrollment.requestedPlanId);
+                            }
                         }, function(){
                             console.log("no available offers")
                         });

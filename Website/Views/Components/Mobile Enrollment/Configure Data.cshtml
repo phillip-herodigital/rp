@@ -21,10 +21,8 @@
                     </header>
                     <form name="configureData" data-val-bind-messages="validations" ng-submit="completeStep(false)" ng-hide="showChangeLocation">
                         <div class="content bring-your-own form">
-                            <div class="plan-error" ng-show="(mobileEnrollment.requestedPlanId != '' && !requestedPlanAvailable && !planSelection.selectedOffers.Mobile && currentMobileLocationInfo().offerInformationByType) || excludedStates">
-                                <span ng-show="requestedPlanNetwork == networkType && !excludedStates">@Html.Sitecore().Field("Requested Plan Unavailable")</span>
-                                <span ng-show="requestedPlanNetwork != networkType && !excludedStates">@Html.Sitecore().Field("Requested Network Unavailable")</span>
-                                <span ng-show="excludedStates">@Html.Sitecore().Field("Location Unavailable")</span>
+                            <div class="plan-error" ng-show="excludedStates">
+                                <span>@Html.Sitecore().Field("Location Unavailable")</span>
                             </div>
                             <div class="plan-error" ng-show="zipCodeInvalid">
                                 @Html.Sitecore().Field("Invalid Zip Code Message")
