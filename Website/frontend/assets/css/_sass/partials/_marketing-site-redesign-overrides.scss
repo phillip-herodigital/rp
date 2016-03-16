@@ -2911,5 +2911,26 @@ article.mobile-pricing-plans {
     }
 }
 
-
+.footer-service-links {
+	background-color: #f1f1f1;
+	&.marketing .wrapper {
+		padding: 0px 0px 20px 0px;
+	}
+	h4 {
+		color: #28ade0;
+		font-weight: 600;
+	}
+	a {
+		color: #3c535c;
+		font-weight: 600;
+	}
+	ul {
+		padding: 0px;
+		margin: 0px;
+		li {
+			list-style: none;
+			padding-bottom: 10px;
+		}
+	}
+}
 
