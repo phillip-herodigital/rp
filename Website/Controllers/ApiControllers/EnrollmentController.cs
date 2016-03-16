@@ -572,6 +572,7 @@ FROM [SwitchBack] WHERE ESIID=@esiId";
                 ExpectedState = expectedState,
                 IsRenewal = stateMachine.Context.IsRenewal,
                 IsSinglePage = stateMachine.Context.IsSinglePage,
+                PaymentError = stateMachine.Context.PaymentError,
                 NeedsRefresh = isNeedsRefresh,
                 ContactInfo = stateMachine.Context.ContactInfo,
                 Language = stateMachine.Context.Language,

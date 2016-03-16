@@ -56,7 +56,11 @@ namespace StreamEnergy.DomainModels.Enrollments
                         }
                     }
                     if (hasAllMobile && internalContext.PlaceOrderResult.Any(o => o.Details.PaymentConfirmation.Status != "Success"))
+                    {
+                        context.PaymentError = true;
                         return typeof(CompleteOrderState);
+                    }
+                        
                 }
             }
 
