@@ -116,11 +116,7 @@
                             <div class="contact">{{ accountInformation.contactInfo.phone[0].number | phone }}</div>
                             <div class="contact">{{ accountInformation.contactInfo.email.address }}</div>
                             <div class="contact">
-<<<<<<< HEAD
-                                {{ accountInformation.mailingAddress.line1 }}<span ng-if="accountInformation.mailingAddress.line2">, {{ accountInformation.mailingAddress.line2 }}</span><br>
-=======
                                 {{ accountInformation.mailingAddress.line1 }}<span ng-if="accountInformation.mailingAddress.unitNumber">, {{ accountInformation.mailingAddress.unitNumber }}</span><span ng-if="accountInformation.mailingAddress.line2">, {{ accountInformation.mailingAddress.line2 }}</span><br>
->>>>>>> master
                                 {{ accountInformation.mailingAddress.city }}, {{ accountInformation.mailingAddress.stateAbbreviation }} {{ accountInformation.mailingAddress.postalCode5 }}
                             </div>
                         </div>
