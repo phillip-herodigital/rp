@@ -3014,14 +3014,13 @@ article.marketing.mobile.cdma-pricing-plans {
                 p {
                     color: #fff;
                     font-weight: 600;
+                    margin: 0;
                     &.plus {
                         color: #f5d0a3;
-                        margin-top: 0px;
                         font-size: 30px;
                         line-height: 20px;
                     }
                     &.data {
-                        margin: 0;
                         font-size: 30px;
                         line-height: 30px;
                         span {
@@ -3029,7 +3028,6 @@ article.marketing.mobile.cdma-pricing-plans {
                         }
                     }
                     &.lte {
-                        margin: 0;
                         color: #f5d0a3;
                         font-size: 12px;
                         line-height: 12px;
