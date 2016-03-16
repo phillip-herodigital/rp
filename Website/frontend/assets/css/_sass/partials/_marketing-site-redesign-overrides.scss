@@ -2552,7 +2552,7 @@ article.mobile-pricing-plans {
             padding-top: 90px;
             margin-bottom: 25px;
             //margin: 0 30px;
-            background: -6% 0% no-repeat;
+            background: 0px 0px no-repeat;
             h3 {
                 color: #3c535c;
                 font-weight: 600;
@@ -2565,24 +2565,48 @@ article.mobile-pricing-plans {
         &.phone {
             .inner {
                 background-image: image-url("marketing/redesign/Modules/choose-plan-icon.png");
+				background-position: -6% 0% no-repeat;
             }
         }
 
         &.plan {
             .inner {
                 background-image: image-url("marketing/redesign/Modules/choose-phone-icon.png");
+				background-position: -6% 0% no-repeat;
             }
         }
 
         &.data {
             .inner {
                 background-image: image-url("marketing/redesign/Modules/config-data-icon.png");
+				background-position: -6% 0% no-repeat;
             }
         }
 
         &.account {
             .inner {
                 background-image: image-url("marketing/redesign/Modules/manage-account-icon.png");
+				background-position: -6% 0% no-repeat;
+            }
+        }
+		&.data-calculator {
+            .inner {
+				@include retina-background("calculator.png", "icon")
+            }
+        }
+		&.device-assistant {
+            .inner {
+				@include retina-background("device-assistant.png", "icon")
+            }
+        }
+		&.swap-it {
+            .inner {
+				@include retina-background("swapit.png", "icon")
+            }
+        }
+		&.global-connect {
+            .inner {
+				@include retina-background("global.png", "icon")
             }
         }
     }

@@ -32,15 +32,15 @@
             <div ng-show="esnError || (phoneManufacturer == 'Apple Inc' && networkType == 'GSM') || (!supportsLte && networkType == 'CDMA')" class="device-error" ng-cloak>
                 <div class="wrapper">
                     <div compile="esnMessage"></div>
-                    <div ng-if="phoneManufacturer == 'Apple Inc' && networkType == 'GSM'">
-                        @Html.Sitecore().Field("Apple GSM Message")
+                    <div ng-if="networkType == 'GSM'">
+                        @Html.Sitecore().Field("GSM Message")
                     </div>
                     <div ng-if="!supportsLte && networkType == 'CDMA'">
                         @Html.Sitecore().Field("Non LTE CDMA Message")
                     </div>
                 </div>
             </div>
-            <div ng-show="esnValid && (phoneManufacturer != 'Apple Inc' || networkType != 'GSM') && (supportsLte || networkType != 'CDMA')" class="device-success" ng-cloak>
+            <div ng-show="esnValid && supportsLte && networkType == 'CDMA'" class="device-success" ng-cloak>
                 <div class="wrapper">
                     @Html.Sitecore().Field("ESN Valid Message")
                 </div>
