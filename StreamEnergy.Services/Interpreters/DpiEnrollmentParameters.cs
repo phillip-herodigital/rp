@@ -261,6 +261,8 @@ namespace StreamEnergy.Interpreters
                 case "MYI": 
                 case "10": // myignite.com
                     return "MyIgniteHomesite";
+                case "POW":
+                    return "PowerCenter";
             }
             return DefaultSalesSource;
         }
