@@ -127,7 +127,7 @@ namespace StreamEnergy.Services.Clients
                 SpecialOffer = productData.Fields["Special Offer"] == "1" ? true : false,
                 SpecialOfferText = productData.Fields["Special Offer Text"],
                 SpecialOfferOriginalPrice = productData.Fields["Special Offer Original Price"],
-                NonLtePlan = productData.Fields["non-LTE Plan"] == "1" ? true : false,
+                IncludesInternational = productData.Fields["Includes International"] == "1" ? true : false,
                 SortOrder = GetSortOrder(productData.Fields["Sort Order"], productData.Fields["Data"]),
 
                 Rates = new[] {

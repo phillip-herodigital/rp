@@ -6,14 +6,13 @@ ngApp.controller('EnrollmentConfirmationCtrl', ['$scope', '$window', 'enrollment
 
     $scope.mobileEnrollmentService = mobileEnrollmentService;
     $scope.getCartItems = enrollmentCartService.getCartItems;  
-    $scope.getCartTotal = enrollmentCartService.calculateConfirmationTotal;  
+    $scope.getCartMonthly = enrollmentCartService.calculateMobileMonthlyTotal;
     $scope.customerType = '';
     $scope.confirmationSuccess = false;
     $scope.cartHasTxLocation = enrollmentCartService.cartHasTxLocation;
     $scope.cartHasUtility = enrollmentCartService.cartHasUtility;
     $scope.cartHasMobile = enrollmentCartService.cartHasMobile;  
     $scope.getCartDataPlan = enrollmentCartService.getCartDataPlan;
-    $scope.getDevicesCount = enrollmentCartService.getConfirmationDevicesCount;
     $scope.getProratedCost = enrollmentCartService.getProratedCost;
     $scope.getOfferData = enrollmentCartService.getOfferData;
     $scope.getOfferPrice = enrollmentCartService.getOfferPrice;
@@ -25,6 +24,12 @@ ngApp.controller('EnrollmentConfirmationCtrl', ['$scope', '$window', 'enrollment
     $scope.onPrint = function() {
         window.print();
     };
+
+    $scope.autopay = true;
+    $scope.autopaySavings = 20;
+    $scope.totalAutoPaySavings = function () {
+        return $scope.autopaySavings * $scope.getCartItems().length;
+    }
 
     $scope.$watch(mobileEnrollmentService.getPhoneData, function (phoneData) {
         allPhones = phoneData;
@@ -55,6 +60,15 @@ ngApp.controller('EnrollmentConfirmationCtrl', ['$scope', '$window', 'enrollment
         return _.find(selectedDevices, { id: deviceId });
     }
 
+    $scope.getCartTotal = function () {
+        if ($scope.autopay) {
+            return enrollmentCartService.calculateConfirmationTotal() - $scope.totalAutoPaySavings();
+        }
+        else {
+            return enrollmentCartService.calculateConfirmationTotal();
+        }
+    }
+
     /**
      * Get the server data and populate the form
      */
@@ -75,6 +89,15 @@ ngApp.controller('EnrollmentConfirmationCtrl', ['$scope', '$window', 'enrollment
 
             // copy out the account information the server has
             $scope.accountInformation.contactInfo = result.contactInfo || {};
+            var userName = result.newAccountUserName;
+            if (userName != "") {
+                var slashPosition = userName.indexOf("\\");
+                userName = userName.substring(slashPosition + 1);
+            }
+            else {
+                $scope.autopay = false;
+            }
+            $scope.accountInformation.userName = userName;
             $scope.accountInformation.secondaryContactInfo = result.secondaryContactInfo || {};
             $scope.accountInformation.mailingAddress = result.mailingAddress || {};
 

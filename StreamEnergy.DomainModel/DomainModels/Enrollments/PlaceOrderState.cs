@@ -94,16 +94,16 @@ namespace StreamEnergy.DomainModels.Enrollments
             {
                 internalContext.PlaceOrderAsyncResult = await enrollmentService.BeginPlaceOrder(context, internalContext);
             }
-            
-            if (context.OnlineAccount != null)
-            {
-                await membership.CreateUser(context.OnlineAccount.Username, context.OnlineAccount.Password, globalCustomerId: internalContext.GlobalCustomerId, email: context.ContactInfo.Email.Address);
-            }
-
+           
             if (internalContext.PlaceOrderAsyncResult != null)
                 return typeof(AsyncPlaceOrderState);
             if (context.W9BusinessData != null)
                 return typeof(GenerateW9State);
+            if (context.OnlineAccount != null)
+            {
+                //await membership.CreateUser(context.OnlineAccount.Username, context.OnlineAccount.Password, globalCustomerId: internalContext.GlobalCustomerId, email: context.ContactInfo.Email.Address);
+                //context.OnlineAccount.HasUsernameBeenAddedToMembership = true;
+            }
             return await base.InternalProcess(context, internalContext);
         }
 

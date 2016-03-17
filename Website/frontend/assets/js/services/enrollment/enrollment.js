@@ -2,10 +2,8 @@
 
     var service = {},
         urlPrefix = '/api/enrollment/';
-
     service.validations = [];
     service.isLoading = false;
-
     service.accountInformation = {
         contactTitle: '',
         contactInfo: {
@@ -22,8 +20,9 @@
             }
         },
         socialSecurityNumber: '',
-        secondaryContactInfo: {}
+        secondaryContactInfo: {},
     };
+    service.loggedInAccountDetails = [];
     service.identityQuestions = [];
 
     $rootScope.$watch(function () { return service.accountInformation; }, function () {
@@ -73,6 +72,7 @@
         service.accountInformation.previousAddress = result.previousAddress;
         service.accountInformation.previousProvider = result.previousProvider;
         service.associateInformation = result.associateInformation;
+        service.loggedInAccountDetails = result.loggedInAccountDetails;
 
         // Default these object to prevent errors
         service.accountInformation.contactInfo.phone = service.accountInformation.contactInfo.phone || [{ }];
