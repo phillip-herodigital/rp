@@ -4790,25 +4790,6 @@ article.sim-activation-intro {
             margin-bottom: 15px;
         }
 
-        .header-logo {
-            text-align: center;
-            background: #fff;
-            width: 40%;
-            padding: 20px;
-            margin: 55px auto -80px;
-
-            &.cdma-logo {
-                border: 1px solid $mobile-cdma-color;
-            }
-
-            &.gsm-logo {
-                border: 1px solid $mobile-gsm-color;
-            }
-
-            @include breakpoint(small) {
-                width: 90%;
-            }
-        }
     }
 }
 
