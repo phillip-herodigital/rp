@@ -335,11 +335,6 @@
                         </header>
                         <div class="content">
                             <p>@Html.Sitecore().Field("Online Account Paragraph")</p>
-                            <div class="autopay">
-                                <i class="icon-autopay-calendar"></i>
-                                <h3>@Html.Sitecore().Field("AutoPay and Stream Account")</h3>
-                                <p class="note">@Html.Sitecore().Field("AutoPay Activation Refund")</p>
-                            </div>
                             <hr class="content-divider" />
                             <div class="onlineAccountInfo">
                                 <input type="radio" name="creatOnlineAccount" ng-value="true" ng-model="createOnlineAccount" /><label class="radio" for="createOnlineAccount">@Html.Sitecore().Field("Online Account Yes")</label>
@@ -362,7 +357,6 @@
                                     </div>
                                 </div>
                                 <input type="radio" name="creatOnlineAccount" ng-value="false" ng-model="createOnlineAccount" ng-click="accountInformation.onlineAccount = null"/><label class="radio" for="createOnlineAccount">@Html.Sitecore().Field("Online Account No")</label>
-                                <p class="radio-note">@Html.Sitecore().Field("Note Online Account Required")</p>
                             </div>
                         </div>
                     </article>

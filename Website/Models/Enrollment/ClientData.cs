@@ -31,6 +31,8 @@ namespace StreamEnergy.MyStream.Models.Enrollment
 
         public Guid LoggedInCustomerId { get; set; }
 
+        public string NewAccountUserName { get; set; }
+
         public IEnumerable<DomainModels.Enrollments.UserAccountDetails> LoggedInAccountDetails { get; set; }
 
         public bool IsLoading { get; set; }

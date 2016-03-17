@@ -29,16 +29,19 @@
                         <p class="note">@Html.Sitecore().Field("Mobile Support Text")</p>
                     </div>
                 </div>
-                <footer ng-if="autopay && cartHasMobile()">
+                @if (Sitecore.Context.IsLoggedIn)
+                {
+                <footer ng-if="accountInformation.userName && cartHasMobile()">
                     <div class="border"></div>
                     <h3 class="stream-account">@Html.Sitecore().Field("My Stream Account")</h3>
                     <div class="content">
                         <h3>@Html.Sitecore().Field("Welcome Text")</h3>
-                        <div class="contact">@Html.Sitecore().Field("Username") username</div>
+                        <div class="contact">@Html.Sitecore().Field("Username") {{accountInformation.userName}}</div>
                         <div class="contact">@Html.Sitecore().Field("Password")</div>
                         <p><a href="">@Html.Sitecore().Field("Go to Account Text:")</a></p>
                     </div>
                 </footer>
+                }
             </article>
             <article ng-if="customerType == 'commercial' && !isRenewal && !cartHasMobile()" class="commercial-next-steps enrollment__box">
                 <div class="content">
