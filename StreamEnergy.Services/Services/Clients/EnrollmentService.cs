@@ -636,6 +636,10 @@ namespace StreamEnergy.Services.Clients
                                         group new { deposit.Location, deposit.Offer, DollarAmount = (depositAlternative ? amt.DepositAlternativeAmount : amt.DollarAmount) } by new { amt.SystemOfRecord, amt.DepositAccount, InvoiceType = (depositAlternative ? "DepositAlternative" : "Deposit") })
                 {
                     var depositAmount = deposit.Sum(d => d.DollarAmount);
+                    if (context.EnrolledInAutoPay && deposit.Key.SystemOfRecord == "BeQuick")
+                    {
+                        depositAmount = depositAmount - 20;
+                    }
                     if (depositAmount == 0)
                     {
                         continue;
