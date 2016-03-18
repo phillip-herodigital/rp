@@ -557,7 +557,7 @@ article.digital-voice {
 
 
     .device-features {
-        &.border .col {
+        .border .col {
             border-image: none;
             border-left-color: #b7b7b7;
         }
@@ -590,7 +590,7 @@ article.digital-voice {
             }
         }
         .voice-hub-features {
-            margin: 33px 0;
+            margin: 10px 0 0;
             .heading-wrapper {
                 overflow: hidden;
                 .rotate180 {

@@ -1,23 +1,23 @@
 ﻿<article class="marketing digital-voice">
-    <div class="wrapper">
-        <div class="grid border device-features three">
-            <div class="col ">
+    <div class="wrapper device-features">
+        <div class="grid border three">
+            <div class="col">
                 @Html.Sitecore().Field("Hub Features")
-                <div class="voice-hub-features">
-                    <div class="heading-wrapper" ng-click="showHubFeatures = !showHubFeatures">
-                        <img ng-class="{rotate180: showHubFeatures, rotate0: !showHubFeatures}" src="~/frontend/assets/i/marketing/redesign/Modules/Services/drop_down_image.png" />
-                        <a class="drop-down" ng-hide="showHubFeatures" href="">@Html.Sitecore().Field("Drop Down Text1")</a>
-                        <a class="drop-down" ng-show="showHubFeatures" href="">@Html.Sitecore().Field("Drop Down Text2")</a>
-                    </div>
-                    <div ng-class="{slideIn: showHubFeatures, slideOut: !showHubFeatures}" ng-cloak>@Html.Sitecore().Field("Features Text")</div>
-                </div>
             </div>
-            <div class="col ">
+            <div class="col">
                 @Html.Sitecore().Field("Air Features")
             </div>
-            <div class="col ">
+            <div class="col">
                 @Html.Sitecore().Field("Bridge Features")
             </div>
+        </div>
+        <div class="voice-hub-features">
+            <div class="heading-wrapper" ng-click="showHubFeatures = !showHubFeatures">
+                <img ng-class="{rotate180: showHubFeatures, rotate0: !showHubFeatures}" src="~/frontend/assets/i/marketing/redesign/Modules/Services/drop_down_image.png" />
+                <a class="drop-down" ng-hide="showHubFeatures" href="">@Html.Sitecore().Field("Drop Down Text1")</a>
+                <a class="drop-down" ng-show="showHubFeatures" href="">@Html.Sitecore().Field("Drop Down Text2")</a>
+            </div>
+            <div ng-class="{slideIn: showHubFeatures, slideOut: !showHubFeatures}" ng-cloak>@Html.Sitecore().Field("Features Text")</div>
         </div>
     </div>
 </article>

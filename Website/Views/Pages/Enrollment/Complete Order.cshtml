@@ -50,10 +50,10 @@
                             <div class="content">
                                 <div class="payment-options" credit-card-payment="completeOrder.creditCard" data-val-if="true"></div>
                             </div>
-                            <footer class="autopay-activation" ng-if="cartHasMobile() && !autopay">
+                            <footer class="autopay-activation" ng-if="cartHasMobile()">
                                 <h2>@Html.Sitecore().Field("Turn on AutoPay")</h2>
                                 <p>@Html.Sitecore().Field("Turn on AutoPay Details")</p>
-                                <button class="autopay" ng-click="addAutopay()">@Html.Sitecore().Field("Activate AutoPay Button")</button>
+                                <input name="autopay" type="checkbox" ng-model="completeOrder.autopay" /><label for="autopay" class="autopay">@Html.Sitecore().Field("Activate AutoPay Button")</label>
                             </footer>
                         </article>
                         <article class="enrollment__box enrollment__business-info" ng-if="customerType == 'commercial' && cartHasMobile()">
@@ -300,7 +300,7 @@
                                         </li>
                                     </ul>
                                 </div>
-                                <div class="item" @Html.Validation().ErrorClass(m => m.AgreeToAutoPayTerms) ng-if="autopay && cartHasMobile()">
+                                <div class="item" @Html.Validation().ErrorClass(m => m.AgreeToAutoPayTerms) ng-if="completeOrder.autopay && cartHasMobile()">
                                     <ul class="checkbox-list">
                                         <li>
                                             @Html.CheckBoxFor(m => m.AgreeToAutoPayTerms, new { ng_model = "completeOrder.agreeToAutoPayTerms", data_val = "true", data_val_required = "" })
@@ -316,7 +316,7 @@
 
                         </div>
                         <div class="buttons">
-                            <button type="submit" class="primary" ng-if="(customerType != 'commercial' || cartHasMobile()) && !isRenewal" ng-click="completeOrder.nonExisting = true" ng-disabled="!completeOrder.agreeToTerms || (autopay && cartHasMobile() && !completeOrder.agreeToAutoPayTerms)" data-val-submit>@Html.Sitecore().Field("Button")</button>
+                            <button type="submit" class="primary" ng-if="(customerType != 'commercial' || cartHasMobile()) && !isRenewal" ng-click="completeOrder.nonExisting = true" ng-disabled="!completeOrder.agreeToTerms || (completeOrder.autopay && cartHasMobile() && !completeOrder.agreeToAutoPayTerms)" data-val-submit>@Html.Sitecore().Field("Button")</button>
                             <button type="submit" class="primary" ng-if="customerType == 'commercial' && !isRenewal && !cartHasMobile()" ng-disabled="!completeOrder.additionalAuthorizations.historicalUsageData" data-val-submit>@Html.Sitecore().Field("Commercial Button")</button>
                             <button type="submit" class="primary" ng-if="isRenewal" ng-disabled="!completeOrder.agreeToTerms" data-val-submit>@Html.Sitecore().Field("Renewal Button")</button>
                             <button type="button" class="tertiary" ng-if="!isRenewal" ng-click="resetEnrollment();">
@@ -395,7 +395,7 @@
         <div class="description">
             @Html.Sitecore().Field("Text - Phone number"){{id+1}} {{item.transferInfo.phoneNumber | phone}}
         </div>
-        <div ng-if="selectedOffer.payments.requiredAmounts[0].activationFee > 0 && !autopay">
+        <div ng-if="selectedOffer.payments.requiredAmounts[0].activationFee > 0 && !completeOrder.autopay">
             <div class="description fee">
                 @Html.Sitecore().Field("Initial Activation Fee Text")
             </div>
@@ -631,7 +631,7 @@
                 </div>
                 <div class="rate device-price" ng-if="selectedOffer.payments.requiredAmounts[0].phoneCharge > 0">{{ selectedOffer.payments.requiredAmounts[0].phoneCharge | currency }}</div>
             </div>
-            <div class="line-item autopay subheading" ng-if="autopay && cartHasMobile()">
+            <div class="line-item autopay subheading" ng-show="completeOrder.autopay && cartHasMobile()">
                 <div class="description">
                     <i class="autopay-small"></i>
                     <h2>AutoPay Activation Refund</h2>
