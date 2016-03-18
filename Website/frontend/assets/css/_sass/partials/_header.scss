@@ -239,7 +239,7 @@
 
                         .home {
                             .subheading {
-                                padding: 0 8px;
+                                padding: 0 24px 0 0;
                             }
                         }
 
@@ -254,17 +254,11 @@
                         }
 
                         ul {
-                            display: initial;
-                            list-style-image: initial;
-
                             li {
-                                list-style-image: initial;
                                 list-style-type: disc;
-                                margin: 0 0 0 10px;
+                                margin: 0 0 0 15px;
                                 padding: 0px;
                                 display: list-item;
-                                vertical-align: initial;
-                                white-space: initial;
                                 border: none;
                                 text-indent: -7px;
                                 line-height: 30px;
