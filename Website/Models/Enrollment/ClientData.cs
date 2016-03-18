@@ -33,6 +33,8 @@ namespace StreamEnergy.MyStream.Models.Enrollment
 
         public bool EnrolledInAutoPay { get; set; }
 
+        public decimal AutoPayDiscount { get; set; }
+
         public string NewAccountUserName { get; set; }
 
         public IEnumerable<DomainModels.Enrollments.UserAccountDetails> LoggedInAccountDetails { get; set; }

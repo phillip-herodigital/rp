@@ -578,6 +578,7 @@ FROM [SwitchBack] WHERE ESIID=@esiId";
                 IsSinglePage = stateMachine.Context.IsSinglePage,
                 LoggedInCustomerId = stateMachine.Context.LoggedInCustomerId,
                 EnrolledInAutoPay = stateMachine.Context.EnrolledInAutoPay,
+                AutoPayDiscount = stateMachine.Context.AutoPayDiscount,
                 NewAccountUserName = stateMachine.Context.OnlineAccount == null ? "" : stateMachine.Context.OnlineAccount.Username,
                 LoggedInAccountDetails = stateMachine.Context.LoggedInAccountDetails,
                 NeedsRefresh = isNeedsRefresh,
@@ -989,6 +990,7 @@ FROM [SwitchBack] WHERE ESIID=@esiId";
             stateMachine.Context.AgreeToAutoPayTerms = request.AgreeToAutoPayTerms;
             stateMachine.Context.W9BusinessData = request.W9BusinessData;
             stateMachine.Context.EnrolledInAutoPay = request.AutoPay;
+            stateMachine.Context.AutoPayDiscount = Convert.ToDecimal(settings.GetSettingsValue("Mobile Enrollment Options", "AutoPay Discount"));
             
             foreach (var locationService in stateMachine.Context.Services)
             {

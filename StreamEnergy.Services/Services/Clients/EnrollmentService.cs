@@ -638,7 +638,7 @@ namespace StreamEnergy.Services.Clients
                     var depositAmount = deposit.Sum(d => d.DollarAmount);
                     if (context.EnrolledInAutoPay && deposit.Key.SystemOfRecord == "BeQuick")
                     {
-                        depositAmount = depositAmount - 20;
+                        depositAmount = depositAmount - context.AutoPayDiscount;
                     }
                     if (depositAmount == 0)
                     {

@@ -22,6 +22,8 @@ namespace StreamEnergy.DomainModels.Enrollments
 
         public bool EnrolledInAutoPay { get; set; }
 
+        public decimal AutoPayDiscount { get; set; }
+
         public IEnumerable<UserAccountDetails> LoggedInAccountDetails { get; set; }
 
         public bool NeedsRefresh { get; set; }
