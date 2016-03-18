@@ -853,6 +853,18 @@ article.contact-state {
                     font-size: 18px;
                 }
             }
+			.chat {
+				padding-left: 50px;
+				background-image: url('../i/icon/chat.png');
+				background-repeat: no-repeat;
+                background-position: top left;
+				h2 {
+					font-size: 22px;
+				}
+				p {
+					margin: 0px;
+				}
+			}
         }
     }
     .emergency {
