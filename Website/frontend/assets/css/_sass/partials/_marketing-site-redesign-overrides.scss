@@ -1535,7 +1535,6 @@ article.mobile-tools-switch {
 
 article.mobile-interested {
     background: image-url('marketing/redesign/pattern_bg_2.png') repeat scroll center 0;
-    margin-bottom: -30px;
 
     .wrapper {
         padding: 0;
@@ -2554,11 +2553,16 @@ article.mobile-pricing-plans {
         // }
 
         .inner {
-            padding-top: 90px;
-			padding: 0px 70px 0px 90px;
+            //padding-top: 90px;
             margin-bottom: 25px;
             //margin: 0 30px;
             background: 0px 0px no-repeat;
+			&.tools {
+				padding: 0px 70px 0px 90px;
+			}
+			&.overview {
+				padding-left: 120px;
+			}
             h3 {
                 color: #3c535c;
                 font-weight: 600;
@@ -3181,10 +3185,15 @@ article.marketing.mobile.cdma-pricing-plans {
                 font-style: italic;
             }
         }
+		.footnote {
+			background: none;
+			clear: both;
+		}
         .add-price {
             width: 30%;
             float: right;
             padding-left: 70px;
+			min-height: 242px;
             span {
                 font-size: 45px;
                 color: #0090d4;
@@ -3197,6 +3206,23 @@ article.marketing.mobile.cdma-pricing-plans {
                 width: 100%;
                 float: left;
             }
+        }
+    }
+}
+
+.mobile-plans-footnote {
+    background: url('../i/marketing/redesign/Modules/module_background.png?1440631907') no-repeat center top;
+    p {
+        margin-top: 0px;
+        font-size: 12px;
+        text-align: left;
+    }
+    &.mobile-plans {
+        background-color: #fff;
+        max-width: 100%;
+        p {
+            max-width: 1060px;
+            margin: auto;
         }
     }
 }
