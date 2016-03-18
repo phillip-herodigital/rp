@@ -11,7 +11,7 @@
                                 @Html.Sitecore().Field("Enter Number")
                                 <a href="" ng-click="showModal('instructions/imei');">@Html.Sitecore().Field("What Is This")</a>
                             </label>
-                            <input class="full" name="imeiNumber" type="text" ng-model="form.esn" data-val="true" data-val-required placeholder="@Html.Sitecore().Field("Enter Number")" />
+                            <input class="full" name="imeiNumber" type="number" ng-model="form.esn" data-val="true" data-val-required placeholder="@Html.Sitecore().Field("Enter Number")" />
                         </div>
                         <div class="input-group-btn">
                             <button type="submit">@Html.Sitecore().Field("Check Text")</button>
