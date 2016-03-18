@@ -577,6 +577,7 @@ FROM [SwitchBack] WHERE ESIID=@esiId";
                 IsRenewal = stateMachine.Context.IsRenewal,
                 IsSinglePage = stateMachine.Context.IsSinglePage,
                 LoggedInCustomerId = stateMachine.Context.LoggedInCustomerId,
+                EnrolledInAutoPay = stateMachine.Context.EnrolledInAutoPay,
                 NewAccountUserName = stateMachine.Context.OnlineAccount == null ? "" : stateMachine.Context.OnlineAccount.Username,
                 LoggedInAccountDetails = stateMachine.Context.LoggedInAccountDetails,
                 NeedsRefresh = isNeedsRefresh,
@@ -987,6 +988,8 @@ FROM [SwitchBack] WHERE ESIID=@esiId";
             stateMachine.Context.AgreeToTerms = request.AgreeToTerms;
             stateMachine.Context.AgreeToAutoPayTerms = request.AgreeToAutoPayTerms;
             stateMachine.Context.W9BusinessData = request.W9BusinessData;
+            stateMachine.Context.EnrolledInAutoPay = request.AutoPay;
+            
             foreach (var locationService in stateMachine.Context.Services)
             {
                 foreach (var offer in locationService.SelectedOffers)

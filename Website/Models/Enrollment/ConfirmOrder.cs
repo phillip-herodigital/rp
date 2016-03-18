@@ -15,5 +15,6 @@ namespace StreamEnergy.MyStream.Models.Enrollment
         public IEnumerable<DepositWaiver> DepositWaivers { get; set; }
         public IEnumerable<DepositAlternative> DepositAlternatives { get; set; }
         public W9BusinessData W9BusinessData { get; set; }
+        public bool AutoPay { get; set; }
     }
 }
