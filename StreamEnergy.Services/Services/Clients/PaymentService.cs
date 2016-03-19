@@ -294,6 +294,33 @@ namespace StreamEnergy.Services.Clients
             }
         }
 
+        async Task<bool> IPaymentService.SetAutoPayStatus(Guid streamConnectCustomerID, Guid streamConnectAccountID, AutoPaySetting autoPaySetting, string securityCode)
+        {
+            if (autoPaySetting.IsEnabled)
+            {
+                var response = await streamConnectClient.PostAsJsonAsync("/api/v1/customers/" + streamConnectCustomerID.ToString() + "/accounts/" + streamConnectAccountID.ToString() + "/autopay",
+                    new
+                    {
+                        GlobalPaymentMethodId = autoPaySetting.PaymentMethodId,
+                        Cvv = securityCode
+                    });
+                response.EnsureSuccessStatusCode();
+
+                dynamic jobject = Json.Read<JObject>(await response.Content.ReadAsStringAsync());
+
+                return jobject.Status.ToString() == "Success";
+            }
+            else
+            {
+                var response = await streamConnectClient.DeleteAsync("/api/v1/customers/" + streamConnectCustomerID.ToString() + "/accounts/" + streamConnectAccountID.ToString() + "/autopay");
+                response.EnsureSuccessStatusCode();
+
+                dynamic jobject = Json.Read<JObject>(await response.Content.ReadAsStringAsync());
+
+                return jobject.Status.ToString() == "Success";
+            }
+        }
+
         Task<bool> IPaymentService.DetectDuplicatePayments(PaymentRecord[] paymentRecords)
         {
             var session = sessionResolver();
