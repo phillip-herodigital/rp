@@ -82,6 +82,7 @@
         // set the identity questions from the server
         service.identityQuestions = result.identityQuestions;
 
+        // show an error message if there is an problem processing payemnt
         service.paymentError = result.paymentError;
 
         service.isRenewal = result.isRenewal;
@@ -396,6 +397,10 @@
             .then(function (data) {
                 return data;
             });
+    };
+
+    service.getPaymentError = function () {
+        return service.paymentError;
     };
 
     return service;

@@ -39,6 +39,7 @@ ngApp.controller('EnrollmentCompleteOrderCtrl', ['$scope', 'enrollmentService', 
     $scope.getDeviceDetails = enrollmentCartService.getDeviceDetails;
     $scope.llcClassifcation = '';
     $scope.currentDate = new Date();
+    $scope.paymentError = enrollmentService.getPaymentError;
 
 
     _.intersectionObjects = _.intersect = function(array) {
