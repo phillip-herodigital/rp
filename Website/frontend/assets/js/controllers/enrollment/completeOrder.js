@@ -14,7 +14,7 @@ ngApp.controller('EnrollmentCompleteOrderCtrl', ['$scope', 'enrollmentService', 
     $scope.w9BusinessData = {};
     $scope.getCartCount = enrollmentCartService.getCartCount;
     $scope.getCartItems = enrollmentCartService.getCartItems;  
-    $scope.autopayDiscount = 20;
+    $scope.autopayDiscount = $scope.mobileEnrollmentSettings.autoPayDiscount;
     $scope.getCartTotal = function () {
         if ($scope.completeOrder.autopay) {
             return enrollmentCartService.calculateCartTotal() - ($scope.autopayDiscount * $scope.getDevicesCount());

@@ -31,16 +31,16 @@
                 </div>
                 @if (Sitecore.Context.IsLoggedIn)
                 {
-                <footer ng-if="accountInformation.userName && cartHasMobile()">
-                    <div class="border"></div>
-                    <h3 class="stream-account">@Html.Sitecore().Field("My Stream Account")</h3>
-                    <div class="content">
-                        <h3>@Html.Sitecore().Field("Welcome Text")</h3>
-                        <div class="contact">@Html.Sitecore().Field("Username") {{accountInformation.userName}}</div>
-                        <div class="contact">@Html.Sitecore().Field("Password")</div>
-                        <p><a href="">@Html.Sitecore().Field("Go to Account Text:")</a></p>
-                    </div>
-                </footer>
+                    <footer ng-if="accountInformation.userName && cartHasMobile()">
+                        <div class="border"></div>
+                        <h3 class="stream-account">@Html.Sitecore().Field("My Stream Account")</h3>
+                        <div class="content">
+                            <h3>@Html.Sitecore().Field("Welcome Text")</h3>
+                            <div class="contact">@Html.Sitecore().Field("Username") {{accountInformation.userName}}</div>
+                            <div class="contact">@Html.Sitecore().Field("Password")</div>
+                            <p>@Html.Sitecore().Field("Go to Account Text")</p>
+                        </div>
+                    </footer>
                 }
             </article>
             <article ng-if="customerType == 'commercial' && !isRenewal && !cartHasMobile()" class="commercial-next-steps enrollment__box">
@@ -67,7 +67,6 @@
                     </div>
                 </div>
             </article>
-
             <article class="monthly-cost enrollment__box" ng-if="cartHasMobile()">
                 <div class="content">
                     <h1>@Html.Sitecore().Field("Header - Estimated Monthly Cost")</h1>
@@ -109,7 +108,6 @@
                     </div>
                 </div>
             </article>
-
             <article class="enrollment__box confirm-personal-info" ng-if="!cartHasMobile()">
                 <div class="content">
                     <div class="grid">
@@ -346,7 +344,7 @@
                     <h2>@Html.Sitecore().Field("Text - AutoPay Discount")</h2>
                     <p class="note">@Html.Sitecore().Field("Text - Enrolling in AutoPay")</p>
                 </div>
-                <div class="rate">-{{autopaySavings | currency}}</div>
+                <div class="rate">-{{autoPayDiscount| currency}}</div>
             </div>
         </div>
     </div>

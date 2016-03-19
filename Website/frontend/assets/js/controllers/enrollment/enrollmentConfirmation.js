@@ -25,10 +25,8 @@ ngApp.controller('EnrollmentConfirmationCtrl', ['$scope', '$window', 'enrollment
         window.print();
     };
 
-    $scope.autopay = true;
-    $scope.autopaySavings = 20;
     $scope.totalAutoPaySavings = function () {
-        return $scope.autopaySavings * $scope.getCartItems().length;
+        return $scope.autoPayDiscount * $scope.getCartItems().length;
     }
 
     $scope.$watch(mobileEnrollmentService.getPhoneData, function (phoneData) {
@@ -94,12 +92,11 @@ ngApp.controller('EnrollmentConfirmationCtrl', ['$scope', '$window', 'enrollment
                 var slashPosition = userName.indexOf("\\");
                 userName = userName.substring(slashPosition + 1);
             }
-            else {
-                $scope.autopay = false;
-            }
             $scope.accountInformation.userName = userName;
             $scope.accountInformation.secondaryContactInfo = result.secondaryContactInfo || {};
             $scope.accountInformation.mailingAddress = result.mailingAddress || {};
+            $scope.autopay = result.enrolledInAutoPay;
+            $scope.autoPayDiscount = result.autoPayDiscount;
 
             // set the customer type, since we're no longer using the enrollment main controller
             $scope.customerType = $scope.getCartItems()[0].location.capabilities[2].customerType;

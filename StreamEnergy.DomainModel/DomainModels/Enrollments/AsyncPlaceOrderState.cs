@@ -16,14 +16,16 @@ namespace StreamEnergy.DomainModels.Enrollments
         private readonly DomainModels.Accounts.IAccountService accountService;
         private readonly ICurrentUser currentUser;
         private readonly MembershipBuilder membership;
+        private readonly DomainModels.Payments.IPaymentService paymentService;
 
-        public AsyncPlaceOrderState(IEnrollmentService enrollmentService, DomainModels.Accounts.IAccountService accountService, ICurrentUser currentUser, MembershipBuilder membership)
+        public AsyncPlaceOrderState(IEnrollmentService enrollmentService, DomainModels.Accounts.IAccountService accountService, ICurrentUser currentUser, MembershipBuilder membership, DomainModels.Payments.IPaymentService paymentService)
             : base(typeof(PlaceOrderState), typeof(OrderConfirmationState))
         {
             this.enrollmentService = enrollmentService;
             this.accountService = accountService;
             this.currentUser = currentUser;
             this.membership = membership;
+            this.paymentService = paymentService;
         }
 
         public override bool IgnoreValidation(System.ComponentModel.DataAnnotations.ValidationResult validationResult, UserContext context, InternalContext internalContext)
@@ -52,6 +54,15 @@ namespace StreamEnergy.DomainModels.Enrollments
                 if (internalContext.PlaceOrderAsyncResult.IsCompleted)
                 {
                     internalContext.PlaceOrderResult = internalContext.PlaceOrderAsyncResult.Data;
+                    var paymentInfo = ((DomainModels.Payments.TokenizedCard)context.PaymentInfo);
+                    var nickname = paymentInfo.Type + " - " + paymentInfo.CardToken.Substring(paymentInfo.CardToken.Length - 4);
+                    IEnumerable<Account> accounts = Enumerable.Empty<Account>(); 
+                    Guid paymentMethodID = Guid.Empty;
+                    if (context.EnrolledInAutoPay)
+                    {
+                        accounts = await accountService.GetAccounts(internalContext.GlobalCustomerId);
+                        paymentMethodID = await paymentService.SavePaymentMethod(internalContext.GlobalCustomerId, paymentInfo, nickname);
+                    }
                     foreach (var placeOrderResult in internalContext.PlaceOrderResult)
                     {
                         if (placeOrderResult.Details.IsSuccess)
@@ -62,6 +73,16 @@ namespace StreamEnergy.DomainModels.Enrollments
                             {
                                 placeOrderResult.Details.IsSuccess = false;
                             }
+                        }
+                        if (context.EnrolledInAutoPay && paymentMethodID != Guid.Empty)
+                        {
+                            var account = accounts.FirstOrDefault(a => a.AccountNumber == placeOrderResult.Details.ConfirmationNumber);
+                            await paymentService.SetAutoPayStatus(internalContext.GlobalCustomerId, account.StreamConnectAccountId, new DomainModels.Payments.AutoPaySetting
+                                {
+                                    IsEnabled = true,
+                                    PaymentMethodId = paymentMethodID
+                                },
+                                paymentInfo.SecurityCode);
                         }
                     }
                 }
