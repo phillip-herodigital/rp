@@ -39,6 +39,8 @@ namespace StreamEnergy.MyStream.Models.Enrollment
 
         public IEnumerable<DomainModels.Enrollments.UserAccountDetails> LoggedInAccountDetails { get; set; }
 
+        public bool PaymentError { get; set; }
+
         public bool IsLoading { get; set; }
 
         public bool IsTimeout { get; set; }

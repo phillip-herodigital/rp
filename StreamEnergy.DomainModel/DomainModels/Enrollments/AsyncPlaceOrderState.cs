@@ -63,6 +63,7 @@ namespace StreamEnergy.DomainModels.Enrollments
                         accounts = await accountService.GetAccounts(internalContext.GlobalCustomerId);
                         paymentMethodID = await paymentService.SavePaymentMethod(internalContext.GlobalCustomerId, paymentInfo, nickname);
                     }
+                    bool hasAllMobile = internalContext.PlaceOrderResult.All(o => o.Offer.OfferType == "Mobile");
                     foreach (var placeOrderResult in internalContext.PlaceOrderResult)
                     {
                         if (placeOrderResult.Details.IsSuccess)
@@ -85,6 +86,12 @@ namespace StreamEnergy.DomainModels.Enrollments
                                 paymentInfo.SecurityCode);
                         }
                     }
+                    if (hasAllMobile && internalContext.PlaceOrderResult.Any(o => o.Details.PaymentConfirmation.Status != "Success"))
+                    {
+                        context.PaymentError = true;
+                        return typeof(CompleteOrderState);
+                    }
+                        
                 }
             }
 
