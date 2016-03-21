@@ -62,62 +62,26 @@ namespace StreamEnergy.MyStream.Controllers
             Item mobileSettings = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Settings/Mobile Enrollment Options");
             Item dataPlansItem = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Taxonomy/Modules/Mobile/Mobile Data Plans");
             Item planRecommendationItem = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Taxonomy/Modules/Mobile/Plan Recommendations/Plan Recommendations");
-            MultilistField attConsumerIndividualPlans = planRecommendationItem.Fields["ATT Consumer Individual Plans"];
-            MultilistField attConsumerGroupPlans = planRecommendationItem.Fields["ATT Consumer Group Plans"];
-            MultilistField sprintConsumerIndividualPlans = planRecommendationItem.Fields["Sprint Consumer Individual Plans"];
-            MultilistField sprintConsumerGroupPlans = planRecommendationItem.Fields["Sprint Consumer Group Plans"];
+            MultilistField plans = planRecommendationItem.Fields["Individual Plans"];
 
             var dataPlans = dataPlansItem.Children.Select(child => new
             {
-                Carrier = child.Name.ToLower(),
-                Plans = child.Children.Select(plans => new
-                {
-                    ID = plans.ID.ToString(),
-                    PlanId = plans.Fields["Plan ID"].Value,
-                    data = plans.Fields["Data"].Value,
-                    price = plans.Fields["Price"].Value
-                })
+                ID = child.ID.ToString(),
+                PlanId = child.Fields["Plan ID"].Value,
+                data = child.Fields["Data"].Value,
+                price = child.Fields["Price"].Value,
+                includesInternational = child.Fields["Includes International"].Value == "1" ? true : false,
             });
 
             var recommendedPlans = new
             {
-                ATT = new
-                {
-                    Individual = new List<object>(),
-                    Group = new List<object>()
-                },
                 Sprint = new
                 {
-                    Individual = new List<object>(),
-                    Group = new List<object>()
+                    Individual = new List<object>()
                 }
             };
 
-            foreach (ID id in attConsumerIndividualPlans.TargetIDs)
-            {
-                Item targetItem = Sitecore.Context.Database.Items[id];
-                recommendedPlans.ATT.Individual.Add(new
-                {
-                    ID = targetItem.ID.ToString(),
-                    PlanId = targetItem.Fields["Plan ID"].Value,
-                    data = targetItem.Fields["Data"].Value,
-                    price = targetItem.Fields["Price"].Value
-                });
-            }
-
-            foreach (ID id in attConsumerGroupPlans.TargetIDs)
-            {
-                Item targetItem = Sitecore.Context.Database.Items[id];
-                recommendedPlans.ATT.Group.Add(new
-                {
-                    ID = targetItem.ID.ToString(),
-                    PlanId = targetItem.Fields["Plan ID"].Value,
-                    data = targetItem.Fields["Data"].Value,
-                    price = targetItem.Fields["Price"].Value
-                });
-            }
-
-            foreach (ID id in sprintConsumerIndividualPlans.TargetIDs)
+            foreach (ID id in plans.TargetIDs)
             {
                 Item targetItem = Sitecore.Context.Database.Items[id];
                 recommendedPlans.Sprint.Individual.Add(new
@@ -127,19 +91,7 @@ namespace StreamEnergy.MyStream.Controllers
                     data = targetItem.Fields["Data"].Value,
                     price = targetItem.Fields["Price"].Value
                 });
-            }
-
-            foreach (ID id in sprintConsumerGroupPlans.TargetIDs)
-            {
-                Item targetItem = Sitecore.Context.Database.Items[id];
-                recommendedPlans.Sprint.Group.Add(new
-                {
-                    ID = targetItem.ID.ToString(),
-                    PlanId = targetItem.Fields["Plan ID"].Value,
-                    data = targetItem.Fields["Data"].Value,
-                    price = targetItem.Fields["Price"].Value
-                });
-            }
+            };
 
             List<object> carriers = new List<object>();
             carriers.Add(new

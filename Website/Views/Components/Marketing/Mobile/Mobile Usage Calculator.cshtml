@@ -579,23 +579,101 @@
                             @GetFieldValue("Based On Usage Text")<span class="usageText" ng-bind="calculatorTotalInGB()" /><span class="usageText">GB, </span>@GetFieldValue("Stream Recommends")
                         </div>
                     </div>
-                        <div class="grid frame">
-                                @*<div class="recommended" ng-style="{width: calculatorRecommendationInPct() + '%'}" ng-show="calculatorTotalInGB(10) > 0">
-                                <span class="label">@GetFieldValue("Recommended Data")</span>
-                            </div>*@
-                            <div class="ruler">
-                                |  |  |  |  |  @GetFieldValue("1GB") |  |  |  |  |  @GetFieldValue("2GB") |  |  |  |  |  @GetFieldValue("3GB") |  |  |  |  |  @GetFieldValue("4GB") |  |  |  |  |  @GetFieldValue("5GB") |  |  |  |  |  @GetFieldValue("6GB") |  |  |  |  |  @GetFieldValue("Unlimited")
+                    <div class="grid frame clearfix">
+                        <div class="pre-estimate"></div>
+                        <div class="estimate-container">
+                            <div class="estimate" ng-style="{width: calculatorTotalInPct() + '%'}"></div>
+                        </div>
+                        <div class="post-estimate" ng-class="{background: calculatorTotalInPct() >= 100}"></div>
+                        <div class="rec-plan-container clearfix">
+                            <div class="ruler clearfix">
+                                <span class="slider-tick-ruler"></span>
+                                <span class="slider-tick-ruler"></span>
+                                <span class="slider-tick-ruler"></span>
+                                <span class="slider-tick-ruler"></span>
+                                <span class="slider-tick-ruler"></span>
+                                <span class="slider-tick-ruler text">@GetFieldValue("1GB")</span>
+                                <span class="slider-tick-ruler"></span>
+                                <span class="slider-tick-ruler"></span>
+                                <span class="slider-tick-ruler"></span>
+                                <span class="slider-tick-ruler"></span>
+                                <span class="slider-tick-ruler"></span>
+                                <span class="slider-tick-ruler text small">@GetFieldValue("2GB")</span>
+                                <span class="slider-tick-ruler"></span>
+                                <span class="slider-tick-ruler"></span>
+                                <span class="slider-tick-ruler"></span>
+                                <span class="slider-tick-ruler"></span>
+                                <span class="slider-tick-ruler"></span>
+                                <span class="slider-tick-ruler text">@GetFieldValue("3GB")</span>
+                                <span class="slider-tick-ruler"></span>
+                                <span class="slider-tick-ruler"></span>
+                                <span class="slider-tick-ruler"></span>
+                                <span class="slider-tick-ruler"></span>
+                                <span class="slider-tick-ruler"></span>
+                                <span class="slider-tick-ruler text small">@GetFieldValue("4GB")</span>
+                                <span class="slider-tick-ruler"></span>
+                                <span class="slider-tick-ruler"></span>
+                                <span class="slider-tick-ruler"></span>
+                                <span class="slider-tick-ruler"></span>
+                                <span class="slider-tick-ruler"></span>
+                                <span class="slider-tick-ruler text">@GetFieldValue("5GB")</span>
+                                <span class="slider-tick-ruler"></span>
+                                <span class="slider-tick-ruler"></span>
+                                <span class="slider-tick-ruler"></span>
+                                <span class="slider-tick-ruler"></span>
+                                <span class="slider-tick-ruler"></span>
+                                <span class="slider-tick-ruler text small">@GetFieldValue("6GB")</span>
+                                <span class="slider-tick-ruler"></span>
+                                <span class="slider-tick-ruler"></span>
+                                <span class="slider-tick-ruler"></span>
+                                <span class="slider-tick-ruler"></span>
+                                <span class="slider-tick-ruler"></span>
+                                <span class="slider-tick-ruler"></span>
+                                <span class="slider-tick-ruler"></span>
+                                <span class="slider-tick-ruler text unlimited">@GetFieldValue("Unlimited")</span>
+                                <span class="slider-tick-ruler text infinity">&infin;</span>
                             </div>
-                            <div class="estimate" ng-style="{width: calculatorTotalInPct() + '%'}"></div>      
-                            <div class="rec-plan-container">
-                                <div class="rec-plan-box boxA"></div>
-                                <div class="rec-plan-box"></div>
-                                <div class="rec-plan-box"></div>
-                                <div class="rec-plan-box"></div>
+                            <div class="rec-plan-box clearfix" ng-repeat="plan in serverData.dataPlans | filter: filterPlans">
+                                <div class="recommended-box">
+                                    <div class="heading" ng-show="recommendedPlanData == plan.data">
+                                        <h3>@GetFieldValue("Recommended Plan")</h3>
+                                    </div>
+                                </div>
+                                <div class="plan-box" ng-class="{recommended: recommendedPlanData == plan.data}">
+                                    <div class="size-speed">
+                                        <div class="size" ng-if="plan.data != 'Unlimited'">{{ plan.data }}<span>GB</span></div>
+                                        <div class="size" ng-if="plan.data == 'Unlimited'"><span class="unlimited">@Html.Sitecore().Field("Unlimited")</span></div>
+                                        <div class="speed">@GetFieldValue("4G LTE Data")</div>
+                                    </div>
+                                    <hr class="divider" />
+                                    <div class="price">
+                                        <div class="cost">${{plan.price}}</div>
+                                        <div class="duration">@GetFieldValue("Per Month")</div>
+                                    </div>
+                                    <div class="extra-info">
+                                        <hr class="divider" ng-if="plan.includesInternational" />
+                                        <div class="international clearfix" ng-if="plan.includesInternational">
+                                            <i class="icon-international-phone"></i>
+                                            <p>@GetFieldValue("Stream International Plus")</p>
+                                        </div>
+                                    </div>
+                                    <hr class="divider" />
+                                    <div class="description">
+                                        <p>@GetFieldValue("Unlimited Talk")</p>
+                                        <p>@GetFieldValue("Nationwide Coverage")</p>
+                                    </div>
+                                    <a class="button" href="/enrollment?ServiceType=Mob&MobilePlanId={{plan.planId}}">
+                                        @GetFieldValue("Select")
+                                    <span ng-show="plan.data != 'Unlimited'">{{plan.data}}@Html.Sitecore().Field("GB Text")</span>
+                                    <span ng-show="plan.data == 'Unlimited'">@Html.Sitecore().Field("Unlimited")</span>
+                                    @GetFieldValue("Plan")
+                                </a>
                             </div>
+                        </div>
+                        </div>
                     </div>
                     <div class="usageLinks mktgStyle">
-                        <a href="/services/mobile/plans" ng-click="">@Html.Sitecore().Field("View Plan Details")</a> | <a class="a2" href="/services/mobile/coverage-map#?carrier=sprint">@GetFieldValue("Launch Coverage Map")</a> | <a class="a3" ng-click="" href="/services/mobile/faqs">@Html.Sitecore().Field("Mobile FAQs")</a>
+                        <a href="/services/mobile/plans" ng-click="">@GetFieldValue("View Plan Details")</a> | <a class="a2" href="/services/mobile/coverage-map#?carrier=sprint">@GetFieldValue("Launch Coverage Map")</a> | <a class="a3" ng-click="" href="/services/mobile/faqs">@Html.Sitecore().Field("Mobile FAQs")</a>
                     </div>
                     <div class="grid mktgStyle">
                         <div class="col left clearfix">
@@ -608,7 +686,7 @@
                             </div>
                         </div>
                         <div class="useColRight">
-                            <div>@GetFieldValue("Stream Plus Text")<br /><span class="dollar">$4.99</span><span class="dollarMonth">/month</span></div>
+                            <div>@GetFieldValue("Stream Plus Text")<br /><span class="dollar">@GetFieldValue("Stream Plus Price")</span><span class="dollarMonth">/month</span></div>
                         </div>
                     </div>
                     @*<div class="grid" ng-show="isModal">
