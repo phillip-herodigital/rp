@@ -1747,6 +1747,24 @@
 
     .card-details {
 
+        .notice.alert {
+            background-image: none;
+            @include border-radius(0);
+            border-top: 1px solid #ffe973;
+            border-bottom: 1px solid #ffe973;
+            border-left: none;
+            border-right: none;
+            padding: 20px;
+            margin: -21px -20px 20px;
+            font-size: 18px;
+            color: #013c5b;
+            h3 {
+                font-size: 20px;
+                font-weight: 600;
+                color: #f20000;
+            }
+        }
+
         footer.autopay-activation {
             background-image: url('../i/bg/autopay-activation-bg.png');
             background-repeat: no-repeat;

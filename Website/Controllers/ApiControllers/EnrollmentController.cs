@@ -581,6 +581,7 @@ FROM [SwitchBack] WHERE ESIID=@esiId";
                 AutoPayDiscount = stateMachine.Context.AutoPayDiscount,
                 NewAccountUserName = stateMachine.Context.OnlineAccount == null ? "" : stateMachine.Context.OnlineAccount.Username,
                 LoggedInAccountDetails = stateMachine.Context.LoggedInAccountDetails,
+                PaymentError = stateMachine.Context.PaymentError,
                 NeedsRefresh = isNeedsRefresh,
                 ContactInfo = stateMachine.Context.ContactInfo,
                 Language = stateMachine.Context.Language,
@@ -711,6 +712,10 @@ FROM [SwitchBack] WHERE ESIID=@esiId";
             else if (stateMachine.State == typeof(VerifyIdentityState))
             {
                 return Models.Enrollment.ExpectedState.VerifyIdentity;
+            }
+            else if (stateMachine.State == typeof(CompleteOrderState))
+            {
+                return Models.Enrollment.ExpectedState.ReviewOrder;
             }
             else //if (stateMachine.Context.Services == null || stateMachine.Context.Services.Length == 0)
             {

@@ -26,6 +26,8 @@ namespace StreamEnergy.DomainModels.Enrollments
 
         public IEnumerable<UserAccountDetails> LoggedInAccountDetails { get; set; }
 
+        public bool PaymentError { get; set; }
+
         public bool NeedsRefresh { get; set; }
 
         [Required(ErrorMessage = "Contact Info Required")]

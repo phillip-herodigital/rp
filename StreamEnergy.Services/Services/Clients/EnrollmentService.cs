@@ -665,6 +665,8 @@ namespace StreamEnergy.Services.Clients
                     });
                 }
             }
+            
+            bool hasAllMobile = originalSaveState.Results.All(o => o.Offer.OfferType == "Mobile");
 
             var response = await streamConnectClient.PostAsJsonAsync("/api/v1-1/customers/" + streamCustomerId.ToString() + "/enrollments/finalize", new {
                 GlobalCustomerID = streamCustomerId,
@@ -685,6 +687,7 @@ namespace StreamEnergy.Services.Clients
                 InitialPayments = initialPayments,
                 RequireReview = internalContext.IdentityCheck == null || !internalContext.IdentityCheck.Data.IdentityAccepted,
                 TrustEvCaseId = context.TrustEvCaseId,
+                ShouldFailOnPaymentFailure =  hasAllMobile,
             });
 
             var asyncUrl = response.Headers.Location;
@@ -746,6 +749,7 @@ namespace StreamEnergy.Services.Clients
             {
                 ConfirmationNumber = paymentResponse.ConfirmationNumber,
                 ConvenienceFee = (decimal)paymentResponse.ConvenienceFee.Value,
+                Status = paymentResponse.Status,
             };
         }
 

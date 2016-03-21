@@ -48,6 +48,9 @@
                                 </span>
                             </header>
                             <div class="content">
+                                <div ng-if="paymentError()" class="notice alert">
+                                    @Html.Sitecore().Field("Payment Error Text")
+                                </div>
                                 <div class="payment-options" credit-card-payment="completeOrder.creditCard" data-val-if="true"></div>
                             </div>
                             <footer class="autopay-activation" ng-if="cartHasMobile()">
@@ -634,7 +637,7 @@
             <div class="line-item autopay subheading" ng-show="completeOrder.autopay && cartHasMobile()">
                 <div class="description">
                     <i class="autopay-small"></i>
-                    <h2>AutoPay Activation Refund</h2>
+                    <h2>@Html.Sitecore().Field("AutoPay Refund Text")</h2>
                 </div>
                 <div class="rate">-{{autopayDiscount | currency}}</div>
             </div>

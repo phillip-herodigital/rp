@@ -24,6 +24,7 @@
     };
     service.loggedInAccountDetails = [];
     service.identityQuestions = [];
+    service.paymentError = false;
 
     $rootScope.$watch(function () { return service.accountInformation; }, function () {
         enrollmentStepsService.setMaxStep('accountInformation');
@@ -80,6 +81,9 @@
 
         // set the identity questions from the server
         service.identityQuestions = result.identityQuestions;
+
+        // show an error message if there is an problem processing payemnt
+        service.paymentError = result.paymentError;
 
         service.isRenewal = result.isRenewal;
         if (result.isRenewal) {
@@ -393,6 +397,10 @@
             .then(function (data) {
                 return data;
             });
+    };
+
+    service.getPaymentError = function () {
+        return service.paymentError;
     };
 
     return service;
