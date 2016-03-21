@@ -17,6 +17,7 @@ ngApp.controller('MobileUsageCalculatorCtrl', ['$scope', '$rootScope', '$http', 
     $scope.BC_ID = getParameterByName("BC_ID");
     $scope.RefSite = getParameterByName("RefSite");
     $scope.AccountType = getParameterByName("AccountType");
+    $scope.recommendedPlanData = 0;
 
     $scope.onClickTab = function (tab) {
         $scope.currentTab = tab.url;
@@ -224,7 +225,7 @@ ngApp.controller('MobileUsageCalculatorCtrl', ['$scope', '$rootScope', '$http', 
     };
 
     $scope.calculatorTotalInPct = function() {
-        return ( ( $scope.calculatorTotalInGB(10) / 10 ) * 100).toFixed();
+        return ($scope.calculatorTotalInGB(10) * 12.5).toFixed();
     };
 
     $scope.calculatorRecommendationInGB = function() {
@@ -252,8 +253,26 @@ ngApp.controller('MobileUsageCalculatorCtrl', ['$scope', '$rootScope', '$http', 
             subtotal += ($scope.serverData.dataMultipliers[key] * $scope.manualCalculator[key] * (($scope.manualCalculator.timeframe[key] == "day") ? 30 : 1))
         }
         $scope.calculatorTotal = subtotal * $scope.manualCalculator.lines;
+        if ($scope.calculatorTotal == 0 ) {
+            $scope.recommendedPlanData = 0;
+        }
+        else if ($scope.calculatorTotal < 2000000) {
+            $scope.recommendedPlanData = 2;
+        }
+        else if ($scope.calculatorTotal < 4000000) {
+            $scope.recommendedPlanData = 4;
+        }
+        else if ($scope.calculatorTotal < 6000000) {
+            $scope.recommendedPlanData = 6;
+        }
+        else {
+            $scope.recommendedPlanData = "Unlimited";
+        }
     }, true);
 
+    $scope.selectPlan = function (planId) {
+        console.log(planId);
+    };
 
     var getBestPlanFromData = function (coll){
         var bestPlan;
@@ -289,73 +308,18 @@ ngApp.controller('MobileUsageCalculatorCtrl', ['$scope', '$rootScope', '$http', 
         offers = _.sortBy(offers, function (offer) {
             return offer.data;
         });
-        var comparisonData;
-        var network = $scope.mobileEnrollmentService.selectedNetwork.value;
-
-
-        offers = _.where(offers, function (offer) {
-            return offer.provider.toLowerCase() == network;
-        })
-
-        if ($scope.manualCalculator.lines == 1) {
-            offers = _.where(offers, $scope.filterIndPlans);
-        } else {
-            offers = _.where(offers, $scope.filterGroupPlans);
-        }
 
         return getBestPlanFromData(offers);
     }
 
-    $scope.filterIndPlans = function (plan) {
-        if (typeof mobileEnrollmentService.selectedNetwork != 'undefined') {
-            var provider = mobileEnrollmentService.selectedNetwork.value,
-                devicesCount = enrollmentCartService.getDevicesCount();
-            firstDevice = enrollmentCartService.getCartDevices()[0];
-            if (devicesCount == 0) {
-                return null;
-            } else {
-                if (provider == "sprint" && !firstDevice.lte) {
-                    return plan.provider.toLowerCase() == provider
-                    && !plan.isParentOffer
-                    && !plan.isChildOffer
-                    && plan.nonLtePlan;
-                } else {
-                    return plan.provider.toLowerCase() == provider
-                    && !plan.isParentOffer
-                    && !plan.isChildOffer
-                    && !plan.nonLtePlan;
-                }
-            }
-        } else {
-            return null;
+    $scope.filterPlans = function (plan) {
+        if (plan.data == '2' || plan.data == '4') {
+            return !plan.includesInternational;
+        }
+        else {
+            return true;
         }
     };
-
-    $scope.filterGroupPlans = function (plan) {
-        if (typeof mobileEnrollmentService.selectedNetwork != 'undefined') {
-            var provider = mobileEnrollmentService.selectedNetwork.value,
-                devicesCount = enrollmentCartService.getDevicesCount();
-            firstDevice = enrollmentCartService.getCartDevices()[0];
-            if (devicesCount == 0) {
-                return null;
-            } else {
-                if (provider == "sprint" && !firstDevice.lte) {
-                    return plan.provider.toLowerCase() == provider
-                    && plan.isParentOffer
-                    && !plan.isChildOffer
-                    && plan.nonLtePlan;
-                } else {
-                    return plan.provider.toLowerCase() == provider
-                    && plan.isParentOffer
-                    && !plan.isChildOffer
-                    && !plan.nonLtePlan;;
-                }
-            }
-        } else {
-            return null;
-        }
-    };
-
 
     var cleanAndSortManualPlanCollection = function(coll) {
         _(coll).map(function(plan) {
@@ -385,10 +349,7 @@ ngApp.controller('MobileUsageCalculatorCtrl', ['$scope', '$rootScope', '$http', 
         $scope.tabs = UsageCalculator.tabs;
         $scope.currentTab = UsageCalculator.currentTab;
 
-        $scope.serverData.recommendedPlans.att.individual = cleanAndSortManualPlanCollection($scope.serverData.recommendedPlans.att.individual);
-        $scope.serverData.recommendedPlans.att.group = cleanAndSortManualPlanCollection($scope.serverData.recommendedPlans.att.group);
         $scope.serverData.recommendedPlans.sprint.individual = cleanAndSortManualPlanCollection($scope.serverData.recommendedPlans.sprint.individual);
-        $scope.serverData.recommendedPlans.sprint.group = cleanAndSortManualPlanCollection($scope.serverData.recommendedPlans.sprint.group);
 
         // Manual Calculator
         // --------------------------------------------------
