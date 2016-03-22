@@ -14,17 +14,13 @@ ngApp.controller('CoverageMapCtrl', ['$scope', '$location', 'uiGmapGoogleMapApi'
                 var output = bounds.west + " " + bounds.south + " " + bounds.east + " " + bounds.north;
                 console.log(layer);
 
-                var url = "http://127.0.0.1:1025/cgi-bin/mapserv.exe?map=C:/OSGeo4W/mapserver/web/stream.map&mode=tile&tilemode=gmap&tile=" + coord.x + "+" + coord.y + "+" + zoom;
-                var url2 = "http://localhost:59203/api/mapserver/tile/" + coord.x + "," + coord.y + "," + zoom + "/";
+                var url = "/api/mapserver/tile/" + coord.x + "," + coord.y + "," + zoom + "/";
                 var layers = layer.split(",");
                 for (var i = 0; i < layers.length; i++) {
-                    url += "&layer=" + layers[i];
-
-                    url2 += (i > 0 ? "," : "") + layers[i];
+                    url += (i > 0 ? "," : "") + layers[i];
                 }
-                console.log(url2);
-                //console.log(url);
-                return url2;
+                console.log(url);
+                return url;
             }
         });
     };
