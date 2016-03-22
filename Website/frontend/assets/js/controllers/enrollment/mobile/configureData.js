@@ -14,13 +14,6 @@
     $scope.itemIndex = 0;
     $scope.cartDevices = enrollmentCartService.getCartDevices();
 
-
-    $scope.$watch("showPlanDetails", function(newVal, oldVal) {
-        if (newVal != oldVal) {
-            console.log("sweet");
-        }
-    });
-
     $scope.$watch("cartDevices.length", function (newVal, oldVal) {
         if (newVal != oldVal) {
             $scope.phoneOptions = $scope.cartDevices[activeServiceIndex()];
