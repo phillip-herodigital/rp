@@ -64,7 +64,7 @@ namespace StreamEnergy.MyStream.Controllers
             Item planRecommendationItem = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Taxonomy/Modules/Mobile/Plan Recommendations/Plan Recommendations");
             MultilistField plans = planRecommendationItem.Fields["Individual Plans"];
 
-            var dataPlans = dataPlansItem.Children.Select(child => new
+            var dataPlans = dataPlansItem.Children.Where(child => child.Fields["Plan ID"] != null).Select(child => new
             {
                 ID = child.ID.ToString(),
                 PlanId = child.Fields["Plan ID"].Value,
