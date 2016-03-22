@@ -226,7 +226,8 @@
                                             <div class="international-calling clearfix">
                                                 <p class="includes-international" ng-show="selectedPlan.includesInternational">
                                                     <i class="icon-international-phone"></i>
-                                                    @Html.Sitecore().Field("Text - Includes Stream International")
+                                                    @Html.Sitecore().Field("Text - Includes Stream International") - 
+                                                    <a href="" ng-click="toggleInternational()">@Html.Sitecore().Field("Remove")</a>
                                                 </p>
                                             </div>
                                         </div>
@@ -244,7 +245,7 @@
                                             <p>@Html.Sitecore().Field("Text - Unlimited for 499 mo")</p>
                                             <a href="">@Html.Sitecore().Field("Link - Show Details")</a>
                                         </div>
-                                        <button class="button" type="button" ng-click="addInternational()">@Html.Sitecore().Field("Button - Add for 499 mo")</button>
+                                        <button class="button" type="button" ng-click="toggleInternational()">@Html.Sitecore().Field("Button - Add for 499 mo")</button>
                                     </div>
                                 </div>
                             </div>

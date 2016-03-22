@@ -93,13 +93,23 @@
         });
     };
 
-    $scope.addInternational = function () {
-        var i = _.findIndex($scope.currentMobileLocationInfo().offerInformationByType[0].value.availableOffers, function (o) {
-            if (o.includesInternational) {
-                return _(o.data).contains($scope.selectedPlan.data);
-            }
-        }),
-        plan = $scope.currentMobileLocationInfo().offerInformationByType[0].value.availableOffers[i];
+    $scope.toggleInternational = function () {
+        var i = 0;
+        if ($scope.selectedPlan.includesInternational) {
+            i = _.findIndex($scope.currentMobileLocationInfo().offerInformationByType[0].value.availableOffers, function (o) {
+                if (!o.includesInternational) {
+                    return _(o.data).contains($scope.selectedPlan.data);
+                }
+            });
+        }
+        else {
+            i = _.findIndex($scope.currentMobileLocationInfo().offerInformationByType[0].value.availableOffers, function (o) {
+                if (o.includesInternational) {
+                    return _(o.data).contains($scope.selectedPlan.data);
+                }
+            });
+        }
+        var plan = $scope.currentMobileLocationInfo().offerInformationByType[0].value.availableOffers[i];
         $scope.selectedPlan = plan;
         $scope.currentMobileLocationInfo().offerInformationByType[0].value.offerSelections[0].offer = plan;
         $scope.currentMobileLocationInfo().offerInformationByType[0].value.offerSelections[0].offerId = plan.id;
