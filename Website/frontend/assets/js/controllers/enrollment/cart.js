@@ -153,12 +153,38 @@ ngApp.controller('EnrollmentCartCtrl', ['$scope', 'enrollmentStepsService', 'enr
     /**
     * Add Mobile Device
     */
+    var addNewService = function () {
+        var location = {
+            address: {
+                city: enrollmentCartService.services[0].location.address.city,
+                line1: "",
+                postalCode5: enrollmentCartService.services[0].location.address.postalCode5,
+                stateAbbreviation: enrollmentCartService.services[0].location.address.stateAbbreviation
+            },
+            capabilities: enrollmentCartService.services[0].location.capabilities
+        };
+        var offerInfo = [{
+            key: "Mobile",
+            value: {
+                availableOffers: enrollmentCartService.services[0].offerInformationByType[0].value.availableOffers,
+                errors: [],
+                offerSelections: []
+            }
+        }];
+        enrollmentCartService.addService({
+            eligibility: "success",
+            location: location,
+            offerInformationByType: offerInfo
+        });
+    };
     $scope.addMobileDevice = function () {
         //update active service address, send to the correct page
         if(enrollmentCartService.getCartVisibility()) {
             enrollmentCartService.toggleCart();
         }
-        enrollmentStepsService.setFlow('phone', false).setStep('phoneFlowDevices');
+        addNewService();
+        enrollmentStepsService.setStep('phoneFlowDevices');
+        enrollmentStepsService.hideStep('phoneFlowPlans');
     };
 
     /**
