@@ -226,7 +226,7 @@
                                 </div>
                                 @using (var mailingAddress = Html.Shortcut(m => m.MailingAddress))
                                 {
-                                    <div ng-hide="accountInformation.mailingAddressSame" class="mailing-address">
+                                    <div ng-if="!accountInformation.mailingAddressSame" class="mailing-address">
                                         <div class="group">
                                             <div class="item group-col" @(mailingAddress.Validation().ErrorClass(m => m.Line1))>
                                                 <label for="@mailingAddress.Fix(h => h.IdFor(m => m.Line1))">@Html.Sitecore().Field("Address 1 Label")</label>
