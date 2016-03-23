@@ -8,8 +8,19 @@ ngApp.controller('CoverageMapCtrl', ['$scope', '$location', 'uiGmapGoogleMapApi'
             isPng: true,
             opacity: opacity,
             tileSize: new google.maps.Size(256, 256),
+            
             getTileUrl: function (coord, zoom) {
-                return "http://api.cellmaps.com/tiles/cellmap/" + zoom + "/" + coord.x + "/" + coord.y + ".png?key=" + key + "&map=stream" + ((layer != "") ? "&llist=" + layer : "");
+                var bounds = $scope.mapInstance.getBounds().toJSON();
+                var output = bounds.west + " " + bounds.south + " " + bounds.east + " " + bounds.north;
+                console.log(layer);
+
+                var url = "/api/mapserver/tile/" + coord.x + "," + coord.y + "," + zoom + "/";
+                var layers = layer.split(",");
+                for (var i = 0; i < layers.length; i++) {
+                    url += (i > 0 ? "," : "") + layers[i];
+                }
+                console.log(url);
+                return url;
             }
         });
     };
@@ -28,8 +39,8 @@ ngApp.controller('CoverageMapCtrl', ['$scope', '$location', 'uiGmapGoogleMapApi'
         }
     };
 
-    $scope.selectedNetwork = $location.search().carrier || 'att';
-
+    //$scope.selectedNetwork = $location.search().carrier || 'att';
+    $scope.selectedNetwork = $location.search().carrier || 'sprint';
     $scope.layers = {
         att: {
             att_voice_roam: true,
@@ -85,8 +96,10 @@ ngApp.controller('CoverageMapCtrl', ['$scope', '$location', 'uiGmapGoogleMapApi'
             }
         });
         if ($scope.mapInstance) {
+            console.log("checking length");
             if (layers.length) {
                 $scope.mapInstance.overlayMapTypes.setAt(0, new ARCOverlay('d8bfd6a09d07263c52ecb75b5a470a90', layers.join(','), 0.75));
+
             } else {
                 $scope.mapInstance.overlayMapTypes.clear();
             }

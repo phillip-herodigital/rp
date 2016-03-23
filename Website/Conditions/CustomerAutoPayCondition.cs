@@ -58,7 +58,7 @@ namespace StreamEnergy.MyStream.Conditions
             {
                 var account = currentUser.Accounts.FirstOrDefault();
                 var autoPayStatus = await paymentService.GetAutoPayStatus(account);
-                return (autoPayStatus.PaymentMethodId == Guid.Empty || !autoPayStatus.IsEnabled);
+                return !autoPayStatus.IsEnabled;
             }
             else
             { 

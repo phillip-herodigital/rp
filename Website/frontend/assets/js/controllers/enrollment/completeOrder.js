@@ -7,13 +7,22 @@ ngApp.controller('EnrollmentCompleteOrderCtrl', ['$scope', 'enrollmentService', 
     $scope.completeOrder = {
         additionalAuthorizations: {},
         agreeToTerms: false,
-        creditCard: {}
+        creditCard: {},
+        autopay: true,
     };
 
     $scope.w9BusinessData = {};
     $scope.getCartCount = enrollmentCartService.getCartCount;
     $scope.getCartItems = enrollmentCartService.getCartItems;  
-    $scope.getCartTotal = enrollmentCartService.calculateCartTotal;  
+    $scope.autopayDiscount = $scope.mobileEnrollmentSettings.autoPayDiscount;
+    $scope.getCartTotal = function () {
+        if ($scope.completeOrder.autopay) {
+            return enrollmentCartService.calculateCartTotal() - ($scope.autopayDiscount * $scope.getDevicesCount());
+        }
+        else {
+            return enrollmentCartService.calculateCartTotal();
+        }
+    };
     $scope.cartHasTxLocation = enrollmentCartService.cartHasTxLocation;
     $scope.isRenewal = enrollmentService.isRenewal;
     $scope.cartHasUtility = enrollmentCartService.cartHasUtility;
@@ -30,6 +39,8 @@ ngApp.controller('EnrollmentCompleteOrderCtrl', ['$scope', 'enrollmentService', 
     $scope.getDeviceDetails = enrollmentCartService.getDeviceDetails;
     $scope.llcClassifcation = '';
     $scope.currentDate = new Date();
+    $scope.paymentError = enrollmentService.getPaymentError;
+
 
     _.intersectionObjects = _.intersect = function(array) {
     var slice = Array.prototype.slice;
@@ -71,8 +82,10 @@ ngApp.controller('EnrollmentCompleteOrderCtrl', ['$scope', 'enrollmentService', 
 
         var setConfirmOrder = function (paymentInfo) {
             enrollmentService.setConfirmOrder({
+                autopay: $scope.completeOrder.autopay,
                 additionalAuthorizations: $scope.completeOrder.additionalAuthorizations,
                 agreeToTerms: $scope.completeOrder.agreeToTerms,
+                agreeToAutoPayTerms: $scope.completeOrder.agreeToAutoPayTerms,
                 paymentInfo: paymentInfo,
                 depositAlternatives: depositAlternatives,
                 depositWaivers: depositWaivers,

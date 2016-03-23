@@ -24,7 +24,15 @@ namespace StreamEnergy.LuceneServices.Web.Controllers
         [Route("lookup/{state}/{customerType}/{*query}")]
         public IEnumerable<Location> Lookup(string state, EnrollmentCustomerType customerType, string query)
         {
-            return searcher.Search(state, customerType, query);
+            if (searcher != null)
+            {
+                return searcher.Search(state, customerType, query);
+            }
+            else
+            {
+                var response = new HttpClient().GetStringAsync(string.Format("https://test.mystream.com/api/address/lookup/{0}/{1}/{2}", state, customerType.ToString(), query)).Result;
+                return StreamEnergy.Json.Read<IEnumerable<Location>>(response);
+            }
         }
 
         [HttpGet]

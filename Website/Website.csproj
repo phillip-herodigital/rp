@@ -826,6 +826,7 @@
     <Compile Include="Controllers\MobileEnrollmentController.cs" />
     <Compile Include="Controllers\TempController.cs" />
     <Compile Include="Controllers\MarketingController.cs" />
+    <Compile Include="Controllers\MapServerController.cs" />
     <Compile Include="Fields\ReorderableListField.cs" />
     <Compile Include="layouts\HTML Layout.aspx.cs">
       <DependentUpon>HTML Layout.aspx</DependentUpon>
@@ -1685,6 +1686,10 @@
     <Content Include="Views\Components\Marketing\Voice\Easy Setup.cshtml" />
     <Content Include="Views\Pages\Currents\CurrentsFeedback.cshtml" />
     <Content Include="Views\Components\Marketing\Voice\Voice Intro.cshtml" />
+    <Content Include="Views\Components\Marketing\Win Back\Win Back Landing 2.cshtml" />
+    <Content Include="Views\Components\Marketing\Mobile\Mobile Plans Overview.cshtml" />
+    <Content Include="Views\Components\Marketing\Mobile\Mobile Overview Phones.cshtml" />
+    <Content Include="Views\Components\Marketing\Mobile\Mobile CDMA Plans.cshtml" />
     <Content Include="Views\Pages\Marketing\Services\Voice FAQs.cshtml" />
     <None Include="Web.Azure-Production Sitecore.config">
       <DependentUpon>Web.config</DependentUpon>

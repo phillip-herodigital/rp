@@ -188,6 +188,7 @@
     <Compile Include="DomainModels\Documents\DocumentTypeIndicator.cs" />
     <Compile Include="DomainModels\Documents\IDocumentStore.cs" />
     <Compile Include="DomainModels\Emails\IEmailService.cs" />
+    <Compile Include="DomainModels\Enrollments\UserAccountDetails.cs" />
     <Compile Include="DomainModels\Enrollments\AdditionalAuthorization.cs" />
     <Compile Include="DomainModels\Enrollments\AsyncPlaceOrderState.cs" />
     <Compile Include="DomainModels\Enrollments\ConnectDate.cs" />
@@ -226,6 +227,7 @@
     <Compile Include="DomainModels\Enrollments\InstallationOfferPaymentAmount.cs" />
     <Compile Include="DomainModels\Enrollments\IOfferOptionRules.cs" />
     <Compile Include="DomainModels\Enrollments\IRenewalCapability.cs" />
+    <Compile Include="DomainModels\Enrollments\SinglePage.cs" />
     <Compile Include="DomainModels\Enrollments\Location.cs" />
     <Compile Include="DomainModels\Enrollments\LocationOfferSet.cs" />
     <Compile Include="DomainModels\Enrollments\LocationServices.cs" />

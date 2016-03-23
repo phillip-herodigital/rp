@@ -38,10 +38,10 @@ ngApp.controller('MobileValidateEsnCtrl', ['$scope', '$http', '$sce', '$modal', 
                     $scope.supportsLte = (data.deviceType === 'U' || (data.deviceType === 'E' && data.iccid && data.iccid.length > 0));
                     if (!$scope.supportsLte && $scope.networkType == 'CDMA') {
                         $scope.esnMessage = '';
-                        if ($scope.showCaptcha) {
-                            reCAPTCHA.reload($scope.widgetId);
-                        }
                     }
+                }
+                if ($scope.showCaptcha) {
+                    reCAPTCHA.reload($scope.widgetId);
                 }
                 $scope.isLoading = false;
                 isAttemptsExceeded();

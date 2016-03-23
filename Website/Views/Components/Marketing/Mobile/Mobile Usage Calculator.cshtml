@@ -8,16 +8,15 @@
         return dataCalculator.Fields[key] != null ? dataCalculator.Fields[key].Value : "";
     }
 }
-@if(Model.IsModal)
+@if (Model.IsModal)
 {
     <div class="modal-header">
         @GetFieldValue("Modal Header")
     </div>
     @Html.Raw("<div class=\"modal-body scrollable\">")
 }
-
 <article class="marketing mobile tabs mobile-plans-usage-calculator" ng-controller="MobileUsageCalculatorCtrl" ng-init="init(@(Html.Action("GetUsageCalculatorData", "Marketing").ToHtmlString()))">
-    
+
     <script>
         var UsageCalculator = {
             tabs: [
@@ -26,16 +25,16 @@
                     url: 'connect.tpl.html'
                 }@if (Model.ShowManualCalculator) {@:,
                 @:{
-                    @:title: '@GetFieldValue("Manually Enter Tab")',
-                    @:url: 'manual.tpl.html'
-                @:}
-                }
+                                @:title: '@GetFieldValue("Manually Enter Tab")',
+                                @:url: 'manual.tpl.html'
+                            @:
+        }
+}
             ],
             currentTab: '@(Model.ShowBillScrape ? "connect.tpl.html" : "manual.tpl.html")',
-            isModal:    '@Model.IsModal'.toLowerCase() == 'true'
+            isModal: '@Model.IsModal'.toLowerCase() == 'true'
         };
     </script>
-
     <div class="wrapper">
         <h1 ng-show="!isModal">@Html.Raw(GetFieldValue("Header"))</h1>
         <div class="tab-wrapper">
@@ -73,8 +72,8 @@
                     </div>
                 </div>
                 @*<div class="selectCarrier clearfix">
-                    @GetFieldValue("Bill Analysis Text")
-                </div>*@
+                        @GetFieldValue("Bill Analysis Text")
+                    </div>*@
                 <div class="stretch coming-soon" ng-if="connect.carrier && !getCarrier(connect.carrier).showLogin">
                     @GetFieldValue("Carrier Coming Soon")
                 </div>
@@ -124,7 +123,6 @@
                 </form>
             </div>
             <div class="bill-scrape" ng-show="connected">
-
                 <div class="grid message-table">
                     <div class="table-row">
                         <div class="table-cell">
@@ -147,12 +145,11 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="grid savingsAnalysis">
                     <h3>@GetFieldValue("Savings Analysis")</h3>
                 </div>
                 <div class="stretch">
-                     <div class="plans-table-wrapper">
+                    <div class="plans-table-wrapper">
                         <div class="plans-table-two-thirds">
                             <div class="plan-table">
                                 <div class="table-row">
@@ -252,9 +249,9 @@
                                         @GetFieldValue("Total Cost over")
                                         <select ng-model="formData.selectedTimeframe" ng-options="item.months as item.label for item in timeframe"></select><br />
                                         @*<a href="" class="hideBreakdown" ng-click="showBreakdown = !showBreakdown">
-                                            <span ng-if="showBreakdown">@GetFieldValue("hide breakdown")</span>
-                                            <span ng-if="!showBreakdown">@GetFieldValue("show breakdown")</span>
-                                        </a>*@
+                                                <span ng-if="showBreakdown">@GetFieldValue("hide breakdown")</span>
+                                                <span ng-if="!showBreakdown">@GetFieldValue("show breakdown")</span>
+                                            </a>*@
                                     </div>
                                     <div class="table-cell current-plan">
                                         {{ connect.validas.averageMonthlyCost * formData.selectedTimeframe | currency }}
@@ -269,16 +266,16 @@
                                         <span class="note">({{ getMonthlyTotal(getValidasRecommendation('att').planId) | currency }} x {{ formData.selectedTimeframe }} @GetFieldValue("Months"))</span>
                                     </div>
                                     @*<div class="table-cell tco current-plan">
-                                        <span class="bar" ng-style="{'height': getTCOHeight('currentPlan') }" ng-bind="calculateTCO('currentPlan') | currency"></span>
-                                    </div>
-                                    <div class="table-cell tco" ng-show="hasRecommendationForCarrier('sprint')">
-                                        <span class="savings" ng-show="calculateTCO('currentPlan') > calculateTCO('sprint')"><span ng-bind="calculateTCO('currentPlan') - calculateTCO('sprint') | currency"></span> @GetFieldValue("Savings")</span><br />
-                                        <span class="bar" ng-style="{'height': getTCOHeight('sprint') }" ng-bind="calculateTCO('sprint') | currency"></span>
-                                    </div>
-                                    <div class="table-cell tco" ng-show="hasRecommendationForCarrier('att')">
-                                        <span class="savings" ng-show="calculateTCO('currentPlan') > calculateTCO('att')"><span ng-bind="calculateTCO('currentPlan') - calculateTCO('att') | currency"></span> @GetFieldValue("Savings")</span><br />
-                                        <span class="bar" ng-style="{'height': getTCOHeight('att') }" ng-bind="calculateTCO('att') | currency"></span>
-                                    </div>*@
+                                            <span class="bar" ng-style="{'height': getTCOHeight('currentPlan') }" ng-bind="calculateTCO('currentPlan') | currency"></span>
+                                        </div>
+                                        <div class="table-cell tco" ng-show="hasRecommendationForCarrier('sprint')">
+                                            <span class="savings" ng-show="calculateTCO('currentPlan') > calculateTCO('sprint')"><span ng-bind="calculateTCO('currentPlan') - calculateTCO('sprint') | currency"></span> @GetFieldValue("Savings")</span><br />
+                                            <span class="bar" ng-style="{'height': getTCOHeight('sprint') }" ng-bind="calculateTCO('sprint') | currency"></span>
+                                        </div>
+                                        <div class="table-cell tco" ng-show="hasRecommendationForCarrier('att')">
+                                            <span class="savings" ng-show="calculateTCO('currentPlan') > calculateTCO('att')"><span ng-bind="calculateTCO('currentPlan') - calculateTCO('att') | currency"></span> @GetFieldValue("Savings")</span><br />
+                                            <span class="bar" ng-style="{'height': getTCOHeight('att') }" ng-bind="calculateTCO('att') | currency"></span>
+                                        </div>*@
                                 </div>
                                 <div class="table-row">
                                     <div class="table-cell label">
@@ -291,7 +288,7 @@
                                     <div class="table-cell tco" ng-show="hasRecommendationForCarrier('att')" ng-class="{savings:(getTotalSavings('att') > 0),cost:!(getTotalSavings('att') > 0)}">
                                         <span ng-bind="getTotalSavings('att') | currency"></span>
                                     </div>
-                                </div>                        
+                                </div>
                             </div>
                             <div class="plan-table">
                                 <div class="table-row single-cell">
@@ -307,7 +304,7 @@
                                         <span ng-bind="connect.validas.totalEtf | currency"></span>
                                     </div>
                                     <div class="table-cell" ng-show="hasRecommendationForCarrier('sprint')">
-                                        @GetFieldValue("NA")   
+                                        @GetFieldValue("NA")
                                     </div>
                                     <div class="table-cell" ng-show="hasRecommendationForCarrier('att')">
                                         @GetFieldValue("NA")
@@ -383,7 +380,7 @@
                                     <div class="table-cell" ng-show="hasRecommendationForCarrier('att')">
                                         <span ng-bind="connect.validas.tradeInValue | currency"></span>
                                     </div>
-                                </div>                        
+                                </div>
                                 <div class="table-row net-savings" ng-show="showBreakdown && (totalSavingsForCarrier('sprint') || totalSavingsForCarrier('att'))">
                                     <div class="table-cell label">
                                         @GetFieldValue("Net Savings Cost")
@@ -396,7 +393,7 @@
                                     <div class="table-cell" ng-show="hasRecommendationForCarrier('att')" ng-class="{savings:hasSavingsForCarrier('att'),cost:!hasSavingsForCarrier('att')}">
                                         <span ng-bind="totalSavingsForCarrier('att') | currency"></span>
                                     </div>
-                                </div> 
+                                </div>
                                 <div class="table-row">
                                     <div class="table-cell label">
                                         @GetFieldValue("Plan Selection")
@@ -420,344 +417,404 @@
                                 </div>
                             </div>
                         </div>
-                         <div class="plans-table-one-third" ng-if="!hasRecommendationForCarrier('att') && !hasRecommendationForCarrier('sprint')">
-                             @GetFieldValue("Usage Exceeded Text")
-                         </div>
+                        <div class="plans-table-one-third" ng-if="!hasRecommendationForCarrier('att') && !hasRecommendationForCarrier('sprint')">
+                            @GetFieldValue("Usage Exceeded Text")
+                        </div>
                     </div>
                 </div>
             </div>
         </script>
-
         <script type="text/ng-template" id="manual.tpl.html">
             @if (Model.ShowManualCalculator)
             {
-            <div class="manual-calculator">
-                <h4>@GetFieldValue("Use Calculator Text")</h4>      
-                <div class="grid">
-                    <div class="col left clearfix">
-                        <div class="icon pull-left">
-                            <i class="icon-device"></i>
-                        </div>
-                        <div class="pull-left">
-                            @GetFieldValue("Number of Phone Lines")
-                        </div>
-                    </div>
-                    <div class="col right numLines">
-                        <div class="button lineButton" ng-class="{active: manualCalculator.lines == 1}" ng-click="manualCalculator.lines = 1">1</div>
-                        <div class="button lineButton" ng-class="{active: manualCalculator.lines == 2}" ng-click="manualCalculator.lines = 2">2</div>
-                        <div class="button lineButton" ng-class="{active: manualCalculator.lines == 3}" ng-click="manualCalculator.lines = 3">3</div>
-                        <div class="button lineButton" ng-class="{active: manualCalculator.lines == 4}" ng-click="manualCalculator.lines = 4">4</div>
-                        <div class="button lineButton" ng-class="{active: manualCalculator.lines == 5}" ng-click="manualCalculator.lines = 5">5</div>
-                        <div class="button lineButton" ng-class="{active: manualCalculator.lines == 6}" ng-click="manualCalculator.lines = 6">6</div>
-                        <div class="button lineButton" ng-class="{active: manualCalculator.lines == 7}" ng-click="manualCalculator.lines = 7">7</div>
-                        <div class="button lineButton" ng-class="{active: manualCalculator.lines == 8}" ng-click="manualCalculator.lines = 8">8</div>
-                        <div class="button lineButton" ng-class="{active: manualCalculator.lines == 9}" ng-click="manualCalculator.lines = 9">9</div>
-                        <div class="button lineButton" ng-class="{active: manualCalculator.lines == 10}" ng-click="manualCalculator.lines = 10">10</div>
-                    </div>
-                </div>
-                <div class="grid">
-                    <div class="col left clearfix">
-                        <div class="pull-right">
-                            <select ng-model="manualCalculator.timeframe.emails" style="width: 90px;">
-                                <option value="month">Month</option>
-                                <option value="day">Day</option>
-                            </select>
-                        </div>
-                        <div class="icon pull-left">
-                            <i class="icon-email-small"></i>
-                        </div>
-                        <div class="pull-left data-description">
-                            @GetFieldValue("Emails Sent Received")<br />
-                            @GetFieldValue("No Attachments Text")
-                        </div>
-                    </div>
-                    <div class="col right">
-                        <div class="slider" ui-slider="getSliderOptions('emails')" ng-model="manualCalculator.emails">
-                            <div class="slider-tick slider-tick-25"></div>
-                            <div class="slider-tick slider-tick-50"></div>
-                            <div class="slider-tick slider-tick-75"></div>
-                        </div>
-                        <div class="sliderLabels">
-                            <span class="none">@GetFieldValue("Email None Text")</span>
-                            <span class="some">@GetFieldValue("Email Some Text")</span>
-                            <span class="alot">@GetFieldValue("Email A Lot Text")</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="grid">
-                    <div class="col left clearfix">
-                        <div class="pull-right">
-                            <select ng-model="manualCalculator.timeframe.pictures" style="width: 90px;">
-                                <option value="month">Month</option>
-                                <option value="day">Day</option>
-                            </select>
-                        </div>
-                        <div class="icon pull-left">
-                            <i class="icon-picture"></i>
-                        </div>
-                        <div class="pull-left data-description">
-                            @GetFieldValue("Uploaded Pictures")<br />
-                            @GetFieldValue("Posting Pictures Text")
-                        </div>
-                    </div>
-                    <div class="col right">
-                        <div class="slider" ui-slider="getSliderOptions('pictures')" ng-model="manualCalculator.pictures">
-                            <div class="slider-tick slider-tick-25"></div>
-                            <div class="slider-tick slider-tick-50"></div>
-                            <div class="slider-tick slider-tick-75"></div>
-                        </div>
-                        <div class="sliderLabels">
-                            <span class="none">@GetFieldValue("Pictures None Text")</span>
-                            <span class="some">@GetFieldValue("Pictures Some Text")</span>
-                            <span class="alot">@GetFieldValue("Pictures A Lot Text")</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="grid">
-                    <div class="col left clearfix">
-                        <div class="pull-right">
-                            <select ng-model="manualCalculator.timeframe.music" style="width: 90px;">
-                                <option value="month">Month</option>
-                                <option value="day">Day</option>
-                            </select>
-                        </div>
-                        <div class="icon pull-left">
-                            <i class="icon-music"></i>
-                        </div>
-                        <div class="pull-left data-description">
-                            @GetFieldValue("Streaming Music")<br />
-                            @GetFieldValue("Music Services Text")
-                        </div>
-                    </div>
-                    <div class="col right">
-                        <div class="slider" ui-slider="getSliderOptions('music')" ng-model="manualCalculator.music">
-                            <div class="slider-tick slider-tick-25"></div>
-                            <div class="slider-tick slider-tick-50"></div>
-                            <div class="slider-tick slider-tick-75"></div>
-                        </div>
-                        <div class="sliderLabels">
-                            <span class="none">@GetFieldValue("Music None Text")</span>
-                            <span class="some">@GetFieldValue("Music Some Text")</span>
-                            <span class="alot">@GetFieldValue("Music A Lot Text")</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="grid">
-                    <div class="col left clearfix">
-                        <div class="pull-right">
-                            <select ng-model="manualCalculator.timeframe.video" style="width: 90px;">
-                                <option value="month">Month</option>
-                                <option value="day">Day</option>
-                            </select>
-                        </div>
-                        <div class="icon pull-left">
-                            <i class="icon-video"></i>
-                        </div>
-                        <div class="pull-left data-description">
-                            @GetFieldValue("Stream Video")<br />
-                            @GetFieldValue("Stream Services Text")
-                        </div>
-                    </div>
-                    <div class="col right">
-                        <div class="slider" ui-slider="getSliderOptions('video')" ng-model="manualCalculator.video">
-                            <div class="slider-tick slider-tick-25"></div>
-                            <div class="slider-tick slider-tick-50"></div>
-                            <div class="slider-tick slider-tick-75"></div>
-                        </div>
-                        <div class="sliderLabels">
-                            <span class="none">@GetFieldValue("Video None Text")</span>
-                            <span class="some">@GetFieldValue("Video Some Text")</span>
-                            <span class="alot">@GetFieldValue("Video A Lot Text")</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="grid">
-                    <div class="col left clearfix">
-                        <div class="pull-right">
-                            <select ng-model="manualCalculator.timeframe.surfing" style="width: 90px;">
-                                <option value="month">Month</option>
-                                <option value="day">Day</option>
-                            </select>
-                        </div>
-                        <div class="icon pull-left">
-                            <i class="icon-web"></i>
-                        </div>
-                        <div class="pull-left data-description">
-                            @GetFieldValue("Web Surfing")<br />
-                            @GetFieldValue("Web Pages Text")
-                        </div>
-                    </div>
-                    <div class="col right">
-                        <div class="slider" ui-slider="getSliderOptions('surfing')" ng-model="manualCalculator.surfing">
-                            <div class="slider-tick slider-tick-25"></div>
-                            <div class="slider-tick slider-tick-50"></div>
-                            <div class="slider-tick slider-tick-75"></div>
-                        </div>
-                        <div class="sliderLabels">
-                            <span class="none">@GetFieldValue("Web Surfing None Text")</span>
-                            <span class="some">@GetFieldValue("Web Surfing Some Text")</span>
-                            <span class="alot">@GetFieldValue("Web Surfing A Lot Text")</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="suggestion row" ng-class="{grid: isModal}">
-                    <span class="suggestionText">@GetFieldValue("Based on your estimated usage")</span>
-                    <div class="estimatedData">
-                        <div class="frame">
-                            <div class="recommended" ng-style="{width: calculatorRecommendationInPct() + '%'}" ng-show="calculatorTotalInGB(10) > 0">
-                                <span class="label">@GetFieldValue("Recommended Data")</span>
+                <div class="manual-calculator">
+                    <h3 class="use-calc-text">@GetFieldValue("Use Calculator Text")</h3>
+                    <div class="grid mktgStyle">
+                        <div class="col left clearfix">
+                            <div class="pull-right">
+                                <select ng-model="manualCalculator.timeframe.emails" style="width: 90px;">
+                                    <option value="month">Month</option>
+                                    <option value="day">Day</option>
+                                </select>
                             </div>
+                            <div class="icon pull-left">
+                                <i class="icon-email-small"></i>
+                            </div>
+                            <div class="pull-left data-description">
+                                @GetFieldValue("Emails Sent Received")<br />
+                                @GetFieldValue("No Attachments Text")
+                            </div>
+                        </div>
+                        <div class="col right">
+                            <div class="slider" ui-slider="getSliderOptions('emails')" ng-model="manualCalculator.emails">
+                                <div class="slider-tick slider-tick-25"></div>
+                                <div class="slider-tick slider-tick-50"></div>
+                                <div class="slider-tick slider-tick-75"></div>
+                            </div>
+                            <div class="sliderLabels">
+                                <span class="none">@GetFieldValue("Email None Text")</span>
+                                <span class="some">@GetFieldValue("Email Some Text")</span>
+                                <span class="alot">@GetFieldValue("Email A Lot Text")</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="grid">
+                        <div class="col left clearfix">
+                            <div class="pull-right">
+                                <select ng-model="manualCalculator.timeframe.pictures" style="width: 90px;">
+                                    <option value="month">Month</option>
+                                    <option value="day">Day</option>
+                                </select>
+                            </div>
+                            <div class="icon pull-left">
+                                <i class="icon-picture"></i>
+                            </div>
+                            <div class="pull-left data-description">
+                                @GetFieldValue("Uploaded Pictures")<br />
+                                @GetFieldValue("Posting Pictures Text")
+                            </div>
+                        </div>
+                        <div class="col right">
+                            <div class="slider" ui-slider="getSliderOptions('pictures')" ng-model="manualCalculator.pictures">
+                                <div class="slider-tick slider-tick-25"></div>
+                                <div class="slider-tick slider-tick-50"></div>
+                                <div class="slider-tick slider-tick-75"></div>
+                            </div>
+                            <div class="sliderLabels">
+                                <span class="none">@GetFieldValue("Pictures None Text")</span>
+                                <span class="some">@GetFieldValue("Pictures Some Text")</span>
+                                <span class="alot">@GetFieldValue("Pictures A Lot Text")</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="grid">
+                        <div class="col left clearfix">
+                            <div class="pull-right">
+                                <select ng-model="manualCalculator.timeframe.music" style="width: 90px;">
+                                    <option value="month">Month</option>
+                                    <option value="day">Day</option>
+                                </select>
+                            </div>
+                            <div class="icon pull-left">
+                                <i class="icon-music"></i>
+                            </div>
+                            <div class="pull-left data-description">
+                                @GetFieldValue("Streaming Music")<br />
+                                @GetFieldValue("Music Services Text")
+                            </div>
+                        </div>
+                        <div class="col right">
+                            <div class="slider" ui-slider="getSliderOptions('music')" ng-model="manualCalculator.music">
+                                <div class="slider-tick slider-tick-25"></div>
+                                <div class="slider-tick slider-tick-50"></div>
+                                <div class="slider-tick slider-tick-75"></div>
+                            </div>
+                            <div class="sliderLabels">
+                                <span class="none">@GetFieldValue("Music None Text")</span>
+                                <span class="some">@GetFieldValue("Music Some Text")</span>
+                                <span class="alot">@GetFieldValue("Music A Lot Text")</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="grid">
+                        <div class="col left clearfix">
+                            <div class="pull-right">
+                                <select ng-model="manualCalculator.timeframe.video" style="width: 90px;">
+                                    <option value="month">Month</option>
+                                    <option value="day">Day</option>
+                                </select>
+                            </div>
+                            <div class="icon pull-left">
+                                <i class="icon-video"></i>
+                            </div>
+                            <div class="pull-left data-description">
+                                @GetFieldValue("Stream Video")<br />
+                                @GetFieldValue("Stream Services Text")
+                            </div>
+                        </div>
+                        <div class="col right">
+                            <div class="slider" ui-slider="getSliderOptions('video')" ng-model="manualCalculator.video">
+                                <div class="slider-tick slider-tick-25"></div>
+                                <div class="slider-tick slider-tick-50"></div>
+                                <div class="slider-tick slider-tick-75"></div>
+                            </div>
+                            <div class="sliderLabels">
+                                <span class="none">@GetFieldValue("Video None Text")</span>
+                                <span class="some">@GetFieldValue("Video Some Text")</span>
+                                <span class="alot">@GetFieldValue("Video A Lot Text")</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="grid">
+                        <div class="col left clearfix">
+                            <div class="pull-right">
+                                <select ng-model="manualCalculator.timeframe.surfing" style="width: 90px;">
+                                    <option value="month">Month</option>
+                                    <option value="day">Day</option>
+                                </select>
+                            </div>
+                            <div class="icon pull-left">
+                                <i class="icon-web"></i>
+                            </div>
+                            <div class="pull-left data-description">
+                                @GetFieldValue("Web Surfing")<br />
+                                @GetFieldValue("Web Pages Text")
+                            </div>
+                        </div>
+                        <div class="col right">
+                            <div class="slider" ui-slider="getSliderOptions('surfing')" ng-model="manualCalculator.surfing">
+                                <div class="slider-tick slider-tick-25"></div>
+                                <div class="slider-tick slider-tick-50"></div>
+                                <div class="slider-tick slider-tick-75"></div>
+                            </div>
+                            <div class="sliderLabels">
+                                <span class="none">@GetFieldValue("Web Surfing None Text")</span>
+                                <span class="some">@GetFieldValue("Web Surfing Some Text")</span>
+                                <span class="alot">@GetFieldValue("Web Surfing A Lot Text")</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="grid mktgStyle" ng-class="{grid: isModal}">
+                        <div class="suggestionText">
+                            @GetFieldValue("Based On Usage Text")<span class="usageText" ng-bind="calculatorTotalInGB()" /><span class="usageText">GB, </span>@GetFieldValue("Stream Recommends")
+                        </div>
+                    </div>
+                    <div class="grid frame clearfix">
+                        <div class="pre-estimate"></div>
+                        <div class="estimate-container">
                             <div class="estimate" ng-style="{width: calculatorTotalInPct() + '%'}"></div>
-                            <div class="estimatedDataLabel" ng-style="{left: estimateLabelLeft() + 'px'}">
-                                @GetFieldValue("Estimated Usage"): <span ng-bind="calculatorTotalInGB()"></span>GB
+                        </div>
+                        <div class="post-estimate" ng-class="{background: calculatorTotalInPct() >= 100}"></div>
+                        <div class="rec-plan-container clearfix">
+                            <div class="ruler clearfix">
+                                <span class="slider-tick-ruler"></span>
+                                <span class="slider-tick-ruler"></span>
+                                <span class="slider-tick-ruler"></span>
+                                <span class="slider-tick-ruler"></span>
+                                <span class="slider-tick-ruler"></span>
+                                <span class="slider-tick-ruler text">@GetFieldValue("1GB")</span>
+                                <span class="slider-tick-ruler"></span>
+                                <span class="slider-tick-ruler"></span>
+                                <span class="slider-tick-ruler"></span>
+                                <span class="slider-tick-ruler"></span>
+                                <span class="slider-tick-ruler"></span>
+                                <span class="slider-tick-ruler text small">@GetFieldValue("2GB")</span>
+                                <span class="slider-tick-ruler"></span>
+                                <span class="slider-tick-ruler"></span>
+                                <span class="slider-tick-ruler"></span>
+                                <span class="slider-tick-ruler"></span>
+                                <span class="slider-tick-ruler"></span>
+                                <span class="slider-tick-ruler text">@GetFieldValue("3GB")</span>
+                                <span class="slider-tick-ruler"></span>
+                                <span class="slider-tick-ruler"></span>
+                                <span class="slider-tick-ruler"></span>
+                                <span class="slider-tick-ruler"></span>
+                                <span class="slider-tick-ruler"></span>
+                                <span class="slider-tick-ruler text small">@GetFieldValue("4GB")</span>
+                                <span class="slider-tick-ruler"></span>
+                                <span class="slider-tick-ruler"></span>
+                                <span class="slider-tick-ruler"></span>
+                                <span class="slider-tick-ruler"></span>
+                                <span class="slider-tick-ruler"></span>
+                                <span class="slider-tick-ruler text">@GetFieldValue("5GB")</span>
+                                <span class="slider-tick-ruler"></span>
+                                <span class="slider-tick-ruler"></span>
+                                <span class="slider-tick-ruler"></span>
+                                <span class="slider-tick-ruler"></span>
+                                <span class="slider-tick-ruler"></span>
+                                <span class="slider-tick-ruler text small">@GetFieldValue("6GB")</span>
+                                <span class="slider-tick-ruler"></span>
+                                <span class="slider-tick-ruler"></span>
+                                <span class="slider-tick-ruler"></span>
+                                <span class="slider-tick-ruler"></span>
+                                <span class="slider-tick-ruler"></span>
+                                <span class="slider-tick-ruler"></span>
+                                <span class="slider-tick-ruler"></span>
+                                <span class="slider-tick-ruler text unlimited">@GetFieldValue("Unlimited")</span>
+                                <span class="slider-tick-ruler text infinity">&infin;</span>
+                            </div>
+                            <div class="rec-plan-box clearfix" ng-repeat="plan in serverData.dataPlans | filter: filterPlans">
+                                <div class="recommended-box">
+                                    <div class="heading" ng-show="recommendedPlanData == plan.data">
+                                        <h3>@GetFieldValue("Recommended Plan")</h3>
+                                    </div>
+                                </div>
+                                <div class="plan-box" ng-class="{recommended: recommendedPlanData == plan.data}">
+                                    <div class="size-speed">
+                                        <div class="size" ng-if="plan.data != 'Unlimited'">{{ plan.data }}<span>GB</span></div>
+                                        <div class="size" ng-if="plan.data == 'Unlimited'"><span class="unlimited">@Html.Sitecore().Field("Unlimited")</span></div>
+                                        <div class="speed">@GetFieldValue("4G LTE Data")</div>
+                                    </div>
+                                    <hr class="divider" />
+                                    <div class="price">
+                                        <div class="cost">${{plan.price}}</div>
+                                        <div class="duration">@GetFieldValue("Per Month")</div>
+                                    </div>
+                                    <div class="extra-info">
+                                        <hr class="divider" ng-if="plan.includesInternational" />
+                                        <div class="international clearfix" ng-if="plan.includesInternational">
+                                            <i class="icon-international-phone"></i>
+                                            <p>@GetFieldValue("Stream International Plus")</p>
+                                        </div>
+                                    </div>
+                                    <hr class="divider" />
+                                    <div class="description">
+                                        <p>@GetFieldValue("Unlimited Talk")</p>
+                                        <p>@GetFieldValue("Nationwide Coverage")</p>
+                                    </div>
+                                    <a class="button" href="/enrollment?ServiceType=Mob&MobilePlanId={{plan.planId}}">
+                                        @GetFieldValue("Select")
+                                    <span ng-show="plan.data != 'Unlimited'">{{plan.data}}@Html.Sitecore().Field("GB Text")</span>
+                                    <span ng-show="plan.data == 'Unlimited'">@Html.Sitecore().Field("Unlimited")</span>
+                                    @GetFieldValue("Plan")
+                                </a>
                             </div>
                         </div>
-                        <div class="dataLabels">
-                            <div class="dataLabel">
-                                0GB
-                            </div>
-                            <div class="dataLabel">
-                                2GB
-                            </div>
-                            <div class="dataLabel">
-                                4GB
-                            </div>
-                            <div class="dataLabel">
-                                6GB
-                            </div>
-                            <div class="dataLabel">
-                                8GB
-                                <span class="pull-right">
-                                    @GetFieldValue("Unlimited")
-                                </span>
-                            </div>
                         </div>
                     </div>
+                    <div class="usageLinks mktgStyle">
+                        <a href="/services/mobile/plans" ng-click="">@GetFieldValue("View Plan Details")</a> | <a class="a2" href="/services/mobile/coverage-map#?carrier=sprint">@GetFieldValue("Launch Coverage Map")</a> | <a class="a3" ng-click="" href="/services/mobile/faqs">@Html.Sitecore().Field("Mobile FAQs")</a>
+                    </div>
+                    <div class="grid mktgStyle">
+                        <div class="col left clearfix">
+                            <div class="icon pull-left">
+                                <i class="phone"></i>
+                            </div>
+                            <div class="useFooter">
+                                <span class="useHeader">@GetFieldValue("Stream Plus Header")</span><br />
+                                <div class="useContent"> @GetFieldValue("Stream Plus Content") </div>
+                            </div>
+                        </div>
+                        <div class="useColRight">
+                            <div>@GetFieldValue("Stream Plus Text")<br /><span class="dollar">@GetFieldValue("Stream Plus Price")</span><span class="dollarMonth">/month</span></div>
+                        </div>
+                    </div>
+                    @*<div class="grid" ng-show="isModal">
+                            <div class="col right addToCart">
+                                @if (!Model.IsJavascriptSubmit)
+                                {
+                                    <a ng-href="/enrollment?ServiceType=Mob&amp;MobilePlanId={{getManualRecommendation('sprint').planId}}&amp;SPID={{SPID}}&amp;BC_ID={{BC_ID}}&amp;RefSite={{RefSite}}&amp;AccountType={{AccountType}}" class="button">@Html.Raw(@GetFieldValue("Modal Button Text"))</a>
+                                }
+                                else
+                                {
+                                    <a href="" ng-click="setMobilePlanID()" class="button">@Html.Raw(@GetFieldValue("Modal Button Text"))</a>
+                                }
+                            </div>
+                        </div>*@
+                    @*< <div class="stretch" ng-show="!isModal">
+                                            <div ng-show="!hasRecommendationForCarrier('sprint') && !hasRecommendationForCarrier('att')">
+                                                <div class="content">
+                                                    @GetFieldValue("No Plans Available")
+                                                </div>
+                                            </div>
+                                            div class="plan-table" ng-show="hasRecommendationForCarrier('sprint') || hasRecommendationForCarrier('att')">
+                                <div class="table-row">
+                                    <div class="table-cell label">
+                                        @GetFieldValue("Network Provider")
+                                    </div>
+                                    <div class="table-cell" ng-show="hasRecommendationForCarrier('sprint')">
+                                        <div class="mobile-network">
+                                            <i class="icon-cdma"></i>
+                                            <h2>@GetFieldValue("Network")</h2>
+                                        </div>
+                                    </div>
+                                    <div class="table-cell" ng-show="hasRecommendationForCarrier('att')">
+                                        <div class="mobile-network">
+                                            <i class="icon-gsm"></i>
+                                            <h2>@GetFieldValue("Network")</h2>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="table-row">
+                                    <div class="table-cell label">
+                                        @GetFieldValue("Coverage Map")
+                                    </div>
+                                    <div class="table-cell" ng-show="hasRecommendationForCarrier('sprint')">
+                                        @GetFieldValue("Nationwide CDMA Network")
+                                        <a href="/services/mobile/coverage-map#?carrier=sprint">@GetFieldValue("Launch Coverage Map")</a>
+                                    </div>
+                                    <div class="table-cell" ng-show="hasRecommendationForCarrier('att')">
+                                        @GetFieldValue("Nationwide GSM Network")
+                                        <a href="/services/mobile/coverage-map#?carrier=att">@GetFieldValue("Launch Coverage Map")</a>
+                                    </div>
+                                </div>
+                                <div class="table-row">
+                                    <div class="table-cell label">
+                                        @GetFieldValue("Phone Lines")
+                                    </div>
+                                    <div class="table-cell" ng-show="hasRecommendationForCarrier('sprint')">
+                                        <span ng-bind="manualCalculator.lines"></span>
+                                    </div>
+                                    <div class="table-cell" ng-show="hasRecommendationForCarrier('att')">
+                                        <span ng-bind="manualCalculator.lines"></span>
+                                    </div>
+                                </div>
+                                <div class="table-row">
+                                    <div class="table-cell label">
+                                        @GetFieldValue("Monthly Data")
+                                    </div>
+                                    <div class="table-cell" ng-show="hasRecommendationForCarrier('sprint')">
+                                        <div ng-show="getManualRecommendation('sprint').data < 1000000">
+                                            <span ng-bind="getManualRecommendation('sprint').data"></span> GB
+                                        </div>
+                                        <div ng-show="getManualRecommendation('sprint').data == 1000000">
+                                            @GetFieldValue("Unlimited")
+                                        </div>
+                                    </div>
+                                    <div class="table-cell" ng-show="hasRecommendationForCarrier('att')">
+                                        <div ng-show="getManualRecommendation('att').data < 1000000">
+                                            <span ng-bind="getManualRecommendation('att').data"></span> GB
+                                        </div>
+                                        <div ng-show="getManualRecommendation('att').data == 1000000">
+                                            @GetFieldValue("Unlimited")
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="table-row">
+                                    <div class="table-cell label">
+                                        @GetFieldValue("Text And Talk")
+                                    </div>
+                                    <div class="table-cell" ng-show="hasRecommendationForCarrier('sprint')">
+                                        @GetFieldValue("Unlimited")
+                                    </div>
+                                    <div class="table-cell" ng-show="hasRecommendationForCarrier('att')">
+                                        @GetFieldValue("Unlimited")
+                                    </div>
+                                </div>
+                                <div class="table-row">
+                                    <div class="table-cell label">
+                                        @GetFieldValue("Monthly Cost")
+                                    </div>
+                                    <div class="table-cell" ng-show="hasRecommendationForCarrier('sprint')">
+                                        <span ng-bind="getMonthlyTotal(getManualRecommendation('sprint').planId) | currency"></span>
+                                    </div>
+                                    <div class="table-cell" ng-show="hasRecommendationForCarrier('att')">
+                                        <span ng-bind="getMonthlyTotal(getManualRecommendation('att').planId) | currency"></span>
+                                    </div>
+                                </div>
+                                <div class="table-row">
+                                    <div class="table-cell label">
+                                        @GetFieldValue("Plan Selection")
+                                    </div>
+                                    <div class="table-cell" ng-show="hasRecommendationForCarrier('sprint')">
+                                        <a ng-href="/enrollment?ServiceType=Mob&amp;MobilePlanId={{getManualRecommendation('sprint').planId}}&amp;SPID={{SPID}}&amp;BC_ID={{BC_ID}}&amp;RefSite={{RefSite}}&amp;AccountType={{AccountType}}" class="button">@GetFieldValue("Select Sprint Plan")</a>
+                                    </div>
+                                    <div class="table-cell" ng-show="hasRecommendationForCarrier('att')">
+                                        <a ng-href="/enrollment?ServiceType=Mob&amp;MobilePlanId={{getManualRecommendation('att').planId}}&amp;SPID={{SPID}}&amp;BC_ID={{BC_ID}}&amp;RefSite={{RefSite}}&amp;AccountType={{AccountType}}" class="button">@GetFieldValue("Select ATT Plan")</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>*@
                 </div>
-                <div class="grid" ng-show="isModal">
-                    <div class="col right addToCart">
-                        @if (!Model.IsJavascriptSubmit) {
-                        <a ng-href="/enrollment?ServiceType=Mob&amp;MobilePlanId={{getManualRecommendation('sprint').planId}}&amp;SPID={{SPID}}&amp;BC_ID={{BC_ID}}&amp;RefSite={{RefSite}}&amp;AccountType={{AccountType}}" class="button">@Html.Raw(@GetFieldValue("Modal Button Text"))</a>
-                        }
-                        else{
-                        <a href="" ng-click="setMobilePlanID()" class="button">@Html.Raw(@GetFieldValue("Modal Button Text"))</a>
-                        }
-                    </div>
-                </div>
-                <div class="stretch" ng-show="!isModal">
-                    <div ng-show="!hasRecommendationForCarrier('sprint') && !hasRecommendationForCarrier('att')">
-                        <div class="content">
-                            @GetFieldValue("No Plans Available")
-                        </div>
-                    </div>
-                    <div class="plan-table" ng-show="hasRecommendationForCarrier('sprint') || hasRecommendationForCarrier('att')">
-                        <div class="table-row">
-                            <div class="table-cell label">
-                                @GetFieldValue("Network Provider")
-                            </div>
-                            <div class="table-cell" ng-show="hasRecommendationForCarrier('sprint')">
-                                <div class="mobile-network">
-                                    <i class="icon-cdma"></i>
-                                    <h2>@GetFieldValue("Network")</h2>
-                                </div>
-                            </div>
-                            <div class="table-cell" ng-show="hasRecommendationForCarrier('att')">
-                                <div class="mobile-network">
-                                    <i class="icon-gsm"></i>
-                                    <h2>@GetFieldValue("Network")</h2>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="table-row">
-                            <div class="table-cell label">
-                                @GetFieldValue("Coverage Map")
-                            </div>
-                            <div class="table-cell" ng-show="hasRecommendationForCarrier('sprint')">
-                                @GetFieldValue("Nationwide CDMA Network")
-                                <a href="/services/mobile/coverage-map#?carrier=sprint">@GetFieldValue("Launch Coverage Map")</a>
-                            </div>
-                            <div class="table-cell" ng-show="hasRecommendationForCarrier('att')">
-                                @GetFieldValue("Nationwide GSM Network")
-                                <a href="/services/mobile/coverage-map#?carrier=att">@GetFieldValue("Launch Coverage Map")</a>
-                            </div>
-                        </div>
-                        <div class="table-row">
-                            <div class="table-cell label">
-                                @GetFieldValue("Phone Lines")
-                            </div>
-                            <div class="table-cell" ng-show="hasRecommendationForCarrier('sprint')">
-                                <span ng-bind="manualCalculator.lines"></span>
-                            </div>
-                            <div class="table-cell" ng-show="hasRecommendationForCarrier('att')">
-                                <span ng-bind="manualCalculator.lines"></span>
-                            </div>
-                        </div>
-                        <div class="table-row">
-                            <div class="table-cell label">
-                                @GetFieldValue("Monthly Data")
-                            </div>
-                            <div class="table-cell" ng-show="hasRecommendationForCarrier('sprint')">
-                                <div ng-show="getManualRecommendation('sprint').data < 1000000">
-                                    <span ng-bind="getManualRecommendation('sprint').data"></span> GB
-                                </div>
-                                <div ng-show="getManualRecommendation('sprint').data == 1000000">
-                                    @GetFieldValue("Unlimited")
-                                </div>
-                            </div>
-                            <div class="table-cell" ng-show="hasRecommendationForCarrier('att')">
-                                <div ng-show="getManualRecommendation('att').data < 1000000">
-                                    <span ng-bind="getManualRecommendation('att').data"></span> GB
-                                </div>
-                                <div ng-show="getManualRecommendation('att').data == 1000000">
-                                    @GetFieldValue("Unlimited")
-                                </div>
-                            </div>
-                        </div>
-                        <div class="table-row">
-                            <div class="table-cell label">
-                                @GetFieldValue("Text And Talk")
-                            </div>
-                            <div class="table-cell" ng-show="hasRecommendationForCarrier('sprint')">
-                                @GetFieldValue("Unlimited")
-                            </div>
-                            <div class="table-cell" ng-show="hasRecommendationForCarrier('att')">
-                                @GetFieldValue("Unlimited")
-                            </div>
-                        </div>
-                        <div class="table-row">
-                            <div class="table-cell label">
-                                @GetFieldValue("Monthly Cost")
-                            </div>
-                            <div class="table-cell" ng-show="hasRecommendationForCarrier('sprint')">
-                                <span ng-bind="getMonthlyTotal(getManualRecommendation('sprint').planId) | currency"></span>
-                            </div>
-                            <div class="table-cell" ng-show="hasRecommendationForCarrier('att')">
-                                <span ng-bind="getMonthlyTotal(getManualRecommendation('att').planId) | currency"></span>
-                            </div>
-                        </div>
-                        <div class="table-row">
-                            <div class="table-cell label">
-                                @GetFieldValue("Plan Selection")
-                            </div>
-                            <div class="table-cell" ng-show="hasRecommendationForCarrier('sprint')">
-                                <a ng-href="/enrollment?ServiceType=Mob&amp;MobilePlanId={{getManualRecommendation('sprint').planId}}&amp;SPID={{SPID}}&amp;BC_ID={{BC_ID}}&amp;RefSite={{RefSite}}&amp;AccountType={{AccountType}}" class="button">@GetFieldValue("Select Sprint Plan")</a>
-                            </div>
-                            <div class="table-cell" ng-show="hasRecommendationForCarrier('att')">
-                                <a ng-href="/enrollment?ServiceType=Mob&amp;MobilePlanId={{getManualRecommendation('att').planId}}&amp;SPID={{SPID}}&amp;BC_ID={{BC_ID}}&amp;RefSite={{RefSite}}&amp;AccountType={{AccountType}}" class="button">@GetFieldValue("Select ATT Plan")</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
             }
             else
             {
                 @GetFieldValue("Manual Calculator Disabled")
             }
-        </script>
-    </div>
-</article>
-@if(Model.IsModal)
-{
-    @Html.Raw("</div>")
-}
+            </script>
+            </div>
+            </article>
+            @if (Model.IsModal)
+            {
+                @Html.Raw("</div>")
+            }

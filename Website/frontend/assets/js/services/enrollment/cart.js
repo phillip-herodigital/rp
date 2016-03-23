@@ -71,6 +71,10 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', 'sc
             services.push(service);
         },
 
+        getServiceCount: function() {
+            return services.length;
+        },
+
         /**
 		 * Update the list of service addresses. This is use primarily when
 		 * data is returned from the server. We simply copy the cart back over
@@ -146,7 +150,16 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', 'sc
             return dataPlan;
         },
 
-        
+        getPlanPrice: function(serviceIndex) {
+            if (serviceIndex && serviceIndex < services.length) {
+                var plan = services[serviceIndex];
+                return plan.offerInformationByType[0].value.offerSelections[0].rates[0].rateAmount;
+            }
+            else {
+                return null;
+            }
+        },
+
         totalPlanPrice: function (plan, plans) {
             plan = plan || enrollmentCartService.getCartDataPlan();
             plans = plans || _(services).pluck('offerInformationByType').flatten().filter(function (offer) {
@@ -190,6 +203,7 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', 'sc
         },
 
         getOfferData: function(offerId) {
+            if (offerId != undefined) {
             return _(services)
             .pluck('offerInformationByType').flatten().filter(function (offer) {
                     if (typeof offer != 'undefined' && _(offer.key).intersection(['Mobile'])) {
@@ -197,6 +211,10 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', 'sc
                     }
                 })
             .pluck('value').flatten().pluck('availableOffers').flatten().filter({ id: offerId }).first().data;
+            }
+            else {
+                return null;
+            }
         },
 
         getOfferPrice: function(offerId) {
@@ -262,7 +280,12 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', 'sc
         },
 
         getDeviceDetails: function (device) {
-            return _.find(cart.items, { id: parseInt(device.inventoryItemId, 10), imeiNumber: device.imeiNumber });
+            if (device != undefined) {
+                return _.find(cart.items, { imeiNumber: device.imeiNumber });
+            }
+            else {
+                return null;
+            }
         },
 
         getProratedCost: function() {
@@ -307,12 +330,13 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', 'sc
             return total + getProratedCost();
         },
 
-        getEstimatedMonthlyTotal: function() {
-            var plan = cart.dataPlan;
-            var total = parseFloat(plan.price, 10) + getTotalFees();
-            for (var i=0; i<cart.items.length; i++) {
-                total += (typeof cart.items[i].warranty != 'undefined' && cart.items[i].warranty == 'accept') ? 9.99 : 0;
-                total += (typeof cart.items[i].buyingOption != 'undefined' && cart.items[i].buyingOption != 'New') ? parseFloat(cart.items[i].price, 10) : 0;
+        calculateMobileMonthlyTotal: function () {
+            var total = 0;
+            for (var i = 0; i < services.length; i++) {
+                if (services[i].offerInformationByType[0].key == "Mobile") {
+                    total += (services[i].offerInformationByType[0].value.offerSelections[0].payments.requiredAmounts[0].phoneCharge);
+                    total += (services[i].offerInformationByType[0].value.offerSelections[0].payments.requiredAmounts[0].taxTotal);
+                }
             }
             return total;
         },
