@@ -55,7 +55,7 @@ namespace StreamEnergy.DomainModels.Enrollments
                 {
                     internalContext.PlaceOrderResult = internalContext.PlaceOrderAsyncResult.Data;
                     var paymentInfo = ((DomainModels.Payments.TokenizedCard)context.PaymentInfo);
-                    var nickname = paymentInfo.Type + " - " + paymentInfo.CardToken.Substring(paymentInfo.CardToken.Length - 4);
+                    var nickname = (paymentInfo != null && paymentInfo.CardToken != null) ? paymentInfo.Type + " - " + paymentInfo.CardToken.Substring(paymentInfo.CardToken.Length - 4) : null;
                     IEnumerable<Account> accounts = Enumerable.Empty<Account>(); 
                     Guid paymentMethodID = Guid.Empty;
                     if (context.EnrolledInAutoPay)
