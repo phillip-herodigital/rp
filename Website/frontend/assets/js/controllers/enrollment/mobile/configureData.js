@@ -24,13 +24,8 @@
     var coverageMap = angular.element(document.getElementsByClassName('coverage-map-container'));
     var dataCalculator = angular.element(document.getElementsByClassName('data-calculator-container'));
 
-    $scope.filterPlans = function(plan){
-        if (plan.data == '2' || plan.data == '4') {
-            return !plan.includesInternational;
-        }
-        else {
-            return true;
-        }
+    $scope.filterPlans = function (plan) {
+        return plan.displayPlan;
     };
 
     $scope.totalPlanPrice = enrollmentCartService.totalPlanPrice;

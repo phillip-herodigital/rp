@@ -17,7 +17,7 @@ ngApp.controller('MobileUsageCalculatorCtrl', ['$scope', '$rootScope', '$http', 
     $scope.BC_ID = getParameterByName("BC_ID");
     $scope.RefSite = getParameterByName("RefSite");
     $scope.AccountType = getParameterByName("AccountType");
-    $scope.recommendedPlanData = 0;
+    $scope.recommendedPlanData = 2;
 
     $scope.onClickTab = function (tab) {
         $scope.currentTab = tab.url;
@@ -253,10 +253,7 @@ ngApp.controller('MobileUsageCalculatorCtrl', ['$scope', '$rootScope', '$http', 
             subtotal += ($scope.serverData.dataMultipliers[key] * $scope.manualCalculator[key] * (($scope.manualCalculator.timeframe[key] == "day") ? 30 : 1))
         }
         $scope.calculatorTotal = subtotal * $scope.manualCalculator.lines;
-        if ($scope.calculatorTotal == 0 ) {
-            $scope.recommendedPlanData = 0;
-        }
-        else if ($scope.calculatorTotal < 2000000) {
+        if ($scope.calculatorTotal < 2000000) {
             $scope.recommendedPlanData = 2;
         }
         else if ($scope.calculatorTotal < 4000000) {
@@ -313,12 +310,7 @@ ngApp.controller('MobileUsageCalculatorCtrl', ['$scope', '$rootScope', '$http', 
     }
 
     $scope.filterPlans = function (plan) {
-        if (plan.data == '2' || plan.data == '4') {
-            return !plan.includesInternational;
-        }
-        else {
-            return true;
-        }
+            return plan.displayPlan;
     };
 
     var cleanAndSortManualPlanCollection = function(coll) {
