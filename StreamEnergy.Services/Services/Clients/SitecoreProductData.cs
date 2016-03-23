@@ -140,6 +140,7 @@ namespace StreamEnergy.Services.Clients
                             { "Special Offer Original Price", item["Special Offer Original Price"] },
                             { "Hide Plan", item["Hide Plan"] },
                             { "Includes International", item["Includes International"] },
+                            { "Display Plan", item["Display Plan"] },
                             { "Sort Order", item["Sort Order"] },
                         },
                         Footnotes = new KeyValuePair<string, string>[0]

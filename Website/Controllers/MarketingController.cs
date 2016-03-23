@@ -71,6 +71,7 @@ namespace StreamEnergy.MyStream.Controllers
                 data = child.Fields["Data"].Value,
                 price = child.Fields["Price"].Value,
                 includesInternational = child.Fields["Includes International"].Value == "1" ? true : false,
+                displayPlan = child.Fields["Display Plan"].Value == "1" ? true : false,
             });
 
             var recommendedPlans = new
