@@ -82,7 +82,7 @@ ngApp.controller('EnrollmentCompleteOrderCtrl', ['$scope', 'enrollmentService', 
 
         var setConfirmOrder = function (paymentInfo) {
             enrollmentService.setConfirmOrder({
-                autopay: $scope.completeOrder.autopay,
+                autopay: $scope.completeOrder.autopay && !enrollmentCartService.cartHasUtility(),
                 additionalAuthorizations: $scope.completeOrder.additionalAuthorizations,
                 agreeToTerms: $scope.completeOrder.agreeToTerms,
                 agreeToAutoPayTerms: $scope.completeOrder.agreeToAutoPayTerms,
