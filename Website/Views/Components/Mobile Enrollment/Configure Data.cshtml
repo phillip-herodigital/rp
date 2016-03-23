@@ -226,8 +226,8 @@
                                             <div class="international-calling clearfix">
                                                 <p class="includes-international" ng-show="selectedPlan.includesInternational">
                                                     <i class="icon-international-phone"></i>
-                                                    @Html.Sitecore().Field("Text - Includes Stream International") - 
-                                                    <a href="" ng-click="toggleInternational()">@Html.Sitecore().Field("Remove")</a>
+                                                    @Html.Sitecore().Field("Text - Includes Stream International")
+                                                    <span ng-show="selectedPlan.data == 2 || selectedPlan.data == 4"> - <a href="" ng-click="toggleInternational()" >@Html.Sitecore().Field("Remove")</a></span>
                                                 </p>
                                             </div>
                                         </div>
