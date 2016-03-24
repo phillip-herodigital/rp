@@ -340,19 +340,19 @@
                                 <input type="radio" name="creatOnlineAccount" ng-value="true" ng-model="createOnlineAccount" /><label class="radio" for="createOnlineAccount">@Html.Sitecore().Field("Online Account Yes")</label>
                                 <div class="item" ng-class="{disabled: !createOnlineAccount}" @Html.Validation().ErrorClass(m => m.OnlineAccount.Username)>
                                     <label for="@Html.IdFor(m => m.OnlineAccount.Username)">@Html.Sitecore().Field("Username Optional Label")</label>
-                                    @Html.TextBoxFor(m => m.OnlineAccount.Username, new { data_val_if = "accountInformation.onlineAccount.username", ng_model = "accountInformation.onlineAccount.username", autocomplete = "off" })
+                                    @Html.TextBoxFor(m => m.OnlineAccount.Username, new { data_val_if = "createOnlineAccount", ng_model = "accountInformation.onlineAccount.username", autocomplete = "off" })
                                     @Html.ValidationMessageFor(m => m.OnlineAccount.Username)
                                 </div>
                                 <div class="group" ng-class="{disabled: !createOnlineAccount}">
                                     <div class="item group-col" @Html.Validation().ErrorClass(m => m.OnlineAccount.Password)>
                                         <label for="@Html.IdFor(m => m.OnlineAccount.Password)">@Html.Sitecore().Field("Password Optional Label")</label>
-                                        @Html.PasswordFor(m => m.OnlineAccount.Password, new { data_val_if = "accountInformation.onlineAccount.username", ng_model = "accountInformation.onlineAccount.password", autocomplete = "off" })
+                                        @Html.PasswordFor(m => m.OnlineAccount.Password, new { data_val_if = "createOnlineAccount", ng_model = "accountInformation.onlineAccount.password", autocomplete = "off" })
                                         @Html.ValidationMessageFor(m => m.OnlineAccount.Password)
                                         <p class="note">@Html.Sitecore().Field("Password Note")</p>
                                     </div>
                                     <div class="item group-col" @Html.Validation().ErrorClass(m => m.OnlineAccount.ConfirmPassword)>
                                         <label for="@Html.IdFor(m => m.OnlineAccount.ConfirmPassword)">@Html.Sitecore().Field("Verify Password Label")</label>
-                                        @Html.PasswordFor(m => m.OnlineAccount.ConfirmPassword, new { data_val_if = "accountInformation.onlineAccount.username", ng_model = "accountInformation.onlineAccount.confirmPassword", autocomplete = "off" })
+                                        @Html.PasswordFor(m => m.OnlineAccount.ConfirmPassword, new { data_val_if = "createOnlineAccount", ng_model = "accountInformation.onlineAccount.confirmPassword", autocomplete = "off" })
                                         @Html.ValidationMessageFor(m => m.OnlineAccount.ConfirmPassword)
                                     </div>
                                 </div>
