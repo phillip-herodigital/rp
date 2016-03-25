@@ -1691,6 +1691,7 @@
     <Content Include="Views\Components\Marketing\Mobile\Mobile Overview Phones.cshtml" />
     <Content Include="Views\Components\Marketing\Mobile\Mobile CDMA Plans.cshtml" />
     <Content Include="Views\Pages\Marketing\Services\Voice FAQs.cshtml" />
+    <Content Include="Views\Pages\Marketing\Services\Voice International.cshtml" />
     <None Include="Web.Azure-Production Sitecore.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>

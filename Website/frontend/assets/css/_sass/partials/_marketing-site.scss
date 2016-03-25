@@ -223,6 +223,36 @@ article.marketingIntro {
         }
     }
 
+    &.voice-international {
+        color: #58595b;
+
+        .wrapper {
+            padding-bottom: 0;
+        }
+
+        hr {
+            display: none;
+        }
+
+        h1 {
+            font-size: 41px;
+
+            strong {
+                color: #8e4b9d;
+                font-weight: 400;
+                text-transform: uppercase;
+            }
+        }
+
+        p {
+            font-size: 21px;
+            max-width: 680px;
+            text-align: center;
+            margin: 32px auto;
+        }
+    }
+
+
     p.intro {
         margin: 1em 20px;
         font-size: 22px;
@@ -3751,7 +3781,236 @@ article.marketing div.wrapper {
             }
         }
     }
+        
 }
+
+article.marketing {
+    &.voice-international-grid {
+        text-align: center;
+
+        .wrapper {
+            background: none;
+            padding: 0;
+        }
+
+        .side {
+            width: calc(50% - 10px);
+            background-color: #f9f9f9;
+            padding-bottom: 25px;
+
+            .col-content {
+                max-width: 360px;
+                margin: 0 auto;
+
+                h4 {
+                    font-size: 24px;
+                    font-style: italic;
+                    font-weight: 600;
+                    color: #8f4c9e;
+                }
+
+                p {
+                    margin: 5px 22px;
+                }
+
+                .note {
+                    font-size: 15px;
+                    font-style: italic;
+                }
+
+                .button {
+                    background-image: none;
+                    border-radius: 0;
+                    box-shadow: -3px 3px 3px rgba(0, 0, 0, 0.4);
+                    background-color: #8f4c9e;
+                    font-size: 24px;
+                    text-shadow: none;
+                    font-weight: 400;
+                }
+            }
+
+            @include breakpoint(small) {
+                width: 100%;
+                padding-top: 1px;
+                margin: 20px auto;
+            }
+        }
+
+        .or-col {
+            width: 0px;
+            background: #ffffff;
+            position: relative;
+
+            .or {
+                transform: translate(-50%, -50%);
+                top: 50%;
+                left: 50%;
+                position: absolute;
+                margin: 0;
+                background-color: #8e4b9d;
+                color: #ffffff;
+                border-radius: 30px;
+                width: 60px;
+                height: 60px;
+
+                p {
+                    margin: 17px;
+                    font-size: 21px;
+                    text-transform: uppercase;
+                }
+            }
+
+            @include breakpoint(small) {
+                width: 100%;
+                height: 50px;
+            }
+        }
+
+        p {
+            font-size: 21px;
+            font-style: italic;
+
+            a {
+                text-decoration: underline;
+                color: #6b6b6b;
+                font-weight: 700;
+                font-style: italic;
+            }
+        }
+    }
+
+    &.voice-international-rates {
+        margin-top: 20px;
+        text-align: center;
+
+        .wrapper {
+            padding: 20px 0;
+        }
+
+        h2 {
+            font-size: 28px;
+            font-weight: 700;
+            color: #8e4b9d;
+        }
+
+        .country-select {
+            width: 400px;
+            margin: 20px auto;
+            font-size: 21px;
+
+            select, option {
+                color: #8e4b9d;
+                font-size: 17px;
+                font-weight: 600;
+            }
+
+            @include breakpoint(small) {
+                width: auto;
+            }
+        }
+
+        table {
+            border: none;
+            text-align: left;
+
+            tr, th, td {
+                border: none;
+            }
+
+            th, td {
+                width: 20%;
+            }
+
+            th {
+                background-color: #999999;
+                color: #ffffff;
+                height: 60px;
+            }
+
+            tr {
+                height: 40px;
+                font-size: 17px;
+                font-weight: 600;
+            }
+
+            tr:nth-child(odd) {
+                border: 1px solid #e8e8e8;
+                background-color: #f9f9f9;
+            }
+
+            &.normal-table, &.samples {
+                @include breakpoint(small) {
+                    display: none;
+                }
+            }
+
+            &.tiny-table {
+                th, td {
+                    width: 50%;
+                }
+
+                margin: 10px auto;
+                border: 0;
+                border-bottom: 1px solid;
+                border-image: linear-gradient(left, #ffffff, #999999, #ffffff);
+                border-image-slice: 1;
+
+                @include breakpoint(medium-large) {
+                    display: none;
+                }
+            }
+        }
+
+        .country-list {
+            text-align: left;
+            padding-left: 60px;
+            padding-top: 60px;
+            border: 0;
+            border-bottom: 1px solid;
+            border-image: linear-gradient(left, #ffffff, #999999, #ffffff);
+            border-image-slice: 1;
+
+            h2 {
+                margin-bottom: 0;
+            }
+
+            .note {
+                margin: 0;
+                font-size: 15px;
+
+                @include breakpoint(small) {
+                    margin-bottom: 5px;
+                }
+            }
+
+            ul {
+                list-style: none;
+                font-size: 17px;
+
+                @include breakpoint(small) {
+                    padding: 0;
+                    margin: 0 auto;
+                }
+            }
+
+            @include breakpoint(small) {
+                padding-left: 0;
+                padding-top: 20px;
+                text-align: center;
+            }
+        }
+
+        .disclaimer {
+            padding-left: 60px;
+            font-size: 15px;
+
+            @include breakpoint(small) {
+                padding-left: 0;
+            }
+        }
+    }
+}
+
 
 article.rates {
     table {

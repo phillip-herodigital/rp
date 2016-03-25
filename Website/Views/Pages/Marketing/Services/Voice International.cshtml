@@ -1,0 +1,132 @@
+﻿<article class="marketing voice-international-rates " ng-controller="voiceInternationalCtrl">
+    <div class="wrapper">
+        <h2>@Html.Sitecore().Field("Minute Header")</h2>
+        <div class="country-select">
+            @Html.Sitecore().Field("View Rates")<select ng-model="selectedCountry" ng-options="item as item.country for item in countries track by item.country">
+                <option value="" disabled>@Html.Sitecore().Field("Select Country")</option>
+            </select>
+        </div>
+        <table ng-hide="selectedCountry == ''" class="normal-table">
+            <tr>
+                <th>@Html.Sitecore().Field("Country code")</th>
+                <th>@Html.Sitecore().Field("Area code")</th>
+                <th>@Html.Sitecore().Field("Country")</th>
+                <th>@Html.Sitecore().Field("Rate")</th>
+                <th>@Html.Sitecore().Field("International Plan:")</th>
+            </tr>
+            @*rateinfo can be an array or an object*@
+            <tr ng-repeat="item in selectedCountry.numberrates.rateinfo" ng-if="selectedCountry.numberrates.rateinfo.length">
+                <td>{{item.country_code}}</td>
+                <td>{{item.area_city_code}}</td>
+                <td>{{item.country_city}}</td>
+                <td>{{item.premier_rate | currency}}</td>
+                <td>{{item.discountrate}}</td>
+            </tr>
+            <tr ng-if="selectedCountry.numberrates.rateinfo.country_code">
+                <td>{{selectedCountry.numberrates.rateinfo.country_code}}</td>
+                <td>{{selectedCountry.numberrates.rateinfo.area_city_code}}</td>
+                <td>{{selectedCountry.numberrates.rateinfo.country_city}}</td>
+                <td>{{selectedCountry.numberrates.rateinfo.premier_rate | currency}}</td>
+                <td>{{selectedCountry.numberrates.rateinfo.discountrate}}</td>
+            </tr>
+        </table>
+        <table ng-show="selectedCountry == ''" class="samples">
+            <tr>
+                <th>Samples</th>
+                <th>Standard Rate(per minute)</th>
+                <th>Premier Rate(per minute)</th>
+                <th>Digital Voice International</th>
+            </tr>
+            <tr>
+                <td>Canada</td>
+                <td>{{0.014 | currency}}</td>
+                <td>{{0.014 | currency}}</td>
+                <td>Included in Plan</td>
+            </tr>
+            <tr>
+                <td>China</td>
+                <td>{{0.025 | currency}}</td>
+                <td>{{0.025 | currency}}</td>
+                <td>Included in Plan</td>
+            </tr>
+            <tr>
+                <td>Mexico</td>
+                <td>{{0.029 | currency}}</td>
+                <td>{{0.019 | currency}}</td>
+                <td>Included in Plan</td>
+            </tr>
+            <tr>
+                <td>United Kingdom</td>
+                <td>{{0.03 | currency}}</td>
+                <td>{{0.03 | currency}}</td>
+                <td>Included in Plan</td>
+            </tr>
+        </table>
+        <table class="tiny-table" ng-repeat="item in selectedCountry.numberrates.rateinfo" ng-if="selectedCountry.numberrates.rateinfo.length">
+            <tr>
+                <th>@Html.Sitecore().Field("Country code")</th>
+                <td>{{item.country_code}}</td>
+            </tr>
+            <tr>
+                <th>@Html.Sitecore().Field("Area code")</th>
+                <td>{{item.area_city_code}}</td>
+            </tr>
+            <tr>
+                <th>@Html.Sitecore().Field("Country")</th>
+                <td>{{item.country_city}}</td>
+            </tr>
+            <tr>
+                <th>@Html.Sitecore().Field("Rate")</th>
+                <td>{{item.premier_rate | currency}}</td>
+            </tr>
+            <tr>
+                <th>@Html.Sitecore().Field("International Plan:")</th>
+                <td>{{item.discountrate}}</td>
+            </tr>
+        </table>
+        <table class="tiny-table" ng-if="selectedCountry.numberrates.rateinfo.country_code">
+            <tr>
+                <th>@Html.Sitecore().Field("Country code")</th>
+                <td>{{selectedCountry.numberrates.rateinfo.country_code}}</td>
+            </tr>
+            <tr>
+                <th>@Html.Sitecore().Field("Area code")</th>
+                <td>{{selectedCountry.numberrates.rateinfo.area_city_code}}</td>
+            </tr>
+            <tr>
+                <th>@Html.Sitecore().Field("Country")</th>
+                <td>{{selectedCountry.numberrates.rateinfo.country_city}}</td>
+            </tr>
+            <tr>
+                <th>@Html.Sitecore().Field("Rate")</th>
+                <td>{{selectedCountry.numberrates.rateinfo.premier_rate | currency}}</td>
+            </tr>
+            <tr>
+                <th>@Html.Sitecore().Field("International Plan:")</th>
+                <td>{{selectedCountry.numberrates.rateinfo.discountrate}}</td>
+            </tr>
+        </table>
+        <div class="country-list">
+            <h2>@Html.Sitecore().Field("Country List Header")</h2>
+            <p class="note">@Html.Sitecore().Field("Country List Note")</p>
+            <div class="grid five">
+                <div class="col">
+                    @Html.Sitecore().Field("Countries1")
+                </div>
+                <div class="col">
+                    @Html.Sitecore().Field("Countries2")
+                </div>
+                <div class="col">
+                    @Html.Sitecore().Field("Countries3")
+                </div>
+                <div class="col">
+                    @Html.Sitecore().Field("Countries4")
+                </div>
+                <div class="col">
+                    @Html.Sitecore().Field("Countries5")
+                </div>
+            </div>
+        </div>
+        <p class="disclaimer">@Html.Sitecore().Field("Disclaimer")</p>
+    </div>
+</article>
