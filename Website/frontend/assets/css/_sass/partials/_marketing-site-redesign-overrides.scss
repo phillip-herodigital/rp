@@ -3223,15 +3223,21 @@ article.marketing.mobile.cdma-pricing-plans {
                 font-style: italic;
                 font-weight: 600;
             }
-            .col ul {
-                list-style-image: url('../i/marketing/redesign/yellow-check.png');
-                li {
+            .col {
+                h3 {
                     text-align: left;
-                    color: #333;
-                    margin-bottom: 10px;
-                    span {
-                        font-size: 12px;
-                        font-style: italic;
+                }
+                ul {
+                    list-style-image: url('../i/marketing/redesign/yellow-check.png');
+                    padding-left: 20px;
+                    li {
+                        text-align: left;
+                        color: #333;
+                        margin-bottom: 10px;
+                        span {
+                            font-size: 12px;
+                            font-style: italic;
+                        }
                     }
                 }
             }
@@ -3292,20 +3298,36 @@ article.marketing.mobile.cdma-pricing-plans {
         }
     }
     .international-plus {
-        background-image: linear-gradient(#eef0f1, #f3f6f7);
+        background-image: none;
+        background-color: #fff;
         text-align: left;
         font-size: 18px;
+        .wrapper {
+            padding-top: 0;
+        }
         .info {
             width: 70%;
             float: left;
-            background: image-url('marketing/redesign/stream_international_plus.png') center left no-repeat;
+            background: image-url('marketing/redesign/stream_international_plus.png') top left no-repeat;
             padding-left: 80px;
+            margin-top: 50px;
             @include breakpoint(small) {
                 width: 100%;
             }
             h3 {
+                margin: 0;
+                color: #2aa4dc;
                 font-weight: 600;
+            }
+            p {
+                margin: 0.5em 0 0;
+                font-weight: 400;
+                color: #6b6b6b;
                 font-style: italic;
+            }
+            ul {
+                font-weight: 400;
+                color: #000;
             }
         }
 		.footnote {
@@ -3315,8 +3337,11 @@ article.marketing.mobile.cdma-pricing-plans {
         .add-price {
             width: 30%;
             float: right;
-            padding-left: 70px;
+            padding-top: 50px;
 			min-height: 242px;
+            text-align: center;
+            line-height: 1;
+            background-image: linear-gradient(#f1f1f1, #fcfcfc);
             span {
                 font-size: 45px;
                 color: #0090d4;
@@ -3333,6 +3358,7 @@ article.marketing.mobile.cdma-pricing-plans {
         .footnote {
             background: none;
             clear: both;
+            border-top: 1px solid #e1e1e1;
         }
     }
 }
