@@ -4,9 +4,14 @@
  */
 ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', 'enrollmentService', 'enrollmentCartService', '$modal', 'validation', 'analytics', function ($scope, enrollmentService, enrollmentCartService, $modal, validation, analytics) {
     $scope.accountInformation = enrollmentService.accountInformation;
+    $scope.contacts = {};
+    $scope.contacts.options = enrollmentService.loggedInAccountDetails;
+    if (typeof $scope.contacts.options != 'undefined' && $scope.contacts.options.length == 1) {
+        $scope.accountInformation = $scope.contacts.options[0];
+    }
+    
     var sci = $scope.accountInformation.secondaryContactInfo;
     $scope.additionalInformation = {
-        showAdditionalPhoneNumber: $scope.accountInformation.contactInfo.phone.length > 1,
         showSecondaryContact: (sci && sci.first != undefined && sci.first != "" && sci.last != undefined && sci.last != ""),
         hasAssociateReferral: true
     };
@@ -18,7 +23,7 @@ ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', 'enrollmentServi
     $scope.associateInformation = enrollmentService.associateInformation;
 
     $scope.accountInformation.contactInfo.phone[0].category = "mobile";
-
+    $scope.createOnlineAccount = true;
     $scope.hasMoveIn = false;
     $scope.hasSwitch = false;
     $scope.$watch(enrollmentCartService.services, function () {
@@ -47,11 +52,11 @@ ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', 'enrollmentServi
 
     // create a filter so that the same phone type can't be selected twice
     $scope.filter1 = function(item){
-        return (!($scope.accountInformation.contactInfo.phone.length > 0 && $scope.accountInformation.contactInfo.phone[0].category) || item.name != $scope.accountInformation.contactInfo.phone[0].category);
+        return (!($scope.accountInformation.contactInfo.phone.length > 1 && $scope.accountInformation.contactInfo.phone[1].category) || item.name != $scope.accountInformation.contactInfo.phone[1].category);
     };
 
     $scope.filter2 = function(item){
-        return (!($scope.accountInformation.contactInfo.phone.length > 1 && $scope.accountInformation.contactInfo.phone[1].category) || item.name != $scope.accountInformation.contactInfo.phone[1].category);
+        return (!($scope.accountInformation.contactInfo.phone.length > 0 && $scope.accountInformation.contactInfo.phone[0].category) || item.name != $scope.accountInformation.contactInfo.phone[0].category);
     };
 
     $scope.filterCustomerType = function(item){
@@ -73,19 +78,17 @@ ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', 'enrollmentServi
         $scope.accountInformation.mailingAddress = $scope.utilityAddresses()[0].location.address;
     }
 
-    $scope.$watch('accountInformation.mailingAddressSame', function (newVal, oldVal) {
-        if (newVal != oldVal) {
-            if ($scope.accountInformation.mailingAddressSame) {
+    $scope.mailingAddressSameChanged = function() {
+            if (!$scope.accountInformation.mailingAddressSame) {
                 if ($scope.utilityAddresses().length == 1)
                     $scope.accountInformation.mailingAddress = $scope.utilityAddresses()[0].location.address;
             } else if ($scope.cartHasUtility()) {
-                $scope.accountInformation.mailingAddress = {};
+                    $scope.accountInformation.mailingAddress = {};
             }
-        }
-    });
+        };
 
     $scope.showAdditionalPhoneNumberChanged = function() {
-        if ($scope.additionalInformation.showAdditionalPhoneNumber) {
+        if ($scope.accountInformation.showAdditionalPhoneNumber) {
             $scope.accountInformation.contactInfo.phone[1] = {};
         } else {
             $scope.accountInformation.contactInfo.phone.splice(1, 1);
@@ -96,6 +99,39 @@ ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', 'enrollmentServi
         if (!$scope.additionalInformation.showSecondaryContact) {
             $scope.accountInformation.secondaryContactInfo.first = null;
             $scope.accountInformation.secondaryContactInfo.last = null;
+        }
+    };
+
+    $scope.updateAccountInformation = function () {
+        if ($scope.contacts.selectedContact == null) {
+            enrollmentService.accountInformation = $scope.accountInformation = {
+                contactTitle: '',
+                contactInfo: {
+                    name: {
+                        first: '',
+                        last: ''
+                    },
+                    phone: [{
+                        number: '',
+                        category: 'mobile'
+                    }],
+                    email: {
+                        address: ''
+                    }
+                },
+                socialSecurityNumber: '',
+                secondaryContactInfo: {},
+                isUserLoggedIn: true,
+                mailingAddressSame: true
+            };
+            if ($scope.utilityAddresses().length == 1)
+                $scope.accountInformation.mailingAddress = $scope.utilityAddresses()[0].location.address;
+        }
+        else {
+            enrollmentService.accountInformation = $scope.accountInformation = $scope.contacts.selectedContact;
+            if (typeof $scope.accountInformation.secondaryContactInfo == 'undefined') {
+                $scope.accountInformation.secondaryContactInfo = {};
+            }
         }
     };
 

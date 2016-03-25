@@ -57,19 +57,20 @@
     <div class="wrapper mobile-plans">
         <div class="plan-features">
             <h3>@Html.Sitecore().Field("Features Header")</h3>
-            <div class="grid three">
+            <div class="grid two">
                 <div class="col">
                     @Html.Sitecore().Field("Column 1")
                 </div>
                 <div class="col">
                     @Html.Sitecore().Field("Column 2")
                 </div>
-                <div class="col">
-                    @Html.Sitecore().Field("Column 3")
                 </div>
             </div>
+        <div class="footnote">
+            @Html.Sitecore().Field("Footnotes")
         </div>
     </div>
+    
     <div class="international-plus">
         <div class="wrapper">
             <div class="info">
@@ -80,9 +81,9 @@
                 <p>@Html.Sitecore().Field("Add")</p>
                 <p class="cost">@Html.Sitecore().Field("Add Price")</p>
             </div>
+            <div class="footnote">
+                @Html.Sitecore().Field("International Footnotes")
         </div>
     </div>
-    <div class="footnote mobile-plans">
-        @Html.Sitecore().Field("Footnotes")
     </div>
 </article>

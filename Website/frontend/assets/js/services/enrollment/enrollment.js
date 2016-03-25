@@ -2,10 +2,8 @@
 
     var service = {},
         urlPrefix = '/api/enrollment/';
-
     service.validations = [];
     service.isLoading = false;
-
     service.accountInformation = {
         contactTitle: '',
         contactInfo: {
@@ -22,9 +20,11 @@
             }
         },
         socialSecurityNumber: '',
-        secondaryContactInfo: {}
+        secondaryContactInfo: {},
     };
+    service.loggedInAccountDetails = [];
     service.identityQuestions = [];
+    service.paymentError = false;
 
     $rootScope.$watch(function () { return service.accountInformation; }, function () {
         enrollmentStepsService.setMaxStep('accountInformation');
@@ -73,6 +73,7 @@
         service.accountInformation.previousAddress = result.previousAddress;
         service.accountInformation.previousProvider = result.previousProvider;
         service.associateInformation = result.associateInformation;
+        service.loggedInAccountDetails = result.loggedInAccountDetails;
 
         // Default these object to prevent errors
         service.accountInformation.contactInfo.phone = service.accountInformation.contactInfo.phone || [{ }];
@@ -80,6 +81,9 @@
 
         // set the identity questions from the server
         service.identityQuestions = result.identityQuestions;
+
+        // show an error message if there is an problem processing payemnt
+        service.paymentError = result.paymentError;
 
         service.isRenewal = result.isRenewal;
         if (result.isRenewal) {
@@ -393,6 +397,10 @@
             .then(function (data) {
                 return data;
             });
+    };
+
+    service.getPaymentError = function () {
+        return service.paymentError;
     };
 
     return service;

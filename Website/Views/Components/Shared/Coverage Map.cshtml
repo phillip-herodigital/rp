@@ -13,14 +13,6 @@
                 <input type="text" id="gmap-search-input" placeholder="" />
             </script>
 
-            <ul class="network-toggle">
-                <li ng-class="{active:selectedNetwork == 'att'}"><a href="" ng-model="selectedNetwork" btn-radio="'att'">@Html.Sitecore().Field("GSM Network")</a></li>
-                @if (showSprint)
-                {
-                <li ng-class="{active:selectedNetwork == 'sprint'}"><a href="" ng-model="selectedNetwork" btn-radio="'sprint'">@Html.Sitecore().Field("CDMA Network")</a></li>
-                }
-            </ul>
-
             <div class="item">
                 <label for="gmap-search-input">@Html.Sitecore().Field("Enter Zip Code")</label>
                 <div id="gmap-search"></div>

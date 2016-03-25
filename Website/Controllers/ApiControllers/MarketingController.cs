@@ -88,7 +88,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         [Route("importvoicefaqdata")]
         public void ImportVoiceFAQData(string path)
         {
-            Item FAQFolder = Sitecore.Context.Database.GetItem("/sitecore/content/Home/services/home-services/voice/faqs");
+            Item FAQFolder = Sitecore.Context.Database.GetItem("/sitecore/content/Home/services/home/faqs");
             TemplateItem FAQGroupTemplate = Sitecore.Context.Database.GetTemplate("User Defined/Components/Marketing/FAQ Group");
             TemplateItem FAQTemplate = Sitecore.Context.Database.GetTemplate("User Defined/Components/Marketing/FAQ");
             Item FAQGroupItem;
@@ -113,7 +113,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                     string faqGroup = fields[0];
                     string faqGroupItemName = rgx.Replace(faqGroup, "");
 
-                    FAQGroupItem = Sitecore.Context.Database.GetItem("/sitecore/content/Home/services/home-services/voice/faqs/" + faqGroupItemName);
+                    FAQGroupItem = Sitecore.Context.Database.GetItem("/sitecore/content/Home/services/home/faqs/" + faqGroupItemName);
                     if (FAQGroupItem == null)
                     {
                         FAQGroupItem = FAQFolder.Add(faqGroupItemName, FAQGroupTemplate);
@@ -127,7 +127,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                     string faqAnswer = fields[3];
                     string faqQuestionItemName = rgx.Replace(faqQuestion, "");
 
-                    FAQItem = Sitecore.Context.Database.GetItem("/sitecore/content/home/services/home-services/voice/faqs/" + faqGroupItemName + "/" + faqQuestionItemName);
+                    FAQItem = Sitecore.Context.Database.GetItem("/sitecore/content/Home/services/home/faqs/" + faqGroupItemName + "/" + faqQuestionItemName);
                     if (FAQItem == null)
                     {
                         FAQItem = FAQGroupItem.Add(faqQuestionItemName, FAQTemplate);
@@ -190,6 +190,9 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                     // Create new item from rate
                     rateItem = countryItem.Add(countryPhoneItemName, rateTemplate);
 
+                    countryPhone = countryPhone.Replace("Landline", "<strong>Landline</strong>");
+                    countryPhone = countryPhone.Replace("Mobile", "<strong>Mobile</strong>");
+
                     rateItem.Editing.BeginEdit();
                     rateItem.Fields["Country Phone Type"].Value = countryPhone;
                     rateItem.Fields["NPA"].Value = npa;
@@ -203,6 +206,27 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
             }
 
+        }
+
+        [HttpGet]
+        [Route("mobileInternationalRates")]
+        public dynamic MobileInternationalRates()
+        {
+            var item = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Taxonomy/Modules/Mobile/International Rates");
+
+            var data = item.Children.Select(country => new
+            {
+                country = country.Name,
+                rates = country.Children.Select(rate => new
+                {
+                    phoneType = rate.Fields["Country Phone Type"].Value,
+                    countryCode = rate.Fields["Country Code"].Value,
+                    standardRate = rate.Fields["Stream Standard Rate"].Value,
+                    discountedRate = rate.Fields["Stream Discounted Rate"].Value,
+                })
+            });
+
+            return data;
         }
 
     }
