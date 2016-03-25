@@ -5361,6 +5361,9 @@ div.mobile.sim-activation {
             font-size: 34px;
             font-weight: 300;
             margin-bottom: 20px;
+			&.gsm-activation {
+				font-size: 20px;
+			}
         }
 
         .contact-specialists {
