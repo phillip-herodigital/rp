@@ -23,6 +23,11 @@
                                     <hr class="content-divider" ng-if="!$last">
                                 </div>
                             </div>
+                            <footer ng-if="getCartTotal() > 0 !cartHasMobile()">
+                                <div class="total">
+                                    @Html.Sitecore().Field("Total Due Now") <strong>{{ getCartTotal() | currency }}</strong>
+                                </div>
+                            </footer>
                         </article>
                         <article class="enrollment__box" ng-if="isRenewal">
                             <header>
