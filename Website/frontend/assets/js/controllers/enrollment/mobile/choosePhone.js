@@ -96,11 +96,11 @@
                         }
                     }
                 }
+                enrollmentService.isLoading = false;
             })
             .error(function (status) {
                 console.log(status);
             });
-            enrollmentService.isLoading = false;
         }
     };
 
