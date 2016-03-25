@@ -2709,48 +2709,75 @@ article.mobile-pricing-plans {
     }
 }
 
-.global-connect-modal, .swap-it-modal, .international-rates-modal {
+.mobile-marketing-modal {
     h3 {
-        color: #00a8e1;
-        font-size: 30px;
-        font-weight: 600;
-        margin-bottom: -10px;
+        color: #2d454f;
+        font-size: 22px;
+        font-weight: 300;
     }
+	h4 {
+		color: #2d454f;
+		font-weight: 600;
+	}
     p.intro {
         margin: 0 0 1em;
         font-size: 20px;
     }
-    .col {
-        padding-left: 100px;
-        background: left top no-repeat;
-        h4 {
-            margin-bottom: 0;
-        }
-        ul {
-            padding-left: 20px;
-        }
+	ul {
+        padding-left: 20px;
+		li {
+			list-style-image: url("../i/marketing/redesign/blue-check.png");
+		}
     }
-    img {
-        vertical-align: middle;
-    }
+	.wrapper-background, &.wrapper-background {
+		background: image-url('marketing/redesign/modules/module_background.png') center top no-repeat;
+		padding-top: 25px;
+		background-size: 560px;
+	}
+	p.footnote {
+		font-size: 14px;
+	}
+	.box {
+		background-color: #f9fafa;
+		padding: 20px;
+	}
+	a strong {
+		color: #0a97d6;
+	}
 }
 
-.global-connect-modal {
-    .col {
-        @include retina-background("global.png", "icon");
-    }
+.global-header {
+	background-image: url('../i/icon/global.png?1440631906');
+	background-position: 95% 50%;
+	background-repeat: no-repeat;
+	padding-right: 100px;
 }
 
 .swap-it-modal {
     .col {
         @include retina-background("swapit.png", "icon");
+		background-position: left top;
+		background-repeat: no-repeat;
+		padding-left: 100px;
+		margin-bottom: 20px;
+		img {
+			vertical-align: middle;
+		}
     }
 }
 .international-rates-modal {
+	h3 {
+		font-size: 30px;
+		line-height: 1em;
+	}
 	.country-rates {
 		background-color: #f9fafa;
-		margin: -25px -20px -20px -20px;
-		padding: 20px;
+		margin: 0px -70px 30px -70px;
+		padding: 30px 70px;
+		@include breakpoint(small) {
+			margin: 0px 0px 40px 0px;
+			padding: 30px 5px;
+		}
 		a.button {
 			background-color: #2aa4dc;
 			background-image: linear-gradient(#008cd2,#2aa4dc);
@@ -2806,26 +2833,6 @@ article.mobile-pricing-plans {
 					}
 				}
 			}
-		}
-	}
-	h4 {
-		color: #2d454f;
-		font-weight: 600;
-	}
-	.rates-details {
-		background: image-url('marketing/redesign/modules/module_background.png') center top no-repeat;
-		margin-top: 50px;
-		padding-top: 25px;
-		background-size: 560px;
-		p.footnote {
-			font-size: 14px;
-		}
-		p.example {
-			background-color: #f9fafa;
-			padding: 20px;
-		}
-		ul li {
-			list-style-image: url("../i/marketing/redesign/blue-check.png");
 		}
 	}
 }
