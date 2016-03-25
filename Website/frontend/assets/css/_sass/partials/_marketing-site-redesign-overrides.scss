@@ -3206,7 +3206,7 @@ article.marketing.mobile.cdma-pricing-plans {
         }
     }
     .footnote {
-        background: url('../i/marketing/redesign/Modules/module_background.png?1440631907') no-repeat center top;
+        background: url('../i/marketing/redesign/Modules/module_background.png') no-repeat center top;
         padding-top: 30px;
         max-width: 1060px;
         p {
@@ -3287,6 +3287,10 @@ article.marketing.mobile.cdma-pricing-plans {
                 width: 100%;
                 float: left;
             }
+        }
+        .footnote {
+            background: none;
+            clear: both;
         }
     }
 }
