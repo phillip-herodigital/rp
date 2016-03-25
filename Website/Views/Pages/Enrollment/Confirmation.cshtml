@@ -302,7 +302,7 @@
                     <i class="icon-byod"></i>
                 </div>
                 <div class="description">
-                    <h3 class="subheading">@Html.Sitecore().Field("New Line") 415-862-4912</h3>
+                    <h3 class="subheading" ng-if="selectedOffer.ConfirmationDetails">@Html.Sitecore().Field("New Line") {{selectedOffer.ConfirmationDetails}}</h3>
                     <div class="details"><strong>@Html.Sitecore().Field("IMEI Label"):</strong> {{selectedOffer.offerOption.imeiNumber}}</div>
                 </div>
             </div>

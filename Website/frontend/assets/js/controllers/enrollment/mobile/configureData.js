@@ -161,6 +161,7 @@
                 activationDate: new Date(),
                 esnNumber: $scope.phoneOptions.imeiNumber,
                 imeiNumber: $scope.phoneOptions.imeiNumber,
+                iccidNumber: $scope.phoneOptions.iccidNumber,
                 inventoryItemID: $scope.selectedPlan.mobileInventory[0].id,
             }
         }];

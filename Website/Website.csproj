@@ -977,6 +977,7 @@
     <Compile Include="Pipelines\InitializeWebApi.cs" />
     <Compile Include="Models\Marketing\HomeLifeServices.cs" />
     <Compile Include="Pipelines\PopulateUnsubscribeLink.cs" />
+    <Compile Include="Pipelines\SetSponsorCookie.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="sitecore\StreamRedirectUrlPage.cs">
       <SubType>ASPXCodeBehind</SubType>

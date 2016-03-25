@@ -254,6 +254,8 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                         IsValidImei = true,
                         VerifyEsnResponseCode = DomainModels.Enrollments.VerifyEsnResponseCode.SuccessForeignDevice,
                         Provider = DomainModels.Enrollments.Mobile.MobileServiceProvider.Sprint,
+                        Manufacturer = "Samsung",
+                        DeviceType = "U",
                     };
                 }
             }
