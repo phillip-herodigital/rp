@@ -17,7 +17,8 @@
         size: undefined,
         imeiNumber : undefined,
         transferInfo: undefined,
-        supportsLte: undefined 
+        supportsLte: undefined,
+        foreignDevice: false,
     };
     $scope.mobileEnrollment.phoneTypeTab = 'existing';
 
@@ -30,6 +31,7 @@
         $scope.phoneVerified = false;
         $scope.cdmaActive = false;
         $scope.phoneOptions.supportsLte = true;
+        $scope.phoneOptions.foreignDevice = false;
         var cartDevices = $scope.getCartDevices();
         if (_(cartDevices).pluck('imeiNumber').filter().flatten().contains($scope.phoneOptions.imeiNumber)) {
             $scope.hasError = true;
@@ -84,6 +86,7 @@
                         }
                         else {
                             $scope.phoneVerified = true;
+                            $scope.phoneOptions.foreignDevice = data.verifyEsnResponseCode.toLowerCase() == 'successforeigndevice';
                             $scope.phoneManufacturer = data.manufacturer;
                             $scope.phoneOptions.iccidNumber = data.iccid;
                             var responseMessage = _.find($scope.esnValidationMessages, function (message) {
@@ -248,7 +251,8 @@
             phoneOS: "",
             missingIccid: false,
             transferInfo: null,
-            imeiNumber: $scope.phoneOptions.imeiNumber
+            imeiNumber: $scope.phoneOptions.imeiNumber,
+            foreignDevice: $scope.phoneOptions.foreignDevice
         };
         enrollmentCartService.addDeviceToCart(item);
         $scope.clearPhoneSelection();
@@ -291,6 +295,5 @@
         $scope.addDevice.imeiNumber.suppressValidationMessages = true;
         enrollmentStepsService.setStep('phoneFlowPlans');
         enrollmentStepsService.hideStep("phoneFlowDevices");
-        $scope.mobileEnrollmentService.currentStepNumber = 2;
     };
 }]);
