@@ -35,7 +35,7 @@
                                     <i class="icon-my-device"></i>
                                     <label class="my-device">@Html.Sitecore().Field("My Device")</label>
                                     <div class="edit-remove">
-                                        <a href="" ng-click="editDeviceNumber(location, item)">@Html.Sitecore().Field("Edit")</a> | <a href="" ng-click="deleteMobileLine()">@Html.Sitecore().Field("Remove")</a>
+                                        <a href="" ng-click="editDevice(true)">@Html.Sitecore().Field("Edit")</a> | <a href="" ng-click="editDevice(false)">@Html.Sitecore().Field("Remove")</a>
                                     </div>
                                     <p class="IMEI">
                                         <span class="heading">@Html.Sitecore().Field("MEID IMEI Number")</span> <span id="DeviceID">{{ phoneOptions.imeiNumber }}</span>
