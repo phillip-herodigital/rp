@@ -17,6 +17,9 @@
                             <h1 class="success-message">@Html.Sitecore().Field("Congratulations")</h1>
                             <div compile="deviceResponseMessage"></div>
                             @Html.Sitecore().Field("Eligible Device Message")
+                            <div ng-if="phoneOptions.foreignDevice">
+                                @Html.Sitecore().Field("Foreign Device Message")
+                            </div>
                         </div>
                     </header>
                     <form name="configureData" data-val-bind-messages="validations" ng-submit="completeStep(false)" ng-hide="showChangeLocation">
