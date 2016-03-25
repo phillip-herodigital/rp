@@ -29,6 +29,18 @@ namespace StreamEnergy.MyStream.Models.Enrollment
 
         public bool IsSinglePage { get; set; }
 
+        public Guid LoggedInCustomerId { get; set; }
+
+        public bool EnrolledInAutoPay { get; set; }
+
+        public decimal AutoPayDiscount { get; set; }
+
+        public string NewAccountUserName { get; set; }
+
+        public IEnumerable<DomainModels.Enrollments.UserAccountDetails> LoggedInAccountDetails { get; set; }
+
+        public bool PaymentError { get; set; }
+
         public bool IsLoading { get; set; }
 
         public bool IsTimeout { get; set; }

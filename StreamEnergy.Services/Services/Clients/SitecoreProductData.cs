@@ -121,7 +121,7 @@ namespace StreamEnergy.Services.Clients
         {
             if (taxonomy != null && !string.IsNullOrEmpty(productId))
             {
-                var item = taxonomy.Axes.GetItem("Modules/Mobile/Mobile Data Plans/*/" + productId);
+                var item = taxonomy.Axes.GetItem("Modules/Mobile/Mobile Data Plans/" + productId);
 
                 if (item != null)
                 {
@@ -139,7 +139,8 @@ namespace StreamEnergy.Services.Clients
                             { "Special Offer Text", item["Special Offer Text"] },
                             { "Special Offer Original Price", item["Special Offer Original Price"] },
                             { "Hide Plan", item["Hide Plan"] },
-                            { "non-LTE Plan", item["non-LTE Plan"] },
+                            { "Includes International", item["Includes International"] },
+                            { "Display Plan", item["Display Plan"] },
                             { "Sort Order", item["Sort Order"] },
                         },
                         Footnotes = new KeyValuePair<string, string>[0]

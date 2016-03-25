@@ -10,11 +10,8 @@
                 <h1>@Html.Sitecore().Field("Cart Header")</h1>
             </header>
             <div class="content">
-                @*<p class="alt" ng-if="!getCartCount() && !getCartItems().length">@Html.Sitecore().Field("Empty Cart Text")</p>*@
-
                 <div class="cart-item">
                     <h2>@Html.Sitecore().Field("Mobile Services Header")</h2>
-
                     <div class="cart-product clearfix">
                         <div class="description">
                             @Html.Sitecore().Field("Individual Plan")<br />
@@ -23,7 +20,6 @@
                         </div>
                         <div class="rate" ng-if="cart.dataPlan.price">{{ cart.dataPlan.price | currency }}/@Html.Sitecore().Field("Month Abbreviation")</div>
                     </div>
-
                     <div class="cart-product clearfix" ng-repeat="item in cart.items">
                         <div class="description" ng-if="item.type == 'new'">
                             <div class="condition" ng-if="item.buyingOption == 'New'">{{ item.buyingOption }}</div>

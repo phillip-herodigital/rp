@@ -188,6 +188,7 @@
     <Compile Include="DomainModels\Documents\DocumentTypeIndicator.cs" />
     <Compile Include="DomainModels\Documents\IDocumentStore.cs" />
     <Compile Include="DomainModels\Emails\IEmailService.cs" />
+    <Compile Include="DomainModels\Enrollments\UserAccountDetails.cs" />
     <Compile Include="DomainModels\Enrollments\AdditionalAuthorization.cs" />
     <Compile Include="DomainModels\Enrollments\AsyncPlaceOrderState.cs" />
     <Compile Include="DomainModels\Enrollments\ConnectDate.cs" />
