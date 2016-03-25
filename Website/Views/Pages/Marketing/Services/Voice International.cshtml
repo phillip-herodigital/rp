@@ -31,36 +31,7 @@
             </tr>
         </table>
         <table ng-show="selectedCountry == ''" class="samples">
-            <tr>
-                <th>Samples</th>
-                <th>Standard Rate(per minute)</th>
-                <th>Premier Rate(per minute)</th>
-                <th>Digital Voice International</th>
-            </tr>
-            <tr>
-                <td>Canada</td>
-                <td>{{0.014 | currency}}</td>
-                <td>{{0.014 | currency}}</td>
-                <td>Included in Plan</td>
-            </tr>
-            <tr>
-                <td>China</td>
-                <td>{{0.025 | currency}}</td>
-                <td>{{0.025 | currency}}</td>
-                <td>Included in Plan</td>
-            </tr>
-            <tr>
-                <td>Mexico</td>
-                <td>{{0.029 | currency}}</td>
-                <td>{{0.019 | currency}}</td>
-                <td>Included in Plan</td>
-            </tr>
-            <tr>
-                <td>United Kingdom</td>
-                <td>{{0.03 | currency}}</td>
-                <td>{{0.03 | currency}}</td>
-                <td>Included in Plan</td>
-            </tr>
+         @Html.Sitecore().Field("Sample")
         </table>
         <table class="tiny-table" ng-repeat="item in selectedCountry.numberrates.rateinfo" ng-if="selectedCountry.numberrates.rateinfo.length">
             <tr>
