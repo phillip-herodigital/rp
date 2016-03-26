@@ -24,7 +24,7 @@
                                     <dd ng-if="item.transferInfo != null">@Html.Sitecore().Field("Assigning New Number Text")</dd>
                                     <dd ng-if="item.transferInfo != null">{{ item.transferInfo.phoneNumber }}</dd>
                                 </dl>
-                                <a href="" ng-click="editMobileDevice(location, item)">@Html.Sitecore().Field("Edit")</a><a href="" ng-click="deleteMobileDevice(location, item)">@Html.Sitecore().Field("Remove Line Link Text")</a>
+                                <a href="" ng-click="editDevice(location, item, true)">@Html.Sitecore().Field("Edit")</a><a href="" ng-click="editDevice(location, item, false)">@Html.Sitecore().Field("Remove Line Link Text")</a>
                             </div>
                             <hr ng-if="getDevicesCount() > 0" />
                             <div class="item full">

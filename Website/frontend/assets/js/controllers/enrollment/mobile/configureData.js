@@ -115,29 +115,19 @@
         $scope.currentMobileLocationInfo().offerInformationByType[0].value.offerSelections[0].offerId = plan.id;
     }
 
-    $scope.editDevice = function() {
-        $scope.setCurrentStep('choose-phone');
-    };
-
-    $scope.deleteMobileLine = function () {
+    $scope.editDevice = function (saveIMEI) {
+        if (saveIMEI) {
+            enrollmentService.editPhoneIMEI = angular.copy($scope.phoneOptions.imeiNumber);
+        }
         enrollmentCartService.removeDeviceFromCart($scope.phoneOptions);
         enrollmentCartService.removeService(enrollmentCartService.getActiveService())
-        var devicesCount = enrollmentCartService.getDevicesCount();
-        var serviceType = enrollmentCartService.getActiveServiceType();
-        if (devicesCount == 0 && serviceType == 'Mobile') {
-            enrollmentStepsService.setFlow('mobile', false).setStep('phoneFlowDevices');
-        } else {
-            //make a server call to update the cart with the correct devices & services
-            enrollmentService.setAccountInformation().then(
-            function (value) {
-                enrollmentService.setSelectedOffers();
-            },
-            function (data) {
-                console.log(data);
+        enrollmentService.setSelectedOffers().then(
+            function(value) {
+                addNewService();
+                enrollmentStepsService.setStep('phoneFlowDevices');
+                enrollmentStepsService.hideStep('phoneFlowPlans');
             });
-            enrollmentStepsService.setStep('phoneFlowDevices');
-            enrollmentStepsService.hideStep('phoneFlowPlans');
-        }
+
     }
 
     $scope.addUtilityAddress = function () {

@@ -25,6 +25,7 @@
     service.loggedInAccountDetails = [];
     service.identityQuestions = [];
     service.paymentError = false;
+    service.editPhoneIMEI = "";
 
     $rootScope.$watch(function () { return service.accountInformation; }, function () {
         enrollmentStepsService.setMaxStep('accountInformation');
