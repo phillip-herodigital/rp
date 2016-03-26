@@ -663,43 +663,7 @@
                                     </div>
                                 </div>
                             </article>                            
-                            <div class="rec-plan-box clearfix" ng-repeat="plan in serverData.dataPlans | filter: filterPlans" style="display:none">
-                                        <div class="recommended-box">
-                                            <div class="heading" ng-show="recommendedPlanData == plan.data">
-                                                <h3>@GetFieldValue("Recommended Plan")</h3>
-                                            </div>
-                                        </div>
-                                        <div class="plan-box" ng-class="{recommended: recommendedPlanData == plan.data}">
-                                            <div class="size-speed">
-                                                <div class="size" ng-if="plan.data != 'Unlimited'">{{ plan.data }}<span>GB</span></div>
-                                                <div class="size" ng-if="plan.data == 'Unlimited'"><span class="unlimited">@Html.Sitecore().Field("Unlimited")</span></div>
-                                                <div class="speed">@GetFieldValue("4G LTE Data")</div>
-                                            </div>
-                                            <hr class="divider" />
-                                            <div class="price">
-                                                <div class="cost">${{plan.price}}</div>
-                                                <div class="duration">@GetFieldValue("Per Month")</div>
-                                            </div>
-                                            <div class="extra-info">
-                                                <hr class="divider" ng-if="plan.includesInternational" />
-                                                <div class="international clearfix" ng-if="plan.includesInternational">
-                                                    <i class="icon-international-phone"></i>
-                                                    <p>@GetFieldValue("Stream International Plus")</p>
-                                                </div>
-                                            </div>
-                                            <hr class="divider" />
-                                            <div class="description">
-                                                <p>@GetFieldValue("Unlimited Talk")</p>
-                                                <p>@GetFieldValue("Nationwide Coverage")</p>
-                                            </div>
-                                            <a class="button" href="/enrollment?ServiceType=Mob&MobilePlanId={{plan.planId}}">
-                                                @GetFieldValue("Select")
-                                                <span ng-show="plan.data != 'Unlimited'">{{plan.data}}@Html.Sitecore().Field("GB Text")</span>
-                                                <span ng-show="plan.data == 'Unlimited'">@Html.Sitecore().Field("Unlimited")</span>
-                                                @GetFieldValue("Plan")
-                                            </a>
-                                        </div>
-                                    </div>
+                            
                                 </div>
                         </div>
                     <div class="usageLinks mktgStyle">
