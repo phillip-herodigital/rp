@@ -4470,7 +4470,23 @@ article.mobile.mobile-plans-usage-calculator {
                                 left: 20px;
                             }
                         }
+                        .cdma-pricing-plans{
 
+                            .wrapper{
+                                padding-top:0;
+                                width:100%;
+
+                                .grid{
+                                    margin:0;
+                                }
+
+                                .plan-details{
+                                    h2{
+                                        border-top:0;
+                                    }
+                                }
+                            }
+                        }
                         .rec-plan-box {
                             min-height: 380px;
                             vertical-align: top;
