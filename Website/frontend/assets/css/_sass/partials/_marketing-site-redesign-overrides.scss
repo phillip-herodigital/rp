@@ -2739,48 +2739,75 @@ article.mobile-pricing-plans {
     }
 }
 
-.global-connect-modal, .swap-it-modal, .international-rates-modal {
+.mobile-marketing-modal {
     h3 {
-        color: #00a8e1;
-        font-size: 30px;
-        font-weight: 600;
-        margin-bottom: -10px;
+        color: #2d454f;
+        font-size: 22px;
+        font-weight: 300;
     }
+	h4 {
+		color: #2d454f;
+		font-weight: 600;
+	}
     p.intro {
         margin: 0 0 1em;
         font-size: 20px;
     }
-    .col {
-        padding-left: 100px;
-        background: left top no-repeat;
-        h4 {
-            margin-bottom: 0;
-        }
-        ul {
-            padding-left: 20px;
-        }
+	ul {
+        padding-left: 20px;
+		li {
+			list-style-image: url("../i/marketing/redesign/blue-check.png");
+		}
     }
-    img {
-        vertical-align: middle;
-    }
+	.wrapper-background, &.wrapper-background {
+		background: image-url('marketing/redesign/modules/module_background.png') center top no-repeat;
+		padding-top: 25px;
+		background-size: 560px;
+	}
+	p.footnote {
+		font-size: 14px;
+	}
+	.box {
+		background-color: #f9fafa;
+		padding: 20px;
+	}
+	a strong {
+		color: #0a97d6;
+	}
 }
 
-.global-connect-modal {
-    .col {
-        @include retina-background("global.png", "icon");
-    }
+.global-header {
+	background-image: url('../i/icon/global.png?1440631906');
+	background-position: 95% 50%;
+	background-repeat: no-repeat;
+	padding-right: 100px;
 }
 
 .swap-it-modal {
     .col {
         @include retina-background("swapit.png", "icon");
+		background-position: left top;
+		background-repeat: no-repeat;
+		padding-left: 100px;
+		margin-bottom: 20px;
+		img {
+			vertical-align: middle;
+		}
     }
 }
 .international-rates-modal {
+	h3 {
+		font-size: 30px;
+		line-height: 1em;
+	}
 	.country-rates {
 		background-color: #f9fafa;
-		margin: -25px -20px -20px -20px;
-		padding: 20px;
+		margin: 0px -70px 30px -70px;
+		padding: 30px 70px;
+		@include breakpoint(small) {
+			margin: 0px 0px 40px 0px;
+			padding: 30px 5px;
+		}
 		a.button {
 			background-color: #2aa4dc;
 			background-image: linear-gradient(#008cd2,#2aa4dc);
@@ -2849,26 +2876,6 @@ article.mobile-pricing-plans {
 					}
 				}
 			}
-		}
-	}
-	h4 {
-		color: #2d454f;
-		font-weight: 600;
-	}
-	.rates-details {
-		background: image-url('marketing/redesign/modules/module_background.png') center top no-repeat;
-		margin-top: 50px;
-		padding-top: 25px;
-		background-size: 560px;
-		p.footnote {
-			font-size: 14px;
-		}
-		p.example {
-			background-color: #f9fafa;
-			padding: 20px;
-		}
-		ul li {
-			list-style-image: url("../i/marketing/redesign/blue-check.png");
 		}
 	}
 }
@@ -3101,79 +3108,164 @@ article.marketing.mobile.cdma-pricing-plans {
     background-color: #f3f6f7;
     margin-bottom: 20px;
     .wrapper {
+        padding-bottom:0;
         h1 strong {
             color: #f4b60a;
         }
         .col {
+            position:relative;
+            padding:0 25px;
             &:first-child, &:last-child {
-                padding: 0px 30px;
+                padding: 0px 25px;
                 @include breakpoint(small-medium) {
                     padding: 0px;
                 }
             }
+
+            @include breakpoint(large){
+                &:after{
+                    position:absolute;
+                    display:block;
+                    content:"";
+                    height:300px;
+                    width:3px;
+                    background:#eceeef;
+                    top:45px;
+                    right:0;
+                }
+            }
+            
             @include breakpoint(small-medium) {
                 padding: 0px;
+            }
+
+            @include breakpoint(small){
+                margin-bottom:20px;
             }
             .package {
                 background-color: #fff;
             }
             
             .plan-details {
-                background: url('../i/marketing/redesign/plan_background.png') top center no-repeat;
+                background: url('../i/marketing/redesign/plan_background.png') top center repeat-x;
                 background-color: #fff;
                 box-shadow: 1px 1px 10px #ccc;
+                position:relative;
+                padding:25px 20px 15px;
+
+
                 @include breakpoint(small-medium) {
                     background: none;
+                    padding:0;
+                }
+
+                @include breakpoint(large){
+                    &:before{
+                        display:block;
+                        position:absolute;
+                        bottom:0;
+                        width:100%;
+                        height:19px;
+                        background: url('../i/marketing/redesign/plan_bottom.png') top center no-repeat;
+                        content:"";
+                        left:0;
+                    }
                 }
                 h2 {
-                    color: #fff;
                     font-size: 16px;
-                    font-style: italic;
                     padding: 10px 3px 0 3px;
-                    margin-bottom: 0px;
+                    margin-bottom: 15px;
+                    margin-top:40px;
+                    text-align:left;
+
+                    @include breakpoint(small-medium){
+                        margin:0;
+                        padding:5px 10px 10px;
+                        text-align:center;
+                    }
+
+                    span{
+                        font-weight:bold;
+                    }
                 }
                 h2, p.plus, p.data, p.lte {
                     @include breakpoint(small-medium) {
                         background-color: #f4b60a;
                     }
                 }
+
+                .best-deal{
+                    color:#fff;
+                    position:absolute;
+                    display:block;
+                    left:calc(50% - 45px);
+                    top:-10px;
+                    padding:5px;
+                    font-style:italic;
+                    font-size:16px;
+                    font-weight:600;
+                    background:#46c0ff;
+                }
+
                 p {
                     color: #fff;
                     font-weight: 600;
                     margin: 0;
+
+                    @include breakpoint(small-medium){
+                        &:first-of-type{
+                            padding-top:20px;
+                        }
+
+                        padding:5px 10px;
+                    }
+
                     &.plus {
                         color: #f5d0a3;
                         font-size: 30px;
                         line-height: 20px;
                     }
+                    &.international{
+                        color:#149bd8;
+                        font-size:13px;
+                        padding:10px 0;
+                        border-top:3px solid #f8f8f8;
+                        border-bottom:3px solid #f8f8f8;
+                        text-align:left;
+                        span{
+                            font-weight:bold;
+                        }
+
+                        @include breakpoint(small-medium){
+                            padding:5px 10px;
+                        }
+                    }
                     &.data {
-                        font-size: 30px;
+                        font-size: 36px;
                         line-height: 30px;
+
                         span {
                             font-size: 24px;
                         }
                     }
                     &.lte {
-                        color: #f5d0a3;
-                        font-size: 12px;
+                        color: #ffffff;
+                        font-size: 13px;
                         line-height: 12px;
                     }
                     &.price {
                         color: #6b6b6b;
                         font-size: 40px;
-                        margin: 30px auto 10px auto;
+                        margin: 15px auto 20px auto;
                         span {
                             font-size: 20px;
                             font-weight: 400;
                         }
-                        &.no-international {
-                            margin-bottom: 60px;
-                        }
                     }
                 }
                 div.international {
-                    border-top: 1px solid #f1f1f1;
-                    border-bottom: 1px solid #f1f1f1;
+                    border-top:3px solid #f8f8f8;
+                    border-bottom:3px solid #f8f8f8;
                     background: url('../i/marketing/redesign/stream_international.png') left center no-repeat;
                     margin-left: 15px;
                     text-align: left;
@@ -3182,7 +3274,6 @@ article.marketing.mobile.cdma-pricing-plans {
                         padding-left: 25px;
                         margin: 5px 0;
                         font-size: 14px;
-                        font-style: italic;
                     }
                 }
                 .button {
@@ -3216,15 +3307,21 @@ article.marketing.mobile.cdma-pricing-plans {
                 font-style: italic;
                 font-weight: 600;
             }
-            .col ul {
-                list-style-image: url('../i/marketing/redesign/yellow-check.png');
-                li {
+            .col {
+                h3 {
                     text-align: left;
-                    color: #333;
-                    margin-bottom: 10px;
-                    span {
-                        font-size: 12px;
-                        font-style: italic;
+                }
+                ul {
+                    list-style-image: url('../i/marketing/redesign/yellow-check.png');
+                    padding-left: 20px;
+                    li {
+                        text-align: left;
+                        color: #333;
+                        margin-bottom: 10px;
+                        span {
+                            font-size: 12px;
+                            font-style: italic;
+                        }
                     }
                 }
             }
@@ -3285,20 +3382,36 @@ article.marketing.mobile.cdma-pricing-plans {
         }
     }
     .international-plus {
-        background-image: linear-gradient(#eef0f1, #f3f6f7);
+        background-image: none;
+        background-color: #fff;
         text-align: left;
         font-size: 18px;
+        .wrapper {
+            padding-top: 0;
+        }
         .info {
             width: 70%;
             float: left;
-            background: image-url('marketing/redesign/stream_international_plus.png') center left no-repeat;
+            background: image-url('marketing/redesign/stream_international_plus.png') top left no-repeat;
             padding-left: 80px;
+            margin-top: 50px;
             @include breakpoint(small) {
                 width: 100%;
             }
             h3 {
+                margin: 0;
+                color: #2aa4dc;
                 font-weight: 600;
+            }
+            p {
+                margin: 0.5em 0 0;
+                font-weight: 400;
+                color: #6b6b6b;
                 font-style: italic;
+            }
+            ul {
+                font-weight: 400;
+                color: #000;
             }
         }
 		.footnote {
@@ -3308,8 +3421,11 @@ article.marketing.mobile.cdma-pricing-plans {
         .add-price {
             width: 30%;
             float: right;
-            padding-left: 70px;
+            padding-top: 50px;
 			min-height: 242px;
+            text-align: center;
+            line-height: 1;
+            background-image: linear-gradient(#f1f1f1, #fcfcfc);
             span {
                 font-size: 45px;
                 color: #0090d4;
@@ -3326,6 +3442,7 @@ article.marketing.mobile.cdma-pricing-plans {
         .footnote {
             background: none;
             clear: both;
+            border-top: 1px solid #e1e1e1;
         }
     }
 }
