@@ -23,6 +23,11 @@
                                     <hr class="content-divider" ng-if="!$last">
                                 </div>
                             </div>
+                            <footer ng-if="getCartTotal() > 0 && !cartHasMobile()">
+                                <div class="total">
+                                    @Html.Sitecore().Field("Total Due Now") <strong>{{ getCartTotal() | currency }}</strong>
+                                </div>
+                            </footer>
                         </article>
                         <article class="enrollment__box" ng-if="isRenewal">
                             <header>
@@ -56,7 +61,7 @@
                             <footer class="autopay-activation" ng-if="cartHasMobile()">
                                 <h2>@Html.Sitecore().Field("Turn on AutoPay")</h2>
                                 <p>@Html.Sitecore().Field("Turn on AutoPay Details")</p>
-                                <input name="autopay" type="checkbox" ng-model="completeOrder.autopay" /><label for="autopay" class="autopay">@Html.Sitecore().Field("Activate AutoPay Button")</label>
+                                <input name="autopay" id="autopay" type="checkbox" ng-model="completeOrder.autopay" /><label for="autopay" class="autopay">@Html.Sitecore().Field("Activate AutoPay Button")</label>
                             </footer>
                         </article>
                         <article class="enrollment__box enrollment__business-info" ng-if="customerType == 'commercial' && cartHasMobile()">
@@ -303,23 +308,13 @@
                                         </li>
                                     </ul>
                                 </div>
-                                <div class="item" @Html.Validation().ErrorClass(m => m.AgreeToAutoPayTerms) ng-if="completeOrder.autopay && cartHasMobile()">
-                                    <ul class="checkbox-list">
-                                        <li>
-                                            @Html.CheckBoxFor(m => m.AgreeToAutoPayTerms, new { ng_model = "completeOrder.agreeToAutoPayTerms", data_val = "true", data_val_required = "" })
-                                            <label for="@Html.IdFor(m => m.AgreeToAutoPayTerms)">
-                                                @Html.Sitecore().Field("AutoPay tac text")
-                                            </label>
-                                        </li>
-                                    </ul>
-                                </div>
                             </div>
                         </article>
                         <div class="form terms-agreement">
 
                         </div>
                         <div class="buttons">
-                            <button type="submit" class="primary" ng-if="(customerType != 'commercial' || cartHasMobile()) && !isRenewal" ng-click="completeOrder.nonExisting = true" ng-disabled="!completeOrder.agreeToTerms || (completeOrder.autopay && cartHasMobile() && !completeOrder.agreeToAutoPayTerms)" data-val-submit>@Html.Sitecore().Field("Button")</button>
+                            <button type="submit" class="primary" ng-if="(customerType != 'commercial' || cartHasMobile()) && !isRenewal" ng-click="completeOrder.nonExisting = true" ng-disabled="!completeOrder.agreeToTerms" data-val-submit>@Html.Sitecore().Field("Button")</button>
                             <button type="submit" class="primary" ng-if="customerType == 'commercial' && !isRenewal && !cartHasMobile()" ng-disabled="!completeOrder.additionalAuthorizations.historicalUsageData" data-val-submit>@Html.Sitecore().Field("Commercial Button")</button>
                             <button type="submit" class="primary" ng-if="isRenewal" ng-disabled="!completeOrder.agreeToTerms" data-val-submit>@Html.Sitecore().Field("Renewal Button")</button>
                             <button type="button" class="tertiary" ng-if="!isRenewal" ng-click="resetEnrollment();">
@@ -445,6 +440,9 @@
     <div class="monthly-product clearfix" ng-repeat="selectedOffer in offerInformation.value.offerSelections">
         <div class="description">
             <span class="plan">@Html.Sitecore().Field("Monthly Plan Text")</span>
+            <span class="international-plan" ng-if="selectedOffer.offer.includesInternational">
+                @Html.Sitecore().Field("Plus Stream International Plus")
+            </span>
         </div>
         <div class="rate">
             {{ getOfferPrice(selectedOffer.offerId) | currency }}@Html.Sitecore().Field("Per Month Text")

@@ -35,7 +35,7 @@
                                     <i class="icon-my-device"></i>
                                     <label class="my-device">@Html.Sitecore().Field("My Device")</label>
                                     <div class="edit-remove">
-                                        <a href="" ng-click="editDeviceNumber(location, item)">@Html.Sitecore().Field("Edit")</a> | <a href="" ng-click="deleteMobileLine()">@Html.Sitecore().Field("Remove")</a>
+                                        <a href="" ng-click="editDevice(true)">@Html.Sitecore().Field("Edit")</a> | <a href="" ng-click="editDevice(false)">@Html.Sitecore().Field("Remove")</a>
                                     </div>
                                     <p class="IMEI">
                                         <span class="heading">@Html.Sitecore().Field("MEID IMEI Number")</span> <span id="DeviceID">{{ phoneOptions.imeiNumber }}</span>
@@ -201,14 +201,7 @@
                                     </div>
                                     <div class="plan-details" ng-show="showPlanDetails">
                                         <div class="open collapsed">
-                                            <div class="box">
-                                                <h3>
-                                                    @Html.Sitecore().Field("Data Plans Header")
-                                                </h3>
-                                                <ul>
-                                                    @Html.Sitecore().Field("Individual Plans Details")
-                                                </ul>
-                                            </div>
+                                            @Html.Sitecore().Field("Individual Plans Details")
                                             <div class="footnotes">
                                                 @Html.Sitecore().Field("Footnotes")
                                             </div>
@@ -246,7 +239,7 @@
                                         <div class="text">
                                             <p class="title">@Html.Sitecore().Field("Text - Stream International")</p>
                                             <p>@Html.Sitecore().Field("Text - Unlimited for 499 mo")</p>
-                                            <a href="">@Html.Sitecore().Field("Link - Show Details")</a>
+                                            <a href="" ng-click="showModal('internationalDetails')">@Html.Sitecore().Field("Link - Show Details")</a>
                                         </div>
                                         <button class="button" type="button" ng-click="toggleInternational()">@Html.Sitecore().Field("Button - Add for 499 mo")</button>
                                     </div>
@@ -354,4 +347,16 @@
 </script>
 <script type="text/ng-template" id="searchbox.tpl.html">
     <input type="text" id="gmap-search-input" placeholder="" />
+</script>
+
+<script type="text/ng-template" id="internationalDetails">
+    <div class="mobile-enrollment-modal">
+        <div class="modal-header">
+            <a href="" ng-click="$dismiss()">Close</a>
+            <h2>@Html.Sitecore().Field("Header - International Details")</h2>
+        </div>
+        <div class="modal-body">
+            @Html.Sitecore().Field("Content - International Details")
+        </div>
+    </div>
 </script>

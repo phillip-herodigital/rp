@@ -113,35 +113,29 @@
         $scope.verifyPhone();
     }
 
-    $scope.editMobileDevice = function (service, item) {
-        //update active service address, send to the correct page
-        if(enrollmentCartService.getCartVisibility()) {
-            enrollmentCartService.toggleCart();
+    $scope.$watch(function watchEditIMEI() { return enrollmentService.editPhoneIMEI; }, function (newVal, oldVal) {
+        if (newVal != oldVal) {
+            $scope.phoneOptions.imeiNumber = angular.copy(enrollmentService.editPhoneIMEI);
         }
-        //update the editedDevice object so the Choose Phone page can get its state
-        mobileEnrollmentService.editedDevice = item;
-        //remove the device from the cart items array
-        enrollmentCartService.removeDeviceFromCart(item);
-        $scope.phoneOptions = item;
-        $scope.phoneVerified = true;
-    };
+    });
 
-    $scope.deleteMobileDevice = function (service, item) {
+    $scope.editDevice = function (service, item, keepIMEI) {
         //update active service address, send to the correct page
         if(enrollmentCartService.getCartVisibility()) {
             enrollmentCartService.toggleCart();
         }
-        //remove the device from the cart items array
-        if (!$scope.phoneVerified) {
-            enrollmentCartService.removeDeviceFromCart(item);
+        //remove the device & service
+        enrollmentCartService.removeDeviceFromCart(item);
+        enrollmentCartService.removeService(service);
+        if (keepIMEI) {
+            $scope.phoneOptions.imeiNumber = item.imeiNumber;
         }
-        enrollmentStepsService.setFlow('mobile', false).setStep('phoneFlowDevices');
-        $scope.phoneVerified = false;
-        $scope.phoneOptions.imeiNumber = '';
+        else {
+            $scope.phoneOptions.imeiNumber = '';
+        }
         if ($scope.showCaptcha) {
             reCAPTCHA.reload($scope.widgetId);
         }
-        scrollService.scrollTo('phoneFlowDevices', 0, 0, angular.noop);
     };
     
     $scope.isCartFull = function () {

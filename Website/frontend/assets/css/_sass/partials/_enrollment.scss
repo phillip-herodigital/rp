@@ -2701,6 +2701,11 @@
                 color: #737373;
                 margin-top: -2px;
             }
+            .international-plan {
+                font-weight: normal;
+                font-size: 15px;
+                display: block;
+            }
         }
         .rate {
             font-weight: 400;
@@ -5107,6 +5112,7 @@ h3.success-message{
             ul {
                 width: 185px;
                 padding: 0 0 0 20px;
+                list-style-image: url("../i/marketing/redesign/yellow-check.png");
             }
 
             ul li {
@@ -5114,9 +5120,10 @@ h3.success-message{
             }
 
             h3 {
-                font-weight: 400;
-                color: #000;
-                font-size: 23px;
+                font-weight: 600;
+                color: #f4b60a;
+                font-size: 20px;
+                font-style: italic;
             }
         }
 
@@ -5143,7 +5150,6 @@ h3.success-message{
         }
 
         .open ul li {
-            list-style-image: url("../i/marketing/redesign/check.png");
             padding-left: -3px;
         }
 
