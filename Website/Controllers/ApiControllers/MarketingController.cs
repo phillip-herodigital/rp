@@ -24,6 +24,7 @@ using StreamEnergy.MyStream.Models.Marketing;
 using Sitecore.Data.Items;
 using System.Text.RegularExpressions;
 using Microsoft.VisualBasic.FileIO;
+using Newtonsoft.Json;
 
 namespace StreamEnergy.MyStream.Controllers.ApiControllers
 {
@@ -31,9 +32,14 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
     public class MarketingController : ApiController, IRequiresSessionState
     {
 
-        public MarketingController()
+        private readonly StackExchange.Redis.IDatabase redisDatabase;
+        private readonly WebClient client;
+        private const string redisKey = "InternationalVoiceRates_";
+
+        public MarketingController(StackExchange.Redis.IDatabase redisDatabase, WebClient client)
         {
-            
+            this.redisDatabase = redisDatabase;
+            this.client = client;
         }
 
         [HttpPost]
@@ -229,5 +235,22 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             return data;
         }
 
+        [HttpGet]
+        [Route("getVoiceInternationalRates")]
+        public dynamic GetVoiceInternationalRates()
+        {
+            string redisCountries = redisDatabase.StringGet(redisKey);
+            if (string.IsNullOrEmpty(redisCountries) || true)
+            {
+                var ratesXMLstring = client.DownloadString("http://ooma.com/sites/all/themes/ooma/data/out.xml");
+                var ratesXML = new System.Xml.XmlDocument();
+                ratesXML.LoadXml(ratesXMLstring);
+                redisCountries = JsonConvert.SerializeXmlNode(ratesXML);
+                redisCountries = redisCountries.Replace("@", "");
+
+                redisDatabase.StringSet(redisKey, redisCountries, TimeSpan.FromDays(1));
+            }
+            return JsonConvert.DeserializeObject<dynamic>(redisCountries).filedata.items.item;
+        }
     }
 }
