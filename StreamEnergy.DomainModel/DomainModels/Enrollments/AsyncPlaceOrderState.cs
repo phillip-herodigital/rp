@@ -58,12 +58,17 @@ namespace StreamEnergy.DomainModels.Enrollments
                     var nickname = (paymentInfo != null && paymentInfo.CardToken != null) ? paymentInfo.Type + " - " + paymentInfo.CardToken.Substring(paymentInfo.CardToken.Length - 4) : null;
                     IEnumerable<Account> accounts = Enumerable.Empty<Account>(); 
                     Guid paymentMethodID = Guid.Empty;
+                    bool hasAllMobile = internalContext.PlaceOrderResult.All(o => o.Offer.OfferType == "Mobile");
+                    if (hasAllMobile && internalContext.PlaceOrderResult.Any(o => o.Details.PaymentConfirmation.Status != "Success"))
+                    {
+                        context.PaymentError = true;
+                        return typeof(CompleteOrderState);
+                    }
                     if (context.EnrolledInAutoPay)
                     {
                         accounts = await accountService.GetAccounts(internalContext.GlobalCustomerId);
                         paymentMethodID = await paymentService.SavePaymentMethod(internalContext.GlobalCustomerId, paymentInfo, nickname);
                     }
-                    bool hasAllMobile = internalContext.PlaceOrderResult.All(o => o.Offer.OfferType == "Mobile");
                     foreach (var placeOrderResult in internalContext.PlaceOrderResult)
                     {
                         if (placeOrderResult.Details.IsSuccess)
@@ -85,11 +90,6 @@ namespace StreamEnergy.DomainModels.Enrollments
                                 },
                                 paymentInfo.SecurityCode);
                         }
-                    }
-                    if (hasAllMobile && internalContext.PlaceOrderResult.Any(o => o.Details.PaymentConfirmation.Status != "Success"))
-                    {
-                        context.PaymentError = true;
-                        return typeof(CompleteOrderState);
                     }
                         
                 }
