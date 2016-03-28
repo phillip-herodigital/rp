@@ -932,6 +932,7 @@
     <Compile Include="Models\Authentication\VerifyUserChallengeQuestionsRequest.cs" />
     <Compile Include="Models\Authentication\SendResetPasswordEmailResponse.cs" />
     <Compile Include="Models\Authentication\VerifyUserChallengeQuestionsResponse.cs" />
+    <Compile Include="Models\ReturnForm.cs" />
     <Compile Include="Models\Currents\CalendarEvent.cs" />
     <Compile Include="Models\Currents\CalendarSearchRequest.cs" />
     <Compile Include="Models\Currents\LeaderList.cs" />
@@ -1686,6 +1687,7 @@
     <Content Include="Views\Pages\Currents\CurrentsFeedback.cshtml" />
     <Content Include="Views\Components\Marketing\Voice\Voice Intro.cshtml" />
     <Content Include="Views\Components\Marketing\Win Back\Win Back Landing 2.cshtml" />
+    <Content Include="Views\Components\Return Form.cshtml" />
     <None Include="Web.Azure-Production Sitecore.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>

@@ -27,12 +27,20 @@
                     <div class="item" @Html.Validation().ErrorClass(model => model.ContactEmail.Address)>
                         @Html.TextBoxFor(m => m.ContactEmail.Address, new { ng_model = "email", placeholder = Html.Sitecore().Field("Email Placeholder Text") })
                     </div>
-                    <div class="item" @html.validation().errorclass(model=>
-                        model.Order.OrderNumber)>
-                        @Html.TextBoxFor(m => m.Order.OrderNumber, new { ng_model = "OrderNumber", placeholder = Html.Sitecore().Field("Order Number Placeholder Text") })
-                    </div>
-                    <div class="item" @Html.Validation().ErrorClass(model => model.ContactPhone.Number)>
+                    <div class="item" @html.validation().errorclass(model=> model.ContactPhone.Number)>
                         @Html.TextBoxFor(m => m.ContactPhone.Number, new { ng_model = "phone", placeholder = Html.Sitecore().Field("Phone Number Placeholder Text") })
+                    </div>
+                    <div class="item" @html.validation().errorclass(model=> model.OrderNumber.Number)>
+                        @Html.TextBoxFor(m => m.OrderNumber.Number, new { ng_model = "OrderNumber", placeholder = Html.Sitecore().Field("Order Number Placeholder Text") })
+                    </div>
+                    <div class="item" @html.validation().errorclass(model=> model.ServiceCategory.Category)>
+                        @Html.TextBoxFor(m => m.ServiceCategory.Category, new { ng_model = "ServiceCategory", placeholder = Html.Sitecore().Field("Service Categories Placeholder Text") })
+                    </div>
+                    <div class="item" @html.validation().errorclass(model=> model.IMEINumber.Number)>
+                        @Html.TextBoxFor(m => m.IMEINumber.Number, new { ng_model = "IMEI", placeholder = Html.Sitecore().Field("MEID/IMEI Number Placeholder Text") })
+                    </div>
+                    <div class="item" @html.validation().errorclass(model=> model.ReturnReason.Reason)>
+                        @Html.TextBoxFor(m => m.ReturnReason.Reason, new { ng_model = "Reason", placeholder = Html.Sitecore().Field("Return Reason Placeholder Text") })
                     </div>
                     <div class="item" @Html.Validation().ErrorClass(model => model.ContactComments)>
                         @Html.TextAreaFor(m => m.ContactComments, new { ng_model = "comments", placeholder = Html.Sitecore().Field("Comments Placeholder Text") })

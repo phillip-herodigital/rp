@@ -295,6 +295,7 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="DomainModels\MobileEnrollment\UserContext.cs" />
+    <Compile Include="DomainModels\IMEI.cs" />
     <Compile Include="DomainModels\Payments\AutoPaySetting.cs" />
     <Compile Include="DomainModels\Payments\BankAccountCategory.cs" />
     <Compile Include="DomainModels\Payments\SavedPaymentRecord.cs" />
@@ -332,6 +333,9 @@
     <Compile Include="DomainModels\Payments\SamplePaymentInfo.cs" />
     <Compile Include="DomainModels\Payments\SavedPaymentInfo.cs" />
     <Compile Include="DomainModels\Payments\TokenizedCard.cs" />
+    <Compile Include="DomainModels\Order.cs" />
+    <Compile Include="DomainModels\ReturnReason.cs" />
+    <Compile Include="DomainModels\ServiceCategory.cs" />
     <Compile Include="DomainModels\W9BusinessClassification.cs" />
     <Compile Include="DomainModels\PhoneCategory.cs" />
     <Compile Include="DomainModels\PhoneSubtypeLookup.cs" />
