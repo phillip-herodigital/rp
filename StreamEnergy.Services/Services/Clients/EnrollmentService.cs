@@ -688,6 +688,7 @@ namespace StreamEnergy.Services.Clients
                 RequireReview = internalContext.IdentityCheck == null || !internalContext.IdentityCheck.Data.IdentityAccepted,
                 TrustEvCaseId = context.TrustEvCaseId,
                 ShouldFailOnPaymentFailure =  hasAllMobile,
+                UserRequestedAutoPay = context.EnrolledInAutoPay,
             });
 
             var asyncUrl = response.Headers.Location;
