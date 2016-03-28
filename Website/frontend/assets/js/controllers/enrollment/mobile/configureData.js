@@ -142,6 +142,9 @@
     };
 
     $scope.completeStep = function (addLine) {
+        if ($scope.phoneOptions.missingIccid) {
+            $scope.phoneOptions.iccidNumber = null;
+        }
         var offer = [{
             offerId: $scope.selectedPlan.id,
             offer: $scope.selectedPlan,
