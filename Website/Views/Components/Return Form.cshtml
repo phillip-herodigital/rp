@@ -1,4 +1,4 @@
-﻿@model StreamEnergy.MyStream.Models.Currents.CurrentsFeedback
+﻿@model StreamEnergy.MyStream.Models.ReturnForm
 @using System.Linq.Expressions;
 @using StreamEnergy.Extensions;
 
@@ -18,24 +18,31 @@
                 @Html.Sitecore().Field("Form Intro Text")
                 <form action="@Request.Url.ToString()" method="post">
                     @Html.ValidationSummary()
-                    <div class="item" @html.validation().errorclass(model=>
-                        model.ContactName.First)>
+                    <div class="item" @html.validation().errorclass(model=> model.ContactName.First)>
                         @Html.TextBoxFor(m => m.ContactName.First, new { ng_model = "firstName", placeholder = Html.Sitecore().Field("First Name Placeholder Text") })
                     </div>
-                    <div class="item" @html.validation().errorclass(model=>
-                        model.ContactName.Last)>
+                    <div class="item" @html.validation().errorclass(model=> model.ContactName.Last)>
                         @Html.TextBoxFor(m => m.ContactName.Last, new { ng_model = "lastName", placeholder = Html.Sitecore().Field("Last Name Placeholder Text") })
                     </div>
-                    <div class="item" @html.validation().errorclass(model=>
-                        model.ContactEmail.Address)>
+                    <div class="item" @html.validation().errorclass(model=> model.ContactEmail.Address)>
                         @Html.TextBoxFor(m => m.ContactEmail.Address, new { ng_model = "email", placeholder = Html.Sitecore().Field("Email Placeholder Text") })
                     </div>
-                    <div class="item" @html.validation().errorclass(model=>
-                        model.ContactPhone.Number)>
+                    <div class="item" @html.validation().errorclass(model=> model.ContactPhone.Number)>
                         @Html.TextBoxFor(m => m.ContactPhone.Number, new { ng_model = "phone", placeholder = Html.Sitecore().Field("Phone Number Placeholder Text") })
                     </div>
-                    <div class="item" @html.validation().errorclass(model=>
-                        model.ContactComments)>
+                    <div class="item" @html.validation().errorclass(model => model.OrderNumber.Number)>
+                        @Html.TextBoxFor(m => m.OrderNumber.Number, new { ng_model = "phone", placeholder = Html.Sitecore().Field("Order Number Placeholder Text") })
+                    </div>
+                    <div class="item" @html.validation().errorclass(model=> model.Category.Category)>
+                        @Html.TextBoxFor(m => m.Category.Category, new { ng_model = "category", placeholder = Html.Sitecore().Field("Category Placeholder Text") })
+                    </div>
+                    <div class="item" @html.validation().errorclass(model => model.Number.Number)>
+                        @Html.TextBoxFor(m => m.Number.Number, new { ng_model = "number", placeholder = Html.Sitecore().Field("IMEI Number Placeholder Text") })
+                    </div>
+                    <div class="item" @html.validation().errorclass(model => model.Reason.Reason)>
+                        @Html.TextBoxFor(m => m.Reason.Reason, new { ng_model = "category", placeholder = Html.Sitecore().Field("Reason Placeholder Text") })
+                    </div>
+                    <div class="item" @html.validation().errorclass(model=> model.ContactComments)>
                         @Html.TextAreaFor(m => m.ContactComments, new { ng_model = "comments", placeholder = Html.Sitecore().Field("Comments Placeholder Text") })
                     </div>
                     <div class="item">

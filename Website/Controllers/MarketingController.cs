@@ -423,9 +423,9 @@ namespace StreamEnergy.MyStream.Controllers
                 var Email = contact.ContactEmail.Address;
                 var Phone = contact.ContactPhone.Number;
                 var OrderNumber = contact.OrderNumber.Number;
-                var ServiceCategory = contact.ServiceCategory.Category;
-                var IMEI = contact.IMEINumber.Number;
-                var Reason = contact.ReturnReason.Reason;
+                var ServiceCategory = contact.Category.Category;
+                var IMEI = contact.Number.Number;
+                var Reason = contact.Reason.Reason;
                 var Comments = contact.ContactComments;
                 var Name = FirstName + ' ' + LastName;
 

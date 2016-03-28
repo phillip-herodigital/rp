@@ -6,10 +6,8 @@ using System.Text;
 
 namespace StreamEnergy.DomainModels
 {
-    [Serializable]
     public class ReturnReason
     {
-        [Required(ErrorMessage = "Return Reason Required")]
-        public ReturnReason? string { get; set; }
+        public string Reason { get; set; }
     }
 }

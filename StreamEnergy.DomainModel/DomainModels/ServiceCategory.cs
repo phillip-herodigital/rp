@@ -6,10 +6,8 @@ using System.Text;
 
 namespace StreamEnergy.DomainModels
 {
-    [Serializable]
     public class ServiceCategory
     {
-        [Required(ErrorMessage = "Category Required")]
-        public ServiceCategory? Category { get; set; }
+        public string Category { get; set; }
     }
 }

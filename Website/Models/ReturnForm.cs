@@ -26,13 +26,13 @@ namespace StreamEnergy.MyStream.Models
         public Order OrderNumber{ get; set; }
 
         [ValidateObject(ErrorMessagePrefix = "")]
-        public ServiceCategory ServiceCategory { get; set; }
+        public ServiceCategory Category { get; set; }
 
         [ValidateObject(ErrorMessagePrefix = "")]
-        public IMEI IMEINumber { get; set; }
+        public IMEI Number { get; set; }
 
         [ValidateObject(ErrorMessagePrefix = "")]
-        public ReturnReason ReturnReason { get; set; }
+        public ReturnReason Reason{ get; set; }
 
         [ValidateObject(ErrorMessagePrefix = "Please enter a comment/suggestion")]
         public string ContactComments { get; set; }

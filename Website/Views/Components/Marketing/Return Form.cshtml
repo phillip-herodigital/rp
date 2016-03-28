@@ -40,7 +40,7 @@
                         @Html.TextBoxFor(m => m.IMEINumber.Number, new { ng_model = "IMEI", placeholder = Html.Sitecore().Field("MEID/IMEI Number Placeholder Text") })
                     </div>
                     <div class="item" @html.validation().errorclass(model=> model.ReturnReason.Reason)>
-                        @Html.TextBoxFor(m => m.ReturnReason.Reason, new { ng_model = "Reason", placeholder = Html.Sitecore().Field("Return Reason Placeholder Text") })
+                        @Html.TextBoxFor(m => m.ReturnReason.Reason, new { ng_model = "Reason", placeholder = Html.Sitecore().Field("Reason Placeholder Text") })
                     </div>
                     <div class="item" @Html.Validation().ErrorClass(model => model.ContactComments)>
                         @Html.TextAreaFor(m => m.ContactComments, new { ng_model = "comments", placeholder = Html.Sitecore().Field("Comments Placeholder Text") })
