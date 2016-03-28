@@ -4329,7 +4329,6 @@ article.mobile.mobile-plans-usage-calculator {
 
             .grid {
                 padding: 20px 0;
-                border-bottom: 1px solid #eee;
 
                 .suggestionText {
                     font-size: 24px;
@@ -4488,22 +4487,19 @@ article.mobile.mobile-plans-usage-calculator {
                             }
                         }
                         .rec-plan-box {
-                            min-height: 380px;
                             vertical-align: top;
-                            margin-right: 20px;
                             position: relative;
                             top: 0;
                             display: block;
                             float: left;
-                            min-width: 200px;
-                            width: calc(25% - 15px);
                             z-index: 2;
                             text-align: center;
+                            background: transparent;
 
                             .recommended-box {
                                 height: 40px;
                                 background: transparent;
-
+                                position: relative;
                                 .heading {
                                     background-color: #eea525;
                                     border-radius: 5px 5px 0 0;
@@ -4569,6 +4565,20 @@ article.mobile.mobile-plans-usage-calculator {
                                 }
                             }
 
+                            .grid {
+                                padding-top: 0;
+                            }
+
+                            .col {
+                                border: none;
+                                .plan-details.recommended {
+                                    border: 2px solid #eea525;
+                                }
+                                &:after {
+                                    display: none;
+                                }
+                            }
+
                             &:last-child {
                                 margin-right: 0px;
                             }
@@ -4611,14 +4621,6 @@ article.mobile.mobile-plans-usage-calculator {
                                     font-style: italic;
                                     margin: 0;
                                 }
-                            }
-
-                            .button {
-                                padding: 5px;
-                                font-size: 18px;
-                                font-weight: 400;
-                                width: 190px;
-                                margin: 10px -50px;
                             }
 
                             hr.divider {
