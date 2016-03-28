@@ -5198,23 +5198,26 @@ h3.success-message{
             font-size: 12px;
         }
 
+        hr {
+            margin-bottom: 10px;
+            height: 0;
+        }
+
         .extra-info {
             color: #909090;
             font-size: 12px;
             font-weight: 800;
-            min-height: 65px;
-
-            hr {
-                margin: 10px 0;
-            }
-
+            text-align: left;
+            margin-top: 10px;
+            height: 44px;
             span {
-                padding: 5px 0;
+                padding: 10px 0 0;
                 font-weight: 500;
                 font-size: 14px;
                 font-style: italic;
                 line-height: 1;
-
+                border-top: 1px solid #ececec;
+                box-sizing: border-box;
                 i.icon-international-phone {
                     background-image: url('../i/icon/international-phone.png');
                     background-position: 0 3px;
@@ -5242,23 +5245,33 @@ h3.success-message{
                 display: inline-block;
                 height: 33px;
                 width: 35px;
+                margin-top: 5px;
             }
 
             &.selected {
                 border: 1px solid #0494d5;
             }
+
+            @include breakpoint(medium) {
+                width: 46%;
+            }
+            @include breakpoint(small) {
+                width: 100%;
+            }
         }
 
         .size-speed {
-            margin: 20px 0;
-            font-size: 34px;
+            margin: 25px 0 10px;
+            font-size: 27px;
             font-weight: 800;
             color: #eb9600;
-
-            .size {
-                font-size: 27px;
+            font-style: italic;
+            text-transform: uppercase;
+            height: 46px;
+            .number {
+                font-size: 34px;
+                margin-top: -5px;
             }
-
             .speed {
                 font-size: 12px;
                 font-weight: 800;
@@ -5269,7 +5282,7 @@ h3.success-message{
         .price {
             position: relative;
             line-height: 1.1;
-
+            padding-bottom: 5px;
             .cost {
                 color: #6b6b6b;
                 font-size: 41px;
@@ -5289,13 +5302,19 @@ h3.success-message{
         }
 
         button.button {
-            color: #fff;
             display: inline-block;
+            text-transform: none;
+            color: #fff;
+            font-size: 18px;
+            font-weight: 500;
+            background-color: #2aa4dc;
+            border: 1px solid #229acd;
             padding: 10px 22px;
             min-height: 25px;
             width: 100px;
-            background-image: none;
-            background-color: #2aa4dc;
+            @include border-radius(5px);
+            @include background-image(linear-gradient(to top, #008cd2 0%, #2aa4dc 100%));
+            box-shadow: none;
             float: none;
         }
 
