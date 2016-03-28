@@ -318,7 +318,7 @@
     <div class="btn-group btn-group-options mobile-plans">
         <div class="button" ng-class="{selected: selectedPlan.data === plan.data, 'is-recommended': plan.recommended}" ng-click="selectPlan(plan.id)" ng-repeat="plan in typedOffers.value.availableOffers | filter:filterPlans | orderBy:'sortOrder'">
             <div class="size-speed">
-                <div class="size">{{ plan.data }} <span ng-if="plan.data != 'Unlimited'">@Html.Sitecore().Field("GB Text")</span></div>
+                <div class="size"><span ng-class="{ number : plan.data != 'Unlimited' }">{{ plan.data }}</span><span ng-if="plan.data != 'Unlimited'">@Html.Sitecore().Field("GB Text")</span></div>
                 <div class="speed">@Html.Sitecore().Field("Text - 4G LTE Data")</div>
             </div>
             <hr />
@@ -327,17 +327,16 @@
                 <div class="duration">@Html.Sitecore().Field("Per Month Text")</div>
             </div>
             <div class="extra-info">
-                <div ng-if="plan.includesInternational">
-                    <hr />
-                    <span>
-                        <i class="icon-international-phone"></i>
-                        @Html.Sitecore().Field("Text - Stream International")
-                    </span>
-                </div>
+                <span ng-if="plan.includesInternational">
+                    <i class="icon-international-phone"></i>
+                    @Html.Sitecore().Field("Text - Stream International")
+                </span>
             </div>
-            <hr />
-            <button class="button" type="button" ng-hide="selectedPlan.data === plan.data">@Html.Sitecore().Field("Select Text")</button>
-            <div ng-show="selectedPlan.data === plan.data" class="check"></div>
+            <div class="selection">
+                <hr />
+                <button class="button" type="button" ng-show="selectedPlan.data != plan.data">@Html.Sitecore().Field("Select Text")</button>
+                <div ng-show="selectedPlan.data == plan.data" class="check"></div>
+            </div>
         </div>
     </div>
 </script>
