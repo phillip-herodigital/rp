@@ -54,20 +54,12 @@ namespace StreamEnergy.DomainModels.Enrollments
                 if (internalContext.PlaceOrderAsyncResult.IsCompleted)
                 {
                     internalContext.PlaceOrderResult = internalContext.PlaceOrderAsyncResult.Data;
-                    var paymentInfo = ((DomainModels.Payments.TokenizedCard)context.PaymentInfo);
-                    var nickname = (paymentInfo != null && paymentInfo.CardToken != null) ? paymentInfo.Type + " - " + paymentInfo.CardToken.Substring(paymentInfo.CardToken.Length - 4) : null;
                     IEnumerable<Account> accounts = Enumerable.Empty<Account>(); 
-                    Guid paymentMethodID = Guid.Empty;
                     bool hasAllMobile = internalContext.PlaceOrderResult.All(o => o.Offer.OfferType == "Mobile");
                     if (hasAllMobile && internalContext.PlaceOrderResult.Any(o => o.Details.PaymentConfirmation.Status != "Success"))
                     {
                         context.PaymentError = true;
                         return typeof(CompleteOrderState);
-                    }
-                    if (context.EnrolledInAutoPay)
-                    {
-                        accounts = await accountService.GetAccounts(internalContext.GlobalCustomerId);
-                        paymentMethodID = await paymentService.SavePaymentMethod(internalContext.GlobalCustomerId, paymentInfo, nickname);
                     }
                     foreach (var placeOrderResult in internalContext.PlaceOrderResult)
                     {
@@ -79,16 +71,6 @@ namespace StreamEnergy.DomainModels.Enrollments
                             {
                                 placeOrderResult.Details.IsSuccess = false;
                             }
-                        }
-                        if (context.EnrolledInAutoPay && paymentMethodID != Guid.Empty)
-                        {
-                            var account = accounts.FirstOrDefault(a => a.AccountNumber == placeOrderResult.Details.ConfirmationNumber);
-                            await paymentService.SetAutoPayStatus(internalContext.GlobalCustomerId, account.StreamConnectAccountId, new DomainModels.Payments.AutoPaySetting
-                                {
-                                    IsEnabled = true,
-                                    PaymentMethodId = paymentMethodID
-                                },
-                                paymentInfo.SecurityCode);
                         }
                     }
                         
