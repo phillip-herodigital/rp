@@ -1038,7 +1038,7 @@ article.pay {
     }
 
     .bring-device {
-        background: image-url('marketing/home-mobile-shopPhone.png') top no-repeat;
+        background: image-url('marketing/redesign/Modules/BringPhones.jpg') top left no-repeat;
 
         @include breakpoint(small) {
             margin-top: 20px;
@@ -3577,7 +3577,6 @@ article.international-plus {
 	background-image: image-url('marketing/redesign/international_plus_background.png');
 	background-repeat: no-repeat;
 	background-color: #f3f6f7;
-	min-height: 484px;
 	@include breakpoint(small) {
 		background-image: none;
 	}
