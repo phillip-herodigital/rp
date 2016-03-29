@@ -431,10 +431,13 @@ article {
                         margin-right: 40px;
                         li {
                             margin: 5px 0;
+                            font-weight: 500;
+                            font-size: 18px;
                         }
                     }
                     .button {
-                        vertical-align: middle;
+                        vertical-align: bottom;
+                        margin: 0 0 25px 40px;
                     }
                 }
             }
@@ -1035,7 +1038,7 @@ article.pay {
     }
 
     .bring-device {
-        background: image-url('marketing/redesign/Modules/BringPhones.jpg') top left no-repeat;
+        background: image-url('marketing/home-mobile-shopPhone.png') top no-repeat;
 
         @include breakpoint(small) {
             margin-top: 20px;
@@ -3173,7 +3176,7 @@ article.marketing.mobile.cdma-pricing-plans {
                 }
                 h2 {
                     font-size: 16px;
-                    padding: 10px 3px 0 3px;
+                    padding: 10px 2px 0 2px;
                     margin-bottom: 15px;
                     margin-top: 40px;
                     text-align: left;
@@ -3264,7 +3267,7 @@ article.marketing.mobile.cdma-pricing-plans {
                     }
                 }
                 div.international {
-                    border-top:v3px solid #f8f8f8;
+                    border-top: 3px solid #f8f8f8;
                     border-bottom: 3px solid #f8f8f8;
                     background: url('../i/marketing/redesign/stream_international.png') left center no-repeat;
                     margin-left: 15px;
@@ -3272,7 +3275,7 @@ article.marketing.mobile.cdma-pricing-plans {
                     p {
                         color: #6b6b6b;
                         padding-left: 25px;
-                        margin: 5px 0;
+                        margin: 8px 0;
                         font-size: 14px;
                     }
                 }
@@ -3308,6 +3311,10 @@ article.marketing.mobile.cdma-pricing-plans {
                 font-weight: 600;
             }
             .col {
+                width: 33%;
+                &:after {
+                    display: none;
+                }
                 h3 {
                     text-align: left;
                 }
@@ -3322,6 +3329,11 @@ article.marketing.mobile.cdma-pricing-plans {
                             font-size: 12px;
                             font-style: italic;
                         }
+                    }
+                }
+                @include breakpoint(large) {
+                    &:first-child {
+                        padding-left: 15%;
                     }
                 }
             }

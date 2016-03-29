@@ -4586,6 +4586,67 @@ article.mobile.mobile-plans-usage-calculator {
 
         .manual-calculator {
 
+            .international-plus {
+                padding: 25px;
+                background-image: none;
+                background-color: #fff;
+                text-align: left;
+                font-size: 18px;
+                .wrapper {
+                    padding-top: 0;
+                }
+                .info {
+                    width: 70%;
+                    float: left;
+                    background: image-url('marketing/redesign/stream_international_plus.png') top left no-repeat;
+                    padding-left: 80px;
+                    margin-top: 50px;
+                    @include breakpoint(small) {
+                        width: 100%;
+                    }
+                    h3 {
+                        margin: 0;
+                        color: #2aa4dc;
+                        font-weight: 600;
+                    }
+                    p {
+                        margin: 0.5em 0 0;
+                        font-weight: 400;
+                        color: #6b6b6b;
+                        font-style: italic;
+                    }
+                    ul {
+                        font-weight: 400;
+                        color: #000;
+                    }
+                }
+                .add-price {
+                    width: 30%;
+                    float: right;
+                    padding-top: 50px;
+                    min-height: 242px;
+                    text-align: center;
+                    line-height: 1;
+                    span {
+                        font-size: 45px;
+                        color: #0090d4;
+                        font-weight: 600;
+                    }
+                    p.cost {
+                        margin-top: 0px;
+                    }
+                    @include breakpoint(small) {
+                        width: 100%;
+                        float: left;
+                    }
+                }
+                .footnote {
+                    background: none;
+                    clear: both;
+                    border-top: 1px solid #e1e1e1;
+                }
+            }
+
             .grid {
                 padding: 20px 0;
 

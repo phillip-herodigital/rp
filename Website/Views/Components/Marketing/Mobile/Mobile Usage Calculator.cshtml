@@ -639,22 +639,21 @@
                                         <div class="col" ng-repeat="plan in serverData.dataPlans | filter: filterPlans">
                                             <div class="recommended-box">
                                                 <div class="heading" ng-show="recommendedPlanData == plan.data">
-                                                    <h3>@GetFieldValue("Recommended Plan")</h3>
+                                                    <h3>@Html.Sitecore().Field("Recommended Plan")</h3>
                                                 </div>
                                             </div>
                                             <div class="plan-details" ng-class="{recommended: recommendedPlanData == plan.data}">
                                                 <p class="data" ng-if="plan.data != 'Unlimited'">{{ plan.data }}<span>GB</span></p>
                                                 <p class="data" ng-if="plan.data == 'Unlimited'"><span class="unlimited">@Html.Sitecore().Field("Unlimited")</span></p>
-                                                <p class="lte">@GetFieldValue("4G LTE Data")</p>
-                                                <h2>@GetFieldValue("Unlimited Talk") @GetFieldValue("Nationwide Coverage")</h2>
-                                                <p class="international" ng-if="!plan.includesInternational"><span>+ Add</span> Stream International Plus for $5/month*</p>
-
+                                                <p class="lte">@Html.Sitecore().Field("4G LTE Data")</p>
+                                                <h2>@Html.Sitecore().Field("Unlimited Talk")</h2>
+                                                <p class="international" ng-if="!plan.includesInternational">@Html.Sitecore().Field("Add International")</p>
                                                 <div class="international" ng-if="plan.includesInternational">
-                                                    <p>@GetFieldValue("Stream International Plus")</p>
+                                                    <p>@Html.Sitecore().Field("Stream International Plus")</p>
                                                 </div>
-                                                <p class="price no-international">${{plan.price}}<span>@GetFieldValue("Per Month")</span></p>
+                                                <p class="price no-international">${{plan.price}}<span>@Html.Sitecore().Field("Per Month")</span></p>
                                                 <a class="button plan-button" href="/enrollment?ServiceType=Mob&MobilePlanId={{plan.planId}}">
-                                                    @GetFieldValue("Select")
+                                                   @Html.Sitecore().Field("Select")
                                                 </a>
                                             </div>
                                         </div>
@@ -667,20 +666,20 @@
                     <div class="usageLinks mktgStyle">
                         <a href="/services/mobile/plans" ng-click="">@GetFieldValue("View Plan Details")</a> | <a class="a2" href="/services/mobile/coverage-map#?carrier=sprint">@GetFieldValue("Launch Coverage Map")</a> | <a class="a3" ng-click="" href="/services/mobile/faqs">@Html.Sitecore().Field("Mobile FAQs")</a>
                     </div>
-                    <div class="grid mktgStyle">
-                        <div class="col left clearfix">
-                            <div class="icon pull-left">
-                                <i class="phone"></i>
-                            </div>
-                            <div class="useFooter">
-                                <span class="useHeader">@GetFieldValue("Stream Plus Header")</span><br />
-                                <div class="useContent"> @GetFieldValue("Stream Plus Content") </div>
-                            </div>
+                    <div class="international-plus">
+                        <div class="info">
+                            <h3>@Html.Sitecore().Field("Stream Plus Header")</h3>
+                            @Html.Sitecore().Field("Stream Plus Content")
                         </div>
-                        <div class="useColRight">
-                            <div>@GetFieldValue("Stream Plus Text")<br /><span class="dollar">@GetFieldValue("Stream Plus Price")</span><span class="dollarMonth">/month</span></div>
+                        <div class="add-price">
+                            @Html.Sitecore().Field("Add")
+                            <div class="cost">@Html.Sitecore().Field("Stream Plus Price")</div>
+                        </div>
+                        <div class="footnotes">
+                            @Html.Sitecore().Field("Footnotes")
                         </div>
                     </div>
+                    
                     @*<div class="grid" ng-show="isModal">
                             <div class="col right addToCart">
                                 @if (!Model.IsJavascriptSubmit)
