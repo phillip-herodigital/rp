@@ -4779,6 +4779,10 @@ h3.success-message{
                     font-weight: 400;
                     color: #013c5b;
                 }
+
+                @include breakpoint(small) {
+                    width: 100%;
+                }
             }
 
             .btn-group-options {
@@ -4788,6 +4792,16 @@ h3.success-message{
                     &:first-of-type {
                         margin-right: 10px;
                     }
+
+                    @include breakpoint(small) {
+                        width: 100%;
+                    }
+                }
+
+                @include breakpoint(small) {
+                    width: 100%;
+                    max-width: 350px;
+                    margin: 0 auto;
                 }
             }
         }
@@ -5207,6 +5221,7 @@ h3.success-message{
             text-align: left;
             margin-top: 10px;
             height: 44px;
+
             span {
                 padding: 10px 0 0;
                 font-weight: 500;
@@ -5215,6 +5230,7 @@ h3.success-message{
                 line-height: 1;
                 border-top: 1px solid #ececec;
                 box-sizing: border-box;
+
                 i.icon-international-phone {
                     background-image: url('../i/icon/international-phone.png');
                     background-position: 0 3px;
@@ -5252,6 +5268,7 @@ h3.success-message{
             @include breakpoint(medium) {
                 width: 46%;
             }
+
             @include breakpoint(small) {
                 width: 100%;
             }
@@ -5265,10 +5282,12 @@ h3.success-message{
             font-style: italic;
             text-transform: uppercase;
             height: 46px;
+
             .number {
                 font-size: 34px;
                 margin-top: -5px;
             }
+
             .speed {
                 font-size: 12px;
                 font-weight: 800;
@@ -5280,6 +5299,7 @@ h3.success-message{
             position: relative;
             line-height: 1.1;
             padding-bottom: 5px;
+
             .cost {
                 color: #6b6b6b;
                 font-size: 41px;
