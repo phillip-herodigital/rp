@@ -11,7 +11,13 @@ ngApp.controller('MobileInternationalRatesCtrl', ['$scope', '$http', function ($
     })*/
 
     $scope.focusSelect = function () {
-        console.log('selecting focus');
-        document.getElementById("country").focus();
+        
+
+        var focus = function () {
+            console.log('selecting focus');
+            document.getElementById("country").focus();
+        }
+        
+        setTimeout(focus, 1000);
     }
 }]);
