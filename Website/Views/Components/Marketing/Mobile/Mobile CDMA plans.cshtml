@@ -30,6 +30,9 @@
             </div>
             <div class="col">
                 <div class="plan-details">
+                    <span class="best-deal">
+                        @Html.Sitecore().Field("Best Deal")
+                    </span>
                     <p class="data">@Html.Sitecore().Field("Plan 3 GB")</p>
                     <p class="lte">@Html.Sitecore().Field("LTE Data")</p>
 
@@ -47,9 +50,6 @@
             </div>
             <div class="col">
                 <div class="plan-details">
-                    <span class="best-deal">
-                        @Html.Sitecore().Field("Best Deal")
-                    </span>
                     <p class="data">@Html.Sitecore().Field("Plan 4 GB")</p>
                     <p class="lte">@Html.Sitecore().Field("LTE Data")</p>
                     <h2>@Html.Sitecore().Field("Plan 4 Service")</h2>
