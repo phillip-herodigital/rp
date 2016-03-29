@@ -431,10 +431,13 @@ article {
                         margin-right: 40px;
                         li {
                             margin: 5px 0;
+                            font-weight: 500;
+                            font-size: 18px;
                         }
                     }
                     .button {
-                        vertical-align: middle;
+                        vertical-align: bottom;
+                        margin: 0 0 25px 40px;
                     }
                 }
             }
