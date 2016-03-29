@@ -4767,6 +4767,10 @@ h3.success-message{
                 input {
                     width: 100%;
                 }
+
+                @include breakpoint(small) {
+                    width: 100%;
+                }
             }
         }
 
