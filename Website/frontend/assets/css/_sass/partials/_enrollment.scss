@@ -1550,6 +1550,14 @@
 
             .terms {
                 margin-bottom: 10px;
+
+                ol {
+                    list-style-type: upper-roman;
+                }
+
+                ul {
+                    list-style-type: disc;
+                }
             }
         }
     }

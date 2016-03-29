@@ -228,9 +228,9 @@
         <div class="options"><strong>@Html.Sitecore().Field("IMEI")</strong> {{ item.imeiNumber }}</div>
         <div class="options" ng-if="item.iccidNumber"><strong>@Html.Sitecore().Field("ICCID")</strong> {{ item.iccidNumber }}</div>
         <div class="links">
-            <a href="" ng-click="editMobileDevice($index)">@Html.Sitecore().Field("Edit Phone Link")</a>
+            <a href="" ng-click="editMobileDevice(item, $index, true)">@Html.Sitecore().Field("Edit Phone Link")</a>
             <span> | </span>
-            <a href="" ng-click="deleteMobileLine($index, item)">@Html.Sitecore().Field("Remove Phone Link")</a>
+            <a href="" ng-click="editMobileDevice(item, $index, false)">@Html.Sitecore().Field("Remove Phone Link")</a>
         </div>
     </div>
 </script>

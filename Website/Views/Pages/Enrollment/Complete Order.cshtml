@@ -313,8 +313,11 @@
                                         <li>
                                             @Html.CheckBoxFor(m => m.AgreeToAutoPayTerms, new { ng_model = "completeOrder.agreeToAutoPayTerms", data_val = "true", data_val_required = "" })
                                             <label for="@Html.IdFor(m => m.AgreeToAutoPayTerms)">
-                                                @Html.Sitecore().Field("AutoPay tac text")
+                                                @Html.Sitecore().Field("AutoPay Terms and Conditions Label")
                                             </label>
+                                            <div class="terms">
+                                                @Html.Sitecore().Field("AutoPay tac text")
+                                            </div>
                                         </li>
                                     </ul>
                                 </div>
