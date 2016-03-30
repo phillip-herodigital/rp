@@ -99,12 +99,23 @@ ngApp.controller('EnrollmentCartCtrl', ['$scope', 'enrollmentStepsService', 'enr
     /**
     * Change Mobile Plan
     */
-    $scope.changeMobilePlan = function (service) {
+    $scope.changeMobilePlan = function (item, service) {
         //update active service address, send to the correct page
         if(enrollmentCartService.getCartVisibility()) {
             enrollmentCartService.toggleCart();
         }
-        enrollmentCartService.setActiveService(service);
+        var newItem = {
+            showIccid: item.showIccid,
+            phoneOS: "",
+            missingIccid: false,
+            transferInfo: null,
+            imeiNumber: item.imeiNumber,
+            foreignDevice: item.foreignDevice
+        };
+        enrollmentCartService.removeDeviceFromCart(item);
+        enrollmentCartService.addDeviceToCart(newItem);
+        addNewService();
+        enrollmentCartService.removeService(service);
         enrollmentStepsService.setFlow('phone', false).setStep('phoneFlowPlans');
     };
 
