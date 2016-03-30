@@ -408,7 +408,7 @@ namespace StreamEnergy.MyStream.Controllers
                 ShowSuccessMessage = !string.IsNullOrEmpty(Request["success"]) && Request["success"] == "true",
             };
 
-            return View("~/Views/Components/Return Form.cshtml", model);
+            return View("~/Views/Pages/Marketing/Return/Return Form.cshtml", model);
         }
 
         [HttpPost]
@@ -422,29 +422,45 @@ namespace StreamEnergy.MyStream.Controllers
                 var LastName = contact.ContactName.Last;
                 var Email = contact.ContactEmail.Address;
                 var Phone = contact.ContactPhone.Number;
-                var OrderNumber = contact.OrderNumber.Number;
-                var ServiceCategory = contact.Category.Category;
-                var IMEI = contact.Number.Number;
-                var Reason = contact.Reason.Reason;
+                var OrderNumber = contact.OrderNumber;
+                var LastFour = contact.LastFour;
+                var EnergyServices = contact.EnergyServices;
+                var MobileServies = contact.MobileServices;
+                var HomeServices = contact.HomeServices;
+                var IMEI = contact.IMEINumber;
+                var Reason = contact.ReturnReason;
                 var Comments = contact.ContactComments;
                 var Name = FirstName + ' ' + LastName;
 
+                var ServicesString = EnergyServices ? " Energy Services" : "";
+                if (MobileServies) {ServicesString += " Mobile Services"; }
+                if (HomeServices) { ServicesString += " Home Services"; }
+
                 // Get the To address(es) from Sitecore;
                 var settings = StreamEnergy.Unity.Container.Instance.Resolve<ISettings>();
-                var ToEmail = settings.GetSettingsField("Marketing Form Email Addresses", "Currents Feedback Email Address").Value;
+                var EnergyEmail = settings.GetSettingsField("Marketing Form Email Addresses", "Energy Return Email Address").Value;
+                var MobileEmail = settings.GetSettingsField("Marketing Form Email Addresses", "Mobile Return Email Address").Value;
+                var HomeEmail = settings.GetSettingsField("Marketing Form Email Addresses", "Home Return Email Address").Value;
 
                 // Send the email
                 var fromAddress = Sitecore.Configuration.Settings.GetSetting("DynEtc.fromAddress", null);
                 MailMessage Message = new MailMessage();
                 Message.From = new MailAddress(fromAddress, Name);
                 Message.ReplyToList.Add(new MailAddress(Email));
-                Message.To.Add(ToEmail);
-                Message.Subject = "New Currents Comments/Feedback";
+                if (EnergyServices) { Message.To.Add(EnergyEmail); }
+                if (MobileServies) { Message.To.Add(MobileEmail); }
+                if (HomeServices) { Message.To.Add(HomeEmail); }
+                Message.Subject = "IGNITION RETURN: My Stream Store";
                 Message.IsBodyHtml = true;
                 Message.Body = "First Name: " + FirstName +
                     "<br />Last Name: " + LastName +
                     "<br />Email: " + Email +
                     "<br />Phone: " + Phone +
+                    "<br />Order Number: " + OrderNumber +
+                    "<br />Last 4 of CC: " + OrderNumber +
+                    "<br />Service Categories: " + ServicesString +
+                    "<br />IMEI/MEID: " + IMEI +
+                    "<br />Reason: " + Reason +
                     "<br />Comments: " + Comments;
 
 
@@ -457,7 +473,7 @@ namespace StreamEnergy.MyStream.Controllers
             }
             else
             {
-                return View("~/Views/Pages/Currents/CurrentsFeedback.cshtml", contact);
+                return View("~/Views/Pages/Marketing/Return/Return Form.cshtml", contact);
             }
         }
         

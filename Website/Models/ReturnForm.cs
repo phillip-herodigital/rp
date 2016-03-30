@@ -23,16 +23,26 @@ namespace StreamEnergy.MyStream.Models
         public Phone ContactPhone { get; set; }
 
         [ValidateObject(ErrorMessagePrefix = "")]
-        public Order OrderNumber{ get; set; }
+        public String OrderNumber{ get; set; }
 
         [ValidateObject(ErrorMessagePrefix = "")]
-        public ServiceCategory Category { get; set; }
+        public String LastFour { get; set; }
 
         [ValidateObject(ErrorMessagePrefix = "")]
-        public IMEI Number { get; set; }
+        public bool EnergyServices { get; set; }
 
         [ValidateObject(ErrorMessagePrefix = "")]
-        public ReturnReason Reason{ get; set; }
+        public bool MobileServices { get; set; }
+
+        [ValidateObject(ErrorMessagePrefix = "")]
+        public bool HomeServices { get; set; }
+
+        [ValidateObject(ErrorMessagePrefix = "")]
+        public String IMEINumber { get; set; }
+
+        [Required]
+        [ValidateObject(ErrorMessagePrefix = "")]
+        public String ReturnReason { get; set; }
 
         [ValidateObject(ErrorMessagePrefix = "Please enter a comment/suggestion")]
         public string ContactComments { get; set; }
