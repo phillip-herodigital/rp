@@ -26,13 +26,16 @@ ngApp.controller('EnrollmentCartCtrl', ['$scope', 'enrollmentStepsService', 'enr
     $scope.getMobileAddresses = enrollmentCartService.getMobileAddresses;
     $scope.getUtilityAddresses = enrollmentCartService.getUtilityAddresses;
     $scope.getActiveServiceType = enrollmentCartService.getActiveServiceType;
+    $scope.getPlanPrice = enrollmentCartService.getPlanPrice;
     $scope.totalPlanPrice = enrollmentCartService.totalPlanPrice;
+    $scope.getEstimatedMonthlyTotal = enrollmentCartService.getEstimatedMonthlyTotal;
     $scope.associateInformation = enrollmentService.associateInformation;
     $scope.addDeviceError = false;
     $scope.addDataPlanError = false;
     $scope.addUtilityPlanError = false;
     $scope.getCurrentStep = enrollmentStepsService.getCurrentStep;
-
+    $scope.services = enrollmentCartService.services;
+    $scope.getServicesCount = enrollmentCartService.getServicesCount;
     /**
     * Show IMEI Instructions Modal
     */
@@ -106,59 +109,79 @@ ngApp.controller('EnrollmentCartCtrl', ['$scope', 'enrollmentStepsService', 'enr
     };
 
     /**
-    * Edit Mobile Device
+    * Edit/Delete Mobile Device
     */
-    $scope.editMobileDevice = function (service, item) {
-        //update active service address, send to the correct page
-        if(enrollmentCartService.getCartVisibility()) {
-            enrollmentCartService.toggleCart();
+    $scope.editMobileDevice = function (item, serviceIndex, saveIMEI) {
+        if (saveIMEI) {
+            enrollmentService.editPhoneIMEI = angular.copy(item.imeiNumber);
         }
-        //update the editedDevice object so the Choose Phone page can get its state
-        mobileEnrollmentService.editedDevice = item;
-        //remove the device from the cart items array
+        $scope.location = {
+            address: {
+                city: enrollmentCartService.services[0].location.address.city,
+                line1: "",
+                postalCode5: enrollmentCartService.services[0].location.address.postalCode5,
+                stateAbbreviation: enrollmentCartService.services[0].location.address.stateAbbreviation
+            },
+            capabilities: enrollmentCartService.services[0].location.capabilities
+        }
+        $scope.offerInfo = [{
+            key: "Mobile",
+            value: {
+                availableOffers: enrollmentCartService.services[0].offerInformationByType[0].value.availableOffers,
+                errors: [],
+                offerSelections: []
+            }
+        }];
         enrollmentCartService.removeDeviceFromCart(item);
-        //enrollmentCartService.setActiveService(service);
-        enrollmentStepsService.setFlow('phone', false).setStep('phoneFlowDevices');
+        enrollmentCartService.removeService(enrollmentCartService.services[serviceIndex]);
+        enrollmentService.setSelectedOffers().then(
+            function (value) {
+                enrollmentCartService.addService({
+                    eligibility: "success",
+                    location: $scope.location,
+                    offerInformationByType: $scope.offerInfo
+                });
+                enrollmentStepsService.setStep('phoneFlowDevices');
+                enrollmentStepsService.hideStep('phoneFlowPlans');
+            });
     };
 
     /**
-    * Delete Mobile Device
+    * Add new Mobile Service
     */
-    $scope.deleteMobileDevice = function (service, item) {
-        //update active service address, send to the correct page
-        if(enrollmentCartService.getCartVisibility()) {
-            enrollmentCartService.toggleCart();
-        }
-        //remove the device from the cart items array
-        enrollmentCartService.removeDeviceFromCart(item);
-        //if there is 1 device left in the cart, go to data plan selection,
-        //if 0, go to device selection, otherwise stay at the same step
-        var devicesCount = enrollmentCartService.getDevicesCount();
-        var activeService = enrollmentCartService.getActiveService();
-        var serviceType = $scope.getActiveServiceType();
-        if (devicesCount == 0 && serviceType == 'Mobile') {
-            enrollmentStepsService.setFlow('mobile', false).setStep('phoneFlowDevices');
-        } else if (devicesCount == 1) {
-            //enrollmentCartService.setActiveService(service);
-            enrollmentStepsService.setFlow('mobile', false).setStep('phoneFlowPlans');
-        } else if (devicesCount > 1) {
-            //make a server call to update the cart with the correct devices
-            $timeout(function() { 
-                enrollmentService.setAccountInformation(); 
-            }, 50);
-        }
+    var addNewService = function () {
+        var location = {
+            address: {
+                city: enrollmentCartService.services[0].location.address.city,
+                line1: "",
+                postalCode5: enrollmentCartService.services[0].location.address.postalCode5,
+                stateAbbreviation: enrollmentCartService.services[0].location.address.stateAbbreviation
+            },
+            capabilities: enrollmentCartService.services[0].location.capabilities
+        };
+        var offerInfo = [{
+            key: "Mobile",
+            value: {
+                availableOffers: enrollmentCartService.services[0].offerInformationByType[0].value.availableOffers,
+                errors: [],
+                offerSelections: []
+            }
+        }];
+        enrollmentCartService.addService({
+            eligibility: "success",
+            location: location,
+            offerInformationByType: offerInfo
+        });
     };
 
-    /**
-    * Add Mobile Device
-    */
-    $scope.addMobileDevice = function (service) {
+    $scope.addMobileDevice = function () {
         //update active service address, send to the correct page
         if(enrollmentCartService.getCartVisibility()) {
             enrollmentCartService.toggleCart();
         }
-        enrollmentCartService.setActiveService(service);
-        enrollmentStepsService.setFlow('phone', false).setStep('phoneFlowDevices');
+        addNewService();
+        enrollmentStepsService.setStep('phoneFlowDevices');
+        enrollmentStepsService.hideStep('phoneFlowPlans');
     };
 
     /**

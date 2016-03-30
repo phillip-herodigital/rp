@@ -45,7 +45,9 @@ namespace StreamEnergy.DomainModels.Enrollments.Mobile
 
         public string SpecialOfferOriginalPrice { get; set; }
 
-        public bool NonLtePlan { get; set; }
+        public bool IncludesInternational { get; set; }
+
+        public bool DisplayPlan { get; set; }
 
         public int SortOrder { get; set; }
 

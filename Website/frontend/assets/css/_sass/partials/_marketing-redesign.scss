@@ -1004,26 +1004,32 @@ article.marketing {
     .mobile-promos {
         text-align: center;
         padding: 25px 0;
+
         span {
             position: relative;
             height: 100%;
             display: inline-block;
         }
+
         h3 {
             font-weight: bold;
             margin: 0;
+
             &.sale {
                 color: #00a8e1;
             }
         }
+
         p {
             margin: 0;
         }
+
         .green {
             color: #6FC276;
             font-weight: bold;
             text-transform: uppercase;
         }
+
         .roundCTA {
             @include border-radius(50%);
             color: #fff;
@@ -1039,22 +1045,42 @@ article.marketing {
             top: 45px;
             right: -75px;
         }
+
         &.cdma {
             h3.sale {
                 color: #fcb426;
             }
+
             .roundCTA {
                 background-color: #f6c319;
                 @include background-image(linear-gradient(#fab921, #f4c914));
             }
         }
+
         &.learn-more {
             .button {
                 background-image: none;
             }
+
             p {
                 font-size: 20px;
                 margin: 1em;
+            }
+        }
+    }
+
+    .wrapper {
+        .footnotes {
+            text-align: center;
+            margin: -37px 0;
+
+            p {
+                font-size: 20px;
+                font-weight: 600;
+
+                .blue {
+                    color: #0971ce;
+                }
             }
         }
     }

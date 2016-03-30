@@ -112,7 +112,7 @@ div.tabbable {
 .modal-content {
 
 	// USE
-	@include border-radius(6px);
+	//@include border-radius(6px);
 	@include box-shadow(0 3px 7px rgba(0, 0, 0, 0.3));
 	@include background-clip(padding-box);
 	position: relative;
@@ -124,12 +124,21 @@ div.tabbable {
 }
 
 .modal-header {
-	padding: 20px 20px 15px 20px;
-	border-bottom: 1px solid #eee;
+	padding: 20px 20px 15px 70px;
+	background: url('../i/marketing/redesign/section-rule.png') center top no-repeat;
+	@include breakpoint(small) {
+		padding: 25px 10px 25px 10px;
+	}
 
     h2 {
-        margin: 0;
-        line-height: 1.2;
+        line-height: 1em;
+		color: #2d454f;
+		font-size: 30px;
+		font-weight: 600;
+		span {
+			font-weight: 400;
+			font-size: 18px;
+		}
     }
 
 	a {
@@ -152,7 +161,7 @@ div.tabbable {
 .modal-body {
 	position: relative;
 	//max-height: 400px;
-	padding: 25px 20px;
+	padding: 0px 70px 25px 70px;
 	& :first-child {
 		margin-top: 0;
 	}
@@ -162,6 +171,9 @@ div.tabbable {
     // &.scrollable {
     //     overflow-y: auto;
     // }
+	@include breakpoint(small) {
+		padding: 0px 10px 25px 10px;
+	}
 }
 
 .modal-footer {
@@ -201,7 +213,7 @@ div.tabbable {
 @include breakpoint(medium-large) {
 	// Automatically set modal's width for larger viewports
 	.modal-dialog {
-		width: 600px;
+		width: 800px;
 		margin: 30px auto;
 	}
 	.modal-content {

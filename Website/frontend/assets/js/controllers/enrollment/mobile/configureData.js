@@ -1,173 +1,129 @@
-﻿ngApp.controller('MobileEnrollmentConfigureDataCtrl', ['$scope', '$modal', 'uiGmapGoogleMapApi','uiGmapIsReady', '$http', 'enrollmentService', 'mobileEnrollmentService', 'enrollmentStepsService', 'enrollmentCartService', 'analytics', function ($scope, $modal, uiGmapGoogleMapApi, uiGmapIsReady, $http, enrollmentService, mobileEnrollmentService, enrollmentStepsService, enrollmentCartService, analytics) {
+﻿ngApp.controller('MobileEnrollmentConfigureDataCtrl', ['$scope', '$modal', 'uiGmapGoogleMapApi','uiGmapIsReady', '$http', 'enrollmentService', 'enrollmentStepsService', 'enrollmentCartService', 'analytics', function ($scope, $modal, uiGmapGoogleMapApi, uiGmapIsReady, $http, enrollmentService, enrollmentStepsService, enrollmentCartService, analytics) {
 
-    $scope.mobileEnrollmentService = mobileEnrollmentService;
     $scope.currentMobileLocationInfo = enrollmentCartService.getActiveService;
     $scope.getDevicesCount = enrollmentCartService.getDevicesCount;
     $scope.formFields = {
         chosenPlanId: undefined
     };
+    var activeServiceIndex = enrollmentCartService.getActiveServiceIndex;
     $scope.requestedPlanAvailable = false;
     $scope.showChangeLocation = $scope.geoLocation.postalCode5 == '';
     $scope.excludedStates = false;
     $scope.zipCodeInvalid = false;
     $scope.enrollmentStepsService = enrollmentStepsService;
+    $scope.itemIndex = 0;
+    $scope.cartDevices = enrollmentCartService.getCartDevices();
+
+    $scope.$watch("cartDevices.length", function (newVal, oldVal) {
+        if (newVal != oldVal) {
+            $scope.phoneOptions = $scope.cartDevices[activeServiceIndex()];
+            $scope.selectedPlan = {};
+        }
+    });
 
     var coverageMap = angular.element(document.getElementsByClassName('coverage-map-container'));
     var dataCalculator = angular.element(document.getElementsByClassName('data-calculator-container'));
 
-    $scope.filterIndPlans = function(plan){
-        if (typeof mobileEnrollmentService.selectedNetwork != 'undefined') {
-            var provider = mobileEnrollmentService.selectedNetwork.value,
-                devicesCount = enrollmentCartService.getDevicesCount();
-                firstDevice = enrollmentCartService.getCartDevices()[0];
-            if (devicesCount == 0) {
-                return null;
-            } else {
-                if (provider == "sprint" && !firstDevice.lte) {
-                    return plan.provider.toLowerCase() == provider 
-                    && !plan.isParentOffer 
-                    && !plan.isChildOffer
-                    && plan.nonLtePlan;
-                } else {
-                    return plan.provider.toLowerCase() == provider 
-                    && !plan.isParentOffer 
-                    && !plan.isChildOffer
-                    && !plan.nonLtePlan;
-                }
-            } 
-        } else {
-            return null;
-        }
-    };
-
-    $scope.filterGroupPlans = function(plan){
-        if (typeof mobileEnrollmentService.selectedNetwork != 'undefined') {
-            var provider = mobileEnrollmentService.selectedNetwork.value,
-                devicesCount = enrollmentCartService.getDevicesCount();
-                firstDevice = enrollmentCartService.getCartDevices()[0];
-            if (devicesCount == 0) {
-                return null;
-            } else {
-                if (provider == "sprint" && !firstDevice.lte) {
-                    return plan.provider.toLowerCase() == provider 
-                    && plan.isParentOffer 
-                    && !plan.isChildOffer
-                    && plan.nonLtePlan;
-                } else {
-                    return plan.provider.toLowerCase() == provider 
-                    && plan.isParentOffer 
-                    && !plan.isChildOffer
-                    && !plan.nonLtePlan;;
-                }
-            }
-        } else {
-            return null;
-        }
+    $scope.filterPlans = function (plan) {
+        return plan.displayPlan;
     };
 
     $scope.totalPlanPrice = enrollmentCartService.totalPlanPrice;
 
-    $scope.$watch(enrollmentCartService.getActiveService, function (address) {
-        $scope.planSelection = { selectedOffers: {} };
-        if (address && address.offerInformationByType) {
-            var devicesCount = enrollmentCartService.getDevicesCount();
-            angular.forEach(address.offerInformationByType, function (entry) {
-                if (entry.value && _(entry.key).contains('Mobile') && entry.value.offerSelections.length) {
-                    $scope.planSelection.selectedOffers[entry.key] = entry.value.offerSelections[0].offerId;
-                } else if (entry.value && _(entry.key).contains('Mobile') && entry.value.availableOffers.length == 1) {
-                    $scope.planSelection.selectedOffers[entry.key] = entry.value.availableOffers[0].id;
-                } else if (entry.value && _(entry.key).contains('Mobile')) {
-                    $scope.selectRequestedPlan(devicesCount);
-                }
-            });
+    $scope.phoneNumberDisabled = function () {
+        if ($scope.phoneOptions) {
+            return $scope.phoneOptions.showIccid && ($scope.phoneOptions.phoneOS == null ||
+                (($scope.configureData.iccid.$invalid || $scope.phoneOptions.missingIccid) &&
+                $scope.phoneOptions.phoneOS != 'Apple') ||
+                (($scope.configureData.iccid.$invalid && !$scope.phoneOptions.missingIccid) &&
+                $scope.phoneOptions.phoneOS == 'Apple'));
         }
-    });
-
-    // clear the plan selection when any device is added to the cart
-    $scope.$watch(enrollmentCartService.getDevicesCount, function (newVal, oldVal) {
-        if (newVal != oldVal) {
-            if (newVal >= 2) {
-                $scope.isIndSelected = false; 
-                $scope.isGroupSelected = true;
-            }
-            if (typeof $scope.planSelection.selectedOffers.Mobile == 'undefined') {
-                $scope.planSelection = { selectedOffers: {} };
-            } else {
-                var activeService = enrollmentCartService.getActiveService();
-                var offerInformationForType = _(activeService.offerInformationByType).where({ key: 'Mobile' }).first();
-                var selectedOffer = _(offerInformationForType.value.availableOffers).find({ 'id': $scope.planSelection.selectedOffers.Mobile });
-                // clear the plan selection if more than 1 device but individual plan selected
-                if (newVal >= 2 && !selectedOffer.isParentOffer) {
-                    $scope.planSelection = { selectedOffers: {} };
-                } else {
-                     // trigger a plan selection
-                    selectOffers($scope.planSelection.selectedOffers);
-                }
-            }
-            
-            // see if the requested plan is available, and if so, select it
-            $scope.selectRequestedPlan(newVal);
-        }
-    });
-
-    //Once a plan is selected, check through all available and see if a selection happend
-    $scope.$watchCollection('planSelection.selectedOffers', function (selectedOffers) {
-        selectOffers(selectedOffers);
-    });
-
-    function selectOffers(selectedOffers) {
-        if (enrollmentCartService.getDevicesCount() == 1) {
-            enrollmentStepsService.setMaxStep('phoneFlowPlans');   
-        }
-          
-        var activeService = enrollmentCartService.getActiveService();
-        var activeServiceIndex = enrollmentCartService.getActiveServiceIndex();
-        if (typeof activeService != 'undefined' && selectedOffers.Mobile != null) {
-            // clear selected offers
-            enrollmentCartService.selectOffers(_(selectedOffers).mapValues(function (offer) { return []; }).value());
-            
-            var offerInformationForType = _(activeService.offerInformationByType).where({ key: 'Mobile' }).first();
-            var selectedOffer = _(offerInformationForType.value.availableOffers).find({ 'id': selectedOffers.Mobile });
-            var offerId = selectedOffer.id;
-            var childId = selectedOffer.childOfferId;
-            var devices = enrollmentCartService.getCartDevices();
-
-            analytics.sendVariables(3, selectedOffer.data, 4, devices.length);
-            analytics.sendVariables(9, selectedOffer.id);
-
-            // Add plan for each device, and add to the selected offers array
-            for (var i = 0, len = devices.length; i < len; i++) {
-                var device = devices[i];
-                var offer = { offerId: (i == 0) ? offerId : childId };
-                offer.offerOption = {
-                    optionType: 'Mobile',
-                    data: selectedOffer.data,
-                    rates: selectedOffer.rates,
-                    activationDate: new Date(),
-                    phoneNumber: device.phoneNumber,
-                    esnNumber: device.imeiNumber,
-                    simNumber: device.simNumber,
-                    imeiNumber: device.imeiNumber,
-                    iccidNumber: device.iccidNumber,
-                    inventoryItemId: device.id,
-                    activationCode: device.activationCode,
-                    activeDevice: device.activeDevice,
-                    transferInfo: device.transferInfo,
-                    useInstallmentPlan: (device.buyingOption == 'New' || device.buyingOption == 'Reconditioned' || device.buyingOption == 'BYOD') ? false : true,
-                };
-                offerInformationForType.value.offerSelections.push(offer);
-            };
-            _.find(enrollmentCartService.services[activeServiceIndex].offerInformationByType, function(offerType) {
-                if (offerType.key == 'Mobile') {
-                    offerType.value = offerInformationForType.value;
-                }
-            });
+        else {
+            return false;
         }
     };
 
-    $scope.editDevice = function() {
-        $scope.setCurrentStep('choose-phone');
+    $scope.selectPlan = function (planID) {
+        var i = _.findIndex($scope.currentMobileLocationInfo().offerInformationByType[0].value.availableOffers, function (o) {
+            return _(o.id).contains(planID);
+        }),
+        plan = $scope.currentMobileLocationInfo().offerInformationByType[0].value.availableOffers[i];
+        if (typeof plan != 'undefined') {
+            $scope.selectedPlan = plan;
+            if ($scope.currentMobileLocationInfo().offerInformationByType[0].value.offerSelections.length != 0) {
+                $scope.currentMobileLocationInfo().offerInformationByType[0].value.offerSelections[0].offer = plan;
+                $scope.currentMobileLocationInfo().offerInformationByType[0].value.offerSelections[0].offerId = plan.id;
+            }
+            else {
+                $scope.currentMobileLocationInfo().offerInformationByType[0].value.offerSelections.push({
+                    offer: plan,
+                    offerId: plan.id
+                });
+            }
+        }
     };
+
+    var addNewService = function () {
+        var location = {
+            address: {
+                city: $scope.data.serviceLocation.address.city,
+                line1: "",
+                postalCode5: $scope.data.serviceLocation.address.postalCode5,
+                stateAbbreviation: $scope.data.serviceLocation.address.stateAbbreviation
+            },
+            capabilities: $scope.data.serviceLocation.capabilities
+        };
+        var offerInfo = [{
+            key: "Mobile",
+            value: {
+                availableOffers: $scope.availableOffers,
+                errors: [],
+                offerSelections: []
+            }
+        }];
+        enrollmentCartService.addService({
+            eligibility: "success",
+            location: location,
+            offerInformationByType: offerInfo
+        });
+    };
+
+    $scope.toggleInternational = function () {
+        var i = 0;
+        if ($scope.selectedPlan.includesInternational) {
+            i = _.findIndex($scope.currentMobileLocationInfo().offerInformationByType[0].value.availableOffers, function (o) {
+                if (!o.includesInternational) {
+                    return _(o.data).contains($scope.selectedPlan.data);
+                }
+            });
+        }
+        else {
+            i = _.findIndex($scope.currentMobileLocationInfo().offerInformationByType[0].value.availableOffers, function (o) {
+                if (o.includesInternational) {
+                    return _(o.data).contains($scope.selectedPlan.data);
+                }
+            });
+        }
+        var plan = $scope.currentMobileLocationInfo().offerInformationByType[0].value.availableOffers[i];
+        $scope.selectedPlan = plan;
+        $scope.currentMobileLocationInfo().offerInformationByType[0].value.offerSelections[0].offer = plan;
+        $scope.currentMobileLocationInfo().offerInformationByType[0].value.offerSelections[0].offerId = plan.id;
+    }
+
+    $scope.editDevice = function (saveIMEI) {
+        if (saveIMEI) {
+            enrollmentService.editPhoneIMEI = angular.copy($scope.phoneOptions.imeiNumber);
+        }
+        enrollmentCartService.removeDeviceFromCart($scope.phoneOptions);
+        enrollmentCartService.removeService(enrollmentCartService.getActiveService())
+        enrollmentService.setSelectedOffers().then(
+            function(value) {
+                addNewService();
+                enrollmentStepsService.setStep('phoneFlowDevices');
+                enrollmentStepsService.hideStep('phoneFlowPlans');
+            });
+
+    }
 
     $scope.addUtilityAddress = function () {
         // save the mobile offer selections
@@ -180,8 +136,50 @@
         enrollmentStepsService.setFlow('utility', true).setFromServerStep('serviceInformation');
     };
 
-    $scope.completeStep = function() {
-        enrollmentService.setAccountInformation();
+    $scope.completeStep = function (addLine) {
+        if ($scope.phoneOptions.missingIccid) {
+            $scope.phoneOptions.iccidNumber = null;
+        }
+        var offer = [{
+            offerId: $scope.selectedPlan.id,
+            offer: $scope.selectedPlan,
+            offerOption: {
+                optionType: 'Mobile'
+            }
+        }];
+        var offerSelections = [{
+            offerId: $scope.selectedPlan.id,
+            offerOption: {
+                optionType: 'Mobile',
+                activationDate: new Date(),
+                esnNumber: $scope.phoneOptions.imeiNumber,
+                imeiNumber: $scope.phoneOptions.imeiNumber,
+                iccidNumber: $scope.phoneOptions.iccidNumber,
+                inventoryItemID: $scope.selectedPlan.mobileInventory[0].id,
+            }
+        }];
+
+        //all analytics
+        analytics.sendVariables(
+            2, 'sprint',
+            3, $scope.selectedPlan.data,
+            4, 1,
+            5, ($scope.phoneOptions.type == "new") ? "New Number" : "Transfer",
+            9, $scope.selectedPlan.id,
+            16, $scope.phoneOptions.imeiNumber,
+            18, $scope.phoneOptions.phoneOS,
+            19, $scope.phoneOptions.iccidNumber);
+
+        $scope.currentMobileLocationInfo().offerInformationByType[0].value.offerSelections = offerSelections;
+        $scope.currentMobileLocationInfo().location.address.line1 = angular.copy($scope.phoneOptions.imeiNumber);
+        if (addLine) {
+            addNewService();
+            enrollmentStepsService.setStep('phoneFlowDevices');
+            enrollmentStepsService.hideStep('phoneFlowPlans');
+        }
+        else {
+            enrollmentService.setAccountInformation();
+        }
     };
 
     $scope.showModal = function (templateUrl, size) {
@@ -196,71 +194,13 @@
         coverageMap.removeClass('hidden-map');
         var center = $scope.mapInstance.getCenter();
         google.maps.event.trigger($scope.mapInstance, 'resize');
-        $scope.mapInstance.setCenter(center); 
-        $scope.selectedNetwork = mobileEnrollmentService.selectedNetwork.value;
-        $scope.mapInstance.selectedNetwork = mobileEnrollmentService.selectedNetwork.value;
+        $scope.mapInstance.setCenter(center);
+        $scope.selectedNetwork = 'sprint';
+        $scope.mapInstance.selectedNetwork = 'sprint';
     };
     $scope.showCalculator = function () {
         dataCalculator.removeClass('hidden');
     }
-
-    $scope.$on('MobilePlanId-set', function (event, args) {
-        var planID = args.MobilePlanID;
-        $scope.mobileEnrollment.requestedPlanId = planID;
-        $scope.selectRequestedPlan($scope.getDevicesCount());
-        dataCalculator.addClass('hidden');
-    });
-
-    $scope.selectRequestedPlan = function (devicesCount) {
-        if ($scope.mobileEnrollment.requestedPlanId != '' && devicesCount > 0) {
-            $scope.networkType = mobileEnrollmentService.selectedNetwork.value == 'att' ? 'GSM' : 'CDMA';
-            var activeService = enrollmentCartService.getActiveService();
-            var provider = mobileEnrollmentService.selectedNetwork.value;
-            var firstDevice = enrollmentCartService.getCartDevices()[0];
-            var offerInformationForType = _(activeService.offerInformationByType).where({ key: 'Mobile' }).first();
-            if (typeof offerInformationForType != 'undefined' && !offerInformationForType.value.offerSelections.length) {
-                var plansArray = $scope.mobileEnrollment.requestedPlanId.split('|');
-                var requestedPlan = _(offerInformationForType.value.availableOffers).find(function (offer){
-                    if (provider == 'sprint' && !firstDevice.lte) {
-                        return _(plansArray).contains(offer.id)
-                        && offer.nonLtePlan;
-                    } else {
-                        return _(plansArray).contains(offer.id)
-                        && !offer.nonLtePlan;
-                    }
-                });
-                $scope.requestedPlanAvailable = _(offerInformationForType.value.availableOffers).filter(function (offer){
-                    return offer.id == requestedPlan.id 
-                        && offer.provider.toLowerCase() == provider 
-                        && !offer.isChildOffer
-                        && (devicesCount == 1 || (devicesCount > 1 && offer.isParentOffer)) 
-                }).some();
-
-                var isGroupPlan = _(offerInformationForType.value.availableOffers).filter(function (offer){
-                    return offer.id == requestedPlan.id 
-                        && offer.isParentOffer
-                }).some();
-                
-                $scope.requestedPlanProvider = _(offerInformationForType.value.availableOffers).filter(function (offer){
-                    return offer.id == requestedPlan.id
-                }).flatten().pluck('provider').first();
-                
-                $scope.requestedPlanNetwork = $scope.requestedPlanProvider == 'ATT' ? 'GSM' : 'CDMA';
-
-                if ($scope.requestedPlanAvailable) {
-                    var requestedOffer = { 'Mobile': requestedPlan.id };
-                    $scope.planSelection.selectedOffers = requestedOffer;
-                    selectOffers(requestedOffer);
-                    // select the shared plans tab if it's a group paln
-                    if (isGroupPlan) {
-                        $scope.isIndSelected = false; 
-                        $scope.isGroupSelected = true;
-                    } 
-                }
-            }
-        }
-    };
-
     $scope.lookupZip = function () {
         if ($scope.lookupZipForm.$valid) {
             enrollmentService.isLoading = true;
@@ -270,30 +210,34 @@
                 enrollmentService.isLoading = false;
                 $scope.showChangeLocation = false;
                 if (data.length != 0) {
-                    mobileEnrollmentService.stateAbbreviation = data[1];
-                    mobileEnrollmentService.postalCode5 = $scope.postalCode5;
                     $scope.geoLocation = {
                         city: data[0],
                         state: data[1],
                         postalCode5: $scope.postalCode5
                     };
-
                     $scope.data.serviceLocation.address = {
-                        line1: 'Line1',
+                        line1: $scope.phoneOptions.imeiNumber,
                         city: data[0],
                         stateAbbreviation: data[1],
                         postalCode5: $scope.postalCode5
                     };
                     $scope.data.serviceLocation.capabilities = [{ "capabilityType": "ServiceStatus", "enrollmentType": "moveIn" }];
-                    $scope.data.serviceLocation.capabilities.push({ "capabilityType": "CustomerType", "customerType": (mobileEnrollmentService.planType == 'Business') ? "commercial" : "residential" });
+                    $scope.data.serviceLocation.capabilities.push({ "capabilityType": "CustomerType", "customerType": "residential" });
                     $scope.data.serviceLocation.capabilities.push({ "capabilityType": "Mobile" });
 
                     var activeService = enrollmentCartService.getActiveService();
-                    $scope.excludedStates  = _($scope.mobileEnrollmentSettings.excludedStates).contains(data[1]);
+                    $scope.excludedStates = _($scope.mobileEnrollmentSettings.excludedStates).contains(data[1]);
                     $scope.zipCodeInvalid = false;
                     if (activeService && !$scope.excludedState) {
                         activeService.location = $scope.data.serviceLocation;
-                        enrollmentService.setSelectedOffers(true);
+                        enrollmentService.setSelectedOffers(true).then(function () {
+                            $scope.availableOffers = enrollmentCartService.getActiveService().offerInformationByType[0].value.availableOffers;
+                            if ($scope.mobileEnrollment.requestedPlanId != "") {
+                                $scope.selectPlan($scope.mobileEnrollment.requestedPlanId);
+                            }
+                        }, function(){
+                            console.log("no available offers")
+                        });
                     }
                     else {
                         enrollmentCartService.addService({ location: $scope.data.serviceLocation });
@@ -339,16 +283,9 @@
     };
 
     $scope.layers = {
-        att: {
-            att_voice_roam: true,
-            att_data_roam: true,
-            att_lte: true
-        },
-        sprint: {
             sprint_voice_roam: true,
             sprint_data_roam: true,
             sprint_lte: true
-        }
     };
     $scope.superCents = function (planCost) {
         if (planCost == null) return null;
@@ -393,17 +330,13 @@
         }
     });
 
-    $scope.$watch('selectedNetwork', function (newVal, oldVal) {
-        $scope.updateMapLayers();
-    });
-
     $scope.$watch('layers', function (newVal, oldVal) {
         $scope.updateMapLayers();
     }, true);
 
     $scope.updateMapLayers = function () {
         var layers = [];
-        angular.forEach($scope.layers[$scope.selectedNetwork], function (value, key) {
+        angular.forEach($scope.layers, function (value, key) {
             if (value == true) {
                 layers.push(key);
             }

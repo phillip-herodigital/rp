@@ -211,7 +211,7 @@
     }
 
     .content{
-        background:#fafafa;
+        background:#fafbfc;
     }
 
     .checkbox-list {
@@ -410,7 +410,6 @@
         padding-left: $enrollment-module-horizontal-padding;
         padding-right: $enrollment-module-horizontal-padding;
         margin-bottom: 0;
-        background-color: $enrollment-secondary-color;
     }
 
 
@@ -694,13 +693,12 @@
 .enrollment__box {
     overflow: visible;
     border-color: $enrollment-dark-border-color;
-    background-color: #fdfdfd;
+    background-color: #fafbfc;
     header {
         background-color: #fff;
         background-image: none;
         border-bottom: 1px solid $enrollment-light-border-color;
         font-size: 18px;
-        color: #47545b;
     }
     h1 {
         font-size: $enrollment-module-h1-size;
@@ -713,7 +711,7 @@
         font-size: $enrollment-module-h3-size;
         color: $enrollment-module-h3-color;
         text-transform: none;
-        font-weight: 500;
+        font-weight: 600;
         margin: 5px 0;
         width: 100%;
     }
@@ -759,7 +757,6 @@
         text-transform: none !important;
         font-weight: 500;
         font-size: 16px;
-        color: #636363;
         margin-bottom: 8px;
     }
     hr {
@@ -770,6 +767,10 @@
     .content {
         .stretch-full {
             margin: -25px ($enrollment-module-horizontal-padding * -1);
+        }
+
+        .services-header {
+            margin-bottom: 35px;
         }
     }
     .customer-type {
@@ -830,11 +831,84 @@
     }
 }
 
-/* Commenting out the social login
+
 .enrollment__box--account-creation {
     .content {
-        padding-top: 0;
+        p {
+            font-size: 18px;
+            font-weight: 400;
+            color: #47545b;
+        }
+
+        .autopay {
+            h3 {
+                font-size: 24px;
+            }
+
+            p.note {
+                font-size: 15px;
+                font-weight: 300;
+                color: #616b71;
+                font-style: italic;
+            }
+
+            i.icon-autopay-calendar {
+                background-image: url('../i/icon/autopay-small.png');
+                background-position: 0px 0px;
+                height: 26px;
+                width: 26px;
+                float: left;
+                margin-right: 10px;
+            }
+
+            strong, bold {
+                color: #2d9a36;
+            }
+        }
+
+        .onlineAccountInfo {
+
+            .disabled {
+                opacity: 0.3;
+            }
+
+            input[type="radio"]:first-of-type {
+                margin-bottom: 18px;
+            }
+
+            .item {
+                padding-left: 18px;
+
+                label {
+                    font-size: 14px;
+                    color: #000000;
+                }
+
+                .note {
+                    margin: 5px 0 0 0;
+                    font-size: 14px;
+                    font-weight: 200;
+                    line-height: 1;
+                    color: #6a6a6a;
+                }
+            }
+
+            .radio-note {
+                padding-left: 18px;
+                margin: 0;
+                font-style: italic;
+                font-size: 15px;
+                font-weight: 300;
+            }
+
+            label.radio {
+                font-size: 18px;
+                font-weight: 300;
+                color: #000000;
+            }
+        }
     }
+    /* Commenting out the social login
     .social-box { 
         background: #f4f4f4;
         margin: 0 (-$enrollment-module-horizontal-padding) 30px (-$enrollment-module-horizontal-padding);
@@ -859,9 +933,8 @@
             text-align: center;
             @include border-radius(21px);
             padding-top: 10px;
-        }
-    }    
-}*/
+        }*/
+}
 
 /*
     Bulleted enrollment navigation
@@ -1336,6 +1409,19 @@
     .content {
         @include border-radius(0 0 5px 5px);
     }
+    article.associate-referal {
+        p {
+            font-size: 16px;
+            font-weight: 400;
+            color: #47545b
+        }
+
+        label.associate-name {
+            font-size: 14px;
+            font-weight: 400;
+            color: #000000;
+        }
+    }
 }
 
 .cleanse-address {
@@ -1398,32 +1484,38 @@
         border: none;
         border-top: 1px solid #ddd;
     }
+
     .security-code {
         @include breakpoint(medium) {
             clear: left;
             margin-top: 20px;
         }
     }
+
     .example {
         @include breakpoint(small) {
             margin-top: -15px;
         }
+
         .single-link {
             @include breakpoint(medium) {
                 margin-top: 52px;
             }
         }
     }
+
     .enrollment__cart {
         hr {
             margin: 15px -18px;
         }
     }
+
     .seperator {
         overflow: hidden;
         text-align: center;
         text-transform: uppercase;
         margin-bottom: 25px;
+
         &:before,
         &:after {
             background-color: #000;
@@ -1434,118 +1526,171 @@
             vertical-align: middle;
             width: 50%;
         }
+
         &:before {
             right: 0.5em;
             margin-left: -50%;
             background-color: #ccc;
         }
+
         &:after {
             left: 0.5em;
             margin-right: -50%;
             background-color: #ccc;
         }
     }
+
     .explanation {
         font-size: 13px;
     }
+
     .terms-agreement {
         .item {
             padding-right: 0;
+
             .terms {
                 margin-bottom: 10px;
+
+                ol {
+                    list-style-type: upper-roman;
+                }
+
+                ul {
+                    list-style-type: disc;
+                }
             }
         }
     }
+
     .services-header {
-        background-color: #fafafa;
+        background-color: #fcfcfc;
         padding: 5px 20px;
-        margin: -20px -20px 0;
+        margin: -10px -20px 0;
+
         .service-title {
             display: inline-block;
-            font-size: 16px;
+            font-size: 18px;
             font-weight: 600;
         }
+
         .service-description {
             display: inline-block;
             float: right;
-            font-size: 14px;
-            color: #979797;
+            font-size: 16px;
+            color: #225671;
             padding-top: 3px;
+            font-weight: 300;
         }
     }
+
     .content {
-        background-color: #fff;
+        background-color: #fcfcfc;
     }
+
     .mobile-services, .energy-services {
         .plan-details {
-
         }
+
         .condition {
             color: #999;
             font-size: 12px;
             font-weight: 600;
             text-transform: uppercase;
         }
+
         .model {
             margin: 0;
         }
+
         .description {
             width: 70%;
             float: none;
             display: inline-block;
+
+            h2 {
+                color: #013c5b;
+                font-size: 20px;
+            }
+
+            .details {
+                color: #4f595e;
+            }
+
+            h3 {
+                color: #225671;
+            }
+
+            p.note {
+                color: #646d71;
+            }
         }
+
         .line-item {
             margin-top: 20px;
         }
+
         .rate {
             width: 29%;
             display: inline-block;
             text-align: right;
             font-weight: 400;
             vertical-align: top;
+
             &.device-price {
                 margin-top: 17px;
             }
         }
+
         table {
             margin-top: 20px;
         }
+
         .plan-summary-image, .phone-summary-image {
             position: absolute;
             left: 20px;
             top: 0;
+
             img {
                 max-width: 60px;
             }
+
             @include breakpoint(small) {
                 position: relative;
             }
         }
+
         .plan-summary, .phone-summary {
             padding-left: 100px;
             position: relative;
             margin: 20px 0 40px;
             border-bottom: 1px solid #e6e6e6;
             padding-bottom: 30px;
+
             &:last-child {
                 border-bottom: none;
                 padding-bottom: 0;
                 margin-bottom: 0;
             }
+
             &.no-img {
                 padding-left: 0;
             }
+
             .items-monthly {
                 margin-top: 20px;
             }
+
             @include breakpoint(small) {
                 padding-left: 0;
             }
+
             tr.ez-pay {
                 border: 2px solid #0071b9;
             }
+
             td {
                 border: none;
+
                 .blue {
                     color: #0071b9;
                     font-size: 15px;
@@ -1553,17 +1698,17 @@
                 }
             }
         }
-        .phone-summary {
-            min-height: 140px;
-        }
+
         .contact {
             float: left;
             width: 100%;
+
             @include breakpoint(small) {
                 word-wrap: break-word;
                 margin-bottom: 10px;
             }
         }
+
         h2 {
             font-weight: 600;
             margin-bottom: 5px;
@@ -1571,26 +1716,86 @@
             color: #333;
             font-size: 20px;
         }
+
         h3 {
             font-weight: 500;
             margin-top: 0;
             margin-bottom: 0;
-            font-size: 16px;
+            font-size: 18px;
         }
+
         footer {
             text-align: right;
         }
+
         p {
             margin: 0 0 5px;
             font-size: 16px;
         }
     }
+
     .mobile-services {
         .line-item {
             margin-left: 15px;
 
-            &:first-child {
+            &.subheading {
                 margin-left: -15px;
+            }
+        }
+
+        i.autopay-small {
+            background-image: url('../i/icon/autopay-17x17.png');
+            background-position: 0px 0px;
+            height: 17px;
+            width: 17px;
+            float: left;
+            margin-right: 10px;
+        }
+    }
+
+    .card-details {
+
+        .notice.alert {
+            background-image: none;
+            @include border-radius(0);
+            border-top: 1px solid #ffe973;
+            border-bottom: 1px solid #ffe973;
+            border-left: none;
+            border-right: none;
+            padding: 20px;
+            margin: -21px -20px 20px;
+            font-size: 18px;
+            color: #013c5b;
+            h3 {
+                font-size: 20px;
+                font-weight: 600;
+                color: #f20000;
+            }
+        }
+
+        footer.autopay-activation {
+            background-image: url('../i/bg/autopay-activation-bg.png');
+            background-repeat: no-repeat;
+            background-position: 35px -80px;
+            background-color: #2d9a36;
+
+            padding: 10px 30px 30px;
+
+            h2 {
+                font-size: 30px;
+            }
+
+            h2, p, label {
+                color: #ffffff;
+            }
+
+            p {
+                max-width: 400px;
+            }
+            label.autopay {
+                font-size: 22px;
+                font-weight: 400;
+                padding-left: 5px;
             }
         }
     }
@@ -1723,14 +1928,17 @@
  */
 .enrollment__order-confirmation {
     margin-top: 20px;
+
     .print {
         float: right;
         font-size: 14px;
         margin-top: 5px;
+
         i {
             margin-top: -3px;
         }
     }
+
     .notice.alert {
         background-image: none;
         @include border-radius(0);
@@ -1741,62 +1949,138 @@
         padding: 20px;
         margin: 0 -20px 15px;
     }
+
+    .next-steps {
+
+        .mobile-header-content {
+            color: #013c5b;
+
+            .account-number {
+                font-size: 24px;
+                font-weight: 400;
+            }
+
+            h3 {
+                margin-top: 20px;
+            }
+
+            .contact, .details, .note {
+                font-weight: 400;
+                font-size: 18px;
+
+                &.name {
+                    font-weight: 500;
+                    font-size: 20px;
+                }
+            }
+
+            .note {
+                margin: 30px 0;
+                max-width: 500px;
+            }
+        }
+
+        footer {
+            padding: 0;
+
+            .border {
+                background-image: url('../i/bg/stream-account-header.png');
+                background-position: 0 0;
+                height: 5px;
+            }
+
+            .stream-account {
+                background-color: #97c93d;
+                color: #ffffff;
+                margin: 0;
+                font-size: 20px;
+                text-transform: uppercase;
+                padding: 10px 20px;
+            }
+
+            .content {
+                padding: 20px;
+                background-color: #f2f6f9;
+
+                .contact {
+                    font-weight: 300;
+                    font-size: 18px;
+                    color: #013c5b;
+                }
+            }
+        }
+    }
+
     .next-steps {
         .content {
             @include border-radius(0 0 5px 5px);
         }
+
         .step {
             display: inline-block;
             width: 32%;
             vertical-align: top;
+
             @include breakpoint(small) {
                 display: block;
                 width: 100%;
                 margin-top: 10px;
             }
+
             .step-number {
                 display: table-cell;
                 font-size: 40px;
                 line-height: 1.1;
+
                 &.number-one {
                     padding-right: 11px;
                 }
             }
+
             .step-description {
                 display: table-cell;
                 vertical-align: top;
                 padding-left: 10px;
+
                 @include breakpoint(small) {
                     vertical-align: middle;
                 }
             }
         }
     }
+
     .promo-box {
         min-height: 120px;
     }
+
     dl {
         margin-bottom: 20px;
+
         dt {
             display: inline-block;
             font-weight: 600;
         }
+
         dd {
             display: inline-block;
             text-align: left;
-            margin-bottom: 10px; 
+            margin-bottom: 10px;
         }
-    }   
+    }
+
     .plan-documents {
         .docs {
             text-align: right;
+
             @include breakpoint(medium) {
                 width: 40%;
             }
+
             @include breakpoint(small) {
                 text-align: left;
                 margin-bottom: 10px;
             }
+
             ul {
                 list-style-type: none;
                 margin: 0;
@@ -1804,26 +2088,69 @@
             }
         }
     }
+
     .monthly-cost {
         .content {
             @include border-radius(0 0 5px 5px);
+            padding: 30px 30px 20px;
+
+            .plan-summary {
+                padding-left: inherit;
+            }
+
+            .mobile-services {
+                .line-item, .line-item:first-child {
+                    margin-left: inherit;
+                }
+
+                .line-item:last-child {
+                    margin-left: 15px;
+                }
+
+                .autopay {
+                    color: #289531;
+                    font-size: 18px;
+                    font-weight: 600;
+                    width: 50%;
+                    float: left;
+
+                    i.autopay-small {
+                        background-image: url('../i/icon/autopay-small.png');
+                        background-position: 0;
+                        height: 26px;
+                        width: 26px;
+                        float: left;
+                        margin-right: 10px;
+                    }
+
+                    .autopay-total {
+                        float: left;
+                        width: 50%;
+                    }
+                }
+            }
         }
     }
+
     .confirm-personal-info {
         .content {
             @include border-radius(5px);
         }
+
         .contact {
             float: left;
             width: 100%;
+
             @include breakpoint(small) {
                 word-wrap: break-word;
                 margin-bottom: 10px;
             }
         }
+
         a {
             font-size: 15px;
         }
+
         h2 {
             font-weight: 600;
             margin-bottom: 5px;
@@ -1832,15 +2159,15 @@
             font-size: 24px;
         }
     }
+
     .services-header {
-        background-color: #fafafa;
-        padding: 5px 20px;
-        margin: -20px -20px 0;
+
         .service-title {
             display: inline-block;
-            font-size: 16px;
-            font-weight: 600;
+            font-size: 24px;
+            font-weight: 400;
         }
+
         .service-description {
             display: inline-block;
             float: right;
@@ -1849,79 +2176,137 @@
             padding-top: 3px;
         }
     }
+
     .content {
         background-color: #fff;
     }
+
     .mobile-services, .energy-services {
         .plan-details {
-
         }
+
         .condition {
             color: #999;
             font-size: 12px;
             font-weight: 600;
             text-transform: uppercase;
         }
+
         .model {
             margin: 0;
         }
+
         .description {
             width: 70%;
             float: none;
             display: inline-block;
         }
+
         .line-item {
             margin-top: 20px;
+
+            .details {
+                color: #4f595e;
+            }
         }
+
         .rate {
             width: 29%;
             display: inline-block;
             text-align: right;
             font-weight: 600;
             vertical-align: top;
+
             &.device-price {
                 margin-top: 17px;
             }
         }
+
         .plan-summary-image, .phone-summary-image {
             position: absolute;
             left: 20px;
             top: 0;
+
             img {
                 max-width: 60px;
             }
+
             @include breakpoint(small) {
                 position: relative;
             }
         }
+
         .plan-summary, .phone-summary {
             padding-left: 100px;
             position: relative;
             margin: 20px 0 40px;
             border-bottom: 1px solid #e6e6e6;
             padding-bottom: 30px;
+
+            .subheading {
+                font-size: 20px;
+                font-weight: 500;
+                color: #013c5b;
+            }
+
             &:last-child {
                 border-bottom: none;
                 padding-bottom: 0;
                 margin-bottom: 0;
             }
+
+            &.autopaySpacing {
+                border-bottom: 1px solid #e6e6e6;
+                padding-bottom: 30px;
+                margin-bottom: 20px;
+            }
+
+            &.autopay {
+                border-bottom: 1px solid #e6e6e6;
+                padding-bottom: 30px;
+                margin-bottom: 20px;
+
+                i.icon-autopay {
+                    background-image: url('../i/icon/autopay-large.png');
+                    background-position: 0;
+                    height: 45px;
+                    width: 45px;
+                }
+
+                .description, .rate {
+                    h2 {
+                        color: #2d9a36;
+                    }
+                }
+                .rate {
+                    color: #2d9a36;
+                    font-size: 18px;
+                    font-weight: 700;
+                }
+            }
+
             &.no-img {
                 padding-left: 0;
             }
+
             .items-monthly {
                 margin-top: 20px;
             }
+
             @include breakpoint(small) {
                 padding-left: 0;
             }
+
             .included-thermostat {
                 background-color: #f4f8f9;
                 margin: 5px 0 0 0;
                 padding: 10px 10px 5px;
                 min-width: 200px;
+
                 img {
                     display: inline-block;
                 }
+
                 span {
                     display: inline-block;
                     vertical-align: top;
@@ -1932,17 +2317,17 @@
                 }
             }
         }
-        .phone-summary {
-            min-height: 140px;
-        }
+
         .contact {
             float: left;
             width: 100%;
+
             @include breakpoint(small) {
                 word-wrap: break-word;
                 margin-bottom: 10px;
             }
         }
+
         h2 {
             font-weight: 600;
             margin-bottom: 5px;
@@ -1950,45 +2335,55 @@
             color: #333;
             font-size: 20px;
         }
+
         h3 {
             font-weight: 500;
             margin-top: 0;
             margin-bottom: 0;
             font-size: 16px;
         }
+
         footer {
             text-align: right;
         }
+
         p {
             margin: 0 0 5px;
             font-size: 16px;
         }
     }
+
     .mobile-services {
         .line-item {
             margin-left: 15px;
+
             .next-steps {
                 margin-left: -30px;
+
                 @include breakpoint(small) {
                     margin-left: 0;
                 }
             }
+
             &.next-steps-content {
                 background-color: #fff6c6;
                 border-top: 1px solid #ffe973;
                 border-bottom: 1px solid #ffe973;
                 margin: 20px -20px 20px -120px;
                 padding: 30px 20px 30px 135px;
+
                 @include breakpoint(small) {
                     margin: 10px -20px;
                     padding: 10px;
                 }
             }
-            &:first-child {
+
+            &:first-child, &:last-child {
                 margin-left: -15px;
             }
         }
     }
+
     @include breakpoint(small) {
         dl {
             dt, dd {
@@ -1996,7 +2391,7 @@
                 width: 100%;
             }
         }
-    }    
+    }
 }
 
 .shop-phones-overlay{
@@ -2244,6 +2639,10 @@
                 font-size: 14px;
                 font-weight: 600;
                 color:black;
+
+                .individual-plan {
+                    font-weight: 700;
+                }
             }
 
             .icon-byod{
@@ -2265,12 +2664,13 @@
         &:last-child {
             margin-bottom: 0;
         }
-        /*span.details {
-            font-size: 14px;
+        .byod {
+            margin: 0;
+            font-weight: 700;
+            font-size: 12px;
+            color: #a7a7a7;
+            text-transform: uppercase;
         }
-        .options {
-            margin-top: 15px;
-        }*/
     }
     .utility-cart-product {
         margin: 5px 0;
@@ -2283,9 +2683,10 @@
         .description {
             font-weight: 600;
             &.fee {
-                font-size: 12px;
+                font-size: 16px;
                 font-weight: 300;
                 margin: 3px 0;
+                width: 70%;
                 clear: left;
             }
         }
@@ -2300,12 +2701,18 @@
         }
         .description {
             font-weight: 600;
+            font-size: 16px;
             &.phone {
                 width: 100%;
                 font-size: 12px;
                 font-weight: 400;
                 color: #737373;
                 margin-top: -2px;
+            }
+            .international-plan {
+                font-weight: normal;
+                font-size: 15px;
+                display: block;
             }
         }
         .rate {
@@ -2336,7 +2743,7 @@
     .cart-product{
         min-width:245px;
 		.description{
-			max-width:70%;
+			max-width:71%;
 		}
 		@include breakpoint(small-medium) {
 			min-width:0;
@@ -2355,7 +2762,7 @@
     .description {
         position: relative;
         float: left;
-        width:calc(100% - 65px);
+        width: 71%;
         font-size: 14px;
         font-weight: 400;
 		
@@ -2481,7 +2888,7 @@
             margin: 10px 0 0;
             font-size: 12px;
             font-weight: 600;
-            color: #737373;
+            color: #6b6b6b;
             text-transform: uppercase;
         }
         .offer {
@@ -2741,6 +3148,13 @@
     .modal-footer {
         text-align: left;
     }
+	.modal-body .buy-phone {
+		background: image-url('marketing/redesign/4G_LTE_devices.png') center left no-repeat;
+		background-color: #f3f6f7;
+		padding: 40px 0px 40px 240px;
+		font-size: 24px;
+		font-weight: 400;
+	}
 }
 h3.success-message{
         color:green;
@@ -3266,14 +3680,6 @@ h3.success-message{
                 opacity: 0.3;
             }
         }
-        .transfer-number {
-            .alert {
-                background-image: none;
-                p {
-                    margin: 1em 0;
-                }
-            }
-        }
         .transfer-header {
             h4 {
                 margin: 0;
@@ -3284,29 +3690,6 @@ h3.success-message{
         }
         .help-text {
             font-style: italic;
-        }
-        .street-number {
-            width: 16%
-        }
-        .street-name {
-            width: 34%;
-        }
-        .street-line-2 {
-            width: 32%;
-        }
-        .transfer-number-message {
-            @extend .clearfix;
-            @include border-radius(0 0 5px 5px);
-            margin: 0 -20px -20px -20px;
-            background: #ecf9f8;
-            padding: 10px 18px 10px 65px;
-            border-top: 1px solid #ddd;
-            line-height: 1.375;
-            text-align: left;
-            [class*="icon-"] {
-                float: left;
-                margin-left: -50px;
-            }
         }
     }
 }
@@ -3873,48 +4256,7 @@ h3.success-message{
             bottom: -63px;
         }
     }
-    .transfer-number {
-        .content-divider {
-            margin: 20px -20px;
-        }
-        .alert {
-            background-image: none;
-            h4 {
-                margin-top: 0;
-            }
-        }
-        .transfer-header {
-            h4 {
-                margin: 0;
-            }
-            p {
-                margin: 10px 0 0;
-            }
-        }
-        .help-text {
-            font-style: italic;
-        }
-        .street-number {
-            width: 15%
-        }
-        .street-name {
-            width: 35%;
-        }
-        .transfer-number-message {
-            @extend .clearfix;
-            @include border-radius(0 0 5px 5px);
-            margin: 0 -20px -20px -20px;
-            background: #ecf9f8;
-            padding: 10px 18px 10px 65px;
-            border-top: 1px solid #ddd;
-            line-height: 1.375;
-            text-align: left;
-            [class*="icon-"] {
-                float: left;
-                margin-left: -50px;
-            }
-        }
-    }
+
     .tabbed-header {
         display: table;
         width: 100%;
@@ -4287,10 +4629,381 @@ h3.success-message{
 }
 
 .enrollment__configure-data {
+    header {
+        h1 {
+            color: #71b243;
+            font-weight: 600;
+        }
+    }
+
+    .device-error {
+        background-color: #fff6c6;
+        border-top: 1px solid #ffe973;
+        border-bottom: 1px solid #ffe973;
+        margin: 20px -20px -15px;
+        padding: 30px 20px;
+        line-height: 1.2;
+        color: #013c5b;
+        font-size: 20px;
+
+        a {
+            font-size: 20px;
+        }
+
+        span.red {
+            font-weight: 600;
+            color: #f20000;
+        }
+    }
+
+    .disabled {
+        opacity: 0.3;
+    }
+
+    .missing-iccid {
+        padding: 10px 0;
+        color: #365c73;
+        font-weight: 700;
+        font-style: italic;
+        margin-bottom: -25px;
+    }
+
+    footer {
+
+        .back {
+            line-height: 45px;
+        }
+
+        button {
+            float: right;
+
+            &.add-line {
+                margin-right: 10px;
+                border-color: #d4d4d4;
+                background-image: none;
+                background-color: #f6f6f6;
+                color: #1a9dd9;
+                padding-left: 25px;
+                padding-right: 25px;
+            }
+        }
+    }
+
+    .content {
+        background-color: #fafbfc;
+
+        .my-device-container {
+            width: 100%;
+            padding-bottom: 10px;
+
+            i.icon-my-device {
+                background-image: url('../i/icon/MyDevicePhone.png');
+                background-position: 0 8px;
+                height: 48px;
+                width: 24px;
+                float: left;
+                margin-right: 10px;
+            }
+
+            .my-device {
+                font-size: 24px;
+                font-weight: 400;
+                color: #013c5b;
+            }
+
+            .IMEI {
+                margin: 0;
+
+                .heading {
+                    font-size: 18px;
+                    font-weight: 600;
+                }
+
+                .DeviceID {
+                    font-size: 18px;
+                    font-weight: 400;
+                }
+            }
+
+            .edit-remove {
+                float: right;
+            }
+        }
+
+        .select-phone-type {
+            margin-bottom: 25px;
+
+            label {
+                transform: translate(0, 7px);
+                min-width: 200px;
+                font-size: 20px;
+                font-weight: 400;
+                color: #013c5b;
+                float: left;
+            }
+
+            .btn-phone-type {
+                min-width: 128px;
+            }
+        }
+
+        .verify-your-ICCID {
+            padding-bottom: 15px;
+
+            .label-and-description {
+                width: 200px;
+                float: left;
+
+                label {
+                    font-size: 20px;
+                    font-weight: 400;
+                    color: #013c5b;
+                }
+            }
+
+            .iccid {
+                width: calc(100% - 200px);
+
+                .label {
+                    float: left;
+                }
+
+                .what-is-this {
+                    float: right;
+                }
+
+                input {
+                    width: 100%;
+                }
+
+                @include breakpoint(small) {
+                    width: 100%;
+                }
+            }
+        }
+
+        .phone-number {
+            padding-bottom: 15px;
+
+            .label-and-description {
+                width: 200px;
+                float: left;
+
+                label {
+                    font-size: 20px;
+                    font-weight: 400;
+                    color: #013c5b;
+                }
+
+                @include breakpoint(small) {
+                    width: 100%;
+                }
+            }
+
+            .btn-group-options {
+                width: calc(100% - 200px);
+
+                .btn-phone-number {
+                    &:first-of-type {
+                        margin-right: 10px;
+                    }
+
+                    @include breakpoint(small) {
+                        width: 100%;
+                    }
+                }
+
+                @include breakpoint(small) {
+                    width: 100%;
+                    max-width: 350px;
+                    margin: 0 auto;
+                }
+            }
+        }
+
+        .transfer-number {
+            .content-divider {
+                margin: 20px -20px;
+            }
+
+            .alert {
+                background-image: none;
+
+                h4 {
+                    margin-top: 0;
+                }
+            }
+
+            .transfer-header {
+                h4 {
+                    margin: 0;
+                }
+
+                p {
+                    margin: 10px 0 0;
+                }
+            }
+
+            .help-text {
+                font-style: italic;
+            }
+
+            .street-number {
+                width: 15%;
+            }
+
+            .street-name {
+                width: 35%;
+            }
+
+            .street-line-2 {
+                width: 32%;
+            }
+
+            .transfer-number-message {
+                @extend .clearfix;
+                @include border-radius(0 0 5px 5px);
+                margin: 0 -20px -20px -20px;
+                background: #ecf9f8;
+                padding: 10px 18px 10px 65px;
+                border-top: 1px solid #ddd;
+                line-height: 1.375;
+                text-align: left;
+
+                [class*="icon-"] {
+                    float: left;
+                    margin-left: -50px;
+                }
+            }
+        }
+
+
+        .plan-select {
+            margin-bottom: 0;
+
+            .label {
+                label {
+                    float: left;
+                    font-size: 20px;
+                    font-weight: 400;
+                    color: #013c5b;
+                    margin-bottom: 25px;
+                }
+
+                .location-text {
+                    float: right;
+                }
+            }
+
+            .disclaimer {
+                font-weight: 300;
+                font-size: 14px;
+                color: #a3a3a4;
+                font-style: italic;
+            }
+        }
+
+        .line-summary {
+            background-color: #f5f6f7;
+            padding: 20px;
+            margin: 0 -20px -20px -20px;
+            border-top: 1px solid #cecece;
+
+            .not-cost {
+                float: left;
+                min-width: calc(100% - 125px);
+                background-color: #f5f6f7;
+
+                label {
+                    font-size: 20px;
+                    font-weight: 400;
+                    color: #013c5b;
+                }
+
+                .description {
+                    margin: 0;
+                }
+
+                .international-calling {
+                    width: 100%;
+
+                    .includes-international {
+                        font-style: italic;
+                        font-size: 18px;
+                        font-weight: 400;
+                        color: #595959;
+
+                        i.icon-international-phone {
+                            background-image: url('../i/icon/international-phone.png');
+                            background-position: 0;
+                            height: 22px;
+                            width: 14px;
+                            margin-right: 10px;
+                        }
+                    }
+                }
+            }
+
+            .monthy-cost {
+                font-size: 18px;
+                font-weight: 400;
+                background-color: #f5f6f7;
+                border-radius: 5px;
+
+                p {
+                    margin: 0;
+                }
+
+                .cost {
+                    font-size: 24px;
+                    color: #013c5b;
+                }
+            }
+
+            .get-international {
+                background-color: #ffffff;
+                padding: 20px;
+                margin: 20px 0;
+                border: 1px solid #dfe0e0;
+
+                i.icon-international-phone-large {
+                    background-image: url('../i/icon/international-phone-large.png');
+                    background-position: 0 0;
+                    margin-right: 5px;
+                    height: 34px;
+                    width: 21px;
+                    float: left;
+                    margin-right: 18px;
+                }
+
+                .text {
+                    float: left;
+
+                    .title {
+                        font-weight: 500;
+                        font-size: 20px;
+                        font-style: italic;
+                        color: #013c5b;
+                    }
+
+                    p {
+                        margin: 0;
+                    }
+                }
+
+                button {
+                    float: right;
+                    margin: 10px 0;
+                }
+            }
+        }
+    }
+
     .mobile-plans-header {
         margin-bottom: 30px;
         font-size: 18px;
     }
+
     .plan-error {
         background-color: #fff6c6;
         border-top: 1px solid #ffe973;
@@ -4300,17 +5013,21 @@ h3.success-message{
         line-height: 1.2;
         color: #013c5b;
         font-size: 20px;
+
         a {
             font-size: 20px;
         }
+
         span.red {
             font-weight: 600;
             color: #f20000;
         }
     }
-    .plan-chooser{
+
+    .plan-chooser {
         text-align: center;
         margin-bottom: 35px;
+
         .button-plans {
             background-color: #e3e3e3;
             color: #4c6670;
@@ -4324,10 +5041,12 @@ h3.success-message{
             height: 46px;
             margin-right: -5px;
             font-weight: 600;
+
             &.selected {
                 color: #4d6771;
                 background-color: #ffffff;
             }
+
             &.left {
                 background-image: image-url("marketing/redesign/single_phone_plans.png");
                 background-position: 14px center;
@@ -4336,58 +5055,58 @@ h3.success-message{
                 border-top-left-radius: 5px;
                 padding: 10px 25px 10px 40px;
             }
+
             &.right {
                 background-image: image-url("marketing/redesign/multi_phone_plans.png");
                 background-position: 14px center;
-                background-repeat: no-repeat;       
+                background-repeat: no-repeat;
                 border-top-right-radius: 5px;
                 border-bottom-right-radius: 5px;
                 padding: 10px 25px 10px 62px;
             }
+
             &.selected {
                 &.right {
                     background-image: image-url("marketing/redesign/multi_phone_plans.png");
                 }
+
                 &.left {
                     background-image: image-url("marketing/redesign/single_phone_plans.png");
                 }
             }
+
             @include breakpoint(small) {
                 height: auto;
                 @include border-radius(5px);
             }
         }
     }
-    
+
     .location-section {
-        .location-container {
-            display: inline-block;
-            margin-bottom: 15px;
-            .location-text {
-                a {
-                    margin-left:5px;
-                }
+        padding: 20px;
+
+        .location-input {
+            float: left;
+
+            input {
+                width: 100px;
+                margin: 0 5px;
             }
         }
+
         a.view-coverage {
             float: right;
-            margin-top: 5px;
-        }
-        .float {
-            float: left;
-        }
-        a {
-            margin-left: 5px;
-        }
-        input {
-            width: 100px;
+            margin-top: 4px;
         }
     }
+
     .networkSection {
         margin-bottom: 35px;
+
         i {
             float: left;
         }
+
         .message {
             float: right;
             font-size: 20px;
@@ -4395,17 +5114,18 @@ h3.success-message{
             width: 50%;
             line-height: 1;
             color: #013c5b;
-            font-weight: 500
+            font-weight: 500;
         }
 
-		@include breakpoint(small) {
-			.message{
-				width:100%;
-				margin-top:10px;
-				text-align:center;
-			}	
-		}
+        @include breakpoint(small) {
+            .message {
+                width: 100%;
+                margin-top: 10px;
+                text-align: center;
+            }
+        }
     }
+
     .plan-details {
         .box {
             width: 49%;
@@ -4414,19 +5134,24 @@ h3.success-message{
             background-color: #ffffff;
             padding-left: 25px;
             font-size: 15px;
+
             ul {
                 width: 185px;
                 padding: 0 0 0 20px;
+                list-style-image: url("../i/marketing/redesign/yellow-check.png");
             }
+
             ul li {
                 padding: 0 0 5px 0;
             }
+
             h3 {
-                font-weight: 400;
-                color: #000;
-                font-size: 23px;
+                font-weight: 600;
+                color: #f4b60a;
+                font-size: 20px;
+                font-style: italic;
             }
-        }       
+        }
 
         .seperator {
             background-color: #e8e8e8;
@@ -4451,16 +5176,15 @@ h3.success-message{
         }
 
         .open ul li {
-            list-style-image: url("../i/marketing/redesign/check.png");
             padding-left: -3px;
         }
-        
+
         .open .footnotes {
             color: #bcbcbc;
             padding-bottom: 25px;
         }
 
-        
+
         @include breakpoint(small) {
             width: 100%;
 
@@ -4473,6 +5197,7 @@ h3.success-message{
             }
         }
     }
+
     .button.full {
         width: 100%;
         padding: 10px !important;
@@ -4481,179 +5206,119 @@ h3.success-message{
         border: 1px solid #ececec;
         cursor: pointer;
         color: #178fcd;
+
         &.hideDetails {
             background-color: #f7f9fa;
             border-top: none;
         }
     }
+
     .mobile-plans {
         text-align: center;
         width: 100%;
         @include experimental-value(width, calc(100% + 14px)); // Better alignment for everything except IE8 with this
         margin-bottom: 15px;
         line-height: 1.1;
-        &.att {
-            .price{
-                color: $enrollment-plan-att-color;
-            }
-            a.button {
-                background-color:$enrollment-plan-att-color;
-                @include background-image(linear-gradient(to top, $enrollemnt-plan-att-gradient-color-bottom 0%, $enrollemnt-plan-att-gradient-color-top 100%));
-                border: 1px solid #229acd;
-                width: 123px;
-                padding: 10px 0;
-            }
-            .button.active {
-                border-color: #229acd;
-            }
-            .extra-info {
-                background: $enrollment-plan-att-color;
-                line-height: 1;
-            }
-        }
-        &.sprint {
-            .price {
-                color: $enrollment-plan-sprint-color;
-            }
-            a.button {
-                background-color:$enrollment-plan-sprint-color;
-                @include background-image(linear-gradient(to top, $enrollemnt-plan-sprint-gradient-color-bottom 0%, $enrollemnt-plan-sprint-gradient-color-top 100%));
-                border: 1px solid #eca001;
-                width: 123px;
-                padding: 10px 0;
-            }
-            .button.active {
-                border-color: #eca001;
-            }
-            .extra-info {
-                background: $enrollment-plan-sprint-color;
-            }
-        }
+
         p {
             font-size: 12px;
         }
+
+        hr {
+            margin-bottom: 10px;
+            height: 0;
+        }
+
         .extra-info {
-            color: white;
-            left: -2px;
-            position: absolute;
-            right: -2px;
-            top: -14px;
+            color: #909090;
             font-size: 12px;
             font-weight: 800;
+            text-align: left;
+            margin-top: 10px;
+            height: 44px;
+
             span {
-                padding:5px 0;
+                padding: 10px 0 0;
+                font-weight: 500;
+                font-size: 14px;
+                font-style: italic;
+                line-height: 1;
+                border-top: 1px solid #ececec;
+                box-sizing: border-box;
+
+                i.icon-international-phone {
+                    background-image: url('../i/icon/international-phone.png');
+                    background-position: 0 3px;
+                    margin-right: 10px;
+                    height: 30px;
+                    width: 14px;
+                    float: left;
+                }
             }
         }
-        .icon-circle-check {
-            display: none;
-        }
+
         .button {
-            padding-top: 30px;
-            padding-bottom: 30px;
+            padding: 0 10px 20px;
             box-shadow: 1px 1px 10px #ccc;
-            background:white;
+            box-sizing: border-box;
+            background-color: #ffffff;
             border-radius: 0;
             line-height: 1;
-			text-align:center;
+            text-align: center;
+            min-height: 175px;
+            width: 25%;
 
-            &.active{
-                a.button {
-                    display:none;
-                }
-                .icon-circle-check {
-                    @include retina-background('checkmark.png');
-                    background-position: 0;
-                    display: inline-block;
-                    height: 33px;
-                    width: 35px;
-                }
+            .check {
+                background-image: url('../i/bg/checkmark.png');
+                display: inline-block;
+                height: 33px;
+                width: 35px;
+                margin-top: 5px;
             }
-        }
-        .is-recommended,
-        .is-special-offer {
-            @include border-radius(0 0 5px 5px);
+
+            &.selected {
+                border: 1px solid #0494d5;
+            }
+
+            @include breakpoint(medium) {
+                width: 46%;
+            }
+
             @include breakpoint(small) {
-                margin-top: 25px;
-            }
-        }
-        .recommended,
-        .special-offer {
-            position: absolute;
-            top: -20px;
-            left: -1px;
-            right: -1px;
-            height: 20px;
-            background: #506774;
-            color: #fff;
-            font-weight: 600;
-            font-style: italic;
-            font-size: 12px;
-            line-height: 22px;
-            text-transform: uppercase;
-            @include border-radius(5px 5px 0 0);
-        }
-        .special-offer {
-            border: 2px solid #3189bb;
-            border-bottom: 0;
-            background: #3189bb;
-            color: #fff;
-            font-weight: bold;
-            @include breakpoint(small) {
-                border: none;
-            }
-        }
-        .active {
-            .recommended {
-                background: #3189bb;
-                left: -2px;
-                right: -2px;
-            }
-            .special-offer {
-                border-color: #3189bb;
-                left: -2px;
-                right: -2px;
-            }
-        }
-        .is-special-offer {
-            .original-price {
-                text-decoration: line-through;
-                font-size: 14px;
-                color: #888;
-                position: absolute;
-                top: -1.25em;
-                text-align: center;
-                display: block;
                 width: 100%;
             }
-            .limited-time-offer {
-                font-size: .85em;
-                display: block;
+        }
+
+        .size-speed {
+            margin: 25px 0 10px;
+            font-size: 27px;
+            font-weight: 800;
+            color: #eb9600;
+            font-style: italic;
+            text-transform: uppercase;
+            height: 46px;
+
+            .number {
+                font-size: 34px;
+                margin-top: -5px;
+            }
+
+            .speed {
+                font-size: 12px;
+                font-weight: 800;
+                color: #6b6b6b;
             }
         }
 
-        .size-speed{
-            margin:10px 0;
-            .size {
-                font-size: 23px;
-                color:black;
-            }
-            .speed{
-                color:#666;
-                font-size:15px;
-                margin-top:5px;
-                line-height:1;
-            }
-        }
-        
         .price {
             position: relative;
-            font-size: 18px;
-            font-style: italic;
-            line-height:1.1;
-            .cost{
-                font-size:40px;
-                font-style:italic;
-                font-weight:800;
+            line-height: 1.1;
+            padding-bottom: 5px;
+
+            .cost {
+                color: #6b6b6b;
+                font-size: 41px;
+                font-weight: 800;
 
                 sup {
                     font-size: 20px;
@@ -4661,32 +5326,44 @@ h3.success-message{
                     vertical-align: super;
                 }
             }
+
             .duration {
-                font-size: 22px;
+                color: #6b6b6b;
+                font-size: 19px;
             }
         }
 
-        a.button {
-            color: #fff;
+        button.button {
             display: inline-block;
+            text-transform: none;
+            color: #fff;
+            font-size: 18px;
+            font-weight: 500;
+            background-color: #2aa4dc;
+            border: 1px solid #229acd;
             padding: 10px 22px;
-            margin: 5px 0 10px;
+            min-height: 25px;
+            width: 100px;
             @include border-radius(5px);
             @include background-image(linear-gradient(to top, #008cd2 0%, #2aa4dc 100%));
-			float:none;
+            box-shadow: none;
+            float: none;
         }
 
         .details {
             @include layout-list();
             text-align: left;
             margin: 15px 0 0 0;
+
             li {
                 margin-bottom: 10px;
                 padding-left: 20px;
+
                 [class*="icon-"] {
                     float: left;
                     margin-left: -20px;
                 }
+
                 > span {
                     font-size: 9px;
                     color: #999;
@@ -4694,14 +5371,17 @@ h3.success-message{
                 }
             }
         }
+
         .time {
             color: #333;
             font-size: 12px;
             text-transform: none;
         }
+
         span {
             display: inline-block;
         }
+
         .buttons {
             button {
                 float: none;
@@ -4709,72 +5389,86 @@ h3.success-message{
             }
         }
     }
+
     hr {
         height: 1px;
         background: #ececec;
         margin-top: 5px;
     }
+
     footer {
         h3 {
             font-size: 18px;
             margin: 0;
         }
+
         p {
             font-size: 14px;
         }
+
         .overages-billed {
             float: right;
             width: 100px;
             margin: 1em 0 1em 30px;
             font-size: 12px;
             text-align: center;
+
             .num {
                 display: block;
                 font-size: 20px;
             }
         }
     }
+
     .additional-services {
         @include background-image(linear-gradient(to top, #fff 0%, #f7f7f7 100%));
+
         h3 {
             font-size: 20px;
             font-weight: 300;
             margin-top: 0;
         }
+
         .additional-service {
             .additional-service-image {
                 display: inline-block;
                 width: 12%;
                 vertical-align: top;
             }
+
             .additional-service-content {
                 display: inline-block;
                 width: 40%;
+
                 h4 {
                     font-size: 20px;
                     font-weight: 400;
                     margin: 0;
                 }
+
                 p {
                     font-size: 16px;
                     margin-bottom: 10px;
+
                     a {
                         font-weight: 400;
                     }
+
                     i {
                         margin-left: 5px;
                     }
                 }
-                
             }
+
             @include breakpoint(small) {
-                 .additional-service-image, .additional-service-content {
+                .additional-service-image, .additional-service-content {
                     display: block;
                     width: 100%;
-                 }
+                }
             }
         }
     }
+
     @include breakpoint-max(400px) {
         .btn-group-options {
             .button {
@@ -4784,6 +5478,7 @@ h3.success-message{
             }
         }
     }
+
     @include breakpoint-min-max(401px, 650px) {
         .btn-group-options {
             .button {
@@ -4794,11 +5489,13 @@ h3.success-message{
             }
         }
     }
+
     @include breakpoint-min-max(651px, 957px) {
         .btn-group-options {
             .button {
                 display: inline-block;
                 margin: 6px;
+
                 &.is-recommended,
                 &.is-special-offer {
                     margin-top: 25px;
