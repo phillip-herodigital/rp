@@ -22,29 +22,21 @@ namespace StreamEnergy.MyStream.Models
         [ValidateObject(ErrorMessagePrefix = "")]
         public Phone ContactPhone { get; set; }
 
-        [ValidateObject(ErrorMessagePrefix = "")]
         public String OrderNumber{ get; set; }
 
-        [ValidateObject(ErrorMessagePrefix = "")]
         public String LastFour { get; set; }
 
-        [ValidateObject(ErrorMessagePrefix = "")]
         public bool EnergyServices { get; set; }
 
-        [ValidateObject(ErrorMessagePrefix = "")]
         public bool MobileServices { get; set; }
 
-        [ValidateObject(ErrorMessagePrefix = "")]
         public bool HomeServices { get; set; }
 
-        [ValidateObject(ErrorMessagePrefix = "")]
         public String IMEINumber { get; set; }
 
         [Required]
-        [ValidateObject(ErrorMessagePrefix = "")]
         public String ReturnReason { get; set; }
 
-        [ValidateObject(ErrorMessagePrefix = "Please enter a comment/suggestion")]
         public string ContactComments { get; set; }
 
 
