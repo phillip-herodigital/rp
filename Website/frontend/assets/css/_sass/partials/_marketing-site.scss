@@ -4532,12 +4532,22 @@ article.mobile.mobile-plans-usage-calculator {
                         }
                         .cdma-pricing-plans{
 
+                            @include breakpoint(small-medium){
+                                margin:0 !important;
+                                width:100% !important;
+                                padding:0 !important;
+                            }
+
                             .wrapper{
                                 padding-top:0;
                                 width:100%;
 
                                 .grid{
                                     margin:0;
+                                    
+                                    @include breakpoint(medium){
+                                        width:100% !important;
+                                    }
                                 }
 
                                 .plan-details{
