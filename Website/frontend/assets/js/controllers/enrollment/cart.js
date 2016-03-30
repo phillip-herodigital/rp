@@ -134,16 +134,16 @@ ngApp.controller('EnrollmentCartCtrl', ['$scope', 'enrollmentStepsService', 'enr
         }];
         enrollmentCartService.removeDeviceFromCart(item);
         enrollmentCartService.removeService(enrollmentCartService.services[serviceIndex]);
-        enrollmentService.setSelectedOffers().then(
-            function (value) {
-                enrollmentCartService.addService({
-                    eligibility: "success",
-                    location: $scope.location,
-                    offerInformationByType: $scope.offerInfo
-                });
-                enrollmentStepsService.setStep('phoneFlowDevices');
-                enrollmentStepsService.hideStep('phoneFlowPlans');
-            });
+        enrollmentCartService.addService({
+            eligibility: "success",
+            location: $scope.location,
+            offerInformationByType: $scope.offerInfo
+        });
+        if (saveIMEI || enrollmentCartService.getDevicesCount() == 0) {
+            enrollmentStepsService.setStep('phoneFlowDevices');
+            enrollmentStepsService.hideStep('phoneFlowPlans');
+            enrollmentStepsService.hideStep('accountInformation');
+        }
     };
 
     /**
