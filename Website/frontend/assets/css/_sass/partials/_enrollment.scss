@@ -4738,6 +4738,10 @@ h3.success-message{
             .btn-phone-type {
                 min-width: 128px;
             }
+
+            .btn-group-options {
+                float: left;
+            }
         }
 
         .verify-your-ICCID {
@@ -4756,6 +4760,7 @@ h3.success-message{
 
             .iccid {
                 width: calc(100% - 200px);
+                float: left;
 
                 .label {
                     float: left;
