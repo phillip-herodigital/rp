@@ -46,21 +46,21 @@
                         <label>@Html.Sitecore().Field("Stream Service Text")</label>
                         <ul class="checkbox-list">
                             <li>
-                                @Html.CheckBoxFor(m => m.EnergyServices, new { ng_model = "energyServices" })
+                                @Html.CheckBoxFor(m => m.EnergyServices, new { ng_model = "energyServices", data_val = "false" })
                                 <label for="@Html.IdFor(m => m.EnergyServices)">@Html.Sitecore().Field("Energy Services Text")</label>
                             </li>
                             <li>
-                                @Html.CheckBoxFor(m => m.MobileServices, new { ng_model = "mobileServices" })
+                                @Html.CheckBoxFor(m => m.MobileServices, new { ng_model = "mobileServices", data_val = "false" })
                                 <label for="@Html.IdFor(m => m.MobileServices)">@Html.Sitecore().Field("Mobile Services Text")</label>
                             </li>
                             <li>
-                                @Html.CheckBoxFor(m => m.HomeServices, new { ng_model = "homeServices" })
+                                @Html.CheckBoxFor(m => m.HomeServices, new { ng_model = "homeServices", data_val = "false" })
                                 <label for="@Html.IdFor(m => m.HomeServices)">@Html.Sitecore().Field("Home Services Text")</label>
                             </li>
                         </ul>
                     </div>
 
-                    <div class="item" @Html.Validation().ErrorClass(model => model.IMEINumber) ng-if="mobileServices">
+                    <div class="item" @Html.Validation().ErrorClass(model => model.IMEINumber) ng-if="mobileServices == true">
                         <label for="@Html.IdFor(m => m.IMEINumber)">@Html.Sitecore().Field("IMEINumber Text")</label>
                         @Html.TextBoxFor(m => m.IMEINumber, new { ng_model = "IMEINumber", placeholder = Html.Sitecore().Field("IMEINumber Placeholder") })
                     </div>
