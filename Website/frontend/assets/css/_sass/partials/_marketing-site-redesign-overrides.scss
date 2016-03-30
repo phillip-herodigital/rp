@@ -3240,6 +3240,10 @@ article.marketing.mobile.cdma-pricing-plans {
                             font-weight:bold;
                         }
 
+                        @include breakpoint(medium){
+                            margin-top:5px;
+                        }
+
                         @include breakpoint(small-medium){
                             padding: 25px 10px 14px;
                         }
