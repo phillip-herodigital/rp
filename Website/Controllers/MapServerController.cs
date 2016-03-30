@@ -21,7 +21,7 @@ namespace StreamEnergy.MyStream.Controllers
     {
         private readonly IDatabase redis;
         private readonly IUnityContainer container;
-        private ConnectionMultiplexer Connection;
+        private static ConnectionMultiplexer Connection;
         private IDatabase cache;
         public MapServerController(IUnityContainer container, IDatabase redis) {
             this.container = container;
@@ -36,13 +36,15 @@ namespace StreamEnergy.MyStream.Controllers
             string key = string.Format("{0}|{1}", layers, tile);
             byte[] data;
 
-            Connection = ConnectionMultiplexer.Connect(ConfigurationManager.ConnectionStrings["mapServerCache"].ConnectionString);
+            if (Connection == null || !Connection.IsConnected)
+            {
+                Connection = ConnectionMultiplexer.Connect(ConfigurationManager.ConnectionStrings["mapServerCache"].ConnectionString);
+            }
             cache = Connection.GetDatabase();
 
             layers = layers.Replace(",", " ");
             tile = tile.Replace(",", "+");
-
-
+            
             //Check cache for tile
             data = GetCacheTile(key, cache);
 
@@ -91,7 +93,7 @@ namespace StreamEnergy.MyStream.Controllers
         private bool setTileCache(byte[] data, string key) {
             try
             {
-                cache.StringSet(key, JsonConvert.SerializeObject(data));
+                cache.StringSet(key, JsonConvert.SerializeObject(data), TimeSpan.FromDays(1));
             }
             catch (Exception e) {
                 //Add logging here
