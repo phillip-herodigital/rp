@@ -109,49 +109,45 @@ ngApp.controller('EnrollmentCartCtrl', ['$scope', 'enrollmentStepsService', 'enr
     };
 
     /**
-    * Edit Mobile Device
+    * Edit/Delete Mobile Device
     */
-    $scope.editMobileDevice = function (serviceIndex) {
-        //update active service address, send to the correct page
-        if(enrollmentCartService.getCartVisibility()) {
-            enrollmentCartService.toggleCart();
+    $scope.editMobileDevice = function (item, serviceIndex, saveIMEI) {
+        if (saveIMEI) {
+            enrollmentService.editPhoneIMEI = angular.copy(item.imeiNumber);
         }
-        enrollmentCartService.setActiveServiceIndex(serviceIndex);
-        enrollmentStepsService.setFlow('phone', false).setStep('phoneFlowPlans');
-    };
-
-    /**
-    * Delete Mobile Line
-    */
-    $scope.deleteMobileLine = function (serviceIndex, item) {
-        //update active service address, send to the correct page
-        if(enrollmentCartService.getCartVisibility()) {
-            enrollmentCartService.toggleCart();
-        }
-        //remove the device & service from the cart
-        enrollmentCartService.removeDeviceFromCart(item);
-        enrollmentCartService.removeService(enrollmentCartService.services[serviceIndex])
-        //if there is no device left in the cart, go to device selection,
-        var devicesCount = enrollmentCartService.getDevicesCount();
-        var serviceType = $scope.getActiveServiceType();
-        if (devicesCount == 0 && serviceType == 'Mobile') {
-            enrollmentStepsService.setFlow('mobile', false).setStep('phoneFlowDevices');
-        } else {
-            //make a server call to update the cart with the correct devices & services
-            $timeout(function() { 
-                enrollmentService.setAccountInformation().then(
-            function (value) {
-                enrollmentService.setSelectedOffers();
+        $scope.location = {
+            address: {
+                city: enrollmentCartService.services[0].location.address.city,
+                line1: "",
+                postalCode5: enrollmentCartService.services[0].location.address.postalCode5,
+                stateAbbreviation: enrollmentCartService.services[0].location.address.stateAbbreviation
             },
-            function (data) {
-                console.log(data);
-            });
-            }, 50);
+            capabilities: enrollmentCartService.services[0].location.capabilities
         }
+        $scope.offerInfo = [{
+            key: "Mobile",
+            value: {
+                availableOffers: enrollmentCartService.services[0].offerInformationByType[0].value.availableOffers,
+                errors: [],
+                offerSelections: []
+            }
+        }];
+        enrollmentCartService.removeDeviceFromCart(item);
+        enrollmentCartService.removeService(enrollmentCartService.services[serviceIndex]);
+        enrollmentService.setSelectedOffers().then(
+            function (value) {
+                enrollmentCartService.addService({
+                    eligibility: "success",
+                    location: $scope.location,
+                    offerInformationByType: $scope.offerInfo
+                });
+                enrollmentStepsService.setStep('phoneFlowDevices');
+                enrollmentStepsService.hideStep('phoneFlowPlans');
+            });
     };
 
     /**
-    * Add Mobile Device
+    * Add new Mobile Service
     */
     var addNewService = function () {
         var location = {
@@ -177,6 +173,7 @@ ngApp.controller('EnrollmentCartCtrl', ['$scope', 'enrollmentStepsService', 'enr
             offerInformationByType: offerInfo
         });
     };
+
     $scope.addMobileDevice = function () {
         //update active service address, send to the correct page
         if(enrollmentCartService.getCartVisibility()) {

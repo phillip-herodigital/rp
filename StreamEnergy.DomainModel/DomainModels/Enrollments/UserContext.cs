@@ -83,6 +83,9 @@ namespace StreamEnergy.DomainModels.Enrollments
         [RequireValue(true, ErrorMessage = "Must Agree To Terms")]
         public bool AgreeToTerms { get; set; }
 
+        [Required(ErrorMessage = "Must Agree To AutoPay Terms")]
+        public bool AgreeToAutoPayTerms { get; set; }
+
         [ValidateObject]
         public OnlineAccount OnlineAccount { get; set; }
         

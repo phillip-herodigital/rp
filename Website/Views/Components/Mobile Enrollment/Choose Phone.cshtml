@@ -35,7 +35,7 @@
                                             @Html.Sitecore().Field("Enter Number")
                                             <a href="" ng-click="showModal('instructions/imei');">@Html.Sitecore().Field("What Is This")</a>
                                         </label>
-                                        <input class="full" name="imeiNumber" id="imeiNumber" type="text" ng-model="phoneOptions.imeiNumber" data-val="true" data-val-required placeholder="@Html.Sitecore().Field("Enter Number")" />
+                                        <input class="full" name="imeiNumber" id="imeiNumber" type="text" pattern="[0-9]*" ng-model="phoneOptions.imeiNumber" data-val="true" data-val-required placeholder="@Html.Sitecore().Field("Enter Number")" />
                                     </div>
                                     <div class="input-group-btn">
                                         <button ng-submit ng-disabled="addDevice.$invalid">@Html.Sitecore().Field("Check Text")</button>
