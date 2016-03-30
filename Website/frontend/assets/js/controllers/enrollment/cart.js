@@ -99,12 +99,23 @@ ngApp.controller('EnrollmentCartCtrl', ['$scope', 'enrollmentStepsService', 'enr
     /**
     * Change Mobile Plan
     */
-    $scope.changeMobilePlan = function (service) {
+    $scope.changeMobilePlan = function (item, service) {
         //update active service address, send to the correct page
         if(enrollmentCartService.getCartVisibility()) {
             enrollmentCartService.toggleCart();
         }
-        enrollmentCartService.setActiveService(service);
+        var newItem = {
+            showIccid: item.showIccid,
+            phoneOS: "",
+            missingIccid: false,
+            transferInfo: null,
+            imeiNumber: item.imeiNumber,
+            foreignDevice: item.foreignDevice
+        };
+        enrollmentCartService.removeDeviceFromCart(item);
+        enrollmentCartService.addDeviceToCart(newItem);
+        addNewService();
+        enrollmentCartService.removeService(service);
         enrollmentStepsService.setFlow('phone', false).setStep('phoneFlowPlans');
     };
 
@@ -134,16 +145,16 @@ ngApp.controller('EnrollmentCartCtrl', ['$scope', 'enrollmentStepsService', 'enr
         }];
         enrollmentCartService.removeDeviceFromCart(item);
         enrollmentCartService.removeService(enrollmentCartService.services[serviceIndex]);
-        enrollmentService.setSelectedOffers().then(
-            function (value) {
-                enrollmentCartService.addService({
-                    eligibility: "success",
-                    location: $scope.location,
-                    offerInformationByType: $scope.offerInfo
-                });
-                enrollmentStepsService.setStep('phoneFlowDevices');
-                enrollmentStepsService.hideStep('phoneFlowPlans');
-            });
+        enrollmentCartService.addService({
+            eligibility: "success",
+            location: $scope.location,
+            offerInformationByType: $scope.offerInfo
+        });
+        if (saveIMEI || enrollmentCartService.getDevicesCount() == 0) {
+            enrollmentStepsService.setStep('phoneFlowDevices');
+            enrollmentStepsService.hideStep('phoneFlowPlans');
+            enrollmentStepsService.hideStep('accountInformation');
+        }
     };
 
     /**
