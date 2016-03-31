@@ -160,7 +160,9 @@
                 esnNumber: $scope.phoneOptions.imeiNumber,
                 imeiNumber: $scope.phoneOptions.imeiNumber,
                 iccidNumber: $scope.phoneOptions.iccidNumber,
-                inventoryItemID: $scope.selectedPlan.mobileInventory[0].id,
+                inventoryItemId: $scope.selectedPlan.mobileInventory[0].id,
+                activeDevice: $scope.phoneOptions.activeDevice,
+                transferInfo: ($scope.phoneOptions.transferInfo.type == "new") ? null : $scope.phoneOptions.transferInfo
             }
         }];
 
