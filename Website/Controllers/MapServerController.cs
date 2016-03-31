@@ -93,7 +93,7 @@ namespace StreamEnergy.MyStream.Controllers
         private bool setTileCache(byte[] data, string key) {
             try
             {
-                cache.StringSet(key, JsonConvert.SerializeObject(data), TimeSpan.FromDays(1));
+                cache.StringSet(key, JsonConvert.SerializeObject(data), TimeSpan.FromDays(7));
             }
             catch (Exception e) {
                 //Add logging here
