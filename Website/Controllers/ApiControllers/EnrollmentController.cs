@@ -71,7 +71,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
         public EnrollmentController(SessionHelper stateHelper, IValidationService validation, StackExchange.Redis.IDatabase redisDatabase, IEnrollmentService enrollmentService, DomainModels.Accounts.IAccountService accountService, ICurrentUser currentUser, IActivationCodeLookup activationCodeLookup, IAssociateLookup associateLookup, IDpiEnrollmentParameters dpiEnrollmentParameters, IEmailService emailService, ISettings settings, ILogger logger, HttpClient httpClient)
         {
-            this.translationItem = Sitecore.Context.Database.GetItem(new Sitecore.Data.ID("{5B9C5629-3350-4D85-AACB-277835B6B1C9}"));
+            this.translationItem = Sitecore.Context.Database.GetItem(new Sitecore.Data.ID("{67561BCF-4966-4FB3-8309-40ADFB69B3AE}"));
 
             this.domain = Sitecore.Context.Site.Domain;
             this.stateHelper = stateHelper;
