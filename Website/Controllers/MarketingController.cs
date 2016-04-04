@@ -62,62 +62,27 @@ namespace StreamEnergy.MyStream.Controllers
             Item mobileSettings = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Settings/Mobile Enrollment Options");
             Item dataPlansItem = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Taxonomy/Modules/Mobile/Mobile Data Plans");
             Item planRecommendationItem = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Taxonomy/Modules/Mobile/Plan Recommendations/Plan Recommendations");
-            MultilistField attConsumerIndividualPlans = planRecommendationItem.Fields["ATT Consumer Individual Plans"];
-            MultilistField attConsumerGroupPlans = planRecommendationItem.Fields["ATT Consumer Group Plans"];
-            MultilistField sprintConsumerIndividualPlans = planRecommendationItem.Fields["Sprint Consumer Individual Plans"];
-            MultilistField sprintConsumerGroupPlans = planRecommendationItem.Fields["Sprint Consumer Group Plans"];
+            MultilistField plans = planRecommendationItem.Fields["Individual Plans"];
 
-            var dataPlans = dataPlansItem.Children.Select(child => new
+            var dataPlans = dataPlansItem.Children.Where(child => child.Fields["Plan ID"] != null).Select(child => new
             {
-                Carrier = child.Name.ToLower(),
-                Plans = child.Children.Select(plans => new
-                {
-                    ID = plans.ID.ToString(),
-                    PlanId = plans.Fields["Plan ID"].Value,
-                    data = plans.Fields["Data"].Value,
-                    price = plans.Fields["Price"].Value
-                })
+                ID = child.ID.ToString(),
+                PlanId = child.Fields["Plan ID"].Value,
+                data = child.Fields["Data"].Value,
+                price = child.Fields["Price"].Value,
+                includesInternational = child.Fields["Includes International"].Value == "1" ? true : false,
+                displayPlan = child.Fields["Display Plan"].Value == "1" ? true : false,
             });
 
             var recommendedPlans = new
             {
-                ATT = new
-                {
-                    Individual = new List<object>(),
-                    Group = new List<object>()
-                },
                 Sprint = new
                 {
-                    Individual = new List<object>(),
-                    Group = new List<object>()
+                    Individual = new List<object>()
                 }
             };
 
-            foreach (ID id in attConsumerIndividualPlans.TargetIDs)
-            {
-                Item targetItem = Sitecore.Context.Database.Items[id];
-                recommendedPlans.ATT.Individual.Add(new
-                {
-                    ID = targetItem.ID.ToString(),
-                    PlanId = targetItem.Fields["Plan ID"].Value,
-                    data = targetItem.Fields["Data"].Value,
-                    price = targetItem.Fields["Price"].Value
-                });
-            }
-
-            foreach (ID id in attConsumerGroupPlans.TargetIDs)
-            {
-                Item targetItem = Sitecore.Context.Database.Items[id];
-                recommendedPlans.ATT.Group.Add(new
-                {
-                    ID = targetItem.ID.ToString(),
-                    PlanId = targetItem.Fields["Plan ID"].Value,
-                    data = targetItem.Fields["Data"].Value,
-                    price = targetItem.Fields["Price"].Value
-                });
-            }
-
-            foreach (ID id in sprintConsumerIndividualPlans.TargetIDs)
+            foreach (ID id in plans.TargetIDs)
             {
                 Item targetItem = Sitecore.Context.Database.Items[id];
                 recommendedPlans.Sprint.Individual.Add(new
@@ -127,19 +92,7 @@ namespace StreamEnergy.MyStream.Controllers
                     data = targetItem.Fields["Data"].Value,
                     price = targetItem.Fields["Price"].Value
                 });
-            }
-
-            foreach (ID id in sprintConsumerGroupPlans.TargetIDs)
-            {
-                Item targetItem = Sitecore.Context.Database.Items[id];
-                recommendedPlans.Sprint.Group.Add(new
-                {
-                    ID = targetItem.ID.ToString(),
-                    PlanId = targetItem.Fields["Plan ID"].Value,
-                    data = targetItem.Fields["Data"].Value,
-                    price = targetItem.Fields["Price"].Value
-                });
-            }
+            };
 
             List<object> carriers = new List<object>();
             carriers.Add(new
@@ -397,8 +350,87 @@ namespace StreamEnergy.MyStream.Controllers
                 return View("~/Views/Pages/Currents/CurrentsFeedback.cshtml", contact);
             }
         }
+
+
+
+        // Return Form
+        public ActionResult ReturnFormIndex()
+        {
+            var model = new StreamEnergy.MyStream.Models.ReturnForm()
+            {
+                ShowSuccessMessage = !string.IsNullOrEmpty(Request["success"]) && Request["success"] == "true",
+            };
+
+            return View("~/Views/Pages/Marketing/Return/Return Form.cshtml", model);
+        }
+
+        [HttpPost]
+        public ActionResult ReturnFormIndex(StreamEnergy.MyStream.Models.ReturnForm contact)
+        {
+            // Validate form data
+            if (ModelState.IsValid)
+            {
+                // Get the form data
+                var FirstName = contact.ContactName.First;
+                var LastName = contact.ContactName.Last;
+                var Email = contact.ContactEmail.Address;
+                var Phone = (contact.ContactPhone == null) ? "" : contact.ContactPhone.Number;
+                var OrderNumber = contact.OrderNumber;
+                var LastFour = contact.LastFour;
+                var EnergyServices = contact.EnergyServices;
+                var MobileServies = contact.MobileServices;
+                var HomeServices = contact.HomeServices;
+                var IMEI = contact.IMEINumber;
+                var Reason = contact.ReturnReason;
+                var Comments = contact.ContactComments;
+                var Name = FirstName + ' ' + LastName;
+
+                var ServicesString = EnergyServices ? " Energy Services" : "";
+                if (MobileServies) {ServicesString += " Mobile Services"; }
+                if (HomeServices) { ServicesString += " Home Services"; }
+
+                // Get the To address(es) from Sitecore;
+                var settings = StreamEnergy.Unity.Container.Instance.Resolve<ISettings>();
+                var EnergyEmail = settings.GetSettingsField("Marketing Form Email Addresses", "Energy Return Email Address").Value;
+                var MobileEmail = settings.GetSettingsField("Marketing Form Email Addresses", "Mobile Return Email Address").Value;
+                var HomeEmail = settings.GetSettingsField("Marketing Form Email Addresses", "Home Return Email Address").Value;
+
+                // Send the email
+                var fromAddress = Sitecore.Configuration.Settings.GetSetting("DynEtc.fromAddress", null);
+                MailMessage Message = new MailMessage();
+                Message.From = new MailAddress(fromAddress, Name);
+                Message.ReplyToList.Add(new MailAddress(Email));
+                if (EnergyServices) { Message.To.Add(EnergyEmail); }
+                if (MobileServies) { Message.To.Add(MobileEmail); }
+                if (HomeServices) { Message.To.Add(HomeEmail); }
+                Message.Subject = "IGNITION RETURN: My Stream Store";
+                Message.IsBodyHtml = true;
+                Message.Body = "First Name: " + FirstName +
+                    "<br />Last Name: " + LastName +
+                    "<br />Email: " + Email +
+                    "<br />Phone: " + Phone +
+                    "<br />Order Number: " + OrderNumber +
+                    "<br />Last 4 of CC: " + OrderNumber +
+                    "<br />Service Categories: " + ServicesString +
+                    "<br />IMEI/MEID: " + IMEI +
+                    "<br />Reason: " + Reason +
+                    "<br />Comments: " + Comments;
+
+
+                // Intentionally letting the Task go - this sends async to the user's request.
+                this.emailService.SendDynEmailSyncronous(Message);
+
+                // Send the success message back to the page
+                var ReturnURL = new RedirectResult(Request.Url.AbsolutePath + "?success=true##success-message");
+                return ReturnURL;
+            }
+            else
+            {
+                return View("~/Views/Pages/Marketing/Return/Return Form.cshtml", contact);
+            }
+        }
         
-        
+
         
         
         public ActionResult HomeLifeServices(string hash, string mock)

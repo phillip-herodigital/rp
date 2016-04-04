@@ -14,7 +14,7 @@
                 <span class="associate-name">{{ associateInformation.associateId }}</span>
             </div>
         </article>
-        <article class="enrollment__box enrollment_cart" scroll-anchor="scrollFix" ng-class="{'hide-sidebar-cart' : getCurrentStep().id == 'phoneFlowDevices' || getCurrentStep().id == 'phoneFlowPlans'}">
+        <article class="enrollment__box enrollment_cart" scroll-anchor="scrollFix"  ng-class="{'hide-sidebar-cart' : getCurrentStep().id == 'phoneFlowDevices' || getCurrentStep().id == 'phoneFlowPlans'}">
             <header>
                 <div class="cart-items">
                     <i class="icon-cart"></i>
@@ -25,15 +25,11 @@
             </header>
             <div class="content">
                 <p class="alt" ng-if="!getCartCount() && !getCartItems().length">@Html.Sitecore().Field("Empty Cart Text")</p>
-                <div class="cart-item" ng-repeat="(id, location) in getMobileAddresses()" ng-if="cartHasMobile()">
+                <div class="cart-item" ng-if="cartHasMobile() && getCartCount()">
                     <div class="mobile-plan">
-                        <div class="mobile-services-section" ng-show="mobileEnrollmentService.selectedNetwork.name || mobileEnrollmentService.planType">
-                            <h2 ng-if="$first">@Html.Sitecore().Field("Mobile Services")</h2>
-                            <div class="plan-type" ng-show="getCartDataPlan().length == 0 || getDevicesCount() == 0">
-                                {{ mobileEnrollmentService.selectedNetwork.name }} {{ mobileEnrollmentService.planType }} @Html.Sitecore().Field("Plan")
-                            </div>
+                        <div class="mobile-services-section">
+                            <h2>@Html.Sitecore().Field("Mobile Services")</h2>
                         </div>
-
                         <div class="notice error" ng-show="addDeviceError && (!addDevice.$valid || isCartFull() || esnInvalid)">
                             @Html.Sitecore().Field("Add Device Text")
                             <div class="links">
@@ -46,10 +42,13 @@
                                 <a href="" class="remove-mobile" ng-click="deleteMobilePlan(location)">@Html.Sitecore().Field("Remove Mobile Link")</a><button ng-click="changeMobilePlan(location)">@Html.Sitecore().Field("Add Data Plan Button Text")</button>
                             </div>
                         </div>
-                        <div class="plan-type clearfix" ng-repeat="offerInformation in location.offerInformationByType" ng-show="offerInformation.value.offerSelections.length">
-                            <div ng-include src="'cart/' + offerInformation.key"></div>
+                        <div ng-repeat="item in getCartDevices()">
+                            <div class="plan-type clearfix" ng-repeat="service in services">
+                                <div ng-if="$index == $parent.$index && service.offerInformationByType[0].value" ng-include src="'cart/Mobile'"></div>
+                            </div>
+                            <div ng-include src="'cart/MobileDevices'"></div>
+                            <hr ng-if="!$last"/>
                         </div>
-                        <div ng-include src="'cart/MobileDevices'"></div>
                     </div>
                 </div>
                 <div class="cart-item" ng-repeat="(id, location) in getUtilityAddresses()" ng-if="cartHasUtility()">
@@ -92,7 +91,6 @@
                 <li ng-if="cartHasMobile()"><i class="icon-billing-address"></i>  @Html.Sitecore().Field("Documents Billing Address")</li>
                 <li ng-if="cartHasUtility()"><i class="icon-home"></i> @Html.Sitecore().Field("Documents Service Address")</li>
                 <li><i class="icon-ssn"></i> @Html.Sitecore().Field("Documents Social Security Number")</li>
-                <li ng-if="cartHasMobile() && mobileEnrollmentService.selectedNetwork.value == 'att'"><i class="icon-imei"></i> @Html.Sitecore().Field("Documents IMEI Number")</li>
                 <li ng-if="cartHasMobile() && mobileEnrollmentService.selectedNetwork.value == 'sprint' && mobileEnrollmentSettings.sprintByod"><i class="icon-imei"></i> @Html.Sitecore().Field("Documents ESN Number")</li>
                 <li ng-if="cartHasMobile() && mobileEnrollmentService.hasLTEDevice"><i class="icon-imei"></i> @Html.Sitecore().Field("Documents ICCID Number")</li>
                 <!--<li><i class="icon-bill"></i>  @Html.Sitecore().Field("Documents Billing Account Number")</a></li>
@@ -114,7 +112,7 @@
             </ul>
         </article>
         @*<article class="enrollment__box stream-store" ng-if="cartHasMobile() && (mobileEnrollmentService.selectedNetwork.value == 'sprint' && mobileEnrollmentSettings.sprintBuyPhoneWsa) || (mobileEnrollmentService.selectedNetwork.value == 'att' && mobileEnrollmentSettings.attBuyPhoneWsa)">*@
-        <article class="enrollment__box stream-store" ng-if="getCurrentStep().id == 'phoneFlowDevices'">
+        <article class="enrollment__box stream-store" ng-if="getCurrentStep().id == 'phoneFlowDevices' || getCurrentStep().id == 'phoneFlowPlans'">
             <header>
                 @Html.Sitecore().Field("Stream Store Header")
             </header>
@@ -135,7 +133,6 @@
         </article>
     </div>
 </script>
-
 <script type="text/ng-template" id="cart/shopPhones">
     <div class="mobile-enrollment-modal shopPhones">
         <div class="modal-header">
@@ -144,21 +141,13 @@
         </div>
         <div class="modal-body">
             <div class="shop-phones-overlay clearfix">
-                <div class="section">
-                    <div class="inner clearfix">
-                        @Html.Sitecore().Field("Stream Store Content GSM")
-                    </div>
-                </div>
-                <div class="section">
-                    <div class="inner clearfix">
-                        @Html.Sitecore().Field("Stream Store Content CDMA") 
-                    </div>
+                <div class="buy-phone">
+                    @Html.Sitecore().Field("Stream Store Content CDMA")
                 </div>
             </div>
         </div>
     </div>
 </script>
-
 <script type="text/ng-template" id="cart/howItWorks">
     <div class="mobile-enrollment-modal">
         <div class="modal-header">
@@ -215,60 +204,34 @@
 </script>
 
 <script type="text/ng-template" id="cart/Mobile">
-    <div ng-repeat="selectedOffer in getCartDataPlan()">
-        <div class="icon-byod"></div>
-        <div class="description plan-description" ng-if="getDevicesCount() == 1">
-            <div class="plan-section clearfix">
-                <span>@Html.Sitecore().Field("Individual Plan")</span>
-                <div class="rate" ng-if="getDevicesCount() > 0">{{ totalPlanPrice(selectedOffer) | currency }}/@Html.Sitecore().Field("Month Abbreviation")</div>
-            </div>
-            
-            <div class="options">
-                {{ getDevicesCount() }} @Html.Sitecore().Field("Line Text") &amp; {{ selectedOffer.data }}<span ng-if="selectedOffer.data != 'Unlimited'">GB</span> @Html.Sitecore().Field("Data Text")
-            </div>
-            <div class="links">
-                <a href="" ng-click="changeMobilePlan(location)">@Html.Sitecore().Field("Edit Plan Link")</a> <a ng-if="mobileEnrollmentSettings.disableSharedPlans != true" href="" ng-click="addMobileDevice(location)">@Html.Sitecore().Field("Add Device Link")</a>
-            </div>
+    <div class="icon-byod"></div>
+    <div class="description plan-description">
+        <div class="plan-section clearfix">
+            <span class="individual-plan">@Html.Sitecore().Field("Individual Plan")</span>
+            <div class="rate">{{ service.offerInformationByType[0].value.offerSelections[0].offer.rates[0].rateAmount | currency }}/@Html.Sitecore().Field("Month Abbreviation")</div>
         </div>
-        <div class="description plan-description" ng-if="getDevicesCount() > 1">
-            @Html.Sitecore().Field("Group Plan")
-            <div class="options">
-                {{ getDevicesCount() }} @Html.Sitecore().Field("Lines Text") &amp; {{ selectedOffer.data }}<span ng-if="selectedOffer.data != 'Unlimited'">GB</span> @Html.Sitecore().Field("Data Text")
-            </div>
-            <div class="links">
-                <a href="" ng-click="changeMobilePlan(location)">@Html.Sitecore().Field("Edit Plan Link")</a> <span ng-if="mobileEnrollmentSettings.disableSharedPlans != true">| <a href="" ng-click="addMobileDevice(location)">@Html.Sitecore().Field("Add Device Link")</a></span>
-            </div>
+        <div class="options">
+            @Html.Sitecore().Field("1 Line amp") {{ service.offerInformationByType[0].value.offerSelections[0].offer.data }}<span ng-if="service.offerInformationByType[0].value.offerSelections[0].offer.data != 'Unlimited'">@Html.Sitecore().Field("GB Text")</span> @Html.Sitecore().Field("Data Text")
         </div>
-       
+        <div class="options" ng-if="service.offerInformationByType[0].value.offerSelections[0].offer.includesInternational">
+            @Html.Sitecore().Field("Plus Stream International Plus")
+        </div>
+        <div class="links">
+            <a href="" ng-click="changeMobilePlan(item, service)">@Html.Sitecore().Field("Edit Plan Link")</a> <a href="" ng-click="addMobileDevice()">@Html.Sitecore().Field("Add Device Link")</a>
+        </div>
     </div>
 </script>
 
 <script type="text/ng-template" id="cart/MobileDevices">
-    <div class="cart-product clearfix" ng-repeat="item in getCartDevices()">
-        <div>
-            <div class="condition" ng-if="item.buyingOption == 'New' || item.buyingOption == 'Reconditioned'">{{ item.buyingOption }}</div>
-            <div class="condition" ng-if="item.buyingOption != 'New' && item.buyingOption != 'Reconditioned' && item.buyingOption != 'BYOD'">{{ item.installmentMonths }}@Html.Sitecore().Field("Month Installment")</div>
-            <div class="condition" ng-if="item.type == 'existing'">@Html.Sitecore().Field("Bring Your Own Device")</div>
-            <div class="description">
-                {{ item.make.make }} {{ item.model.modelName }}
-                <div class="options" ng-if="item.type == 'new'"><span ng-if="item.size != ''">{{ item.size }}, </span>{{ item.color }}</div>
-                <div class="options" ng-if="item.type == 'existing' && item.simNumber"><strong>@Html.Sitecore().Field("SIM")</strong> {{ item.simNumber }}</div>
-                <div class="options" ng-if="mobileEnrollmentService.selectedNetwork.value == 'att' && item.type == 'existing' && !item.simNumber"><strong>@Html.Sitecore().Field("IMEI")</strong> {{ item.imeiNumber }}</div>
-                <div class="options" ng-if="mobileEnrollmentService.selectedNetwork.value == 'sprint' && item.type == 'existing' && !item.simNumber"><strong>@Html.Sitecore().Field("ESN")</strong> {{ item.imeiNumber }}</div>
-                <div class="options" ng-if="item.type == 'existing' && item.iccidNumber"><strong>@Html.Sitecore().Field("ICCID")</strong> {{ item.iccidNumber }}</div>
-                <div class="links">
-                    <a href="" ng-click="editMobileDevice(location, item)">@Html.Sitecore().Field("Edit Phone Link")</a><a href="" ng-click="deleteMobileDevice(location, item)">@Html.Sitecore().Field("Remove Phone Link")</a>
-                </div>
-            </div>
+    <div class="cart-product clearfix">
+        <p class="byod">@Html.Sitecore().Field("Bring Your Own Device")</p>
+        <div class="options"><strong>@Html.Sitecore().Field("IMEI")</strong> {{ item.imeiNumber }}</div>
+        <div class="options" ng-if="item.iccidNumber"><strong>@Html.Sitecore().Field("ICCID")</strong> {{ item.iccidNumber }}</div>
+        <div class="links">
+            <a href="" ng-click="editMobileDevice(item, $index, true)">@Html.Sitecore().Field("Edit Phone Link")</a>
+            <span> | </span>
+            <a href="" ng-click="editMobileDevice(item, $index, false)">@Html.Sitecore().Field("Remove Phone Link")</a>
         </div>
-        <div class="rate device-price" ng-if="item.type == 'new'">{{ item.price | currency }}<span class="per-month" ng-if="item.buyingOption != 'New' && item.buyingOption != 'Reconditioned'">/@Html.Sitecore().Field("Month Abbreviation")</span></div>
-        <div class="rate device-price" ng-if="item.type == 'existing'">$0.00</div>
-        
-        <div ng-if="item.warranty == 'accept'" class="warranty">
-            <div class="description">@Html.Sitecore().Field("Phone Warranty")</div>
-            <div class="rate">@Html.Sitecore().Field("Warranty Cost")/@Html.Sitecore().Field("Month Abbreviation")</div>
-        </div>
-
     </div>
 </script>
 

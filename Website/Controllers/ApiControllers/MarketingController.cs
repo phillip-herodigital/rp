@@ -24,6 +24,7 @@ using StreamEnergy.MyStream.Models.Marketing;
 using Sitecore.Data.Items;
 using System.Text.RegularExpressions;
 using Microsoft.VisualBasic.FileIO;
+using Newtonsoft.Json;
 
 namespace StreamEnergy.MyStream.Controllers.ApiControllers
 {
@@ -31,9 +32,14 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
     public class MarketingController : ApiController, IRequiresSessionState
     {
 
-        public MarketingController()
+        private readonly StackExchange.Redis.IDatabase redisDatabase;
+        private readonly WebClient client;
+        private const string redisKey = "InternationalVoiceRates_";
+
+        public MarketingController(StackExchange.Redis.IDatabase redisDatabase, WebClient client)
         {
-            
+            this.redisDatabase = redisDatabase;
+            this.client = client;
         }
 
         [HttpPost]
@@ -88,7 +94,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         [Route("importvoicefaqdata")]
         public void ImportVoiceFAQData(string path)
         {
-            Item FAQFolder = Sitecore.Context.Database.GetItem("/sitecore/content/Home/services/home-services/voice/faqs");
+            Item FAQFolder = Sitecore.Context.Database.GetItem("/sitecore/content/Home/services/home/faqs");
             TemplateItem FAQGroupTemplate = Sitecore.Context.Database.GetTemplate("User Defined/Components/Marketing/FAQ Group");
             TemplateItem FAQTemplate = Sitecore.Context.Database.GetTemplate("User Defined/Components/Marketing/FAQ");
             Item FAQGroupItem;
@@ -113,7 +119,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                     string faqGroup = fields[0];
                     string faqGroupItemName = rgx.Replace(faqGroup, "");
 
-                    FAQGroupItem = Sitecore.Context.Database.GetItem("/sitecore/content/Home/services/home-services/voice/faqs/" + faqGroupItemName);
+                    FAQGroupItem = Sitecore.Context.Database.GetItem("/sitecore/content/Home/services/home/faqs/" + faqGroupItemName);
                     if (FAQGroupItem == null)
                     {
                         FAQGroupItem = FAQFolder.Add(faqGroupItemName, FAQGroupTemplate);
@@ -127,7 +133,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                     string faqAnswer = fields[3];
                     string faqQuestionItemName = rgx.Replace(faqQuestion, "");
 
-                    FAQItem = Sitecore.Context.Database.GetItem("/sitecore/content/home/services/home-services/voice/faqs/" + faqGroupItemName + "/" + faqQuestionItemName);
+                    FAQItem = Sitecore.Context.Database.GetItem("/sitecore/content/Home/services/home/faqs/" + faqGroupItemName + "/" + faqQuestionItemName);
                     if (FAQItem == null)
                     {
                         FAQItem = FAQGroupItem.Add(faqQuestionItemName, FAQTemplate);
@@ -142,5 +148,109 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             }
         }
 
+        [HttpGet]
+        [Route("importinternationalrates")]
+        public void ImportInternationalRates(string path)
+        {
+            TemplateItem folderTemplate = Sitecore.Context.Database.GetTemplate("Common/Folder");
+            TemplateItem rateTemplate = Sitecore.Context.Database.GetTemplate("User Defined/Taxonomy/Mobile Enrollment/International Rate");
+            Item RatesFolder = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Taxonomy/Modules/Mobile/International Rates");
+            Item countryItem;
+            Item rateItem;
+
+            using (new Sitecore.SecurityModel.SecurityDisabler())
+            {
+                // Empty the RatesFolder
+                foreach (Item child in RatesFolder.Children)
+                {
+                    child.Delete();
+                }
+
+                TextFieldParser parser = new TextFieldParser(path);
+                parser.TextFieldType = Microsoft.VisualBasic.FileIO.FieldType.Delimited;
+                parser.SetDelimiters(",");
+
+                while (!parser.EndOfData)
+                {
+                    string[] fields = parser.ReadFields();
+                    string pattern = @"[^\w\s\-\$]"; // only allow \w, \s, -, and $ for Sitecore Item names
+                    Regex rgx = new Regex(pattern);
+
+                    string countryName = fields[0];
+                    string countryPhone = fields[1];
+                    string npa = fields[2];
+                    string countryCode = fields[3];
+                    string standardRate = fields[4];
+                    string discountedRate = fields[5];
+                    string countryItemName = rgx.Replace(countryName, "");
+                    string countryPhoneItemName = rgx.Replace(countryPhone, "");
+
+                    countryItem = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Taxonomy/Modules/Mobile/International Rates/" + countryItemName);
+
+                    if (countryItem == null)
+                    {
+                        // Create new folder from country name
+                        countryItem = RatesFolder.Add(countryItemName, folderTemplate);
+                    }
+
+                    // Create new item from rate
+                    rateItem = countryItem.Add(countryPhoneItemName, rateTemplate);
+
+                    countryPhone = countryPhone.Replace("Landline", "<strong>Landline</strong>");
+                    countryPhone = countryPhone.Replace("Mobile", "<strong>Mobile</strong>");
+
+                    rateItem.Editing.BeginEdit();
+                    rateItem.Fields["Country Phone Type"].Value = countryPhone;
+                    rateItem.Fields["NPA"].Value = npa;
+                    rateItem.Fields["Country Code"].Value = countryCode;
+                    rateItem.Fields["Stream Standard Rate"].Value = standardRate;
+                    rateItem.Fields["Stream Discounted Rate"].Value = discountedRate;
+                    rateItem.Editing.EndEdit();
+
+                }
+                parser.Close();
+
+            }
+
+        }
+
+        [HttpGet]
+        [Route("mobileInternationalRates")]
+        public dynamic MobileInternationalRates()
+        {
+            var item = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Taxonomy/Modules/Mobile/International Rates");
+
+            var data = item.Children.Select(country => new
+            {
+                country = country.Name,
+                rates = country.Children.Select(rate => new
+                {
+                    phoneType = rate.Fields["Country Phone Type"].Value,
+                    countryCode = rate.Fields["Country Code"].Value,
+                    standardRate = rate.Fields["Stream Standard Rate"].Value,
+                    discountedRate = rate.Fields["Stream Discounted Rate"].Value,
+                })
+            });
+
+            return data;
+        }
+
+        [HttpGet]
+        [Route("getVoiceInternationalRates")]
+        public dynamic GetVoiceInternationalRates()
+        {
+            string redisCountries = redisDatabase.StringGet(redisKey);
+            if (string.IsNullOrEmpty(redisCountries) || true)
+            {
+                var ratesXMLstring = client.DownloadString("http://ooma.com/sites/all/themes/ooma/data/out.xml");
+                var ratesXML = new System.Xml.XmlDocument();
+                ratesXML.LoadXml(ratesXMLstring);
+                redisCountries = JsonConvert.SerializeXmlNode(ratesXML);
+                redisCountries = redisCountries.Replace("@", "");
+
+                redisDatabase.StringSet(redisKey, redisCountries, TimeSpan.FromDays(1));
+            }
+            return JsonConvert.DeserializeObject<dynamic>(redisCountries).filedata.items.item;
+        }
     }
 }

@@ -826,6 +826,7 @@
     <Compile Include="Controllers\MobileEnrollmentController.cs" />
     <Compile Include="Controllers\TempController.cs" />
     <Compile Include="Controllers\MarketingController.cs" />
+    <Compile Include="Controllers\MapServerController.cs" />
     <Compile Include="Fields\ReorderableListField.cs" />
     <Compile Include="layouts\HTML Layout.aspx.cs">
       <DependentUpon>HTML Layout.aspx</DependentUpon>
@@ -932,6 +933,7 @@
     <Compile Include="Models\Authentication\VerifyUserChallengeQuestionsRequest.cs" />
     <Compile Include="Models\Authentication\SendResetPasswordEmailResponse.cs" />
     <Compile Include="Models\Authentication\VerifyUserChallengeQuestionsResponse.cs" />
+    <Compile Include="Models\ReturnForm.cs" />
     <Compile Include="Models\Currents\CalendarEvent.cs" />
     <Compile Include="Models\Currents\CalendarSearchRequest.cs" />
     <Compile Include="Models\Currents\LeaderList.cs" />
@@ -976,6 +978,7 @@
     <Compile Include="Pipelines\InitializeWebApi.cs" />
     <Compile Include="Models\Marketing\HomeLifeServices.cs" />
     <Compile Include="Pipelines\PopulateUnsubscribeLink.cs" />
+    <Compile Include="Pipelines\SetSponsorCookie.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="sitecore\StreamRedirectUrlPage.cs">
       <SubType>ASPXCodeBehind</SubType>
@@ -1686,6 +1689,12 @@
     <Content Include="Views\Pages\Currents\CurrentsFeedback.cshtml" />
     <Content Include="Views\Components\Marketing\Voice\Voice Intro.cshtml" />
     <Content Include="Views\Components\Marketing\Win Back\Win Back Landing 2.cshtml" />
+    <Content Include="Views\Components\Marketing\Mobile\Mobile Plans Overview.cshtml" />
+    <Content Include="Views\Components\Marketing\Mobile\Mobile Overview Phones.cshtml" />
+    <Content Include="Views\Components\Marketing\Mobile\Mobile CDMA Plans.cshtml" />
+    <Content Include="Views\Pages\Marketing\Services\Voice FAQs.cshtml" />
+    <Content Include="Views\Pages\Marketing\Services\Voice International.cshtml" />
+    <Content Include="Views\Pages\Marketing\Return\Return Form.cshtml" />
     <None Include="Web.Azure-Production Sitecore.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>

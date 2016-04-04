@@ -18,6 +18,16 @@ namespace StreamEnergy.DomainModels.Enrollments
 
         public bool IsSinglePage { get; set; }
 
+        public Guid LoggedInCustomerId { get; set; }
+
+        public bool EnrolledInAutoPay { get; set; }
+
+        public decimal AutoPayDiscount { get; set; }
+
+        public IEnumerable<UserAccountDetails> LoggedInAccountDetails { get; set; }
+
+        public bool PaymentError { get; set; }
+
         public bool NeedsRefresh { get; set; }
 
         [Required(ErrorMessage = "Contact Info Required")]
@@ -72,6 +82,9 @@ namespace StreamEnergy.DomainModels.Enrollments
 
         [RequireValue(true, ErrorMessage = "Must Agree To Terms")]
         public bool AgreeToTerms { get; set; }
+
+        [Required(ErrorMessage = "Must Agree To AutoPay Terms")]
+        public bool AgreeToAutoPayTerms { get; set; }
 
         [ValidateObject]
         public OnlineAccount OnlineAccount { get; set; }

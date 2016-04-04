@@ -636,6 +636,10 @@ namespace StreamEnergy.Services.Clients
                                         group new { deposit.Location, deposit.Offer, DollarAmount = (depositAlternative ? amt.DepositAlternativeAmount : amt.DollarAmount) } by new { amt.SystemOfRecord, amt.DepositAccount, InvoiceType = (depositAlternative ? "DepositAlternative" : "Deposit") })
                 {
                     var depositAmount = deposit.Sum(d => d.DollarAmount);
+                    if (context.EnrolledInAutoPay && deposit.Key.SystemOfRecord == "BeQuick")
+                    {
+                        depositAmount = depositAmount - context.AutoPayDiscount;
+                    }
                     if (depositAmount == 0)
                     {
                         continue;
@@ -661,6 +665,8 @@ namespace StreamEnergy.Services.Clients
                     });
                 }
             }
+            
+            bool hasAllMobile = originalSaveState.Results.All(o => o.Offer.OfferType == "Mobile");
 
             var response = await streamConnectClient.PostAsJsonAsync("/api/v1-1/customers/" + streamCustomerId.ToString() + "/enrollments/finalize", new {
                 GlobalCustomerID = streamCustomerId,
@@ -681,6 +687,8 @@ namespace StreamEnergy.Services.Clients
                 InitialPayments = initialPayments,
                 RequireReview = internalContext.IdentityCheck == null || !internalContext.IdentityCheck.Data.IdentityAccepted,
                 TrustEvCaseId = context.TrustEvCaseId,
+                ShouldFailOnPaymentFailure =  hasAllMobile,
+                EnableAutoPay = context.EnrolledInAutoPay,
             });
 
             var asyncUrl = response.Headers.Location;
@@ -742,6 +750,7 @@ namespace StreamEnergy.Services.Clients
             {
                 ConfirmationNumber = paymentResponse.ConfirmationNumber,
                 ConvenienceFee = (decimal)paymentResponse.ConvenienceFee.Value,
+                Status = paymentResponse.Status,
             };
         }
 

@@ -43,6 +43,8 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         private readonly Sitecore.Security.Domains.Domain domain;
         private readonly StackExchange.Redis.IDatabase redisDatabase;
         private readonly IEnrollmentService enrollmentService;
+        private readonly DomainModels.Accounts.IAccountService accountService;
+        private readonly ICurrentUser currentUser;
         private readonly IActivationCodeLookup activationCodeLookup;
         private readonly IAssociateLookup associateLookup;
         private readonly IDpiEnrollmentParameters dpiEnrollmentParameters;
@@ -67,7 +69,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             }
         }
 
-        public EnrollmentController(SessionHelper stateHelper, IValidationService validation, StackExchange.Redis.IDatabase redisDatabase, IEnrollmentService enrollmentService, IActivationCodeLookup activationCodeLookup, IAssociateLookup associateLookup, IDpiEnrollmentParameters dpiEnrollmentParameters, IEmailService emailService, ISettings settings, ILogger logger, HttpClient httpClient)
+        public EnrollmentController(SessionHelper stateHelper, IValidationService validation, StackExchange.Redis.IDatabase redisDatabase, IEnrollmentService enrollmentService, DomainModels.Accounts.IAccountService accountService, ICurrentUser currentUser, IActivationCodeLookup activationCodeLookup, IAssociateLookup associateLookup, IDpiEnrollmentParameters dpiEnrollmentParameters, IEmailService emailService, ISettings settings, ILogger logger, HttpClient httpClient)
         {
             this.translationItem = Sitecore.Context.Database.GetItem(new Sitecore.Data.ID("{5B9C5629-3350-4D85-AACB-277835B6B1C9}"));
 
@@ -76,6 +78,8 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             this.validation = validation;
             this.redisDatabase = redisDatabase;
             this.enrollmentService = enrollmentService;
+            this.accountService = accountService;
+            this.currentUser = currentUser;
             this.activationCodeLookup = activationCodeLookup;
             //this.documentStore = documentStore;
             this.associateLookup = associateLookup;
@@ -250,6 +254,8 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                         IsValidImei = true,
                         VerifyEsnResponseCode = DomainModels.Enrollments.VerifyEsnResponseCode.SuccessForeignDevice,
                         Provider = DomainModels.Enrollments.Mobile.MobileServiceProvider.Sprint,
+                        Manufacturer = "Samsung",
+                        DeviceType = "U",
                     };
                 }
             }
@@ -572,6 +578,12 @@ FROM [SwitchBack] WHERE ESIID=@esiId";
                 ExpectedState = expectedState,
                 IsRenewal = stateMachine.Context.IsRenewal,
                 IsSinglePage = stateMachine.Context.IsSinglePage,
+                LoggedInCustomerId = stateMachine.Context.LoggedInCustomerId,
+                EnrolledInAutoPay = stateMachine.Context.EnrolledInAutoPay,
+                AutoPayDiscount = stateMachine.Context.AutoPayDiscount,
+                NewAccountUserName = stateMachine.Context.OnlineAccount == null ? "" : stateMachine.Context.OnlineAccount.Username,
+                LoggedInAccountDetails = stateMachine.Context.LoggedInAccountDetails,
+                PaymentError = stateMachine.Context.PaymentError,
                 NeedsRefresh = isNeedsRefresh,
                 ContactInfo = stateMachine.Context.ContactInfo,
                 Language = stateMachine.Context.Language,
@@ -615,7 +627,7 @@ FROM [SwitchBack] WHERE ESIID=@esiId";
                                                                                ConfirmationNumber = confirmations.Where(entry => entry.Location == service.Location && entry.Offer.Id == selectedOffer.Offer.Id).Select(entry => entry.Details.ConfirmationNumber).FirstOrDefault()
                                                                                     ?? renewalConfirmations.ConfirmationNumber,
                                                                                DepositType = GetDepositType(selectedOffer),
-                                                                               ConfirmationDetails = confirmations.Where(entry => entry.Details is PlaceMobileOrderResult).Select(entry => ((PlaceMobileOrderResult)entry.Details).PhoneNumber).FirstOrDefault()
+                                                                               ConfirmationDetails = confirmations.Where(entry => entry.Location == service.Location && entry.Offer.Id == selectedOffer.Offer.Id && entry.Details is PlaceMobileOrderResult).Select(entry => ((PlaceMobileOrderResult)entry.Details).PhoneNumber).FirstOrDefault()
                                                                            },
                                                          Errors = (from entry in locationOfferSet.OfferSetErrors
                                                                    where entry.Key == offerType
@@ -703,6 +715,10 @@ FROM [SwitchBack] WHERE ESIID=@esiId";
             {
                 return Models.Enrollment.ExpectedState.VerifyIdentity;
             }
+            else if (stateMachine.State == typeof(CompleteOrderState))
+            {
+                return Models.Enrollment.ExpectedState.ReviewOrder;
+            }
             else //if (stateMachine.Context.Services == null || stateMachine.Context.Services.Length == 0)
             {
                 return Models.Enrollment.ExpectedState.ServiceInformation;
@@ -757,7 +773,27 @@ FROM [SwitchBack] WHERE ESIID=@esiId";
                 await stateMachine.Process(typeof(DomainModels.Enrollments.AccountInformationState));
             else
                 await stateMachine.ContextUpdated();
+            /* Disable logged in enrollment for now
+            
+            if (currentUser.StreamConnectCustomerId != Guid.Empty && stateMachine.Context.LoggedInCustomerId == Guid.Empty)
+            {
+                var accounts = (await accountService.GetAccounts(currentUser.StreamConnectCustomerId)).Take(3);
 
+                await Task.WhenAll((from account in accounts
+                                    select Task.Factory.StartNew(async () =>
+                                    {
+                                        await accountService.GetAccountDetails(account, false);
+                                    }).Result).ToArray());
+
+                stateMachine.Context.LoggedInCustomerId = currentUser.StreamConnectCustomerId;
+                stateMachine.Context.LoggedInAccountDetails =  (from account in accounts
+                                     select new UserAccountDetails
+                                     {
+                                         ContactInfo = account.Details.ContactInfo,
+                                         MailingAddress = account.Details.BillingAddress,
+                                     }).ToArray();
+            }
+            */
             return ClientData(typeof(DomainModels.Enrollments.AccountInformationState));
         }
 
@@ -958,7 +994,11 @@ FROM [SwitchBack] WHERE ESIID=@esiId";
             }
             stateMachine.Context.AdditionalAuthorizations = request.AdditionalAuthorizations ?? new Dictionary<AdditionalAuthorization, bool>();
             stateMachine.Context.AgreeToTerms = request.AgreeToTerms;
+            stateMachine.Context.AgreeToAutoPayTerms = request.AgreeToAutoPayTerms;
             stateMachine.Context.W9BusinessData = request.W9BusinessData;
+            stateMachine.Context.EnrolledInAutoPay = request.AutoPay;
+            stateMachine.Context.AutoPayDiscount = Convert.ToDecimal(settings.GetSettingsValue("Mobile Enrollment Options", "AutoPay Discount"));
+            
             foreach (var locationService in stateMachine.Context.Services)
             {
                 foreach (var offer in locationService.SelectedOffers)

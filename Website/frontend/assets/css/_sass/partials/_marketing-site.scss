@@ -223,6 +223,36 @@ article.marketingIntro {
         }
     }
 
+    &.voice-international {
+        color: #58595b;
+
+        .wrapper {
+            padding-bottom: 0;
+        }
+
+        hr {
+            display: none;
+        }
+
+        h1 {
+            font-size: 41px;
+
+            strong {
+                color: #8e4b9d;
+                font-weight: 400;
+                text-transform: uppercase;
+            }
+        }
+
+        p {
+            font-size: 21px;
+            max-width: 680px;
+            text-align: center;
+            margin: 32px auto;
+        }
+    }
+
+
     p.intro {
         margin: 1em 20px;
         font-size: 22px;
@@ -557,7 +587,7 @@ article.digital-voice {
 
 
     .device-features {
-        &.border .col {
+        .border .col {
             border-image: none;
             border-left-color: #b7b7b7;
         }
@@ -590,7 +620,7 @@ article.digital-voice {
             }
         }
         .voice-hub-features {
-            margin: 33px 0;
+            margin: 10px 0 0;
             .heading-wrapper {
                 overflow: hidden;
                 .rotate180 {
@@ -661,11 +691,11 @@ article.digital-voice {
         p.outro {
             text-align: center;
             color: #000;
-            border: 34px 0px;
+            margin-top: 50px;
         }
 
         .grid {
-            margin: 0 auto;
+            margin: 10px auto;
             width: 50%;
         }
 
@@ -733,6 +763,7 @@ article.digital-voice {
             text-align: center;
             font-size: 41px;
             font-weight: 400;
+            margin-top: 0;
             b, strong {
                 color: #8e4b9d;
                 text-transform: uppercase;
@@ -3750,7 +3781,236 @@ article.marketing div.wrapper {
             }
         }
     }
+        
 }
+
+article.marketing {
+    &.voice-international-grid {
+        text-align: center;
+
+        .wrapper {
+            background: none;
+            padding: 0;
+        }
+
+        .side {
+            width: calc(50% - 10px);
+            background-color: #f9f9f9;
+            padding-bottom: 25px;
+
+            .col-content {
+                max-width: 360px;
+                margin: 0 auto;
+
+                h4 {
+                    font-size: 24px;
+                    font-style: italic;
+                    font-weight: 600;
+                    color: #8f4c9e;
+                }
+
+                p {
+                    margin: 5px 22px;
+                }
+
+                .note {
+                    font-size: 15px;
+                    font-style: italic;
+                }
+
+                .button {
+                    background-image: none;
+                    border-radius: 0;
+                    box-shadow: -3px 3px 3px rgba(0, 0, 0, 0.4);
+                    background-color: #8f4c9e;
+                    font-size: 24px;
+                    text-shadow: none;
+                    font-weight: 400;
+                }
+            }
+
+            @include breakpoint(small) {
+                width: 100%;
+                padding-top: 1px;
+                margin: 20px auto;
+            }
+        }
+
+        .or-col {
+            width: 0px;
+            background: #ffffff;
+            position: relative;
+
+            .or {
+                transform: translate(-50%, -50%);
+                top: 50%;
+                left: 50%;
+                position: absolute;
+                margin: 0;
+                background-color: #8e4b9d;
+                color: #ffffff;
+                border-radius: 30px;
+                width: 60px;
+                height: 60px;
+
+                p {
+                    margin: 17px;
+                    font-size: 21px;
+                    text-transform: uppercase;
+                }
+            }
+
+            @include breakpoint(small) {
+                width: 100%;
+                height: 50px;
+            }
+        }
+
+        p {
+            font-size: 21px;
+            font-style: italic;
+
+            a {
+                text-decoration: underline;
+                color: #6b6b6b;
+                font-weight: 700;
+                font-style: italic;
+            }
+        }
+    }
+
+    &.voice-international-rates {
+        margin-top: 20px;
+        text-align: center;
+
+        .wrapper {
+            padding: 20px 0;
+        }
+
+        h2 {
+            font-size: 28px;
+            font-weight: 700;
+            color: #8e4b9d;
+        }
+
+        .country-select {
+            width: 400px;
+            margin: 20px auto;
+            font-size: 21px;
+
+            select, option {
+                color: #8e4b9d;
+                font-size: 17px;
+                font-weight: 600;
+            }
+
+            @include breakpoint(small) {
+                width: auto;
+            }
+        }
+
+        table {
+            border: none;
+            text-align: left;
+
+            tr, th, td {
+                border: none;
+            }
+
+            th, td {
+                width: 20%;
+            }
+
+            th {
+                background-color: #999999;
+                color: #ffffff;
+                height: 60px;
+            }
+
+            tr {
+                height: 40px;
+                font-size: 17px;
+                font-weight: 600;
+            }
+
+            tr:nth-child(odd) {
+                border: 1px solid #e8e8e8;
+                background-color: #f9f9f9;
+            }
+
+            &.normal-table, &.samples {
+                @include breakpoint(small) {
+                    display: none;
+                }
+            }
+
+            &.tiny-table {
+                th, td {
+                    width: 50%;
+                }
+
+                margin: 10px auto;
+                border: 0;
+                border-bottom: 1px solid;
+                border-image: linear-gradient(left, #ffffff, #999999, #ffffff);
+                border-image-slice: 1;
+
+                @include breakpoint(medium-large) {
+                    display: none;
+                }
+            }
+        }
+
+        .country-list {
+            text-align: left;
+            padding-left: 60px;
+            padding-top: 60px;
+            border: 0;
+            border-bottom: 1px solid;
+            border-image: linear-gradient(left, #ffffff, #999999, #ffffff);
+            border-image-slice: 1;
+
+            h2 {
+                margin-bottom: 0;
+            }
+
+            .note {
+                margin: 0;
+                font-size: 15px;
+
+                @include breakpoint(small) {
+                    margin-bottom: 5px;
+                }
+            }
+
+            ul {
+                list-style: none;
+                font-size: 17px;
+
+                @include breakpoint(small) {
+                    padding: 0;
+                    margin: 0 auto;
+                }
+            }
+
+            @include breakpoint(small) {
+                padding-left: 0;
+                padding-top: 20px;
+                text-align: center;
+            }
+        }
+
+        .disclaimer {
+            padding-left: 60px;
+            font-size: 15px;
+
+            @include breakpoint(small) {
+                padding-left: 0;
+            }
+        }
+    }
+}
+
 
 article.rates {
     table {
@@ -4127,7 +4387,7 @@ article.mobile.mobile-plans-usage-calculator {
 
     .content {
         padding-bottom: 0px;
-        
+
         .login {
             margin-bottom: 10px;
 
@@ -4155,7 +4415,7 @@ article.mobile.mobile-plans-usage-calculator {
                     font-weight: 500;
                 }
             }
-            
+
             h4 {
                 margin: 0 0 10px 0;
             }
@@ -4209,7 +4469,7 @@ article.mobile.mobile-plans-usage-calculator {
                 border-bottom: 1px solid #ccc;
                 text-align: center;
                 font-size: 20px;
-            }       
+            }
 
             form {
                 padding-bottom: 10px;
@@ -4239,7 +4499,7 @@ article.mobile.mobile-plans-usage-calculator {
                         font-size: 22px;
                         font-style: italic;
                         font-weight: bold;
-                                margin-bottom: 0;
+                        margin-bottom: 0;
                     }
 
                     .item {
@@ -4289,10 +4549,10 @@ article.mobile.mobile-plans-usage-calculator {
                 background-color: rgb(242, 255, 255);
                 padding: 15px;
                 display: table;
-                border-collapse: collapse;  
+                border-collapse: collapse;
                 @include border-radius(5px);
 
-    
+
                 .table-row {
                     display: table-row;
 
@@ -4326,9 +4586,466 @@ article.mobile.mobile-plans-usage-calculator {
 
         .manual-calculator {
 
+            .international-plus {
+                padding: 25px;
+                background-image: none;
+                background-color: #fff;
+                text-align: left;
+                font-size: 18px;
+                .wrapper {
+                    padding-top: 0;
+                }
+                .info {
+                    width: 70%;
+                    float: left;
+                    background: image-url('marketing/redesign/stream_international_plus.png') top left no-repeat;
+                    padding-left: 80px;
+                    margin-top: 50px;
+                    @include breakpoint(small) {
+                        width: 100%;
+                    }
+                    h3 {
+                        margin: 0;
+                        color: #2aa4dc;
+                        font-weight: 600;
+                    }
+                    p {
+                        margin: 0.5em 0 0;
+                        font-weight: 400;
+                        color: #6b6b6b;
+                        font-style: italic;
+                    }
+                    ul {
+                        font-weight: 400;
+                        color: #000;
+                    }
+                }
+                .add-price {
+                    width: 30%;
+                    float: right;
+                    padding-top: 50px;
+                    min-height: 242px;
+                    text-align: center;
+                    line-height: 1;
+                    span {
+                        font-size: 45px;
+                        color: #0090d4;
+                        font-weight: 600;
+                    }
+                    p.cost {
+                        margin-top: 0px;
+                    }
+                    @include breakpoint(small) {
+                        width: 100%;
+                        float: left;
+                    }
+                }
+                .footnote {
+                    background: none;
+                    clear: both;
+                    border-top: 1px solid #e1e1e1;
+                }
+            }
+
             .grid {
                 padding: 20px 0;
-                border-bottom: 1px solid #eee;
+
+                .suggestionText {
+                    font-size: 24px;
+                    text-align: center;
+                    padding-bottom: 20px;
+
+                    .usageText {
+                        color: #244761;
+                        font-weight: 600;
+                    }
+                }
+
+                .estimatedDataLabel {
+                    position: absolute;
+                    z-index: 10000;
+                    top: 1px;
+                    padding: 0 10px;
+                    color: #fff;
+                    white-space: nowrap;
+                }
+
+                &.frame {
+                    min-height: 500px;
+                    margin: 0 -20px;
+                    padding: 0;
+                    position: relative;
+                    background-color: #f5f5f5;
+
+                    .pre-estimate, .estimate-container > .estimate, .post-estimate.background {
+                        background: linear-gradient(#22aae9, #0f87bf);
+                    }
+
+                    .pre-estimate, .estimate-container, .post-estimate {
+                        position: absolute;
+                        height: 100%;
+                        top: 0;
+                    }
+
+                    .pre-estimate {
+                        width: 60px;
+                        left: 0;
+                        float: left;
+                    }
+
+                    .estimate-container {
+                        left: 0;
+                        width: calc(100% - 120px);
+
+                        .estimate {
+                            position: absolute;
+                            height: 100%;
+                            top: 0;
+                            left: 60px;
+                            z-index: 1;
+                        }
+                    }
+
+                    .post-estimate {
+                        width: 60px;
+                        right: 0;
+                        float: right;
+                    }
+
+                    .rec-plan-container {
+                        width: 100%;
+                        padding: 0 50px;
+                        margin: 10px 0;
+
+                        .ruler {
+                            position: relative;
+                            text-align: center;
+                            font-weight: 600;
+                            z-index: 2;
+                            margin-bottom: 35px;
+                            width: 100%;
+
+                            .slider-tick-ruler {
+                                border-right: 1px solid grey;
+                                width: 1.62%;
+                                display: inline-block;
+                                height: 16px;
+                                float: left;
+
+                                &.text {
+                                    border: none;
+                                    margin: 0 1.62%;
+
+                                    &.infinity {
+                                        display: none;
+                                        font-size: 34px;
+                                        margin-top: -10px;
+                                        padding-right: 10px;
+                                    }
+
+                                    @include breakpoint(medium) {
+                                        margin: 0 0.7% 0 2.5%;
+                                        text-align: right;
+                                    }
+                                }
+                            }
+
+                            @include breakpoint(small-medium) {
+                                .slider-tick-ruler:nth-child(2n+1) {
+                                    display: none;
+                                }
+
+                                .slider-tick-ruler:nth-child(2n) {
+                                    width: 3.24%;
+                                }
+
+                                .slider-tick-ruler {
+                                    &.text {
+                                        display: inline-block;
+                                        width: 3.3%;
+                                    }
+                                }
+                            }
+
+                            @include breakpoint(small) {
+                                .slider-tick-ruler {
+                                    display: none;
+
+                                    &.text {
+                                        display: none;
+
+                                        &.small, &.infinity {
+                                            display: inline-block;
+                                            width: 25%;
+                                            text-align: right;
+                                            margin-right: 0;
+                                            margin-left: 0;
+                                        }
+                                    }
+                                }
+                            }
+
+                            @include breakpoint(small) {
+                                left: 20px;
+                            }
+                        }
+                        .cdma-pricing-plans{
+
+                            @include breakpoint(small-medium){
+                                margin:0 !important;
+                                width:100% !important;
+                                padding:0 !important;
+                            }
+
+                            .wrapper{
+                                padding-top:0;
+                                width:100%;
+
+                                .grid{
+                                    margin:0;
+                                    
+                                    @include breakpoint(medium){
+                                        width:100% !important;
+                                    }
+                                }
+
+                                .plan-details{
+                                    h2{
+                                        border-top:0;
+                                    }
+                                }
+                            }
+                        }
+                        .rec-plan-box {
+                            vertical-align: top;
+                            position: relative;
+                            top: 0;
+                            display: block;
+                            float: left;
+                            z-index: 2;
+                            text-align: center;
+                            background: transparent;
+
+                            .recommended-box {
+                                height: 40px;
+                                background: transparent;
+                                position: relative;
+                                .heading {
+                                    background-color: #eea525;
+                                    border-radius: 5px 5px 0 0;
+                                    height: 40px;
+                                    position: absolute;
+                                    width: 100%;
+
+                                    h3 {
+                                        margin: 10px auto;
+                                        color: #ffffff;
+                                        font-size: 18px;
+                                    }
+                                }
+                            }
+
+                            .plan-box {
+                                box-shadow: 1px 1px 10px #ccc;
+                                background-color: #fff;
+                                color: #6b6b6b;
+                                padding: 0 30px 20px;
+
+                                .size-speed {
+                                    padding: 10px;
+                                    font-weight: 800;
+
+                                    .size {
+                                        color: #eb9600;
+                                        font-size: 35px;
+                                        height: 40px;
+
+                                        span {
+                                            font-size: 27px;
+
+                                            &.unlimited {
+                                                font-style: italic;
+                                                letter-spacing: -1px;
+                                                text-transform: uppercase;
+                                            }
+                                        }
+                                    }
+
+                                    .speed {
+                                        font-size: 12px;
+                                    }
+                                }
+
+                                .price {
+                                    padding: 10px;
+
+                                    .cost {
+                                        font-size: 41px;
+                                        font-weight: 600;
+                                    }
+
+                                    .duration {
+                                        font-size: 19px;
+                                        font-weight: 200;
+                                    }
+                                }
+
+                                &.recommended {
+                                    border: 2px solid #eea525;
+                                }
+                            }
+
+                            .grid {
+                                padding-top: 0;
+                            }
+
+                            .col {
+                                border: none;
+                                .plan-details.recommended {
+                                    border: 2px solid #eea525;
+                                }
+                                &:after {
+                                    display: none;
+                                }
+                            }
+
+                            &:last-child {
+                                margin-right: 0px;
+                            }
+
+                            .extra-info {
+                                height: 65px;
+
+                                .international {
+                                    padding: 17px 0;
+                                    margin: 0 auto;
+                                    width: 150px;
+
+                                    i.icon-international-phone {
+                                        height: 26px;
+                                        width: 14px;
+                                        margin-right: 5px;
+                                        background-image: url('../i/icon/international-phone.png');
+                                        background-position: 0 4px;
+                                        float: left;
+                                    }
+
+                                    p {
+                                        font-size: 14px;
+                                        font-weight: 600;
+                                        font-style: italic;
+                                        text-align: left;
+                                        line-height: 15px;
+                                        margin: 0;
+                                        width: 145px;
+                                    }
+                                }
+                            }
+
+                            .description {
+                                padding-top: 10px;
+
+                                p {
+                                    font-size: 14px;
+                                    font-weight: 500;
+                                    font-style: italic;
+                                    margin: 0;
+                                }
+                            }
+
+                            hr.divider {
+                                margin: 0;
+                            }
+
+                            @include breakpoint(small-medium) {
+                                margin: 10px 8%;
+                                width: 33%;
+
+                                &:last-child {
+                                }
+                            }
+
+                            @include breakpoint(small) {
+                                float: none;
+                                margin: 10px auto;
+
+                                &:last-child {
+                                    margin: 10px auto;
+                                }
+                            }
+                        }
+
+                        @include breakpoint(small) {
+                            padding: 0 20px;
+                        }
+                    }
+
+                    @include breakpoint(small-medium) {
+                        .pre-estimate, .estimate-container, .post-estimate {
+                            height: 65px;
+                        }
+                    }
+
+                    @include breakpoint(small) {
+                        .pre-estimate, .post-estimate {
+                            width: 10px;
+                        }
+
+                        .estimate-container {
+                            width: calc(100% - 20px);
+
+                            .estimate {
+                                left: 10px;
+                            }
+                        }
+                    }
+                }
+
+                .useFooter {
+                    width: 670px;
+                    color: #6b6b6b;
+                    margin-left: 115px;
+                    font-size: 18px;
+
+                    .useHeader {
+                        font-weight: 600;
+                        font-size: 24px;
+                        font-style: italic;
+                    }
+
+                    .useContent {
+                        margin-top: 10px;
+                        width: 625px;
+                    }
+                }
+
+                .useColRight {
+                    float: right;
+                    padding-right: 30px;
+                    padding-top: 20px;
+                    font-size: 20px;
+
+                    .dollar {
+                        font-weight: 600;
+                        color: #1f9ed9;
+                        font-size: 40px;
+                    }
+
+                    .dollarMonth {
+                        font-weight: 300;
+                    }
+                }
+
+                .phone {
+                    background-image: image-url("marketing/redesign/Modules/mobile-phone.png");
+                    background-position: right center;
+                    height: 115px;
+                    width: 65px;
+                    background-repeat: no-repeat;
+                    display: inline-block;
+                    margin-left: 20px;
+                    margin-top: -12px;
+                }
 
                 @include breakpoint(small) {
                     .col {
@@ -4431,82 +5148,55 @@ article.mobile.mobile-plans-usage-calculator {
                     right: 2px;
                 }
             }
+            /*.suggestion {*/
+            /*.estimatedData {
+                    padding: 50px 10px 15px 10px;*/
+            .dataLabels {
+                @extend .clearfix;
+                width: 100%;
+                margin: 10px 0 0 0;
 
-            .suggestion {
-
-                .estimatedData {
-                    padding: 50px 10px 15px 10px;
-
-                    .frame {
-                        @include border-radius($button-border-radius);
-                        position: relative;
-                        width: 100%;
-                        height: 24px;
-                        border: 1px solid #d9d9d9;
-                        background-color: #e9e9e9;
-                        @include box-shadow(inset 0 1px 3px rgba(0,0,0,.15));
-
-                        .recommended {
-                            @include border-radius($button-border-radius);
-                            position: absolute;
-                            height: 22px;
-                            z-index: 100;
-                            background: #073464;
-
-                            .label {
-                                @include border-radius(5px);
-                                position: absolute;
-                                top: -40px;
-                                right: -18px;
-                                padding: 3px 10px;
-                                background: #073464;
-                                color: #fff;
-                                font-size: 14px;
-                                white-space: nowrap;
-
-                                &:after {
-                                    content: "";
-                                    position: absolute;
-                                    top: 100%;
-                                    right: 10px;
-                                    border-left: 10px solid transparent;
-                                    border-right: 10px solid transparent;
-                                    border-top: 10px solid #073464;
-                                }
-                            }
-                        }
-
-                        .estimate {
-                            @include border-radius($button-border-radius);
-                            position: absolute;
-                            z-index: 1000;
-                            height: 22px;
-                                    background: rgb(41, 136, 200);
-                        }
-
-                        .estimatedDataLabel {
-                            position: absolute;
-                            z-index: 10000;
-                            top: 1px;
-                            padding: 0 10px;
-                            color: #fff;
-                            white-space: nowrap;
-                        }
-                    }
-
-                    .dataLabels {
-                        @extend .clearfix;
-                        width: 100%;
-                        margin: 10px 0 0 0;
-
-                        .dataLabel {
-                            float: left;
-                            width: 20%;
-                        }
-                    }
-                        }
+                .dataLabel {
+                    float: left;
+                    width: 20%;
                 }
             }
+            /*}*/
+            /*}*/
+            .use-calc-text {
+                font-size: 25px;
+                padding: 0 0 10px 15px;
+                border-bottom: 1px solid #eee;
+                width: calc(100% + 40px);
+                display: table;
+                margin: 0 -20px;
+                border-spacing: 10px;
+            }
+
+            .usageLinks {
+                padding: 25px 0 20px 20px;
+                width: 100%;
+
+                a {
+                    padding-right: 15px;
+                    color: #1f9ed9;
+                    font-weight: 400;
+                }
+
+                .a2 {
+                    padding-left: 15px;
+                    padding-right: 15px;
+                }
+
+                .a3 {
+                    padding-left: 15px;
+                }
+            }
+
+            .mktgStyle {
+                background: rgba(0, 0, 0, 0) url("../i/marketing/redesign/Modules/module_background.png?1444938835") no-repeat scroll center top;
+            }
+        }
 
         .plans-table-wrapper {
             display: table;
@@ -4561,7 +5251,7 @@ article.mobile.mobile-plans-usage-calculator {
                     &.cost {
                         color: #c00;
                     }
-                    
+
                     &.tco {
                         vertical-align: bottom;
 
@@ -4691,7 +5381,6 @@ article.marketing.validate-esn {
         margin-bottom: 15px;
         display: inline-block;
         width: 70%;
-        border-right: 1px solid #d9dadb;
         padding: 0 40px;
 
         input {
@@ -4790,25 +5479,6 @@ article.sim-activation-intro {
             margin-bottom: 15px;
         }
 
-        .header-logo {
-            text-align: center;
-            background: #fff;
-            width: 40%;
-            padding: 20px;
-            margin: 55px auto -80px;
-
-            &.cdma-logo {
-                border: 1px solid $mobile-cdma-color;
-            }
-
-            &.gsm-logo {
-                border: 1px solid $mobile-gsm-color;
-            }
-
-            @include breakpoint(small) {
-                width: 90%;
-            }
-        }
     }
 }
 
@@ -5039,6 +5709,9 @@ div.mobile.sim-activation {
             font-size: 34px;
             font-weight: 300;
             margin-bottom: 20px;
+			&.gsm-activation {
+				font-size: 20px;
+			}
         }
 
         .contact-specialists {
@@ -5264,7 +5937,7 @@ div.mobile.sim-activation {
     }
 }
 
-        .modal-body {
+.modal-body {
     article.mobile.mobile-plans-usage-calculator {
         .wrapper {
             padding-top: 0;
@@ -5308,3 +5981,5 @@ div.mobile.sim-activation {
         }
     }
 }
+
+

@@ -1,0 +1,100 @@
+﻿@model StreamEnergy.MyStream.Models.ReturnForm
+@using System.Linq.Expressions;
+@using StreamEnergy.Extensions;
+
+<article class="marketing contact">
+    <div class="wrapper">
+        <h2>@Html.Sitecore().Field("Request Form Text")</h2>
+        @Html.Sitecore().Field("Intro Text")
+        <form action="@Request.Url.AbsolutePath" method="post">
+            @Html.ValidationSummary()
+            <div class="grid">
+                <div class="col">
+                    <div class="item" @Html.Validation().ErrorClass(model => model.ContactName.First)>
+                        <label for="@Html.IdFor(m => m.ContactName.First)">@Html.Sitecore().Field("First Name Text")</label>
+                        @Html.TextBoxFor(m => m.ContactName.First, new { ng_model = "firstName", placeholder = Html.Sitecore().Field("First Name Placeholder") })
+                        <span class="asterisk">&#42;</span>
+                    </div>
+                    <div class="item" @Html.Validation().ErrorClass(model => model.ContactName.Last)>
+                        <label for="@Html.IdFor(m => m.ContactName.Last)">@Html.Sitecore().Field("Last Name Text")</label>
+                        @Html.TextBoxFor(m => m.ContactName.Last, new { ng_model = "lastname", placeholder = Html.Sitecore().Field("Last Name Placeholder") })
+                        <span class="asterisk">&#42;</span>
+                    </div>
+
+                    <div class="item" @Html.Validation().ErrorClass(model => model.ContactEmail.Address)>
+                        <label for="@Html.IdFor(m => m.ContactEmail.Address)">@Html.Sitecore().Field("Email Text")</label>
+                        @Html.TextBoxFor(m => m.ContactEmail.Address, new { ng_model = "email", placeholder = Html.Sitecore().Field("Email Placeholder"), type = "email" })
+                        <span class="asterisk">&#42;</span>
+                    </div>
+
+                    <div class="item" @Html.Validation().ErrorClass(model => model.ContactPhone.Number)>
+                        <label for="@Html.IdFor(m => m.ContactPhone.Number)">@Html.Sitecore().Field("Phone Text")</label>
+                        @Html.TextBoxFor(m => m.ContactPhone.Number, new { ng_model = "phone", data_val_if = "phone", placeholder = Html.Sitecore().Field("Phone Placeholder") })
+                    </div>
+
+                    <div class="item" @Html.Validation().ErrorClass(model => model.OrderNumber)>
+                        <label for="@Html.IdFor(m => m.OrderNumber)">@Html.Sitecore().Field("Order Number Text")</label>
+                        @Html.TextBoxFor(m => m.OrderNumber, new { ng_model = "orderNumber", data_val_if = "lastFour", placeholder = Html.Sitecore().Field("Order Number Placeholder"), style = "width: 85%;" })
+                    </div>
+
+                    <div class="item" @Html.Validation().ErrorClass(model => model.OrderNumber)>
+                        <label for="@Html.IdFor(m => m.OrderNumber)">@Html.Sitecore().Field("Last Four Text")</label>
+                        @Html.TextBoxFor(m => m.OrderNumber, new { ng_model = "lastFour", data_val_if = "orderNumber", placeholder = Html.Sitecore().Field("Last Four Placeholder"), style = "width: 85%;" })
+                    </div>
+
+                    <div class="item">
+                        <label>@Html.Sitecore().Field("Stream Service Text")</label>
+                        <ul class="checkbox-list">
+                            <li>
+                                @Html.CheckBoxFor(m => m.EnergyServices, new { ng_model = "energyServices", data_val = "false" })
+                                <label for="@Html.IdFor(m => m.EnergyServices)">@Html.Sitecore().Field("Energy Services Text")</label>
+                            </li>
+                            <li>
+                                @Html.CheckBoxFor(m => m.MobileServices, new { ng_model = "mobileServices", data_val = "false" })
+                                <label for="@Html.IdFor(m => m.MobileServices)">@Html.Sitecore().Field("Mobile Services Text")</label>
+                            </li>
+                            <li>
+                                @Html.CheckBoxFor(m => m.HomeServices, new { ng_model = "homeServices", data_val = "false" })
+                                <label for="@Html.IdFor(m => m.HomeServices)">@Html.Sitecore().Field("Home Services Text")</label>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="item" @Html.Validation().ErrorClass(model => model.IMEINumber) ng-if="mobileServices == true">
+                        <label for="@Html.IdFor(m => m.IMEINumber)">@Html.Sitecore().Field("IMEINumber Text")</label>
+                        @Html.TextBoxFor(m => m.IMEINumber, new { ng_model = "IMEINumber", placeholder = Html.Sitecore().Field("IMEINumber Placeholder") })
+                    </div>
+
+                    <div class="item" @Html.Validation().ErrorClass(model => model.ReturnReason)>
+                        <label for="@Html.IdFor(m => m.ReturnReason)">@Html.Sitecore().Field("Return Reason Text")</label>
+                        <select data-val-required="@Html.Sitecore().Field("Return Reason Required")" data-val-length="" data-val-length-min="1" data-val-length-max="50" data-val="true" name="@Html.NameFor(m => m.ReturnReason)" id="@Html.IdFor(m => m.ReturnReason)" ng-model="reason" style="width: 85%;">
+                            @Html.Sitecore().Field("Return Reason Options")
+                        </select>
+                        <span class="asterisk">&#42;</span>
+                    </div>
+                           
+                    <div class="item" @Html.Validation().ErrorClass(model => model.ContactComments)>
+                        <label for="@Html.IdFor(m => m.ContactComments)">@Html.Sitecore().Field("Comments Text")</label>
+                        @Html.TextAreaFor(m => m.ContactComments, new { ng_model = "comment", placeholder = Html.Sitecore().Field("Comments Placeholder") })
+                    </div>
+                           
+                    <button type="submit" data-val-submit>@Html.Sitecore().Field("Send Button Text")</button>
+                </div>
+                <div class="col">
+                </div>
+            </div>
+        </form>
+    </div>
+</article>
+
+@if (Model != null && Model.ShowSuccessMessage)
+{
+    <article class="marketing commercial-quote">
+        <div class="success-message" id="success-message">
+            <div class="wrapper">
+                <h2>@Html.Sitecore().Field("Thank You Text")</h2>
+                <h4>@Html.Sitecore().Field("Success Message Text")</h4>
+            </div>
+        </div>
+    </article>
+}
