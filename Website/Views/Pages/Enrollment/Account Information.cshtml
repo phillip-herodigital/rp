@@ -337,7 +337,7 @@
                             <p>@Html.Sitecore().Field("Online Account Paragraph")</p>
                             <hr class="content-divider" />
                             <div class="onlineAccountInfo">
-                                <input type="radio" name="creatOnlineAccount" ng-value="true" ng-model="createOnlineAccount" /><label class="radio" for="createOnlineAccount">@Html.Sitecore().Field("Online Account Yes")</label>
+                                <input type="radio" id="createOnlineAccountYes" name="createOnlineAccountYes" ng-value="true" ng-model="createOnlineAccount" /><label class="radio" for="createOnlineAccountYes">@Html.Sitecore().Field("Online Account Yes")</label>
                                 <div class="item" ng-class="{disabled: !createOnlineAccount}" @Html.Validation().ErrorClass(m => m.OnlineAccount.Username)>
                                     <label for="@Html.IdFor(m => m.OnlineAccount.Username)">@Html.Sitecore().Field("Username Optional Label")</label>
                                     @Html.TextBoxFor(m => m.OnlineAccount.Username, new { data_val_if = "createOnlineAccount", ng_model = "accountInformation.onlineAccount.username", autocomplete = "off" })
@@ -356,7 +356,7 @@
                                         @Html.ValidationMessageFor(m => m.OnlineAccount.ConfirmPassword)
                                     </div>
                                 </div>
-                                <input type="radio" name="creatOnlineAccount" ng-value="false" ng-model="createOnlineAccount" ng-click="accountInformation.onlineAccount = null"/><label class="radio" for="createOnlineAccount">@Html.Sitecore().Field("Online Account No")</label>
+                                <input type="radio" id="createOnlineAccountNo" name="createOnlineAccountNo" ng-value="false" ng-model="createOnlineAccount" ng-click="accountInformation.onlineAccount = null" /><label class="radio" for="createOnlineAccountNo">@Html.Sitecore().Field("Online Account No")</label>
                             </div>
                         </div>
                     </article>
