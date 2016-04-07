@@ -5,6 +5,7 @@
     $scope.getCartDevices = enrollmentCartService.getCartDevices;
     $scope.getDevicesCount = enrollmentCartService.getDevicesCount;
     $scope.getCartDataPlan = enrollmentCartService.getCartDataPlan;
+    $scope.getCurrentStep = enrollmentStepsService.getCurrentStep;
     $scope.activationCodeInvalid = true;
     $scope.esnInvalid = false;
     $scope.esnError = false;
@@ -127,6 +128,8 @@
         //remove the device & service
         enrollmentCartService.removeDeviceFromCart(item);
         enrollmentCartService.removeService(service);
+        enrollmentStepsService.setStep('phoneFlowDevices');
+        enrollmentStepsService.setMaxStep('phoneFlowDevices');
         if (keepIMEI) {
             $scope.phoneOptions.imeiNumber = item.imeiNumber;
         }
@@ -274,9 +277,7 @@
     };
 
     $scope.continue = function () {
-        enrollmentCartService.removeService(enrollmentCartService.getActiveService());
         enrollmentStepsService.setStep('phoneFlowPlans');
-        enrollmentStepsService.hideStep('phoneFlowDevices');
     }
 
     $scope.completeStep = function () {  
@@ -288,6 +289,5 @@
         $scope.addDevice.imeiNumber.$setValidity('required', true);
         $scope.addDevice.imeiNumber.suppressValidationMessages = true;
         enrollmentStepsService.setStep('phoneFlowPlans');
-        enrollmentStepsService.hideStep("phoneFlowDevices");
     };
 }]);
