@@ -264,8 +264,18 @@
             isPng: true,
             opacity: opacity,
             tileSize: new google.maps.Size(256, 256),
+
             getTileUrl: function (coord, zoom) {
-                return "http://api.cellmaps.com/tiles/cellmap/" + zoom + "/" + coord.x + "/" + coord.y + ".png?key=" + key + "&map=stream" + ((layer != "") ? "&llist=" + layer : "");
+                var bounds = $scope.mapInstance.getBounds().toJSON();
+                var output = bounds.west + " " + bounds.south + " " + bounds.east + " " + bounds.north;
+
+                var url = "/api/mapserver/tile/" + coord.x + "," + coord.y + "," + zoom + "/";
+                var layers = layer.split(",");
+                for (var i = 0; i < layers.length; i++) {
+                    url += (i > 0 ? "," : "") + layers[i];
+                }
+
+                return url;
             }
         });
     };
