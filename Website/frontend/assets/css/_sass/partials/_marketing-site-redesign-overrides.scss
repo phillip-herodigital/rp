@@ -3185,13 +3185,13 @@ article.marketing.mobile.cdma-pricing-plans {
                     }
                 }
 
-                .best-deal{
+                .best-deal {
                     color: #fff;
                     position: absolute;
                     display: block;
-                    left: calc(50% - 45px);
+                    left: calc(50% - 48px);
                     top: -10px;
-                    padding: 5px;
+                    padding: 2px 12px;
                     font-style: italic;
                     font-size: 16px;
                     font-weight: 600;
@@ -3221,9 +3221,8 @@ article.marketing.mobile.cdma-pricing-plans {
                         }
                     }
                     &.data {
-                        font-size: 36px;
+                        font-size: 34px;
                         line-height: 30px;
-
                         span {
                             font-size: 24px;
                         }
