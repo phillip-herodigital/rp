@@ -354,10 +354,18 @@
             }
         });
         if ($scope.mapInstance) {
+            $scope.mapInstance.overlayMapTypes.clear();
+
             if (layers.length) {
-                $scope.mapInstance.overlayMapTypes.setAt(0, new ARCOverlay('d8bfd6a09d07263c52ecb75b5a470a90', layers.join(','), 0.75));
-            } else {
-                $scope.mapInstance.overlayMapTypes.clear();
+                var opacity = .35;
+                if (layers.length == 2) {
+                    opacity = .50;
+                } else if (layers.length == 1) {
+                    opacity = .75;
+                }
+                for (var i = 0, layer; layer = layers[i]; i++) {
+                    $scope.mapInstance.overlayMapTypes.setAt(i, new ARCOverlay('d8bfd6a09d07263c52ecb75b5a470a90', layer, opacity));
+                }
             }
         }
     };
