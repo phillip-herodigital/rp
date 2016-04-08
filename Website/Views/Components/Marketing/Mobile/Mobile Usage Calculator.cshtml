@@ -643,8 +643,8 @@
                                                 </div>
                                             </div>
                                             <div class="plan-details" ng-class="{recommended: recommendedPlanData == plan.data}">
-                                                <p class="data" ng-if="plan.data != 'Unlimited'">{{ plan.data }}<span>GB</span></p>
-                                                <p class="data" ng-if="plan.data == 'Unlimited'"><span class="unlimited">@Html.Sitecore().Field("Unlimited")</span></p>
+                                                <p class="data" ng-if="plan.data != 'Unlimited'">{{ plan.data }}@Html.Sitecore().Field("GB Text")</p>
+                                                <p class="data" ng-if="plan.data == 'Unlimited'">@Html.Sitecore().Field("Unlimited")</p>
                                                 <p class="lte">@Html.Sitecore().Field("4G LTE Data")</p>
                                                 <h2>@Html.Sitecore().Field("Unlimited Talk")</h2>
                                                 <p class="international" ng-if="!plan.includesInternational">@Html.Sitecore().Field("Add International")</p>
