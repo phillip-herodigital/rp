@@ -176,6 +176,12 @@
                         </div>
                         <div class="rate">{{selectedOffer.offer.rate}}&cent; @Html.Sitecore().Field("Per kWh")</div>
                     </div>
+                    <div class="line-item clearfix" ng-if="isRenewal && selectedOffer.renewalConfirmation.contractStartDate != null">
+                        <div class="description">
+                            <strong>Contract Start Date</strong>
+                        </div>
+                        <div class="rate">{{selectedOffer.renewalConfirmation.contractStartDate | date:'M/d/yyyy'}}</div>
+                    </div>
                     <div class="included-thermostat" ng-if="selectedOffer.offer.includesThermostat">
                         @Html.Sitecore().Field("Thermostat Text")
                     </div>
@@ -234,6 +240,12 @@
                             <h2>{{selectedOffer.offer.name}}</h2>
                         </div>
                         <div class="rate">${{selectedOffer.offer.rate}}@Html.Sitecore().Field("Per Therm")</div>
+                    </div>
+                    <div class="line-item clearfix" ng-if="isRenewal && selectedOffer.renewalConfirmation.contractStartDate != null">
+                        <div class="description">
+                            <strong>Contract Start Date</strong>
+                        </div>
+                        <div class="rate">{{selectedOffer.renewalConfirmation.contractStartDate | date:'M/d/yyyy'}}</div>
                     </div>
                     <div class="line-item clearfix" ng-if="!isRenewal">
                         <div class="description sub-charge">
