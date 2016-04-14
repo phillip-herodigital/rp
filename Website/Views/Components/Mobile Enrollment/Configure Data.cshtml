@@ -71,7 +71,7 @@
                                     <div class="btn-group-options iccid" data-val-error="iccid">
                                         <div class="label" ng-class="{ disabled : phoneOptions.missingIccid }">@Html.Sitecore().Field("Label - ICCID Number")</div>
                                         <a class="what-is-this" href="" ng-click="showModal('instructions/iccid')">@Html.Sitecore().Field("What is this Text")</a>
-                                        <input type="text" name="iccid" ng-disabled="phoneOptions.missingIccid" ng-model="phoneOptions.iccidNumber" data-val="true" data-val-required data-val-regex data-val-regex-pattern="^(8901)(120|490)" data-val-if="networkType == 'CDMA' && phoneOptions.showIccid && !phoneOptions.missingIccid" />
+                                        <input type="text" name="iccid" ng-disabled="phoneOptions.missingIccid" ng-model="phoneOptions.iccidNumber" data-val="true" data-val-required data-val-regex data-val-regex-pattern="^(8901)(120|490)" data-val-if="phoneOptions.showIccid && !phoneOptions.missingIccid" />
                                     </div>
                                     <div class="clearfix"></div>
                                     <div>
@@ -274,7 +274,6 @@
     <div class="inner">
         <div class="modal-header">
             <a class="close" onclick="$('.coverage-map-container').addClass('hidden-map')">X</a>
-            <h2>&nbsp;</h2>
         </div>
         <script src="//maps.googleapis.com/maps/api/js?libraries=places&sensor=false"></script>
         <div class="wrapper">

@@ -58,6 +58,7 @@ ngApp.controller('EnrollmentCompleteOrderCtrl', ['$scope', 'enrollmentService', 
     * Complete Enrollment Section
     */
     $scope.completeStep = function () {
+        enrollmentService.isLoading = true;
         var depositAlternatives = _(enrollmentCartService.services).map(function (service) {
             return _(service.offerInformationByType).pluck('value').flatten().filter().pluck('offerSelections').flatten().filter().map(function (selection) {
                 if (selection.payments != null && _(selection.payments.requiredAmounts).filter({ depositOption: 'depositAlternative' }).some()) {
