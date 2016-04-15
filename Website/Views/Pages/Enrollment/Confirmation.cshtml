@@ -119,7 +119,7 @@
                                 {{ accountInformation.mailingAddress.line1 }}<span ng-if="accountInformation.mailingAddress.unitNumber">, {{ accountInformation.mailingAddress.unitNumber }}</span><span ng-if="accountInformation.mailingAddress.line2">, {{ accountInformation.mailingAddress.line2 }}</span><br>
                                 {{ accountInformation.mailingAddress.city }}, {{ accountInformation.mailingAddress.stateAbbreviation }} {{ accountInformation.mailingAddress.postalCode5 }}
                             </div>
-                            <p class="disclosure-documents">@Html.Sitecore().Field("Disclosure Documents Paragraph")</p>
+                            <p class="disclosure-documents">@Html.Sitecore().Field("Terms Notice")</p>
                         </div>
                         <div class="col" ng-if="accountInformation.businessInformationName">
                             <h2>@Html.Sitecore().Field("Header - Business Information")</h2>
@@ -179,7 +179,7 @@
                     </div>
                     <div class="line-item clearfix" ng-if="isRenewal && selectedOffer.renewalConfirmation.contractStartDate != null">
                         <div class="description">
-                            <strong>Contract Start Date</strong>
+                            <strong>@Html.Sitecore().Field("Contract Start Date Header")</strong>
                         </div>
                         <div class="rate">{{selectedOffer.renewalConfirmation.contractStartDate | date:'M/d/yyyy'}}</div>
                     </div>
