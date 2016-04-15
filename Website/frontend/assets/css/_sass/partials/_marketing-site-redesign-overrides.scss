@@ -3117,93 +3117,81 @@ article.marketing.mobile.cdma-pricing-plans {
         }
         .col {
             position: relative;
-            padding: 0 25px;
-            &:first-child, &:last-child {
-                padding: 0px 25px;
-                @include breakpoint(small-medium) {
-                    padding: 0px;
-                }
-            }
+            padding: 0 25px 0 10px;
 
-            @include breakpoint(large){
-                &:after{
+            @include breakpoint-min(1101px) {
+                &:after {
                     position: absolute;
                     display: block;
-                    content: "";
+                    content: '';
                     height: 300px;
                     width: 3px;
                     background: #eceeef;
                     top: 45px;
                     right: 0;
                 }
+                &:last-child {
+                    &:after {
+                        display: none;
+                    }
+                }
             }
             
-            @include breakpoint(small-medium) {
-                padding: 0px;
+            @include breakpoint-min-max(768px, 1100px) {
+                width: 49%;
+                display: inline-block;
+                padding: 20px;
             }
 
             @include breakpoint(small){
-                margin-bottom: 20px;
+                padding: 0px;
+                margin-bottom: 30px;
             }
             .package {
                 background-color: #fff;
             }
             
             .plan-details {
-                background: url('../i/marketing/redesign/plan_background.png') top center repeat-x;
+                background: url('../i/marketing/redesign/plan_background.png') top center no-repeat;
                 background-color: #fff;
+                background-size: contain;
                 box-shadow: 1px 1px 10px #ccc;
                 position: relative;
                 padding: 25px 20px 15px;
+                max-width: 216px;
+                margin: 0 auto;
 
-
-                @include breakpoint(small-medium) {
-                    background: none;
-                    padding: 0;
+                &:before{
+                    display: block;
+                    position: absolute;
+                    bottom: 0;
+                    width: 100%;
+                    height: 19px;
+                    background: url('../i/marketing/redesign/plan_bottom.png') top center no-repeat;
+                    background-size: cover;
+                    content: '';
+                    left: 0;
                 }
 
-                @include breakpoint(large){
-                    &:before{
-                        display: block;
-                        position: absolute;
-                        bottom: 0;
-                        width: 100%;
-                        height: 19px;
-                        background: url('../i/marketing/redesign/plan_bottom.png') top center no-repeat;
-                        content: "";
-                        left: 0;
-                    }
-                }
                 h2 {
                     font-size: 15px;
                     padding: 10px 2px 0 2px;
-                    margin-bottom: 15px;
+                    margin-bottom: 30px;
                     margin-top: 40px;
                     text-align: left;
-
-                    @include breakpoint(small-medium){
-                        margin: 0;
-                        padding: 5px 10px 10px;
-                        text-align: center;
-                    }
 
                     span{
                         font-weight: bold;
                     }
                 }
-                h2, p.plus, p.data, p.lte {
-                    @include breakpoint(small-medium) {
-                        background-color: #f4b60a;
-                    }
-                }
 
-                .best-deal{
+                .best-deal {
                     color: #fff;
                     position: absolute;
                     display: block;
-                    left: calc(50% - 45px);
+                    left: calc(50% - 48px);
                     top: -10px;
-                    padding: 5px;
+                    padding: 2px 12px;
                     font-style: italic;
                     font-size: 16px;
                     font-weight: 600;
@@ -3214,14 +3202,6 @@ article.marketing.mobile.cdma-pricing-plans {
                     color: #fff;
                     font-weight: 600;
                     margin: 0;
-
-                    @include breakpoint(small-medium){
-                        &:first-of-type{
-                            padding-top: 20px;
-                        }
-
-                        padding: 5px 10px;
-                    }
 
                     &.plus {
                         color: #f5d0a3;
@@ -3239,19 +3219,10 @@ article.marketing.mobile.cdma-pricing-plans {
                         span{
                             font-weight:bold;
                         }
-
-                        @include breakpoint(medium){
-                            margin-top:5px;
-                        }
-
-                        @include breakpoint(small-medium){
-                            padding: 25px 10px 14px;
-                        }
                     }
                     &.data {
-                        font-size: 36px;
+                        font-size: 34px;
                         line-height: 30px;
-
                         span {
                             font-size: 24px;
                         }
@@ -3336,10 +3307,16 @@ article.marketing.mobile.cdma-pricing-plans {
                         }
                     }
                 }
-                @include breakpoint(large) {
+                @include breakpoint-min(1101px) {
                     &:first-child {
                         padding-left: 15%;
                     }
+                }
+                @include breakpoint(medium) {
+                    width: 49%;
+                }
+                @include breakpoint(small) {
+                    width: 100%;
                 }
             }
         }

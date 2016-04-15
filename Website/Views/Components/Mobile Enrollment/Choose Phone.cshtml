@@ -27,7 +27,7 @@
                                 <a href="" ng-click="editDevice(location, item, true)">@Html.Sitecore().Field("Edit")</a><a href="" ng-click="editDevice(location, item, false)">@Html.Sitecore().Field("Remove Line Link Text")</a>
                             </div>
                             <hr ng-if="getDevicesCount() > 0" />
-                            <div class="item full">
+                            <div class="item full" ng-show="getCurrentStep().id == 'phoneFlowDevices'">
                                 <h3>@Html.Sitecore().Field("See If Phone Works")</h3>
                                 <div class="input-group">
                                     <div class="input-group-control item" data-val-error="imeiNumber">
