@@ -1,4 +1,7 @@
 <div ng-controller="EnrollmentConfirmationCtrl" ng-init="setServerData(@((Request.QueryString["phantomjs"] != null ? Html.Raw("'deferred'") : Html.Action("ClientData", "Enrollment")).ToHtmlString())); mobileEnrollmentService.setPhoneData(@(Html.Action("MobileEnrollmentPhones", "MobileEnrollment").ToHtmlString()));">
+    <div class="wrapper confirmation-banner">
+        @Html.Sitecore().Field("Banner Text")
+    </div>
     <div class="enrollment enrollment__order-confirmation">
         <section>
             <article class="next-steps enrollment__box">
@@ -119,7 +122,7 @@
                                 {{ accountInformation.mailingAddress.line1 }}<span ng-if="accountInformation.mailingAddress.unitNumber">, {{ accountInformation.mailingAddress.unitNumber }}</span><span ng-if="accountInformation.mailingAddress.line2">, {{ accountInformation.mailingAddress.line2 }}</span><br>
                                 {{ accountInformation.mailingAddress.city }}, {{ accountInformation.mailingAddress.stateAbbreviation }} {{ accountInformation.mailingAddress.postalCode5 }}
                             </div>
-                            <p class="disclosure-documents">@Html.Sitecore().Field("Terms Notice")</p>
+                            <div class="disclosure-documents" ng-if="isRenewal">@Html.Sitecore().Field("Terms Notice")</div>
                         </div>
                         <div class="col" ng-if="accountInformation.businessInformationName">
                             <h2>@Html.Sitecore().Field("Header - Business Information")</h2>
@@ -177,12 +180,6 @@
                         </div>
                         <div class="rate">{{selectedOffer.offer.rate}}&cent; @Html.Sitecore().Field("Per kWh")</div>
                     </div>
-                    <div class="line-item clearfix" ng-if="isRenewal && selectedOffer.renewalConfirmation.contractStartDate != null">
-                        <div class="description">
-                            <strong>@Html.Sitecore().Field("Contract Start Date Header")</strong>
-                        </div>
-                        <div class="rate">{{selectedOffer.renewalConfirmation.contractStartDate | date:'M/d/yyyy'}}</div>
-                    </div>
                     <div class="included-thermostat" ng-if="selectedOffer.offer.includesThermostat">
                         @Html.Sitecore().Field("Thermostat Text")
                     </div>
@@ -191,6 +188,12 @@
                             <strong>@Html.Sitecore().Field("Installation Fee")  ({{selectedOffer.offerOption.connectDate | date:'M/d/yyyy'}})</strong>
                         </div>
                         <div class="rate">{{ selectedOffer.offerOption.connectionFee | currency }}</div>
+                    </div>
+                    <div class="line-item clearfix" ng-if="isRenewal && selectedOffer.renewalConfirmation.contractStartDate != null">
+                        <div class="description">
+                            @Html.Sitecore().Field("Contract Start Date Header")
+                        </div>
+                        <div class="rate">{{selectedOffer.renewalConfirmation.contractStartDate | date:'M/d/yyyy'}}</div>
                     </div>
                     <div class="line-item clearfix" ng-repeat="payment in selectedOffer.payments.requiredAmounts" ng-if="payment.dollarAmount > 0 && !isRenewal" ng-include src="'payments/' + payment.offerPaymentAmountType"></div>
                     <div class="plan-documents clearfix">
@@ -244,7 +247,7 @@
                     </div>
                     <div class="line-item clearfix" ng-if="isRenewal && selectedOffer.renewalConfirmation.contractStartDate != null">
                         <div class="description">
-                            <strong>Contract Start Date</strong>
+                            @Html.Sitecore().Field("Contract Start Date Header")
                         </div>
                         <div class="rate">{{selectedOffer.renewalConfirmation.contractStartDate | date:'M/d/yyyy'}}</div>
                     </div>
