@@ -5,9 +5,13 @@
 }
 <div ng-controller="MobileEnrollmentProgressBarCtrl" class="enrollment_progress-bar @string.Format("step{0}", Model.StepNumber)" ng-init="stepNumber = @Model.StepNumber">
     <div class="inner clearfix">
-        <div class="step-description">
+        <div class="step-description" ng-if="!isRenewal || '@Model.StepNumber' != '4'">
             <div class="stepCount">@item.Fields["Step"].Value @Model.StepNumber</div>
             @item.Fields[Model.StepTextField].Value
+        </div>
+        <div class="step-description" ng-if="isRenewal && '@Model.StepNumber' == '4'">
+            <div class="stepCount">@item.Fields["Step 3 Renewal Header Text"].Value</div>
+            @item.Fields["Step 3 Renewal Description Text"].Value
         </div>
         <div class="progress">
             <div class="bar"></div>

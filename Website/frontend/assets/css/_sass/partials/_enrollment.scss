@@ -2158,6 +2158,9 @@
             color: #333;
             font-size: 24px;
         }
+        .disclosure-documents {
+            float: left;
+        }
     }
 
     .services-header {
@@ -2963,6 +2966,25 @@
     Order confirmation page aside boxes
  */
  .enrollment-confirmation {
+    .confirmation-banner {
+        margin-top: -145px;
+        margin-bottom: 71px;
+        color: #fff;
+        font-size: 26px;
+        h1 {
+            margin: 0;
+            font-size: 36px;
+            color: #fff;
+            font-weight: 600;    
+        }
+        @include breakpoint(large) {
+            padding-top: 20px;
+        }
+        @include breakpoint(medium) {
+            margin-top: -150px;
+            margin-bottom: 96px;
+        }
+    }
     aside {
         margin-top: 20px;
         .promo-box {
