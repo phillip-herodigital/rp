@@ -1106,9 +1106,18 @@ article.pay {
         p {
             font-size: 20px;
         }
+
+        .heading{
+            font-size:36px;
+
+            span{
+                color:#40ae49;
+                text-transform:uppercase;
+            }
+        }
     }
     .identityTheft {
-        background: image-url('marketing/redesign/mask_icon.png') no-repeat center top;
+        background: image-url('marketing/redesign/mask_icon.png') no-repeat 0 0;
     }
     .onlineBackupAndProtection {
         background: image-url('marketing/redesign/cloud_protection_icon.png') no-repeat center top;
@@ -1123,6 +1132,86 @@ article.pay {
         .wrapper {
             background-image: none;
         }
+
+        .services{
+            margin:25px -120px 0;
+
+            .service{
+                padding:0 120px 40px 220px;
+                background-position:120px 0;
+                border-bottom:1px solid #40ae49;
+                margin-bottom:35px;
+
+                &:last-of-type{
+                    border-bottom:0;
+                    margin-bottom:0;
+                    .details{
+                        margin-bottom:0;
+                    }
+                }
+
+
+                a{
+                    cursor:pointer;
+                }
+
+                h3{
+                    margin:0;
+                }
+                p{
+                    margin:0;
+                }
+
+                .details{
+                   @include clearfix;
+                    
+                   margin:25px 0 15px;
+
+                    ul{
+                        width:35%;
+                        float:left;
+                        margin-right:5%;
+
+                    }
+
+                    h3{
+                        & + div{
+                            font-size:18px;
+
+                            sup{
+                                font-size:50%;
+                                top:-1em;
+                            }
+                        }
+                    }
+                }
+
+                .col{
+                    vertical-align:middle;
+                    &.col-1{
+                        width:58%;
+                        margin-right:20px;
+                    }
+                    &.col-2{
+                        width:18%;
+                        padding:0 25px;
+                        border-left:1px solid #e9eaeb;
+                        border-right:1px solid #e9eaeb;
+
+                        a{
+                            font-size:18px;
+                            font-weight:600;
+                            color:#40ae49;
+                        }
+                    }
+                    &.col-3{
+                        width:15%;
+                        padding-left:25px;
+                    }
+                }
+            }
+        }
+
         .family-member {
             margin: 25px 0;
             text-align: center;
@@ -1163,10 +1252,8 @@ article.pay {
             }
         }
         h3 {
-            text-align: center;
             color: #40ae49;
             text-transform: uppercase;
-            margin-bottom: 100px;
         }
         ul {
             padding: 0;
@@ -1180,10 +1267,7 @@ article.pay {
             padding-top: 0;
         }
         .identityTheft {
-            background: image-url('marketing/redesign/mask_icon.png') no-repeat center top 60px;
-            h3 {
-                padding-left: 30px;
-            }
+            background: image-url('marketing/redesign/mask_icon.png') no-repeat;
         }
         .onlineBackupAndProtection {
             background: image-url('marketing/redesign/cloud_protection_icon.png') no-repeat center top 60px;
@@ -1238,37 +1322,57 @@ article.pay {
             color: #40ae49;
         }
         .bundle {
-            background-color: #e7e7e9;
-            height: 260px;
-            text-align: center;
-            padding: 0 30px !important;
             position: relative;
-            @include border-radius(10px);
-            @include box-shadow(0 1px 1px rgba(0, 0, 0, .3));
+            padding:65px 0 15px;
             h4 {
-                font-size: 25px;
-                color: #808083;
+                font-size: 21px;
                 font-weight: 600;
                 margin: 15px 0 0;
-            }
-            &.platinum {
-                background-color: #ffffff;
+                color: #fff;
             }
             p {
                 margin-top: 0;
             }
+
+            .bundle-info{
+                .headline{
+                    color:#40ae49;
+                    font-size:24px;
+                    margin-bottom:35px;
+                     
+                    strong{
+                        font-weight:600;
+                    }
+                }
+                .details{
+                    font-size:20px;
+
+                    strong{
+                        font-size:24px;
+                        font-weight:600;
+                    }
+                }
+            }
+
             .circle-discount {
-                min-height: 58px;
                 color: #fff;
-                margin: 25px auto;
+                float:left;
+                margin-right:50px;
                 .circle {
-                    background-color: #808083;
-                    height: 80px;
-                    width: 80px;
-                    @include border-radius(40px);
+                    background-color: #40ae49;
+                    height: 175px;
+                    width: 175px;
+                    @include border-radius(4000px);
                     line-height: 1;
                     padding-top: 10px;
                     margin: 0 auto;
+                    box-shadow: 0px 4px 3px 0px rgba(6, 6, 6, 0.2); 
+                    text-align:center;
+                    h4{
+                        width:150px;
+                        display:inline-block;
+                        text-align:center;  
+                    }
                     .save {
                         font-weight: 600;
                         display: block;
@@ -1283,35 +1387,28 @@ article.pay {
                     }
                 }
             }
-            &.selected {
-                h4, p {
-                    color: #0971ce;
-                }
-                .circle {
-                    background-color: #0971ce;
-                }
-            }
             .price {
-                color: #0971ce;
+                color: #fff;
                 font-size: 25px;
                 font-weight: 600;
                 position: relative;
                 margin-left: 15px;
+                margin-top:15px;
                 .top {
                     vertical-align: top;
                 }
                 .dollars {
-                    font-size: 48px;
+                    font-size: 56px;
                     position: absolute;
                     top: -9px;
                     left: 15px;
                 }
                 .cents {
-                    margin-left: 58px;
+                    margin-left: 70px;
                 }
                 .per-month {
                     display: inline-block;
-                    color: #6b6b6b;
+                    color: #fff;
                     font-size: 11px;
                     font-weight: normal;
                     margin-left: -27px;
@@ -1407,7 +1504,7 @@ article.pay {
             background-position: top;
             background-repeat: repeat-x;
             background-color: #45ba4e;
-            margin: 18px -120px 0;
+            margin: 18px -120px 20px;
             padding: 12px 120px;
             .build-package-text {
                 color: #fff;
