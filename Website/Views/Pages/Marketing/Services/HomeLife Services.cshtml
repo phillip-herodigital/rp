@@ -33,26 +33,6 @@
         <div class="wrapper">
             
             <div class="">
-                @*<div class="col bundle silver" ng-class="{'selected':  numProductsChecked() == 1 }">
-                    <h4>@Html.Sitecore().Field("Silver Title")</h4>
-                    @Html.Sitecore().Field("Silver Savings")
-                    <div class="circle-discount">
-                        @Html.Sitecore().Field("Silver Discount")
-                    </div>
-                    <div class="price">
-                        @Html.Sitecore().Field("Silver Price")
-                    </div>
-                </div>
-                <div class="col bundle gold" ng-class="{'selected':  numProductsChecked() == 2 }">
-                    <h4>@Html.Sitecore().Field("Gold Title")</h4>
-                    @Html.Sitecore().Field("Gold Savings")
-                    <div class="circle-discount">
-                        @Html.Sitecore().Field("Gold Discount")
-                    </div>
-                    <div class="price">
-                        @Html.Sitecore().Field("Gold Price")
-                    </div>
-                </div>*@
                 <div class="bundle platinum clearfix" ng-class="{'selected':  numProductsChecked() == 3 }">
                     <div class="circle-discount">
                         <div class="circle">
@@ -72,17 +52,7 @@
                     </div>
                 </div>
             </div>
-            <div class="grid border three package-indicators">
-                <div class="col">
-                    <span class="indicator" ng-class="{'active':  numProductsChecked() == 1 }">&nbsp;</span>
-                </div>
-                <div class="col">
-                    <span class="indicator" ng-class="{'active':  numProductsChecked() == 2 }">&nbsp;</span>
-                </div>
-                <div class="col">
-                    <span class="indicator" ng-class="{'active':  numProductsChecked() == 3 }">&nbsp;</span>
-                </div>
-            </div>
+            
             <div class="build-package">
                 <div class="build-package-text">
                     @Html.Sitecore().Field("Build Package Text")
@@ -92,6 +62,46 @@
             <article class="marketing services-summary">
                 <div class="wrapper">
                     <div class="services">
+                        <div class="service virtual-md">
+                            <div class="grid">
+                                <div class="col col-1">
+                                    @Html.Sitecore().Field("Virtual MD Header")
+                                </div>
+                                <div class="col col-2">
+                                    <a ng-click="virtualMDIsOpen = !virtualMDIsOpen">
+                                        <span ng-class="{'icon-green-arrow-up': virtualMDIsOpen, 'icon-green-arrow-down': !virtualMDIsOpen}"></span> 
+                                        {{ !virtualMDIsOpen && '@Html.Sitecore().Field("View Details")' || '@Html.Sitecore().Field("Hide Details")' }}
+                                    </a>
+                                </div>
+                                <div class="col col-3">
+                                    <input type="checkbox" id="virtualmd" ng-model="virtualmd" ng-disabled="!virtualmd && numProductsChecked() >= 3" />
+                                </div>
+                            </div>
+
+                            <div class="details" ng-show="virtualMDIsOpen">
+                                @Html.Sitecore().Field("Virtual MD Content")
+                            </div>
+                        </div>
+                        <div class="service roadside-assistance">
+                            <div class="grid">
+                                <div class="col col-1">
+                                    @Html.Sitecore().Field("Roadside Assistance Header")
+                                </div>
+                                <div class="col col-2">
+                                    <a ng-click="roadsideIsOpen = !roadsideIsOpen">
+                                        <span ng-class="{'icon-green-arrow-up': roadsideIsOpen, 'icon-green-arrow-down': !roadsideIsOpen}"></span>
+                                        {{ !roadsideIsOpen && '@Html.Sitecore().Field("View Details")' || '@Html.Sitecore().Field("Hide Details")' }}
+                                    </a>
+                                </div>
+                                <div class="col col-3">
+                                    <input type="checkbox" id="roadside" ng-model="roadside" ng-disabled="!roadside && numProductsChecked() >= 3" />
+                                </div>
+                            </div>
+
+                            <div class="details" ng-show="roadsideIsOpen">
+                                @Html.Sitecore().Field("Roadside Assistance Content")
+                            </div>
+                        </div>
                         <div class="service identityTheft">
                             <div class="grid">
                                 <div class="col col-1">
@@ -99,12 +109,12 @@
                                 </div>
                                 <div class="col col-2">
                                     <a ng-click="identityIsOpen = !identityIsOpen">
-                                        <span ng-class="{'icon-green-arrow-up': identityIsOpen, 'icon-green-arrow-down': !identityIsOpen}"></span> 
-                                        {{ identityIsOpen && '@Html.Sitecore().Field("View Details")' || '@Html.Sitecore().Field("Hide Details")' }}
+                                        <span ng-class="{'icon-green-arrow-up': identityIsOpen, 'icon-green-arrow-down': !identityIsOpen}"></span>
+                                        {{ !identityIsOpen && '@Html.Sitecore().Field("View Details")' || '@Html.Sitecore().Field("Hide Details")' }}
                                     </a>
                                 </div>
                                 <div class="col col-3">
-                                    <input type="checkbox" id="identity" ng-model="identity" />
+                                    <input type="checkbox" id="identity" ng-model="identity" ng-disabled="!identity && numProductsChecked() >= 3" />
                                 </div>
                             </div>
 
@@ -113,22 +123,49 @@
                             </div>
                         </div>
                         <div class="service creditMonitoring">
-                            <h3>@Html.Sitecore().Field("Credit Monitoring Header")</h3>
-                            @Html.Sitecore().Field("Credit Monitoring Content")
+                            <div class="grid">
+                                <div class="col col-1">
+                                    @Html.Sitecore().Field("Credit Monitoring Header")
+                                </div>
+                                <div class="col col-2">
+                                    <a ng-click="creditMonitoringIsOpen = !creditMonitoringIsOpen">
+                                        <span ng-class="{'icon-green-arrow-up': creditMonitoringIsOpen, 'icon-green-arrow-down': !creditMonitoringIsOpen}"></span>
+                                        {{ !creditMonitoringIsOpen && '@Html.Sitecore().Field("View Details")' || '@Html.Sitecore().Field("Hide Details")' }}
+                                    </a>
+                                </div>
+                                <div class="col col-3">
+                                    <input type="checkbox" id="monitoring" ng-model="monitoring" ng-disabled="!monitoring && numProductsChecked() >= 3" />
+                                </div>
+                            </div>
+                            <div class="details" ng-show="creditMonitoringIsOpen">
+                                @Html.Sitecore().Field("Credit Monitoring Content")
+                            </div>
                         </div>
                         <div class="service onlineBackupAndProtection">
-                            <h3>@Html.Sitecore().Field("Tech Support Header")</h3>
-                            @Html.Sitecore().Field("Tech Support Content")
+                            <div class="grid">
+                                <div class="col col-1">
+                                    @Html.Sitecore().Field("Tech Support Header")
+                                </div>
+                                <div class="col col-2">
+                                    <a ng-click="techSupportIsOpen = !techSupportIsOpen">
+                                        <span ng-class="{'icon-green-arrow-up': techSupportIsOpen, 'icon-green-arrow-down': !techSupportIsOpen}"></span>
+                                        {{ !techSupportIsOpen && '@Html.Sitecore().Field("View Details")' || '@Html.Sitecore().Field("Hide Details")' }}
+                                    </a>
+                                </div>
+                                <div class="col col-3">
+                                    <input type="checkbox" id="support" ng-model="support" ng-disabled="!support && numProductsChecked() >= 3" />
+                                </div>
+                            </div>
+                            <div class="details" ng-show="techSupportIsOpen">
+                                @Html.Sitecore().Field("Tech Support Content")
+                            </div>
                         </div>
                     </div>
                 </div>
             </article>
 
-            <div class="build-package-options">
-                <span class="bundle-option">@Html.Sitecore().Field("Identity Protection Header")</span>
-                <span class="bundle-option"><input type="checkbox" id="monitoring" ng-model="monitoring" />@Html.Sitecore().Field("Credit Monitoring Header")</span>
-                <span class="bundle-option"><input type="checkbox" id="support" ng-model="support" />@Html.Sitecore().Field("Tech Support Header")</span>
-                <a href="" ng-class="{button: true, disabled: numProductsChecked() < 1}" ng-click="bundleEnroll()">@Html.Sitecore().Field("Select Package")</a>
+            <div class="package-submit-section">
+                <a href="" ng-class="{button: true, disabled: numProductsChecked() < 3}" ng-click="bundleEnroll()">@Html.Sitecore().Field("Select Package")</a>
             </div>
 
             <div class="family-member">@Html.Sitecore().Field("Add a Member")</div>

@@ -1125,6 +1125,13 @@ article.pay {
     .creditMonitoring {
         background: image-url('marketing/redesign/monitor_icon.png') no-repeat center top;
     }
+    .roadside-assistance{
+        background: image-url('marketing/redesign/roadside.png') no-repeat center top;
+    }
+    .virtual-md{
+        background: image-url('marketing/redesign/virtual_md.png') no-repeat center top;
+    }
+
     .grid .col {
         padding-top: 100px;
     } 
@@ -1136,11 +1143,21 @@ article.pay {
         .services{
             margin:25px -120px 0;
 
+            @include breakpoint (small) {
+                margin:25px -25px 0;
+            }
+
             .service{
                 padding:0 120px 40px 220px;
                 background-position:120px 0;
                 border-bottom:1px solid #40ae49;
                 margin-bottom:35px;
+
+                @include breakpoint(small){
+                    padding: 0 0 40px 0;
+                    background-position:50px 0;
+                    position:relative;
+                }
 
                 &:last-of-type{
                     border-bottom:0;
@@ -1171,7 +1188,10 @@ article.pay {
                         width:35%;
                         float:left;
                         margin-right:5%;
-
+                        margin-left:2px;
+                        list-style-type: disc;
+                        list-style-position:outside;
+                        padding-left:15px;
                     }
 
                     h3{
@@ -1191,12 +1211,25 @@ article.pay {
                     &.col-1{
                         width:58%;
                         margin-right:20px;
+
+                        @include breakpoint(small){
+                            width:100%;
+                            margin:0;
+                            padding-left:145px;
+                            margin-bottom:25px;
+                        }
                     }
                     &.col-2{
                         width:18%;
                         padding:0 25px;
                         border-left:1px solid #e9eaeb;
                         border-right:1px solid #e9eaeb;
+
+                        @include breakpoint(small){
+                            width:100%;
+                            border:0;
+                            text-align:right;
+                        }
 
                         a{
                             font-size:18px;
@@ -1207,50 +1240,18 @@ article.pay {
                     &.col-3{
                         width:15%;
                         padding-left:25px;
+
+                        @include breakpoint(small){
+                            position:absolute;
+                            top:0;
+                            left:-15px;
+                        }
                     }
                 }
             }
         }
 
-        .family-member {
-            margin: 25px 0;
-            text-align: center;
-            .blue {
-                color: #0971ce;
-                text-transform: uppercase;
-                font-size: 25px;
-                font-weight: 600;
-            }
-            .price {
-                color: #0971ce;
-                font-size: 25px;
-                font-weight: 600;
-                position: relative;
-                margin-left: 15px;
-                .top {
-                    vertical-align: top;
-                }
-                .dollars {
-                    font-size: 48px;
-                    position: absolute;
-                    top: -9px;
-                    left: 15px;
-                }
-                .cents {
-                    margin-left: 30px;
-                }
-                .per-month {
-                    display: inline-block;
-                    color: #6b6b6b;
-                    font-size: 11px;
-                    font-weight: normal;
-                    margin-left: -33px;
-                    line-height: 1;
-                    font-style: italic;
-                    padding-top: 27px;
-                }
-            }
-        }
+        
         h3 {
             color: #40ae49;
             text-transform: uppercase;
@@ -1292,9 +1293,16 @@ article.pay {
                 color: #0971ce;
             }
         }
-        .footnote {
-            font-size: 11px;
-            font-weight: normal;
+        .footnotes{
+            margin:90px 0 0 0 !important;
+            padding:50px 0 50px;
+            background:#fefefe;
+            font-size:14px;
+            text-align:left !important;
+
+            span{
+                display:block;
+            }
         }
     }
     .service-description {
@@ -1313,7 +1321,6 @@ article.pay {
         }
     }
     .service-bundles {
-        background-color: #f7f8f9;
         margin-bottom: -35px;
         .wrapper {
             padding: 0;
@@ -1323,7 +1330,10 @@ article.pay {
         }
         .bundle {
             position: relative;
-            padding:65px 0 15px;
+            padding:65px 120px 30px;
+            margin:0 -120px;
+            background:#f1f2f3;
+
             h4 {
                 font-size: 21px;
                 font-weight: 600;
@@ -1464,6 +1474,60 @@ article.pay {
                 }
             }
         }
+
+        .package-submit-section{
+            padding:45px;
+            background:#45ba4e;
+            margin:0 -120px;
+            text-align:right;
+            margin-bottom:40px;
+
+            a{
+            }
+        }
+
+        .family-member {
+            margin: 25px 0;
+            text-align: center;
+            font-size:19px;
+
+            .blue {
+                color: #0971ce;
+                text-transform: uppercase;
+                font-size: 25px;
+                font-weight: 600;
+            }
+            .price {
+                color: #0971ce;
+                font-size: 25px;
+                font-weight: 600;
+                position: relative;
+                margin-left: 15px;
+                .top {
+                    vertical-align: top;
+                }
+                .dollars {
+                    font-size: 48px;
+                    position: absolute;
+                    top: -9px;
+                    left: 15px;
+                }
+                .cents {
+                    margin-left: 30px;
+                }
+                .per-month {
+                    display: inline-block;
+                    color: #6b6b6b;
+                    font-size: 11px;
+                    font-weight: normal;
+                    margin-left: -33px;
+                    line-height: 1;
+                    font-style: italic;
+                    padding-top: 27px;
+                }
+            }
+        }
+
         .package-indicators {
             .col {
                 padding: 0;

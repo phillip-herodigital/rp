@@ -65,6 +65,8 @@ ngApp.controller('HomeLifeServicesCtrl', ['$scope', '$rootScope', '$http', '$tim
         if ($scope.identity) num++;
         if ($scope.support) num++;
         if ($scope.monitoring) num++;
+        if ($scope.virtualmd) num++;
+        if ($scope.roadside) num++;
         return num;
     };
 }]);
