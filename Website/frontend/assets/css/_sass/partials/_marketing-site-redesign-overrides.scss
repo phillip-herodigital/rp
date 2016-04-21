@@ -1147,6 +1147,10 @@ article.pay {
                 margin:25px -25px 0;
             }
 
+            @include breakpoint(medium){
+                margin:25px -20px 0;
+            }
+
             .service{
                 padding:0 120px 40px 220px;
                 background-position:120px 0;
@@ -1157,6 +1161,10 @@ article.pay {
                     padding: 0 0 40px 0;
                     background-position:50px 0;
                     position:relative;
+                }
+                @include breakpoint(medium){
+                    padding:0 20px 40px 120px;
+                    background-position:20px 0;
                 }
 
                 &:last-of-type{
@@ -1220,7 +1228,7 @@ article.pay {
                         }
                     }
                     &.col-2{
-                        width:18%;
+                        width:32%;
                         padding:0 25px;
                         border-left:1px solid #e9eaeb;
                         border-right:1px solid #e9eaeb;
@@ -1333,6 +1341,11 @@ article.pay {
             padding:65px 120px 30px;
             margin:0 -120px;
             background:#f1f2f3;
+
+            @include breakpoint(medium){
+                margin: 0 -20px;
+                padding:65px 35px 30px;
+            }
 
             h4 {
                 font-size: 21px;
@@ -1491,6 +1504,10 @@ article.pay {
             text-align: center;
             font-size:19px;
 
+            @include breakpoint(medium){
+                font-size:17px;
+            }
+
             .blue {
                 color: #0971ce;
                 text-transform: uppercase;
@@ -1570,6 +1587,13 @@ article.pay {
             background-color: #45ba4e;
             margin: 18px -120px 20px;
             padding: 12px 120px;
+
+            @include breakpoint(medium){
+                margin:18px -20px 20px;
+                padding:12px 35px;
+                text-align:center;
+            }
+
             .build-package-text {
                 color: #fff;
                 font-size: 20px;

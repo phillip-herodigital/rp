@@ -2,7 +2,6 @@
  *
  */
 ngApp.controller('HomeLifeServicesCtrl', ['$scope', '$rootScope', '$http', '$timeout', function ($scope, $rootScope, $http, $timeout) {
-    $scope.identity = $scope.support = $scope.monitoring = true;
     $scope.campaignName = $scope.productCode = "";
     $scope.freeMonth = false;
     $scope.init = function (freeMonth) {
@@ -46,7 +45,9 @@ ngApp.controller('HomeLifeServicesCtrl', ['$scope', '$rootScope', '$http', '$tim
         }
 
         document.getElementById("campaignName").value = $scope.campaignName;
-        document.getElementById("productCode").value = $scope.productCode;
+
+        //Currently Ocenture is wanting to leave out the product code, but this might return in the future.
+        //document.getElementById("productCode").value = $scope.productCode;
 
         // Submit the form to Ocenture
         $timeout(function () {
@@ -58,6 +59,11 @@ ngApp.controller('HomeLifeServicesCtrl', ['$scope', '$rootScope', '$http', '$tim
         if ($scope.identity) campaignName += "id";
         if ($scope.monitoring) campaignName += "cr";
         if ($scope.support) campaignName += "it";
+        if ($scope.virtualmd) campaignName += "th";
+        if ($scope.roadside) campaignName += "ra";
+
+        campaignName += "01";
+
         $scope.enroll(campaignName);
     };
     $scope.numProductsChecked = function () {
