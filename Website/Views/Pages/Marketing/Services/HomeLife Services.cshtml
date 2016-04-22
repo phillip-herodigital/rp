@@ -40,10 +40,9 @@
                 <div class="bundle platinum clearfix" ng-class="{'selected':  numProductsChecked() == 3 }">
                     <div class="circle-discount">
                         <div class="circle">
-                            <h4>@Html.Sitecore().Field("Platinum Title")</h4>
-                            @*@Html.Sitecore().Field("Platinum Discount")*@
+                            @Html.Sitecore().Field("Package Callout")
                             <div class="price">
-                                @Html.Sitecore().Field("Platinum Price")
+                                @Html.Sitecore().Field("Package Price")
                             </div>
                         </div>
                     </div>
@@ -51,7 +50,7 @@
                     <div class="bundle-info">
                         <div class="headline">@Html.Sitecore().Field("Intro Header")</div>
                         <div class="details">
-                            @Html.Sitecore().Field("Platinum Savings")
+                            @Html.Sitecore().Field("Package Savings")
                         </div>
                     </div>
                 </div>
@@ -185,7 +184,7 @@
 
     <article class="marketing protective-footnotes">
         <div class="wrapper">
-            @Html.Sitecore().Field("Footnotes")
+            @Html.Sitecore().Field("Protective Footnotes")
         </div>
     </article>
     
