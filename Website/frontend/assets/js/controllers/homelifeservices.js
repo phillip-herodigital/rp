@@ -61,9 +61,6 @@ ngApp.controller('HomeLifeServicesCtrl', ['$scope', '$rootScope', '$http', '$tim
         if ($scope.support) campaignName += "it";
         if ($scope.virtualmd) campaignName += "th";
         if ($scope.roadside) campaignName += "ra";
-
-        campaignName += "01";
-
         $scope.enroll(campaignName);
     };
     $scope.numProductsChecked = function () {

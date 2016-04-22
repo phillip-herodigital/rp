@@ -1140,119 +1140,130 @@ article.pay {
             background-image: none;
         }
 
-        .services{
-            margin:25px -120px 0;
+        .footnote {
+            font-size: 12px;
+            margin: 1em 0;
+            float: left;
+            width: 100%;
+        }
+
+        .services {
+            margin: 25px -120px 0;
 
             @include breakpoint (small) {
-                margin:25px -25px 0;
+                margin: 25px -25px 0;
             }
 
             @include breakpoint(medium){
-                margin:25px -20px 0;
+                margin: 25px -20px 0;
             }
 
-            .service{
-                padding:0 120px 40px 220px;
-                background-position:120px 0;
-                border-bottom:1px solid #40ae49;
-                margin-bottom:35px;
+            .service {
+                padding: 0 120px 40px 220px;
+                background-position: 120px 0;
+                border-bottom: 1px solid #40ae49;
+                margin-bottom: 35px;
 
-                @include breakpoint(small){
+                @include breakpoint(small) {
                     padding: 0 0 40px 0;
-                    background-position:50px 0;
-                    position:relative;
+                    background-position: 50px 0;
+                    position: relative;
                 }
-                @include breakpoint(medium){
-                    padding:0 20px 40px 120px;
-                    background-position:20px 0;
+                @include breakpoint(medium) {
+                    padding: 0 20px 40px 120px;
+                    background-position: 20px 0;
                 }
 
-                &:last-of-type{
-                    border-bottom:0;
-                    margin-bottom:0;
-                    .details{
-                        margin-bottom:0;
+                &:last-of-type {
+                    border-bottom: 0;
+                    margin-bottom: 0;
+                    .details {
+                        margin-bottom: 0;
                     }
                 }
 
-
-                a{
-                    cursor:pointer;
+                a {
+                    cursor: pointer;
                 }
 
-                h3{
-                    margin:0;
+                h3 {
+                    margin: 0;
                 }
-                p{
-                    margin:0;
+                p {
+                    margin: 0;
                 }
 
-                .details{
+                .details {
                    @include clearfix;
-                    
-                   margin:25px 0 15px;
+                   margin: 25px 0 15px;
 
-                    ul{
-                        width:35%;
-                        float:left;
-                        margin-right:5%;
-                        margin-left:2px;
+                    ul {
+                        width: 35%;
+                        float: left;
+                        margin-right: 5%;
+                        margin-left: 2px;
                         list-style-type: disc;
-                        list-style-position:outside;
-                        padding-left:15px;
+                        list-style-position: outside;
+                        padding-left: 15px;
+                        li.heading {
+                            list-style-type: none;
+                            margin-left: -15px;
+                            font-weight: 400;
+                        }
+                        @include breakpoint(small) {
+                            width: 100%;
+                        }
                     }
 
                     h3{
                         & + div{
-                            font-size:18px;
+                            font-size: 18px;
 
-                            sup{
-                                font-size:50%;
-                                top:-1em;
+                            sup {
+                                font-size: 50%;
+                                top: -1em;
                             }
                         }
                     }
                 }
 
-                .col{
-                    vertical-align:middle;
-                    &.col-1{
-                        width:58%;
-                        margin-right:20px;
+                .col {
+                    vertical-align: middle;
+                    &.col-1 {
+                        width: 58%;
+                        margin-right: 20px;
 
-                        @include breakpoint(small){
-                            width:100%;
-                            margin:0;
-                            padding-left:145px;
-                            margin-bottom:25px;
+                        @include breakpoint(small) {
+                            width: 100%;
+                            margin: 0;
+                            padding-left: 145px;
+                            margin-bottom: 25px;
                         }
                     }
-                    &.col-2{
-                        width:32%;
-                        padding:0 25px;
-                        border-left:1px solid #e9eaeb;
-                        border-right:1px solid #e9eaeb;
+                    &.col-2 {
+                        width: 25%;
+                        padding: 0 25px;
+                        border-left: 1px solid #e9eaeb;
+                        border-right: 1px solid #e9eaeb;
 
-                        @include breakpoint(small){
-                            width:100%;
-                            border:0;
-                            text-align:right;
+                        @include breakpoint(small) {
+                            width: 100%;
+                            border: 0;
+                            text-align: right;
                         }
 
-                        a{
-                            font-size:18px;
-                            font-weight:600;
-                            color:#40ae49;
+                        a {
+                            font-size: 18px;
+                            font-weight: 600;
+                            color: #40ae49;
                         }
                     }
-                    &.col-3{
-                        width:15%;
-                        padding-left:25px;
-
-                        @include breakpoint(small){
-                            position:absolute;
-                            top:0;
-                            left:-15px;
+                    &.col-3 {
+                        text-align: center;
+                        @include breakpoint(small) {
+                            position: absolute;
+                            top: 0;
+                            left: 0;
                         }
                     }
                 }
@@ -1301,18 +1312,49 @@ article.pay {
                 color: #0971ce;
             }
         }
-        .footnotes{
-            margin:90px 0 0 0 !important;
-            padding:50px 0 50px;
-            background:#fefefe;
-            font-size:14px;
-            text-align:left !important;
+        .footnotes {
+            margin: 90px 0 0 0 !important;
+            padding:5 0px 0 50px;
+            background :#fefefe;
+            font-size: 14px;
+            text-align: left !important;
 
             span{
-                display:block;
+                display: block;
             }
         }
     }
+
+    .protection-hero {
+        background-repeat: no-repeat;
+        padding: 175px 0 190px;
+        margin: 35px 0 50px;
+
+
+        @include breakpoint(small-medium) {
+            padding: 75px 0 90px;
+            background-position: center;
+        }
+
+        .message {
+            text-align: center;
+            font-size: 36px;
+            color: #fff;
+
+            @include breakpoint(small) {
+                font-size: 26px;
+            }
+            span {
+                font-weight: 600;
+                color: #40a949;
+            }
+            .shield {
+                margin-right: 15px;
+
+            }
+        }
+    }
+
     .service-description {
         min-height: 85px;
     }
@@ -1369,10 +1411,13 @@ article.pay {
                 }
                 .details{
                     font-size:20px;
-
                     strong{
                         font-size:24px;
                         font-weight:600;
+                    }
+                    .footnote {
+                        font-size: 14px;
+                        margin: 1em 0;
                     }
                 }
             }
@@ -1488,24 +1533,30 @@ article.pay {
             }
         }
 
-        .package-submit-section{
-            padding:45px;
-            background:#45ba4e;
-            margin:0 -120px;
-            text-align:right;
-            margin-bottom:40px;
-
-            a{
+        .package-submit-section {
+            padding: 45px;
+            background: #45ba4e;
+            margin: 0 -120px;
+            text-align: right;
+            margin-bottom: 40px;
+            @include breakpoint(medium-large) {
+                padding-right: 120px;
+            }
+            @include breakpoint(small-medium) {
+                margin: 0 -20px;
+            }
+            a.disabled {
+                opacity: 1;
             }
         }
 
         .family-member {
             margin: 25px 0;
             text-align: center;
-            font-size:19px;
+            font-size: 19px;
 
-            @include breakpoint(medium){
-                font-size:17px;
+            @include breakpoint(medium) {
+                font-size: 17px;
             }
 
             .blue {
@@ -1585,13 +1636,14 @@ article.pay {
             background-position: top;
             background-repeat: repeat-x;
             background-color: #45ba4e;
-            margin: 18px -120px 20px;
+            margin: 0 -120px 20px;
             padding: 12px 120px;
+            text-align: center;
+            @include box-shadow(0 10px 30px 0 rgba(0, 0, 0, .2));
 
             @include breakpoint(medium){
-                margin:18px -20px 20px;
-                padding:12px 35px;
-                text-align:center;
+                margin: 18px -20px 20px;
+                padding: 12px 35px;
             }
 
             .build-package-text {

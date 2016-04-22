@@ -1,4 +1,8 @@
 ﻿@model StreamEnergy.MyStream.Models.Marketing.HomeLifeServices
+@using Sitecore.Data.Items
+@{ 
+    Item dataSourceItem = Sitecore.Context.Item;
+}
 
 <div class="protective-services" ng-controller="HomeLifeServicesCtrl" ng-init="init(@(Model.HasFreeMonth ? "true" : "false"))">
     <form id="formHomeLifeServices" method="post" action="@Html.TranslateDomain("https://streamvalues.com")/buy">
@@ -36,10 +40,9 @@
                 <div class="bundle platinum clearfix" ng-class="{'selected':  numProductsChecked() == 3 }">
                     <div class="circle-discount">
                         <div class="circle">
-                            <h4>@Html.Sitecore().Field("Platinum Title")</h4>
-                            @*@Html.Sitecore().Field("Platinum Discount")*@
+                            @Html.Sitecore().Field("Package Callout")
                             <div class="price">
-                                @Html.Sitecore().Field("Platinum Price")
+                                @Html.Sitecore().Field("Package Price")
                             </div>
                         </div>
                     </div>
@@ -47,7 +50,7 @@
                     <div class="bundle-info">
                         <div class="headline">@Html.Sitecore().Field("Intro Header")</div>
                         <div class="details">
-                            @Html.Sitecore().Field("Platinum Savings")
+                            @Html.Sitecore().Field("Package Savings")
                         </div>
                     </div>
                 </div>
@@ -171,11 +174,17 @@
             <div class="family-member">@Html.Sitecore().Field("Add a Member")</div>
         </div>
     </article>
-    
-    <hr />
+  
+    <div class="protection-hero" style="@Html.AsBackgroundStyle("Protection Image", dataSourceItem)">
+        <div class="message">
+            <span class="icon-check-sheild shield"></span>
+            @Html.Sitecore().Field("Protectction Message")
+        </div>
+    </div>
+
     <article class="marketing protective-footnotes">
         <div class="wrapper">
-            @Html.Sitecore().Field("Footnotes")
+            @Html.Sitecore().Field("Protective Footnotes")
         </div>
     </article>
     
