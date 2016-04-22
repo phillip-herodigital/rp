@@ -1,4 +1,8 @@
 ﻿@model StreamEnergy.MyStream.Models.Marketing.HomeLifeServices
+@using Sitecore.Data.Items
+@{ 
+    Item dataSourceItem = Sitecore.Context.Item;
+}
 
 <div class="protective-services" ng-controller="HomeLifeServicesCtrl" ng-init="init(@(Model.HasFreeMonth ? "true" : "false"))">
     <form id="formHomeLifeServices" method="post" action="@Html.TranslateDomain("https://streamvalues.com")/buy">
@@ -171,8 +175,14 @@
             <div class="family-member">@Html.Sitecore().Field("Add a Member")</div>
         </div>
     </article>
-    
-    <hr />
+  
+    <div class="protection-hero" style="@Html.AsBackgroundStyle("Protection Image", dataSourceItem)">
+        <div class="message">
+            <span class="icon-check-sheild shield"></span>
+            @Html.Sitecore().Field("Protectction Message")
+        </div>
+    </div>
+
     <article class="marketing protective-footnotes">
         <div class="wrapper">
             @Html.Sitecore().Field("Footnotes")

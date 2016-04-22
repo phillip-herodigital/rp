@@ -1313,6 +1313,37 @@ article.pay {
             }
         }
     }
+
+    .protection-hero{
+        background-repeat:no-repeat;
+        padding:175px 0 190px;
+        margin:35px 0 50px;
+
+
+        @include breakpoint(small-medium){
+            padding:75px 0 90px;
+            background-position:center;
+        }
+
+        .message{
+            text-align:center;
+            font-size:36px;
+            color:#fff;
+
+            @include breakpoint(small){
+                font-size: 26px;
+            }
+            span{
+                font-weight:600;
+                color:#40a949;
+            }
+            .shield{
+                margin-right:15px;
+
+            }
+        }
+    }
+
     .service-description {
         min-height: 85px;
     }
@@ -1494,6 +1525,9 @@ article.pay {
             margin:0 -120px;
             text-align:right;
             margin-bottom:40px;
+            @include breakpoint(small-medium){
+                margin:0 -20px;
+            }
 
             a{
             }
