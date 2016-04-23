@@ -95,7 +95,7 @@ namespace StreamEnergy.MyStream.Controllers
             {
                 cache.StringSet(key, JsonConvert.SerializeObject(data), TimeSpan.FromDays(7));
             }
-            catch (Exception e) {
+            catch (Exception) {
                 //Add logging here
                 return false;
             }
