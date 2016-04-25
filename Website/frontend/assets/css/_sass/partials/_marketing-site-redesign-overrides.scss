@@ -3773,3 +3773,22 @@ article.international-rates-table {
 		text-align: center;
 	}
 }
+
+article.protective-module {
+	ul {
+		padding-left: 15px;
+		&.features {
+			list-style-image: url("../i/marketing/redesign/green-check.png");
+		}
+		&.services {
+			float: left;
+		}
+	}
+	p.combine {
+		width: 80%;
+	}
+	p a.button {
+		float: right;
+		margin-top: 80px;
+	}
+}
