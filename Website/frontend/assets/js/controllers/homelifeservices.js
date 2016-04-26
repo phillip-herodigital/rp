@@ -56,11 +56,27 @@ ngApp.controller('HomeLifeServicesCtrl', ['$scope', '$rootScope', '$http', '$tim
     };
     $scope.bundleEnroll = function () {
         var campaignName = "se";
-        if ($scope.identity) campaignName += "id";
-        if ($scope.monitoring) campaignName += "cr";
-        if ($scope.support) campaignName += "it";
-        if ($scope.virtualmd) campaignName += "th";
-        if ($scope.roadside) campaignName += "ra";
+        if ($scope.identity && $scope.support && $scope.monitoring)
+            campaignName += "idcrit";
+        else if ($scope.identity && $scope.support && $scope.roadside)
+            campaignName += "iditra";
+        else if ($scope.identity && $scope.support && $scope.virtualmd)
+            campaignName += "iditth";
+        else if ($scope.identity && $scope.monitoring && $scope.roadside)
+            campaignName += "idcrra";
+        else if ($scope.identity && $scope.monitoring && $scope.virtualmd)
+            campaignName += "idcrth";
+        else if ($scope.identity && $scope.virtualmd && $scope.roadside)
+            campaignName += "idthra";
+        else if ($scope.support && $scope.monitoring && $scope.roadside)
+            campaignName += "itcrra";
+        else if ($scope.support && $scope.monitoring && $scope.virtualmd)
+            campaignName += "itcrth";
+        else if ($scope.support && $scope.virtualmd && $scope.roadside)
+            campaignName += "itrath";
+        else if ($scope.monitoring && $scope.virtualmd && $scope.roadside)
+            campaignName += "crrath";
+
         $scope.enroll(campaignName);
     };
     $scope.numProductsChecked = function () {
