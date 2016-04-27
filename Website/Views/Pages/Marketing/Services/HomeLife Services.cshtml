@@ -168,7 +168,7 @@
             </article>
 
             <div class="package-submit-section">
-                <a href="" ng-class="{button: true, disabled: numProductsChecked() < 3}" ng-click="bundleEnroll()">@Html.Sitecore().Field("Select Package")</a>
+                <a href="" ng-class="{button: true, disabled: numProductsChecked() < 3}" ng-click="numProductsChecked() < 3 || bundleEnroll()">@Html.Sitecore().Field("Select Package")</a>
             </div>
 
             <div class="family-member">@Html.Sitecore().Field("Add a Member")</div>
