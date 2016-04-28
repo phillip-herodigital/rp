@@ -1,0 +1,35 @@
+﻿<div class="banner marketing" style="background-image: url('/~/media/Images/Redesign%20Banners/marketing_mobile-services-overview.ashx');">
+    @using (var currentService = Html.ClientRepeater(m => m.Services, "getActiveServiceIndex()"))
+    {
+
+        <!--<div class="item customer-type">
+            <label for="customer-type">@Html.Sitecore().Field("Interest Label")</label>
+            <select id="customer-type" name="customer-type" ng-model="$parent.customerType" ng-disabled="cartLocationsCount > 0" ng-change="assignStepNames(@(Html.Action("EnrollmentNav", "Enrollment").ToHtmlString()))">
+                @Html.Sitecore().Field("Customer Types")
+            </select>
+        </div>-->
+
+        <div class="item full service-address">
+            <div class="input-group">
+                <div class="input-group-control">
+                    <label for="@currentService.IdFor(s => s.Location)" ng-switch on="data.serviceState">
+                        <span ng-switch-when="TX">@Html.Sitecore().Field("TX Address Label")</span><span ng-switch-when="GA">@Html.Sitecore().Field("GA Address Label")</span><span ng-switch-default>@Html.Sitecore().Field("Zip Only Label")</span>:
+                    </label>
+                    @currentService.TextBoxFor(s => s.Location, new
+                                       {
+                                           @class = "typeahead state-select-typeahead",
+                                           ng_model = "data.serviceLocation",
+                                           placeholder = Html.Sitecore().CurrentItem.Fields["Address Placeholder"].Value,
+                                           typeahead = "location as location.address|address for location in getLocation(data.serviceState, $viewValue)",
+                                           ng_disabled = "data.serviceState == ''",
+                                           typeahead_loading = "loadingServiceAddress",
+                                           ng_class = "{'loading' : loadingServiceAddress}",
+                                           autocomplete = "off"
+                                       })
+                </div>
+                <div class="input-group-btn" id="state-select" dropdown-select dropdown-items="supportedUtilityStates" value="data.serviceState" data-alignment="right"></div>
+                @currentService.ValidationMessageFor(s => s.Location)
+            </div><!-- /input-group -->
+        </div>
+    }
+</div>
