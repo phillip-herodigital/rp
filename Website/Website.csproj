@@ -1208,6 +1208,7 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="_CMP\RazlService.asmx" />
+    <Content Include="frontend\assets\css\_sass\partials\_support.scss" />
     <None Include="Properties\PublishProfiles\PackageForUpgrade.pubxml" />
     <None Include="Properties\PublishProfiles\Package.pubxml" />
     <None Include="Scripts\_references.js" />
@@ -1696,6 +1697,7 @@
     <Content Include="Views\Pages\Marketing\Services\Voice International.cshtml" />
     <Content Include="Views\Pages\Marketing\Return\Return Form.cshtml" />
     <Content Include="Views\Components\Support Center\Search.cshtml" />
+    <Content Include="Views\Pages\Support\Support.cshtml" />
     <None Include="Web.Azure-Production Sitecore.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>
