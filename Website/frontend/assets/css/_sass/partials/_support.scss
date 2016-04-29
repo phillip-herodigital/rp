@@ -16,3 +16,96 @@
         }
     }
 }
+
+article.mobile-acronyms .wrapper {
+	.grid .col {
+			padding-right: 30px;
+		}
+		.divider {
+			margin-top: -30px;
+			margin-bottom: -15px;
+		p {
+			font-size: 36px;
+			font-weight: 400;
+			position: relative;
+			overflow: hidden;
+			&:after {
+				display: inline-block;
+				content: "";
+				height: 1px;
+				background: #efefef;
+				position: absolute;
+				width: 100%;
+				top: 50%;
+				margin-top: -2px;
+				margin-left: 10px;
+			}
+		}
+	}
+}
+
+article.support-center-bottom-bar {
+	background-color: #f1f1f1;
+	.wrapper {
+		padding: 10px 0px;
+	}
+	p {
+		float: left;
+		margin: 1em 0px;
+		span {
+			color: #28ade0;
+		}
+		&.chat {
+			float: right;
+			background: image-url('icon/support-chat.png') no-repeat left top;
+			padding-left: 35px;
+		}
+	}
+}
+
+article.support-mobile-guides {
+	background-color: #eff2f3;
+	.wrapper {
+		padding: 30px 0px;
+		h1 {
+			margin: 0px;
+		}
+		p.intro {
+			text-align: center;
+			margin: 0em 0 1.5em 0;
+		}
+		.grid {
+			min-height: 185px;
+			.col {
+				padding-left: 20px;
+				h2 {
+					font-size: 26px;
+					color: #fff;
+					margin-bottom: 5px;
+				}
+				p {
+					margin: 0px;
+					&.download {
+						background: image-url('marketing/redesign/Modules/download.png') no-repeat left center;
+						padding-left: 20px;
+					}
+					a {
+						color: #fff;
+					}
+				}
+				&.mobile-acronyms {
+					background: image-url('marketing/redesign/Modules/mobile-acronyms.jpg') no-repeat center;
+				}
+				&.backing-up-device {
+					background: image-url('marketing/redesign/Modules/backing-up-device.jpg') no-repeat center;
+				}
+				&.byod {
+					background: image-url('marketing/redesign/Modules/byod.jpg') no-repeat center;
+				}
+				&.trade {
+					background: image-url('marketing/redesign/Modules/trade.jpg') no-repeat center;
+				}
+			}
+		}
+	}
+}
