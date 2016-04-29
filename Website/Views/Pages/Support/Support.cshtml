@@ -24,7 +24,7 @@
     <article class="faq-categories">
         <div class="wrapper">
             <h1>Frequently Asked Questions</h1>
-            <div class="category {{service.name}}" ng-class="{{service.name}}" ng-repeat="service in services">
+            <div class="category" ng-class="service.name" ng-repeat="service in services">
                 <p class="service-name">{{service.name}}</p>
                 <p>{{service.description}}</p>
                 <p><a href="{{service.link}}">Get Support</a></p>
