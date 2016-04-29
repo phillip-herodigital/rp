@@ -22,13 +22,12 @@
         </div>
     </div>
     <article class="faq-categories">
-        <header>
+        <div class="wrapper">
             <h1>Frequently Asked Questions</h1>
-        </header>
-        <div class="content">
-            <div class="category" ng-repeat="service in services">
-                <p>stuff</p>
-                <p>{{service.title}}</p>
+            <div class="category {{service.name}}" ng-class="{{service.name}}" ng-repeat="service in services">
+                <p class="service-name">{{service.name}}</p>
+                <p>{{service.description}}</p>
+                <p><a href="{{service.link}}">Get Support</a></p>
             </div>
         </div>
     </article>

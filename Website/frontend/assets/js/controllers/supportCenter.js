@@ -2,8 +2,9 @@
     $scope.dropDown = false;
     $scope.services = [
         {
-            title: "Utility (select state)",
-            name: "Utility",
+            title: "Energy (select state)",
+            name: "Energy",
+            description: "Energy is lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
             states: [{
                 name: "Texas",
                 abbreviation: "TX"
@@ -17,11 +18,31 @@
         {
             title: "Mobile",
             name: "Mobile",
+            description: "Mobile is lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
             link: "/"
         },
         {
             title: "Protective",
             name: "Protective",
+            description: "Protective is lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+            link: "/"
+        },
+        {
+            title: "Home",
+            name: "Home",
+            description: "Home is lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+            link: "/"
+        },
+        {
+            title: "Opportunity",
+            name: "Opportunity",
+            description: "Opportunity is lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+            link: "/"
+        },
+        {
+            title: "Stream",
+            name: "Stream",
+            description: "Stream is lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
             link: "/"
         }
     ];
