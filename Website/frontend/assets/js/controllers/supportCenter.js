@@ -1,8 +1,8 @@
 ﻿ngApp.controller('supportCenterCtrl', ['$scope', '$http', function ($scope, $http) {
-
+    $scope.dropDown = false;
     $scope.services = [
         {
-            title: "Utility",
+            title: "Utility (select state)",
             name: "Utility",
             states: [{
                 name: "Texas",
@@ -56,11 +56,13 @@
             if (state) {
                 $scope.selectedService = service;
                 $scope.selectedState = state;
+                $scope.dropDown = false;
             }
         }
         else {
             $scope.selectedService = service;
             $scope.selectedState = state;
+            $scope.dropDown = false;
         }
     }
 }]);

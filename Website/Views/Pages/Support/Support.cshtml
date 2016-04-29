@@ -1,18 +1,35 @@
-﻿<div ng-controller="supportCenterCtrl" class="support-search" style="background-image: url('/~/media/Images/Banners/support-banner.png');">
-    <h1>Stream Support Center</h1>
-    <h4>At Stream, we're here to help. Contact us if you can't find what you're looking for.</h4>
-    <div class="item search">
-        <div class="button ">{{selectedService.name}} - {{selectedState.name}}</div>
-        <ul class="service">
-            <li ng-repeat="service in services">
-                <p ng-click="selectService(service, null)">{{service.name}}</p>
-                <ul class="state" ng-if="service.states">
-                    <li ng-repeat="state in service.states">
-                        <p ng-click="selectService($parent.service, state)">{{state.name}}</p>
+﻿<div ng-controller="supportCenterCtrl" >
+    <div class="support-search">
+        <div class="content">
+            <h1>Stream Support Center</h1>
+            <h4>At Stream, we're here to help. Contact us if you can't find what you're looking for.</h4>
+            <div class="search">
+                <div class="selected-service" ng-show="selectedService" ng-click="dropDown=!dropDown">{{selectedService.name}} - {{selectedState.name}}</div>
+                <div class="selected-service" ng-hide="selectedService" ng-click="dropDown=!dropDown" ng-cloak>Service Type</div>
+                <input type="text" placeholder="search for something" />
+                <img class="mag-glass" src="/frontend/assets/i/mag-glass.png" />
+                <ul class="service-dropdown" ng-show="dropDown">
+                    <li ng-repeat="service in services">
+                        <div ng-click="selectService(service, null)">{{service.title}}</div>
+                        <ul class="state" ng-show="service.states">
+                            <li ng-repeat="state in service.states">
+                                <div ng-click="selectService($parent.service, state)">{{state.name}}</div>
+                            </li>
+                        </ul>
                     </li>
                 </ul>
-            </li>
-        </ul>
-        <input type="text" placeholder="search for something" />
+            </div>
+        </div>
     </div>
+    <article class="faq-categories">
+        <header>
+            <h1>Frequently Asked Questions</h1>
+        </header>
+        <div class="content">
+            <div class="category" ng-repeat="service in services">
+                <p>stuff</p>
+                <p>{{service.title}}</p>
+            </div>
+        </div>
+    </article>
 </div>

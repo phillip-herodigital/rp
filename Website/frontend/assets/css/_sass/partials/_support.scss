@@ -1,18 +1,62 @@
 .support {
     .support-search {
         height: 232px;
-        padding: 25px;
         color: #fff;
+        background-image: url('/~/media/Images/Banners/support-banner.png');
+        margin-top: -20px;
 
         h1, h4 {
             text-align: center;
-        }
-
-        h4 {
             color: #fff;
         }
 
+        h4 {
+        }
+
         .search {
+            background-color: #fff;
+            height: 75px;
+            width: 650px;
+            margin: 0 auto;
+            color: #999999;
+            border-radius: 5px;
+            padding: 10px;
+
+            .selected-service {
+                float: left;
+                width: 200px;
+                border-right: 1px solid #999999;
+                margin-right: 20px;
+                padding: 16px 0;
+            }
+
+            .input[type=text] {
+                float: left;
+                margin: 10px 0;
+            }
+
+            img.mag-glass {
+                float: right;
+                width: 25px;
+                height: 24px;
+                margin: 14px 10px;
+            }
+
+            ul.service-dropdown {
+                background-color: #eff2f3;
+                color: #000;
+                border-radius: 5px;
+                padding: 10px;
+                position: relative;
+                top: 20px;
+                right: 10px;
+                width: 200px;
+                list-style: none;
+
+                ul.state {
+                    list-style: none;
+                }
+            }
         }
     }
 }
