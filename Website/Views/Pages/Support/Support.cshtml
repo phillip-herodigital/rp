@@ -1,16 +1,21 @@
-﻿<div ng-controller="supportCenterCtrl" >
+﻿<div ng-controller="supportCenterCtrl">
     <div class="support-search">
         <div class="content">
             <h1>Stream Support Center</h1>
             <h4>At Stream, we're here to help. Contact us if you can't find what you're looking for.</h4>
             <div class="search">
-                <div class="selected-service" ng-show="selectedService" ng-click="dropDown=!dropDown">{{selectedService.name}} - {{selectedState.name}}</div>
-                <div class="selected-service" ng-hide="selectedService" ng-click="dropDown=!dropDown" ng-cloak>Service Type</div>
-                <input type="text" placeholder="search for something" />
-                <img class="mag-glass" src="/frontend/assets/i/mag-glass.png" />
+                <div class="select clearfix" ng-click="dropDown=!dropDown">
+                    <div class="selected-service" ng-show="selectedService" >{{selectedService.name}} - {{selectedState.name}}</div>
+                    <div class="selected-service" ng-hide="selectedService" ng-cloak>Service Type</div>
+                    <div class="triangle-down" ng-class="{flipped: dropDown}"></div>
+                </div>
+                <div class="input">
+                    <input type="text" placeholder="search for something" />
+                    <img class="mag-glass" src="/frontend/assets/i/mag-glass.png" />
+                </div>
                 <ul class="service-dropdown" ng-show="dropDown">
                     <li ng-repeat="service in services">
-                        <div ng-click="selectService(service, null)">{{service.title}}</div>
+                        <div ng-click="selectService(service, null)" ng-class="{noHover: service.states}">{{service.title}}</div>
                         <ul class="state" ng-show="service.states">
                             <li ng-repeat="state in service.states">
                                 <div ng-click="selectService($parent.service, state)">{{state.name}}</div>
@@ -26,10 +31,48 @@
             <h1>Frequently Asked Questions</h1>
         </header>
         <div class="content">
-            <div class="category" ng-repeat="service in services">
+            <div class="category" ng-class="service.name" ng-repeat="service in services">
                 <p>stuff</p>
-                <p>{{service.title}}</p>
+                <a href="" ng-click="service.link"></a>
+                <p>{{service.name}}</p>
             </div>
         </div>
     </article>
+    <article class="popular-faqs">
+        <header>
+            <h1>Most Popular FAQs</h1>
+        </header>
+        <div class="content">
+            <div class="faq" ng-repeat="popFaq in faqs | filter: !popFaq.popular">
+                <div class="question" ng-click="selectFaq($index)">
+                    <div class="plus-minus">
+                        <div class="plus" ng-class="{minus: popFaq.selected}"></div>
+                    </div>
+                    <p>{{popFaq.question}} - {{popFaq.helpfulCount}}</p>
+                </div>
+                <div class="answer clearfix" ng-show="popFaq.selected">
+                    <div class="triangle-up"></div>
+                    <div class="answer-content">
+                        {{popFaq.answer}}
+                    </div>
+                    <aside>
+                        <h4>Related Questions</h4>
+                        <div ng-repeat="relatedFaq in faqs">
+                            <p><a href="" ng-click="selectRelated($parent.$index, $index)" ng-show="related($parent.$index, $index)">{{relatedFaq.question}}</a></p>
+                        </div>
+                        <h4>Still having issues?</h4>
+                        <p>Please contact customer support at 877-743-5893</p>
+                    </aside>
+                    <div class="helpful">
+                        <label for="helpful">Was this helpful?</label>
+                        <input type="radio" name="helpful" ng-model="popFaq.helpful" ng-value="true" /> Yes
+                        <input type="radio" name="helpful" ng-model="popFaq.helpful" ng-value="false" /> No
+                    </div>
+                </div>
+            </div>
+        </div>
+    </article>
+    <div class="secondary-footer">
+        Can't find what you're looking for? <a href="" ng-click="">Ask Us a Question</a>
+    </div>
 </div>

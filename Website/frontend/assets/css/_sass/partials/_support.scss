@@ -1,13 +1,20 @@
 .support {
     .support-search {
-        height: 232px;
+        height: 370px;
         color: #fff;
         background-image: url('/~/media/Images/Banners/support-banner.png');
-        margin-top: -20px;
+        padding: 1px;
+        background-size: cover;
+
+        h1 {
+            font-size: 56px;
+            margin-top: 75px;
+        }
 
         h1, h4 {
             text-align: center;
             color: #fff;
+            float: none;
         }
 
         h4 {
@@ -22,42 +29,190 @@
             border-radius: 5px;
             padding: 10px;
 
-            .selected-service {
+            .select {
+                position: relative;
                 float: left;
                 width: 200px;
+                padding: 17px 0;
+                height: 100%;
                 border-right: 1px solid #999999;
                 margin-right: 20px;
-                padding: 16px 0;
+
+                .selected-service {
+                    font-size: 20px;
+                    font-weight: 300;
+                }
+
+                .triangle-down {
+                    height: 0;
+                    width: 0;
+                    border-left: 15px solid transparent;
+                    border-right: 15px solid transparent;
+                    border-top: 15px solid #999999;
+                    background-color: #fff;
+                    position: relative;
+                    float: right;
+                    bottom: 22px;
+                    right: 15px;
+                    transition: all linear 0.5s;
+
+                    &.flipped {
+                        transform: rotate(180deg);
+                        transition: all linear 0.5s;
+                    }
+                }
             }
 
-            .input[type=text] {
-                float: left;
-                margin: 10px 0;
-            }
+            .input {
+                padding: 11px;
 
-            img.mag-glass {
-                float: right;
-                width: 25px;
-                height: 24px;
-                margin: 14px 10px;
+                .input[type=text] {
+                    float: left;
+                    margin: 10px 0;
+                }
+
+                img.mag-glass {
+                    float: right;
+                    width: 25px;
+                    height: 24px;
+                    margin-top: 5px;
+                }
             }
 
             ul.service-dropdown {
                 background-color: #eff2f3;
                 color: #000;
                 border-radius: 5px;
-                padding: 10px;
+                padding: 20px;
                 position: relative;
                 top: 20px;
                 right: 10px;
-                width: 200px;
+                width: 210px;
                 list-style: none;
+                z-index: 10;
+                font-size: 16px;
+
+                div {
+                    padding: 10px;
+                }
+
+                div:hover {
+                    background-color: #00a8e1;
+                }
+
+                div.noHover:hover {
+                    background-color: initial;
+                }
 
                 ul.state {
                     list-style: none;
                 }
             }
         }
+    }
+
+    .popular-faqs {
+        header {
+            border-bottom: none;
+            margin-top: 25px;
+
+            h1 {
+                text-align: center;
+                font-size: 36px;
+                float: none;
+            }
+        }
+
+        .content {
+
+            .faq {
+                border-top: 2px solid #efefef;
+
+                &:last-child {
+                    border-bottom: 2px solid #efefef;
+                }
+
+                .question {
+                    .plus-minus {
+                        float: left;
+                        height: 21px;
+                        width: 21px;
+                        margin: 0 10px;
+
+                        .plus {
+                            width: 21px;
+                            height: 21px;
+                            background: url(/frontend/assets/i/icon/blue-plus-large.png);
+
+                            &.minus {
+                                height: 2px;
+                                margin: 10px 0 9px;
+                                background: url(/frontend/assets/i/icon/blue-plus-large.png) 0 11px;
+                            }
+                        }
+                    }
+                }
+
+                .answer {
+                    background-color: #eff2f3;
+                    color: #636367;
+                    margin-top: 25px;
+                    position: relative;
+
+                    .triangle-up {
+                        height: 0;
+                        width: 0;
+                        border-left: 15px solid transparent;
+                        border-right: 15px solid transparent;
+                        border-bottom: 15px solid #eff2f3;
+                        background-color: #fff;
+                        position: relative;
+                        top: -15px;
+                        left: 20px;
+                    }
+
+                    .answer-content {
+                        width: calc(100% - 250px);
+                        float: left;
+                        padding: 20px;
+                        margin-top: -15px;
+                    }
+
+                    aside {
+                        margin-top: -15px;
+                        float: right;
+                        width: 250px;
+                        font-size: 16px;
+                        padding: 20px;
+                    }
+
+                    .helpful {
+                        padding: 20px;
+                        bottom: 0;
+                        width: 100%;
+                        background-color: #eeeeee;
+                        float: left;
+
+                        label {
+                            margin-right: 5px;
+                        }
+
+                        input[type="radio"] {
+                            margin: 0 5px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    .secondary-footer {
+        width: 100%;
+        margin: -20px 0 -40px;
+        height: 100px;
+        background-color: #eff2f3;
+        padding: 36px;
+        font-size: 21px;
     }
 }
 
