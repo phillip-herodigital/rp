@@ -1,4 +1,14 @@
-﻿<div ng-controller="supportCenterCtrl" >
+﻿@using StreamEnergy.MyStream.Controllers
+@using StreamEnergy.MyStream.Models.Marketing.Support
+
+@{ 
+    SupportCenterController controller = new SupportCenterController();
+    List<FAQCategory> categories = controller.GetAllCategories();
+
+    //List<FAQ> allFaqs = controller.GetAllFaqsForCategory(categories.First());
+} 
+
+<div ng-controller="supportCenterCtrl" >
     <div class="support-search">
         <div class="content">
             <h1>Stream Support Center</h1>
