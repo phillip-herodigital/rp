@@ -308,3 +308,49 @@ article.support-mobile-guides {
 		}
 	}
 }
+
+article.faq-categories {
+	border: 0px;
+	.wrapper {
+		h1 {
+			text-align: center;
+			color: #333;
+		}
+	}
+	.category {
+		width: 33%;
+		float: left;
+		padding-top: 65px;
+		p {
+			margin: 1em 1.5em 1em 1.5em;
+			a {
+				color: #28ade0;
+				font-weight: 500;
+			}
+			&.service-name {
+				text-align: center;
+				text-transform: uppercase;
+				font-weight: 500;
+				font-size: 20px;
+			}
+		}
+		&.Energy {
+			background: image-url('marketing/redesign/Modules/support-energy.png') top center no-repeat;
+		}
+		&.Mobile {
+			background: image-url('marketing/redesign/Modules/support-mobile.png') top center no-repeat;
+		}
+		&.Protective {
+			background: image-url('marketing/redesign/Modules/support-protection.png') top center no-repeat;
+		}
+		&.Home {
+			background: image-url('marketing/redesign/Modules/support-home.png') top center no-repeat;
+		}
+		&.Opportunity {
+			background: image-url('marketing/redesign/Modules/support-opportunity.png') top center no-repeat;
+		}
+		&.Stream {
+			background: image-url('marketing/redesign/Modules/support-stream.png') top center no-repeat;
+		}
+	}
+}
