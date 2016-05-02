@@ -35,14 +35,12 @@
         </div>
     </div>
     <article class="faq-categories">
-        <header>
+        <div class="wrapper">
             <h1>Frequently Asked Questions</h1>
-        </header>
-        <div class="content">
             <div class="category" ng-class="service.name" ng-repeat="service in services">
-                <p>stuff</p>
-                <a href="" ng-click="service.link"></a>
-                <p>{{service.name}}</p>
+                <p class="service-name">{{service.name}}</p>
+                <p>{{service.description}}</p>
+                <p><a href="{{service.link}}">Get Support</a></p>
             </div>
         </div>
     </article>
