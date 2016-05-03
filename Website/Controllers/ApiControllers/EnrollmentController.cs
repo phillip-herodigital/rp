@@ -988,7 +988,7 @@ FROM [SwitchBack] WHERE ESIID=@esiId";
             }
 
             stateMachine.Context.PaymentInfo = request.PaymentInfo;
-            if (stateMachine.Context.PaymentInfo is DomainModels.Payments.TokenizedCard)
+            if (stateMachine.Context.PaymentInfo is DomainModels.Payments.TokenizedCard && string.IsNullOrEmpty(((DomainModels.Payments.TokenizedCard)stateMachine.Context.PaymentInfo).Name))
             {
                 ((DomainModels.Payments.TokenizedCard)stateMachine.Context.PaymentInfo).Name = stateMachine.Context.ContactInfo.Name.First + " " + stateMachine.Context.ContactInfo.Name.Last;
             }

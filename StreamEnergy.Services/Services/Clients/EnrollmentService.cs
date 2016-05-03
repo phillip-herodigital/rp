@@ -658,7 +658,7 @@ namespace StreamEnergy.Services.Clients
                             Token = card.CardToken,
                             AccountType = card.Type,
                             ExpirationDate = new { Year = card.ExpirationDate.Year, Month = card.ExpirationDate.Month },
-                            Name = context.ContactInfo.Name.First + " " + context.ContactInfo.Name.Last,
+                            Name = card.Name,
                             Postal = card.BillingZipCode,
                         },
                         Cvv = card.SecurityCode
