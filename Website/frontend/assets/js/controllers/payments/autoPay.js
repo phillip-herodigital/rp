@@ -70,6 +70,14 @@ ngApp.controller('AutoPayCtrl', ['$scope', '$rootScope', '$http', '$modal', '$ti
                 $scope.newPaymentMethodType = 'TokenizedBank';
             }
 
+            if ($scope.account.systemOfRecord == 'BeQuick') {
+                $scope.newPaymentMethodType = "TokenizedCard";
+            }
+
+            if ($scope.account.systemOfRecord == 'ISTA') {
+                $scope.newPaymentMethodType = "";
+            }
+
             // open the add account modal
             $scope.modalInstance = $modal.open({
                 scope: $scope,
