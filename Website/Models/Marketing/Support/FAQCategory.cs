@@ -16,6 +16,8 @@ namespace StreamEnergy.MyStream.Models.Marketing.Support
         public string Name;
         public string Description;
         public string Link;
+        public List<FAQState> States = new List<FAQState>();
+
         public string Guid;
         public FAQCategory() { }
         public FAQCategory(Item SitecoreItem) {
@@ -24,27 +26,20 @@ namespace StreamEnergy.MyStream.Models.Marketing.Support
             Name = getValue("Name");
             Description = getValue("Description");
             Guid = SitecoreItem.ID.ToString();
+
+            if (!string.IsNullOrEmpty(SitecoreItem.Fields["States"].Value)) {
+                var states = getValue("States").Split("|".ToCharArray()); ;
+                foreach (string state in states)
+                {
+                    States.Add(new FAQState(state));
+                }
+            }
+
             //how do we want links/images to be passed over? - TODO
         }
 
         private string getValue(string key) {
             return SitecoreItem.Fields[key].Value;
-        }
-
-
-        public override string ToString()
-        {
-            try
-            {
-                JObject obj = new JObject
-                {
-                    { "name", Name }
-                };
-
-                return obj.ToString(Formatting.None);
-            }
-            catch (Exception ex) { }
-            return base.ToString();
         }
     }
 }

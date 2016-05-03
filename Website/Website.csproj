@@ -936,6 +936,7 @@
     <Compile Include="Models\Authentication\VerifyUserChallengeQuestionsResponse.cs" />
     <Compile Include="Models\Marketing\Support\FAQ.cs" />
     <Compile Include="Models\Marketing\Support\FAQCategory.cs" />
+    <Compile Include="Models\Marketing\Support\FAQState.cs" />
     <Compile Include="Models\Marketing\Support\FaqSubcategory.cs" />
     <Compile Include="Models\ReturnForm.cs" />
     <Compile Include="Models\Currents\CalendarEvent.cs" />

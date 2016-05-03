@@ -11,13 +11,16 @@ namespace StreamEnergy.MyStream.Models.Marketing.Support
         public List<FaqSubcategory> SubCategories = new List<FaqSubcategory>();
         protected List<string> Keywords = new List<string>();
         public List<FAQ> RelatedFAQs = new List<FAQ>();
+        public List<FAQState> States = new List<FAQState>();
+
         public string Name;
         public string FAQQuestion;
         public string FAQAnswer;
         public string Description;
         public string FurtherSupportText;
+        public string Guid;
 
-        public Item SitecoreItem;
+        private Item SitecoreItem;
 
         public FAQ(string SitecoreID) {
             SitecoreItem = Sitecore.Context.Database.GetItem(SitecoreID);
@@ -34,6 +37,7 @@ namespace StreamEnergy.MyStream.Models.Marketing.Support
             FAQAnswer = getValue("FAQ Answer");
             Description = getValue("Faq Description");
             FurtherSupportText = getValue("Further Support");
+            Guid = SitecoreItem.ID.ToString();
 
             if (!string.IsNullOrEmpty(getValue("FAQ Categories"))) {
                 var cats = getValue("FAQ Categories").Split("|".ToCharArray());
@@ -65,10 +69,19 @@ namespace StreamEnergy.MyStream.Models.Marketing.Support
                     RelatedFAQs.Add(new FAQ(guid));
                 }
             }
+
+            if (!string.IsNullOrEmpty(getValue("FAQ States")))
+            {
+                var states = getValue("FAQ States").Split("|".ToCharArray()); ;
+                foreach (string state in states)
+                {
+                    States.Add(new FAQState(state));
+                }
+            }
         }
 
         private string getValue(string key) {
-            return SitecoreItem.Fields[key].Value;
+            return SitecoreItem.Fields[key] != null ?  SitecoreItem.Fields[key].Value : "";
         }
     }
 }
