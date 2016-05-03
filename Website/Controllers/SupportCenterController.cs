@@ -74,7 +74,7 @@ namespace StreamEnergy.MyStream.Controllers
 
             var items = FaqSubCategoryRootItem.Axes.GetDescendants().Where(a => a.TemplateID.ToString() == subcategoryRootTemplateID);
 
-            var rawSubcats = items.Where(a => a.Fields["FAQ Categories"].Value.Contains(category.SitecoreItem.ID.ToString())).ToList();
+            var rawSubcats = items.Where(a => a.Fields["FAQ Categories"].Value.Contains(category.Guid)).ToList();
 
             foreach (var sc in rawSubcats) {
                 subcategories.Add(new FaqSubcategory(sc));
@@ -88,7 +88,7 @@ namespace StreamEnergy.MyStream.Controllers
 
             var items = FAQsRootItem.Axes.GetDescendants().Where(a => a.TemplateID.ToString() == FAQsTempalteID);
 
-            var rawFaqs = items.Where(a => a.Fields["FAQ Categories"].Value.Contains(category.SitecoreItem.ID.ToString())).ToList();
+            var rawFaqs = items.Where(a => a.Fields["FAQ Categories"].Value.Contains(category.Guid)).ToList();
 
             foreach(var f in rawFaqs) {
                 faqs.Add(new FAQ(f));

@@ -1,5 +1,8 @@
 ﻿@using StreamEnergy.MyStream.Controllers
 @using StreamEnergy.MyStream.Models.Marketing.Support
+@using Newtonsoft.Json
+@using Newtonsoft.Json.Linq
+@using Newtonsoft.Json.Serialization;
 @{
     SupportCenterController controller = new SupportCenterController();
     List<FAQCategory> categories = controller.GetAllCategories();
@@ -15,7 +18,13 @@
         }
     }
 
-    //List<FAQ> allFaqs = controller.GetAllFaqsForCategory(categories.First());
+    var test = new JObject {
+        { "Name", categories.First().Name}
+    };
+    
+    //Example json conversation.  This can be deleted
+    string test4 = StreamEnergy.Json.Stringify(categories.First());
+    
 }
 
 <div ng-controller="supportCenterCtrl">
