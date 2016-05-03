@@ -3,9 +3,21 @@
 @{
     SupportCenterController controller = new SupportCenterController();
     List<FAQCategory> categories = controller.GetAllCategories();
+    List<FAQ> popularFAQS = new List<FAQ>();
+
+    if (!string.IsNullOrEmpty(Sitecore.Context.Item.Fields["Popular FAQs"].Value))
+    {
+        var guids = Sitecore.Context.Item.Fields["Popular FAQs"].Value.Split("|".ToCharArray());
+
+        foreach (string guid in guids)
+        {
+            popularFAQS.Add(new FAQ(guid));
+        }
+    }
 
     //List<FAQ> allFaqs = controller.GetAllFaqsForCategory(categories.First());
-} 
+}
+
 <div ng-controller="supportCenterCtrl">
     <div class="support-search">
         <div class="content">
