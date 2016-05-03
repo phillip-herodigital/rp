@@ -1,14 +1,24 @@
 ﻿@using StreamEnergy.MyStream.Controllers
 @using StreamEnergy.MyStream.Models.Marketing.Support
-@using Newtonsoft.Json
 @{
     SupportCenterController controller = new SupportCenterController();
     List<FAQCategory> categories = controller.GetAllCategories();
+    List<FAQ> popularFAQS = new List<FAQ>();
+
+    if (!string.IsNullOrEmpty(Sitecore.Context.Item.Fields["Popular FAQs"].Value))
+    {
+        var guids = Sitecore.Context.Item.Fields["Popular FAQs"].Value.Split("|".ToCharArray());
+
+        foreach (string guid in guids)
+        {
+            popularFAQS.Add(new FAQ(guid));
+        }
+    }
 
     //List<FAQ> allFaqs = controller.GetAllFaqsForCategory(categories.First());
 }
-<div ng-controller="supportCenterCtrl" data-ng-init="init(@categories)">
-    <p>{{categories}}</p>
+
+<div ng-controller="supportCenterCtrl">
     <div class="support-search">
         <div class="content">
             <h1>Stream Support Center</h1>
@@ -39,10 +49,12 @@
     <article class="faq-categories">
         <div class="wrapper">
             <h1>Frequently Asked Questions</h1>
-            <div class="category" ng-class="service.name" ng-repeat="service in services">
-                <p class="service-name">{{service.name}}</p>
-                <p>{{service.description}}</p>
-                <p><a href="{{service.link}}">Get Support</a></p>
+            <div class="category" ng-repeat="service in services">
+                <div ng-class="service.name">
+                    <p class="service-name">{{service.name}}</p>
+                    <p>{{service.description}}</p>
+                    <p><a href="{{service.link}}">Get Support</a></p>
+                </div>
             </div>
         </div>
     </article>
