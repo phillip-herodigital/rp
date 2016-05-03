@@ -94,7 +94,11 @@
     }];
     $scope.selectedFaqIndex = null;
 
-    $scope.selectService = function (service, state) {
+    $scope.init = function (categories) {
+        $scope.categories = categories;
+    }
+
+    $scope.selectService = function(service, state) {
         if (service.states) {
             if (state) {
                 $scope.selectedService = service;
@@ -109,7 +113,7 @@
         }
     };
     
-    $scope.selectFaq = function (index) {
+    $scope.selectFaq = function(index) {
         //select new popFaq
         if ($scope.selectedFaqIndex == null) {
             $scope.faqs[index].selected = true;
@@ -153,7 +157,7 @@
         }
     };
 
-    $scope.related = function (parentIndex, index) {
+    $scope.related = function(parentIndex, index) {
         return _.contains($scope.faqs[parentIndex].related, $scope.faqs[index].name);
     };
     

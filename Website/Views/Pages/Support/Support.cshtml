@@ -1,12 +1,14 @@
 ﻿@using StreamEnergy.MyStream.Controllers
 @using StreamEnergy.MyStream.Models.Marketing.Support
+@using Newtonsoft.Json
 @{
     SupportCenterController controller = new SupportCenterController();
     List<FAQCategory> categories = controller.GetAllCategories();
 
     //List<FAQ> allFaqs = controller.GetAllFaqsForCategory(categories.First());
-} 
-<div ng-controller="supportCenterCtrl">
+}
+<div ng-controller="supportCenterCtrl" data-ng-init="init(@categories)">
+    <p>{{categories}}</p>
     <div class="support-search">
         <div class="content">
             <h1>Stream Support Center</h1>
