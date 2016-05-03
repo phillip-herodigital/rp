@@ -165,7 +165,8 @@ article.faq-categories {
 	.category {
 		width: 33%;
 		float: left;
-		padding-top: 65px;
+		padding-top: 50px;
+		position: relative;
 		p {
 			margin: 1em 1.5em 1em 1.5em;
 			a {
@@ -179,23 +180,55 @@ article.faq-categories {
 				font-size: 20px;
 			}
 		}
-		&.Energy {
+		.Energy {
 			background: image-url('marketing/redesign/Modules/support-energy.png') top center no-repeat;
+			padding: 65px 0px 30px 0px;
 		}
-		&.Mobile {
+		.Mobile {
 			background: image-url('marketing/redesign/Modules/support-mobile.png') top center no-repeat;
+			padding: 65px 0px 30px 0px;
 		}
-		&.Protective {
+		.Protective {
 			background: image-url('marketing/redesign/Modules/support-protection.png') top center no-repeat;
+			padding: 65px 0px 30px 0px;
 		}
-		&.Home {
+		.Home {
 			background: image-url('marketing/redesign/Modules/support-home.png') top center no-repeat;
+			padding: 65px 0px 30px 0px;
 		}
-		&.Opportunity {
+		.Opportunity {
 			background: image-url('marketing/redesign/Modules/support-opportunity.png') top center no-repeat;
+			padding: 65px 0px 30px 0px;
 		}
-		&.Stream {
+		.Stream {
 			background: image-url('marketing/redesign/Modules/support-stream.png') top center no-repeat;
+			padding: 65px 0px 30px 0px;
+		}
+		>div:after {
+			position: absolute;
+			display: block;
+			content: '';
+			width: 1px;
+			height: 210px;
+			background: #eceeef;
+			top: 76px;
+			right: 10px;
+		}
+		.Protective:after {
+			display: none;
+		}
+		.Stream:after {
+			display: none;
+		}
+		.Home:before, .Opportunity:before, .Stream:before, {
+			position: absolute;
+			display: block;
+			content: '';
+			width: 200px;
+			height: 1px;
+			background: #eceeef;
+			top: 0px;
+			left: 55px;
 		}
 	}
 }
