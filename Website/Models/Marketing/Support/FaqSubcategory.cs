@@ -8,8 +8,9 @@ namespace StreamEnergy.MyStream.Models.Marketing.Support
     public class FaqSubcategory
     {
         public List<FAQCategory> Categories;
+        public string Guid;
 
-        Item SitecoreItem;
+        private Item SitecoreItem;
         public FaqSubcategory() {
             buildSubCategory();
         }
@@ -20,6 +21,7 @@ namespace StreamEnergy.MyStream.Models.Marketing.Support
         }
 
         private void buildSubCategory() {
+            this.Guid = SitecoreItem.ID.ToString();
         }
     }
 }
