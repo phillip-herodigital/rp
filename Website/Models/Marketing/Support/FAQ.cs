@@ -10,7 +10,7 @@ namespace StreamEnergy.MyStream.Models.Marketing.Support
         public List<FAQCategory> Categories = new List<FAQCategory>();
         public List<FaqSubcategory> SubCategories = new List<FaqSubcategory>();
         protected List<string> Keywords = new List<string>();
-        public List<FAQ> RelatedFAQs = new List<FAQ>();
+        public List<string> RelatedFAQs = new List<string>();
         public List<FAQState> States = new List<FAQState>();
 
         public string Name;
@@ -66,7 +66,9 @@ namespace StreamEnergy.MyStream.Models.Marketing.Support
                 var related = getValue("Related FAQs").Split("|".ToCharArray());
 
                 foreach (string guid in related) {
-                    RelatedFAQs.Add(new FAQ(guid));
+                    Item r = Sitecore.Context.Database.GetItem(guid);
+                    FAQ rf = new FAQ(r);
+                    RelatedFAQs.Add(string.Format("{0}|{1}|{2}", rf.Name, r.Paths.GetFriendlyUrl(), guid));
                 }
             }
 
