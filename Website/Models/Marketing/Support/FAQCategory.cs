@@ -27,6 +27,13 @@ namespace StreamEnergy.MyStream.Models.Marketing.Support
             Description = getValue("Description");
             Guid = SitecoreItem.ID.ToString();
 
+            Sitecore.Data.Fields.LinkField lf = SitecoreItem.Fields["Support Link"];
+
+            if (lf != null) {
+                Link = lf.GetFriendlyUrl();
+            }
+            
+
             if (!string.IsNullOrEmpty(SitecoreItem.Fields["States"].Value)) {
                 var states = getValue("States").Split("|".ToCharArray()); ;
                 foreach (string state in states)
