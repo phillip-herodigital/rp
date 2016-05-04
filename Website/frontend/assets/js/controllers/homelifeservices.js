@@ -11,7 +11,15 @@ ngApp.controller('HomeLifeServicesCtrl', ['$scope', '$rootScope', '$http', '$tim
     };
     $scope.enroll = function () {
         if ($scope.numProductsChecked() == 3) {
-            $window.location = domain + "/" + getCampaignName();
+            document.getElementById("campaignName").value = getCampaignName();
+
+            //Currently Ocenture is wanting to leave out the product code, but this might return in the future.
+            //document.getElementById("productCode").value = $scope.productCode;
+
+            // Submit the form to Ocenture
+            $timeout(function () {
+                document.getElementById("formHomeLifeServices").submit();
+            }, 10);
         }
     };
     var getCampaignName = function() {
