@@ -35,7 +35,7 @@
                 border-right: 1px solid #999999;
                 margin-right: 20px;
 
-                .selected-service {
+                .selected-category {
                     font-size: 20px;
                     font-weight: 300;
                 }
@@ -76,7 +76,7 @@
                 }
             }
 
-            ul.service-dropdown {
+            ul.category-dropdown {
                 background-color: #eff2f3;
                 color: #000;
                 border-radius: 5px;
@@ -316,6 +316,8 @@ article.faq-categories {
 	}
 	.category {
 		width: 33%;
+        height: 450px;
+        overflow: auto;
 		float: left;
 		padding-top: 50px;
 		position: relative;
@@ -372,7 +374,7 @@ article.faq-categories {
 		.Stream:after {
 			display: none;
 		}
-		.Home:before, .Opportunity:before, .Stream:before, {
+		.Home:before, .Opportunity:before, .Stream:before{
 			position: absolute;
 			display: block;
 			content: '';

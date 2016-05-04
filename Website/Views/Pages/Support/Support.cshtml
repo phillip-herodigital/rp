@@ -5,7 +5,7 @@
 @using Newtonsoft.Json.Serialization;
 @{
     SupportCenterController controller = new SupportCenterController();
-    List<FAQCategory> categories = controller.GetAllCategories();
+    var categories = StreamEnergy.Json.Stringify(controller.GetAllCategories());
     List<FAQ> popularFAQS = new List<FAQ>();
 
     if (!string.IsNullOrEmpty(Sitecore.Context.Item.Fields["Popular FAQs"].Value))
@@ -16,31 +16,37 @@
         {
             popularFAQS.Add(new FAQ(guid));
         }
-    } 
-    
+    }
+
+    var popFaqs = StreamEnergy.Json.Stringify(popularFAQS);
+
 }
 
-<div ng-controller="supportCenterCtrl">
+<div ng-controller="supportCenterCtrl" ng-init="init(@categories, @popFaqs)">
     <div class="support-search">
         <div class="content">
             <h1>Stream Support Center</h1>
             <h4>At Stream, we're here to help. Contact us if you can't find what you're looking for.</h4>
             <div class="search">
                 <div class="select clearfix" ng-click="dropDown=!dropDown">
-                    <div class="selected-service" ng-show="selectedService" >{{selectedService.name}} - {{selectedState.name}}</div>
-                    <div class="selected-service" ng-hide="selectedService" ng-cloak>Service Type</div>
+                    <div class="selected-category" ng-show="selectedCategory" >
+                        In {{selectedCategory.name}}<span ng-if="selectedCategory.states.length"> - {{selectedState.abbreviation}}</span>
+                    </div>
+                    <div class="selected-category" ng-hide="selectedCategory" ng-cloak>Service Type</div>
                     <div class="triangle-down" ng-class="{flipped: dropDown}"></div>
                 </div>
                 <div class="input">
                     <input type="text" placeholder="search for something" />
                     <img class="mag-glass" src="/frontend/assets/i/mag-glass.png" />
                 </div>
-                <ul class="service-dropdown" ng-show="dropDown">
-                    <li ng-repeat="service in services">
-                        <div ng-click="selectService(service, null)" ng-class="{noHover: service.states}">{{service.title}}</div>
-                        <ul class="state" ng-show="service.states">
-                            <li ng-repeat="state in service.states">
-                                <div ng-click="selectService($parent.service, state)">{{state.name}}</div>
+                <ul class="category-dropdown" ng-show="dropDown">
+                    <li ng-repeat="category in categories">
+                        <div ng-click="selectCategory(category, null)" ng-class="{noHover: category.states.length}">
+                        {{category.displayTitle}}<span ng-show="category.states.length"> (select state)</span>
+                        </div>
+                        <ul class="state" ng-show="category.states">
+                            <li ng-repeat="state in category.states">
+                                <div ng-click="selectCategory($parent.category, state)">{{state.state}}</div>
                             </li>
                         </ul>
                     </li>
@@ -51,11 +57,11 @@
     <article class="faq-categories">
         <div class="wrapper">
             <h1>Frequently Asked Questions</h1>
-            <div class="category" ng-repeat="service in services">
-                <div ng-class="service.name">
-                    <p class="service-name">{{service.name}}</p>
-                    <p>{{service.description}}</p>
-                    <p><a href="{{service.link}}">Get Support</a></p>
+            <div class="category" ng-repeat="category in categories">
+                <div ng-class="category.name">
+                    <p class="service-name">{{category.name}}</p>
+                    <p>{{category.description}}</p>
+                    <p><a href="{{category.link}}">Get Support</a></p>
                 </div>
             </div>
         </div>
@@ -65,18 +71,16 @@
             <h1>Most Popular FAQs</h1>
         </header>
         <div class="content">
-            <div class="faq" ng-repeat="popFaq in faqs | filter: !popFaq.popular">
+            <div class="faq" ng-repeat="popFaq in popFaqs">
                 <div class="question" ng-click="selectFaq($index)">
                     <div class="plus-minus">
                         <div class="plus" ng-class="{minus: popFaq.selected}"></div>
                     </div>
-                    <p>{{popFaq.question}} - {{popFaq.helpfulCount}}</p>
+                    <p>{{popFaq.faqQuestion}} - {{popFaq.helpfulCount}}</p>
                 </div>
                 <div class="answer clearfix" ng-show="popFaq.selected">
                     <div class="triangle-up"></div>
-                    <div class="answer-content">
-                        {{popFaq.answer}}
-                    </div>
+                    <div class="answer-content" ng-bind-html="popFaq.faqAnswer"></div>
                     <aside>
                         <h4>Related Questions</h4>
                         <div ng-repeat="relatedFaq in faqs">

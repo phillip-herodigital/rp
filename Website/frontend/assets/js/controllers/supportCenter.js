@@ -1,51 +1,5 @@
-﻿ngApp.controller('supportCenterCtrl', ['$scope', '$http', function ($scope, $http) {
+﻿ngApp.controller('supportCenterCtrl', ['$scope', '$http', '$sce', function ($scope, $http, $sce) {
     $scope.dropDown = false;
-    $scope.services = [
-        {
-            title: "Energy (select state)",
-            name: "Energy",
-            description: "Energy is lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-            states: [{
-                name: "Texas",
-                abbreviation: "TX"
-            },
-            {
-                name: "Georgia",
-                abbreviation: "GA"
-            }],
-            link: "/"
-        },
-        {
-            title: "Mobile",
-            name: "Mobile",
-            description: "Mobile is lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-            link: "/"
-        },
-        {
-            title: "Protective",
-            name: "Protective",
-            description: "Protective is lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-            link: "/"
-        },
-        {
-            title: "Home",
-            name: "Home",
-            description: "Home is lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-            link: "/"
-        },
-        {
-            title: "Opportunity",
-            name: "Opportunity",
-            description: "Opportunity is lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-            link: "/"
-        },
-        {
-            title: "Stream",
-            name: "Stream",
-            description: "Stream is lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-            link: "/"
-        }
-    ];
 
     $scope.faqs = [{
         name: "faq1",
@@ -58,7 +12,6 @@
         categories: ["things", "objects"],
         states: ["Texas", "Georgia"],
         keywords: ["utility", "stuff"],
-        popular: true,
         helpful: null,
         helpfulCount: 0
     },
@@ -73,7 +26,6 @@
         categories: ["things", "objects"],
         states: ["Texas", "Georgia"],
         keywords: ["utility", "stuff"],
-        popular: true,
         helpful: null,
         helpfulCount: 0
     },
@@ -88,26 +40,29 @@
         categories: ["things", "objects"],
         states: ["Texas", "Georgia"],
         keywords: ["utility", "stuff"],
-        popular: false,
         helpful: null,
         helpfulCount: 0
     }];
     $scope.selectedFaqIndex = null;
 
-    $scope.init = function (categories) {
+    $scope.init = function (categories, popFaqs) {
         $scope.categories = categories;
+        $scope.popFaqs = popFaqs;
+        angular.forEach(popFaqs, function (popFaq) {
+            popFaq.faqAnswer = $sce.trustAsHtml(popFaq.faqAnswer);
+        })
     }
 
-    $scope.selectService = function(service, state) {
-        if (service.states) {
+    $scope.selectCategory = function (category, state) {
+        if (category.states.length) {
             if (state) {
-                $scope.selectedService = service;
+                $scope.selectedCategory = category;
                 $scope.selectedState = state;
                 $scope.dropDown = false;
             }
         }
         else {
-            $scope.selectedService = service;
+            $scope.selectedCategory = category;
             $scope.selectedState = state;
             $scope.dropDown = false;
         }
@@ -116,12 +71,12 @@
     $scope.selectFaq = function(index) {
         //select new popFaq
         if ($scope.selectedFaqIndex == null) {
-            $scope.faqs[index].selected = true;
+            $scope.popFaqs[index].selected = true;
             $scope.selectedFaqIndex = index;
         }
         else {
             // save helpful info
-            var oldFaq = $scope.faqs[$scope.selectedFaqIndex];
+            var oldFaq = $scope.popFaqs[$scope.selectedFaqIndex];
             if (oldFaq.helpful != null) {
                 if (oldFaq.helpful) {
                     oldFaq.helpfulCount++;
@@ -134,15 +89,15 @@
 
             //deselect popFaq
             if ($scope.selectedFaqIndex == index) {
-                $scope.faqs[index].selected = false;
+                $scope.popFaqs[index].selected = false;
                 $scope.selectedFaqIndex = null;
             }
             //select different popFaq
             else {
-                angular.forEach($scope.faqs, function (faq) {
+                angular.forEach($scope.popFaqs, function (faq) {
                     faq.selected = false;
                 });
-                $scope.faqs[index].selected = true;
+                $scope.popFaqs[index].selected = true;
                 $scope.selectedFaqIndex = index;
             }
         }
