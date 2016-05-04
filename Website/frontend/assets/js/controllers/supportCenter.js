@@ -1,4 +1,4 @@
-﻿ngApp.controller('supportCenterCtrl', ['$scope', '$http', function ($scope, $http) {
+﻿ngApp.controller('supportCenterCtrl', ['$scope', '$http', '$sce', function ($scope, $http, $sce) {
     $scope.dropDown = false;
 
     $scope.faqs = [{
@@ -48,10 +48,13 @@
     $scope.init = function (categories, popFaqs) {
         $scope.categories = categories;
         $scope.popFaqs = popFaqs;
+        angular.forEach(popFaqs, function (popFaq) {
+            popFaq.faqAnswer = $sce.trustAsHtml(popFaq.faqAnswer);
+        })
     }
 
     $scope.selectCategory = function (category, state) {
-        if (category.states) {
+        if (category.states.length) {
             if (state) {
                 $scope.selectedCategory = category;
                 $scope.selectedState = state;
@@ -68,12 +71,12 @@
     $scope.selectFaq = function(index) {
         //select new popFaq
         if ($scope.selectedFaqIndex == null) {
-            $scope.faqs[index].selected = true;
+            $scope.popFaqs[index].selected = true;
             $scope.selectedFaqIndex = index;
         }
         else {
             // save helpful info
-            var oldFaq = $scope.faqs[$scope.selectedFaqIndex];
+            var oldFaq = $scope.popFaqs[$scope.selectedFaqIndex];
             if (oldFaq.helpful != null) {
                 if (oldFaq.helpful) {
                     oldFaq.helpfulCount++;
@@ -86,15 +89,15 @@
 
             //deselect popFaq
             if ($scope.selectedFaqIndex == index) {
-                $scope.faqs[index].selected = false;
+                $scope.popFaqs[index].selected = false;
                 $scope.selectedFaqIndex = null;
             }
             //select different popFaq
             else {
-                angular.forEach($scope.faqs, function (faq) {
+                angular.forEach($scope.popFaqs, function (faq) {
                     faq.selected = false;
                 });
-                $scope.faqs[index].selected = true;
+                $scope.popFaqs[index].selected = true;
                 $scope.selectedFaqIndex = index;
             }
         }
