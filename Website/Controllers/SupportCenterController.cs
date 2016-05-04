@@ -56,6 +56,19 @@ namespace StreamEnergy.MyStream.Controllers
             }
         }
 
+        private List<Item> _allfaqs;
+        private List<Item> AllSitecoreFAQS {
+            //This will ultimately be stored into a short term cache to limit the loading of caches for each type
+
+            get {
+                if (_allfaqs != null) return _allfaqs;
+                
+                _allfaqs = FAQsRootItem.Axes.GetDescendants().Where(a => a.TemplateID.ToString() == FAQsTempalteID).ToList();
+                
+                return _allfaqs;
+            }
+        }
+
         public List<FAQCategory> GetAllCategories()
         {
             List<FAQCategory> categories = new List<FAQCategory>();
@@ -74,7 +87,7 @@ namespace StreamEnergy.MyStream.Controllers
 
             var items = FaqSubCategoryRootItem.Axes.GetDescendants().Where(a => a.TemplateID.ToString() == subcategoryRootTemplateID);
 
-            var rawSubcats = items.Where(a => a.Fields["FAQ Categories"].Value.Contains(category.Guid)).ToList();
+            var rawSubcats = items.Where(a => a.Fields["FAQ Categories"] !=null && a.Fields["FAQ Categories"].Value.Contains(category.Guid)).ToList();
 
             foreach (var sc in rawSubcats) {
                 subcategories.Add(new FaqSubcategory(sc));
@@ -85,12 +98,26 @@ namespace StreamEnergy.MyStream.Controllers
 
         public List<FAQ> GetAllFaqsForCategory(FAQCategory category) {
             List<FAQ> faqs = new List<FAQ>();
-
-            var items = FAQsRootItem.Axes.GetDescendants().Where(a => a.TemplateID.ToString() == FAQsTempalteID);
-
-            var rawFaqs = items.Where(a => a.Fields["FAQ Categories"].Value.Contains(category.Guid)).ToList();
+            
+            var rawFaqs = AllSitecoreFAQS.Where(a => a.Fields["FAQ Categories"] != null && a.Fields["FAQ Categories"].Value.Contains(category.Guid)).ToList();
 
             foreach(var f in rawFaqs) {
+                faqs.Add(new FAQ(f));
+            }
+
+            return faqs;
+        }
+
+        public List<FAQ> GetAllFaqsForSubcategory(FaqSubcategory subcategory, FAQCategory category) {
+            //A FAQ must have both the category and subcategory to be returned from this call.  One alone does not suffice.
+
+            List<FAQ> faqs = new List<FAQ>();
+
+            var rawFaqs = AllSitecoreFAQS.Where(a => a.Fields["FAQ Categories"] != null && a.Fields["FAQ Categories"].Value.Contains(category.Guid)
+                    && a.Fields["FAQ Subcategories"]  != null && a.Fields["FAQ Subcategories"].Value.Contains(subcategory.Guid)).ToList();
+
+            foreach (var f in rawFaqs)
+            {
                 faqs.Add(new FAQ(f));
             }
 
