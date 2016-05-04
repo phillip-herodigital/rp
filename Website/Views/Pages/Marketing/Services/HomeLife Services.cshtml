@@ -4,7 +4,7 @@
     Item dataSourceItem = Sitecore.Context.Item;
 }
 
-<div class="protective-services" ng-controller="HomeLifeServicesCtrl" ng-init="init(@(Model.HasFreeMonth ? "true" : "false"))">
+<div class="protective-services" ng-controller="HomeLifeServicesCtrl" ng-init="init(@(Model.HasFreeMonth ? "true" : "false"), '@Html.TranslateDomain("https://streamvalues.com")')">
     <form id="formHomeLifeServices" method="post" action="@Html.TranslateDomain("https://streamvalues.com")/buy">
         <input type="hidden" name="clientId" value="@Model.ClientId" />
         <input type="hidden" name="productCode" id="productCode" value="" />
@@ -27,7 +27,6 @@
         <input type="hidden" name="repEmail" value="@(Model.RepEmail != null ? Model.RepEmail.Address : "")" />
         <input type="hidden" name="salesource" value="@Model.SaleSource">
     </form>
-
     <article class="marketing marketingIntro wrapper protective-intro">
         <div class="wrapper">
             @Html.Sitecore().Field("Intro Content")
@@ -35,7 +34,7 @@
     </article>
     <article class="marketing service-bundles">
         <div class="wrapper">
-            
+
             <div class="">
                 <div class="bundle platinum clearfix" ng-class="{'selected':  numProductsChecked() == 3 }">
                     <div class="circle-discount">
@@ -46,7 +45,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="bundle-info">
                         <div class="headline">@Html.Sitecore().Field("Intro Header")</div>
                         <div class="details">
@@ -55,13 +54,12 @@
                     </div>
                 </div>
             </div>
-            
+
             <div class="build-package">
                 <div class="build-package-text">
                     @Html.Sitecore().Field("Build Package Text")
                 </div>
             </div>
-
             <article class="marketing services-summary">
                 <div class="wrapper">
                     <div class="services">
@@ -72,7 +70,7 @@
                                 </div>
                                 <div class="col col-2">
                                     <a ng-click="virtualMDIsOpen = !virtualMDIsOpen">
-                                        <span ng-class="{'icon-green-arrow-up': virtualMDIsOpen, 'icon-green-arrow-down': !virtualMDIsOpen}"></span> 
+                                        <span ng-class="{'icon-green-arrow-up': virtualMDIsOpen, 'icon-green-arrow-down': !virtualMDIsOpen}"></span>
                                         {{ !virtualMDIsOpen && '@Html.Sitecore().Field("View Details")' || '@Html.Sitecore().Field("Hide Details")' }}
                                     </a>
                                 </div>
@@ -80,7 +78,6 @@
                                     <input type="checkbox" id="virtualmd" ng-model="virtualmd" ng-disabled="!virtualmd && numProductsChecked() >= 3" />
                                 </div>
                             </div>
-
                             <div class="details" ng-show="virtualMDIsOpen">
                                 @Html.Sitecore().Field("Virtual MD Content")
                             </div>
@@ -100,7 +97,6 @@
                                     <input type="checkbox" id="roadside" ng-model="roadside" ng-disabled="!roadside && numProductsChecked() >= 3" />
                                 </div>
                             </div>
-
                             <div class="details" ng-show="roadsideIsOpen">
                                 @Html.Sitecore().Field("Roadside Assistance Content")
                             </div>
@@ -120,7 +116,6 @@
                                     <input type="checkbox" id="identity" ng-model="identity" ng-disabled="!identity && numProductsChecked() >= 3" />
                                 </div>
                             </div>
-
                             <div class="details" ng-show="identityIsOpen">
                                 @Html.Sitecore().Field("Identity Protection Content")
                             </div>
@@ -166,26 +161,23 @@
                     </div>
                 </div>
             </article>
-
             <div class="package-submit-section">
-                <a href="" ng-class="{button: true, disabled: numProductsChecked() < 3}" ng-click="numProductsChecked() < 3 || bundleEnroll()">@Html.Sitecore().Field("Select Package")</a>
+                <a href="javascript:void(0);" ng-class="{button: true, disabled: numProductsChecked() < 3}" ng-click="enroll()">@Html.Sitecore().Field("Select Package")</a>
             </div>
-
             <div class="family-member">@Html.Sitecore().Field("Add a Member")</div>
         </div>
     </article>
-  
+
     <div class="protection-hero" style="@Html.AsBackgroundStyle("Protection Image", dataSourceItem)">
         <div class="message">
             <span class="icon-check-sheild shield"></span>
             @Html.Sitecore().Field("Protectction Message")
         </div>
     </div>
-
     <article class="marketing protective-footnotes">
         <div class="wrapper">
             @Html.Sitecore().Field("Protective Footnotes")
         </div>
     </article>
-    
+
 </div>
