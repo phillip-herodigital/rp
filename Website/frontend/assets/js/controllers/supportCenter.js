@@ -53,6 +53,14 @@
         })
     }
 
+    $scope.getAllFaqsForCategory = function (categoryFaqs) {
+        $scope.categoryFaqs = categoryFaqs;
+    }
+
+    $scope.getAllFaqsForSubcategory = function (subcategoryFaqs) {
+        $scope.subcategoryFaqs = subcategoryFaqs;
+    }
+
     $scope.selectCategory = function (category, state) {
         if (category.states.length) {
             if (state) {

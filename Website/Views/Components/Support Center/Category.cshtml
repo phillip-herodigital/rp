@@ -1,0 +1,45 @@
+﻿@using StreamEnergy.MyStream.Controllers
+@using StreamEnergy.MyStream.Models.Marketing.Support
+@using Newtonsoft.Json
+@using Newtonsoft.Json.Linq
+@using Newtonsoft.Json.Serialization;
+@{
+    SupportCenterController controller = new SupportCenterController();
+    string categoryGuid = Sitecore.Context.Item.Fields["Category"].ID.ToString();
+    FAQCategory category = new FAQCategory(Sitecore.Context.Database.GetItem(categoryGuid));
+    var categoryFaqs = StreamEnergy.Json.Stringify(controller.GetAllFaqsForCategory(category));
+}
+<div class="category" ng-controller="supportCenterCtrl" ng-init="getAllFaqsForCategory(@categoryFaqs)">
+    <div class="content">
+        <div class="faq" ng-repeat="faq in categoryFaqs">
+            <div class="question" ng-click="selectFaq($index)">
+                <div class="plus-minus">
+                    <div class="plus" ng-class="{minus: faq.selected}"></div>
+                </div>
+                <p>{{faq.faqQuestion}}</p>
+            </div>
+            <div class="answer-container " ng-show="true">
+                <div class="answer clearfix" ng-class="{reveal: faq.selected}">
+                    <div class="triangle-up"></div>
+                    <div class="answer-content" ng-bind-html="faq.faqAnswer"></div>
+                    <aside>
+                        <h4>What what you're looking for quickly by choosing a tag below:</h4>
+                        <div ng-repeat="keyword in faq.keywords">
+                            <p><a href="" ng-click="selectTag(keyword)">{{keyword}}</a></p>
+                        </div>
+                        <h4>Still having issues?</h4>
+                        <p>Please contact customer support at 877-743-5893</p>
+                    </aside>
+                    <div class="helpful">
+                        <label for="helpful">Was this helpful?</label>
+                        <input type="radio" name="helpful" ng-model="popFaq.helpful" ng-value="true" /> Yes
+                        <input type="radio" name="helpful" ng-model="popFaq.helpful" ng-value="false" /> No
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="secondary-footer">
+        Can't find what you're looking for? <a href="" ng-click="">Ask Us a Question</a>
+    </div>
+</div>
