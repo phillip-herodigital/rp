@@ -9,7 +9,7 @@ namespace StreamEnergy.MyStream.Models.Marketing.Support
     {
         public List<FAQCategory> Categories = new List<FAQCategory>();
         public List<FaqSubcategory> SubCategories = new List<FaqSubcategory>();
-        protected List<string> Keywords = new List<string>();
+        public List<string> Keywords = new List<string>();
         public List<string> RelatedFAQs = new List<string>();
         public List<FAQState> States = new List<FAQState>();
 
