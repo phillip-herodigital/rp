@@ -15,14 +15,16 @@
         supportCenterService.popFaqs = popFaqs
     }
 
-    $scope.categoryInit = function (categories, categoryFaqs) {
+    $scope.categoryInit = function (categories, categoryFaqs, subcategory) {
         $scope.categories = categories;
         $scope.faqs = categoryFaqs;
+        $scope.subcategory = subcategory;
         angular.forEach($scope.faqs, function (faq) {
             faq.faqAnswer = $sce.trustAsHtml(faq.faqAnswer);
         })
         supportCenterService.categories = categories;
-        supportCenterService.categoryFaqs = categoryFaqs
+        supportCenterService.categoryFaqs = categoryFaqs;
+        supportCenterService.subcategory = subcategory;
     }
 
     $scope.selectCategory = function (category, state) {

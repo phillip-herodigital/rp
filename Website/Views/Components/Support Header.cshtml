@@ -1,5 +1,7 @@
 ﻿@using System.Collections.Specialized
 @using Sitecore.ContentSearch.ComputedFields
+@using StreamEnergy.MyStream.Controllers
+@using StreamEnergy.MyStream.Models.Marketing.Support
 @using Sitecore.Links
 @using StreamEnergy.MyStream.Utility
 @{
@@ -231,6 +233,13 @@
 </div>
 @{
     var tertiaryNavCssClassField = Sitecore.Context.Item.Fields["Tertiary Nav CSS Class"];
+
+    SupportCenterController controller = new SupportCenterController();
+    var categories = StreamEnergy.Json.Stringify(controller.GetAllCategories());
+    string categoryGuid = Sitecore.Context.Item.Fields["Category"].Value;
+    FAQCategory category = new FAQCategory(Sitecore.Context.Database.GetItem(categoryGuid));
+    var subcategories = controller.GetAllSubCategoriesForCategory(category);
+
 }
 @if (selectedNodeLevel > 2 || selectedNodeLevel == 2 && selectedNode.HasChildNodes)
 {
@@ -244,9 +253,14 @@
                         var selected = childNode.Url == selectedNode.Url || childNode.Key == selectedNode.Key || selectedNode.IsDescendantOf(childNode);
                         <li class="@(selected ? "selected" : null)">@Html.Sitecore().Field("Navigation Link", childNode.Item)</li>
                     }
+                    @foreach (FaqSubcategory subcategory in subcategories)
+                    {
+                        var selected = false;
+                        <li class="@(selected ? "selected" : null)">subcategory</li>
+                    }
                 </ul>
+
             </div>
         }
     </nav>
 }
-@Html.Sitecore().Placeholder("header extra")
