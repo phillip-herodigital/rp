@@ -89,5 +89,4 @@ namespace StreamEnergy.MyStream.Models.Marketing.Support
             return item.Fields[key] != null ? SitecoreItem.Fields[key].Value : "";
         }
     }
-    }
 }
