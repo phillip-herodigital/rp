@@ -3405,6 +3405,7 @@
     <Content Include="frontend\assets\js\services\enrollment\enrollment.js" />
     <Content Include="frontend\assets\js\services\enrollment\enrollmentSteps.js" />
     <Content Include="frontend\assets\js\services\mobileEnrollment.js" />
+    <Content Include="frontend\assets\js\services\support.js" />
     <Content Include="frontend\assets\js\services\mobileUsage.js" />
     <Content Include="frontend\assets\js\services\modalFactory.js" />
     <Content Include="frontend\assets\js\services\notification.js" />
@@ -5552,9 +5553,9 @@
     <Content Include="Views\Pages\Marketing\Services\Voice FAQs.cshtml" />
     <Content Include="Views\Pages\Marketing\Services\Voice International.cshtml" />
     <Content Include="Views\Pages\Marketing\Return\Return Form.cshtml" />
-    <Content Include="Views\Components\Support Center\Subcategory.cshtml" />
     <Content Include="Views\Pages\Support\Support.cshtml" />
     <Content Include="Views\Components\Support Center\Category.cshtml" />
+    <Content Include="Views\Components\Support Header.cshtml" />
     <None Include="Web.Azure-Production Sitecore.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>

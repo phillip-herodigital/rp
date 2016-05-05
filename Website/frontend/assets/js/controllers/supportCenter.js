@@ -1,48 +1,8 @@
-﻿ngApp.controller('supportCenterCtrl', ['$scope', '$http', '$sce', function ($scope, $http, $sce) {
+﻿ngApp.controller('supportCenterCtrl', ['$scope', '$http', '$sce', 'supportCenterService', function ($scope, $http, $sce, supportCenterService) {
     $scope.dropDown = false;
-
-    $scope.faqs = [{
-        name: "faq1",
-        answer: "because",
-        question: "why1",
-        description: "description1",
-        link: "/link1",
-        related: ["faq2", "faq3"],
-        furtherSupport: "/",
-        categories: ["things", "objects"],
-        states: ["Texas", "Georgia"],
-        keywords: ["utility", "stuff"],
-        helpful: null,
-        helpfulCount: 0
-    },
-    {
-        name: "faq2",
-        answer: "because",
-        question: "why2",
-        description: "description2",
-        link: "/link2",
-        related: ["faq1", "faq3"],
-        furtherSupport: "/",
-        categories: ["things", "objects"],
-        states: ["Texas", "Georgia"],
-        keywords: ["utility", "stuff"],
-        helpful: null,
-        helpfulCount: 0
-    },
-    {
-        name: "faq3",
-        answer: "because",
-        question: "why3",
-        description: "description3",
-        link: "/link3",
-        related: ["faq1", "faq2"],
-        furtherSupport: "/",
-        categories: ["things", "objects"],
-        states: ["Texas", "Georgia"],
-        keywords: ["utility", "stuff"],
-        helpful: null,
-        helpfulCount: 0
-    }];
+    $scope.supportCenterService = supportCenterService;
+    $scope.categories = supportCenterService.categories;
+    $scope.popFaqs = supportCenterService.popFaqs;
     $scope.selectedFaqIndex = null;
 
     $scope.init = function (categories, popFaqs) {
@@ -51,14 +11,14 @@
         angular.forEach(popFaqs, function (popFaq) {
             popFaq.faqAnswer = $sce.trustAsHtml(popFaq.faqAnswer);
         })
+        supportCenterService.categories = categories;
+        supportCenterService.popFaqs = popFaqs
     }
 
-    $scope.getAllFaqsForCategory = function (categoryFaqs) {
+    $scope.categoryInit = function (categories, categoryFaqs) {
+        $scope.categories = categories;
+        supportCenterService.categories = categories;
         $scope.categoryFaqs = categoryFaqs;
-    }
-
-    $scope.getAllFaqsForSubcategory = function (subcategoryFaqs) {
-        $scope.subcategoryFaqs = subcategoryFaqs;
     }
 
     $scope.selectCategory = function (category, state) {
