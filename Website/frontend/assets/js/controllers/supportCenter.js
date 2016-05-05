@@ -1,64 +1,28 @@
-﻿ngApp.controller('supportCenterCtrl', ['$scope', '$http', '$sce', function ($scope, $http, $sce) {
+﻿ngApp.controller('supportCenterCtrl', ['$scope', '$http', '$sce', 'supportCenterService', function ($scope, $http, $sce, supportCenterService) {
     $scope.dropDown = false;
-
-    $scope.faqs = [{
-        name: "faq1",
-        answer: "because",
-        question: "why1",
-        description: "description1",
-        link: "/link1",
-        related: ["faq2", "faq3"],
-        furtherSupport: "/",
-        categories: ["things", "objects"],
-        states: ["Texas", "Georgia"],
-        keywords: ["utility", "stuff"],
-        helpful: null,
-        helpfulCount: 0
-    },
-    {
-        name: "faq2",
-        answer: "because",
-        question: "why2",
-        description: "description2",
-        link: "/link2",
-        related: ["faq1", "faq3"],
-        furtherSupport: "/",
-        categories: ["things", "objects"],
-        states: ["Texas", "Georgia"],
-        keywords: ["utility", "stuff"],
-        helpful: null,
-        helpfulCount: 0
-    },
-    {
-        name: "faq3",
-        answer: "because",
-        question: "why3",
-        description: "description3",
-        link: "/link3",
-        related: ["faq1", "faq2"],
-        furtherSupport: "/",
-        categories: ["things", "objects"],
-        states: ["Texas", "Georgia"],
-        keywords: ["utility", "stuff"],
-        helpful: null,
-        helpfulCount: 0
-    }];
+    $scope.supportCenterService = supportCenterService;
+    $scope.categories = supportCenterService.categories;
+    $scope.popFaqs = supportCenterService.popFaqs;
     $scope.selectedFaqIndex = null;
 
     $scope.init = function (categories, popFaqs) {
         $scope.categories = categories;
-        $scope.popFaqs = popFaqs;
-        angular.forEach(popFaqs, function (popFaq) {
-            popFaq.faqAnswer = $sce.trustAsHtml(popFaq.faqAnswer);
+        $scope.faqs = popFaqs;
+        angular.forEach($scope.faqs, function (faq) {
+            faq.faqAnswer = $sce.trustAsHtml(faq.faqAnswer);
         })
+        supportCenterService.categories = categories;
+        supportCenterService.popFaqs = popFaqs
     }
 
-    $scope.getAllFaqsForCategory = function (categoryFaqs) {
-        $scope.categoryFaqs = categoryFaqs;
-    }
-
-    $scope.getAllFaqsForSubcategory = function (subcategoryFaqs) {
-        $scope.subcategoryFaqs = subcategoryFaqs;
+    $scope.categoryInit = function (categories, categoryFaqs) {
+        $scope.categories = categories;
+        $scope.faqs = categoryFaqs;
+        angular.forEach($scope.faqs, function (faq) {
+            faq.faqAnswer = $sce.trustAsHtml(faq.faqAnswer);
+        })
+        supportCenterService.categories = categories;
+        supportCenterService.categoryFaqs = categoryFaqs
     }
 
     $scope.selectCategory = function (category, state) {
@@ -77,14 +41,14 @@
     };
     
     $scope.selectFaq = function(index) {
-        //select new popFaq
+        //select new faq
         if ($scope.selectedFaqIndex == null) {
-            $scope.popFaqs[index].selected = true;
+            $scope.faqs[index].selected = true;
             $scope.selectedFaqIndex = index;
         }
         else {
             // save helpful info
-            var oldFaq = $scope.popFaqs[$scope.selectedFaqIndex];
+            var oldFaq = $scope.faqs[$scope.selectedFaqIndex];
             if (oldFaq.helpful != null) {
                 if (oldFaq.helpful) {
                     oldFaq.helpfulCount++;
@@ -95,17 +59,17 @@
                 oldFaq.helpful = null;
             }
 
-            //deselect popFaq
+            //deselect faq
             if ($scope.selectedFaqIndex == index) {
-                $scope.popFaqs[index].selected = false;
+                $scope.faqs[index].selected = false;
                 $scope.selectedFaqIndex = null;
             }
-            //select different popFaq
+            //select different faq
             else {
-                angular.forEach($scope.popFaqs, function (faq) {
+                angular.forEach($scope.faqs, function (faq) {
                     faq.selected = false;
                 });
-                $scope.popFaqs[index].selected = true;
+                $scope.faqs[index].selected = true;
                 $scope.selectedFaqIndex = index;
             }
         }
