@@ -7,9 +7,9 @@
 
     $scope.init = function (categories, popFaqs) {
         $scope.categories = categories;
-        $scope.popFaqs = popFaqs;
-        angular.forEach(popFaqs, function (popFaq) {
-            popFaq.faqAnswer = $sce.trustAsHtml(popFaq.faqAnswer);
+        $scope.faqs = popFaqs;
+        angular.forEach($scope.faqs, function (faq) {
+            faq.faqAnswer = $sce.trustAsHtml(faq.faqAnswer);
         })
         supportCenterService.categories = categories;
         supportCenterService.popFaqs = popFaqs
@@ -17,8 +17,12 @@
 
     $scope.categoryInit = function (categories, categoryFaqs) {
         $scope.categories = categories;
+        $scope.faqs = categoryFaqs;
+        angular.forEach($scope.faqs, function (faq) {
+            faq.faqAnswer = $sce.trustAsHtml(faq.faqAnswer);
+        })
         supportCenterService.categories = categories;
-        $scope.categoryFaqs = categoryFaqs;
+        supportCenterService.categoryFaqs = categoryFaqs
     }
 
     $scope.selectCategory = function (category, state) {
@@ -37,14 +41,14 @@
     };
     
     $scope.selectFaq = function(index) {
-        //select new popFaq
+        //select new faq
         if ($scope.selectedFaqIndex == null) {
-            $scope.popFaqs[index].selected = true;
+            $scope.faqs[index].selected = true;
             $scope.selectedFaqIndex = index;
         }
         else {
             // save helpful info
-            var oldFaq = $scope.popFaqs[$scope.selectedFaqIndex];
+            var oldFaq = $scope.faqs[$scope.selectedFaqIndex];
             if (oldFaq.helpful != null) {
                 if (oldFaq.helpful) {
                     oldFaq.helpfulCount++;
@@ -55,17 +59,17 @@
                 oldFaq.helpful = null;
             }
 
-            //deselect popFaq
+            //deselect faq
             if ($scope.selectedFaqIndex == index) {
-                $scope.popFaqs[index].selected = false;
+                $scope.faqs[index].selected = false;
                 $scope.selectedFaqIndex = null;
             }
-            //select different popFaq
+            //select different faq
             else {
-                angular.forEach($scope.popFaqs, function (faq) {
+                angular.forEach($scope.faqs, function (faq) {
                     faq.selected = false;
                 });
-                $scope.popFaqs[index].selected = true;
+                $scope.faqs[index].selected = true;
                 $scope.selectedFaqIndex = index;
             }
         }

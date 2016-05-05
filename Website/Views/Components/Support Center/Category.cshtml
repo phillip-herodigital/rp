@@ -11,9 +11,9 @@
     FAQCategory category = new FAQCategory(Sitecore.Context.Database.GetItem(categoryGuid));
     var categoryFaqs = StreamEnergy.Json.Stringify(controller.GetAllFaqsForCategory(category));
 }
-<div class="category" ng-controller="supportCenterCtrl" ng-init="categoryInit(@categories, @categoryFaqs)">
+<div class="category-faqs" ng-controller="supportCenterCtrl" ng-init="categoryInit(@categories, @categoryFaqs)">
     <div class="content">
-        <div class="faq" ng-repeat="faq in categoryFaqs">
+        <div class="faq" ng-repeat="faq in faqs">
             <div class="question" ng-click="selectFaq($index)">
                 <div class="plus-minus">
                     <div class="plus" ng-class="{minus: faq.selected}"></div>
