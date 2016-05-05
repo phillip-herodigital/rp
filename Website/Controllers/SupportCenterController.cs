@@ -123,6 +123,75 @@ namespace StreamEnergy.MyStream.Controllers
 
             return faqs;
         }
-        
+
+        public List<FAQ> Search(string query) {
+            List<FAQ> results = new List<FAQ>();
+            List<FAQ> allFAQS = new List<FAQ>();
+
+            query = query.Trim().ToLower(); 
+            foreach (Item item in AllSitecoreFAQS) {
+                allFAQS.Add(new FAQ(item));
+            }
+
+            //These calls can all be run asyncrhonisly and are being extracted out with that in mind
+            List<FAQ> faqNameSearch = FAQNameSearch(query, allFAQS);
+            List<FAQ> faqDetailsSearch = FAQDetailsSearch(query, allFAQS);
+            List<FAQ> catSearch = CategorySearch(query, allFAQS);
+            List<FAQ> subSearch = SubcategorySearch(query, allFAQS);
+            List<FAQ> keySearch = FAQKeywordSearch(query, allFAQS);
+
+            updateSearchResults(results, faqNameSearch);
+            updateSearchResults(results, faqDetailsSearch);
+            updateSearchResults(results, catSearch);
+            updateSearchResults(results, subSearch);
+            updateSearchResults(results, keySearch);
+            
+
+            return results;
+        }
+
+        #region Internal Search Methods
+
+        private List<FAQ> CategorySearch(string query, List<FAQ> list) {
+            return list.Where(a => a.Categories.Any(b => b.DisplayTitle.ToLower() == query)).ToList();
+
+        }
+
+        private List<FAQ> SubcategorySearch(string query, List<FAQ> list) {
+            return list.Where(a => a.SubCategories.Any(b => b.DisplayTitle.ToLower() == query)).ToList();
+        }
+
+        private List<FAQ> FAQNameSearch(string query, List<FAQ> list) {
+            return list.Where(a => a.Name.ToLower().Contains(query)).ToList();
+        }
+
+        private List<FAQ> FAQDetailsSearch(string query, List<FAQ> list) {
+            return list.Where(a => a.Description.ToLower().Contains(query) 
+                            || a.FAQQuestion.ToLower().Contains(query.ToLower())
+                            || a.FAQAnswer.ToLower().Contains(query)).ToList();
+        }
+
+        private List<FAQ> FAQKeywordSearch(string query, List<FAQ> list) {
+            return list.Where(a => a.Keywords.Any(b => b.ToLower() == query)).ToList();
+        }
+
+        private List<FAQ> updateSearchResults(List<FAQ> initialSet, List<FAQ> updatedResults)
+        {
+            if (updatedResults.Count() < 1) return initialSet;
+
+            List<FAQ> results = initialSet;
+
+            foreach (FAQ faq in updatedResults) {
+                if (!results.Any(a => a.Guid == faq.Guid)) {
+                    results.Add(faq);
+                }
+            }
+
+            return results;
+
+        }
+
+        #endregion
+
     }
 }

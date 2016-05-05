@@ -9,6 +9,7 @@ namespace StreamEnergy.MyStream.Models.Marketing.Support
     {
         public List<FAQCategory> Categories;
         public string Guid;
+        public string DisplayTitle;
 
         private Item SitecoreItem;
         public FaqSubcategory() {
@@ -22,6 +23,8 @@ namespace StreamEnergy.MyStream.Models.Marketing.Support
 
         private void buildSubCategory() {
             this.Guid = SitecoreItem.ID.ToString();
+
+            DisplayTitle = SitecoreItem.Fields["Display Title"].Value;
         }
     }
 }
