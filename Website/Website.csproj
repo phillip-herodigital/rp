@@ -5552,8 +5552,9 @@
     <Content Include="Views\Pages\Marketing\Services\Voice FAQs.cshtml" />
     <Content Include="Views\Pages\Marketing\Services\Voice International.cshtml" />
     <Content Include="Views\Pages\Marketing\Return\Return Form.cshtml" />
-    <Content Include="Views\Components\Support Center\Search.cshtml" />
+    <Content Include="Views\Components\Support Center\Subcategory.cshtml" />
     <Content Include="Views\Pages\Support\Support.cshtml" />
+    <Content Include="Views\Components\Support Center\Category.cshtml" />
     <None Include="Web.Azure-Production Sitecore.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>
