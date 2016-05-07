@@ -1,213 +1,15 @@
-﻿@using System.Collections.Specialized
-@using Sitecore.ContentSearch.ComputedFields
-@using StreamEnergy.MyStream.Controllers
-@using StreamEnergy.MyStream.Models.Marketing.Support
-@using Sitecore.Links
-@using StreamEnergy.MyStream.Utility
-@{
-    Func<string, bool> isLanguageSpanish = languageTag => languageTag.ToLowerInvariant() == "es" || languageTag.StartsWith("es-", StringComparison.InvariantCultureIgnoreCase);
-    var languageLinkUrlLanguage = isLanguageSpanish(Sitecore.Context.Language.Name) ? "en" : "es";
-    var languageLinkText = isLanguageSpanish(Sitecore.Context.Language.Name) ? "In English" : "En Español";
-    var languageLinkUrl = LinkManager.GetItemUrl(Sitecore.Context.Item, new UrlOptions()
-    {
-        Language = Sitecore.Globalization.Language.Parse(languageLinkUrlLanguage),
-    });
-
-    var selectedNode = SiteMap.CurrentNode;
-    int? selectedNodeLevel = null;
-    if (selectedNode == null)
-    {
-        var provider = SiteMap.Provider as NavigationSiteMapProvider;
-        if (provider != null)
-        {
-            selectedNode = Sitecore.Context.Item.GetAncestors().Select(provider.FindSiteMapNode).FirstOrDefault(node => node != null);
-        }
-    }
-
-    ItemSiteMapNode thirdLevelRootNode = null;
-    if (selectedNode != null)
-    {
-        selectedNodeLevel = selectedNode.Level();
-        thirdLevelRootNode = selectedNodeLevel.Value < 2 ? null : (selectedNodeLevel.Value == 2 ? selectedNode : selectedNode.GetAncestor(selectedNodeLevel.Value - 3)) as ItemSiteMapNode;
-    }
-
-    var topLevelNavigation = SiteMap.RootNode.ChildNodes.Cast<ItemSiteMapNode>().Select((n, i) => new { Value = n, Number = i + 1 }).ToArray();
-    var selectedNavItem = topLevelNavigation.Where(node => selectedNode != null && (node.Value.Key == selectedNode.Key || selectedNode.IsDescendantOf(node.Value))).Select(node => node.Number).FirstOrDefault();
-    var accountDataSourceItem = Sitecore.Context.Database.GetItem("{E67AB785-3CBA-41DE-8060-DC389CA4F13A}");
-
-    var settings = StreamEnergy.Unity.Container.Instance.Resolve<StreamEnergy.ISettings>();
-    var enableLanguageLink = !string.IsNullOrEmpty(settings.GetSettingsField("Language Link", "Enable Language Link").Value);
-
-}
-<header class="site-header" main-nav="@selectedNavItem" data-fixed-fix>
-    <script id="mobileNav" type="text/ng-template">
-        <nav class="mobile-nav" mobile-nav="@selectedNavItem">
-            <ul>
-                @foreach (var node in topLevelNavigation)
-                {
-                    <li ng-class="{ opened: subnav == @node.Number }">
-                        <span>
-                            @if (node.Value.HasChildNodes)
-                            {
-                                <span class="arrow" ng-click="toggleSubnav(@node.Number)"><i ng-class="{'icon-nav-arrow-expanded': subnav == @node.Number, 'icon-nav-arrow-collapsed': subnav != @node.Number}"></i></span>
-                            }
-                            @Html.Sitecore().Field("Navigation Link", node.Value.Item)
-                        </span>
-                        @if (node.Value.HasChildNodes)
-                        {
-                            <ul ng-hide="subnav != @node.Number">
-                                @foreach (ItemSiteMapNode childNode in node.Value.ChildNodes)
-                                {
-                                    <li>@Html.Sitecore().Field("Navigation Link", childNode.Item)</li>
-                                }
-                            </ul>
-                        }
-                    </li>
-                }
-                @if (!Sitecore.Context.IsLoggedIn)
-                {
-                    if (enableLanguageLink)
-                    {
-                        <li><a href="@languageLinkUrl" hreflang="@languageLinkUrlLanguage" lang="@languageLinkUrlLanguage" translate="no">@languageLinkText</a></li>
-                    }
-                    <li><a href="/pay/">@Html.Sitecore().Field("Pay Bill text", accountDataSourceItem)</a></li>
-                    <li><a href="/auth/login">@Html.Sitecore().Field("Manage text", accountDataSourceItem)</a></li>
-                }
-                else
-                {
-                    <li><a href="/account">@Html.Sitecore().Field("Account text", accountDataSourceItem)</a></li>
-                    <li><a href="/account/profile">@Html.Sitecore().Field("My Profile text", accountDataSourceItem)</a></li>
-                    <li><a href="/api/authentication/logout">@Html.Sitecore().Field("Sign Out text", accountDataSourceItem)</a></li>
-                }
-            </ul>
-        </nav>
-    </script>
-    <div class="wrapper">
-        <a href="/" class="logo">Stream</a>
-        <div class="utility">
-            @if (Sitecore.Context.IsLoggedIn)
-            {
-                <text>Welcome,</text>
-                @Sitecore.Context.User.LocalName
-                <ul>
-                    <li><a href="/account">@Html.Sitecore().Field("Account text", accountDataSourceItem)</a></li>
-                    <li><a href="/account/profile">@Html.Sitecore().Field("My Profile text", accountDataSourceItem)</a></li>
-                    <li><a href="/api/authentication/logout">@Html.Sitecore().Field("Sign Out text", accountDataSourceItem)</a></li>
-                </ul>
-            }
-            else
-            {
-                <ul>
-                    @if (enableLanguageLink)
-                    {
-                        <li><a href="@languageLinkUrl" hreflang="@languageLinkUrlLanguage" lang="@languageLinkUrlLanguage" translate="no">@languageLinkText</a></li>
-                    }
-                    <li><a href="/pay/">@Html.Sitecore().Field("Pay Bill text", accountDataSourceItem)</a></li>
-                    <li class="dropdown" ng-class="{ active: dropdownMenu }">
-                        <a href="" class="dropdown-toggle" ng-click="dropdownMenu = !dropdownMenu;" ng-class="{ activeblock: dropdownMenu }">
-                            @Html.Sitecore().Field("Account text", accountDataSourceItem)
-                        </a>
-                        <div class="login dropdown-menu" ng-hide="!dropdownMenu" loading-indicator ng-cloak>
-                            <div class="protective-home-free">
-                                <p class="other-services">@Html.Sitecore().Field("Other Services Text", accountDataSourceItem)</p>
-                                <div class="protective">
-                                    <div class="subheading">
-                                        <i class="protective-icon"></i>
-                                        <h3>@Html.Sitecore().Field("Protective - Text", accountDataSourceItem)</h3>
-                                    </div>
-                                    @Html.Sitecore().Field("Protective - List", accountDataSourceItem)
-                                    @Html.Sitecore().Field("Protective - Button", accountDataSourceItem)
-                                </div>
-                                <div class="home">
-                                    <div class="subheading">
-                                        <i class="home-icon"></i>
-                                        <h3>@Html.Sitecore().Field("Home - Text", accountDataSourceItem)</h3>
-                                    </div>
-                                    @Html.Sitecore().Field("Home - List", accountDataSourceItem)
-                                    @Html.Sitecore().Field("Home - Button", accountDataSourceItem)
-                                </div>
-                                <div class="free">
-                                    <div class="subheading">
-                                        @Html.Sitecore().Field("Free Everything - Image", accountDataSourceItem)
-                                    </div>
-                                    @Html.Sitecore().Field("Free Everything - List", accountDataSourceItem)
-                                    @Html.Sitecore().Field("Free Everything - Button", accountDataSourceItem)
-                                </div>
-                            </div>
-                            <div class="energy-mobile">
-                                <div class="energy">
-                                    <i class="energy-icon"></i>
-                                    <h3>@Html.Sitecore().Field("Energy - Text", accountDataSourceItem)</h3>
-                                </div>
-                                <div class="mobile">
-                                    <i class="mobile-icon"></i>
-                                    <h3>@Html.Sitecore().Field("Mobile - Text", accountDataSourceItem)</h3>
-                                </div>
-                                <h4>@Html.Sitecore().Field("Login Dropdown Header", accountDataSourceItem)</h4>
-                                <form ng-submit="login()">
-                                    <div class="item" data-val-error="Username">
-                                        <input data-val="true" data-val-required id="Username" name="Username" ng-model="formData.username" type="text" value="" placeholder="@Html.Sitecore().Field("Login Dropdown Username Label", accountDataSourceItem)">
-                                    </div>
-                                    <div class="item" data-val-error="Password">
-                                        <input data-val="true" data-val-required id="Password" name="Password" ng-model="formData.password" type="password" placeholder="@Html.Sitecore().Field("Login Dropdown Password Label", accountDataSourceItem)">
-                                    </div>
-                                    <button class="secondary" type="submit" data-val-submit="">@Html.Sitecore().Field("Login Dropdown Button Text", accountDataSourceItem)</button>
-                                    <div class="forgot">
-                                        @Html.Sitecore().Field("Login Dropdown Forgot Credentials", accountDataSourceItem)
-                                        @Html.Sitecore().Field("Login Dropdown Forgot Username", accountDataSourceItem)
-                                        @Html.Sitecore().Field("Login Dropdown Forgot Credentials Divider", accountDataSourceItem)
-                                        @Html.Sitecore().Field("Login Dropdown Forgot Password", accountDataSourceItem)
-                                    </div>
-                                    <div class="create-account">
-                                        @Html.Sitecore().Field("Login Dropdown Signup Content", accountDataSourceItem)
-                                        @Html.Sitecore().Field("Login Dropdown Signup Link", accountDataSourceItem)
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </li>
-                </ul>
-            }
-        </div>
-        <a href="" class="nav-toggle icon-hamburger" ng-click="toggleSidebar()">Toggle Nav</a>
-        <nav class="main-nav">
-            <ul class="wrapper">
-                @foreach (var node in topLevelNavigation)
-                {
-                    <li class="nav-@node.Number nav-@node.Value.Item.Name.ToLowerInvariant()" ng-mouseover="showSubnav(@node.Number)" ng-mouseout="hideSubnav()" ng-class="{ selected: subnav==@node.Number }">@Html.Sitecore().Field("Navigation Link", @node.Value.Item)</li>
-                }
-            </ul>
-        </nav>
-    </div>
-    <nav class="sub-nav">
-        @foreach (var node in topLevelNavigation)
-        {
-            <div class="wrapper" sub-nav="@node.Number" ng-cloak ng-class="{ hidden: subnav != @node.Number }" ng-mouseover="showSubnav(@node.Number)" ng-mouseout="hideSubnav()">
-                <ul ng-style="{'margin-left': marginLeft}">
-                    @foreach (ItemSiteMapNode childNode in node.Value.ChildNodes)
-                    {
-                        var selected = selectedNode != null && (childNode.Url == selectedNode.Url || childNode.Key == selectedNode.Key || selectedNode.IsDescendantOf(childNode));
-                        <li class="@(selected ? "selected" : null)">@Html.Sitecore().Field("Navigation Link", childNode.Item)</li>
-                    }
-                    @if (!node.Value.HasChildNodes)
-                    {
-                        <li><a>&nbsp;</a></li>
-                    }
-                </ul>
-            </div>
-        }
-    </nav>
-</header>
-<div class="support-search" ng-controller="supportCenterCtrl">
+﻿<div class="support-search">
     <div class="content">
-        <h1>Stream Support Center</h1>
+        
+        <h1 ng-hide="subcategories.length">Stream Support Center</h1>
+        <h1 ng-show="subcategories.length">{{category.name}} Support</h1>
         <h4>At Stream, we're here to help. Contact us if you can't find what you're looking for.</h4>
         <div class="search">
             <div class="select clearfix" ng-click="dropDown=!dropDown">
-                <div class="selected-category" ng-show="selectedCategory">
-                    In {{selectedCategory.name}}<span ng-if="selectedCategory.states.length"> - {{selectedState.abbreviation}}</span>
+                <div class="selected-category" ng-show="category">
+                    In {{category.name}}<span ng-if="category.states.length"> - {{selectedState.abbreviation}}</span>
                 </div>
-                <div class="selected-category" ng-hide="selectedCategory" ng-cloak>Service Type</div>
+                <div class="selected-category" ng-hide="category" ng-cloak>Service Type</div>
                 <div class="triangle-down" ng-class="{flipped: dropDown}"></div>
             </div>
             <div class="input">
@@ -216,7 +18,7 @@
             </div>
             <div ng-class="{reveal: dropDown}" class="category-dropdown-container">
                 <ul class="category-dropdown">
-                    <li ng-repeat="category in supportCenterService.categories">
+                    <li ng-repeat="category in categories">
                         <div ng-click="selectCategory(category, null)" ng-class="{noHover: category.states.length}">
                             {{category.displayTitle}}<span ng-show="category.states.length"> (select state)</span>
                         </div>
@@ -231,36 +33,10 @@
         </div>
     </div>
 </div>
-@{
-    var tertiaryNavCssClassField = Sitecore.Context.Item.Fields["Tertiary Nav CSS Class"];
-
-    SupportCenterController controller = new SupportCenterController();
-    var categories = StreamEnergy.Json.Stringify(controller.GetAllCategories());
-    string categoryGuid = Sitecore.Context.Item.Fields["Category"].Value;
-    FAQCategory category = new FAQCategory(Sitecore.Context.Database.GetItem(categoryGuid));
-    var subcategories = controller.GetAllSubCategoriesForCategory(category);
-
-}
-@if (selectedNodeLevel > 2 || selectedNodeLevel == 2 && selectedNode.HasChildNodes)
-{
-    <nav class="tertiary-nav @(tertiaryNavCssClassField != null && !string.IsNullOrEmpty(tertiaryNavCssClassField.Value) ? tertiaryNavCssClassField.Value : "")">
-        @if (thirdLevelRootNode != null)
-        {
-            <div class="wrapper">
-                <ul ng-style="{'margin-left': marginLeft}">
-                    @foreach (ItemSiteMapNode childNode in thirdLevelRootNode.ChildNodes)
-                    {
-                        var selected = childNode.Url == selectedNode.Url || childNode.Key == selectedNode.Key || selectedNode.IsDescendantOf(childNode);
-                        <li class="@(selected ? "selected" : null)">@Html.Sitecore().Field("Navigation Link", childNode.Item)</li>
-                    }
-                    @foreach (FaqSubcategory subcategory in subcategories)
-                    {
-                        var selected = false;
-                        <li class="@(selected ? "selected" : null)">subcategory</li>
-                    }
-                </ul>
-
-            </div>
-        }
-    </nav>
-}
+<nav class="tertiary-nav" ng-if="subcategories.length" ng-cloak>
+    <div class="wrapper">
+        <ul ng-style="{'margin-left': true}">
+            <li ng-repeat="subcategory in subcategories" ng-class="{selected: subcategory.selected}"><a href="" ng-click="selectSubcategory($index)">{{subcategory.displayTitle}}</a></li>
+        </ul>
+    </div>
+</nav>

@@ -1,47 +1,75 @@
-﻿ngApp.controller('supportCenterCtrl', ['$scope', '$http', '$sce', 'supportCenterService', function ($scope, $http, $sce, supportCenterService) {
+﻿ngApp.controller('supportCenterCtrl', ['$scope', '$http', '$sce', function ($scope, $http, $sce) {
     $scope.dropDown = false;
-    $scope.supportCenterService = supportCenterService;
-    $scope.categories = supportCenterService.categories;
-    $scope.popFaqs = supportCenterService.popFaqs;
     $scope.selectedFaqIndex = null;
+    $scope.categories = [];
+    $scope.category = null;
+    $scope.subcategories = [];
+    $scope.subcategory = "All";
+    $scope.faqs = [];
+    $scope.keywords = [];
 
     $scope.init = function (categories, popFaqs) {
         $scope.categories = categories;
         $scope.faqs = popFaqs;
         angular.forEach($scope.faqs, function (faq) {
             faq.faqAnswer = $sce.trustAsHtml(faq.faqAnswer);
-        })
-        supportCenterService.categories = categories;
-        supportCenterService.popFaqs = popFaqs
+
+            angular.forEach(faq.relatedFAQs, function (relatedFAQ, index) {
+                var split = relatedFAQ.split("|");
+                var object = {
+                    display: split[0],
+                    link: split[1],
+                    guid: split[2]
+                };
+                faq.relatedFAQs[index] = object;
+            });
+        });
     }
 
-    $scope.categoryInit = function (categories, categoryFaqs, subcategory) {
+    $scope.categoryInit = function(categories, category, categoryFaqs, subcategories, subcategory) {
         $scope.categories = categories;
+        $scope.category = category;
         $scope.faqs = categoryFaqs;
+        $scope.subcategories = subcategories;
         $scope.subcategory = subcategory;
         angular.forEach($scope.faqs, function (faq) {
             faq.faqAnswer = $sce.trustAsHtml(faq.faqAnswer);
-        })
-        supportCenterService.categories = categories;
-        supportCenterService.categoryFaqs = categoryFaqs;
-        supportCenterService.subcategory = subcategory;
+        });
+        angular.forEach($scope.subcategories, function (subcat) {
+            if (subcat.name === subcategory) {
+                subcat.selected = true;
+            }
+        });
+        angular.forEach(categoryFaqs, function(faq) {
+            angular.forEach(faq.keywords, function (keyword) {
+                $scope.keywords.push(keyword);
+            });
+        });
     }
 
-    $scope.selectCategory = function (category, state) {
+    $scope.selectCategory = function(category, state) {
         if (category.states.length) {
             if (state) {
-                $scope.selectedCategory = category;
+                $scope.category = category;
                 $scope.selectedState = state;
                 $scope.dropDown = false;
             }
         }
         else {
-            $scope.selectedCategory = category;
+            $scope.category = category;
             $scope.selectedState = state;
             $scope.dropDown = false;
         }
     };
     
+    $scope.selectSubcategory = function (index) {
+        $scope.subcategory = $scope.subcategories[index].name;
+        angular.forEach($scope.subcategories, function (subcat) {
+            subcat.selected = false;
+        });
+        $scope.subcategories[index].selected = true;
+    }
+
     $scope.selectFaq = function(index) {
         //select new faq
         if ($scope.selectedFaqIndex == null) {
@@ -77,17 +105,20 @@
         }
     }
 
-    $scope.selectRelated = function(parentIndex, index) {
-        if ($scope.faqs[index].popular) {
-            $scope.selectFaq(index);
+    $scope.selectRelated = function (relatedFaq) {
+        var isFaqPopular = false;
+        var popFaqIndex = -1;
+        angular.forEach($scope.faqs, function (faq, index) {
+            if (faq.name === relatedFaq.display) {
+                isFaqPopular = true;
+                popFaqIndex = index;
+            }
+        });
+        if (isFaqPopular) {
+            $scope.selectFaq(popFaqIndex);
         }
         else {
-            window.open($scope.faqs[index].link);
+            window.open(relatedFaq.link);
         }
     };
-
-    $scope.related = function(parentIndex, index) {
-        return _.contains($scope.faqs[parentIndex].related, $scope.faqs[index].name);
-    };
-    
 }]);

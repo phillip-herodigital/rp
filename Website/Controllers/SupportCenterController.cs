@@ -87,7 +87,7 @@ namespace StreamEnergy.MyStream.Controllers
 
             var items = FaqSubCategoryRootItem.Axes.GetDescendants().Where(a => a.TemplateID.ToString() == subcategoryRootTemplateID);
 
-            var rawSubcats = items.Where(a => a.Fields["FAQ Categories"] !=null && a.Fields["FAQ Categories"].Value.Contains(category.Guid)).ToList();
+            var rawSubcats = items.Where(a => a.Fields["Categories"] !=null && a.Fields["Categories"].Value.Contains(category.Guid)).ToList();
 
             foreach (var sc in rawSubcats) {
                 subcategories.Add(new FaqSubcategory(sc));

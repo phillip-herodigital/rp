@@ -10,6 +10,7 @@ namespace StreamEnergy.MyStream.Models.Marketing.Support
         public List<FAQCategory> Categories = new List<FAQCategory>();
         public string Guid;
         public string DisplayTitle;
+        public string Name;
 
         private Item SitecoreItem;
         public FaqSubcategory() {
@@ -25,6 +26,7 @@ namespace StreamEnergy.MyStream.Models.Marketing.Support
             this.Guid = SitecoreItem.ID.ToString();
 
             DisplayTitle = SitecoreItem.Fields["Display Title"].Value;
+            Name = SitecoreItem.Fields["Name"].Value;
 
             if (SitecoreItem.Fields["Categories"] != null && 
                 !string.IsNullOrEmpty(SitecoreItem.Fields["Categories"].Value))

@@ -8,47 +8,58 @@
     SupportCenterController controller = new SupportCenterController();
     var categories = StreamEnergy.Json.Stringify(controller.GetAllCategories());
     string categoryGuid = Sitecore.Context.Item.Fields["Category"].Value;
-    FAQCategory category = new FAQCategory(Sitecore.Context.Database.GetItem(categoryGuid));
-    var categoryFaqs = StreamEnergy.Json.Stringify(controller.GetAllFaqsForCategory(category));
+    FAQCategory categoryItem = new FAQCategory(Sitecore.Context.Database.GetItem(categoryGuid));
+    var categoryFaqs = StreamEnergy.Json.Stringify(controller.GetAllFaqsForCategory(categoryItem));
+    string category = StreamEnergy.Json.Stringify(categoryItem);
 
+    var rawSubcats = controller.GetAllSubCategoriesForCategory(categoryItem);
+    var subcategories = StreamEnergy.Json.Stringify(rawSubcats);
 
-    string subcategory = StreamEnergy.Json.Stringify("");
+    string subcategory = StreamEnergy.Json.Stringify("All");
     if (!string.IsNullOrEmpty(Request.QueryString["subcat"]))
     {
         subcategory = Request.QueryString["subcat"];
     }
 }
-<div class="category-faqs" ng-controller="supportCenterCtrl" ng-init="categoryInit(@categories, @categoryFaqs, @subcategory)">
-    <div class="content">
-        <div class="faq" ng-repeat="faq in faqs">
-            <div class="question" ng-click="selectFaq($index)">
-                <div class="plus-minus">
-                    <div class="plus" ng-class="{minus: faq.selected}"></div>
-                </div>
-                <p>{{faq.faqQuestion}}</p>
-            </div>
-            <div class="answer-container " ng-show="true">
-                <div class="answer clearfix" ng-class="{reveal: faq.selected}">
-                    <div class="triangle-up"></div>
-                    <div class="answer-content" ng-bind-html="faq.faqAnswer"></div>
-                    <aside>
-                        <h4>What what you're looking for quickly by choosing a tag below:</h4>
-                        <div ng-repeat="keyword in faq.keywords">
-                            <p><a href="" ng-click="selectTag(keyword)">{{keyword}}</a></p>
+<div class="support-container layout">
+    <div class="category clearfix" ng-init="categoryInit(@categories, @category, @categoryFaqs, @subcategories, @subcategory)">
+        <article class="category-faqs marketing">
+            <div class="content">
+                <p>{{subcategory}}</p>
+                <div class="faq" ng-repeat="faq in faqs">
+                    <div class="question" ng-click="selectFaq($index)">
+                        <div class="plus-minus">
+                            <div class="plus" ng-class="{minus: faq.selected}"></div>
                         </div>
-                        <h4>Still having issues?</h4>
-                        <p>Please contact customer support at 877-743-5893</p>
-                    </aside>
-                    <div class="helpful">
-                        <label for="helpful">Was this helpful?</label>
-                        <input type="radio" name="helpful" ng-model="popFaq.helpful" ng-value="true" /> Yes
-                        <input type="radio" name="helpful" ng-model="popFaq.helpful" ng-value="false" /> No
+                        <p>{{faq.faqQuestion}}</p>
+                    </div>
+                    <div class="answer-container">
+                        <div class="answer clearfix" ng-class="{reveal: faq.selected}">
+                            <div class="triangle-up"></div>
+                            <div class="answer-content" ng-bind-html="faq.faqAnswer"></div>
+                            <div class="helpful">
+                                <label for="helpful">Was this helpful?</label>
+                                <input type="radio" name="helpful" ng-model="popFaq.helpful" ng-value="true" /> Yes
+                                <input type="radio" name="helpful" ng-model="popFaq.helpful" ng-value="false" /> No
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
+        </article>
+        <aside>
+            <h4>What what you're looking for quickly by choosing a tag below:</h4>
+            <div ng-repeat="keyword in keywords">
+                <p><a href="" ng-click="selectTag(keyword)">{{keyword}}</a></p>
+            </div>
+            <h4>Still having issues?</h4>
+            <p>Please contact us!</p>
+            <p>Customer Service at 877-743-5893</p>
+            <p>from 7am-10pm, CST, Monday-Friday or</p>
+            <p>9am-5pm, CST, Saturday.</p>
+        </aside>
+        <div class="secondary-footer">
+            Can't find what you're looking for? <a href="" ng-click="">Ask Us a Question</a>
         </div>
-    </div>
-    <div class="secondary-footer">
-        Can't find what you're looking for? <a href="" ng-click="">Ask Us a Question</a>
     </div>
 </div>

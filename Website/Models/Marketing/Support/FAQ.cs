@@ -67,7 +67,7 @@ namespace StreamEnergy.MyStream.Models.Marketing.Support
 
                 foreach (string guid in related) {
                     Item r = Sitecore.Context.Database.GetItem(guid);
-                    RelatedFAQs.Add(string.Format("{0}|{1}|{2}", getValue(r, "FAQ Name"), r.Paths.GetFriendlyUrl(), guid));
+                    RelatedFAQs.Add(string.Format("{0}|{1}|{2}", getValueFromItem(r, "FAQ Name"), getValueFromItem(r, "FAQ Categories") , guid));
                 }
             }
 
@@ -85,7 +85,7 @@ namespace StreamEnergy.MyStream.Models.Marketing.Support
             return SitecoreItem.Fields[key] != null ?  SitecoreItem.Fields[key].Value : "";
         }
 
-        private string getValue(Item item, string key) {
+        private string getValueFromItem(Item item, string key) {
             return item.Fields[key] != null ? SitecoreItem.Fields[key].Value : "";
         }
     }

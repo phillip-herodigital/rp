@@ -1,123 +1,155 @@
 .support {
-    .support-search {
-        height: 370px;
-        color: #fff;
-        background-image: url('/~/media/Images/Banners/support-banner.png');
-        padding: 1px;
-        background-size: cover;
 
-        h1 {
-            font-size: 56px;
-            margin-top: 75px;
-        }
+    section.layout {
+        max-width: none;
+        padding-bottom: 0;
+        background: white url('../i/marketing/redesign/pattern_bg.png?1447108210') center;
 
-        h1, h4 {
-            text-align: center;
+        .support-search {
+            height: 370px;
             color: #fff;
-            float: none;
+            background-image: url('/~/media/Images/Banners/support-banner.png');
+            padding: 1px;
+            background-size: cover;
+
+            h1 {
+                font-size: 56px;
+                margin-top: 75px;
+            }
+
+            h1, h4 {
+                text-align: center;
+                color: #fff;
+                float: none;
+            }
+
+            .search {
+                background-color: #fff;
+                height: 75px;
+                width: 650px;
+                margin: 0 auto;
+                color: #999999;
+                border-radius: 5px;
+                padding: 10px;
+
+                .select {
+                    position: relative;
+                    float: left;
+                    width: 200px;
+                    padding: 17px 0;
+                    height: 100%;
+                    border-right: 1px solid #999999;
+                    margin-right: 20px;
+
+                    .selected-category {
+                        font-size: 20px;
+                        font-weight: 300;
+                    }
+
+                    .triangle-down {
+                        height: 0;
+                        width: 0;
+                        border-left: 15px solid transparent;
+                        border-right: 15px solid transparent;
+                        border-top: 15px solid #999999;
+                        background-color: #fff;
+                        position: relative;
+                        float: right;
+                        bottom: 22px;
+                        right: 15px;
+                        transition: all linear 0.5s;
+
+                        &.flipped {
+                            transform: rotate(180deg);
+                            transition: all linear 0.5s;
+                        }
+                    }
+                }
+
+                .input {
+                    padding: 11px;
+
+                    .input[type=text] {
+                        float: left;
+                        margin: 10px 0;
+                    }
+
+                    img.mag-glass {
+                        float: right;
+                        width: 25px;
+                        height: 24px;
+                        margin-top: 5px;
+                    }
+                }
+
+                .category-dropdown-container {
+                    height: 0;
+                    transition: height 0.5s ease-in-out;
+                    overflow: hidden;
+                    right: 10px;
+                    top: 10px;
+                    position: relative;
+
+                    ul.category-dropdown {
+                        background-color: #eff2f3;
+                        color: #000;
+                        border-radius: 5px;
+                        padding: 20px;
+                        position: relative;
+                        width: 210px;
+                        list-style: none;
+                        z-index: 10;
+                        font-size: 16px;
+
+                        div {
+                            padding: 10px;
+                        }
+
+                        div:hover {
+                            background-color: #00a8e1;
+                        }
+
+                        div.noHover:hover {
+                            background-color: initial;
+                        }
+
+                        ul.state {
+                            list-style: none;
+                        }
+                    }
+
+                    &.reveal {
+                        height: 640px;
+                    }
+                }
+            }
         }
 
-        .search {
-            background-color: #fff;
-            height: 75px;
-            width: 650px;
-            margin: 0 auto;
-            color: #999999;
-            border-radius: 5px;
-            padding: 10px;
+        .support-container {
+            padding-bottom: 0;
 
-            .select {
-                position: relative;
-                float: left;
-                width: 200px;
-                padding: 17px 0;
-                height: 100%;
-                border-right: 1px solid #999999;
-                margin-right: 20px;
-
-                .selected-category {
-                    font-size: 20px;
-                    font-weight: 300;
-                }
-
-                .triangle-down {
-                    height: 0;
-                    width: 0;
-                    border-left: 15px solid transparent;
-                    border-right: 15px solid transparent;
-                    border-top: 15px solid #999999;
-                    background-color: #fff;
-                    position: relative;
-                    float: right;
-                    bottom: 22px;
-                    right: 15px;
-                    transition: all linear 0.5s;
-
-                    &.flipped {
-                        transform: rotate(180deg);
-                        transition: all linear 0.5s;
-                    }
-                }
+            .main, .category {
+                padding: inherit 20px;
             }
 
-            .input {
-                padding: 11px;
-
-                .input[type=text] {
+            .category {
+                .category-faqs {
                     float: left;
-                    margin: 10px 0;
+                    width: calc(100% - 250px);
                 }
 
-                img.mag-glass {
+                aside {
                     float: right;
-                    width: 25px;
-                    height: 24px;
-                    margin-top: 5px;
-                }
-            }
-
-            .category-dropdown-container {
-                height: 0;
-                transition: height 0.5s ease-in-out;
-                overflow: hidden;
-                right: 10px;
-                top: 10px;
-                position: relative;
-
-                ul.category-dropdown {
-                    background-color: #eff2f3;
-                    color: #000;
-                    border-radius: 5px;
-                    padding: 20px;
-                    position: relative;
-                    width: 210px;
-                    list-style: none;
-                    z-index: 10;
-                    font-size: 16px;
-
-                    div {
-                        padding: 10px;
-                    }
-
-                    div:hover {
-                        background-color: #00a8e1;
-                    }
-
-                    div.noHover:hover {
-                        background-color: initial;
-                    }
-
-                    ul.state {
-                        list-style: none;
-                    }
-                }
-
-                &.reveal {
-                    height: 640px;
+                    width: 250px;
                 }
             }
         }
     }
+
+
+
+
+
 
     .popular-faqs, .category-faqs {
         header {
@@ -141,6 +173,8 @@
                 }
 
                 .question {
+                    padding: 10px 0;
+
                     .plus-minus {
                         float: left;
                         height: 21px;
@@ -159,11 +193,22 @@
                             }
                         }
                     }
+
+                    p {
+                        float: left;
+                        margin: 0 5px;
+                    }
+
+                    .faq-category {
+                        float: right;
+                    }
                 }
-                
+
                 .answer-container {
                     overflow: hidden;
+                    width: 100%;
                 }
+
                 .answer {
                     background-color: #eff2f3;
                     color: #636367;
@@ -184,7 +229,7 @@
                         background-color: #fff;
                         position: relative;
                         top: -15px;
-                        left: 20px;
+                        left: 45px;
                     }
 
                     .answer-content {
@@ -224,8 +269,8 @@
 
     .secondary-footer {
         width: 100%;
-        margin: -20px 0 -40px;
         height: 100px;
+        float: left;
         background-color: #eff2f3;
         padding: 36px;
         font-size: 21px;
@@ -326,82 +371,97 @@ article.support-mobile-guides {
 }
 
 article.faq-categories {
-	border: 0px;
-	.wrapper {
-		h1 {
-			text-align: center;
-			color: #333;
-		}
-	}
-	.category {
-		width: 33%;
+    border: 0px;
+
+    .wrapper {
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+    }
+
+    .category {
+        width: 33%;
         height: 450px;
         overflow: auto;
-		float: left;
-		padding-top: 50px;
-		position: relative;
-		p {
-			margin: 1em 1.5em 1em 1.5em;
-			a {
-				color: #28ade0;
-				font-weight: 500;
-			}
-			&.service-name {
-				text-align: center;
-				text-transform: uppercase;
-				font-weight: 500;
-				font-size: 20px;
-			}
-		}
-		.Energy {
-			background: image-url('marketing/redesign/Modules/support-energy.png') top center no-repeat;
-			padding: 65px 0px 30px 0px;
-		}
-		.Mobile {
-			background: image-url('marketing/redesign/Modules/support-mobile.png') top center no-repeat;
-			padding: 65px 0px 30px 0px;
-		}
-		.Protective {
-			background: image-url('marketing/redesign/Modules/support-protection.png') top center no-repeat;
-			padding: 65px 0px 30px 0px;
-		}
-		.Home {
-			background: image-url('marketing/redesign/Modules/support-home.png') top center no-repeat;
-			padding: 65px 0px 30px 0px;
-		}
-		.Opportunity {
-			background: image-url('marketing/redesign/Modules/support-opportunity.png') top center no-repeat;
-			padding: 65px 0px 30px 0px;
-		}
-		.Stream {
-			background: image-url('marketing/redesign/Modules/support-stream.png') top center no-repeat;
-			padding: 65px 0px 30px 0px;
-		}
-		>div:after {
-			position: absolute;
-			display: block;
-			content: '';
-			width: 1px;
-			height: 210px;
-			background: #eceeef;
-			top: 76px;
-			right: 10px;
-		}
-		.Protective:after {
-			display: none;
-		}
-		.Stream:after {
-			display: none;
-		}
-		.Home:before, .Opportunity:before, .Stream:before{
-			position: absolute;
-			display: block;
-			content: '';
-			width: 200px;
-			height: 1px;
-			background: #eceeef;
-			top: 0px;
-			left: 55px;
-		}
-	}
+        float: left;
+        padding-top: 50px;
+        position: relative;
+
+        p {
+            margin: 1em 1.5em 1em 1.5em;
+
+            a {
+                color: #28ade0;
+                font-weight: 500;
+            }
+
+            &.service-name {
+                text-align: center;
+                text-transform: uppercase;
+                font-weight: 500;
+                font-size: 20px;
+            }
+        }
+
+        .Energy {
+            background: image-url('marketing/redesign/Modules/support-energy.png') top center no-repeat;
+            padding: 65px 0px 30px 0px;
+        }
+
+        .Mobile {
+            background: image-url('marketing/redesign/Modules/support-mobile.png') top center no-repeat;
+            padding: 65px 0px 30px 0px;
+        }
+
+        .Protective {
+            background: image-url('marketing/redesign/Modules/support-protection.png') top center no-repeat;
+            padding: 65px 0px 30px 0px;
+        }
+
+        .Home {
+            background: image-url('marketing/redesign/Modules/support-home.png') top center no-repeat;
+            padding: 65px 0px 30px 0px;
+        }
+
+        .Opportunity {
+            background: image-url('marketing/redesign/Modules/support-opportunity.png') top center no-repeat;
+            padding: 65px 0px 30px 0px;
+        }
+
+        .Stream {
+            background: image-url('marketing/redesign/Modules/support-stream.png') top center no-repeat;
+            padding: 65px 0px 30px 0px;
+        }
+
+        > div:after {
+            position: absolute;
+            display: block;
+            content: '';
+            width: 1px;
+            height: 210px;
+            background: #eceeef;
+            top: 76px;
+            right: 10px;
+        }
+
+        .Protective:after {
+            display: none;
+        }
+
+        .Stream:after {
+            display: none;
+        }
+
+        .Home:before, .Opportunity:before, .Stream:before {
+            position: absolute;
+            display: block;
+            content: '';
+            width: 200px;
+            height: 1px;
+            background: #eceeef;
+            top: 0px;
+            left: 55px;
+        }
+    }
 }
