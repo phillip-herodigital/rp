@@ -20,6 +20,8 @@ namespace StreamEnergy.MyStream.Controllers
         private string subcategoryRootTemplateID = "{C0B03D6C-84B7-4E66-88E0-7D1EF490CCBC}"; // /sitecore/templates/User Defined/Taxonomy/FAQ Subcategory
         private string FAQsRootItemID = "{29E812CF-FC71-4375-8B9C-58863AA0362B}"; // /sitecore/content/Data/Support/FAQs
         private string FAQsTempalteID = "{BE70CAA9-D9B4-40E4-9D54-F2164E0846C9}"; // 	/sitecore/templates/User Defined/Components/Marketing/State FAQ 
+        private string FAQStateRootItemID = "{1275AE28-0537-455B-A89F-C28467219351}"; // /sitecore/content/Data/Taxonomy/Modules/States
+        private string FAQStateTemplateID = "{FAD51EE9-1FCC-4A16-B0EA-07CA91C92E46}"; // /sitecore/templates/User Defined/Taxonomy/State
         #endregion
         private Item _categoryrootitem;
 
@@ -35,14 +37,26 @@ namespace StreamEnergy.MyStream.Controllers
 
         private Item _faqsubcategoryrootitem;
 
-        private Item FaqSubCategoryRootItem{
+        private Item FaqSubCategoryRootItem {
             get {
                 if (_faqsubcategoryrootitem != null) return _faqsubcategoryrootitem;
 
                 _faqsubcategoryrootitem = Sitecore.Context.Database.GetItem(subcategoryRootItemID);
 
                 return _faqsubcategoryrootitem;
-            }    
+            }
+        }
+
+        private Item _faqstaterootitem;
+
+        private Item FaqStateRootItem {
+            get {
+                if (_faqstaterootitem != null) return _faqstaterootitem;
+
+                _faqstaterootitem = Sitecore.Context.Database.GetItem(FAQStateRootItemID);
+
+                return _faqstaterootitem;
+            }
         }
 
         private Item _faqsrootitem;
@@ -62,9 +76,9 @@ namespace StreamEnergy.MyStream.Controllers
 
             get {
                 if (_allfaqs != null) return _allfaqs;
-                
+
                 _allfaqs = FAQsRootItem.Axes.GetDescendants().Where(a => a.TemplateID.ToString() == FAQsTempalteID).ToList();
-                
+
                 return _allfaqs;
             }
         }
@@ -82,18 +96,35 @@ namespace StreamEnergy.MyStream.Controllers
             return categories;
         }
 
-        public List<FaqSubcategory> GetAllSubCategoriesForCategory(FAQCategory category) {
+        public List<FaqSubcategory> GetAllSubCategories() {
             List<FaqSubcategory> subcategories = new List<FaqSubcategory>();
 
             var items = FaqSubCategoryRootItem.Axes.GetDescendants().Where(a => a.TemplateID.ToString() == subcategoryRootTemplateID);
 
-            var rawSubcats = items.Where(a => a.Fields["Categories"] !=null && a.Fields["Categories"].Value.Contains(category.Guid)).ToList();
-
-            foreach (var sc in rawSubcats) {
+            foreach (var sc in items)
+            {
                 subcategories.Add(new FaqSubcategory(sc));
             }
 
             return subcategories;
+        }
+        
+        public List<FaqSubcategory> GetAllSubCategoriesForCategory(FAQCategory category) {
+            List<FaqSubcategory> subcategories = GetAllSubCategories()
+                .Where(a => a.Categories.Any(b => b.Guid == category.Guid)).ToList();
+
+            return subcategories;
+        }
+
+        public List<FAQState> GetAllStates() {
+            List<FAQState> states = new List<FAQState>();
+            var items = FaqStateRootItem.Axes.GetDescendants().Where(a => a.TemplateID.ToString() == FAQStateTemplateID);
+            
+            foreach (Item item in items) {
+                states.Add(new FAQState(item));
+            }
+
+            return states;
         }
 
         public List<FAQ> GetAllFaqsForCategory(FAQCategory category) {
@@ -123,8 +154,11 @@ namespace StreamEnergy.MyStream.Controllers
 
             return faqs;
         }
-
         public List<FAQ> Search(string query) {
+            return Search(query, null);
+        }
+
+        public List<FAQ> Search(string query, FaqSearchFilter filter) {
             List<FAQ> results = new List<FAQ>();
             List<FAQ> allFAQS = new List<FAQ>();
 
@@ -145,7 +179,12 @@ namespace StreamEnergy.MyStream.Controllers
             updateSearchResults(results, catSearch);
             updateSearchResults(results, subSearch);
             updateSearchResults(results, keySearch);
-            
+
+
+            if (filter != null) {
+                results = filterSearchResults(results, filter);
+            }
+
 
             return results;
         }
@@ -173,6 +212,31 @@ namespace StreamEnergy.MyStream.Controllers
 
         private List<FAQ> FAQKeywordSearch(string query, List<FAQ> list) {
             return list.Where(a => a.Keywords.Any(b => b.ToLower() == query)).ToList();
+        }
+
+        private List<FAQ> filterSearchResults(List<FAQ> initialSet, FaqSearchFilter filter) {
+            if (filter == null || 
+                (filter.Category == null && filter.Subcategory == null && filter.State == null))
+            {
+                return initialSet;
+            }
+
+            List<FAQ> results = initialSet;
+
+            if(filter.Category != null)
+            {
+                results = results.Where(a => a.Categories.Any(b => b.Guid == filter.Category.Guid)).ToList();
+            }
+
+            if (filter.Subcategory != null) {
+                results = results.Where(a => a.SubCategories.Any(b => b.Guid == filter.Subcategory.Guid)).ToList();
+            }
+
+            if (filter.State != null) {
+                results = results.Where(a => a.States.Any(b => b.Abbreviation == filter.State.Abbreviation)).ToList();
+            }
+
+            return results;
         }
 
         private List<FAQ> updateSearchResults(List<FAQ> initialSet, List<FAQ> updatedResults)
