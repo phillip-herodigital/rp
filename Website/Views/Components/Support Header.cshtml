@@ -2,18 +2,21 @@
     <div class="content">
         
         <h1 ng-hide="subcategories.length">Stream Support Center</h1>
-        <h1 ng-show="subcategories.length">{{category.name}} Support</h1>
+        <h1 ng-show="subcategories.length">{{category}} Support</h1>
         <h4>At Stream, we're here to help. Contact us if you can't find what you're looking for.</h4>
-        <div class="search">
+        <form class="search" ng-submit="search()">
             <div class="select clearfix" ng-click="dropDown=!dropDown">
-                <div class="selected-category" ng-show="category">
-                    In {{category.name}}<span ng-if="category.states.length"> - {{selectedState.abbreviation}}</span>
+                <div class="selected-category" ng-show="search.category">
+                    In {{search.category.name}}<span ng-show="search.state"> - {{search.state.abbreviation}}</span>
                 </div>
-                <div class="selected-category" ng-hide="category" ng-cloak>Service Type</div>
+                <div class="selected-category" ng-hide="search.category" ng-cloak>Service Type</div>
                 <div class="triangle-down" ng-class="{flipped: dropDown}"></div>
             </div>
             <div class="input">
-                <input type="text" placeholder="search for something" />
+                <input type="text" 
+                       placeholder="search for something"
+                       ng-model="search.text"
+                       typeahead="faq.faqQuestion for faq in searchFAQs"/>
                 <img class="mag-glass" src="/frontend/assets/i/mag-glass.png" />
             </div>
             <div ng-class="{reveal: dropDown}" class="category-dropdown-container">
@@ -30,7 +33,7 @@
                     </li>
                 </ul>
             </div>
-        </div>
+        </form>
     </div>
 </div>
 <nav class="tertiary-nav" ng-if="subcategories.length" ng-cloak>

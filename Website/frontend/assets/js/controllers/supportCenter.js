@@ -1,12 +1,18 @@
-﻿ngApp.controller('supportCenterCtrl', ['$scope', '$http', '$sce', function ($scope, $http, $sce) {
+﻿ngApp.controller('supportCenterCtrl', ['$scope', '$http', '$sce', 'supportCenterService', function ($scope, $http, $sce, supportCenterService) {
+    $scope.service = supportCenterService;
     $scope.dropDown = false;
     $scope.selectedFaqIndex = null;
-    $scope.categories = [];
-    $scope.category = null;
-    $scope.subcategories = [];
-    $scope.subcategory = "All";
-    $scope.faqs = [];
-    $scope.keywords = [];
+    $scope.category = ""; //currently selected category name
+    $scope.categories = []; //list of categories
+    $scope.subcategories = []; //list of subcategories for $scope.category
+    $scope.subcategory = "All"; //currently selected subcategory name
+    $scope.faqs = []; //popular faqs on /support page, category/subcategory faqs on category/subcategory pages
+    $scope.search = { //seach data
+        category: "",
+        state: null,
+        text: ""
+    }
+    $scope.keywords = []; //list of keywords for current faq list
 
     $scope.init = function (categories, popFaqs) {
         $scope.categories = categories;
@@ -28,7 +34,8 @@
 
     $scope.categoryInit = function(categories, category, categoryFaqs, subcategories, subcategory) {
         $scope.categories = categories;
-        $scope.category = category;
+        $scope.search.category = category;
+        $scope.category = category.name;
         $scope.faqs = categoryFaqs;
         $scope.subcategories = subcategories;
         $scope.subcategory = subcategory;
@@ -47,19 +54,70 @@
         });
     }
 
-    $scope.selectCategory = function(category, state) {
-        if (category.states.length) {
-            if (state) {
-                $scope.category = category;
-                $scope.selectedState = state;
-                $scope.dropDown = false;
+    $scope.$watch("search.text", function (newVal, oldVal) {
+        if (newVal != "") {
+            $http({
+                method: 'GET',
+                url: "/api/support/search/" + $scope.search.text
+            }).then(function successCallback(response) {
+                $scope.searchFAQs = response.data;
+            }, function errorCallback(response) {
+            });
+        }
+    });
+
+    $scope.search = function () {
+        $http({
+            method: 'GET',
+            url: "/api/support/search/" + $scope.search.text
+        }).then(function successCallback(response) {
+            if (response.data.length == 1) {
+                //one result
+                if ($scope.subcategories.length) {
+                    //category search
+                    var categorySame = false;
+                    angular.forEach(response.data[0].categories, function (category, index) {
+                        if (category.name === $scope.category) {
+                            categorySame = true;
+                        }
+                    });
+                    if (categorySame) {
+                        //category search, same category
+                        var faqIndex = -1;
+                        angular.forEach($scope.faqs, function (faq, index) {
+                            if (faq.name === response.data[0].name) {
+                                faqIndex = index;
+                            }
+                        });
+                        $scope.selectFaq(faqIndex);
+                    }
+                    else {
+                        //category search, different category
+                        selectOutsideFAQ(response.data[0]);
+                    }
+                }
+                else {
+                    //one result, main search
+                    selectOutsideFAQ(response.data[0]);
+                }
             }
-        }
-        else {
-            $scope.category = category;
-            $scope.selectedState = state;
-            $scope.dropDown = false;
-        }
+            else {
+                //multiple results page
+            }
+        }, function errorCallback(response) {
+        });
+    };
+
+    var selectOutsideFAQ = function (faq) {
+        window.open("/support/" + faq.categories[0].name)
+        $scope.service.setFAQ(faq);
+    };
+
+    $scope.selectCategory = function(category, state) {
+        $scope.search.category = category;
+        $scope.search.state = state
+        $scope.dropDown = false;
+        $scope.search.text = "";
     };
     
     $scope.selectSubcategory = function (index) {
