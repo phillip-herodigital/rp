@@ -19,6 +19,8 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
             FaqSearchFilter filter = new FaqSearchFilter();
 
+            query = System.Web.HttpUtility.UrlDecode(query);
+
             if (!string.IsNullOrEmpty(category)) {
                 try {
                     var cats = controller.GetAllCategories();
