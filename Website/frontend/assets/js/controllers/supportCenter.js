@@ -12,6 +12,7 @@
         state: null,
         text: ""
     }
+    $scope.searchResults = false;
     $scope.keywords = []; //list of keywords for current faq list
     $scope.keywordFilterList = [];
     $scope.init = function (categories, popFaqs) {
@@ -88,6 +89,9 @@
                 url: searchUrl,
             }).then(function successCallback(response) {
                 $scope.searchFAQs = response.data;
+                angular.forEach($scope.searchFAQs, function (faq) {
+                    faq.faqAnswer = $sce.trustAsHtml(faq.faqAnswer);
+                });
             }, function errorCallback(response) {
                 //handle error
             });
@@ -125,9 +129,12 @@
                 //one result, main search
                 selectOutsideFAQ(response[0]);
             }
+            $scope.searchResults = false;
         }
         else {
             //multiple results page
+            $scope.faqs = response;
+            $scope.searchResults = true;
         }
     };
 
@@ -200,6 +207,14 @@
         else {
             selectOutsideFAQ(relatedFaq);
         }
+    };
+
+    $scope.backToSupport = function (categoryFAQs) {
+        $scope.faqs = categoryFAQs;
+        angular.forEach($scope.faqs, function (faq) {
+            faq.faqAnswer = $sce.trustAsHtml(faq.faqAnswer);
+        });
+        $scope.searchResults = false;
     };
 
     $scope.keywordFilter = function (faq) {

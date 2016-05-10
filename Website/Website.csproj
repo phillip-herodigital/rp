@@ -5554,10 +5554,13 @@
     <Content Include="Views\Pages\Marketing\Services\Voice FAQs.cshtml" />
     <Content Include="Views\Pages\Marketing\Services\Voice International.cshtml" />
     <Content Include="Views\Pages\Marketing\Return\Return Form.cshtml" />
-    <Content Include="Views\Pages\Support\Support.cshtml" />
+    <Content Include="Views\Components\Support Center\Support.cshtml" />
     <Content Include="Views\Components\Support Center\Category.cshtml" />
-    <Content Include="Views\Components\Support Header.cshtml" />
+    <Content Include="Views\Components\Support Center\Support Header.cshtml" />
     <Content Include="Views\Components\Support Center\Container.cshtml" />
+    <Content Include="Views\Components\Support Center\Contact.cshtml" />
+    <Content Include="Views\Components\Support Center\Search Results.cshtml" />
+    <Content Include="Views\Components\Support Center\Mobile Acronyms.cshtml" />
     <None Include="Web.Azure-Production Sitecore.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>

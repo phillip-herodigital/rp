@@ -32,7 +32,10 @@
     <div class="category clearfix" ng-init="categoryInit(@categories, @category, @categoryFaqs, @subcategories, @subcategory, @searchFAQ)">
         <article class="category-faqs marketing">
             <div class="content">
-                <p>{{subcategory}}</p>
+                <div class="results-content" ng-show="searchResults" ng-cloak>
+                    <a href="" ng-click="backToSupport(@categoryFaqs)">Back to Support</a>
+                    <p>Showing 1-15 of {{faq.length}} search results for “{{search.text}}” in {{search.category.name}}<span ng-show="search.state"> - {{search.state.abbreviation}}</span></p>
+                </div>
                 <div class="faq" ng-repeat="faq in faqs | filter: keywordFilter : true">
                     <div class="question" ng-click="selectFaq($index)">
                         <div class="plus-minus">
