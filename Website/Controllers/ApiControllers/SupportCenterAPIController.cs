@@ -36,7 +36,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                     var states = controller.GetAllStates();
                     state = state.ToLower().Trim();
 
-                    filter.State = states.FirstOrDefault(a => a.Abbreviation.ToLower() == state || a.State.ToLower() == state || a.Guid.ToLower() == state);
+                    filter.State = states.FirstOrDefault(a => a.Abbreviation.ToLower() == state || a.Name.ToLower() == state || a.Guid.ToLower() == state);
                 }
                 catch { }
             }

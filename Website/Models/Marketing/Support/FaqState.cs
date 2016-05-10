@@ -7,14 +7,14 @@ namespace StreamEnergy.MyStream.Models.Marketing.Support
 {
     public class FAQState
     {
-        public string State;
+        public string Name;
         public string Abbreviation;
         public string Guid;
 
         public FAQState() { }
 
         public FAQState(string State, string Abbreviation) {
-            this.State = State;
+            this.Name = State;
             this.Abbreviation = Abbreviation;
         }
 
@@ -26,7 +26,7 @@ namespace StreamEnergy.MyStream.Models.Marketing.Support
         }
 
         private void createState(Item item) {
-            State = item.Fields["State Name"].Value;
+            Name = item.Fields["State Name"].Value;
             Abbreviation = item.Fields["State Abberviation"].Value;
             Guid = item.ID.ToString();
         }
