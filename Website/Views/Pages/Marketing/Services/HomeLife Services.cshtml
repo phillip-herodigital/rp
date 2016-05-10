@@ -168,12 +168,14 @@
         </div>
     </article>
 
-    <div class="protection-hero" style="@Html.AsBackgroundStyle("Protection Image", dataSourceItem)">
-        <div class="message">
-            <span class="icon-check-sheild shield"></span>
-            @Html.Sitecore().Field("Protectction Message")
+    <article class="protective-video marketing full-html">
+        <div class="wrapper">
+            <div class="video-container">
+                <iframe src="https://www.youtube.com/embed/@Html.Sitecore().Field("Youtube ID")" frameborder="0"></iframe>
+            </div>
         </div>
-    </div>
+    </article>
+
     <article class="marketing protective-footnotes">
         <div class="wrapper">
             @Html.Sitecore().Field("Protective Footnotes")
