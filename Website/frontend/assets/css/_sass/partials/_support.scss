@@ -1,5 +1,4 @@
 .support {
-
     section.layout {
         max-width: none;
         padding-bottom: 0;
@@ -141,6 +140,10 @@
                 aside {
                     float: right;
                     width: 250px;
+
+                    .selected {
+                        font-weight: 700;
+                    }
                 }
             }
         }

@@ -3407,7 +3407,6 @@
     <Content Include="frontend\assets\js\services\enrollment\enrollment.js" />
     <Content Include="frontend\assets\js\services\enrollment\enrollmentSteps.js" />
     <Content Include="frontend\assets\js\services\mobileEnrollment.js" />
-    <Content Include="frontend\assets\js\services\supportCenter.js" />
     <Content Include="frontend\assets\js\services\mobileUsage.js" />
     <Content Include="frontend\assets\js\services\modalFactory.js" />
     <Content Include="frontend\assets\js\services\notification.js" />

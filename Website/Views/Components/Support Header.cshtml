@@ -17,7 +17,7 @@
                        placeholder="search for something"
                        ng-model="search.text"
                        typeahead="faq.faqQuestion for faq in searchFAQs"/>
-                <img class="mag-glass" src="/frontend/assets/i/mag-glass.png" />
+                <img class="mag-glass" src="/frontend/assets/i/mag-glass.png" ng-click="seach()"/>
             </div>
             <div ng-class="{reveal: dropDown}" class="category-dropdown-container">
                 <ul class="category-dropdown">

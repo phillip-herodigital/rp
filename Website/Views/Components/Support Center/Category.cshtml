@@ -20,13 +20,20 @@
     {
         subcategory = Request.QueryString["subcat"];
     }
+
+    string searchFAQ = StreamEnergy.Json.Stringify(null);
+    if (!string.IsNullOrEmpty(Request.QueryString["searchFAQ"]))
+    {
+        FAQ searchFAQitem = new FAQ(Request.QueryString["searchFAQ"]);
+        searchFAQ = StreamEnergy.Json.Stringify(searchFAQitem);
+    }
 }
 <div class="support-container layout">
-    <div class="category clearfix" ng-init="categoryInit(@categories, @category, @categoryFaqs, @subcategories, @subcategory)">
+    <div class="category clearfix" ng-init="categoryInit(@categories, @category, @categoryFaqs, @subcategories, @subcategory, @searchFAQ)">
         <article class="category-faqs marketing">
             <div class="content">
                 <p>{{subcategory}}</p>
-                <div class="faq" ng-repeat="faq in faqs">
+                <div class="faq" ng-repeat="faq in faqs | filter: keywordFilter : true">
                     <div class="question" ng-click="selectFaq($index)">
                         <div class="plus-minus">
                             <div class="plus" ng-class="{minus: faq.selected}"></div>
@@ -50,7 +57,7 @@
         <aside>
             <h4>What what you're looking for quickly by choosing a tag below:</h4>
             <div ng-repeat="keyword in keywords">
-                <p><a href="" ng-click="selectTag(keyword)">{{keyword}}</a></p>
+                <p ng-class="{selected: keyword.selected}"><a href="" ng-click="toggleKeyword(keyword)">{{keyword.name}}</a></p>
             </div>
             <h4>Still having issues?</h4>
             <p>Please contact us!</p>
