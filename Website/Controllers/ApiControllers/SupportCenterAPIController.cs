@@ -7,16 +7,23 @@ using System.Web.Http;
 using StreamEnergy.MyStream.Models.Marketing.Support;
 using StreamEnergy.MyStream.Controllers;
 
+using System.Threading.Tasks;
 namespace StreamEnergy.MyStream.Controllers.ApiControllers
 {
     [RoutePrefix("api/support")]
     public class SupportCenterAPIController : ApiController
     {
+        private SupportCenterController _controller;
+        private SupportCenterController controller {
+            get {
+                if (_controller == null) _controller = new SupportCenterController();
+                
+                return _controller;
+            }
+        }
         [HttpGet]
         [Route("search/{query}/{category}/{state}/{subcategory}")]
         public List<FAQ> Get(string query, string category, string state, string subcategory) {
-            var controller = new SupportCenterController();
-
             FaqSearchFilter filter = new FaqSearchFilter();
 
             query = System.Web.HttpUtility.UrlDecode(query);
@@ -50,6 +57,23 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             }
 
             return controller.Search(query, filter);
+        }
+
+
+        [HttpGet]
+        [Route("helpful/{guid}/{helpful}")]
+        public async Task<bool> LookupZip(string guid, string helpful)
+        {
+            try
+            {
+                FAQ faq = new FAQ(guid);
+                bool isHelpful = bool.Parse(helpful);
+
+                controller.WasFAQHelpful(faq, isHelpful);
+            }
+            catch { return false; }
+            
+            return true;
         }
     }
 }
