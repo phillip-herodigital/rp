@@ -136,12 +136,128 @@
         .support-container {
             padding-bottom: 0;
 
-            .main, .category {
-                padding: inherit 20px;
+            .main {
+                padding: 20px 20px 0;
+
+                article.faq-categories {
+                    border: 0px;
+
+                    .wrapper {
+                        h1 {
+                            text-align: center;
+                            color: #333;
+                        }
+                    }
+
+                    .category {
+                        width: 33%;
+                        height: 450px;
+                        overflow: auto;
+                        float: left;
+                        padding-top: 50px;
+                        position: relative;
+
+                        p {
+                            margin: 1em 1.5em 1em 1.5em;
+
+                            a {
+                                color: #28ade0;
+                                font-weight: 500;
+                            }
+
+                            &.service-name {
+                                text-align: center;
+                                text-transform: uppercase;
+                                font-weight: 500;
+                                font-size: 20px;
+                            }
+                        }
+
+                        .Energy {
+                            background: image-url('marketing/redesign/Modules/support-energy.png') top center no-repeat;
+                            padding: 65px 0px 30px 0px;
+                        }
+
+                        .Mobile {
+                            background: image-url('marketing/redesign/Modules/support-mobile.png') top center no-repeat;
+                            padding: 65px 0px 30px 0px;
+                        }
+
+                        .Protective {
+                            background: image-url('marketing/redesign/Modules/support-protection.png') top center no-repeat;
+                            padding: 65px 0px 30px 0px;
+                        }
+
+                        .Home {
+                            background: image-url('marketing/redesign/Modules/support-home.png') top center no-repeat;
+                            padding: 65px 0px 30px 0px;
+                        }
+
+                        .Opportunity {
+                            background: image-url('marketing/redesign/Modules/support-opportunity.png') top center no-repeat;
+                            padding: 65px 0px 30px 0px;
+                        }
+
+                        .Stream {
+                            background: image-url('marketing/redesign/Modules/support-stream.png') top center no-repeat;
+                            padding: 65px 0px 30px 0px;
+                        }
+
+                        > div:after {
+                            position: absolute;
+                            display: block;
+                            content: '';
+                            width: 1px;
+                            height: 210px;
+                            background: #eceeef;
+                            top: 76px;
+                            right: 10px;
+                        }
+
+                        .Protective:after {
+                            display: none;
+                        }
+
+                        .Stream:after {
+                            display: none;
+                        }
+
+                        .Home:before, .Opportunity:before, .Stream:before {
+                            position: absolute;
+                            display: block;
+                            content: '';
+                            width: 200px;
+                            height: 1px;
+                            background: #eceeef;
+                            top: 0px;
+                            left: 55px;
+                        }
+                    }
+                }
+
+                article.faqs {
+                    header {
+                        border-bottom: none;
+                        margin-top: 25px;
+
+                        h1 {
+                            text-align: center;
+                            font-size: 36px;
+                            float: none;
+                        }
+                    }
+                }
             }
 
             .category {
-                .category-faqs {
+                padding: 20px 20px 0;
+
+                .results-content {
+                    width: 100%;
+                    border-bottom: 2px solid #efefef;
+                }
+
+                article.faqs {
                     float: left;
                     width: calc(100% - 250px);
                 }
@@ -155,137 +271,118 @@
                     }
                 }
             }
-        }
-    }
 
+            .faqs {
 
+                .content {
 
+                    .faq {
+                        border-bottom: 2px solid #efefef;
 
+                        .question {
+                            padding: 10px 0;
 
+                            .plus-minus {
+                                float: left;
+                                height: 21px;
+                                width: 21px;
+                                margin: 0 10px;
 
-    .popular-faqs, .category-faqs {
-        header {
-            border-bottom: none;
-            margin-top: 25px;
+                                .plus {
+                                    width: 21px;
+                                    height: 21px;
+                                    background: url(/frontend/assets/i/icon/blue-plus-large.png);
 
-            h1 {
-                text-align: center;
-                font-size: 36px;
-                float: none;
-            }
-        }
+                                    &.minus {
+                                        height: 2px;
+                                        margin: 10px 0 9px;
+                                        background: url(/frontend/assets/i/icon/blue-plus-large.png) 0 11px;
+                                    }
+                                }
+                            }
 
-        .content {
+                            p {
+                                float: left;
+                                margin: 0 5px;
+                            }
 
-            .faq {
-                border-top: 2px solid #efefef;
+                            .faq-category {
+                                float: right;
+                            }
+                        }
 
-                &:last-child {
-                    border-bottom: 2px solid #efefef;
-                }
+                        .answer-container {
+                            overflow: hidden;
+                            width: 100%;
+                        }
 
-                .question {
-                    padding: 10px 0;
+                        .answer {
+                            background-color: #eff2f3;
+                            color: #636367;
+                            margin-top: -100%;
+                            position: relative;
+                            transition: margin-top 500ms;
 
-                    .plus-minus {
-                        float: left;
-                        height: 21px;
-                        width: 21px;
-                        margin: 0 10px;
+                            &.reveal {
+                                margin-top: 15px;
+                            }
 
-                        .plus {
-                            width: 21px;
-                            height: 21px;
-                            background: url(/frontend/assets/i/icon/blue-plus-large.png);
+                            .triangle-up {
+                                height: 0;
+                                width: 0;
+                                border-left: 15px solid transparent;
+                                border-right: 15px solid transparent;
+                                border-bottom: 15px solid #eff2f3;
+                                background-color: #fff;
+                                position: relative;
+                                top: -15px;
+                                left: 45px;
+                            }
 
-                            &.minus {
-                                height: 2px;
-                                margin: 10px 0 9px;
-                                background: url(/frontend/assets/i/icon/blue-plus-large.png) 0 11px;
+                            .answer-content {
+                                width: calc(100% - 250px);
+                                float: left;
+                                padding: 20px;
+                                margin-top: -15px;
+                            }
+
+                            aside {
+                                margin-top: -15px;
+                                float: right;
+                                width: 250px;
+                                font-size: 16px;
+                                padding: 20px;
+                            }
+
+                            .helpful {
+                                padding: 20px;
+                                bottom: 0;
+                                width: 100%;
+                                background-color: #eeeeee;
+                                float: left;
+
+                                label {
+                                    margin-right: 5px;
+                                }
+
+                                input[type="radio"] {
+                                    margin: 0 5px;
+                                }
                             }
                         }
                     }
-
-                    p {
-                        float: left;
-                        margin: 0 5px;
-                    }
-
-                    .faq-category {
-                        float: right;
-                    }
-                }
-
-                .answer-container {
-                    overflow: hidden;
-                    width: 100%;
-                }
-
-                .answer {
-                    background-color: #eff2f3;
-                    color: #636367;
-                    margin-top: -100%;
-                    position: relative;
-                    transition: margin-top 500ms;
-
-                    &.reveal {
-                        margin-top: 15px;
-                    }
-
-                    .triangle-up {
-                        height: 0;
-                        width: 0;
-                        border-left: 15px solid transparent;
-                        border-right: 15px solid transparent;
-                        border-bottom: 15px solid #eff2f3;
-                        background-color: #fff;
-                        position: relative;
-                        top: -15px;
-                        left: 45px;
-                    }
-
-                    .answer-content {
-                        width: calc(100% - 250px);
-                        float: left;
-                        padding: 20px;
-                        margin-top: -15px;
-                    }
-
-                    aside {
-                        margin-top: -15px;
-                        float: right;
-                        width: 250px;
-                        font-size: 16px;
-                        padding: 20px;
-                    }
-
-                    .helpful {
-                        padding: 20px;
-                        bottom: 0;
-                        width: 100%;
-                        background-color: #eeeeee;
-                        float: left;
-
-                        label {
-                            margin-right: 5px;
-                        }
-
-                        input[type="radio"] {
-                            margin: 0 5px;
-                        }
-                    }
                 }
             }
         }
-    }
 
-    .secondary-footer {
-        width: 100%;
-        height: 100px;
-        float: left;
-        background-color: #eff2f3;
-        padding: 36px;
-        font-size: 21px;
+        .secondary-footer {
+            width: 100%;
+            height: 100px;
+            float: left;
+            background-color: #eff2f3;
+            padding: 36px;
+            font-size: 21px;
+        }
     }
 }
 
@@ -380,100 +477,4 @@ article.support-mobile-guides {
 			}
 		}
 	}
-}
-
-article.faq-categories {
-    border: 0px;
-
-    .wrapper {
-        h1 {
-            text-align: center;
-            color: #333;
-        }
-    }
-
-    .category {
-        width: 33%;
-        height: 450px;
-        overflow: auto;
-        float: left;
-        padding-top: 50px;
-        position: relative;
-
-        p {
-            margin: 1em 1.5em 1em 1.5em;
-
-            a {
-                color: #28ade0;
-                font-weight: 500;
-            }
-
-            &.service-name {
-                text-align: center;
-                text-transform: uppercase;
-                font-weight: 500;
-                font-size: 20px;
-            }
-        }
-
-        .Energy {
-            background: image-url('marketing/redesign/Modules/support-energy.png') top center no-repeat;
-            padding: 65px 0px 30px 0px;
-        }
-
-        .Mobile {
-            background: image-url('marketing/redesign/Modules/support-mobile.png') top center no-repeat;
-            padding: 65px 0px 30px 0px;
-        }
-
-        .Protective {
-            background: image-url('marketing/redesign/Modules/support-protection.png') top center no-repeat;
-            padding: 65px 0px 30px 0px;
-        }
-
-        .Home {
-            background: image-url('marketing/redesign/Modules/support-home.png') top center no-repeat;
-            padding: 65px 0px 30px 0px;
-        }
-
-        .Opportunity {
-            background: image-url('marketing/redesign/Modules/support-opportunity.png') top center no-repeat;
-            padding: 65px 0px 30px 0px;
-        }
-
-        .Stream {
-            background: image-url('marketing/redesign/Modules/support-stream.png') top center no-repeat;
-            padding: 65px 0px 30px 0px;
-        }
-
-        > div:after {
-            position: absolute;
-            display: block;
-            content: '';
-            width: 1px;
-            height: 210px;
-            background: #eceeef;
-            top: 76px;
-            right: 10px;
-        }
-
-        .Protective:after {
-            display: none;
-        }
-
-        .Stream:after {
-            display: none;
-        }
-
-        .Home:before, .Opportunity:before, .Stream:before {
-            position: absolute;
-            display: block;
-            content: '';
-            width: 200px;
-            height: 1px;
-            background: #eceeef;
-            top: 0px;
-            left: 55px;
-        }
-    }
 }

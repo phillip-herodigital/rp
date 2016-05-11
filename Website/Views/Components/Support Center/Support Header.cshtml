@@ -1,7 +1,7 @@
 ﻿<div class="support-search" ng-class="{'category-search': isCategorySupport}">
     <div class="content">
         <h1 ng-show="!subcategories.length && !searchResults">Stream Support Center</h1>
-        <h1 ng-show="subcategories.length  && !searchResults">{{category}} Support</h1>
+        <h1 ng-show="subcategories.length  && !searchResults">{{category.displayTitle}} Support</h1>
         <h1 ng-show="searchResults">Search Results</h1>
         <h4 ng-hide="isCategorySupport">At Stream, we're here to help. Contact us if you can't find what you're looking for.</h4>
         <form class="search" ng-submit="search()">
@@ -27,7 +27,7 @@
                         </div>
                         <ul class="state" ng-show="category.states">
                             <li ng-repeat="state in category.states">
-                                <div ng-click="selectCategory($parent.category, state)">{{state.state}}</div>
+                                <div ng-click="selectCategory($parent.category, state)">{{state.name}}</div>
                             </li>
                         </ul>
                     </li>
