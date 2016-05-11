@@ -162,18 +162,21 @@
                 </div>
             </article>
             <div class="package-submit-section">
+                <span class="remaining-items" ng-if="numProductsChecked() < 3">@Html.Sitecore().Field("Remaining Items Text")</span>
                 <a href="javascript:void(0);" ng-class="{button: true, disabled: numProductsChecked() < 3}" ng-click="enroll()">@Html.Sitecore().Field("Select Package")</a>
             </div>
             <div class="family-member">@Html.Sitecore().Field("Add a Member")</div>
         </div>
     </article>
 
-    <div class="protection-hero" style="@Html.AsBackgroundStyle("Protection Image", dataSourceItem)">
-        <div class="message">
-            <span class="icon-check-sheild shield"></span>
-            @Html.Sitecore().Field("Protectction Message")
+    <article class="protective-video marketing full-html">
+        <div class="wrapper">
+            <div class="video-container">
+                <iframe src="https://www.youtube.com/embed/@Html.Sitecore().Field("Youtube ID")" frameborder="0"></iframe>
+            </div>
         </div>
-    </div>
+    </article>
+
     <article class="marketing protective-footnotes">
         <div class="wrapper">
             @Html.Sitecore().Field("Protective Footnotes")
