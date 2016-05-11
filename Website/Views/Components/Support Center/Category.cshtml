@@ -27,22 +27,26 @@
         FAQ searchFAQitem = new FAQ(Request.QueryString["searchFAQ"]);
         searchFAQ = StreamEnergy.Json.Stringify(searchFAQitem);
     }
-}
+    string search = StreamEnergy.Json.Stringify(null);
+    if (!string.IsNullOrEmpty(Request.QueryString["search"]))
+    {
+        search = StreamEnergy.Json.Stringify(Request.QueryString["search"]);
+    }}
 <div class="support-container layout">
-    <div class="category clearfix" ng-init="categoryInit(@categories, @category, @categoryFaqs, @subcategories, @subcategory, @searchFAQ)">
+    <div class="category clearfix" ng-init="categoryInit(@categories, @category, @categoryFaqs, @subcategories, @subcategory, @searchFAQ, @search)">
         <article class="category-faqs marketing">
             <div class="content">
                 <div class="results-content" ng-show="searchResults" ng-cloak>
                     <a href="" ng-click="backToSupport(@categoryFaqs)">Back to Support</a>
-                    <p>Showing 1-15 of {{faq.length}} search results for “{{search.text}}” in {{search.category.name}}<span ng-show="search.state"> - {{search.state.abbreviation}}</span></p>
+                    <p>Showing 1-15 of {{faq.length}} search results for “{{search.text}}” in {{search.category}}<span ng-show="search.state.name"> - {{search.state.abbreviation}}</span></p>
                 </div>
                 <div class="faq" ng-repeat="faq in faqs | filter: keywordFilter : true">
-                    <div class="question" ng-click="selectFaq($index)">
+                    <a class="question" ng-click="selectFaq($index)" href="">
                         <div class="plus-minus">
                             <div class="plus" ng-class="{minus: faq.selected}"></div>
                         </div>
                         <p>{{faq.faqQuestion}}</p>
-                    </div>
+                    </a>
                     <div class="answer-container">
                         <div class="answer clearfix" ng-class="{reveal: faq.selected}">
                             <div class="triangle-up"></div>
@@ -67,9 +71,26 @@
             <p>Customer Service at 877-743-5893</p>
             <p>from 7am-10pm, CST, Monday-Friday or</p>
             <p>9am-5pm, CST, Saturday.</p>
+            <a href="" ng-click="showModal('emergency-contact');">Emergency Contacts</a>
         </aside>
         <div class="secondary-footer">
             Can't find what you're looking for? <a href="" ng-click="">Ask Us a Question</a>
         </div>
     </div>
 </div>
+<script type="text/ng-template" id="emergency-contact">
+    <div class="support-modal">
+        <div class="modal-header">
+            <a href="" ng-click="$dismiss()">Close</a>
+            <h2>Emergency Contacts - {{search.category.name}}<span ng-show="search.state"> - {{search.state.abbreviation}}</span></h2>
+        </div>
+        <div class="modal-body">
+            <p>In case of emergency or outage, please contact your Local Wires Company directly.</p>
+        </div>
+        @*
+            <div class="modal-footer">
+                @Html.Sitecore().Field("Footer - Unlock Sprint")
+            </div>
+        *@
+    </div>
+</script>
