@@ -96,6 +96,11 @@ namespace StreamEnergy.MyStream.Controllers
             return categories;
         }
 
+        public void WasFAQHelpful(FAQ faq, bool isHelpful) {
+            
+            //Do something here once we have what the helpul logic is
+        }
+
         public List<FaqSubcategory> GetAllSubCategories() {
             List<FaqSubcategory> subcategories = new List<FaqSubcategory>();
 
