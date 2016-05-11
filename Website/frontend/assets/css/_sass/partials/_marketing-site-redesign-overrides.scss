@@ -1119,6 +1119,7 @@ article.pay {
     .protective-video {
         .wrapper {
             padding-bottom: 0;
+            background: none;
         }
         .video-container {
             position: relative;
@@ -1567,6 +1568,15 @@ article.pay {
             }
             a.disabled {
                 opacity: 1;
+            }
+            .remaining-items {
+                color: #fff;
+                font-size: 20px;
+                margin-right: 30px;
+                @include breakpoint(small) {
+                    display: block;
+                    margin: 0 0 10px 0;
+                }
             }
         }
 
