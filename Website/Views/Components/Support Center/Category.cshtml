@@ -36,11 +36,16 @@
     <div class="category clearfix" ng-init="categoryInit(@categories, @category, @categoryFaqs, @subcategories, @subcategory, @searchFAQ, @search)">
         <div class="results-content" ng-show="searchResults" ng-cloak>
             <a href="" ng-click="backToSupport(@categoryFaqs)">Back to Support</a>
-            <p>Showing 1-15 of {{faq.length}} search results for “{{search.text}}” in {{search.category}}<span ng-show="search.state.name"> - {{search.state.abbreviation}}</span></p>
+            <p>Showing {{resultsPageRange[resultsPage].low + 1}} - {{resultsPageRange[resultsPage].high + 1}} of {{faqs.length}} search results for “{{searchData.text}}” in {{searchData.category}}<span ng-show="searchData.state.name"> - {{searchData.state.abbreviation}}</span></p>
+            Page<span ng-repeat="page in resultsPageRange" ng-style="{bold: resultsPage == $index}"> <a href="" ng-click="setResultsPage($index)">{{$index + 1}}</a></span>
+            <span> Results Per Page  <select ng-model="resultsPerPage.value">
+                    <option ng-repeat="value in resultsPerPage.options">{{value}}</option>
+                </select>
+            </span>
         </div>
         <article class="faqs marketing">
             <div class="content">
-                <div class="faq" ng-repeat="faq in faqs" ng-show="faqFilter(faq)">
+                <div class="faq" ng-repeat="faq in faqs" ng-show="faqFilter(faq, $index)">
                     <a class="question" ng-click="selectFaq($index)" href="">
                         <div class="plus-minus">
                             <div class="plus" ng-class="{minus: faq.selected}"></div>

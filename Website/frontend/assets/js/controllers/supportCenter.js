@@ -13,6 +13,12 @@
         text: ""
     }
     $scope.searchResults = false;
+    $scope.resultsPage = 0;
+    $scope.resultsPerPage = {
+        value: 2,
+        options: [2, 5, 10, 15]
+    };
+    $scope.resultsPages = Math.ceil($scope.faqs.length / $scope.resultsPerPage.value);
     $scope.isCategorySupport = false;
     $scope.keywords = []; //list of keywords for current faq list
     $scope.init = function (categories, popFaqs) {
@@ -78,6 +84,7 @@
                 var promise = getSearchFaqs();
                 promise.then(function (value) {
                     $scope.faqs = value;
+                    $scope.$apply();
                     $scope.searchResults = true;
                 }, function (error) {
                     console.log(error);
@@ -89,7 +96,13 @@
 
     $scope.$watch("searchData.text", function (newVal, oldVal) {
         if (newVal) {
-            getSearchFaqs();
+            var promise = getSearchFaqs();
+            promise.then(function (value) {
+                $scope.searchFAQs = value;
+                $scope.$apply();
+            }, function (error) {
+                console.log(error);
+            });
         }
     });
 
@@ -117,11 +130,11 @@
                 method: 'GET',
                 url: searchUrl,
             }).then(function successCallback(response) {
-                $scope.searchFAQs = response.data;
-                angular.forEach($scope.searchFAQs, function (faq) {
+                result = response.data;
+                angular.forEach(result, function (faq) {
                     faq.faqAnswer = $sce.trustAsHtml(faq.faqAnswer);
                 });
-                resolve($scope.searchFAQs);
+                resolve(result);
             }, function errorCallback(response) {
                 //handle error
                 reject(null);
@@ -147,11 +160,13 @@
                         }
                     });
                     $scope.selectFaq(faqIndex);
+                    $scope.$apply();
                 }
                 else {
                     //same category, multiple results
                     $scope.faqs = response;
-                    $scope.searchResults = true;
+                    createResultsPage();
+                    $scope.$apply();
                 }
             }
             else {
@@ -186,6 +201,18 @@
             state = $scope.searchData.state.name;
         }
         window.location.href = "/support/" + $scope.searchData.category + "?search=" + state + "|" + $scope.searchData.text;
+    };
+
+    var createResultsPage = function () {
+        $scope.searchResults = true;
+        $scope.resultsPages = Math.ceil($scope.faqs.length / $scope.resultsPerPage.value);
+        $scope.resultsPageRange = [];
+        for (var page = 0; page < $scope.resultsPages; page++) {
+            var lowVal = page * $scope.resultsPerPage.value;
+            var highVal = lowVal + $scope.resultsPerPage.value - 1;
+            if (highVal > $scope.faqs.length) highVal = $scope.faqs.length;
+            $scope.resultsPageRange.push({ low: lowVal, high: highVal });
+        }
     };
 
     $scope.selectCategory = function (category, state) {
@@ -255,6 +282,10 @@
         }
     };
 
+    $scope.setResultsPage = function(page) {
+        $scope.resultsPage = page;
+    }
+
     $scope.backToSupport = function (categoryFAQs) {
         $scope.faqs = categoryFAQs;
         angular.forEach($scope.faqs, function (faq) {
@@ -264,8 +295,21 @@
         $scope.searchData.text = "";
     };
 
-    $scope.faqFilter = function (faq) {
-        return (keywordFilter(faq) && searchStateFilter(faq) && subcategoryFilter(faq));
+    $scope.faqFilter = function (faq, index) {
+        var splitFilter = true;
+        if ($scope.searchResults) {
+            splitFilter = splitFaqFilter(faq, index);
+        }
+        return (keywordFilter(faq) && searchStateFilter(faq) && subcategoryFilter(faq) && splitFilter);
+    }
+
+    splitFaqFilter = function (faq, index) {
+        if ($scope.resultsPerPage.value * $scope.resultsPage <= index && index < $scope.resultsPerPage.value * ($scope.resultsPage + 1)) {
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 
     searchStateFilter = function(faq){
@@ -322,6 +366,7 @@
         });
         return (noneSelected || result);
     };
+
     $scope.toggleKeyword = function (keyword) {
         if (keyword.selected) {
             keyword.selected = false;
