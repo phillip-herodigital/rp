@@ -1,8 +1,5 @@
 ﻿@using StreamEnergy.MyStream.Controllers
 @using StreamEnergy.MyStream.Models.Marketing.Support
-@using Newtonsoft.Json
-@using Newtonsoft.Json.Linq
-@using Newtonsoft.Json.Serialization;
 @{
 
     SupportCenterController controller = new SupportCenterController();
@@ -31,21 +28,14 @@
     if (!string.IsNullOrEmpty(Request.QueryString["search"]))
     {
         search = StreamEnergy.Json.Stringify(Request.QueryString["search"]);
-    }}
+    }
+}
 <div class="support-container layout">
     <div class="category clearfix" ng-init="categoryInit(@categories, @category, @categoryFaqs, @subcategories, @subcategory, @searchFAQ, @search)">
-        <div class="results-content" ng-show="searchResults" ng-cloak>
-            <a href="" ng-click="backToSupport(@categoryFaqs)">Back to Support</a>
-            <p>Showing {{resultsPageRange[resultsPage].low + 1}} - {{resultsPageRange[resultsPage].high + 1}} of {{faqs.length}} search results for “{{searchData.text}}” in {{searchData.category}}<span ng-show="searchData.state.name"> - {{searchData.state.abbreviation}}</span></p>
-            Page<span ng-repeat="page in resultsPageRange" ng-style="{bold: resultsPage == $index}"> <a href="" ng-click="setResultsPage($index)">{{$index + 1}}</a></span>
-            <span> Results Per Page  <select ng-model="resultsPerPage.value">
-                    <option ng-repeat="value in resultsPerPage.options">{{value}}</option>
-                </select>
-            </span>
-        </div>
+        @Html.Partial("/Views/Components/Support Center/FAQ Results.cshtml", new ViewDataDictionary { { "Faqs", categoryFaqs } })
         <article class="faqs marketing">
             <div class="content">
-                <div class="faq" ng-repeat="faq in faqs" ng-show="faqFilter(faq, $index)">
+                <div class="faq" ng-repeat="faq in faqs track by $index" ng-show="faqFilter(faq, $index)">
                     <a class="question" ng-click="selectFaq($index)" href="">
                         <div class="plus-minus">
                             <div class="plus" ng-class="{minus: faq.selected}"></div>
@@ -66,18 +56,7 @@
                 </div>
             </div>
         </article>
-        <aside>
-            <h4>What what you're looking for quickly by choosing a tag below:</h4>
-            <div ng-repeat="keyword in keywords">
-                <p ng-class="{selected: keyword.selected}"><a href="" ng-click="toggleKeyword(keyword)">{{keyword.name}}</a></p>
-            </div>
-            <h4>Still having issues?</h4>
-            <p>Please contact us!</p>
-            <p>Customer Service at 877-743-5893</p>
-            <p>from 7am-10pm, CST, Monday-Friday or</p>
-            <p>9am-5pm, CST, Saturday.</p>
-            <a href="" ng-click="showModal('emergency-contact');">Emergency Contacts</a>
-        </aside>
+        @Html.Partial("/Views/Components/Support Center/FAQ Aside.cshtml")
         <div class="secondary-footer">
             Can't find what you're looking for? <a href="" ng-click="">Ask Us a Question</a>
         </div>

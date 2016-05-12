@@ -1,0 +1,12 @@
+﻿<aside>
+    <h4>What what you're looking for quickly by choosing a tag below:</h4>
+    <div ng-repeat="keyword in keywords">
+        <p ng-class="{selected: keyword.selected}"><a href="" ng-click="toggleKeyword(keyword)">{{keyword.name}}</a></p>
+    </div>
+    <h4>Still having issues?</h4>
+    <p>Please contact us!</p>
+    <p>Customer Service at 877-743-5893</p>
+    <p>from 7am-10pm, CST, Monday-Friday or</p>
+    <p>9am-5pm, CST, Saturday.</p>
+    <a href="" ng-click="showModal('emergency-contact');">Emergency Contacts</a>
+</aside>

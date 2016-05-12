@@ -23,6 +23,7 @@
     $scope.keywords = []; //list of keywords for current faq list
     $scope.init = function (categories, popFaqs) {
         $scope.categories = categories;
+        $scope.category.name = "";
         $scope.faqs = popFaqs;
         angular.forEach($scope.faqs, function (faq) {
             faq.faqAnswer = $sce.trustAsHtml(faq.faqAnswer);
@@ -148,19 +149,24 @@
         promise.then(function (value) {
             var response = value
             var mainSearch = $scope.subcategories.length === 0;
-            var categorySame = !mainSearch && $scope.category.name === $scope.searchData.category;
+            var categorySame = $scope.category.name === $scope.searchData.category;
             if (categorySame) {
                 //same category
                 if (response.length == 1) {
-                    //same category, one result
-                    var faqIndex = -1;
-                    angular.forEach($scope.faqs, function (faq, index) {
-                        if (faq.name === response[0].name) {
-                            faqIndex = index;
-                        }
-                    });
-                    $scope.selectFaq(faqIndex);
-                    $scope.$apply();
+                    if (mainSearch) {
+                        selectOutsideFAQ(response[0]);
+                    }
+                    else {
+                        //same category, one result
+                        var faqIndex = -1;
+                        angular.forEach($scope.faqs, function (faq, index) {
+                            if (faq.name === response[0].name) {
+                                faqIndex = index;
+                            }
+                        });
+                        $scope.selectFaq(faqIndex);
+                        $scope.$apply();
+                    }
                 }
                 else {
                     //same category, multiple results
@@ -170,28 +176,36 @@
                 }
             }
             else {
-                //different category or main search
+                //different category
                 if (response.length == 1) {
                     //different category, one result
                     selectOutsideFAQ(response[0]);
                 }
                 else {
-                    //different/new category, multiple results
+                    //different category, multiple results
                     selectOutsideFAQs();
                 }
             }
-        },
+        }
+        ,
         function (error)
         { console.log(error); }
         );
     };
 
     var selectOutsideFAQ = function (faq) {
-        if ($scope.searchData.state) {
-            window.location.href = "/support/" + $scope.searchData.category + "?searchFAQ=" + faq.guid + "&search=" + $scope.searchData.state.name;
+        var category = "";
+        if ($scope.searchData.category) {
+            category = $scope.searchData.category;
         }
         else {
-            window.location.href = "/support/" + $scope.searchData.category + "?searchFAQ=" + faq.guid;
+            category = faq.categories[0].name;
+        }
+        if ($scope.searchData.state) {
+            window.location.href = "/support/" + category + "?searchFAQ=" + faq.guid + "&search=" + $scope.searchData.state.name;
+        }
+        else {
+            window.location.href = "/support/" + category + "?searchFAQ=" + faq.guid;
         }
     };
 
@@ -209,8 +223,8 @@
         $scope.resultsPageRange = [];
         for (var page = 0; page < $scope.resultsPages; page++) {
             var lowVal = page * $scope.resultsPerPage.value;
-            var highVal = lowVal + $scope.resultsPerPage.value - 1;
-            if (highVal > $scope.faqs.length) highVal = $scope.faqs.length;
+            var highVal = lowVal + ($scope.resultsPerPage.value - 1);
+            if (highVal > $scope.faqs.length - 1) highVal = $scope.faqs.length - 1;
             $scope.resultsPageRange.push({ low: lowVal, high: highVal });
         }
     };
@@ -282,12 +296,19 @@
         }
     };
 
-    $scope.setResultsPage = function(page) {
-        $scope.resultsPage = page;
+    $scope.setResultsPage = function (page) {
+        if (page >= 0 && page <= $scope.resultsPages) {
+            $scope.resultsPage = page;
+        }
     }
 
-    $scope.backToSupport = function (categoryFAQs) {
-        $scope.faqs = categoryFAQs;
+    $scope.setResultsPerPage = function () {
+        $scope.resultsPage = 0;
+        createResultsPage();
+    }
+
+    $scope.backToSupport = function (FAQs) {
+        $scope.faqs = FAQs;
         angular.forEach($scope.faqs, function (faq) {
             faq.faqAnswer = $sce.trustAsHtml(faq.faqAnswer);
         });

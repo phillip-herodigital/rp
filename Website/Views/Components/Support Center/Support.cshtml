@@ -1,0 +1,87 @@
+﻿@using StreamEnergy.MyStream.Controllers
+@using StreamEnergy.MyStream.Models.Marketing.Support
+@{
+    SupportCenterController controller = new SupportCenterController();
+    var categories = StreamEnergy.Json.Stringify(controller.GetAllCategories());
+    List<FAQ> popularFAQS = new List<FAQ>();
+
+    if (!string.IsNullOrEmpty(Sitecore.Context.Item.Fields["Popular FAQs"].Value))
+    {
+        var guids = Sitecore.Context.Item.Fields["Popular FAQs"].Value.Split("|".ToCharArray());
+
+        foreach (string guid in guids)
+        {
+            popularFAQS.Add(new FAQ(guid));
+        }
+    }
+
+    var popFaqs = StreamEnergy.Json.Stringify(popularFAQS);
+
+}
+<div class="support-container layout">
+    <div class="main" ng-init="init(@categories, @popFaqs)">
+        <div class="wrapper">
+            <article class="faq-categories marketing" ng-hide="searchResults">
+                <div class="primary clearfix">
+                    <h1>Get Support On Our Service</h1>
+                    <div class="category" ng-repeat="category in categories" ng-if="$index < 4">
+                        <div ng-class="category.name">
+                            <p class="service-name">{{category.name}}</p>
+                            <p>{{category.description}}</p>
+                            <p class="get-support"><a href="{{category.link}}">Get Support</a></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="secondary clearfix">
+                    <h1>You Might Also Be Interested In</h1>
+                    <div class="category " ng-repeat="category in categories" ng-if="$index > 3">
+                        <div ng-class="category.name">
+                            <p class="service-name">{{category.name}}</p>
+                            <p>{{category.description}}</p>
+                            <p class="get-support"><a href="{{category.link}}">Get Support</a></p>
+                        </div>
+                    </div>
+                </div>
+            </article>
+            <article class="faqs marketing">
+                <header ng-hide="searchResults">
+                    <h1>Most Popular FAQs</h1>
+                </header>
+                @Html.Partial("/Views/Components/Support Center/FAQ Results.cshtml", new ViewDataDictionary { { "Faqs", popFaqs } })
+                <div class="content">
+                    <div class="faq" ng-repeat="faq in faqs track by $index">
+                        <a class="question clearfix" ng-click="selectFaq($index)" href="">
+                            <div class="plus-minus">
+                                <div class="plus" ng-class="{minus: faq.selected}"></div>
+                            </div>
+                            <p>{{faq.faqQuestion}}</p>
+                            <p class="faq-category" ng-repeat="category in faq.categories">{{category.displayTitle}}</p>
+                        </a>
+                        <div class="answer-container">
+                            <div class="answer clearfix" ng-class="{reveal: faq.selected}">
+                                <div class="triangle-up"></div>
+                                <div class="answer-content" ng-bind-html="faq.faqAnswer"></div>
+                                <aside>
+                                    <h4>Related Questions</h4>
+                                    <div ng-repeat="relatedFAQ in faq.relatedFAQs">
+                                        <p><a href="" ng-click="selectRelated(relatedFAQ)">{{relatedFAQ.display}}</a></p>
+                                    </div>
+                                    <h4>Still having issues?</h4>
+                                    <p>Please contact customer support at 877-743-5893</p>
+                                </aside>
+                                <div class="helpful">
+                                    <label for="helpful">Was this helpful?</label>
+                                    <input type="radio" name="helpful" ng-model="faq.helpful" ng-value="true" /> Yes
+                                    <input type="radio" name="helpful" ng-model="faq.helpful" ng-value="false" /> No
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </article>
+        </div>
+        <div class="secondary-footer">
+            Can't find what you're looking for? <a href="" ng-click="">Ask Us a Question</a>
+        </div>
+    </div>
+</div>
