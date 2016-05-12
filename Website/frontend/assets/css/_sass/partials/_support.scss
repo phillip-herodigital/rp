@@ -137,100 +137,99 @@
             padding-bottom: 0;
 
             .main {
-                padding: 20px 20px 0;
 
                 article.faq-categories {
                     border: 0px;
 
-                    .wrapper {
-                        h1 {
-                            text-align: center;
-                            color: #333;
-                        }
+                    h1 {
+                        text-align: center;
+                        color: #333;
                     }
 
                     .category {
-                        width: 33%;
-                        height: 450px;
-                        overflow: auto;
-                        float: left;
-                        padding-top: 50px;
+                        padding: 0;
                         position: relative;
 
                         p {
-                            margin: 1em 1.5em 1em 1.5em;
-
-                            a {
-                                color: #28ade0;
-                                font-weight: 500;
-                            }
-
                             &.service-name {
                                 text-align: center;
                                 text-transform: uppercase;
                                 font-weight: 500;
                                 font-size: 20px;
                             }
-                        }
 
-                        .Energy {
-                            background: image-url('marketing/redesign/Modules/support-energy.png') top center no-repeat;
-                            padding: 65px 0px 30px 0px;
+                            &.get-support {
+                                text-align: center;
+                                width: 100%;
+                                position: absolute;
+                                bottom: 10px;
+                            }
                         }
+                    }
 
-                        .Mobile {
-                            background: image-url('marketing/redesign/Modules/support-mobile.png') top center no-repeat;
-                            padding: 65px 0px 30px 0px;
+                    .primary {
+
+                        .category {
+                            min-height: 450px;
+                            width: 25%;
+                            float: left;
+
+                            .Energy {
+                                background: image-url('marketing/redesign/Modules/support-energy.png') top center no-repeat;
+                                padding: 65px 0px 10px;
+                            }
+
+                            .Mobile {
+                                background: image-url('marketing/redesign/Modules/support-mobile.png') top center no-repeat;
+                                padding: 65px 0px 10px;
+                            }
+
+                            .Protective {
+                                background: image-url('marketing/redesign/Modules/support-protection.png') top center no-repeat;
+                                padding: 65px 0px 10px;
+                            }
+
+                            .Home {
+                                background: image-url('marketing/redesign/Modules/support-home.png') top center no-repeat;
+                                padding: 65px 0px 10px;
+                            }
+
+                            >:after {
+                                position: absolute;
+                                display: block;
+                                content: '';
+                                width: 1px;
+                                height: 210px;
+                                background: #eceeef;
+                                top: 76px;
+                                right: 10px;
+                            }
+
+                            &:last-child {
+                                color: purple;
+
+                                :after {
+                                    display: none;
+                                }
+                            }
                         }
+                    }
 
-                        .Protective {
-                            background: image-url('marketing/redesign/Modules/support-protection.png') top center no-repeat;
-                            padding: 65px 0px 30px 0px;
-                        }
+                    .secondary {
+                        .category {
+                            width: 50%;
+                            float: left;
+                            min-height: 200px;
 
-                        .Home {
-                            background: image-url('marketing/redesign/Modules/support-home.png') top center no-repeat;
-                            padding: 65px 0px 30px 0px;
-                        }
+                            .Opportunity {
+                                background: image-url('marketing/redesign/Modules/support-opportunity.png') left center no-repeat;
+                                padding: 0 0 0 65px;
+                            }
 
-                        .Opportunity {
-                            background: image-url('marketing/redesign/Modules/support-opportunity.png') top center no-repeat;
-                            padding: 65px 0px 30px 0px;
-                        }
-
-                        .Stream {
-                            background: image-url('marketing/redesign/Modules/support-stream.png') top center no-repeat;
-                            padding: 65px 0px 30px 0px;
-                        }
-
-                        > div:after {
-                            position: absolute;
-                            display: block;
-                            content: '';
-                            width: 1px;
-                            height: 210px;
-                            background: #eceeef;
-                            top: 76px;
-                            right: 10px;
-                        }
-
-                        .Protective:after {
-                            display: none;
-                        }
-
-                        .Stream:after {
-                            display: none;
-                        }
-
-                        .Home:before, .Opportunity:before, .Stream:before {
-                            position: absolute;
-                            display: block;
-                            content: '';
-                            width: 200px;
-                            height: 1px;
-                            background: #eceeef;
-                            top: 0px;
-                            left: 55px;
+                            .General {
+                                background: image-url('marketing/redesign/Modules/support-stream.png') left center no-repeat;
+                                padding: 0 0 0 65px;
+                            }
                         }
                     }
                 }
