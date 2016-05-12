@@ -61,17 +61,19 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
 
         [HttpGet]
-        [Route("helpful/{guid}/{helpful}")]
-        public async Task<bool> LookupZip(string guid, string helpful)
+        [Route("helpful/{guid}/{helpful}/{comment}")]
+        public async Task<bool> LookupZip(string guid, string helpful, string comment)
         {
             try
             {
                 FAQ faq = new FAQ(guid);
                 bool isHelpful = bool.Parse(helpful);
-
-                controller.WasFAQHelpful(faq, isHelpful);
+                comment = !string.IsNullOrEmpty(comment) && comment.Trim() !="-" ? comment : "";
+                controller.WasFAQHelpful(faq, isHelpful, comment);
             }
-            catch { return false; }
+            catch (Exception ex) {
+                return false;
+            }
             
             return true;
         }

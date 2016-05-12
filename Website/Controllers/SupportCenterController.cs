@@ -8,7 +8,8 @@ using System.Web;
 using System.Web.Mvc;
 using StreamEnergy.MyStream.Models.Marketing.Support;
 using Sitecore.Data.Items;
-
+using System.Data.SqlClient;
+using System.Data;
 namespace StreamEnergy.MyStream.Controllers
 {
     public class SupportCenterController : Controller
@@ -96,9 +97,60 @@ namespace StreamEnergy.MyStream.Controllers
             return categories;
         }
 
-        public void WasFAQHelpful(FAQ faq, bool isHelpful) {
-            
+        public void WasFAQHelpful(FAQ faq, bool isHelpful, string Comment)
+        {
             //Do something here once we have what the helpul logic is
+
+            string ConnectionString = Sitecore.Configuration.Settings.GetConnectionString("core");
+
+            if (string.IsNullOrEmpty(Comment)) Comment = "";
+
+            using (SqlConnection connection = new SqlConnection(ConnectionString))
+            {
+                connection.Open();
+                using (SqlCommand command = connection.CreateCommand())
+                {
+                    command.CommandText = @"
+INSERT INTO dbo.Helpful_FAQs
+    (
+        FaqGuid,
+        Helpful,
+        Comment,
+        Timestamp
+    ) 
+VALUES
+    (
+        @FaqGuid,
+        @WasHelpful,
+        @FaqComment,
+        @Timestamp
+    )";
+
+
+                    SqlParameter parameter = new SqlParameter("@FaqGuid", SqlDbType.VarChar);
+                    parameter.Value = faq.Guid;
+                    command.Parameters.Add(parameter);
+
+                    /*parameter = new SqlParameter("@ID,", SqlDbType.VarChar);
+                    parameter.Value = Guid.NewGuid().ToString();
+                    command.Parameters.Add(parameter);
+                    */
+
+                    parameter = new SqlParameter("@WasHelpful", SqlDbType.Bit);
+                    parameter.Value = isHelpful;
+                    command.Parameters.Add(parameter);
+
+                    parameter = new SqlParameter("@FaqComment", SqlDbType.VarChar);
+                    parameter.Value = Comment.ToLower();
+                    command.Parameters.Add(parameter);
+
+                    parameter = new SqlParameter("@Timestamp", SqlDbType.DateTime);
+                    parameter.Value = DateTime.Now;
+                    command.Parameters.Add(parameter);
+
+                    command.ExecuteNonQuery();
+                }
+            }
         }
 
         public List<FaqSubcategory> GetAllSubCategories() {
