@@ -813,6 +813,8 @@
     <Compile Include="Controllers\ApiControllers\SitecoreController.cs" />
     <Compile Include="Controllers\ApiControllers\MobileEnrollmentController.cs" />
     <Compile Include="Controllers\ApiControllers\SupportCenterAPIController.cs" />
+    <Compile Include="Models\Marketing\Support\SupportFeedbackResponse.cs" />
+    <Compile Include="Models\Marketing\Support\SupportFeedback.cs" />
     <Compile Include="Controllers\ApiControllers\TempController.cs" />
     <Compile Include="Controllers\ApiControllers\AccountController.cs" />
     <Compile Include="Controllers\ApiControllers\AddressesController.cs" />
@@ -5561,7 +5563,6 @@
     <Content Include="Views\Components\Support Center\FAQ Results.cshtml" />
     <Content Include="Views\Components\Support Center\Search Results.cshtml" />
     <Content Include="Views\Components\Support Center\Mobile Acronyms.cshtml" />
-    <Content Include="Views\Components\Support Center\FAQ Aside.cshtml" />
     <None Include="Web.Azure-Production Sitecore.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>

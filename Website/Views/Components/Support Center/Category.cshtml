@@ -30,33 +30,51 @@
         search = StreamEnergy.Json.Stringify(Request.QueryString["search"]);
     }
 }
-<div class="support-container layout">
+<div class="support-container layout" ng-cloak>
     <div class="category clearfix" ng-init="categoryInit(@categories, @category, @categoryFaqs, @subcategories, @subcategory, @searchFAQ, @search)">
-        @Html.Partial("/Views/Components/Support Center/FAQ Results.cshtml", new ViewDataDictionary { { "Faqs", categoryFaqs } })
         <article class="faqs marketing">
+            @Html.Partial("/Views/Components/Support Center/FAQ Results.cshtml", new ViewDataDictionary { { "Faqs", categoryFaqs } })
             <div class="content">
-                <div class="faq" ng-repeat="faq in faqs track by $index" ng-show="faqFilter(faq, $index)">
-                    <a class="question" ng-click="selectFaq($index)" href="">
-                        <div class="plus-minus">
-                            <div class="plus" ng-class="{minus: faq.selected}"></div>
-                        </div>
-                        <p>{{faq.faqQuestion}}</p>
-                    </a>
+                <div class="faq" ng-repeat="faq in faqs track by $index" ng-show="faqFilter(faq, $index)" ng-init="isHelpful = ''; helpfulSelected = false; feedback = ''">
+                    <div class="question clearfix" ng-click="selectFaq($index)">
+                            <div class="plus-minus">
+                                <div class="plus" ng-class="{minus: faq.selected}"></div>
+                            </div>
+                        <a href="">{{faq.faqQuestion}}</a>
+                    </div>
                     <div class="answer-container">
                         <div class="answer clearfix" ng-class="{reveal: faq.selected}">
                             <div class="triangle-up"></div>
                             <div class="answer-content" ng-bind-html="faq.faqAnswer"></div>
                             <div class="helpful">
-                                <label for="helpful">Was this helpful?</label>
-                                <input type="radio" name="helpful" ng-model="popFaq.helpful" ng-value="true" /> Yes
-                                <input type="radio" name="helpful" ng-model="popFaq.helpful" ng-value="false" /> No
+                                <p>
+                                    <label for="helpful">Was this helpful?</label>
+                                    <input type="radio" name="helpful" ng-model="isHelpful" ng-change="helpfulSelected = true" ng-value="true" /> Yes
+                                    <input type="radio" name="helpful" ng-model="isHelpful" ng-change="helpfulSelected = true" ng-value="false" /> No
+                                </p>
+                                <div class="response" ng-show="helpfulSelected">
+                                    <p>Thanks for your feedback! If you would like to add a comment, please enter it below.</p>
+                                    <textarea placeholder="Add comments here..." ng-model="feedback"></textarea>
+                                    <button class="button primary" ng-click="sendFeedback(faq.guid, isHelpful, feedback)">Submit</button>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </article>
-        @Html.Partial("/Views/Components/Support Center/FAQ Aside.cshtml")
+        <aside>
+            <h4>What what you're looking for quickly by choosing a tag below:</h4>
+            <div ng-repeat="keyword in keywords">
+                <p ng-class="{selected: keyword.selected}"><a href="" ng-click="toggleKeyword(keyword)">{{keyword.name}}</a></p>
+            </div>
+            <h4>Still having issues?</h4>
+            <p>Please contact us!</p>
+            <p>Customer Service at 877-743-5893</p>
+            <p>from 7am-10pm, CST, Monday-Friday or</p>
+            <p>9am-5pm, CST, Saturday.</p>
+            <a href="" ng-click="showModal('emergency-contact');">Emergency Contacts</a>
+        </aside>
         <div class="secondary-footer">
             Can't find what you're looking for? <a href="" ng-click="">Ask Us a Question</a>
         </div>

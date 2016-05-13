@@ -97,7 +97,7 @@ namespace StreamEnergy.MyStream.Controllers
             return categories;
         }
 
-        public void WasFAQHelpful(FAQ faq, bool isHelpful, string Comment)
+        public void WasFAQHelpful(string guid, bool isHelpful, string Comment)
         {
             //Do something here once we have what the helpul logic is
 
@@ -128,7 +128,7 @@ VALUES
 
 
                     SqlParameter parameter = new SqlParameter("@FaqGuid", SqlDbType.VarChar);
-                    parameter.Value = faq.Guid;
+                    parameter.Value = guid;
                     command.Parameters.Add(parameter);
 
                     /*parameter = new SqlParameter("@ID,", SqlDbType.VarChar);

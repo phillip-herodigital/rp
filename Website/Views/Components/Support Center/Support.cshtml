@@ -18,7 +18,7 @@
     var popFaqs = StreamEnergy.Json.Stringify(popularFAQS);
 
 }
-<div class="support-container layout">
+<div class="support-container layout" ng-cloak>
     <div class="main" ng-init="init(@categories, @popFaqs)">
         <div class="wrapper">
             <article class="faq-categories marketing" ng-hide="searchResults">
@@ -44,35 +44,44 @@
                 </div>
             </article>
             <article class="faqs marketing">
-                <header ng-hide="searchResults">
-                    <h1>Most Popular FAQs</h1>
-                </header>
-                @Html.Partial("/Views/Components/Support Center/FAQ Results.cshtml", new ViewDataDictionary { { "Faqs", popFaqs } })
-                <div class="content">
-                    <div class="faq" ng-repeat="faq in faqs track by $index">
-                        <a class="question clearfix" ng-click="selectFaq($index)" href="">
-                            <div class="plus-minus">
-                                <div class="plus" ng-class="{minus: faq.selected}"></div>
+                <div class="wrapper">
+                    <header ng-hide="searchResults">
+                        <h1>Most Popular FAQs</h1>
+                    </header>
+                    @Html.Partial("/Views/Components/Support Center/FAQ Results.cshtml", new ViewDataDictionary { { "Faqs", popFaqs } })
+                    <div class="content">
+                        <div class="faq" ng-repeat="faq in faqs track by $index" ng-init="isHelpful = ''; helpfulSelected = false; feedback = ''">
+                            <div class="question clearfix" ng-click="selectFaq($index)" >
+                                <div class="plus-minus">
+                                    <div class="plus" ng-class="{minus: faq.selected}"></div>
+                                </div>
+                                <a href="">{{faq.faqQuestion}}</a>
+                                <p class="faq-category" ng-repeat="category in faq.categories">{{category.displayTitle}}</p>
                             </div>
-                            <p>{{faq.faqQuestion}}</p>
-                            <p class="faq-category" ng-repeat="category in faq.categories">{{category.displayTitle}}</p>
-                        </a>
-                        <div class="answer-container">
-                            <div class="answer clearfix" ng-class="{reveal: faq.selected}">
-                                <div class="triangle-up"></div>
-                                <div class="answer-content" ng-bind-html="faq.faqAnswer"></div>
-                                <aside>
-                                    <h4>Related Questions</h4>
-                                    <div ng-repeat="relatedFAQ in faq.relatedFAQs">
-                                        <p><a href="" ng-click="selectRelated(relatedFAQ)">{{relatedFAQ.display}}</a></p>
+                            <div class="answer-container">
+                                <div class="answer clearfix" ng-class="{reveal: faq.selected}">
+                                    <div class="triangle-up"></div>
+                                    <div class="answer-content" ng-bind-html="faq.faqAnswer"></div>
+                                    <aside>
+                                        <h4>Related Questions</h4>
+                                        <div ng-repeat="relatedFAQ in faq.relatedFAQs">
+                                            <p><a href="" ng-click="selectRelated(relatedFAQ)">{{relatedFAQ.display}}</a></p>
+                                        </div>
+                                        <h4>Still having issues?</h4>
+                                        <p>Please contact customer support at 877-743-5893</p>
+                                    </aside>
+                                    <div class="helpful">
+                                        <p>
+                                            <label for="helpful">Was this helpful?</label>
+                                            <input type="radio" name="helpful" ng-model="isHelpful" ng-change="helpfulSelected = true" ng-value="true" /> Yes
+                                            <input type="radio" name="helpful" ng-model="isHelpful" ng-change="helpfulSelected = true" ng-value="false" /> No
+                                        </p>
+                                        <div class="response" ng-show="helpfulSelected">
+                                            <p>Thanks for your feedback! If you would like to add a comment, please enter it below.</p>
+                                            <textarea placeholder="Add comments here..." ng-model="feedback"></textarea>
+                                            <button class="button primary" ng-click="sendFeedback(faq.guid, isHelpful, feedback)">Submit</button>
+                                        </div>
                                     </div>
-                                    <h4>Still having issues?</h4>
-                                    <p>Please contact customer support at 877-743-5893</p>
-                                </aside>
-                                <div class="helpful">
-                                    <label for="helpful">Was this helpful?</label>
-                                    <input type="radio" name="helpful" ng-model="faq.helpful" ng-value="true" /> Yes
-                                    <input type="radio" name="helpful" ng-model="faq.helpful" ng-value="false" /> No
                                 </div>
                             </div>
                         </div>

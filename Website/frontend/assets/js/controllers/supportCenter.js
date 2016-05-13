@@ -86,7 +86,7 @@
                 promise.then(function (value) {
                     $scope.faqs = value;
                     $scope.$apply();
-                    $scope.searchResults = true;
+                    createResultsPage();
                 }, function (error) {
                     console.log(error);
                 });
@@ -276,6 +276,27 @@
                 $scope.faqs[index].selected = true;
                 $scope.selectedFaqIndex = index;
             }
+        }
+    }
+
+    $scope.sendFeedback = function(guid, isHelpful, feedback) {
+        $http.post("/api/support/sendFeedback", {
+            guid: guid,
+            isHelpful: isHelpful,
+            comment: feedback
+        })
+            .then(function successCallback(response) {
+                if (response.data) {
+                    console.log("feedback sent");
+                }
+                else {
+                    handleException();
+                }
+            }, function errorCallback(response) {
+                handleException();
+            });
+        var handleException = function () {
+            console.log("feedback failed");
         }
     }
 

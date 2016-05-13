@@ -60,22 +60,26 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         }
 
 
-        [HttpGet]
-        [Route("helpful/{guid}/{helpful}/{comment}")]
-        public async Task<bool> LookupZip(string guid, string helpful, string comment)
+        [HttpPost]
+        [Route("sendFeedback")]
+        public SupportFeedbackResponse SendFeedback(SupportFeedback feedback)
         {
+            SupportFeedbackResponse result = new SupportFeedbackResponse {
+                Success = true,
+                Validations = new List<String>()
+            };
+
             try
             {
-                FAQ faq = new FAQ(guid);
-                bool isHelpful = bool.Parse(helpful);
-                comment = !string.IsNullOrEmpty(comment) && comment.Trim() !="-" ? comment : "";
-                controller.WasFAQHelpful(faq, isHelpful, comment);
+                var comment = !string.IsNullOrEmpty(feedback.comment) ? feedback.comment : "";
+                controller.WasFAQHelpful(feedback.guid, feedback.isHelpful, comment);
             }
             catch (Exception ex) {
-                return false;
+                result.Success = false;
+                result.Validations.Add(ex.Message);
             }
             
-            return true;
+            return result;
         }
     }
 }
