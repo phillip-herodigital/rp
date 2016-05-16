@@ -506,6 +506,11 @@ namespace StreamEnergy.MyStream.Controllers
                     }
                 }
                 catch (Exception) { }
+
+                if (model.RepId == null && hashValues.ContainsKey("igniteassociate"))
+                {
+                    model.RepId = hashValues["igniteassociate"];
+                }
             }
 
             return View("~/Views/Pages/Marketing/Services/HomeLife Services.cshtml", model);

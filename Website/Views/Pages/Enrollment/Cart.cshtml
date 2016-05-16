@@ -62,7 +62,7 @@
                         </address>
                         <div class="notice error" ng-show="addUtilityPlanError && !isFormValid()">
                             @Html.Sitecore().Field("Select Utility Plan Text")
-                            <div class="links">
+                            <div class="links" ng-if="!isRenewal">
                                 <a href="" ng-click="deleteUtilityAddress(location)">@Html.Sitecore().Field("Remove Address")</a><button ng-click="changeUtilityPlan(location)">@Html.Sitecore().Field("Select Utility Plan Button Text")</button>
                             </div>
                         </div>

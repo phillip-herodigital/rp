@@ -232,7 +232,8 @@ GROUP BY
                         listItem.Editing.EndEdit();
                     }
 
-                    RedisCacheExtensions.CacheSet(dependencies.redis, key, contactDatas, TimeSpan.FromDays(3));
+                    RedisCacheExtensions.CacheSet(dependencies.redis, key, contactDatas);
+                    dependencies.redis.KeyExpire(key, TimeSpan.FromDays(3));
                 }
                 args.Contacts = contactDatas.AsQueryable();
             } catch (Exception ex)

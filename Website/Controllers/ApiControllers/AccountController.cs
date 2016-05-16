@@ -1004,28 +1004,9 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 }
                 else
                 {
-                    if (acct.SubAccounts.FirstOrDefault().CustomerType.ToString() == "Commercial")
+                    var subAccount = acct.SubAccounts.FirstOrDefault(s => s.Capabilities.OfType<RenewalAccountCapability>().Any(c => c.IsEligible) && s.CustomerType.ToString() != "Commercial");
+                    if (subAccount != null)
                     {
-                        var state = "";
-                        if (acct.SubAccounts.FirstOrDefault().ServiceAddress.StateAbbreviation == "TX")
-                        {
-                            state = "TX";
-                        }
-                        if (acct.SubAccounts.FirstOrDefault().ServiceAddress.StateAbbreviation == "GA")
-                        {
-                            state = "GA";
-                        }
-                        return new AccountForOneTimeRenewalResponse
-                        {
-                            Success = true,
-                            AvailableForRenewal = true,
-                            IsCommercial = true,
-                            State = state
-                        };
-                    }
-                    else
-                    {
-                        var subAccount = acct.SubAccounts.First(s => s.Capabilities.OfType<RenewalAccountCapability>().Any(c => c.IsEligible));
                         if (subAccount.ServiceAddress.StateAbbreviation == "TX" || subAccount.ServiceAddress.StateAbbreviation == "GA")
                         {
                             await enrollmentController.Initialize();
@@ -1048,6 +1029,17 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                                 TexasOrGeorgia = false
                             };
                         }
+                    }
+                    else
+                    {
+                        subAccount = acct.SubAccounts.First(s => s.Capabilities.OfType<RenewalAccountCapability>().Any(c => c.IsEligible));
+                        return new AccountForOneTimeRenewalResponse
+                        {
+                            Success = true,
+                            AvailableForRenewal = true,
+                            IsCommercial = true,
+                            State = subAccount.ServiceAddress.StateAbbreviation ?? ""
+                        };
                     }
                 }
             }
