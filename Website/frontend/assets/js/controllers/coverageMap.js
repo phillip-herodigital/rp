@@ -24,6 +24,12 @@ ngApp.controller('CoverageMapCtrl', ['$scope', '$location', 'uiGmapGoogleMapApi'
         });
     };
 
+    var pinColor = "00A9E2";
+    var pinImage = new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|" + pinColor,
+        new google.maps.Size(21, 34),
+        new google.maps.Point(0,0),
+        new google.maps.Point(10, 34));
+
     $scope.searchbox = {
         template: 'searchbox.tpl.html',
         events: {
@@ -34,6 +40,13 @@ ngApp.controller('CoverageMapCtrl', ['$scope', '$location', 'uiGmapGoogleMapApi'
                 } else {
                     $scope.mapInstance.setZoom(15);
                 }
+                
+                var marker = new google.maps.Marker({
+                  position: searchBox.getPlaces()[0].geometry.location,
+                  map: $scope.mapInstance,
+                  title: '',
+                  icon: pinImage,
+                });
             }
         }
     };
@@ -62,7 +75,9 @@ ngApp.controller('CoverageMapCtrl', ['$scope', '$location', 'uiGmapGoogleMapApi'
             panControl: false,
             streetViewControl: false,
             mapTypeControl: false,
-            styles: [{ "featureType": "poi", "stylers": [{ "visibility": "off" }] }, { "stylers": [{ "saturation": -70 }, { "lightness": 37 }, { "gamma": 1.15 }] }, { "elementType": "labels", "stylers": [{ "gamma": 0.26 }, { "visibility": "off" }] }, { "featureType": "road", "stylers": [{ "lightness": 0 }, { "saturation": 0 }, { "hue": "#ffffff" }, { "gamma": 0 }] }, { "featureType": "road", "elementType": "labels.text.stroke", "stylers": [{ "visibility": "off" }] }, { "featureType": "road.arterial", "elementType": "geometry", "stylers": [{ "lightness": 20 }] }, { "featureType": "road.highway", "elementType": "geometry", "stylers": [{ "lightness": 50 }, { "saturation": 0 }, { "hue": "#ffffff" }] }, { "featureType": "administrative.province", "stylers": [{ "visibility": "on" }, { "lightness": -50 }] }, { "featureType": "administrative.province", "elementType": "labels.text.stroke", "stylers": [{ "visibility": "off" }] }, { "featureType": "administrative.province", "elementType": "labels.text", "stylers": [{ "lightness": 20 }] }] // https://snazzymaps.com/style/19/subtle
+            minZoom: 4,
+            styles: [{"featureType":"administrative","elementType":"labels.text.fill","stylers":[{"color":"#444444"}]},{"featureType":"landscape","elementType":"all","stylers":[{"color":"#f2f2f2"}]},{"featureType":"poi","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"road","elementType":"all","stylers":[{"saturation":-100}]},{"featureType":"road.highway","elementType":"all","stylers":[{"visibility":"simplified"}]},{"featureType":"road.arterial","elementType":"labels.icon","stylers":[{"visibility":"off"}]},{"featureType":"transit","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"water","elementType":"all","stylers":[{"color":"#00A9E2"},{"visibility":"on"}]}],
+            mapTypeId: google.maps.MapTypeId.ROADMAP
         },
         events: {
             tilesloaded: function (map) {

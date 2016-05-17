@@ -2781,6 +2781,20 @@ article.coverage-map {
         li {
             margin-right: 20px;
         }
+        .layer-legend {
+            display: inline-block;
+            width: 15px;
+            height: 15px;
+            &.voice {
+                background-color: rgba(238, 198, 59, 0.5);
+            }
+            &.data {
+                background-color:rgba(238, 198, 59, 1);
+            }
+            &.lte {
+                background-color:rgba(235, 156, 84, 1);
+            }
+        }
     }
 }
 

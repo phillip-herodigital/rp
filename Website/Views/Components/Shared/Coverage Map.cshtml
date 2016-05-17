@@ -23,26 +23,15 @@
             <ui-gmap-search-box template="searchbox.template" events="searchbox.events" parentdiv="'gmap-search'"></ui-gmap-search-box>
         </ui-gmap-google-map>
 
-        <ul class="layer-toggle" ng-show="selectedNetwork == 'att'">
+        <ul class="layer-toggle">
             <li>
-                <input type="checkbox" id="att_voice" ng-model="layers.att.att_voice_roam" /> <label for="att_voice">@Html.Sitecore().Field("Voice")</label>
+                <span class="layer-legend voice"></span> <input type="checkbox" id="sprint_voice" ng-model="layers.sprint.sprint_voice_roam" /> <label for="sprint_voice">@Html.Sitecore().Field("Voice")</label>
             </li>
             <li>
-                <input type="checkbox" id="att_data" ng-model="layers.att.att_data_roam" /> <label for="att_data">@Html.Sitecore().Field("Data")</label>
+                <span class="layer-legend data"></span> <input type="checkbox" id="sprint_data" ng-model="layers.sprint.sprint_data_roam" /> <label for="sprint_data">@Html.Sitecore().Field("Data")</label>
             </li>
             <li>
-                <input type="checkbox" id="att_lte" ng-model="layers.att.att_lte" /> <label for="att_lte">@Html.Sitecore().Field("LTE")</label>
-            </li>
-        </ul>
-        <ul class="layer-toggle" ng-show="selectedNetwork == 'sprint'">
-            <li>
-                <input type="checkbox" id="sprint_voice" ng-model="layers.sprint.sprint_voice_roam" /> <label for="sprint_voice">@Html.Sitecore().Field("Voice")</label>
-            </li>
-            <li>
-                <input type="checkbox" id="sprint_data" ng-model="layers.sprint.sprint_data_roam" /> <label for="sprint_data">@Html.Sitecore().Field("Data")</label>
-            </li>
-            <li>
-                <input type="checkbox" id="sprint_lte" ng-model="layers.sprint.sprint_lte" /> <label for="sprint_lte">@Html.Sitecore().Field("LTE")</label>
+                <span class="layer-legend lte"></span> <input type="checkbox" id="sprint_lte" ng-model="layers.sprint.sprint_lte" /> <label for="sprint_lte">@Html.Sitecore().Field("LTE")</label>
             </li>
         </ul>
     </article>
