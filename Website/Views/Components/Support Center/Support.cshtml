@@ -25,7 +25,8 @@
                 <div class="primary clearfix">
                     <h1>Get Support On Our Service</h1>
                     <div class="category" ng-repeat="category in categories" ng-if="$index < 4">
-                        <div ng-class="category.name">
+                        <div ng-class="category.name" ng-style="categoryBackground[$index]">
+                            {{categoryBackground[$index]}}
                             <p class="service-name">{{category.name}}</p>
                             <p>{{category.description}}</p>
                             <p class="get-support"><a href="{{category.link}}">Get Support</a></p>
@@ -60,7 +61,6 @@
                             </div>
                             <div class="answer-container">
                                 <div class="answer clearfix" ng-class="{reveal: faq.selected}">
-                                    <div class="triangle-up"></div>
                                     <div class="answer-content" ng-bind-html="faq.faqAnswer"></div>
                                     <aside>
                                         <h4>Related Questions</h4>

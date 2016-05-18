@@ -5,6 +5,7 @@ using System.Web;
 using Sitecore.Data.Items;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Sitecore.Data.Fields;
 
 namespace StreamEnergy.MyStream.Models.Marketing.Support
 {
@@ -17,6 +18,7 @@ namespace StreamEnergy.MyStream.Models.Marketing.Support
         public string Description;
         public string Link;
         public List<FAQState> States = new List<FAQState>();
+        public string IconURL;
 
         public string Guid;
         public FAQCategory() { }
@@ -26,9 +28,12 @@ namespace StreamEnergy.MyStream.Models.Marketing.Support
             Name = getValue("Name");
             Description = getValue("Description");
             Guid = SitecoreItem.ID.ToString();
-
-            Sitecore.Data.Fields.LinkField lf = SitecoreItem.Fields["Support Link"];
-
+            ImageField iconField = SitecoreItem.Fields["Icon"];
+            if(iconField.MediaItem != null)
+            {
+                IconURL = Sitecore.Resources.Media.MediaManager.GetMediaUrl(iconField.MediaItem);
+            }
+            LinkField lf = SitecoreItem.Fields["Support Link"];
             if (lf != null) {
                 Link = lf.GetFriendlyUrl();
             }
