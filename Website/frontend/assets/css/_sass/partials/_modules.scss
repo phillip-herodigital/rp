@@ -2786,13 +2786,13 @@ article.coverage-map {
             width: 15px;
             height: 15px;
             &.voice {
-                background-color: rgba(238, 198, 59, 0.5);
+                background-color: rgba(157, 201, 68, 0.75);
             }
             &.data {
-                background-color:rgba(238, 198, 59, 1);
+                background-color:rgba(106, 150, 59, 0.75);
             }
             &.lte {
-                background-color:rgba(235, 156, 84, 1);
+                background-color:rgba(15, 76, 40, 0.75);
             }
         }
     }
