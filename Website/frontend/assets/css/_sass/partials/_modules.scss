@@ -2780,19 +2780,23 @@ article.coverage-map {
         margin-top: 20px;
         li {
             margin-right: 20px;
-        }
-        .layer-legend {
-            display: inline-block;
-            width: 15px;
-            height: 15px;
-            &.voice {
-                background-color: rgba(157, 201, 68, 0.75);
+            line-height: 1;
+            input[type="checkbox"] {
+                height: 16px;
             }
-            &.data {
-                background-color:rgba(106, 150, 59, 0.75);
-            }
-            &.lte {
-                background-color:rgba(15, 76, 40, 0.75);
+            .layer-legend {
+                display: inline-block;
+                width: 16px;
+                height: 16px;
+                &.voice {
+                    background-color: rgba(157, 201, 68, 0.6);
+                }
+                &.data {
+                    background-color:rgba(106, 150, 59, 0.6);
+                }
+                &.lte {
+                    background-color:rgba(15, 76, 40, 0.6);
+                }
             }
         }
     }
