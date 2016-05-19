@@ -643,6 +643,31 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             };
         }
 
+        public static TopLeaderList GetTopLeaderList(Item currentItem, string filterValue)
+        {
+            Item currentMonthItem;
+            if (currentItem.Children.InnerChildren.Exists(el => el.Fields["List Date Text"].Value.ToLower() == filterValue.ToLower()))
+            {
+                currentMonthItem = currentItem.Children.InnerChildren.Where(el => el.Fields["List Date Text"].Value.ToLower() == filterValue.ToLower()).FirstOrDefault();
+            }
+            else
+            {
+                // get the most recent item
+                currentMonthItem = currentItem.Children.InnerChildren.OrderByDescending(e => Sitecore.DateUtil.IsoDateToDateTime(e.Fields["List Date"].Value)).First();
+            }
+
+            var top10Field = JsonConvert.DeserializeObject<List new<TopLeader> (currentMonthItem.Fields["Top 10 List"].Value);
+            var top15Field = JsonConvert.DeserializeObject<List<KeyValuePair<string, string>>>(currentMonthItem.Fields["Top 15 List"].Value);
+
+            return new TopLeaderList
+            {
+                Top10 = top10Field,
+                Top15 = top15Field,
+                ListDate = Sitecore.DateUtil.IsoDateToDateTime(currentMonthItem.Fields["List Date"].Value).ToShortDateString(),
+                ListDateText = currentMonthItem.Fields["List Date Text"].Value,
+            };
+        }
+
         public static List<string> GetPreviousLeaderListMonths(Item currentItem, LeaderList leaderList)
         {
             List<string> months = new List<string>();

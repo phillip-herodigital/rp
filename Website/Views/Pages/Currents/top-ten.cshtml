@@ -1,0 +1,64 @@
+﻿@using StreamEnergy.MyStream.Controllers.ApiControllers;
+@using StreamEnergy.MyStream.Models.Currents;
+@{
+    string liClass = "";
+    string filterValue = "";
+    string month = DateTime.Now.ToString("MMMM");
+    string year = DateTime.Now.Year.ToString();
+    filterValue = month + " " + year;
+
+    if (!String.IsNullOrEmpty(Request.QueryString["month"]))
+    {
+        filterValue = Request.QueryString["month"];
+    }
+
+    Sitecore.Data.Items.Item dataSourceItem = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Currents/10 in 2016");
+
+    TopLeaderList topLeaderList = CurrentsController.GetTopLeaderList(dataSourceItem, filterValue);
+}
+
+<article class="currents currents__box leaderboard">
+    <div class="wrapper">
+        <div class="leaderboard-header">
+            @Html.Sitecore().Field("Header Text")
+        </div>
+        <div class="leaderboard-content">
+            @Html.Sitecore().Field("Content Text")
+        </div>
+        <div class="green-bar">
+            @Html.Sitecore().Field("Green Bar")
+        </div>
+    </div>
+</article>
+
+<div class="grid two">
+    <div class="col top-10">
+        <div class="top-header">
+            <h3>@Html.Sitecore().Field("Top 10 Header Text")</h3>
+        </div>
+        <div class="top-10-list">
+            <ul>
+                @for (var i = 0; i < topLeaderList.Top10.Count; i++)
+                {
+                    var person = topLeaderList.Top10[i];
+                    <li class="@Html.Sitecore().Field("Director Level")"><div class="star-image"><img src="@Html.Sitecore().Field("Stars")" /></div><div>@person.Key<span>@person.Value</span></div></li>
+                }
+            </ul>
+        </div>
+    </div>
+
+    <div class="col top-15">
+        <div class="top-header">
+            <h3>@Html.Sitecore().Field("Top 15 Header Text")</h3>
+        </div>
+        <div class="top-10-list">
+            <ul>
+                @for (var i = 0; i < topLeaderList.Top15.Count; i++)
+                {
+                    var person = topLeaderList.Top15[i];
+                    <li class="@Html.Sitecore().Field("Director Level")"><div class="star-image"><img src="@Html.Sitecore().Field("Stars")" /></div><div>@person.Key<span>@person.Value</span></div></li>
+                }
+            </ul>
+        </div>
+    </div>
+</div>
