@@ -1700,6 +1700,7 @@ article.pay {
     }
 }
 
+/*
 article.contact {
     h2 {
         font-size: 30px;
@@ -1727,6 +1728,11 @@ article.contact {
         }
     }
 
+	h1 {
+		width: 75%;
+		margin: 0px auto 1em auto;
+	}
+
     div.wrapper {
         padding-top: 40px;
         padding-bottom: 30px;
@@ -1735,7 +1741,8 @@ article.contact {
     div.intro {
         font-size: 24px;
         text-align: center;
-        width: 67%;
+        width: 50%;
+		margin: 0px auto 40px auto;
     }
 
     div.blue-bar {
@@ -1752,7 +1759,6 @@ article.contact {
     }
 
     div.associate-support {
-        background-color: #efefef;
         //border-top: 3px solid #0073c7;
         h2 {
             text-align: left;
@@ -1760,7 +1766,7 @@ article.contact {
         }
 
         p {
-            margin: 0;
+            //margin: 0;
 
             &.phone {
                 color: #ac1f2d;
@@ -1770,12 +1776,21 @@ article.contact {
                 color: #ac1f2d;
                 margin: 20px 0;
             }
+
+			&.address {
+				background: image-url('../i/icon/email-small.png') 0% 5% no-repeat;
+				padding-left: 45px;
+			}
         }
 
         h4 {
             margin-top: 0;
             color: #ac1f2d;
         }
+
+		.grid .col {
+			padding-top: 0px;
+		}
 
         @include breakpoint(small-medium) {
             padding-left: 20px;
@@ -2110,7 +2125,7 @@ article.contact-state {
         padding: 0 20px;
     }
 }
-
+*/
 article.homelife-services {
     .intro {
         background-color: $brand-primary-color;
