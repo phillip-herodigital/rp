@@ -1,4 +1,4 @@
-﻿ngApp.controller('supportCenterCtrl', ['$scope', '$http', '$sce', '$modal', function ($scope, $http, $sce, $modal) {
+﻿ngApp.controller('supportCenterCtrl', ['$scope', '$http', '$sce', '$modal', 'scrollService', function ($scope, $http, $sce, $modal, scrollService) {
     $scope.dropDown = false;
     $scope.selectedFaqIndex = null;
     $scope.searchFAQs = [];
@@ -71,6 +71,7 @@
             angular.forEach($scope.faqs, function (faq, index) {
                 if (faq.name === searchFAQ.name) {
                     $scope.selectFaq(index);
+                    scrollService.scrollTo("id" + faq.guid, 0, 0, angular.noop);
                 }
             });
         };

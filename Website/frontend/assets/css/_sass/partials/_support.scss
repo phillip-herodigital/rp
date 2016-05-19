@@ -43,6 +43,7 @@
                 color: #999999;
                 border-radius: 5px;
                 padding: 0;
+                position: relative;
 
                 .select {
                     position: relative;
@@ -100,6 +101,30 @@
                         position: relative;
                         top: 15px;
                         right: 15px;
+                    }
+
+                    .dropdown-menu {
+                        width: 100%;
+                        left: 0 !important;
+                        top: 90px !important;
+                        background-color: #eff2f3;
+                        padding: 5px;
+
+                        li{
+                            .typeaheadQuestion {
+                                margin-bottom: 0;
+                                font-size: 16px;
+                                font-weight: 400;
+                                color: #333333;
+                            }
+                            .typeaheadAnswer {
+                                height: 22px;
+                                overflow: hidden;
+                                p{
+                                    margin: 0;
+                                }
+                            }
+                        }
                     }
                 }
 
@@ -192,24 +217,9 @@
                             border-style: solid;
                             border-image: linear-gradient(white, #efefef, white) 1 100%;
 
-                            .Energy {
+                            > div {
                                 background-position: top center;
                                 background-repeat: no-repeat;
-                                padding: 65px 0px 10px;
-                            }
-
-                            .Mobile {
-                                background: image-url('marketing/redesign/Modules/support-mobile.png') top center no-repeat;
-                                padding: 65px 0px 10px;
-                            }
-
-                            .Protective {
-                                background: image-url('marketing/redesign/Modules/support-protection.png') top center no-repeat;
-                                padding: 65px 0px 10px;
-                            }
-
-                            .Home {
-                                background: image-url('marketing/redesign/Modules/support-home.png') top center no-repeat;
                                 padding: 65px 0px 10px;
                             }
 
@@ -233,13 +243,9 @@
                             min-height: 200px;
                             padding: 0 20px;
 
-                            .Opportunity {
-                                background: image-url('marketing/redesign/Modules/support-opportunity.png') left top no-repeat;
-                                padding: 0 0 0 80px;
-                            }
-
-                            .General {
-                                background: image-url('marketing/redesign/Modules/support-stream.png') left top no-repeat;
+                            > div {
+                                background-position: top left;
+                                background-repeat: no-repeat;
                                 padding: 0 0 0 80px;
                             }
                         }
@@ -261,7 +267,7 @@
 
                                 .answer-container {
                                     .answer {
-                                        .answer-content & aside{
+                                        .answer-content & aside {
                                             padding: 0 20px 20px;
                                         }
 

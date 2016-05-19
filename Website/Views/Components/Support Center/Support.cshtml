@@ -26,7 +26,6 @@
                     <h1>Get Support On Our Service</h1>
                     <div class="category" ng-repeat="category in categories" ng-if="$index < 4">
                         <div ng-class="category.name" ng-style="categoryBackground[$index]">
-                            {{categoryBackground[$index]}}
                             <p class="service-name">{{category.name}}</p>
                             <p>{{category.description}}</p>
                             <p class="get-support"><a href="{{category.link}}">Get Support</a></p>
@@ -36,7 +35,7 @@
                 <div class="secondary clearfix">
                     <h1>You Might Also Be Interested In</h1>
                     <div class="category " ng-repeat="category in categories" ng-if="$index > 3">
-                        <div ng-class="category.name">
+                        <div ng-class="category.name" ng-style="categoryBackground[$index]">
                             <p class="service-name">{{category.name}}</p>
                             <p>{{category.description}}</p>
                             <p class="get-support"><a href="{{category.link}}">Get Support</a></p>

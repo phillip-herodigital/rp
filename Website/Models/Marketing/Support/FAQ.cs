@@ -38,6 +38,8 @@ namespace StreamEnergy.MyStream.Models.Marketing.Support
             Description = getValue("Faq Description");
             FurtherSupportText = getValue("Further Support");
             Guid = SitecoreItem.ID.ToString();
+            Guid = Guid.Replace("{", "");
+            Guid = Guid.Replace("}", "");
 
             if (!string.IsNullOrEmpty(getValue("FAQ Categories"))) {
                 var cats = getValue("FAQ Categories").Split("|".ToCharArray());
