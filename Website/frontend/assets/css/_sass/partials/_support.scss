@@ -110,17 +110,19 @@
                         background-color: #eff2f3;
                         padding: 5px;
 
-                        li{
+                        li {
                             .typeaheadQuestion {
                                 margin-bottom: 0;
                                 font-size: 16px;
                                 font-weight: 400;
                                 color: #333333;
                             }
+
                             .typeaheadAnswer {
                                 height: 22px;
                                 overflow: hidden;
-                                p{
+
+                                p {
                                     margin: 0;
                                 }
                             }
@@ -136,11 +138,23 @@
                     position: relative;
                     width: 100%;
 
+                    .triangle-up {
+                        height: 0;
+                        width: 0;
+                        border-left: 15px solid transparent;
+                        border-right: 15px solid transparent;
+                        border-bottom: 15px solid #eff2f3;
+                        position: relative;
+                        top: 0;
+                        left: 90px;
+                    }
+
                     ul.category-dropdown {
                         background-color: #eff2f3;
                         color: #000;
                         border-radius: 5px;
                         padding: 20px;
+                        margin: 0;
                         position: absolute;
                         width: 210px;
                         list-style: none;
@@ -304,6 +318,12 @@
 
                     .content {
                         .faq {
+                            .question {
+                                a {
+                                    width: calc(100% - 51px);
+                                }
+                            }
+
                             .answer-container {
                                 .triangle-up {
                                     height: 0;
@@ -339,24 +359,27 @@
                 }
             }
 
-            .results-content {
+            .pagination-display {
                 width: 100%;
                 border-bottom: 2px solid #efefef;
 
-                .display-options {
-
-                    .per-page {
-                        margin-left: 10px;
-                        border-left: 1px solid grey;
-                        padding-left: 10px;
-                    }
-
-                    select {
-                        width: 60px;
-                    }
+                .per-page {
+                    margin-left: 10px;
+                    border-left: 1px solid grey;
+                    padding-left: 10px;
                 }
 
+                select {
+                    width: 60px;
+                }
+            }
+
+            .pagination-container {
+                display: flex;
+                margin: 20px;
+
                 .pagination {
+                    margin: 0 auto;
 
                     div {
                         margin: 0 2px;
@@ -364,18 +387,30 @@
                     }
 
                     .back {
+                        background: url(/frontend/assets/i/icon/backward.png) left center no-repeat;
+                        padding-left: 10px;
                     }
 
                     .page-number {
                         border: 1px solid grey;
                         width: 24px;
+                        text-align: center;
+                        border-radius: 5px;
 
                         &.selected {
-                            background-color: lightblue;
+                            background-color: #1991cf;
+                            border-color: #1991cf;
+                            color: #ffffff;
                         }
                     }
 
                     .forward {
+                        background: url(/frontend/assets/i/icon/forward.png) right center no-repeat;
+                        padding-right: 10px;
+                    }
+
+                    .disabled {
+                        color: #000000;
                     }
                 }
             }
@@ -429,7 +464,7 @@
                             .answer {
                                 color: #636367;
                                 max-height: 750px;
-                                margin-top: -750px;
+                                margin-top: -775px;
                                 overflow: auto;
                                 position: relative;
                                 transition: margin-top 500ms;
@@ -447,7 +482,7 @@
                                     float: right;
                                     width: 250px;
                                     font-size: 16px;
-                                    padding: 20px;
+                                    padding: 0 20px 20px;
                                 }
 
                                 .helpful {

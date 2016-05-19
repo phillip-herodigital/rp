@@ -1,8 +1,8 @@
 ﻿@{ 
     var FAQs = ViewData["Faqs"];
 }
-<div class="results-content" ng-show="searchResults" ng-cloak>
-    <div class="display-options clearfix">
+<div class="results-content" ng-cloak>
+    <div class="display-options clearfix" ng-show="searchResults">
         <a href="" ng-click="backToSupport(@FAQs)">Back to Support</a>
         <p>
             <span>Showing {{resultsPageRange[resultsPage].low + 1}} - {{resultsPageRange[resultsPage].high + 1}} of {{faqs.length}} search results for “{{searchData.text}}” in {{searchData.category}}</span>
@@ -14,10 +14,10 @@
         </p>
     </div>
     <div class="pagination clearfix" ng-show="faqs.length > resultsPerPage.value">
-        <div class="back"><a href="" ng-click="setResultsPage(0)">First</a></div>
-        <div class="back"><a href="" ng-click="setResultsPage(resultsPage - 1)">Previous</a></div>
+        <div class="back"><a href="" ng-click="setResultsPage(0)" ng-class="{disabled: resultsPage == 0}">First</a></div>
+        <div class="back"><a href="" ng-click="setResultsPage(resultsPage - 1)" ng-class="{disabled: resultsPage == 0}">Previous</a></div>
         <div class="page-number" ng-repeat="page in resultsPageRange" ng-class="{selected: resultsPage == $index}" ng-click="setResultsPage($index)">{{$index + 1}}</div>
-        <div class="forward"><a href="" ng-click="setResultsPage(resultsPage + 1)">Next</a></div>
-        <div class="forward"><a href="" ng-click="setResultsPage(resultsPageRange.length - 1)">Last</a></div>
+        <div class="forward"><a href="" ng-click="setResultsPage(resultsPage + 1)" ng-class="{disabled: resultsPage == resultsPages - 1}">Next</a></div>
+        <div class="forward"><a href="" ng-click="setResultsPage(resultsPageRange.length - 1)" ng-class="{disabled: resultsPage == resultsPages - 1}">Last</a></div>
     </div>
 </div>

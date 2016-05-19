@@ -32,8 +32,21 @@
 }
 <div class="support-container layout" ng-cloak>
     <div class="category clearfix" ng-init="categoryInit(@categories, @category, @categoryFaqs, @subcategories, @subcategory, @searchFAQ, @search)">
+        <div class="pagination-display clearfix">
+            <a href="" ng-click="backToSupport(@categoryFaqs)" ng-show="searchResults">Back to Support</a>
+            <p>
+                <span>Showing {{resultsPageRange[resultsPage].low + 1}} - {{resultsPageRange[resultsPage].high + 1}} of {{getDisplayedFAQCount()}}</span>
+                <span ng-show="searchResults"> search results for “{{searchData.text}}”</span>
+                <span> in {{searchData.category}}</span>
+                <span ng-show="searchData.state.name"> - {{searchData.state.abbreviation}}</span>
+                <span ng-show="subcategory"> - {{subcategory}}</span>
+                <span class="per-page">Results Per Page </span>
+                <select ng-model="resultsPerPage.value" ng-change="setResultsPerPage()">
+                    <option ng-repeat="value in resultsPerPage.options">{{value}}</option>
+                </select>
+            </p>
+        </div>    
         <article class="faqs marketing">
-            @Html.Partial("/Views/Components/Support Center/FAQ Results.cshtml", new ViewDataDictionary { { "Faqs", categoryFaqs } })
             <div class="content">
                 <div class="faq" ng-repeat="faq in faqs track by $index" ng-show="faqFilter(faq, $index)" ng-init="isHelpful = ''; helpfulSelected = false; feedback = ''" id="id{{faq.guid}}">
                     <div class="question clearfix" ng-click="selectFaq($index)">
@@ -42,6 +55,7 @@
                             </div>
                         <a href="">{{faq.faqQuestion}}</a>
                     </div>
+                    <div ng-if="faq.selected">{{scroll()}}</div>
                     <div class="answer-container">
                         <div class="triangle-up"></div>
                         <div class="answer clearfix" ng-class="{reveal: faq.selected}">
@@ -62,6 +76,15 @@
                     </div>
                 </div>
             </div>
+            <div class="pagination-container">
+                <div class="pagination clearfix" ng-show="faqs.length > resultsPerPage.value">
+                    <div class="back"><a href="" ng-click="setResultsPage(0)" ng-class="{disabled: resultsPage == 0}">First</a></div>
+                    <div class="back"><a href="" ng-click="setResultsPage(resultsPage - 1)" ng-class="{disabled: resultsPage == 0}">Previous</a></div>
+                    <div class="page-number" ng-repeat="page in resultsPageRange" ng-class="{selected: resultsPage == $index}" ng-click="setResultsPage($index)">{{$index + 1}}</div>
+                    <div class="forward"><a href="" ng-click="setResultsPage(resultsPage + 1)" ng-class="{disabled: resultsPage == resultsPages - 1}">Next</a></div>
+                    <div class="forward"><a href="" ng-click="setResultsPage(resultsPageRange.length - 1)" ng-class="{disabled: resultsPage == resultsPages - 1}">Last</a></div>
+                </div>
+            </div>
         </article>
         <aside>
             <h4>What what you're looking for quickly by choosing a tag below:</h4>
@@ -75,7 +98,7 @@
             <p>9am-5pm, CST, Saturday.</p>
             <a href="" ng-click="showModal('emergency-contact');">Emergency Contacts</a>
         </aside>
-        <div class="secondary-footer">
+        <div class="secondary-footer" id="footer">
             Can't find what you're looking for? <a href="" ng-click="">Ask Us a Question</a>
         </div>
     </div>

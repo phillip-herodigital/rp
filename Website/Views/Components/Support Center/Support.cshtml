@@ -25,7 +25,7 @@
                 <div class="primary clearfix">
                     <h1>Get Support On Our Service</h1>
                     <div class="category" ng-repeat="category in categories" ng-if="$index < 4">
-                        <div ng-class="category.name" ng-style="categoryBackground[$index]">
+                        <div ng-class="category.name" ng-style="{'background-image': 'URL(' + category.iconURL + ')'}">
                             <p class="service-name">{{category.name}}</p>
                             <p>{{category.description}}</p>
                             <p class="get-support"><a href="{{category.link}}">Get Support</a></p>
@@ -35,7 +35,7 @@
                 <div class="secondary clearfix">
                     <h1>You Might Also Be Interested In</h1>
                     <div class="category " ng-repeat="category in categories" ng-if="$index > 3">
-                        <div ng-class="category.name" ng-style="categoryBackground[$index]">
+                        <div ng-class="category.name" ng-style="{'background-image': 'URL(' + category.iconURL + ')'}">
                             <p class="service-name">{{category.name}}</p>
                             <p>{{category.description}}</p>
                             <p class="get-support"><a href="{{category.link}}">Get Support</a></p>
@@ -48,10 +48,20 @@
                     <header ng-hide="searchResults">
                         <h1>Most Popular FAQs</h1>
                     </header>
-                    @Html.Partial("/Views/Components/Support Center/FAQ Results.cshtml", new ViewDataDictionary { { "Faqs", popFaqs } })
+                    <div class="pagination-display clearfix" ng-show="searchResults">
+                        <a href="" ng-click="backToSupport(@popFaqs)">Back to Support</a>
+                        <p>
+                            <span>Showing {{resultsPageRange[resultsPage].low + 1}} - {{resultsPageRange[resultsPage].high + 1}} of {{getDisplayedFAQCount()}}</span>
+                            <span ng-show="searchResults"> search results for “{{searchData.text}}”</span>
+                            <span class="per-page">Results Per Page </span>
+                            <select ng-model="resultsPerPage.value" ng-change="setResultsPerPage()">
+                                <option ng-repeat="value in resultsPerPage.options">{{value}}</option>
+                            </select>
+                        </p>
+                    </div>
                     <div class="content">
                         <div class="faq" ng-repeat="faq in faqs track by $index" ng-init="isHelpful = ''; helpfulSelected = false; feedback = ''">
-                            <div class="question clearfix" ng-click="selectFaq($index)" >
+                            <div class="question clearfix" ng-click="selectFaq($index)">
                                 <div class="plus-minus">
                                     <div class="plus" ng-class="{minus: faq.selected}"></div>
                                 </div>
@@ -84,6 +94,15 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
+                </div>
+                <div class="pagination-container">
+                    <div class="pagination clearfix" ng-show="faqs.length > resultsPerPage.value">
+                        <div class="back"><a href="" ng-click="setResultsPage(0)" ng-class="{disabled: resultsPage == 0}">First</a></div>
+                        <div class="back"><a href="" ng-click="setResultsPage(resultsPage - 1)" ng-class="{disabled: resultsPage == 0}">Previous</a></div>
+                        <div class="page-number" ng-repeat="page in resultsPageRange" ng-class="{selected: resultsPage == $index}" ng-click="setResultsPage($index)">{{$index + 1}}</div>
+                        <div class="forward"><a href="" ng-click="setResultsPage(resultsPage + 1)" ng-class="{disabled: resultsPage == resultsPages - 1}">Next</a></div>
+                        <div class="forward"><a href="" ng-click="setResultsPage(resultsPageRange.length - 1)" ng-class="{disabled: resultsPage == resultsPages - 1}">Last</a></div>
                     </div>
                 </div>
             </article>

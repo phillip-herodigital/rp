@@ -21,6 +21,7 @@
                 <img class="mag-glass" src="/frontend/assets/i/mag-glass.png" ng-click="search()"/>
             </div>
             <div ng-class="{reveal: dropDown}" class="category-dropdown-container">
+                <div class="triangle-up"></div>
                 <ul class="category-dropdown">
                     <li ng-repeat="category in categories">
                         <div ng-click="selectCategory(category, null)" ng-class="{noHover: category.states.length}">
