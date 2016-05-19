@@ -35,7 +35,7 @@
         <article class="faqs marketing">
             @Html.Partial("/Views/Components/Support Center/FAQ Results.cshtml", new ViewDataDictionary { { "Faqs", categoryFaqs } })
             <div class="content">
-                <div class="faq" ng-repeat="faq in faqs track by $index" ng-show="faqFilter(faq, $index)" ng-init="isHelpful = ''; helpfulSelected = false; feedback = ''">
+                <div class="faq" ng-repeat="faq in faqs track by $index" ng-show="faqFilter(faq, $index)" ng-init="isHelpful = ''; helpfulSelected = false; feedback = ''" id="id{{faq.guid}}">
                     <div class="question clearfix" ng-click="selectFaq($index)">
                             <div class="plus-minus">
                                 <div class="plus" ng-class="{minus: faq.selected}"></div>
@@ -43,8 +43,8 @@
                         <a href="">{{faq.faqQuestion}}</a>
                     </div>
                     <div class="answer-container">
+                        <div class="triangle-up"></div>
                         <div class="answer clearfix" ng-class="{reveal: faq.selected}">
-                            <div class="triangle-up"></div>
                             <div class="answer-content" ng-bind-html="faq.faqAnswer"></div>
                             <div class="helpful">
                                 <p>

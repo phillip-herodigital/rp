@@ -1,4 +1,4 @@
-﻿ngApp.controller('supportCenterCtrl', ['$scope', '$http', '$sce', '$modal', function ($scope, $http, $sce, $modal) {
+﻿ngApp.controller('supportCenterCtrl', ['$scope', '$http', '$sce', '$modal', 'scrollService', function ($scope, $http, $sce, $modal, scrollService) {
     $scope.dropDown = false;
     $scope.selectedFaqIndex = null;
     $scope.searchFAQs = [];
@@ -21,6 +21,7 @@
     $scope.resultsPages = Math.ceil($scope.faqs.length / $scope.resultsPerPage.value);
     $scope.isCategorySupport = false;
     $scope.keywords = []; //list of keywords for current faq list
+    $scope.categoryBackground = [];
     $scope.init = function (categories, popFaqs) {
         $scope.categories = categories;
         $scope.category.name = "";
@@ -37,6 +38,11 @@
                 };
                 faq.relatedFAQs[index] = object;
             });
+        });
+        angular.forEach(categories, function (category) {
+            $scope.categoryBackground.push({
+                "background-image": "url('" + category.iconURL + "')"
+            })
         });
         $scope.isCategorySupport = false;
     }
@@ -65,6 +71,7 @@
             angular.forEach($scope.faqs, function (faq, index) {
                 if (faq.name === searchFAQ.name) {
                     $scope.selectFaq(index);
+                    scrollService.scrollTo("id" + faq.guid, 0, 0, angular.noop);
                 }
             });
         };

@@ -43,6 +43,7 @@
                 color: #999999;
                 border-radius: 5px;
                 padding: 0;
+                position: relative;
 
                 .select {
                     position: relative;
@@ -100,6 +101,30 @@
                         position: relative;
                         top: 15px;
                         right: 15px;
+                    }
+
+                    .dropdown-menu {
+                        width: 100%;
+                        left: 0 !important;
+                        top: 90px !important;
+                        background-color: #eff2f3;
+                        padding: 5px;
+
+                        li{
+                            .typeaheadQuestion {
+                                margin-bottom: 0;
+                                font-size: 16px;
+                                font-weight: 400;
+                                color: #333333;
+                            }
+                            .typeaheadAnswer {
+                                height: 22px;
+                                overflow: hidden;
+                                p{
+                                    margin: 0;
+                                }
+                            }
+                        }
                     }
                 }
 
@@ -192,23 +217,9 @@
                             border-style: solid;
                             border-image: linear-gradient(white, #efefef, white) 1 100%;
 
-                            .Energy {
-                                background: image-url('marketing/redesign/Modules/support-energy.png') top center no-repeat;
-                                padding: 65px 0px 10px;
-                            }
-
-                            .Mobile {
-                                background: image-url('marketing/redesign/Modules/support-mobile.png') top center no-repeat;
-                                padding: 65px 0px 10px;
-                            }
-
-                            .Protective {
-                                background: image-url('marketing/redesign/Modules/support-protection.png') top center no-repeat;
-                                padding: 65px 0px 10px;
-                            }
-
-                            .Home {
-                                background: image-url('marketing/redesign/Modules/support-home.png') top center no-repeat;
+                            > div {
+                                background-position: top center;
+                                background-repeat: no-repeat;
                                 padding: 65px 0px 10px;
                             }
 
@@ -232,13 +243,9 @@
                             min-height: 200px;
                             padding: 0 20px;
 
-                            .Opportunity {
-                                background: image-url('marketing/redesign/Modules/support-opportunity.png') left top no-repeat;
-                                padding: 0 0 0 80px;
-                            }
-
-                            .General {
-                                background: image-url('marketing/redesign/Modules/support-stream.png') left top no-repeat;
+                            > div {
+                                background-position: top left;
+                                background-repeat: no-repeat;
                                 padding: 0 0 0 80px;
                             }
                         }
@@ -256,6 +263,20 @@
                             .faq {
                                 &:first-child {
                                     border-top: 2px solid #efefef;
+                                }
+
+                                .answer-container {
+                                    .answer {
+                                        .answer-content & aside {
+                                            padding: 0 20px 20px;
+                                        }
+
+                                        aside {
+                                            h4:first-child {
+                                                margin-top: 0;
+                                            }
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -280,6 +301,32 @@
                 article.faqs {
                     float: left;
                     width: calc(100% - 250px);
+
+                    .content {
+                        .faq {
+                            .answer-container {
+                                .triangle-up {
+                                    height: 0;
+                                    width: 0;
+                                    border-left: 15px solid transparent;
+                                    border-right: 15px solid transparent;
+                                    border-bottom: 15px solid #eff2f3;
+                                    background-color: #fff;
+                                    position: relative;
+                                    top: 0;
+                                    left: 45px;
+                                }
+
+                                .answer {
+                                    background-color: #eff2f3;
+
+                                    .answer-content {
+                                        padding: 20px;
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
 
                 aside {
@@ -333,8 +380,7 @@
                 }
             }
 
-            .faqs {
-
+            .faqs { //styling applied to both category and main page
                 .content {
 
                     .faq {
@@ -379,72 +425,56 @@
                         .answer-container {
                             overflow: hidden;
                             width: 100%;
-                        }
 
-                        .answer {
-                            background-color: #eff2f3;
-                            color: #636367;
-                            max-height: 750px;
-                            margin-top: -750px;
-                            overflow: auto;
-                            position: relative;
-                            transition: margin-top 500ms;
-
-                            &.reveal {
-                                margin-top: 15px;
-                            }
-
-                            .triangle-up {
-                                height: 0;
-                                width: 0;
-                                border-left: 15px solid transparent;
-                                border-right: 15px solid transparent;
-                                border-bottom: 15px solid #eff2f3;
-                                background-color: #fff;
+                            .answer {
+                                color: #636367;
+                                max-height: 750px;
+                                margin-top: -750px;
+                                overflow: auto;
                                 position: relative;
-                                top: -15px;
-                                left: 45px;
-                            }
+                                transition: margin-top 500ms;
 
-                            .answer-content {
-                                float: left;
-                                padding: 20px;
-                                margin-top: -15px;
-                            }
-
-                            aside {
-                                margin-top: -15px;
-                                float: right;
-                                width: 250px;
-                                font-size: 16px;
-                                padding: 20px;
-                            }
-
-                            .helpful {
-                                padding: 20px;
-                                bottom: 0;
-                                width: 100%;
-                                background-color: #eeeeee;
-                                float: left;
-
-                                p {
-                                    margin: 1em 0;
-
-                                    label {
-                                        margin-right: 5px;
-                                    }
-
-                                    input[type="radio"] {
-                                        margin: 0 5px;
-                                    }
+                                &.reveal {
+                                    margin-top: 0;
                                 }
 
-                                .response {
-                                    border-top: 2px solid #fff;
+                                .answer-content {
+                                    float: left;
+                                    width: calc(100% - 250px);
+                                }
 
-                                    .button {
-                                        margin-top: 15px;
-                                        float: right;
+                                aside {
+                                    float: right;
+                                    width: 250px;
+                                    font-size: 16px;
+                                    padding: 20px;
+                                }
+
+                                .helpful {
+                                    padding: 0 20px;
+                                    width: 100%;
+                                    background-color: #eeeeee;
+                                    float: left;
+
+                                    p {
+                                        margin: 1em 0;
+
+                                        label {
+                                            margin-right: 5px;
+                                        }
+
+                                        input[type="radio"] {
+                                            margin: 0 5px;
+                                        }
+                                    }
+
+                                    .response {
+                                        border-top: 2px solid #fff;
+
+                                        .button {
+                                            margin: 15px 0;
+                                            float: right;
+                                        }
                                     }
                                 }
                             }

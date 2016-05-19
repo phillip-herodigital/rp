@@ -16,7 +16,8 @@
                 <input type="text" class="search-input"
                        placeholder="Have a question? Enter a search term..."
                        ng-model="searchData.text"
-                       typeahead="faq.faqQuestion for faq in searchFAQs" />
+                       typeahead="faq.faqQuestion for faq in searchFAQs | filter:{faqQuestion:$viewValue} | limitTo:4" 
+                       typeahead-template-url="typeahead-results"/>
                 <img class="mag-glass" src="/frontend/assets/i/mag-glass.png" ng-click="search()"/>
             </div>
             <div ng-class="{reveal: dropDown}" class="category-dropdown-container">
@@ -43,3 +44,7 @@
         </ul>
     </div>
 </nav>
+<script type="text/ng-template" id="typeahead-results">
+    <p bind-html-unsafe="match.label | typeaheadHighlight:query" class="typeaheadQuestion"></p>
+    <div ng-bind-html="match.model.faqAnswer" class="typeaheadAnswer"></div>
+</script>
