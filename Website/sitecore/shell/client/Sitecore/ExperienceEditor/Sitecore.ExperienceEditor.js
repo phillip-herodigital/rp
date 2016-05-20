@@ -1,4 +1,14 @@
-﻿if (!Sitecore) {
+﻿console.warn("Sitecore.ExperienceEditor.js is obsolete and will be removed in the next product version.");
+
+var basePath = "/-/speak/v1/ExperienceEditor/";
+define(
+    [
+        basePath + "PageEditorProxy.js",
+        basePath + "Sitecore.ExperienceEditor.TranslationsUtils.js"
+    ]
+);
+
+if (!Sitecore) {
   var Sitecore = {};
 }
 
@@ -670,5 +680,3 @@ if (Sitecore.Speak) {
     for (var k in experienceEditor) Sitecore.Speak.ExperienceEditor[k] = experienceEditor[k];
   }
 }
-
-window.parent.onbeforeunload = Sitecore.ExperienceEditor.handleIsModified;

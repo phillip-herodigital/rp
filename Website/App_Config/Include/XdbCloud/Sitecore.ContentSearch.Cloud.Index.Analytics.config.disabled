@@ -8,6 +8,7 @@
             <param desc="name">$(id)</param>
             <param desc="totalParallelServices">5</param>
             <param desc="propertyStore" ref="contentSearch/indexConfigurations/databasePropertyStore" param1="$(id)" />
+            <param desc="group">experience</param>
             <configuration ref="contentSearch/indexConfigurations/defaultCloudIndexConfiguration">
 
               <fieldMap ref="contentSearch/indexConfigurations/defaultCloudIndexConfiguration/fieldMap">
@@ -103,6 +104,16 @@
                   <field fieldName="contact.preferredaddress.streetline2"   storageType="YES" indexType="TOKENIZED"    vectorType="WITH_POSITIONS_OFFSETS" boost="1f" emptyString="_EMPTY_" nullValue="_NULL_" type="System.String" settingType="Sitecore.ContentSearch.LuceneProvider.LuceneSearchFieldConfiguration, Sitecore.ContentSearch.LuceneProvider" />
                   <field fieldName="contact.preferredaddress.streetline3"   storageType="YES" indexType="TOKENIZED"    vectorType="WITH_POSITIONS_OFFSETS" boost="1f" emptyString="_EMPTY_" nullValue="_NULL_" type="System.String" settingType="Sitecore.ContentSearch.LuceneProvider.LuceneSearchFieldConfiguration, Sitecore.ContentSearch.LuceneProvider" />
                   <field fieldName="contact.preferredaddress.streetline4"   storageType="YES" indexType="TOKENIZED"    vectorType="WITH_POSITIONS_OFFSETS" boost="1f" emptyString="_EMPTY_" nullValue="_NULL_" type="System.String" settingType="Sitecore.ContentSearch.LuceneProvider.LuceneSearchFieldConfiguration, Sitecore.ContentSearch.LuceneProvider" />
+                  <field fieldName="contact.latestvisitdate"   storageType="YES"  indexType="TOKENIZED"   vectorType="NO" boost="1f" type="System.DateTime" format="yyyy-MM-ddTHH:mm:ss.fffZ" settingType="Sitecore.ContentSearch.LuceneProvider.LuceneSearchFieldConfiguration, Sitecore.ContentSearch.LuceneProvider">
+                    <analyzer type="Sitecore.ContentSearch.LuceneProvider.Analyzers.LowerCaseKeywordAnalyzer, Sitecore.ContentSearch.LuceneProvider" />
+                  </field>
+
+                  <field fieldName="visit.startdatetime"   storageType="YES"  indexType="TOKENIZED"   vectorType="NO" boost="1f" type="System.DateTime" format="yyyy-MM-ddTHH:mm:ss.fffZ" settingType="Sitecore.ContentSearch.LuceneProvider.LuceneSearchFieldConfiguration, Sitecore.ContentSearch.LuceneProvider">
+                    <analyzer type="Sitecore.ContentSearch.LuceneProvider.Analyzers.LowerCaseKeywordAnalyzer, Sitecore.ContentSearch.LuceneProvider" />
+                  </field>
+                  <field fieldName="visit.enddatetime"   storageType="YES"  indexType="TOKENIZED"   vectorType="NO" boost="1f" type="System.DateTime" format="yyyy-MM-ddTHH:mm:ss.fffZ" settingType="Sitecore.ContentSearch.LuceneProvider.LuceneSearchFieldConfiguration, Sitecore.ContentSearch.LuceneProvider">
+                    <analyzer type="Sitecore.ContentSearch.LuceneProvider.Analyzers.LowerCaseKeywordAnalyzer, Sitecore.ContentSearch.LuceneProvider" />
+                  </field>
                   <field fieldName="visit.referrer"                         storageType="YES" indexType="TOKENIZED"    vectorType="WITH_POSITIONS_OFFSETS" boost="1f" emptyString="_EMPTY_" nullValue="_NULL_" type="System.String" settingType="Sitecore.ContentSearch.LuceneProvider.LuceneSearchFieldConfiguration, Sitecore.ContentSearch.LuceneProvider" />
                   <field fieldName="visit.referringsite"                    storageType="YES" indexType="TOKENIZED"    vectorType="WITH_POSITIONS_OFFSETS" boost="1f" emptyString="_EMPTY_" nullValue="_NULL_" type="System.String" settingType="Sitecore.ContentSearch.LuceneProvider.LuceneSearchFieldConfiguration, Sitecore.ContentSearch.LuceneProvider" />
                   <field fieldName="whois.businessname"                     storageType="YES" indexType="TOKENIZED"    vectorType="WITH_POSITIONS_OFFSETS" boost="1f" emptyString="_EMPTY_" nullValue="_NULL_" type="System.String" settingType="Sitecore.ContentSearch.LuceneProvider.LuceneSearchFieldConfiguration, Sitecore.ContentSearch.LuceneProvider" />
@@ -112,26 +123,29 @@
                 <typeMatches hint="raw:AddTypeMatch">
                   <typeMatch type="System.String"   storageType="YES" indexType="TOKENIZED" vectorType="WITH_POSITIONS_OFFSETS" boost="1f" settingType="Sitecore.ContentSearch.LuceneProvider.LuceneSearchFieldConfiguration, Sitecore.ContentSearch.LuceneProvider" />
                   <typeMatch type="System.Guid"   storageType="YES" indexType="TOKENIZED" vectorType="NO" boost="1f" settingType="Sitecore.ContentSearch.LuceneProvider.LuceneSearchFieldConfiguration, Sitecore.ContentSearch.LuceneProvider" />
-                  <typeMatch type="System.DateTime" storageType="YES" indexType="TOKENIZED" vectorType="NO" boost="1f" format="s" settingType="Sitecore.ContentSearch.LuceneProvider.LuceneSearchFieldConfiguration, Sitecore.ContentSearch.LuceneProvider">
+                  <typeMatch type="System.DateTime" storageType="YES" indexType="TOKENIZED" vectorType="NO" boost="1f" format="yyyy-MM-ddTHH:mm:ss.fffZ" settingType="Sitecore.ContentSearch.LuceneProvider.LuceneSearchFieldConfiguration, Sitecore.ContentSearch.LuceneProvider">
                     <Analyzer type="Sitecore.ContentSearch.LuceneProvider.Analyzers.LowerCaseKeywordAnalyzer, Sitecore.ContentSearch.LuceneProvider" />
                   </typeMatch>
                   <typeMatch type="System.Int32"    storageType="YES" indexType="TOKENIZED" vectorType="NO" boost="1f" settingType="Sitecore.ContentSearch.LuceneProvider.LuceneSearchFieldConfiguration, Sitecore.ContentSearch.LuceneProvider" />
                   <typeMatch type="System.Collections.Generic.List`1[System.String]" storageType="YES" indexType="TOKENIZED" vectorType="WITH_POSITIONS_OFFSETS" boost="1f" settingType="Sitecore.ContentSearch.LuceneProvider.LuceneSearchFieldConfiguration, Sitecore.ContentSearch.LuceneProvider" />
+                  <typeMatch type="System.String[]" storageType="YES" indexType="TOKENIZED" vectorType="WITH_POSITIONS_OFFSETS" boost="1f" settingType="Sitecore.ContentSearch.LuceneProvider.LuceneSearchFieldConfiguration, Sitecore.ContentSearch.LuceneProvider" />
                 </typeMatches>
 
               </fieldMap>
 
-              <fields hint="raw:AddComputedIndexField">
-                <field fieldName="Contact.FullName" type="Sitecore.ContentSearch.ComputedFields.CompositeTextField, Sitecore.ContentSearch"
-                       matchField="type" matchValue="contact" separator=" ">
-                  <part>Contact.Title</part>
-                  <part>Contact.FirstName</part>
-                  <part>Contact.MiddleName</part>
-                  <part>Contact.Surname</part>
-                  <part>Contact.Suffix</part>
-                </field>
-              </fields>
-
+              <documentOptions ref="contentSearch/indexConfigurations/defaultLuceneIndexConfiguration/documentOptions">
+                <fields hint="raw:AddComputedIndexField">
+                  <field fieldName="Contact.FullName" type="Sitecore.ContentSearch.ComputedFields.CompositeTextField, Sitecore.ContentSearch"
+                         matchField="type" matchValue="contact" separator=" ">
+                    <part>Contact.Title</part>
+                    <part>Contact.FirstName</part>
+                    <part>Contact.MiddleName</part>
+                    <part>Contact.Surname</part>
+                    <part>Contact.Suffix</part>
+                  </field>
+                </fields>
+              </documentOptions>
+              
               <fieldReaders ref="contentSearch/indexConfigurations/defaultLuceneIndexConfiguration/fieldReaders">
                 <fieldNames hint="raw:AddFieldReaderByType">
                   <fieldReader fieldType="System.Byte[]"                                               fieldReaderType="Sitecore.ContentSearch.Analytics.FieldReaders.ByteArrayFieldReader, Sitecore.ContentSearch.Analytics"/>

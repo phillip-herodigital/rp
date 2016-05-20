@@ -1,4 +1,4 @@
-﻿define(["sitecore"], function (Sitecore) {
+﻿define(["sitecore", "/-/speak/v1/ExperienceEditor/ExperienceEditor.js"], function (Sitecore, ExperienceEditor) {
   Sitecore.Commands.MyItems =
   {
     canExecute: function (context) {
@@ -20,10 +20,12 @@
     execute: function (context) {
       var dialogPath = "/sitecore/shell/~/xaml/Sitecore.Shell.Applications.WebEdit.Dialogs.LockedItems.aspx";
       var dialogFeatures = "dialogHeight: 600px;dialogWidth: 800px;";
-      Sitecore.ExperienceEditor.Dialogs.showModalDialog(dialogPath, '', dialogFeatures, null, function () {
+      ExperienceEditor.Dialogs.showModalDialog(dialogPath, '', dialogFeatures, null, function () {
         Sitecore.Commands.MyItems.canExecute(context);
         context.currentContext.isLocked = context.app.canExecute("ExperienceEditor.MyItems.Count", context.currentContext);
-        Sitecore.Commands.Lock.canExecute(context);
+        if (Sitecore.Commands.Lock) {
+          Sitecore.Commands.Lock.canExecute(context);
+        }
       });
     }
   };

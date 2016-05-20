@@ -1896,6 +1896,7 @@ scRequest.prototype.send = function () {
     this.httpRequest = scForm.browser.createHttpRequest();
 
     this.httpRequest.open("POST", url, this.async);
+    this.httpRequest.responseURL = url;
 
     this.httpRequest.setRequestHeader("lastCached", new Date().toUTCString());
     this.httpRequest.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
@@ -2304,15 +2305,4 @@ Treeview.prototype.FixLayout = function()
 */
 function isSilverlightApplicationLoaded(element) {
   return (element != null && (element.id == "scSilverlightEngagementPlan" || element.id == "scSilverlightExecutiveDashboard"));
-}
-
-if (window.Flexie) {
-  window.onerror = function (msg, url) {
-    if (url.indexOf("flexie.min.js") != -1) {
-      console.log(msg);
-      return true;
-    }
-
-    return false;
-  };
 }

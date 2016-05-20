@@ -12,9 +12,19 @@
         cursor: pointer;
         }
 
-
         .scConditionContainer{
         background-color: #446693;
+        color: White;
+        float: left;
+        left: 10px;
+        position: absolute;
+        text-align: center;
+        top: -2px;
+        padding: 0 2px;
+        }
+
+        .scTestContainer {
+        background-color: #934444;
         color: White;
         float: left;
         left: 10px;

@@ -9,6 +9,9 @@
     initialize: function () {
       this._super();
 
+      var params = Sitecore.Helpers.url.getQueryParameters(window.location.href);
+      var device = params.deviceId;
+
       this.set({
         isBusy: false,
         invalidated: false,
@@ -20,12 +23,13 @@
         goalId: null,
         trailingValue: 0,
         experienceEffect: 0,
-        conversionRate: 0
+        conversionRate: 0,
+        device: device
       });
 
       this.on("change:combination", this.fetchTestCombination, this);
       this.on("change:variationId", this.fetchTestValue, this);
-      this.on("change:goalId", this.fetch, this);
+      this.on("change:goalId change:device", this.fetch, this);
     },
     
     fetchTestCombination: function()
@@ -65,7 +69,13 @@
       this.set("isBusy", true);
       this.set("invalidated", false);
 
-      var url = actionUrl + "?itemuri=" + encodeURIComponent(uri) + "&goalId=" + goalid + "&combination=" + combination + "&variationId=" + variationid;
+      var url = Sitecore.Helpers.url.addQueryParameters(actionUrl, {
+        itemdatauri: uri,
+        goalId: goalid,
+        combination: combination,
+        variationId: variationid,
+        deviceId: this.get("device")
+      });
 
       var ajaxOptions = {
         cache: false,

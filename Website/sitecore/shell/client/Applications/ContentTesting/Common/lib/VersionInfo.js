@@ -10,7 +10,7 @@
 
     if (_.isObject(id)) {
       parsedId = id.id;
-      parsedLanguage = id.la;
+      parsedLanguage = id.lang;
     }
     else {
       parsedId = id;
@@ -20,8 +20,12 @@
       cache: false,
       url: _sc.Helpers.url.addQueryParameters(url, {id: parsedId, language: parsedLanguage || ""}),
       context: this,
-      success: function(data) {
-        callback(parsedId, data.VersionNumber, data.Revision, parsedLanguage);
+      success: function (data) {
+        if (data == null) {
+          callback(parsedId, null, null, null);
+        } else {
+          callback(parsedId, data.VersionNumber, data.Revision, data.Language);
+        }
       }
     };
 

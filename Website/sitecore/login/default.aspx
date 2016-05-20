@@ -106,10 +106,12 @@
                   </label>
                 </div>
               </asp:PlaceHolder>
-                
+                  
               <asp:PlaceHolder ID="PlaceHolder1" runat="server" Visible="<%# !Settings.Login.DisablePasswordRecovery %>">
                 <div class="forgot-pass-link-wrap">
-                  <span class="forgot-pass-separator"></span>
+                  <asp:PlaceHolder ID="PlaceHolder4" runat="server" Visible="<%# !Settings.Login.DisableRememberMe %>">
+                    <span class="forgot-pass-separator"></span>
+                  </asp:PlaceHolder>
                   <a href="#" class="show-recovery">Forgot your password?</a>
                 </div>
               </asp:PlaceHolder>

@@ -14,15 +14,11 @@
             var renderingId = this.model.get("name"),
                 dateRangeFilter = this.app[renderingId + "DateRangeFilter"],
                 treeDefinitionFilter = this.app[renderingId + "TreeDefinitionFilter"],
+                nodeGroupingOptions = this.app["NodeGroupingOptions"],
+                pathSignificanceFilter = this.app["PathSignificanceFilter"],
                 filterToggleButton = this.app[renderingId + "FilterToggleButton"],
                 submitButton = this.app[renderingId + "SubmitButton"],
-                submitButtonWrapper = this.app[renderingId + "ButtonWrapper"],
                 thisModel = this.model;
-
-            //this.bindComponentVisibility(filterToggleButton, treeDefinitionFilter);
-            //this.bindComponentVisibility(filterToggleButton, dateRangeFilter);
-            //this.bindComponentVisibility(filterToggleButton, submitButtonWrapper);
-            //filterToggleButton.viewModel.open();
 
             pathAnalyzer.on("change:dateRange", function (m, dateRange) {
                 dateRangeFilter.set("fromDate", dateRange.dateFrom);
@@ -41,6 +37,12 @@
             submitButton.on("click", function () {
                 dateRangeFilter.viewModel.setGlobalDateRange();
                 treeDefinitionFilter.viewModel.setSelectedTreeDefinition(null);
+                if (typeof nodeGroupingOptions !== "undefined") {
+                  nodeGroupingOptions.viewModel.setSelectedOption();
+                }
+                if (typeof pathSignificanceFilter !== "undefined") {
+                  pathSignificanceFilter.viewModel.setSelectedValue();
+                }
                 thisModel.viewModel.setSelectedText();
                 pathAnalyzer.updateApp();
                 filterToggleButton.viewModel.close();
@@ -49,15 +51,18 @@
 
         setSelectedText:function() {
             var renderingId = this.model.get("name"),
-                treeDefinitionFilter = this.app[renderingId + "TreeDefinitionFilter"],
-                filterToggleButton = this.app[renderingId + "FilterToggleButton"],
-                stringDictionary = this.app.StringDictionaryDomain;
+              treeDefinitionFilter = this.app[renderingId + "TreeDefinitionFilter"],
+              filterToggleButton = this.app[renderingId + "FilterToggleButton"],
+              stringDictionary = this.app.StringDictionaryDomain
 
             var text = treeDefinitionFilter.get("selectedTreeDefinitionName");
+            if (text === null) {
+              text = stringDictionary.get("PleaseSelectMap");
+            }
             var dateRange = pathAnalyzer.get("dateRange");
             if (dateRange) {
-                var dateFrom = dateRange.dateFrom != null ? dateRange.dateFrom : "";
-                var dateTo = dateRange.dateTo != null ? dateRange.dateTo : stringDictionary.get("Present");
+                var dateFrom = dateRange.dateFrom != null ? pathAnalyzer.formatDateForDisplay(dateRange.dateFrom) : "";
+                var dateTo = dateRange.dateTo != null ? pathAnalyzer.formatDateForDisplay(dateRange.dateTo) : stringDictionary.get("Present");
                 text += " | " + dateFrom + " to " + dateTo;
             }
 
@@ -76,7 +81,5 @@
 
           filterToggleButton.close();
         }
-
-
     });
 });

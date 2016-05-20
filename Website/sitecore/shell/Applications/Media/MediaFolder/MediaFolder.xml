@@ -22,7 +22,9 @@
 
         <div class="scFormDialogHeader">
           <div class="ui-widget-header" style="color:#474747">.</div>
-          <div class="DialogHeader">Upload Files</div>
+          <div class="DialogHeader">
+            <Literal runat="server" Text="Upload File" />
+          </div>
           <div class="DialogHeaderDescription" style="color:#474747">.</div>
         </div>  
         

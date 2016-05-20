@@ -47,7 +47,7 @@ define(["sitecore", "jqueryui", "fileUpload", "iFrameTransport"], function (_sc,
       },
       prepareData = function (file, oImage) {
         file.__id = _.uniqueId("file_");
-        var size = file.size;
+        var size = typeof file.size !== 'undefined' ? file.size : 0;
         totalSize += size;
         return {
           id: file.__id,
@@ -126,7 +126,6 @@ define(["sitecore", "jqueryui", "fileUpload", "iFrameTransport"], function (_sc,
           this.uploadFile.context.forms[0].__ids.splice(this.uploadFile.context.forms[0].__ids.indexOf(model.id), 1);
         }
 
-        this.updateUploadInfo(this.collection.length > 0, false);
         this.refreshNumberFiles(false);
         this.refreshNumberSize(false);
       },
@@ -191,11 +190,6 @@ define(["sitecore", "jqueryui", "fileUpload", "iFrameTransport"], function (_sc,
       this.collection.on("add", this.fileAdded, this);
       this.collection.on("remove", this.refreshNumberFiles(false), this);
       this.refreshNumberFiles(false);
-      this.domElements = {
-        infoUploadingDataPanels: this.$el.find(".sc-uploader-general-info-data-uploadingData"),
-        infoDataPanel: this.$el.find(".sc-uploader-general-info-data"),
-        infoProgressBar: this.$el.find(".sc-uploader-general-info-progressbar")
-      },
 
       // Gets translation of messages for error events
       database.getItem("{DF3B5386-EE5B-4EDB-9013-E451BC077C50}", this.setFileSizeExceededErrorMessage);
@@ -283,7 +277,6 @@ define(["sitecore", "jqueryui", "fileUpload", "iFrameTransport"], function (_sc,
     },
 
     fileAdded: function (model) {
-      this.updateUploadInfo(true, false);
       this.refreshNumberFiles(false);
       this.app.trigger("upload-fileAdded", model);
     },
@@ -307,43 +300,21 @@ define(["sitecore", "jqueryui", "fileUpload", "iFrameTransport"], function (_sc,
 
       this.model.set("totalFiles", this.model.get("queueWasAborted") ? 0 : this.collection.length);
       this.model.set("uploadedFiles", 0);
-      $("#browse-button").attr('disabled', this.collection.length !== 0);
+      this.showBrowseButton(this.collection.length === 0);
     },
 
-    showDataPanel: function (state) {
+    showBrowseButton: function (state) {
+      var browseButton = $("#browse-button");
       if (state) {
-        this.domElements.infoDataPanel.show();
+        browseButton.show();
       } else {
-        this.domElements.infoDataPanel.hide();
+        browseButton.hide();
       }
-    },
-
-    showProgressBar: function (state) {
-      if (state) {
-        this.domElements.infoProgressBar.show();
-      } else {
-        this.domElements.infoProgressBar.hide();
-      }
-    },
-
-    showUploadingDataPanel: function (state) {
-      if (state) {
-        this.domElements.infoUploadingDataPanels.css('display', 'inline-block');
-      } else {
-        this.domElements.infoUploadingDataPanels.hide();
-      }
-    },
-
-    updateUploadInfo: function (hasFilesToUpload, isUploading, hasCompletedUploading) {
-      this.showDataPanel(hasFilesToUpload || isUploading || hasCompletedUploading);
-      this.showUploadingDataPanel(isUploading);
-      this.showProgressBar(isUploading);
     },
 
     upload: function () {
       var that = this;
       this.startUploadTimer(this.datas);
-      this.updateUploadInfo(true, true);
 
       //for each files - do the upload
       _.each(this.datas, function (data) {
@@ -541,7 +512,6 @@ define(["sitecore", "jqueryui", "fileUpload", "iFrameTransport"], function (_sc,
                     that.model.set("uploadedFileItems", res.uploadedFileItems);
                     that.model.set("hasFilesToUpload", null);
                     that.model.set("totalFiles", 0);
-                    that.updateUploadInfo(false, false, true);
                     setTimeout(function () {
                       that.model.trigger("uploadCompleted");
                     }, 1000);

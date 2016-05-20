@@ -14,13 +14,15 @@
 
     textarea {
       outline: none;
-    }
-  </style>
-
-  <script src="/sitecore/shell/controls/lib/jquery/jquery.noconflict.js" type="text/javascript"></script>
-  <script src="/sitecore/shell/controls/lib/prototype/prototype.js" type="text/javascript"></script>
-  <script type="text/javascript" src="/sitecore/shell/Controls/Rich Text Editor/EditorPage.js"></script>
-  <script type="text/javascript" src="/sitecore/shell/Controls/Rich Text Editor/RTEfixes.js"></script>
+      }
+    </style>
+    
+    <script src="/sitecore/shell/controls/lib/jquery/jquery-1.10.2.min.js" type="text/javascript"></script>
+    <script type="text/javascript">
+      if (typeof(window.$sc) == "undefined") window.$sc = jQuery.noConflict();
+    </script>
+    <script src="/sitecore/shell/controls/lib/prototype/prototype.js" type="text/javascript"></script>
+    <script type="text/javascript" src="/sitecore/shell/Controls/Rich Text Editor/EditorPage.js"></script>
 
   <script type="text/javascript">
     <asp:Placeholder runat="server" ID="ScriptConstants" />
@@ -28,21 +30,21 @@
     var scRichText = new Sitecore.Controls.RichEditor(scClientID);
     var currentKey = null;  
     
-    var $j = jQuery.noConflict();
+      var $j = jQuery.noConflict();
  
-    $j(document).ready(function() {      
+      $j(document).ready(function() {      
         $j(".reMode_design").click(function(){
-            RemoveInlineScripts();
+          RemoveInlineScripts();
         });
-    });
+      });
 
-    function RemoveInlineScripts() {
+      function RemoveInlineScripts() {
         if (scRemoveScripts === "true") {
-            removeInlineScriptsInRTE(scRichText);
+          removeInlineScriptsInRTE(scRichText);
         }
-    }
+      }  
 
-    function scLoad(key, html) {
+      function scLoad(key, html) {
       if (key == currentKey) {
         scRichText.setText(html);
         scRichText.setFocus();
@@ -50,17 +52,17 @@
       }
 
       currentKey = key;
-    }
+      }
 
-    function OnClientLoad(editor) {
-      editor.attachEventHandler("mouseup", function() {
-        var element = editor.getSelection().getParentElement();
-        if (element !== undefined && element.tagName.toUpperCase() === "IMG") {
-          fixImageParameters(element, prefixes.split("|"));
-        }
-      });
+      function OnClientLoad(editor) {
+        editor.attachEventHandler("mouseup", function() {
+          var element = editor.getSelection().getParentElement();
+          if (element !== undefined && element.tagName.toUpperCase() === "IMG") {
+            fixImageParameters(element, prefixes.split("|"));
+          }
+        });
 
-      scRichText.onClientLoad(editor);
+        scRichText.onClientLoad(editor);
 
       var filter = new WebControlFilter();
       editor.get_filtersManager().add(filter);
@@ -187,6 +189,7 @@
         </div>
       </div>
       <script type="text/javascript" src="/sitecore/shell/Controls/Rich Text Editor/RichText Commands.js"></script>
+      <script type="text/javascript" src="/sitecore/shell/Controls/Rich Text Editor/RTEfixes.js"></script>
 
       <asp:PlaceHolder ID="EditorClientScripts" runat="server" />
 
@@ -202,10 +205,10 @@
           </sc:Button>
         </div>
       </div>
-    </div>
+      </div>
         
         <script type="text/javascript">
-            fixFirefoxPaste();
+          fixFirefoxPaste();
         </script>
 
     </form>

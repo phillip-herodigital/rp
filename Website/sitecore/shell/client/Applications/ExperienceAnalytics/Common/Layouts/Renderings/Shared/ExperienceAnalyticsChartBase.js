@@ -33,10 +33,12 @@ define(["sitecore", "experienceAnalytics", "experienceAnalyticsDvcBase"], functi
 
     lastRequestHash: "",
     previousResponseData: null,
+    keyProperty: "key",
+    rawKeys: {},
 
     initialize: function () {
       this._super();
-
+      this.rawKeys = {};
       // TODO: Move time resolution functionality into separated extension. #16903
       var timeResolutionControlName = this.model.get("name") + "ActionControl",
         timeResolutionControl = this.app[timeResolutionControlName];
@@ -236,6 +238,7 @@ define(["sitecore", "experienceAnalytics", "experienceAnalyticsDvcBase"], functi
       var dataLength = data.data.dataset[0].data.length;
 
       if (!dataLength) {
+        data.data.localization ? this.setChartData(data.data) : $.noop();
         this.resetChartData();
       } else {
         this.setChartData(data.data);
@@ -268,27 +271,46 @@ define(["sitecore", "experienceAnalytics", "experienceAnalyticsDvcBase"], functi
     },
 
     setChartData: function (data) {
+            var readyData = data;
+
+            if (this.model.get("keyGrouping") === "collapsed") {
+                readyData = this.renameSumKeys(data);
+            } else {
+                if (this.useCartesianKey(data)) {
+                    readyData = this.createCartesianProduct(data);
+                }
+            }
+
+            this.setChartFieldProperties(readyData);
+            readyData = this.setKeyTranslations(readyData);
+            this.chartModel.set("data", readyData);
+        },
+
+        setChartFieldProperties: function (data) {
       var chartProperties = this.chartModel.get("chartProperties"),
-        seriesChartField = this.model.get("seriesChartField"),
-        numOfSegments = _.keys(this.getTranslationsByField(data, seriesChartField.segmentField)).length,
-        readyData = data;
+                seriesChartField = this.model.get("seriesChartField");
 
       chartProperties.dataMapping.seriesChartField = {
         dataField: seriesChartField.keyField
       };
 
-      if (this.model.get("keyGrouping") === "collapsed") {
-        readyData = this.renameSumKeys(data);
-      } else {
-        var useCartesianKey = numOfSegments > 1;
-
-        if (useCartesianKey) {
-          readyData = this.createCartesianProduct(data);
+            if (this.useCartesianKey(data)) {
           chartProperties.dataMapping.seriesChartField.dataField = seriesChartField.cartesianKeyField;
         }
-      }
+        },
 
-      this.chartModel.set("data", readyData);
+        setKeyTranslations: function (readyData) {
+            return readyData;
+        },
+
+        useCartesianKey: function (data) {
+            var seriesChartField = this.model.get("seriesChartField"),
+                numOfSegments = _.keys(this.getTranslationsByField(data, seriesChartField.segmentField)).length,
+                useCartesianKey = false;
+            if (!(this.model.get("keyGrouping") === "collapsed")) {
+                useCartesianKey = numOfSegments > 1;
+            }
+            return useCartesianKey;
     },
 
     getTranslationsByField: function (data, field) {
@@ -326,6 +348,19 @@ define(["sitecore", "experienceAnalytics", "experienceAnalyticsDvcBase"], functi
 
       if (!this.model.get("metrics")) {
         this.showMessage("error", this.model.get("errorTexts").MetricsAreEmpty);
+      }
+    },
+    
+    drillDownToKey: function (selectedSegment) {
+      if (selectedSegment.dataObject) {
+        var targetPageUrl = this.model.get("targetPageUrl");
+
+        if (targetPageUrl) {
+          var rawKey = this.rawKeys[selectedSegment.dataObject.itemId] || selectedSegment.dataObject[this.keyProperty];
+          window.location.href = Sitecore.Helpers.url.addQueryParameters(targetPageUrl, {
+            key: rawKey
+          });
+        }
       }
     }
 

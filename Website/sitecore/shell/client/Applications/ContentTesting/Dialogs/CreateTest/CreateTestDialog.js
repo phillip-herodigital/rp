@@ -1,30 +1,48 @@
 ﻿define(["sitecore",
         "/-/speak/v1/contenttesting/ImageThumbs.js",
-        "/-/speak/v1/contenttesting/RequestUtil.js",
-        "/-/speak/v1/contenttesting/TooltipCustom.js",
+        "/-/speak/v1/contenttesting/ExpectedChangeCtrl.js",
+        "/-/speak/v1/contenttesting/ConfidenceLevelCtrl.js",
+        "/-/speak/v1/contenttesting/DataUtil.js",
+        "/-/speak/v1/contenttesting/CreateTestActions.js",
+        "/-/speak/v1/contenttesting/TestTypes.js",
         "css!/-/speak/v1/contenttesting/CreateTestDialog.css"
-], function (_sc, thumbsMod, requestUtil) {
-  var TestWizard = _sc.Definitions.App.extend({
+], function (_sc, thumbsMod, expectedChangeCtrl, confidenceLevelCtrl, dataUtil, actions, testTypes) {
+  var TestWizard = _sc.Definitions.App.extend({ 
 
     // ListGoals - selecting "Trailing Value/Visit"
-    trailingValueVisitGUID: '{00000000-0000-0000-0000-000000000000}',
+    trailingValueVisitGUID: "{00000000-0000-0000-0000-000000000000}",
     isTrailingValueVisitSet: false,
 
-    _tooltipExpected: undefined,
-    _tooltipStatistics: undefined,
     _imageThumbs: null,
     _showCompareScreenshot: false,
     _showAllScreenshots: false,
 
     srcCloseIcon: "/sitecore/shell/client/Speak/Assets/img/Speak/DialogWindow/close_button_sprite.png",
 
-    initialized: function () {
+    requiredEnabledVariables: 1,
+    requiredEnabledVariations: 2,
 
-      this.set("getThumbnailUrl", "/sitecore/shell/api/ct/TestThumbnails/GetThumbnail");
-      this.detectBrowser();
-      this.testOptions = new _sc.TestOptions();
+    // height for editing "TabControl" content
+    heightTabControlContentEdit: 255,
+
+    testOptions: {},
+
+    testLengthMessages: [],
+
+    variantWarningMessages: [],
+
+    initialized: function () {
+      // testOptions empty
+      this.testOptions = dataUtil.getTestOptionsEmpty();
+
+      this.expectedChangeCtrl = expectedChangeCtrl;
+      this.confidenceLevelCtrl = confidenceLevelCtrl;
+
+      this.ExpectedTimeWithEstimateOverMaximum.viewModel.$el.css("color", "#DC291E");
 
       this.ItemInfoDataSource.set("itemUri", this.TestVariablesDataSource.get("itemuri"));
+
+      this.ThumbnailImageSrc.set("imageUrl", "");
 
       // adding "img" elem to ".sc-smartpanel-close" link - for showing "small" close icon
       var $smartPanelElem = this.TestVariationsSmartPanel.viewModel.$el;
@@ -40,13 +58,40 @@
       });
 
       this.CarouselImage.set("isVisible", false);
-      this.CompareImage.set("isVisible", false);
+      this.ContentTestingBorder.set("isVisible", false);
 
+      // Expectation
+      if(expectedChangeCtrl)
+        expectedChangeCtrl.initElements(this);
+
+      // Confidence Level      
+      if(confidenceLevelCtrl)
+        confidenceLevelCtrl.initElements(this);
+
+      //
+      this.initializeComponentEvents();
+
+      //
+      this.initializeWindowAction();
+
+      //
+      this.initializeContentTypeTesting();
+
+      // Set default values for the controls
+      dataUtil.setDefaultsParameters(this);
+
+      this.configureTextTemplates();
+    },
+
+    initializeComponentEvents: function () {
       this.TestVariablesDataSource.on("change:items", this.itemsUpdate, this);
+      this.TestVariablesDataSource.on("change:items", this.renderVariableWarnings, this);
       this.TestVariablesDataSource.on("change:items", this.validateTestLength, this);
-      this.TestVariablesDataSource.on("change:multipleDevices", this.checkMultipleDevices, this);
-
-      this.ItemInfoDataSource.on("change:hasActiveTest", this.checkActiveTest, this);
+      this.TestVariablesDataSource.on("change:multipleDevices", function () {
+        if (this.TestVariablesDataSource.get("multipleDevices")) {
+          this._disableDialog([this.MultipleDevicesMessage]);
+        }
+      }, this);
 
       // Subscribe to change of the "Maximum duration"
       if (this.MaximumSelect) {
@@ -57,61 +102,75 @@
       this.TestVariablesStateListControl.on("change:selectedItemId", this.populateTestVariationsSmartPanel, this);
 
       // Subscribe to validation in StateListControl 
-      this.TestVariablesStateListControl.on("validation:disableLastItem", this.validateDisabledTestVariables, this);
-      this.TestVariationsStateListControl.on("validation:disableLastItem", this.validateDisabledTestVariations, this);
+      this.TestVariablesStateListControl.on("validation:disableLastItem", function () {
+        // StringDictiory is use to translate texts into the context language
+        this.VariablesTabMessageBar.addMessage("warning", this.StringDictionary.get(
+            "You cannot disable this variable: it is the only one included in the test."));
+      }, this);
 
-      this.TestVariationsStateListControl.on("change:disabledItems", this.setDisabledVariations, this);
+      this.TestVariablesStateListControl.on("change:items", function () { this.TestVariablesStateListControl.viewModel.checkAll(); }, this);
+      this.TestVariablesStateListControl.set("requiredEnabledRowCount", this.requiredEnabledVariables);
 
-      this.TestVariationsStateListControl.on("change:items", this.populateDisabledVariations, this);
+      this.TestVariationsStateListControl.on("validation:disableLastItem", function () {
+        //TODO: Think about a SPEAK dialog
+        alert(this.StringDictionary.get(
+            "You cannot disable this variation because the test needs at least two variations to be enabled."));
+      }, this);
+
+      this.TestVariationsStateListControl.set("requiredEnabledRowCount", this.requiredEnabledVariations);
+
+      this.TestVariationsStateListControl.on("change:checkItem", this.setCheckedVariations, this);
+      
+      this.TestVariationsStateListControl.on("change:items", this.populateCheckedVariations, this);
+      this.TestVariationsStateListControl.on("change:items", this.enforceVariationRules, this);
 
       // Subscribe to events that trigger Preview changes
       this.TestVariablesDropDownListControl.on("change:selectedItem", this.setTestPreview, this);
 
-      //this.ViewAllTestVariablesHyperlinkButton.on("click", this.setViewAllPreview, this);
-      this.ViewAllTestVariablesHyperlinkButton.viewModel.$el.click({ self: this }, this.setViewAllPreview);
+      this.ViewAllTestVariablesHyperlinkButton.viewModel.$el.click({ self: this }, function (event) {
+        var self = event.data.self;
+        // Set test variables dropdown button title
+        self.TestVariablesDropDownButton.set("text", self.ViewAllTestVariablesHyperlinkButton.get("text"));
+        // With no selected test nothing will be filtered (show all variants)
+        self.CarouselImage.set("selectedTestId", null);
+      });
 
       // Update TestObjective UI according to selected test objective item
       if (this.ObjectiveList) {
-        this.ObjectiveList.on("change:items", this.listGoalsItemsChanged, this);
+        this.ObjectiveList.viewModel.setTestingOptions({ texts: this.StringDictionary });
+        this.ObjectiveList.on("change:items", function () {
+          if (!this.isTrailingValueVisitSet) {
+            this.isTrailingValueVisitSet = true;
+            this.ObjectiveList.set("selectedGuid", this.trailingValueVisitGUID);
+          }
+        }, this);
         this.ObjectiveList.on("change:selectedItem", this.updateTestObjectiveUI, this);
       }
 
-      // ExpectatedEffect tooltip
-      this._tooltipExpected = new TooltipCustom();
-      this._tooltipExpected.setTargetClick(this.ExpectationHelpIconButton.viewModel.$el,
-        this.StringDictionary.get("Use the slider to predict how the test will effect the visitor engagement. Your prediction is used as an extra indicator for validation of the test result, and it has an effect on your performance report. You can use this to improve your optimization skill."));
-
-
-      // Statistics tooltip
-      if (this.StatisticsHelpIconButton) {
-        this._tooltipStatistics = new TooltipCustom();
-        this._tooltipStatistics.setTargetClick(this.StatisticsHelpIconButton.viewModel.$el,
-          this.StringDictionary.get("Set the minimum confidence threshold the test needs to achieve before declaring the result statistical significant. High threshold will require a longer duration of the test."));
-      }
-
-      // Expectation
-      this.ExpectationSlider.set("selectedValue", 0);
-
-      //#5966 - updating CompareImage after show/hide PreviewAccordion
-      //this.PreviewAccordion.on("change:isOpen", this.previewAccordionVisibleToggle, this);
-
-      this.TestDurationDataSource.on("change:isEstimated", this.setNotEstimatedTextVisibility, this);
-
       this.TestDurationDataSource.on("change", this.validateTestLength, this);
+      this.TestDurationDataSource.on("change:variableCount", function () {
+        var variableCount = this.TestDurationDataSource.get("variableCount");
+        this.ExperienceMetricsSingle.set("isVisible", variableCount === 1);
+        this.ExperienceMetricsMultiple.set("isVisible", variableCount !== 1);
+      }, this);
+      this.TestDurationDataSource.on("change:expectedDays change:isEstimated", this.setEstimateMessage, this);
+      this.setEstimateMessage();
 
       //subscribe to window click event in order to close DropDownButton popup
       this.TestVariablesDropDownButton.viewModel.$el.click(function (event) {
         event.stopPropagation();
       });
 
-      this.BeforeAfterDropDownButton.viewModel.$el.click(function (event) {
-        event.stopPropagation();
-      });
+      if(this.TrafficAllocationSlider)
+        this.TrafficAllocationSlider.on("change:selectedValue", function () {
+        this.TestDurationDataSource.set("trafficAllocation", this.TrafficAllocationSlider.get("selectedValue"));
+        }, this);
+    },
 
+    initializeWindowAction: function () {
       $(window).click(this, function (event) {
         var app = event.data;
-        if (app.BeforeAfterDropDownButton.get("isOpen") === true || app.TestVariablesDropDownButton.get("isOpen") === true) {
-          app.BeforeAfterDropDownButton.set("isOpen", false);
+        if (app.TestVariablesDropDownButton.get("isOpen") === true) {
           app.TestVariablesDropDownButton.set("isOpen", false);
         }
 
@@ -123,107 +182,57 @@
           if ($targetElemInSmartPanel.length === 0 && $targetElemInStateListControl.length === 0) {
             app.TestVariationsSmartPanel.set("isOpen", false);
           }
-        }        
-
+        }
       });
 
-      $(document).ready(this.CmsDialogFix);
-      $(window).resize(this.CmsDialogFix);
+      var self = this;
+      var CmsDialogFix = function () {
+        var $tabControlContent = $("[data-sc-id='TestWizardTabControl'] > .tab-content");
+        $tabControlContent.height($(window).height() - self.heightTabControlContentEdit);
+      };
 
-      this.OptionsMapper.addOptionComponent(this.TrafficAllocationSlider, "selectedValue", "TrafficAllocation");
-      this.OptionsMapper.addOptionComponent(this.ConfidenceLevelSelect, "selectedValue", "ConfidenceLevel");
-
-      // Set default values for the controls
-      this.setDefaults();
-
-      this.setNotEstimatedTextVisibility();
-
-      // Update text on variables tab
-      this.TestDurationDataSource.on("change:variableCount change:variableCount change:valueCount change:experienceCount", this.updateTestMetricsText, this);
-      this.updateTestMetricsText();
-
-      this.TestDurationDataSource.on("change:viewsPerDay change:expectedDays", this.updateExpectedTimeWithEstimateText, this);
-      this.OptionsMapper.on("change:TrafficAllocation change:ConfidenceLevel", this.updateExpectedTimeWithEstimateText, this);
-
-      if (this.MaximumSelect) {
-        this.MaximumSelect.on("change:selectedItem", this.updateExpectedTimeWithEstimateText, this);
-      }
-
-      this.updateExpectedTimeWithEstimateText();
-
-      this.OptionsMapper.on("change:TrafficAllocation change:ConfidenceLevel", this.updateExpectedTimeWithoutEstimateText, this);
-      this.updateExpectedTimeWithoutEstimateText();
+      $(document).ready(CmsDialogFix);
+      $(window).resize(CmsDialogFix);
     },
 
-    CmsDialogFix: function () {
-      $("[data-sc-id='TestWizardTabControl'] .tab-content").height($(window).height() - 200);
+    initializeContentTypeTesting: function () {
+      this.ThumbnailImageDataSource.set("imageThumbs", this._imageThumbs);
+      this.ThumbnailImageDataSource.on("change:items", this.thumbnailImageDataSourceItemsChanged, this);
+
+      var imgThumbnailClickHandler = function (event) {
+        var self = event.data;
+        var imageUrl = $(event.currentTarget).attr("src");
+
+        self.ZoomFrame.set("imageUrl", imageUrl);
+      };
+
+      var imgThumbnailChanged = function (img, value) {
+      if (value && value !== "") {
+        img.viewModel.$el.removeClass("img-loading");
+      }
+      };
+
+      this.BeforeThumbImage.viewModel.$el.addClass("img-loading");
+      this.BeforeThumbImage.viewModel.$el.click(this, imgThumbnailClickHandler);
+      this.BeforeThumbImage.on("change:imageUrl", imgThumbnailChanged, this);
+      this.AfterThumbImage.viewModel.$el.addClass("img-loading");
+      this.AfterThumbImage.viewModel.$el.click(this, imgThumbnailClickHandler);
+      this.AfterThumbImage.on("change:imageUrl", imgThumbnailChanged, this);      
     },
 
-    previewAccordionVisibleToggle: function () {
-      //this.ImageList.viewModel.populateItems();
-    },
-
-    setDefaults: function () {
-
-      if (this.TrafficAllocationSlider) {
-        this.TrafficAllocationSlider.set("selectedValue", this.SettingsDictionary.get("ContentTesting.DefaultTrafficAllocation"));
+    thumbnailImageDataSourceItemsChanged: function () {
+      return;
+      var beforeAfterInfo = this.ThumbnailImageDataSource.getBeforeAfterTooltipInfo();
+      if (beforeAfterInfo.before) {
+        this.BeforeInfoTooltip.set("content", beforeAfterInfo.before);
       }
-
-      // Composite may be missing due to security
-      if (this.ConfidenceLevelSelect) {
-        this.ConfidenceLevelSelect.on("change:items", function () {
-          this.ConfidenceLevelSelect.set("selectedValue", this.SettingsDictionary.get("ContentTesting.DefaultConfidenceLevel"));
-        }, this);
-      }
-
-      if (this.MinimumSelect) {
-        this.MinimumSelect.on("change:items", this.setMinDurationDefaultValue, this);
-      }
-
-      if (this.MaximumSelect) {
-        this.MaximumSelect.on("change:items", this.setMaxDurationDefaultValue, this);
-      }
-    },
-
-    detectBrowser: function () {
-      if (navigator.appName === 'Microsoft Internet Explorer') {
-        $(document).find("body").addClass("ie");
-      }
-    },
-
-    setNotEstimatedTextVisibility: function () {
-      this.ExpectedTimeNotEstimateBorder.set("isVisible", !this.TestDurationDataSource.get("isEstimated"));
-    },
-
-    setMinDurationDefaultValue: function () {
-      // Set the default minimum duration value from the config in the Minimum Duration combobox.
-      var defaultMinDuration = this.SettingsDictionary.get("ContentTesting.MinimumDuration");
-      if (this.MinimumSelect) {
-        this.MinimumSelect.set("selectedValue", defaultMinDuration);
-      }
-    },
-
-    setMaxDurationDefaultValue: function () {
-      // Set the default maximum duration value from the config in the Maximum Duration combobox.
-      var defaultMaxDuration = this.SettingsDictionary.get("ContentTesting.MaximumContentTestDuration");
-      if (this.MaximumSelect) {
-        var initialized = this.MaximumSelect.get("initialized");
-        if (!initialized)
-        {
-          this.MaximumSelect.set("selectedValue", defaultMaxDuration);
-        }
-      }
-    },
-
-    listGoalsItemsChanged: function (sender) {
-      if (!this.isTrailingValueVisitSet) {
-        this.isTrailingValueVisitSet = true;
-        this.ObjectiveList.set("selectedGuid", this.trailingValueVisitGUID);
+      if (beforeAfterInfo.after) {
+        this.AfterInfoTooltip.set("content", beforeAfterInfo.after);
       }
     },
 
     updateTestObjectiveUI: function (sender, selectedTestObjective) {
-      if (typeof selectedTestObjective === 'undefined' || selectedTestObjective === null) {
+      if (!selectedTestObjective) {
         return;
       }
 
@@ -232,30 +241,59 @@
         this.WinnerAutoSelectUnless.set("isEnabled", false);
         this.WinnerManualSelect.set("isEnabled", true);
         this.WinnerAutoSelect.check();
+        this.TestDurationDataSource.set("measureByGoal", false);
       } else {
         this.WinnerAutoSelect.set("isEnabled", true);
         this.WinnerAutoSelectUnless.set("isEnabled", true);
         this.WinnerManualSelect.set("isEnabled", true);
         this.WinnerAutoSelectUnless.check();
+        this.TestDurationDataSource.set("measureByGoal", true);
       }
     },
 
-    populateDisabledVariations: function () {
-      var disabledVariations = this.testOptions.get("disabledVariations") || {};
-      var testid = this.TestVariationsStateListControl.get("testId");
+    populateCheckedVariations: function () {
+      var checkedVariations = this.testOptions["checkedVariations"] || {};
+      var selectedTestItem = this.TestVariablesStateListControl.get("selectedItem");
+      if (!selectedTestItem)
+        return;
+      var testid = selectedTestItem.get("UId");
 
-      if (disabledVariations[testid] !== undefined) {
-        this.TestVariationsStateListControl.viewModel.populateDisabled(disabledVariations[testid]);
+      if (checkedVariations[testid]) {
+        this.TestVariationsStateListControl.set("checkedItems", checkedVariations[testid]);
+      } else {
+        this.TestVariationsStateListControl.viewModel.checkAll();
       }
     },
 
-    setDisabledVariations: function () {
-      var testid = this.TestVariationsStateListControl.get("testId");
+    enforceVariationRules: function () {
+      var selectedTestItem = this.TestVariablesStateListControl.get("selectedItem");
+
+      // Disable checkbox for default rule in personalization tests
+      if (selectedTestItem.get("TypeKey") === testTypes.personalization) {
+        this.TestVariationsStateListControl.viewModel.disableRow("00000000-0000-0000-0000-000000000000");
+      }
+    },
+
+    setCheckedVariations: function () {
+      var selectedTestItem = this.TestVariablesStateListControl.get("selectedItem");
+      if (!selectedTestItem)
+        return;
+      var testid = selectedTestItem.get("UId");
+
+      var checkedItems = this.TestVariationsStateListControl.get("checkedItems");
+      var variations = this.testOptions["checkedVariations"] || {};
+      variations[testid] = checkedItems;
+      this.testOptions["checkedVariations"] = variations;
+
+      var disabledVariations = this.testOptions["disabledVariations"] || {};
       var disableditems = this.TestVariationsStateListControl.get("disabledItems");
-      var variations = this.testOptions.get("disabledVariations") || {};
+      disabledVariations[testid] = disableditems;
+      this.testOptions["disabledVariations"] = disabledVariations;
 
-      variations[testid] = disableditems;
-      this.testOptions.set("disabledVariations", variations);
+      var values = _.values(disabledVariations);
+      values = _.flatten(values);
+
+      this.TestDurationDataSource.set("disabledVariations", values);
     },
 
     populateTestVariationsSmartPanel: function () {
@@ -263,7 +301,6 @@
       // data source to return test variations y test id
       var selectedTestItem = this.TestVariablesStateListControl.get("selectedItem");
       if (selectedTestItem !== "") {
-        console.log(selectedTestItem);
         this.TestVariationsSmartPanel.set("isOpen", true);
         var self = this;
 
@@ -280,10 +317,13 @@
 
           if (item.attrs.testId.toLowerCase() === "{" + uid + "}") {
             if (this._imageThumbs) {
-              this._imageThumbs.populateImage(item, this.ThumbnailImageSrc.viewModel.$el, null, this.get("getThumbnailUrl"));
-            }
-            break;
+              this._imageThumbs.populateImages([item], function () {
+                return self.ThumbnailImageSrc.viewModel.$el;
+              });
+            };
           }
+
+          break;
         }
       }
     },
@@ -299,36 +339,42 @@
         var isContentTesting = this.isJustContentTesting(items);
 
         // Identify testing type and display corresponding preview components
-        this.displayPreviewContent(isContentTesting);
+        this.TestVariablesDropDownButton.set("isVisible", !isContentTesting);
 
         // Update the default maximum duration value if MV test is configured from the configuration file.
+        var defaultMVMaxDuration;
+        if (!isContentTesting)
+          defaultMVMaxDuration = this.SettingsDictionary.get("ContentTesting.MaximumOptimizationTestDuration");
+        else
+          defaultMVMaxDuration = this.SettingsDictionary.get("ContentTesting.MaximumContentTestDuration");
+
         if (this.MaximumSelect) {
-          if (!isContentTesting) {
-            var defaultMVMaxDuration = this.SettingsDictionary.get("ContentTesting.MaximumOptimizationTestDuration");
-            var items = this.MaximumSelect.get("items");
-            if (items.length > 0) {
+          var items = this.MaximumSelect.get("items");
+          if (items.length > 0) {
+            this.MaximumSelect.set("selectedValue", defaultMVMaxDuration);
+            this.MaximumSelect.set("initialized", true);
+          }
+          else {
+            this.MaximumSelect.once("change:items", function () {
               this.MaximumSelect.set("selectedValue", defaultMVMaxDuration);
               this.MaximumSelect.set("initialized", true);
-            }
-            else {
-              this.MaximumSelect.once("change:items", function () {
-                this.MaximumSelect.set("selectedValue", defaultMVMaxDuration);
-                this.MaximumSelect.set("initialized", true);
-              }, this)
-            }
+            }, this)
+          }
+        } else {
+          if (this.TestDurationDataSource) {
+            this.TestDurationDataSource.set("maxDuration", defaultMVMaxDuration);
           }
         }
 
         if (isContentTesting && this._showCompareScreenshot) {
-          this.CompareImage.set("imageThumbs", this._imageThumbs);
-          this.CompareImage.set("isVisible", true);
+          this.ContentTestingBorder.set("isVisible", true);
         }
         else if (this._showAllScreenshots) {
           this.CarouselImage.set("imageThumbs", this._imageThumbs);
           this.CarouselImage.set("isVisible", true);
         }
 
-        if (!this.CompareImage.get("isVisible") && !this.CarouselImage.get("isVisible")) {
+        if (!this.ContentTestingBorder.get("isVisible") && !this.CarouselImage.get("isVisible")) {
           this.PreviewAccordion.set("isVisible", false);
         }
         else {
@@ -339,77 +385,59 @@
       }
     },
 
-    displayPreviewContent: function (isContentTesting) {
-      this.BeforeAfterDropDownButton.set("isVisible", isContentTesting);
-      this.TestVariablesDropDownButton.set("isVisible", !isContentTesting);
-    },
-
     isJustContentTesting: function (items) {
-      if (items.length === 1 && items[0].TypeKey === 'Content') {
+      if (items.length === 1 && (items[0].TypeKey === testTypes.content || items[0].TypeKey === testTypes.page)) {
         return true;
       }
 
       return false;
     },
 
-    //setViewAllPreview: function (event) {
-    setViewAllPreview: function (event) {
-      var self = event.data.self;
-      // Set test variables dropdown button title
-      self.TestVariablesDropDownButton.set('text', self.ViewAllTestVariablesHyperlinkButton.get('text'));
+    renderVariableWarnings: function(){
+      var items = this.TestVariablesDataSource.get("items");
+      var self = this;
 
-      // With no selected test nothing will be filtered (show all variants)
-      self.CarouselImage.set("selectedTestId", null);
-      self.CompareImage.set("selectedTestId", null);
+      this._removeMessages(this.variantWarningMessages);
+      this.variantWarningMessages = [];
+
+      _.each(items, function (item) {
+        _.each(item.Warnings, function(warning) {
+          self.NotificationsMessageBar.addMessage("warning", warning);
+          self.variantWarningMessages.push(warning);
+        });
+      });
     },
 
-    okClicked: function () {
+    okClicked: function() {
+      var items = this.TestVariablesDataSource.get("items");
+      if (_.some(items, function(item) {
+        return item.Warnings && item.Warnings.length > 0;
+      })) {
+        var message = this.StringDictionary.get("One or more variations have warnings.") + "\r\n" +
+          this.StringDictionary.get("Do you want to continue?");
+        
+        var result = confirm(message);
+        if (result) {
+          this.startConfirmed();
+        }
+      } else {
+        this.startConfirmed();
+      }
+    },
+
+    startConfirmed: function () {
       this.StartTestButton.set("isEnabled", false);
       this.ServerProgressIndicator.set("isBusy", true);
 
-      this.testOptions.set("itemUri", this.TestVariablesDataSource.get("itemuri"));
+      this.testOptions["itemUri"] = this.TestVariablesDataSource.get("itemuri");
 
-      this.testOptions.set("trackWithEngagementValue", true);
-      this.testOptions.set("autoShowWinner", true);
+      this.testOptions["trackWithEngagementValue"] = true;
+      this.testOptions["autoShowWinner"] = true;
 
       var showWinner = true;
 
-      if (this.ConfidenceLevelSelect) {
-        this.testOptions.set("confidenceLevel", this.ConfidenceLevelSelect.get("selectedValue"));
-      }
-
-      this.testOptions.set("trafficAllocation", this.OptionsMapper.get("TrafficAllocation"));
-
-      if (this.ObjectiveList) {
-        var goal = this.ObjectiveList.get("selectedItem");
-        if (goal) {
-          if (goal.guid !== '{00000000-0000-0000-0000-000000000000}') {
-            this.testOptions.set("GoalId", goal.guid);
-            this.testOptions.set("trackWithEngagementValue", false);
-          }
-        }
-      }
-
-      if (this.ExpectationSlider) {
-        this.testOptions.set("Expectation", this.ExpectationSlider.get("selectedValue"));
-      }
-
-      if (this.MaximumSelect) {
-        this.testOptions.set("MaxDuration", this.MaximumSelect.get("selectedValue"));
-      }
-
-      if (this.MinimumSelect) {
-        this.testOptions.set("MinDuration", this.MinimumSelect.get("selectedValue"));
-      }
-
-      //rbAutoSelWinner
-      //rbAutoSelWinnerBest
-      //rbManualSelWinner
-
-      if (this.get("groupTestObjective") !== undefined) {
-        var groupValue = this.get("groupTestObjective");
-        this.testOptions.set("SelectWinnerStrategy", groupValue);
-      }
+      // common TestOptions
+      dataUtil.getTestOptions(this.testOptions, this);
 
       var disabledItems = this.TestVariablesStateListControl.get("disabledItems");
       var disabled = [];
@@ -417,12 +445,11 @@
       for (var i in disabledItems) {
         disabled.push(disabledItems[i].UId);
       }
-
-      this.testOptions.set("disabledVariants", disabled);
+      this.testOptions["disabledVariants"] = disabled;
 
       var disabledVariationsList = [];
 
-      var disabledVariations = this.testOptions.get("disabledVariations") || {};
+      var disabledVariations = this.testOptions["disabledVariations"] || {};
 
       for (i in disabledVariations) {
         var variationsarray = [];
@@ -438,68 +465,49 @@
         disabledVariationsList.push(d);
       }
 
-      this.testOptions.set("disabledVariations", disabledVariationsList);
+      this.testOptions["disabledVariations"] = disabledVariationsList;
 
       var params = _sc.Helpers.url.getQueryParameters(window.location.href);
-      this.testOptions.set("DeviceId", params.device);
+      this.testOptions["DeviceId"] = params.device;
+      this.testOptions["Language"] = params.sc_lang;
 
+      // request to server
       var self = this;
-      var ajaxOptions = {
-        type: "POST",
-        url: "/sitecore/shell/api/ct/CreateTestDialog/StartTest",
-        context: this,
-        contentType: 'application/json; charset=UTF-8',
-        data: this.testOptions.toJSONString(),
-        success: function (data) {
-          this.ServerProgressIndicator.set("isBusy", false);
+      var successFunc = function () {
+        self.ServerProgressIndicator.set("isBusy", false);
           self.closeDialog("yes");
-        },
-        error: function (request, status, error) {
-          alert("Request failed: " + status + " - " + error); // todo: skynet: translate text
-        }
       };
-
-      requestUtil.performRequest(ajaxOptions);
+      
+      actions.startTest(this.testOptions, successFunc);
     },
 
     setTestPreview: function () {
       var selectedTest = this.TestVariablesDropDownListControl.get("selectedItem");
 
-      if (selectedTest === '') {
+      if (selectedTest === "") {
         return;
       }
 
       // Set test variables dropdown button title
-      this.TestVariablesDropDownButton.set('text', selectedTest.attributes.Name);
+      this.TestVariablesDropDownButton.set("text", selectedTest.attributes.Name);
 
       // Filter images in the image list with the selected test
-      // Set "selectedTestId" for "CompareImage" control
+      // Set "selectedTestId" for "CarouselImage" control
       var selectedTestId = selectedTest.attributes.UId;
       this.CarouselImage.set("selectedTestId", selectedTestId);
-      this.CompareImage.set("selectedTestId", selectedTestId);
-    },
-
-    validateDisabledTestVariables: function () {
-      // StringDictiory is use to translate texts into the context language
-      this.VariablesTabMessageBar.addMessage('warning', this.StringDictionary.get(
-          'You cannot disable this variable: it is the only one included in the test.'));
-    },
-
-    validateDisabledTestVariations: function () {
-      //TODO: Think about a SPEAK dialog
-      alert(this.StringDictionary.get(
-          'You cannot disable this variation because the test needs at least two variations to be enabled.'));
     },
 
     validateTestLength: function () {
-      if (!this.MaximumSelect) {
+      if (!this.TestDurationDataSource)
         return;
+
+      var maxDurationValue;
+      if (this.MaximumSelect && this.MaximumSelect.get("selectedItem")) {
+        maxDurationValue = parseInt(this.MaximumSelect.get("selectedItem").Value, 10);
+      } else {
+        maxDurationValue = parseInt(this.TestDurationDataSource.get("maxDuration"), 10);
       }
-
-      if (this.MaximumSelect.get("selectedItem") === null)
-        return;
-
-      var maxDurationValue = parseInt(this.MaximumSelect.get("selectedItem").Value, 10);
+      
       if (_.isNaN(maxDurationValue))
         return;
 
@@ -510,29 +518,35 @@
       var requiredVisits = this.TestDurationDataSource.get("requiredVisits");
 
       var templateFirstMessage, templateSecondMessage, type;
-      
+
+      var minDuration;
       if (this.MinimumSelect) {
-        var minDuration = parseInt(this.MinimumSelect.get("selectedValue"), 10);
-        if (daysExpected < minDuration)
-        {
-          daysExpected = minDuration;
-        }
+        minDuration = parseInt(this.MinimumSelect.get("selectedValue"), 10);
+      } else {
+        minDuration = parseInt(this.TestDurationDataSource.get("minDuration"), 10);
       }
 
-      this.PreviewTabMessageBar.viewModel.$el.css("display", "block");
-      this.PreviewTabMessageBar.removeMessages();
+      if (daysExpected < minDuration) {
+        daysExpected = minDuration;
+      }
+
+      this.NotificationsMessageBar.viewModel.$el.css("display", "block");
+      this._removeMessages(this.testLengthMessages);
+      this.testLengthMessages = [];
 
       if (!isEstimated) { // If not enough traffic to do forecasting
-        type = 'notification';
+        type = "notification";
 
         templateFirstMessage = _.template(
           this.StringDictionary.get("With the changes you have made, you have created <%= experiences %> experiences.") + " " +
           this.StringDictionary.get("The test will require <%= requiredVisits %> visitors to find a winner.") + " " +
           this.StringDictionary.get("We do not have enough historical data to provide a forecasting on duration."));
 
-        this.PreviewTabMessageBar.addMessage(
-          type,
-          templateFirstMessage({ experiences: experiences, requiredVisits: requiredVisits }));
+        var message = templateFirstMessage({ experiences: experiences, requiredVisits: requiredVisits });
+
+        this.NotificationsMessageBar.addMessage(type, message);
+
+        this.testLengthMessages.push(message);
       }
       else {
         if (daysExpected > maxDurationValue) { // If test will take too long
@@ -562,85 +576,76 @@
            this.StringDictionary.get("Then it is possible to determine which experience contributes the most to the engagement value."));
         }
 
-        this.PreviewTabMessageBar.addMessage(
-          type,
-          templateFirstMessage({ experiences: experiences, days: daysExpected }));
+        var message1 = templateFirstMessage({ experiences: experiences, days: daysExpected });
+        var message2 = templateSecondMessage({ viewsPerDay: viewsPerDay, days: daysExpected });
 
-        this.PreviewTabMessageBar.addMessage(
-          type,
-          templateSecondMessage({ viewsPerDay: viewsPerDay, days: daysExpected }));
+        this.NotificationsMessageBar.addMessage(type, message1);
+        this.NotificationsMessageBar.addMessage(type, message2);
+
+        this.testLengthMessages.push(message1);
+        this.testLengthMessages.push(message2);
       }
     },
 
-    updateTestMetricsText: function () {
-      var templateTextKey = this.TestDurationDataSource.get("variableCount") === 1 ?
-        "The <%= variableCount %> variable has <%= valueCount %> variations, which together create <%= experienceCount %> experiences." :
-        "The <%= variableCount %> variables have combined <%= valueCount %> variations, which together create <%= experienceCount %> experiences.";
+    configureTextTemplates: function () {
+      var selectionParser = function(value) {
+        if (value) {
+          return parseInt(value.Value, 10) || 0;
+          }
 
-      var template = _.template(this.VariablesStringDictionary.get(templateTextKey));
-      this.TestMetricsText.set("text", template({
-        variableCount: this.TestDurationDataSource.get("variableCount"),
-        valueCount: this.TestDurationDataSource.get("valueCount"),
-        experienceCount: this.TestDurationDataSource.get("experienceCount")
-      }));
-    },
 
-    updateExpectedTimeWithEstimateText: function () {
-      var maxSelectedItem;
+        return 0;
+      }
+
       if (this.MaximumSelect) {
-        maxSelectedItem = this.MaximumSelect.get("selectedItem");
-      }
-
-      var parsedMaxSelectedValue = maxSelectedItem ? parseInt(maxSelectedItem.Value, 10) : 0;
-      var expectedDays = this.TestDurationDataSource.get("expectedDays");
-      
-      if (this.MinimumSelect) {
-        var minDuration = parseInt(this.MinimumSelect.get("selectedValue"), 10);
-        if (expectedDays < minDuration)
-        {
-          expectedDays = minDuration;
-        }
-      }
-
-      var template, color;
-
-      if (expectedDays > parsedMaxSelectedValue) {
-        template = _.template(this.VariablesStringDictionary.get("Based on historical data this page has <%= dailyVisists %> visitors per day, with a traffic allocation of <%= trafficAllocation %>% and a confidence level of <%= confidenceLevel %>% the test is expected to last <%= duration %> days, and the maximum duration of the test is <%= maximumDuration %> days."));
-        color = "#DC291E";
+        this.ExpectedTimeWithEstimateOverMaximum.addVariable("maximumDuration", this.MaximumSelect, "selectedItem", this.app, selectionParser);
       } else {
-        template = _.template(this.VariablesStringDictionary.get("Based on historical data this page has <%= dailyVisists %> visitors per day, with a traffic allocation of <%= trafficAllocation %>% and a confidence level of <%= confidenceLevel %>% the test is expected to last <%= duration %> days."));
-        color = "";
+        this.ExpectedTimeWithEstimateOverMaximum.addStaticVariable("maximumDuration", 0);
       }
 
-      this.ExpectedTimeWithEstimate.set("text", template({
-        dailyVisists: this.TestDurationDataSource.get("viewsPerDay"),
-        trafficAllocation: this.OptionsMapper.get("TrafficAllocation"),
-        confidenceLevel: this.OptionsMapper.get("ConfidenceLevel"),
-        duration: expectedDays,
-        maximumDuration: parsedMaxSelectedValue
-      }));
-
-      this.ExpectedTimeWithEstimate.viewModel.$el.css("color", color);
-    },
-
-    updateExpectedTimeWithoutEstimateText: function () {
-      var template = _.template(this.VariablesStringDictionary.get("The traffic allocation is set to <%= trafficAllocation %>% and the confidence level is <%= confidenceLevel %>%. There is not enough historical data to forecast duration."));
-      this.ExpectedTimeWithoutEstimate.set("text", template({
-        trafficAllocation: this.OptionsMapper.get("TrafficAllocation"),
-        confidenceLevel: this.OptionsMapper.get("ConfidenceLevel"),
-      }));
-    },
-
-    checkMultipleDevices: function () {
-      if(this.TestVariablesDataSource.get("multipleDevices")) {
-        this._disableDialog([this.MultipleDevicesMessage]);
+      if (this.MinimumSelect) {
+        this.ExpectedTimeWithEstimate.addVariable("minimumDuration", this.MinimumSelect, "selectedItem", this.app, selectionParser);
+        this.ExpectedTimeWithEstimateOverMaximum.addVariable("minimumDuration", this.MinimumSelect, "selectedItem", this.app, selectionParser);
+      } else {
+        this.ExpectedTimeWithEstimate.addStaticVariable("minimumDuration", 0);
+        this.ExpectedTimeWithEstimateOverMaximum.addStaticVariable("minimumDuration", 0);
       }
+
+      this.ExperienceMetricsSingle.resume();      
+      this.ExperienceMetricsMultiple.resume();
+      this.ExpectedTimeWithEstimate.resume();
+      this.ExpectedTimeWithEstimateOverMaximum.resume();
+      this.ExpectedTimeWithoutEstimate.resume();
     },
 
-    checkActiveTest: function() {
-      if (this.ItemInfoDataSource.get("hasActiveTest")) {
-        this._disableDialog([this.ContainsActiveTestMessage]);
+    setEstimateMessage: function () {
+      if (!this.TestDurationDataSource)
+        return;
+
+      if (!this.TestDurationDataSource.get("isEstimated")) {
+        this.ExpectedTimeWithEstimateOverMaximum.set("isVisible", false);
+        this.ExpectedTimeWithEstimate.set("isVisible", false);
+        return;
       }
+
+      var maxSelectedValue = -1;
+
+      if (this.MaximumSelect) {
+        maxSelectedValue = parseInt(this.MaximumSelect.get("selectedItem").Value, 10) || 0;
+      } else {
+        maxSelectedValue = parseInt(this.TestDurationDataSource.get("maxDuration"), 10);
+      }
+
+      var expectedDays = this.TestDurationDataSource.get("expectedDays");
+
+      if (maxSelectedValue > 0 && expectedDays > maxSelectedValue) {
+        this.ExpectedTimeWithEstimateOverMaximum.set("isVisible", true);
+
+      } else {
+        this.ExpectedTimeWithEstimateOverMaximum.set("isVisible", false);
+      }
+
+      this.ExpectedTimeWithEstimate.set("isVisible", !this.ExpectedTimeWithEstimateOverMaximum.get("isVisible"));
     },
 
     _disableDialog: function (allowedComponents) {
@@ -653,6 +658,19 @@
           component.set("isVisible", true);
         });
       }
+    },
+
+    _removeMessages: function(texts) {
+      if (!_.isArray(texts)) {
+        texts = [texts];
+      }
+
+      var self = this;
+      _.each(texts, function (text) {
+        self.NotificationsMessageBar.removeMessage(function (message) {
+          return message.text === text;
+        });
+      });
     }
   });
 

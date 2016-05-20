@@ -13,15 +13,5 @@ To enable this include file, rename it so that is has a ".config" extension.
     <customHandlers>
       <handler trigger="/~/v80/marketingdefinitions/remote/asset" type="Sitecore.Marketing.Definitions.MarketingAssets.Data.Remote.MarketingAssetRemoteDefinitionHandler, Sitecore.Marketing.Definitions.MarketingAssets.Repositories" />
     </customHandlers>
-    <marketingDefinitions>
-      <asset definitionInterface="Sitecore.Marketing.Definitions.MarketingAssets.IMarketingAssetDefinition, Sitecore.Marketing">
-        <definitionManager type="Sitecore.Marketing.Definitions.MarketingAssets.MarketingAssetDefinitionManager, Sitecore.Marketing" singleInstance="true">
-          <param desc="repository">
-            <patch:attribute name="ref">marketingDefinitions/asset/repositories/rdb</patch:attribute>
-          </param>
-        </definitionManager>
-      </asset>
-    </marketingDefinitions>
-
   </sitecore>
 </configuration>

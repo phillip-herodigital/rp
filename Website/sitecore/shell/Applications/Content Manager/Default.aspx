@@ -57,8 +57,8 @@
                 runat="server" />
         </span>
         <asp:ScriptManager ID="ScriptManager1" runat="server" />
-        <telerik:RadSpell ID="RadSpell" Skin="Metro" DialogsCssFile="/sitecore/shell/themes/standard/default/Content Manager.css" runat="server" />
-        <telerik:RadToolTipManager Skin="Metro" runat="server" ID="ToolTipManager" class="scRadTooltipManager" />
+        <telerik:RadSpell ID="RadSpell" Skin="Metro" DialogsCssFile="/sitecore/shell/themes/standard/default/Content Manager.css" LocalizationPath="~/sitecore/shell/Applications/Content Manager/Localization/" runat="server" />
+        <telerik:RadToolTipManager Skin="Metro" runat="server" ID="ToolTipManager" class="scRadTooltipManager" LocalizationPath="~/sitecore/shell/Applications/Content Manager/Localization/" />
         <iframe id="overlayWindow" src="/sitecore/shell/Controls/Rich Text Editor/EditorWindow.aspx" style="position: absolute; width: 100%; height: 100%; top: 0; left: 0; right: 0; bottom: 0; display: none; z-index: 999; border: none" frameborder="0" allowtransparency="allowtransparency"></iframe>
         <uc:GlobalHeader runat="server" />
         <div class="scFlexColumnContainer scWindowBorder2" style="height: 100%;" onactivate="javascript:scWin.activate(this, event);">

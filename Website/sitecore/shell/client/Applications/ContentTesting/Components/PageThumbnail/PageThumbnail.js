@@ -88,7 +88,7 @@ define(["sitecore", imageThumbsPath, requestUtilPath], function (Sitecore, thumb
 
       var data = {
         attrs: {
-          id: id,
+          id: decodeURI(id),
           version: version,
           language: language,
           deviceId: device,
@@ -98,7 +98,6 @@ define(["sitecore", imageThumbsPath, requestUtilPath], function (Sitecore, thumb
         }
       };
 
-      var url = this.get("getThumbnailUrl");
       var startUrl = this.get("startGetThumbnailUrl");
       var endUrl = this.get("tryFinishGetThumbnailUrl");
       var imageThumbs = new thumbs.ImageThumbs();
@@ -116,12 +115,7 @@ define(["sitecore", imageThumbsPath, requestUtilPath], function (Sitecore, thumb
         }
       };
 
-      if (url) {
-        imageThumbs.populateImages([data], null, url, itemCallback, finishCallback);
-      }
-      else if (startUrl && endUrl) {
-        imageThumbs.populateImages([data], null, startUrl, endUrl, itemCallback, finishCallback);
-      }
+      imageThumbs.populateImages([data], null, startUrl, endUrl, itemCallback, finishCallback);
     }
   });
 
@@ -152,7 +146,7 @@ define(["sitecore", imageThumbsPath, requestUtilPath], function (Sitecore, thumb
 
     refresh: function () {
       this.$el.find("img").remove();
-      this.$el.prepend("<img height=\"100%\" src=\"" + this.model.get("imgSrc") + "\"/>");      
+      this.$el.prepend("<img src=\"" + this.model.get("imgSrc") + "\"/>");
     },
 
     setState: function () {

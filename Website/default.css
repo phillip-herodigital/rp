@@ -1,41 +1,74 @@
-﻿/* Sitecore Default Stylesheet */
-
-html {
-  height:100%;
-}
-
-body {
-  font-family: Tahoma, Arial, sans-serif;
-  margin:0px;
-  padding:0px;
-  width:100%;
-  height:100%;
-}
-
-#MainPanel {
-  background:#e9e9e9;
-  text-align:center;
-  height:100%;
-}
-
-#CenterColumn 
-{
-  text-align:left;
-  margin:auto;
-  width:800px;
-}
-
-#Banner 
-{
-  background:white;
-  border-bottom:1px solid #bfbfbf;
-  padding:8px;
-}
-
-#Content {
-  background:white;
-  margin:10px 0px 0px 0px;
-  border-bottom:1px solid #bfbfbf;
-  padding:16px 16px 48px 16px;
-}
-
+﻿body {
+	  font-family: Arial, sans-serif;
+	  font-size:13px;
+	  font-weight:lighter;
+	  margin:0px;
+	}
+	
+	a:link {
+		text-decoration: none;
+		color: #0088cc;
+	}
+	
+	a:hover {
+		text-decoration: underline;
+	}
+	
+	#CenterColumn {
+	  margin: auto;
+	  padding-right: 20px;
+	  padding-left: 20px;
+	  max-width: 1170px;
+	  min-height: 402px;
+	  background: white url('-/media/Default Website/cover.ashx') no-repeat;
+	  background-size: 1170px 402px;
+	  text-align: left;
+	}	
+	
+	#InnerCenter {
+		margin: auto;	
+		position:relative;
+		width:1150px;
+		height:700px;
+	}	
+	
+	#Header {
+		height:402px;
+	}	
+	
+	#Footer {
+		width:100%;
+		clear:both; 
+		padding-top:2px;
+	}	
+	
+	#LeftContent {
+        width:750px;
+	    text-align: justify;
+	}
+	
+	#scLogo {
+		margin-top:20px;
+	}
+	
+	.contentTitle {
+		margin-top: 50px;
+		font-weight:100;
+		font-size: 36px;
+	}
+	
+	.divider {
+		background-color: #DCDCDC;
+		border: 0 none;
+		clear: both;
+		display: block;
+		height: 1px;
+		float:none;
+		margin: 50px auto;
+		width: 100%;
+	}
+	
+	.contentDescription{
+		padding-right:20px;
+		line-height: 22px;
+	}	

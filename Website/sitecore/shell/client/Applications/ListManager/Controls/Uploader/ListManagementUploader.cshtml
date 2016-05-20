@@ -1,4 +1,4 @@
-@using System.Configuration
+﻿@using System.Configuration
 @using System.Globalization
 @using System.Web.Configuration
 @using Sitecore.Mvc
@@ -80,7 +80,7 @@
         <br />
       </span>
     }
-    <span class="btn sc-button btn-default" id="browse-button">
+    <span class="btn sc-button btn-primary" id="browse-button">
       @Sitecore.ClientHost.Globalization.Translate(browseButtonText).TrimStart().TrimEnd()
       @if (disableMultipleFilesSelect)
       {
@@ -92,19 +92,5 @@
       }
     </span>
 
-    <div class="sc-uploader-general-info">
-      <div class="sc-uploader-general-info-progressbar progress progress-success progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100">
-        <div class="bar" data-bind="style: { width: globalPercentage() + '%' }"></div>
-      </div>
-      <div class="sc-uploader-general-info-data">
-        <div class="sc-uploader-general-info-data-col col1">
-          <div class="sc-uploader-general-info-data-uploadingData"><span data-bind="text: uploadedSize"></span>&nbsp;@Sitecore.ClientHost.Globalization.Translate("of")&nbsp;</div><span data-bind="  text: totalSize"></span>
-        </div>
-        <div class="sc-uploader-general-info-data-col col2">|</div>
-        <div class="sc-uploader-general-info-data-col col3">
-          <div class="sc-uploader-general-info-data-uploadingData"><span data-bind="  text: uploadedFiles"></span> &nbsp;@Sitecore.ClientHost.Globalization.Translate("of")&nbsp;</div><span data-bind="  text: totalFiles"></span>&nbsp;<span data-bind="  visible: totalFiles() > 1">@Sitecore.ClientHost.Globalization.Translate("files")</span><span data-bind="  visible: totalFiles() === 1">@Sitecore.ClientHost.Globalization.Translate("file")</span>
-        </div>
-      </div>
-    </div>
   </div>
 </form>

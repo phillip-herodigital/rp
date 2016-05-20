@@ -3,23 +3,28 @@
   "/-/speak/v1/contenttesting/DataUtil.js",
   "/-/speak/v1/contenttesting/RequestUtil.js"
 ], function (Sitecore, dataUtil, requestUtil) {
+  var actionUrl = "/sitecore/shell/api/ct/TestResults/GetOverviewKPI";
+
   var model = Sitecore.Definitions.Models.ControlModel.extend({
     initialize: function () {
       this._super();
 
-      this.set("actionUrl", "/sitecore/shell/api/ct/TestResults/GetKPI");
-      this.set("isBusy", false);
-      this.set("invalidated", false);
+      var params = Sitecore.Helpers.url.getQueryParameters(window.location.href);
+      var device = params.deviceId == undefined ? '' : params.deviceId;
 
-      this.set("itemId", null);
-      this.set("languageName", null);
-      this.set("version", 0);
+      this.set({
+        isBusy: false,
+        invalidated: false,
+        itemId: null,
+        languageName: null,
+        version: 0,
+        bestExperienceEffect: 0,
+        confidenceLevel: 0,
+        testScore: 0,
+        device: device
+      });
 
-      this.set("bestExperienceEffect", 0);
-      this.set("confidenceLevel", 0);
-      this.set("testScore", 0);
-
-      this.on("change:itemId change:languageName change:version", this.refresh, this);
+      this.on("change:itemId change:languageName change:version change:device", this.refresh, this);
 
       this.refresh();
     },
@@ -38,7 +43,10 @@
       this.set("isBusy", true);
       this.set("invalidated", false);
 
-      var url = this.get("actionUrl") + "?itemuri=" + encodeURIComponent(uri);
+      var url = Sitecore.Helpers.url.addQueryParameters(actionUrl, {
+        itemdatauri: uri,
+        deviceId: this.get("device")
+      });
 
       var ajaxOptions = {
         cache: false,
@@ -53,9 +61,11 @@
           } else {
             if (data) {
               // only populate if we're not about to fetch more data to avoid multiple refreshes on screen
-              this.set("bestExperienceEffect", data.BestExperienceEffect);
-              this.set("confidenceLevel", data.ConfidenceLevel);
-              this.set("testScore", data.TestScore);
+              this.set({
+                bestExperienceEffect: data.BestExperienceEffect,
+                confidenceLevel: data.ConfidenceLevel,
+                testScore: data.TestScore
+              });
             }
           }
         },
@@ -78,12 +88,13 @@
       // stop refreshing while initial settings are read
       this.model.set("isBusy", true);
 
-      this.model.set("itemId", this.$el.attr("data-sc-itemid") || null);
-      this.model.set("languageName", this.$el.attr("data-sc-language") || null);
-      this.model.set("version", this.$el.attr("data-sc-version") || 0);
-
-      this.model.set("bestExperienceEffect", 0);
-      this.model.set("confidenceLevel", 0);
+      this.model.set({
+        itemId: this.$el.attr("data-sc-itemid") || null,
+        languageName: this.$el.attr("data-sc-language") || null,
+        version: this.$el.attr("data-sc-version") || 0,
+        bestExperienceEffect: 0,
+        confidenceLevel: 0
+      });
 
       // settings have completed reading. Resume
       this.model.set("isBusy", false);

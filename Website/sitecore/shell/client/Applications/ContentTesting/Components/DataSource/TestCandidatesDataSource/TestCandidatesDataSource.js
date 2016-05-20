@@ -26,21 +26,31 @@
         this.set("invalidated", true);
         return;
       }
-
+      
       var url = "";
       if (this.get("itemId")) {
-        url = "ById?id=" + this.get("itemId");
+        url = this.get("baseActionUrl") + "ById";
+
+        url = Sitecore.Helpers.url.addQueryParameters(url, {
+          "id": this.get("itemId")
+        });
       }
 
       if (this.get("itemUri")) {
-        url = "ByUri?itemUri=" + this.get("itemUri");
+        url = this.get("baseActionUrl") + "ByUri";
+        
+        url = Sitecore.Helpers.url.addQueryParameters(url, {
+          "itemDataUri": this.get("itemUri")
+        });
       }
 
       if (url) {
         this.set("isBusy", true);
         this.set("invalidated", false);
 
-        url = this.get("baseActionUrl") + url + "&deviceId=" + this.get("device");
+        url = Sitecore.Helpers.url.addQueryParameters(url, {
+          "deviceId": this.get("device")
+        });
 
         var ajaxOptions = {
             cache: false,

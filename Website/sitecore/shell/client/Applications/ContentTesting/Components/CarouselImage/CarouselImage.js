@@ -34,7 +34,7 @@ define([
   "modernizr",
   "jquerypp",
   "elastislide"
-  ], function (_sc, thumbs) {
+], function (_sc, thumbs) {
 
   // model
   var model = _sc.Definitions.Models.ControlModel.extend(
@@ -43,7 +43,6 @@ define([
         this._super();
 
         this.set({
-          getThumbnailUrl: null,
           startGetThumbnailUrl: "/sitecore/shell/api/ct/TestThumbnails/StartGetThumbnails",
           tryFinishGetThumbnailUrl: "/sitecore/shell/api/ct/TestThumbnails/TryFinishGetThumbnails",
           items: [],
@@ -65,10 +64,6 @@ define([
     initialize: function (options) {
       //this._super();
 
-      if (this.$el.attr("data-sc-getthumbnailurl")) {
-        this.model.set("getThumbnailUrl", this.$el.attr("data-sc-getthumbnailurl"));
-      }
-
       if (this.$el.attr("data-sc-startgetthumbnailurl")) {
         this.model.set("startGetThumbnailUrl", this.$el.attr("data-sc-startgetthumbnailurl"));
       }
@@ -77,13 +72,23 @@ define([
         this.model.set("tryFinishGetThumbnailUrl", this.$el.attr("data-sc-tryfinishgetthumbnailurl"));
       }
 
-      this.model.set("selectedTestId", this.$el.attr("data-sc-selectedtestid") || "");      
+      this.model.set("selectedTestId", this.$el.attr("data-sc-selectedtestid") || "");
 
-      this.model.on("change:items change:selectedTestId change:getThumbnailUrl", this.populateCarousel, this);
+      this.model.on("change:items change:selectedTestId", this.populateCarousel, this);
 
       if (this.app && this.app.ZoomFrame) {
-        this.$el.find(".imgBig").click(this.app.ZoomFrame.viewModel.zoomImage);
+        this.$el.find(".imgBig").click(this, this.imgBigClickHandler);
       }
+    },
+
+    imgBigClickHandler: function (event) {
+      var self = event.data;
+      var imageUrl = $(event.currentTarget).attr("src");
+
+      self.app.ZoomFrame.set("imageUrl", imageUrl);
+      if (self.app.ZoomFrame.get("isVisible"))
+        self.app.ZoomFrame.set("isVisible", false);
+      self.app.ZoomFrame.set("isVisible", true);
     },
 
     // testing options for unit-tests
@@ -93,7 +98,7 @@ define([
     },
 
     populateCarousel: function () {
-      
+
       // No point in populating if not visible. The slider will not be able to calculate it's width and won't show anyway.
       if (!this.$el.is(":visible")) {
         return;
@@ -147,13 +152,13 @@ define([
 
       var tileTemplate = _.template($("#liItem").html());
       var testId = this.model.get("selectedTestId");
-      if(testId) {
+      if (testId) {
         testId = testId.toUpperCase();
         if (testId[0] !== "{")
           testId = "{" + testId + "}";
       }
 
-      _.each(items, function(item){
+      _.each(items, function (item) {
         var attrs = item.attrs;
         var name = item.name;
         var uid = item.uId;
@@ -168,7 +173,7 @@ define([
           }
           return;
         }
-        
+
         var displayName = name;
 
         // Add to holder
@@ -209,13 +214,12 @@ define([
       }
 
       // populate the images
-      var url = this.model.get("getThumbnailUrl");
       var startUrl = this.model.get("startGetThumbnailUrl");
       var endUrl = this.model.get("tryFinishGetThumbnailUrl");
       var imageThumbs = this.model.get("imageThumbs");
 
       if (imageThumbs) {
-        var locator = function(id){
+        var locator = function (id) {
           return $("[id = 'img_" + id + "']");
         };
 
@@ -233,19 +237,21 @@ define([
           self.model.set("isBusy", false);
         };
 
-        if (url) {
-          imageThumbs.populateImages(items, locator, url, itemCallback, finishCallback);
-        }
-        else if (startUrl && endUrl) {
-          imageThumbs.populateImages(items, locator, startUrl, endUrl, itemCallback, finishCallback);
-        }
+        imageThumbs.populateImages(items, locator, startUrl, endUrl, itemCallback, finishCallback);
       }
 
     },
 
     generateEntryId: function (item) {
       if (item.attrs)
-        return item.attrs.testId + item.attrs.version + item.attrs.revision + item.attrs.combination;
+	  {
+		var revision = item.attrs.revision;
+	    if (revision == undefined)
+		{
+			revision = item.attrs.id;
+		}			
+        return item.attrs.testId + item.attrs.version + revision + item.attrs.combination;
+	  }
       else
         return "";
     },
@@ -281,9 +287,9 @@ define([
               else {
                 var imageThumbs = self.model.get("imageThumbs");
                 if (imageThumbs) {
-                  self.$el.find("#dvInformation").first().html(imageThumbs.getVariationInfo(item));
+                  self.$el.find("#dvInformation").first().html(imageThumbs.getVariationInfo(item, true));
                 }
-                
+
               }
             }
           });

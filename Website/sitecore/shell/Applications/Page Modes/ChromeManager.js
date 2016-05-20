@@ -68,6 +68,39 @@ Sitecore.PageModes.ChromeManager = new function() {
     return this._chromes;
   };
 
+  this.getChromeByFieldId = function (fieldId) {
+    var chrome;
+    $sc.each(this.chromes(), function () {
+      var identifier = this.fieldIdentifier;
+      if (identifier) {
+        if (identifier.toLowerCase() == fieldId.toLowerCase()) {
+          chrome = this;
+        }
+      }
+    });
+
+    return chrome;
+  },
+
+  this.getChromesByFieldIdAndDataSource = function(fieldId, dataSourceId) {
+    return $sc.grep(this.chromes(), function (c) {
+      var chromeElementId = c.element.attr("id");
+      if (!chromeElementId) {
+        return false;
+      }
+
+      var idParts = chromeElementId.split('_');
+      if (idParts.length < 3) {
+        return false;
+      }
+
+      var fieldIdentifier = idParts[2];
+      var dataSourceIdentifier = idParts[1];
+
+      return $sc.toShortId(fieldId.toLowerCase()) === fieldIdentifier.toLowerCase() && $sc.toShortId(dataSourceId.toLowerCase()) === dataSourceIdentifier.toLowerCase();
+    });
+  },
+
   // Updates current chromes position in array according to DOM changes
   this.rearrangeChromes = function() {
     var l = this._chromes ? this._chromes.length : 0;

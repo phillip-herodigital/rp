@@ -18,9 +18,11 @@
         title: ""
       },
 
+      addNewContactActionIds = ["965403EDD7524808913E0B69D55C8EA0"],
       setEntireDatabaseActionIds = ["EDE8F210CC444DC48AFDBC6CE5D5BAFC"],
       removeSourceIds = ["2870D2EA7E0040DA904FAB12ED7B03B6", "CDA1E30B5AE54D128B6B7021E9DDFB93"],
       removeAllContactsActionIds = ["715CC24E7AA846A2B5878C5D2AD9B400"],
+      removeContactActionIds = ["12119562B43845DA9B79A65EF90909AD"],
       viewContactCardActionIds = ["A29930F63F5E4A5197F69A69882AE651", "8620AD7021BB43BC95F5BE7CAF182F64"],
       addSourceActionIds = ["598EDA5938F0485989DC37BC3E88D110", "00A55A2A1F0C4D0B9EE3A16383A8AC97"],
       addExclusionActionIds = ["12F78085A0B348ADB18126D175C4DDC3", "08DFF0549EFC4F67B0382267F491A708"],
@@ -32,8 +34,12 @@
       replaceAllListsWithEntireDatabaseSource = "This option will replace all lists that are currently selected as sources. Do you want to continue?",
       convertListNotification = "The list has been converted to a Contact list.",
       deleteAllContactsConfirmation = "All the contacts will be removed from this list. The contacts will still be available in your Contacts database. Do you want to continue?",
+      deleteContactConfirmation = "This contact will be removed from this list. The contact will still be available in your Contact database. Do you want to continue?",
       deleteAllContactsNotification = "All the contacts associated with this list have been removed.",
-      contactsWereNotRemoved = "The contacts was not removed.",
+      deleteContactNotification = "The contact will be removed from the list once the indexing has finished and the list is unlocked.",
+      contactsWereNotRemoved = "The contacts were not removed.",
+      contactWasNotRemoved = "The contact was not removed.",
+      lockedContactsCannotBeChanged = "Changes cannot be made to this contact as it is locked or currently active. Please try again later.",
       unlockListConfirmation = "This list is locked as it may currently be in the process of indexing. If you unlock, your list may be incomplete. Do you want to continue?",
       listUnlockedNotification = "The list was sucessfully unlocked.",
       listWasNotUnlocked = "The list was not unlocked.",
@@ -129,6 +135,7 @@
         });
         this.on("view:contact", this.onViewContact, this);
         this.on("remove:contacts", this.onRemoveAllContacts, this);
+        this.on("remove:contact", this.onRemoveContact, this);
         this.on("taskpage:add:source", this.addInclusion, this);
         this.on("taskpage:remove:source", this.removeSource, this);
         this.on("taskpage:add:exclusion", this.addExclusion, this);
@@ -152,6 +159,7 @@
         }
       },
       initializeListActions: function () {
+        this.on("taskpage:add:contact", this.onAddContact, this);
         this.on("taskpage:delete:list", this.onDeleteList, this);
         this.initializeSpecificListActions();
         var entityId = this.UrlParser.getParameterFromLocationSearchByName("id");
@@ -211,7 +219,7 @@
 
           current.callController(
             parameters,
-            "/" + methodName + "/" + listId,
+            "/" + listId + "/" + methodName,
             callback,
             function (status, statusText) {
               current.defaultErrorCallback(status, statusText, errorMessage);
@@ -257,8 +265,30 @@
           return;
         }
 
-        var url = "/sitecore/client/Applications/ExperienceProfile/contact?cid={" + contactId + "}";
+        var url = "/sitecore/client/Applications/ExperienceProfile/contact?cid={" + encodeURI(contactId) + "}";
         this.showContactCard(url);
+      },
+      onAddContact: function () {
+        var current = commonPagesDefinition.defaultIfValueIsUndefinedOrNull(self, this);
+        var dialogParams = { save: current.onRealAddContact };
+
+        current.dialogs.showDialog(current.dialogs.Ids.AddNewContactDialog, dialogParams);
+      },
+      onRealAddContact: function (dialog, model) {
+        var current = commonPagesDefinition.defaultIfValueIsUndefinedOrNull(self, this);
+        var listId = current.ListAsimovEntityDataSource.get("entityID");
+
+        $.post("/sitecore/api/ssc/ListManagement/Actions/" + encodeURI(listId) + "/AddNewContact", model, current.addSuccess)
+         .fail(current.addError);
+      },
+      addSuccess: function (t, state, obj) {
+        var current = commonPagesDefinition.defaultIfValueIsUndefinedOrNull(self, this);
+        current.showNotification(obj.statusText, current.ContactListMessageBar);
+        current.ListAsimovEntityDataSource.refresh();
+      },
+      addError: function (obj) {
+        var current = commonPagesDefinition.defaultIfValueIsUndefinedOrNull(self, this);
+        current.showError(obj.statusText, current.ContactListMessageBar);
       },
       onDeleteList: function (parameters, isConfirm) {
         this.executeAction(parameters, "DeleteListById", this.onDeleteListFinished, this.getIsConfirm(isConfirm), deleteListConfirmation, false, listWasNotRemoved);
@@ -270,6 +300,14 @@
       onRemoveAllContacts: function (parameters, isConfirm) {
         this.executeAction(parameters, "RemoveAllContactAssociationsAndSources", this.onRemoveAllContactsFinished, this.getIsConfirm(isConfirm), deleteAllContactsConfirmation, true, contactsWereNotRemoved);
       },
+      onRemoveContact: function (parameters, isConfirm) {
+        var contactId = this.ContactsList.get("selectedItemId");
+        if (contactId == "") {
+          return;
+        }
+
+        this.executeAction(parameters, "RemoveContact?contactId=" + encodeURI(contactId), this.onRemoveContactFinished, this.getIsConfirm(isConfirm), deleteContactConfirmation, true, contactWasNotRemoved);
+      },
       onRemoveAllContactsFinished: function () {
         var current = commonPagesDefinition.defaultIfValueIsUndefinedOrNull(self, this);
         current.showNotification(current.StringDictionary.get(deleteAllContactsNotification), current.ContactListMessageBar);
@@ -279,6 +317,21 @@
         current.setHeader(current.baseStructures[0], 0);
         current.updateContactActionsStatus();
         current.hideContactsProgressBar();
+      },
+      onRemoveContactFinished: function (data) {
+        var current = commonPagesDefinition.defaultIfValueIsUndefinedOrNull(self, this);
+
+        if (data) {
+          var entity = current.ListAsimovEntityDataSource.get("entity");
+          entity.IsLocked = true;
+
+          current.updateContactActionsStatus();
+          current.hideContactsProgressBar();
+
+          current.showNotification(current.StringDictionary.get(deleteContactNotification), current.ContactListMessageBar);
+        } else {
+          current.showWarning(current.StringDictionary.get(lockedContactsCannotBeChanged), current.ContactListMessageBar);
+        }
       },
       onRemoveDuplicates: function (parameters) {
         this.executeAction(parameters, "RemoveDuplicates", this.onRemoveDuplicatesFinished, false, "", true, duplicateContactsWereNotRemoved);
@@ -304,7 +357,7 @@
       onExportToCsv: function (parameters) {
         var entityId = this.UrlParser.getParameterFromLocationSearchByName("id");
         var targetDataSource = this[parameters.actionsDataSource];
-        var actionUrl = targetDataSource.get("url") + "/ExportContacts/" + entityId;
+        var actionUrl = targetDataSource.get("url") + "/" + encodeURI(entityId) + "/ExportContacts";
 
         this.downloadFile(actionUrl, this.onExportToCsvError);
       },
@@ -344,14 +397,15 @@
         }
         current.setActionEnabledStatus(current.ListActions, exportToCsvFileActionIds, !model.IsLocked);
         if (model.IsLocked) {
-          current.showWarning(current.StringDictionary.get("Please note that this list is currently being built and is locked."), current.ContactListMessageBar);
+          current.showWarning(current.StringDictionary.get("Please note that this list is currently being built and is locked."), current.ContactListMessageBar, 0, true);
           if (model.Notification) {
             current.showWarning(model.Notification, current.ContactListMessageBar, 0, true);
             current.ContactListMessageBar.set("expanded", true);
           }
         } else if (model.IsInUse) {
-          current.showWarning(current.StringDictionary.get("Please note that this list is currently in use."), current.ContactListMessageBar);
+          current.showWarning(current.StringDictionary.get("Please note that this list is currently in use."), current.ContactListMessageBar, 0, true);
         }
+
         current.setActionEnabledStatus(current.ListActions, unlockListActionIds, model.IsLocked);
 
         if (model.IsLocked || sourceIsLocked) {
@@ -373,12 +427,19 @@
           contactsLength = contacts.length;
         }
 
-        if (current.ListAsimovEntityDataSource.get("entity").IsLocked || current.ListAsimovEntityDataSource.get("entity").IsInUse) {
+        var isLockedOrInUse = current.ListAsimovEntityDataSource.get("entity").IsLocked || current.ListAsimovEntityDataSource.get("entity").IsInUse;
+        var isNewlyCreatedList = commonPagesDefinition.defaultIfValueIsUndefinedOrNull(current.ListAsimovEntityDataSource.get("entityID"), "") === "";
+
+        if (isLockedOrInUse) {
           current.setActionEnabledStatus(current.ContactsActionControl, removeAllContactsActionIds, false);
+          current.setActionEnabledStatus(current.ContactsActionControl, removeContactActionIds, false);
+          current.setActionEnabledStatus(current.ContactsActionControl, addNewContactActionIds, false);
         } else {
           current.setActionEnabledStatus(current.ContactsActionControl, removeAllContactsActionIds, (contactsLength > 0) && (current.PredefinedText === ""));
+          current.setActionEnabledStatus(current.ContactsActionControl, removeContactActionIds, (contactsLength > 0) && (commonPagesDefinition.defaultIfValueIsUndefinedOrNull(current.ContactsList.get("selectedItemId"), "") !== ""));
+          current.setActionEnabledStatus(current.ContactsActionControl, addNewContactActionIds, !isNewlyCreatedList);
         }
-        current.setActionEnabledStatus(current.ContactsActionControl, viewContactCardActionIds, (contactsLength > 0) && (commonPagesDefinition.defaultIfValueIsUndefinedOrNull(current.ContactsList.get("selectedItemId"), "") !== ""));
+        current.setActionEnabledStatus(current.ContactsActionControl, viewContactCardActionIds, (!isNewlyCreatedList) && (contactsLength > 0) && (commonPagesDefinition.defaultIfValueIsUndefinedOrNull(current.ContactsList.get("selectedItemId"), "") !== ""));
       },
       updateUiForSources: function (model) {
         var current = commonPagesDefinition.defaultIfValueIsUndefinedOrNull(self, this);
@@ -386,6 +447,8 @@
         var source = JSON.parse(model.Source);
 
         current.PredefinedText = commonPagesDefinition.defaultIfValueIsUndefinedOrNull(source.PredefinedText, "");
+        current.PredefinedSourceType = commonPagesDefinition.defaultIfValueIsUndefinedOrNull(source.PredefinedSourceType, "");
+        current.PredefinedParameters = commonPagesDefinition.defaultIfValueIsUndefinedOrNull(source.PredefinedParameters, []);
         current.entireDatabase = source.AllDatabase == true;
 
         if (current.PredefinedText !== "") {
@@ -643,7 +706,7 @@
         var includedLists = current.IncludedSourcesListControl.get("items");
         var excludedLists = current.ExcludedSourcesListControl.get("items");
 
-        return JSON.stringify({ AllDatabase: current.entireDatabase, IncludedLists: includedLists, ExcludedLists: excludedLists, PredefinedText: current.PredefinedText });
+        return JSON.stringify({ AllDatabase: current.entireDatabase, IncludedLists: includedLists, ExcludedLists: excludedLists, PredefinedText: current.PredefinedText, PredefinedSourceType: current.PredefinedSourceType, PredefinedParameters: current.PredefinedParameters });
       },
       selectSourceItem: function (control) {
         var current = commonPagesDefinition.defaultIfValueIsUndefinedOrNull(self, this);

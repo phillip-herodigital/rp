@@ -1,4 +1,4 @@
-﻿define(["sitecore"], function (Sitecore) {
+﻿define(["sitecore", "/-/speak/v1/ExperienceEditor/ExperienceEditor.js"], function (Sitecore, ExperienceEditor) {
   Sitecore.Factories.createBaseComponent({
     name: "SmallCheckButton",
     base: "ButtonBase",
@@ -29,11 +29,11 @@
       }
     },
     toggleChecked: function () {
-      Sitecore.ExperienceEditor.CommandsUtil.triggerControlStateByCommand(this, "isChecked");
+      ExperienceEditor.CommandsUtil.triggerControlStateByCommand(this, "isChecked");
     },
 
     toggleInternalPressed: function (isPressedModelValue) {
-      Sitecore.ExperienceEditor.Common.addOneTimeEvent(function (that) {
+      ExperienceEditor.Common.addOneTimeEvent(function (that) {
         return that.$el.find(".sc-smallcheckbox").prop('checked') != (that.model.get("isChecked") === "1" || that.model.get("isChecked") === true);
       }, function (that) {
         that.$el.find(".sc-smallcheckbox").prop('checked', that.model.get("isChecked") === "1" || that.model.get("isChecked") === true);

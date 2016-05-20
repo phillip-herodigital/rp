@@ -20,11 +20,12 @@ define(["sitecore", "BindingUtil", "EditUtil", "DataUtil"], function (_sc, bindi
             return;
           }
 
-          if (selected.get("ContentOnly") && selected.get("TestType") != "Personalization") {
+          // Check if the URL starts with the xOptimization app URL
+          if (window.location.pathname.indexOf(editUtil.xOppAppPath) === 0 && selected.get("TestType") == "Page") {
             editUtil.openPageTestPage(hostUri, false, true);
           }
           else {
-            editUtil.openPageEditor(hostUri);
+            editUtil.openExperienceEditor(hostUri, selected.get("DeviceId"));
           }
         }
       };

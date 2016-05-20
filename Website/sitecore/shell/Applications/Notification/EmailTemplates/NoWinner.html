@@ -2,7 +2,6 @@
 <title></title>
 <style>
   @media only screen and (max-width: 760px), screen and (max-device-width: 480px)  {
-    /*table, td, tbody, tr{*/
     table table td {
       display:block;
       width:100%;
@@ -21,21 +20,17 @@
 }
 
 .tdHeaderKPI {
-  width: 110px;
-  /*height: 100%;*/
+  width: 130px;
   height: 60px;
 }
 .tdHeaderKPI table {
   margin-left: auto;
   margin-right: auto;
-  /*height: 90%;*/
   height: 100%;
-  /*width: 70%;*/
   width: 100px;
 }
 .tdHeaderKPI .trKPItop {
   background-color: #F8F8F8;
-  /*border: 1px solid #E3E3E3;*/
   font: 17px arial;
   text-align: center;
   height: 40px;
@@ -68,8 +63,6 @@
 }
 
 .tdHeaderKPI .trKPIbottom {
-  /*border: 1px solid #E3E3E3;
-  border-top: none;*/
   font: 11px arial;
   text-align: center;
   height: 20px;
@@ -127,10 +120,7 @@
   text-align: center;
   vertical-align: top;
 }
-.tdPreviewImg img {
-  /*width: 90%;
-  height: 90%;*/
-}
+
 .tdPreviewImg .dvViewOriginal {
   font: 13.5px arial;
 }
@@ -177,10 +167,8 @@
                 <tr>
                   <!--Header Info-->
                   <td class="tdHeaderInfo" style="width: 40%;font: 12px arial">
-                    <span class="spInfoBold" style="font-size: 15px"><b>NamePerson</b></span>
-                    <br>
-                    <span>TestReachedMaximumDurationWithoutWinner                      
-                    </span> 
+                    <p class="spInfoBold" style="font-size: 15px"><b>NamePerson</b></p>
+                    <p>TestReachedMaximumDurationWithoutWinner</p> 
                   </td>
               
                 </tr>
@@ -289,8 +277,8 @@
                                       <tbody>
                                         <tr>
                                           <td style="vertical-align: top;text-align: center;">
-                                            <img style border="0" src="cid:idScreenShot" alt width="400" height="250">
-											<a style="!important; text-decoration: underline;" href="$viewScreenShotLink" target="_blank">
+                                            <img style border="0" src="cid:ss" alt width="400" height="250">
+                      <a style="!important; text-decoration: underline;" href="$viewScreenShotLink" target="_blank">
                                               <div class="dvViewOriginal"><font color="#989696">ViewOriginal</font></div>
                                             </a>        
                                           </td>
@@ -343,8 +331,9 @@
                                             <table style="height: 100%;width: 100%">
                                               <tbody><tr class="trDetails" style="font: 11px arial;height: 20px">
                                                 <td><span>ExpectedOutcome</span></td>
-                                                <!-- <td class="tdDetailsRight" style="text-align: right"><img class="imgExpectedOutcome" src="$arrowExpectedOutcome"></td> -->
-                                                <td class="tdDetailsRight" style="text-align: right"><img class="imgExpectedOutcome" src="cid:idArrowExpectedOutcome"></td>
+                                                <td class="tdDetailsRight" style="text-align: right">
+                                                  <img src="cid:indexpoutcome">
+                                                </td>
                                               </tr>
                                             </tbody></table>
                                           </td>

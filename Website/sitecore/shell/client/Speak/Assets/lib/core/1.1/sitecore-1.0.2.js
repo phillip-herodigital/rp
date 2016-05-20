@@ -2035,7 +2035,7 @@ var antiForgeryHelper = {
 var sessionHelper = {
   unauthorized: function () {
     sessionHelper.logout(function (result) {
-      window.top.location.replace(top.location.href);
+      window.top.location.reload(true);
     });
   },
   

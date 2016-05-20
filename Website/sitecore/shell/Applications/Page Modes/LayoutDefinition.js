@@ -39,7 +39,7 @@ Sitecore.LayoutDefinition.remove = function(uid) {
 Sitecore.LayoutDefinition.removeRendering = function(device, uid) {
   for (n = 0; n < device.r.length; n++) {
     if (this.getShortID(device.r[n]["@uid"]) == uid) {
-      r = device.r[n];
+      var r = device.r[n];
       device.r.splice(n, 1);
       return r;
     }
@@ -47,21 +47,23 @@ Sitecore.LayoutDefinition.removeRendering = function(device, uid) {
   return null;
 };
 
-Sitecore.LayoutDefinition.moveToPosition = function(uid, placeholderKey, position) {
+Sitecore.LayoutDefinition.moveToPosition = function (uid, placeholderKey, position) {
   var layoutDefinition = this.getLayoutDefinition();
   var device = this.getDevice(layoutDefinition);
-  var originalPosition = this._getRenderingPositionInPlaceholder(device, placeholderKey, uid);
+  var originalPosition = this._getRenderingPositionInPlaceholder(device, placeholderKey, uid, placeholderKey);
   var r = this.removeRendering(device, uid);
   if (r == null) {
     return;
   }
-  
-  r["@ph"] = placeholderKey;
 
   if (position == 0) {
-     device.r.splice(0, 0, r);
-     this.setLayoutDefinition(layoutDefinition);
-     return;
+    if (originalPosition == -1) {
+      r["@ph"] = placeholderKey;
+    }
+
+    device.r.splice(0, 0, r);
+    this.setLayoutDefinition(layoutDefinition);
+    return;
   }
   // Rendering is moving down inside the same placeholder. Decrement the real position, because rendering itself is removed 
   // from his original position. 
@@ -70,11 +72,14 @@ Sitecore.LayoutDefinition.moveToPosition = function(uid, placeholderKey, positio
   }
 
   var placeholderWiseCount = 0;
-  for (var totalCount = 0; totalCount < device.r.length; totalCount++)
-  {
-    var rendering = device.r[totalCount];       
-    if (Sitecore.PageModes.Utility.areEqualPlaceholders(rendering["@ph"], placeholderKey))
-    {
+  for (var totalCount = 0; totalCount < device.r.length; totalCount++) {
+    var rendering = device.r[totalCount];
+    var renderingPlaceholder = rendering["@ph"];
+    if (renderingPlaceholder == '') {
+      renderingPlaceholder = placeholderKey;
+    }
+
+    if (Sitecore.PageModes.Utility.areEqualPlaceholders(renderingPlaceholder, placeholderKey)) {
       placeholderWiseCount++;
     }
 
@@ -84,7 +89,7 @@ Sitecore.LayoutDefinition.moveToPosition = function(uid, placeholderKey, positio
       break;
     }
   }
-    
+
   this.setLayoutDefinition(layoutDefinition);
 };
 
@@ -227,10 +232,15 @@ Sitecore.LayoutDefinition.readLayoutFromRibbon = function() {
   return false;
 };
 
-Sitecore.LayoutDefinition._getRenderingPositionInPlaceholder = function(device, placeholderKey, uid) {
+Sitecore.LayoutDefinition._getRenderingPositionInPlaceholder = function(device, placeholderKey, uid, defaultPlaceholderKey) {
   var counter = 0;
   for (var i = 0; i < device.r.length; i++) {
-    if (Sitecore.PageModes.Utility.areEqualPlaceholders(device.r[i]["@ph"],placeholderKey)) {
+    var devicePlaceholder = device.r[i]["@ph"];
+    if (devicePlaceholder == '' && defaultPlaceholderKey) {
+      devicePlaceholder = defaultPlaceholderKey;
+    }
+
+    if (Sitecore.PageModes.Utility.areEqualPlaceholders(devicePlaceholder, placeholderKey)) {
       if (this.getShortID(device.r[i]["@uid"]) == uid) {
         return counter;
       }

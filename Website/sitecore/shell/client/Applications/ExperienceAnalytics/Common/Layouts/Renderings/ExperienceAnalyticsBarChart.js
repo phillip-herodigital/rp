@@ -10,8 +10,11 @@ define(["sitecore", "experienceAnalyticsChartBase"], function (Sitecore, experie
     base: "ExperienceAnalyticsChartBase",
     selector: ".sc-ExperienceAnalyticsBarChart",
     attributes: Sitecore.Definitions.Views.ExperienceAnalyticsChartBase.prototype._scAttrs.concat([
-      { name: "chartName", value: "BarChart" }
+      { name: "chartName", value: "BarChart" },
+      { name: "targetPageUrl", value: "$el.data:sc-targetpageurl" }
     ]),
+
+    chartModel: null,
 
     initialize: function () {
       this._super();
@@ -20,34 +23,37 @@ define(["sitecore", "experienceAnalyticsChartBase"], function (Sitecore, experie
     },
 
     afterRender: function () {
-      var chartModel = this.app[this.model.get("name") + this.model.get("chartName")];
-      this.chartModel = chartModel;
-      this.setupMessageBar(chartModel);
-      this.setChartProperties(chartModel);
+      this.chartModel = this.app[this.model.get("name") + this.model.get("chartName")];
+      this.setupMessageBar(this.chartModel);
+      this.setChartProperties(this.chartModel);
+      this.model.get("targetPageUrl") ?
+        this.chartModel.attributes.chartProperties.appearance.disableSelection = false : $.noop();
+      this.chartModel.off("segmentClicked").on("segmentClicked", this.model.viewModel.drillDownToKey, this);
     },
 
-    setChartData: function (data) {
+    setChartFieldProperties: function () {
       var chartProperties = this.chartModel.get("chartProperties"),
         seriesChartField = this.model.get("seriesChartField");
 
-      if (this.model.get("keyGrouping") === "collapsed") {
-        data = this.renameSumKeys(data);
-      }
+        chartProperties.dataMapping.seriesChartField = {
+            dataField: seriesChartField.segmentField
+        };
+    },
 
-      var entries = data.dataset[0].data,
-        keyTranslations = this.getTranslationsByField(data, seriesChartField.keyField);
+    setKeyTranslations: function(readyData) {
+          var entries = readyData.dataset[0].data,
+              seriesChartField = this.model.get("seriesChartField"),
+              keyTranslations = this.getTranslationsByField(readyData, seriesChartField.keyField);
 
       for (var i = 0; i < entries.length; i++) {
         var entry = entries[i];
+        this.rawKeys[i] = entry[this.keyProperty];
+        entry.itemId = i;
         if (keyTranslations[entry.key] !== undefined)
           entry.key = keyTranslations[entry.key]; // Fix translation which doesn't work for category labels in SPEAK charting.
       }
 
-      chartProperties.dataMapping.seriesChartField = {
-        dataField: seriesChartField.segmentField
-      };
-
-      this.chartModel.set("data", data);
+          return readyData;
     }
   });
 

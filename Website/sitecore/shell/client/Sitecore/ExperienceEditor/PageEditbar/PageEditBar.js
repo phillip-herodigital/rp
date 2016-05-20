@@ -1,4 +1,4 @@
-﻿define(["sitecore"], function (Sitecore) {
+﻿define(["sitecore", "/-/speak/v1/ExperienceEditor/ExperienceEditor.js"], function (Sitecore, ExperienceEditor) {
   Sitecore.Factories.createBaseComponent({
     name: "PageEditBar",
     base: "ControlBase",
@@ -19,18 +19,20 @@
       this.model.set("database", this.$el.data("sc-database"));
       this.model.set("language", this.$el.data("sc-language"));
       this.model.set("version", this.$el.data("sc-version"));
+      this.model.set("isFallback", this.$el.data("sc-isfallback"));
       this.model.set("isLocked", this.$el.data("sc-islocked"));
       this.model.set("isLockedByCurrentUser", this.$el.data("sc-islockedbycurrentuser"));
       this.model.set("url", this.$el.data("sc-url"));
       this.model.set("siteName", this.$el.data("sc-sitename"));
       this.model.set("isReadOnly", this.$el.data("sc-isreadonly"));
+      this.model.set("analytisEnabled", this.$el.data("sc-analyticsenabled"));
       this.generateTabs();
 
-      Sitecore.ExperienceEditor.Common.addOneTimeEvent(function (that) {
-        return Sitecore.ExperienceEditor.isFrameLoaded;
+      ExperienceEditor.Common.addOneTimeEvent(function (that) {
+        return ExperienceEditor.getContext().isFrameLoaded;
       }, function (that) {
         that.set({ isVisible: true });
-        Sitecore.ExperienceEditor.isRibbonRendered = true;
+       ExperienceEditor.getContext().isRibbonRendered = true;
         var loadingIndicator = window.parent.document.getElementById("ribbonPreLoadingIndicator");
         if (loadingIndicator) {
           loadingIndicator.style.display = "none";

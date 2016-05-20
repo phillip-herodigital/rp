@@ -18,6 +18,7 @@
         languageIcon: null,
         language: null,
         status: null,
+        statusCode: null,
         testCreated: null,
         testCreatedShort: null,
         testCreatedBy: null,
@@ -33,7 +34,8 @@
         averageDuration: null,
         warnings: null,
         hasWarnings: false,
-        hasActiveTest: false
+        hasActiveTest: false,
+        canCancelTest: true
       });
 
       this.on("change:itemUri", this.updateItemId, this);
@@ -58,9 +60,14 @@
 
         var url = "";
         if (this.get("itemUri")) {
-          url = this.get("actionUrlForUri") + "?uri=" + encodeURIComponent(this.get("itemUri"));
+          url = Sitecore.Helpers.url.addQueryParameters(this.get("actionUrlForUri"), {
+             datauri: this.get("itemUri")
+          });
         } else if (this.get("itemId")) {
-          url = this.get("actionUrlForId") + "?id=" + this.get("itemId");
+          url = Sitecore.Helpers.url.addQueryParameters(this.get("actionUrlForId"), {
+            id: this.get("itemId"),
+            language: ""
+          });
         }
 
         var ajaxOptions = {
@@ -79,6 +86,7 @@
                 languageIcon: data.LanguageIcon,
                 language: data.Language,
                 status: data.TestStatus,
+                statusCode: data.TestStatusCode,
                 testCreated: data.TestCreatedDate,
                 testCreatedShort: data.TestCreatedDateShort,
                 testCreatedBy: data.TestCreatedBy,
@@ -94,7 +102,8 @@
                 averageDuration: data.AverageDuration,
                 warnings: data.Warnings,
                 hasWarnings: data.Warnings && data.Warnings.length > 0,
-                hasActiveTest: data.HasActiveTest
+                hasActiveTest: data.HasActiveTest,
+                canCancelTest: data.CanCancelTest
               });
             }
           },

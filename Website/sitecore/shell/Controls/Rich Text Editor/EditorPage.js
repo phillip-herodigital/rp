@@ -47,7 +47,15 @@ Sitecore.Controls.RichEditor = Class.create({
   },
 
   fitEditorToScreen: function () {
-    
+      if (!scForm.browser.isChrome) {
+          return;
+      }
+
+      setTimeout(function () {
+          var editorBody = $('Editor_contentIframe').contentWindow.document.body;
+          var editorCenter = $('EditorCenter');
+          editorBody.style.height = editorCenter.clientHeight - 10 + "px";
+      }, 0);
   },
 
   saveRichText: function (html) {

@@ -3,8 +3,9 @@
     "/-/speak/v1/FXM/ExperienceEditorExtension/Legacy/LegacySitecore.js",
     "/-/speak/v1/FXM/ExperienceEditorExtension/Legacy/LegacyjQuery.js",
     "/-/speak/v1/FXM/ExperienceEditorExtension/Legacy/Fxm.js",
+    "/-/speak/v1/ExperienceEditor/TranslationUtil.js",
     "/-/speak/v1/FXM/ExperienceEditorExtension/Commands/CreateClientAction.js" // used through legacy selector 
-], function (_sc, _scl, $sc, _fxm) {
+], function (_sc, _scl, $sc, _fxm, TranslationUtil) {
 
     var translator = null;
 
@@ -13,8 +14,8 @@
             this.base(placeholder);
 
             this.command = {
-                tooltip: translator.translate("Add a click action to this component"),
-                header: translator.translate("Add a new action")
+              tooltip: TranslationUtil.translateTextByServer("Add a click action to this component"),
+              header: TranslationUtil.translateTextByServer("Add a new action")
             };
         },
 

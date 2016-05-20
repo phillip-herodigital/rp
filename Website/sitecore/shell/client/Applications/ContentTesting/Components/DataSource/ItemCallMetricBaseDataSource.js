@@ -25,6 +25,9 @@ define([
     initialize: function () {
       this._super();
 
+      var params = Sitecore.Helpers.url.getQueryParameters(window.location.href);
+      var device = params.deviceId;
+
       this.set({
         actionUrl: "",
         actionUrlForTestValue: "",
@@ -33,11 +36,12 @@ define([
         itemId: null,
         languageName: null,
         version: 0,
+        device: device,
         combination: null,
         valueId: null
       });
 
-      this.on("change:itemId change:languageName change:version", this.refresh, this);
+      this.on("change:itemId change:languageName change:version change:device", this.refresh, this);
       this.on("change:valueId", this.refreshByValueId, this);
       this.on("change:combination", this.refreshByCombination, this);
 
@@ -56,7 +60,7 @@ define([
       this.set("items", []);
 
       var combination = this.get("combination");
-      if (combination == "" || combination == null || combination == undefined) {
+      if (combination === "" || combination === null || combination === undefined) {
         return;
       }
       
@@ -70,7 +74,7 @@ define([
       this.set("items", []);
       
       var valueId = this.get("valueId");
-      if (valueId == "" || valueId == null || valueId == undefined) {
+      if (valueId === "" || valueId === null || valueId === undefined) {
         return;
       }
       
@@ -102,12 +106,20 @@ define([
 
       var url = "";
       if (valueId && actionUrl) {
-        url = actionUrlForTestValue + "?testValueId=" + valueId;
+        url = Sitecore.Helpers.url.addQueryParameters(actionUrlForTestValue, {
+          testValueId: valueId
+        });
       } else if (combination && actionUrl) {
-        url = actionUrl + "?combination=" + combination;
+        url = Sitecore.Helpers.url.addQueryParameters(actionUrl, {
+          combination: combination
+        });
       }
 
-      url += "&itemuri=" + encodeURIComponent(uri);
+      url = Sitecore.Helpers.url.addQueryParameters(url, {
+        itemdatauri: uri,
+        deviceId: this.get("device") || ""
+      });
+
       url = this._appendUrl(url);
 
       this.set("isBusy", true);

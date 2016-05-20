@@ -1,9 +1,10 @@
 ﻿define([
   "sitecore",
   "/-/speak/v1/contenttesting/DataUtil.js",
-  "/-/speak/v1/contenttesting/RequestUtil.js"
-], function (Sitecore, dataUtil, requestUtil) {
-  var actionUrl = "/sitecore/shell/api/ct/PersonalizationRulePerformance/GetRulePerformance";
+  "/-/speak/v1/contenttesting/RequestUtil.js",
+  "/-/speak/v1/ExperienceEditor/ExperienceEditorProxy.js"
+], function (Sitecore, dataUtil, requestUtil, PageEditorProxy) {
+  var actionUrl = "/sitecore/shell/api/ct/Personalization/GetRulePerformance";
 
   var model = Sitecore.Definitions.Models.ControlModel.extend({
     initialize: function (options) {
@@ -26,6 +27,7 @@
         return;
 
       var uri = dataUtil.composeUri(this);
+      var deviceId = PageEditorProxy.deviceId();
       var ruleSetId = this.get("ruleSetId");
       var ruleId = this.get("ruleId");
 
@@ -33,17 +35,10 @@
         return;
       }
 
-      //if (this.get("isBusy")) {
-      //  this.set("invalidated", true);
-      //  return;
-      //}
-
-      //this.set("isBusy", true);
-      //this.set("invalidated", false);
-
       var self = this;
       var url = Sitecore.Helpers.url.addQueryParameters(actionUrl, {
-        itemUri: uri,
+        itemDataUri: uri,
+        deviceId: deviceId,
         ruleSetId: ruleSetId,
         ruleId: ruleId
       });
@@ -53,18 +48,13 @@
         url: url,
         context: this,
         success: function(data) {
-          //if (self.get("invalidated")) {
-          //  self.fetch();
-          //} else {
-          //  self.set("isBusy", false);
             self.set({
-              RuleValue: data.RuleValue,
-              Default: data.DefaultValue,
-              ChangeRate: data.ChangeRate,
+              RuleValue: data.PersonalizedValue,
+              Default: data.NotPersonalizedValue,
+              ChangeRate: data.Effect,
               RuleVisitors: data.Visitors,
               VisitorsRate: data.VisitorsRate
             });
-          //}
         }
       };
 

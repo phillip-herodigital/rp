@@ -23,6 +23,8 @@
   
   rendering.Attributes.Add("data-sc-errortexts", JsonConvert.SerializeObject(errorMessages));
   rendering.Attributes.Add("data-sc-serverdate", Sitecore.DateUtil.ToServerTime(System.DateTime.UtcNow).ToDashedDateRangeFormat());
+  rendering.Attributes.Add("data-sc-defaultdaterangeoffset-from", Config.DefaultDateRangeOffsetFrom.ToString());
+  rendering.Attributes.Add("data-sc-defaultdaterangeoffset-to", Config.DefaultDateRangeOffsetTo.ToString());
 }
 
 @EmbedDateRangeFilter(rendering)

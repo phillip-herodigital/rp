@@ -3,6 +3,7 @@ if (window.location.host && window.location.host != '') { // launching when addr
   arResComponents = [
                       "/-/speak/v1/contenttesting/TooltipCustom.js",
                       "/-/speak/v1/contenttesting/RequestUtil.js",
+                      "/-/speak/v1/contenttesting/DataUtil.js",
                       "/-/speak/v1/assets/moment.min.js"
   ];
 }
@@ -10,7 +11,10 @@ else { // launching of the code-coverage estemating
   arResComponents = [];
 }
 
-define(arResComponents, function (tooltip, requestUtil) {
+define(arResComponents, function (tooltip, requestUtil, dataUtil) {
+  var defaultStartUrl = "/sitecore/shell/api/ct/TestThumbnails/StartGetThumbnails";
+  var defaultTryFinishUrl = "/sitecore/shell/api/ct/TestThumbnails/TryFinishGetThumbnails";
+
   return {
     ImageThumbs: function (options) {
       var safeOptions = options || {};
@@ -18,113 +22,6 @@ define(arResComponents, function (tooltip, requestUtil) {
         dictionary: safeOptions.dictionary || null,
 
         _tooltip: undefined,
-
-        populateImage: function (item, imgElement, imgContainer, getUrl, callback) {
-
-          var self = this;
-
-          this._tooltip = new TooltipCustom(false);
-
-          var attrs = item.attrs;
-          if (typeof attrs == 'undefined')
-            attrs = {};
-
-          var url = getUrl + "?id= " + attrs.id;
-          if (attrs.version) { url += "&version=" + attrs.version; }
-          if (attrs.combination) { url += "&combination=" + attrs.combination; }
-          if (attrs.mvvariants) { url += "&mvvariants=" + attrs.mvvariants; }
-          if (attrs.rules) { url += "&rules=" + attrs.rules; }
-          if (item.name) { url += "&itemName=" + item.name; }
-          if (attrs.compareVersion) { url += "&compareVersion=" + attrs.compareVersion; }
-          if (attrs.revision) { url += "&revision=" + attrs.revision; }
-          if (attrs.language) { url += "&language=" + attrs.language; }
-
-          var ajaxOptions = {
-            cache: false,
-            url: url,
-            context: this,
-            success: function(data) {
-              if (data && data.pathImage && data.pathImage != "") {
-                imgElement.attr("src", data.pathImage);
-
-                if (imgContainer) {
-                  var content = self.getTooltipContent(item);
-                  self._tooltip.setTarget(imgContainer, content);
-                }
-
-                if (callback) {
-                  callback(item, imgElement, imgContainer, data.pathImage);
-                }
-              }
-            },
-            error: function(req, status, error) {
-              console.log("ImageThumbs ajax call failed");
-              console.log(status);
-              console.log(error);
-              console.log(req);
-            }
-          };
-
-          requestUtil.performRequest(ajaxOptions);
-        },
-
-        populateImages: function (items, imgElementLocator, getUrl, itemCallback, finishCallback) {
-          var self = this;
-          this._tooltip = new TooltipCustom(false);
-
-          var data = _.map(items, function (item) {
-            var attrs = item.attrs;
-            if (typeof attrs == 'undefined')
-              attrs = {};
-
-            return {
-              id : attrs.id,
-              version: attrs.version,
-              language: attrs.language,
-              mvvariants : attrs.mvvariants,
-              combination : attrs.combination,
-              rules : attrs.rules,
-              itemName : item.name,
-              compareVersion : attrs.compareVersion,
-              revision: attrs.revision,
-              uid: item.uId
-            };
-          });
-
-          var ajaxOptions = {
-            cache: false,
-            url: getUrl,
-            type: "POST",
-            data: { items: JSON.stringify(data) },
-            context: this,
-            success: function (data) {
-              if (data) {
-                _.each(data, function (t) {
-                  var el;
-                  if (imgElementLocator) {
-                    el = imgElementLocator(t.uid);
-                    el.attr("src", t.url);
-                  }
-
-                  if (itemCallback) {
-                    itemCallback(t.uid, el, t.url);
-                  }
-                });
-              }
-
-              if (finishCallback)
-                finishCallback();
-            },
-            error: function (req, status, error) {
-              console.log("ImageThumbs ajax call failed");
-              console.log(status);
-              console.log(error);
-              console.log(req);
-            }
-          };
-
-          requestUtil.performRequest(ajaxOptions);
-        },
 
         populateImages: function (items, imgElementLocator, startGetUrl, endGetUrl, itemCallback, finishCallback) {
           var self = this;
@@ -149,9 +46,7 @@ define(arResComponents, function (tooltip, requestUtil) {
           }
 
           var data = _.map(items, function (item) {
-            var attrs = item.attrs;
-            if (typeof attrs == 'undefined')
-              attrs = {};
+            var attrs = item.attrs || {};
 
             return {
               id: attrs.id,
@@ -160,7 +55,6 @@ define(arResComponents, function (tooltip, requestUtil) {
               mvvariants: attrs.mvvariants,
               combination: attrs.combination,
               rules: attrs.rules,
-              itemName: item.name,
               compareVersion: attrs.compareVersion,
               revision: attrs.revision,
               uid: item.uId,
@@ -170,9 +64,9 @@ define(arResComponents, function (tooltip, requestUtil) {
 
           var ajaxOptions = {
             cache: false,
-            url: startGetUrl,
+            url: startGetUrl || defaultStartUrl,
             type: "POST",
-            data: { items: JSON.stringify(data) },
+            data: "=" + JSON.stringify(data),
             context: this,
             success: function (data) {
               if (data) {
@@ -183,7 +77,7 @@ define(arResComponents, function (tooltip, requestUtil) {
                 }
                 if (data.handle) {
                   self._tryFinishPopulateImages({
-                    endGetUrl: endGetUrl,
+                    endGetUrl: endGetUrl || defaultTryFinishUrl,
                     handle: data.handle,
                     imgElementLocator: imgElementLocator,
                     itemCallback: itemCallback,
@@ -221,20 +115,14 @@ define(arResComponents, function (tooltip, requestUtil) {
                     self._setImage(t.uid, t.url, params.imgElementLocator, params.itemCallback);
                   });
                 }
-                if(data.IsDone) {
+                if (data.IsDone) {
                   if (params.finishCallback) {
                     params.finishCallback();
                   }
                 }
                 else {
                   setTimeout(function () {
-                    self._tryFinishPopulateImages(params), {
-                      endGetUrl: params.endGetUrl,
-                      handle: params.handle,
-                      imgElementLocator: params.imgElementLocator,
-                      itemCallback: params.itemCallback,
-                      finishCallback: params.finishCallback
-                    }
+                    self._tryFinishPopulateImages(params);
                   }, 1500);
                 }
               }
@@ -250,12 +138,12 @@ define(arResComponents, function (tooltip, requestUtil) {
           requestUtil.performRequest(ajaxOptions);
         },
 
-        _setImage: function(uid, url, imgElementLocator, itemCallback) {
+        _setImage: function (uid, url, imgElementLocator, itemCallback) {
           var el;
           var updated = true;
           if (imgElementLocator) {
             el = imgElementLocator(uid);
-            if (el.attr("src") != url) {
+            if (el.attr("src") !== url) {
               el.attr("src", url);
             }
             else {
@@ -271,61 +159,79 @@ define(arResComponents, function (tooltip, requestUtil) {
         getTooltipContent: function (item) {
           // todo: Skynet: translate
           var info = "";
-          if(this.dictionary)
+          if (this.dictionary)
             info = "<span><b>" + this.dictionary.get("Variation information:") + "</b></span></br>";
           info += this.getVariationInfo(item);
           return info;
         },
 
-        getVariationInfo: function (item) {
-          var info = "";
+        getVariationInfo: function (item, isStyle) {
+          var infoObj = {};
           if (!this.dictionary)
-            return info;
+            return "";
           if (item.testType) {
-            info += this.dictionary.get("Type:") + " " + this.dictionary.get(item.testType) + "</br>";
+            infoObj[this.dictionary.get("Type:")] = this.dictionary.get(item.testType);
           }
-          if (item.testType == "Content") {
-            if (item.attrs.path && item.attrs.path != "")
-              info += this.dictionary.get("Item:") + " " + item.attrs.path + "</br>";
+          if (item.testType === "Content" || item.testType === "Page") {
+            if (item.attrs.path && item.attrs.path !== "")
+              infoObj[this.dictionary.get("Item:")] = item.attrs.path;
 
-            if (item.attrs.version && item.attrs.version != "") {
+            if (item.attrs.version && item.attrs.version !== "") {
               var version = item.attrs.version;
-              if (item.attrs.language && item.attrs.language != "")
+              if (item.attrs.language && item.attrs.language !== "")
                 version += "-" + item.attrs.language;
-              info += this.dictionary.get("Version:") + " " + version + "</br>";
+              infoObj[this.dictionary.get("Version:")] = version;
             }
 
             if (item.createdDate) {
               var d = (new Date(item.createdDate));
               if (d && !isNaN(d)) {
                 var finalDate = moment(d).format("DD-MMM-YYYY");
-                info += this.dictionary.get("Created:") + " " + finalDate + "</br>";
+                infoObj[this.dictionary.get("Created:")] = finalDate;
               }
             }
           }
-          else if (item.testType == "Component") {
-            if (item.attrs.componentname && item.attrs.componentname != "") {
-              info += this.dictionary.get("Name:") + " " + item.attrs.componentname + "</br>";
+          else if (item.testType === "Component") {
+            if (item.attrs.componentname && item.attrs.componentname !== "") {
+              infoObj[this.dictionary.get("Name:")] = item.attrs.componentname;
             }
-            if (item.attrs.item && item.attrs.item != "")
-              info += this.dictionary.get("Item:") + " " + item.attrs.item + "</br>";
-            if (item.attrs.hidden && item.attrs.hidden != "")
-              info += this.dictionary.get("Hidden") + ": " + this.dictionary.get(item.attrs.hidden) + "</br>";
+            if (item.attrs.item && item.attrs.item !== "") {
+              infoObj[this.dictionary.get("Item:")] = item.attrs.item;
+            }
+            if (item.attrs.hidden && item.attrs.hidden !== "") {
+              infoObj[this.dictionary.get("Hidden")] = this.dictionary.get(item.attrs.hidden);
+            }
           }
-          else if (item.testType == "Personalization") {
-            if (item.attrs.condition && item.attrs.condition != "") {
-              info += this.dictionary.get("Condition:") + " " + item.attrs.condition + "</br>";
+          else if (item.testType === "Personalization") {
+            if (item.attrs.condition && item.attrs.condition !== "") {
+              var condition = decodeURIComponent(item.attrs.condition);
+              condition = condition.replace(/\+/g, " ");
+              infoObj[this.dictionary.get("Condition:")] = condition;
             }
-            if (item.attrs.componentname && item.attrs.componentname != "") {
-              info += this.dictionary.get("Name:") + " " + item.attrs.componentname + "</br>";
+            if (item.attrs.componentname && item.attrs.componentname !== "") {
+              infoObj[this.dictionary.get("Name:")] = item.attrs.componentname;
             }
-            if (item.attrs.personalizedcontent && item.attrs.personalizedcontent != "")
-              info += this.dictionary.get("Personalized content:") + " " + item.attrs.personalizedcontent + "</br>";
-            if (item.attrs.hidden && item.attrs.hidden != "")
-              info += this.dictionary.get("Hidden") + ": " +  this.dictionary.get(item.attrs.hidden) + "</br>";
+            if (item.attrs.personalizedcontent && item.attrs.personalizedcontent !== "") {
+              infoObj[this.dictionary.get("Personalized content:")] = item.attrs.personalizedcontent;
+            }
+            if (item.attrs.hidden && item.attrs.hidden !== "") {
+              infoObj[this.dictionary.get("Hidden") + ": "] = this.dictionary.get(item.attrs.hidden);
+            }
+
           }
 
-          return info;
+          var html = "";
+          if (isStyle) {
+            html = dataUtil.getVariationInfoHTML(infoObj);
+          }
+          else {
+            var keys = _.keys(infoObj);            
+            for (var i = 0; i < keys.length; i++) {
+              html += keys[i] + " " + infoObj[keys[i]] + "</br>";
+            }
+          }
+            
+          return html;
         },
 
         pad: function (number, length) {

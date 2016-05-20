@@ -24,7 +24,10 @@
               })[0];
               current.updateListOfLists(realbaseStructure);
             }, current);
-            baseStructure.dataSource.on("change:isBusy", function (dataSource, isBusy) { current.initializeListOfLists(dataSource, isBusy, dataBindCallback); }, current);
+            baseStructure.dataSource.on("change:isBusy", function(dataSource, isBusy) {
+              current.initializeListOfLists(dataSource, isBusy, dataBindCallback);
+              current.DialogListProgressIndicator.set("isBusy", isBusy);
+            }, current);
           }
           current.isFirstInit = false;
           current.reloadListOfLists(baseStructure);

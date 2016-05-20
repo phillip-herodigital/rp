@@ -18,6 +18,7 @@
         name: null,
         conversions: null,
         isStopTestEnabled: false,
+        isCancelTestEnabled: false,
         confirmationMessage: "",
         hasConfirmationMessage: false,
         testType: null
@@ -40,7 +41,7 @@
       this.set("isBusy", true);
       this.set("invalidated", false);
 
-      var url = actionUrl + "?itemuri=" + encodeURIComponent(uri);
+      var url = actionUrl + "?itemdatauri=" + encodeURIComponent(uri);
 
       var ajaxOptions = {
         cache: false,
@@ -56,6 +57,7 @@
                 name: data.Name,
                 conversions: data.Conversions,
                 isStopTestEnabled: data.IsStopTestEnabled,
+                isCancelTestEnabled: data.IsCancelTestEnabled,
                 confirmationMessage: data.ConfirmationMessage,
                 hasConfirmationMessage: data.ConfirmationMessage && data.ConfirmationMessage.length > 0,
                 testType: data.TestType

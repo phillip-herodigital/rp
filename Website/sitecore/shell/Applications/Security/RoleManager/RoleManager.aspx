@@ -14,7 +14,7 @@
   <link rel="shortcut icon" href="/sitecore/images/favicon.ico" />
   <sc:Stylesheet Src="Content Manager.css" DeviceDependant="true" runat="server" />
   <sc:Stylesheet Src="Ribbon.css" DeviceDependant="true" runat="server" />
-  <sc:Stylesheet Src="Grid.css" DeviceDependant="true" runat="server" />
+  <sc:Stylesheet Src="/sitecore/shell/Themes/Standard/default/Grid.css" DeviceDependant="true" runat="server" />
   <sc:Script Src="/sitecore/shell/Applications/Content Manager/Content Editor.js" runat="server" />
   <style type="text/css">
     html body {

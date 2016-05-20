@@ -6,12 +6,12 @@
 @using Sitecore.Web
 @using Sitecore.Web.UI
 @using Sitecore.Web.UI.Controls.Common.UserControls
+@using Sitecore.LaunchPad
 @model Sitecore.Mvc.Presentation.RenderingModel
 @{
   var rendering = Html.Sitecore().Controls().GetUserControl(Model.Rendering);
   rendering.Class = "sc-launchpad";
   
-  var groups = new List<List<Item>>();
   var database = Factory.GetDatabase("core");
   if (database == null)
   {
@@ -24,13 +24,7 @@
     return;
   }
 
-  foreach (var item in root.Children.Where(i => i != null))
-  {
-    var group = new List<Item>();
-    groups.Add(group);
-
-    group.AddRange(item.Children);
-  }
+  var groups = LaunchPad.GetControlGroups(root);
 
   var grids = new List<List<List<Item>>>();
   

@@ -2,6 +2,11 @@
   var model = Sitecore.Definitions.Models.ControlModel.extend({
     initialize: function (options) {
       this._super();
+
+      this.set({
+        "imageUrl": "",
+        "isVisible": false
+      });
     }
   });
 
@@ -43,22 +48,35 @@
 
       // add the "dvImgZoom" elem to window.parent
       var self = this;
-      /*var closeFn = function () {
-        self._dvZoomElem.css("display", "none");
-        $(self._targetDoc.body).find(self._zoomContainer).css("display", "none");
-        $parentBody.removeClass("zoom-open");
-      };*/
 
       if ($parentBody.find(this._zoomContainer).length === 0) {
         $parentBody.append($(this._zoomContainer)[0].outerHTML);
       }
 
-      //$parentBody.find(this._zoomCloseSelector).click(closeFn);
       $parentBody.find(this._zoomCloseSelector).click(this, this.closeFrame);
+      
+      this.model.on("change:imageUrl", this.imageUrlChanged, this);
+      this.model.on("change:isVisible", this.isVisibleChanged, this);
+    },
+
+    imageUrlChanged: function (e) {
+      var imageUrl = this.model.get("imageUrl");
+      if(imageUrl)
+        this.model.set("isVisible", true);
+    },
+
+    isVisibleChanged: function (e) {
+      var isVisible = this.model.get("isVisible");
+      if (isVisible) {
+        this.zoomImage();
+      }
     },
 
     zoomImage: function (e) {
-      var targetElem = e.currentTarget;
+      //var targetElem = e.currentTarget;
+      var imageUrl = this.model.get("imageUrl");
+      if (!imageUrl || imageUrl === "")
+        return;
 
       var zoomElemWidth = window.outerWidth;
       if (zoomElemWidth < window.innerWidth)
@@ -71,7 +89,8 @@
 
       var parentBody = $(this._targetDoc.body);
       var imgZoomELem = parentBody.find(this._zoomImageSelector);
-      imgZoomELem.attr("src", $(targetElem).attr("src"));
+      //imgZoomELem.attr("src", $(targetElem).attr("src"));
+      imgZoomELem.attr("src", imageUrl);
 
       // prevent speak app from scrolling while zoom is open
       parentBody.addClass("zoom-open");
@@ -191,6 +210,8 @@
       // Remove key event handlers
       $(window.document).unbind("keydown", event.data.closeKeyHandler);
       $(window.parent.document).unbind("keydown", event.data.closeKeyHandler);
+
+      self.model.set("isVisible", false);
     },
 
     closeKeyHandler: function (event) {

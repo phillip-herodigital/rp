@@ -12,8 +12,7 @@ define(["sitecore", "executedTestsListMod"], function (_sc, executedTestsListMod
       // no need to bind these as ItemFromQueryString won't change after load
       this.TestsDataSource.set({
         hostItemId: this.ItemFromQueryString.get("itemId"),
-        language: this.ItemFromQueryString.get("language"),
-        pageSize: 10
+        language: this.ItemFromQueryString.get("language")
       });
     },
       

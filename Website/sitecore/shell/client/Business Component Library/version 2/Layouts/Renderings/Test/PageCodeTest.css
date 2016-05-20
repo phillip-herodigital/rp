@@ -1,0 +1,27 @@
+﻿.pageCodeTest {
+  /* Positioning */
+  position: fixed;
+  bottom: 0;
+  right: 20px;
+
+  /* Box-Model */
+  padding: 20px;
+  width: 500px;
+  
+  /* Typography */
+  font-size: 12px;
+  color: #fff;
+  font-weight: bold;
+
+  /* Visual */
+  background-color: #007069;
+
+  /* Misc */
+  opacity: 0.8;
+}
+.pageCodeTest .pageCodeTest-title {
+  padding-top: 5px;
+  padding-bottom: 5px;
+
+  font-size: 14px;
+}

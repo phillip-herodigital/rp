@@ -20,7 +20,7 @@ define(["sitecore", "BindingUtil", "EditUtil", "DataUtil"], function (_sc, bindi
             return;
           }
 
-          editUtil.openPageEditor(hostUri);
+          editUtil.openExperienceEditor(hostUri);
         }
       }
 

@@ -13028,7 +13028,7 @@ form.sc-uploader {
 .mCSB_scrollTools .mCSB_buttonDown,
 .mCSB_scrollTools .mCSB_buttonLeft,
 .mCSB_scrollTools .mCSB_buttonRight {
-  background-image: url(mCSB_buttons.png);
+  background-image: url("/sitecore/shell/client/Speak/Assets/img/Speak/Common/mCustomScrollBar/mCSB_buttons.png");
   background-repeat: no-repeat;
   opacity: 0.4;
   filter: "alpha(opacity=40)";

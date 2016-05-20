@@ -1,15 +1,20 @@
-﻿define(["sitecore"], function (Sitecore) {
+﻿define(
+  [
+    "sitecore",
+    "/-/speak/v1/ExperienceEditor/ExperienceEditor.js",
+    "/-/speak/v1/ExperienceEditor/TranslationUtil.js"
+  ], function (Sitecore, ExperienceEditor, TranslationUtil) {
   return {
     priority: 1,
     execute: function (context) {
-      Sitecore.ExperienceEditor.Dialogs.prompt(Sitecore.ExperienceEditor.TranslationsUtils.translateText(Sitecore.ExperienceEditor.TranslationsUtils.keys.Enter_a_new_name_for_the_item), context.currentContext.value, function (newDisplayName) {
+      ExperienceEditor.Dialogs.prompt(TranslationUtil.translateText(TranslationUtil.keys.Enter_a_new_name_for_the_item), context.currentContext.value, function (newDisplayName) {
         if (newDisplayName == null) {
           context.aborted = true;
           return;
         }
 
         context.currentContext.value = newDisplayName;
-        Sitecore.ExperienceEditor.PipelinesUtil.generateRequestProcessor("ExperienceEditor.ChangeDisplayName", function (response) {
+        ExperienceEditor.PipelinesUtil.generateRequestProcessor("ExperienceEditor.ChangeDisplayName", function (response) {
           response.context.app.refreshOnItem(response.context.currentContext);
         }).execute(context);
       });

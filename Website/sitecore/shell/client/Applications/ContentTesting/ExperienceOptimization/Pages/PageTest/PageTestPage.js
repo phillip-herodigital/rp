@@ -2,18 +2,16 @@
   "sitecore",
   "/-/speak/v1/contenttesting/BindingUtil.js",
   "/-/speak/v1/contenttesting/SelectPagesToTest.js",
-  "/-/speak/v1/contenttesting/SelectItemDialog.js",
-  "/-/speak/v1/contenttesting/ReviewTest.js",
-  "/-/speak/v1/contenttesting/ImageThumbs.js",
   "/-/speak/v1/contenttesting/VersionInfo.js",
   "/-/speak/v1/contenttesting/DataUtil.js",
-  "/-/speak/v1/contenttesting/PageTestActions.js",
-  "/-/speak/v1/contenttesting/ModeFix.js",
-  "/-/speak/v1/contenttesting/TooltipCustom.js"
-], function (_sc, bindingUtil, selectPagesToTestMod, selectItemDialogMod, reviewTestMod, thumbsMod, versionInfoMod, dataUtilMod, pageTestActionsMod, modeFix) {
+  "/-/speak/v1/contenttesting/URLs.js",
+  "/-/speak/v1/contenttesting/Messages.js",
+  "/-/speak/v1/contenttesting/PageTestUtil.js",
+  "/-/speak/v1/contenttesting/TestResultsActions.js",
+], function (_sc, bindingUtil, selectPagesToTestMod, versionInfoMod, dataUtil, urls, messages, PageTestUtil, actions) {
   var PageTest = _sc.Definitions.App.extend({
-    _tooltipExpected: undefined,
-    _tooltipStatistics: undefined,
+    isPageTestExperience: true,
+
     _testItemUriProperty: "testItemUri",
     _testItemTemplateIdProperty: "testItemTemplateId",
     _groupTestObjectiveProperty: "groupTestObjective",
@@ -40,33 +38,28 @@
     trailingValueVisitGUID: '{00000000-0000-0000-0000-000000000000}',
     isTrailingValueVisitSet: false,
 
+    // PagetTestUtil - utilities for PageTest
+    pageTestUtil: null,
+
     initialized: function () {
-      // workaround
-      modeFix.fixModeCookies();
 
       var self = this;
 
-      var screenshotSetting = this.Settings.get("ContentTesting.GenerateScreenshots");
-      this.showThumbnails = screenshotSetting == "all" || screenshotSetting == "limited";
+      // PageTestUtil - initialization
+      this.pageTestUtil = new PageTestUtil(this);
+      this.pageTestUtil.initialize();
 
-      this.on("change:" + this._testItemUriProperty, bindingUtil.propagateChange, { source: this, sourceProp: this._testItemUriProperty, target: this.ItemInfoDataSource, targetProp: "itemUri" });
-      this.ItemInfoDataSource.on("change:status", this.testStatusChanged, { self: this });
-      this.on("change:" + this._testItemUriProperty + " change:" + selectPagesToTestMod.testItemsProperty, function () {
-        self.invalidated = true;
-        self.savedOptions = self.createTestOptions();
-      });
+      this.pageTestUtil.initPagesTab();
+      this.pageTestUtil.initReviewTab();
 
-      this.actions = new pageTestActionsMod.PageTestActions({
-        messageBar: this.PageMessageBar,
-        dictionary: this.Texts,
-        progressIndicator: this.AppProgressIndicator,
-        firstStartButton: this.FirstStartButton,
-        bottomStartButton: this.BottomStartButton,
-        saveButton: this.SaveButton,        
-      });
+      var arrowIndicators = [{component:this.KPIEffectArrowIndicator, treatNull:false}, {component:this.KPIConfidenceArrowIndicator, treatNull:false}, {component:this.KPIScoreArrowIndicator, treatNull:false},
+      {component:this.TrailingValueIndicator, treatNull:false}, {component:this.ExperienceEffectIndicator, treatNull:false}];
+      dataUtil.arrowIndicatorEventAssign(arrowIndicators);
 
-      this.initPagesTab();
-      this.initReviewTab();
+      var screenshotSetting = this.SettingsDictionary.get("ContentTesting.GenerateScreenshots");
+      this.showThumbnails = screenshotSetting === "all" || screenshotSetting === "limited";
+
+
       this.initReportTab();
 
       this.SummaryRepeater.on("subAppLoaded", this.bindSummaryEntry, this);
@@ -74,40 +67,11 @@
 
       // save localizable "DetailPanelTitle" text
       this.set("detailsTitleText", this.DetailPanelTitle.get("text"));
-
-      // Ensure carousel redraws when visible so elastislider can work out it's dimensions
-      this.Tabs.on("change:selectedTab", this.CarouselImage.viewModel.populateCarousel, this);
-
-      // ExpectatedEffect tooltip
-      this._tooltipExpected = new TooltipCustom();
-      this._tooltipExpected.setTargetClick(this.ExpectationHelpIconButton.viewModel.$el,
-        self.Texts.get("Use the slider to predict how the test will effect the visitor engagement. Your prediction is used as an extra indicator for validation of the test result, and it has an effect on your performance report. You can use this to improve your optimization skill."));
-
-      // Statistics tooltip
-      if (this.StatisticsHelpIconButton) {
-        this._tooltipStatistics = new TooltipCustom();
-        this._tooltipStatistics.setTargetClick(this.StatisticsHelpIconButton.viewModel.$el,
-          self.Texts.get("Set the minimum confidence threshold the test needs to achieve before declaring the result statistical significant. High threshold will require a longer duration of the test."));
-      }
-
-      var closeCheck = function () {
-        if (!self.invalidated) {
-          return;
-        }
-
-        var current = self.createTestOptions();
-        if (!_.isEqual(self.savedOptions, current)) {
-          return self.Texts.get("The test has not been saved");
-        }
-      };
-
-      // bind both beforeunload and unload as beforeunload is proprietry
-      $(window).on("beforeunload", closeCheck);
-      $(window).unload(closeCheck);
+      
       
       var params = _sc.Helpers.url.getQueryParameters(window.location.href);
-      var showReport = (params.report == "true");
-      var forceLoad = (params.load == "true");
+      var showReport = (params.report === "true");
+      var forceLoad = (params.load === "true");
       this._forceLoad = showReport || forceLoad;
 
       var qsPage = params.page;
@@ -115,7 +79,7 @@
       var qsVersion = 0;
 
       if (params.hostUri) {
-        var hostUri = new dataUtilMod.DataUri(params.hostUri);
+        var hostUri = new dataUtil.DataUri(params.hostUri);
         qsPage = hostUri.id;
         qsLanguage = hostUri.lang;
         qsVersion = hostUri.ver;
@@ -135,12 +99,9 @@
         this.showLastReport();
       }
 
-      // Update TestObjective UI according to selected test objective item
-      if (this.ObjectiveList !== undefined) {
-        this.ObjectiveList.on("change:items", this.listGoalsItemsChanged, this);
-        this.ObjectiveList.on("change:selectedItem", this.updateTestObjectiveUI, this);
+      if (this.GoalsListFiltered) {
+        this.GoalsListFiltered.viewModel.setTestingOptions({ texts: this.Texts });
       }
-
 
       this.TestDefinitionDataSource.on("change:conversions", this.handleTestObjectives, this);
 
@@ -148,6 +109,18 @@
       {
           this.TestObjectivesDataSource.on("change:items", this.testObjectivesChanged, this);      
       }
+
+      if (this.WinnerManualSelect !== undefined) {
+        this.WinnerManualSelect.check();
+      }
+
+      if (this.WinnerAutoSelect !== undefined) {
+        this.WinnerAutoSelect.check();
+      }
+
+      // Set default values for the controls
+      this.isExperienceOptimizationPageTest = true;
+      dataUtil.setDefaultsParameters(this);
 
       // timer-handling
       this.$tabPagesElem = $("[data-tab-id='" + this.idTabPages + "']");
@@ -172,24 +145,11 @@
         if (!self.isLoadDataOK) {
           if (self.isLoadData()) {
             self.isLoadDataOK = true;
-            self.savedOptions = self.createTestOptions();
+            self.savedOptions = self.pageTestUtil.createTestOptions();
           }
         }
       }, 200);
 
-      //
-      this.on("change:" + this._groupTestObjectiveProperty, function () {
-        self.savedOptions = self.createTestOptions();
-      });
-      if (this.WinnerManualSelect !== undefined)
-      {
-          this.WinnerManualSelect.check();
-      }
-      
-      if (this.WinnerAutoSelect !== undefined) 
-      {
-        this.WinnerAutoSelect.check();
-      }
     },
 
     isLoadData: function () {
@@ -199,12 +159,7 @@
       {
           dataLoaded = dataLoaded && (this.MaximumSelect.get("items") && this.MaximumSelect.get("items").length > 0);
       }
-      
-      if (this.ConfidenceLevelSelect !== undefined)
-      {
-        dataLoaded = dataLoaded && (this.ConfidenceLevelSelect.get("items") && this.ConfidenceLevelSelect.get("items").length > 0);
-      }
-      
+            
       if (this.MinimumSelect !== undefined)
       {
         dataLoaded = dataLoaded && (this.MinimumSelect.get("items") && this.MinimumSelect.get("items").length > 0);
@@ -214,62 +169,12 @@
       {
         dataLoaded = dataLoaded && (this.ObjectiveList.get("items") && this.ObjectiveList.get("items").length > 0);
       }
-             
-      if (this.ExpectationSlider !== undefined )       
-      {
-        dataLoaded = dataLoaded && (this.ExpectationSlider.get("selectedItem") && this.ExpectationSlider.get("selectedItem") != null);
-      }
-      
+                   
       dataLoaded = dataLoaded && this.isSelectTestPageFinished;
              
              
       
       return dataLoaded;
-    },
-
-    initPagesTab: function () {
-      this.on("change:" + this._testItemUriProperty, bindingUtil.bindVisibility, { source: this, sourceProp: this._testItemUriProperty, target: this.PagesBorder });
-      this.on("change:" + this._testItemUriProperty, bindingUtil.bindVisibility, { source: this, sourceProp: this._testItemUriProperty, target: this.SelectPageBorder, hide: true });
-
-
-      var selectItemDialog = new selectItemDialogMod.SelectItemDialog({
-        host: this,
-        itemIdPropertyName: "selectedItemId",
-        itemTemplateIdPropertyName: "selectedTemplateId",
-        dialogWindow: this.SelectPageWindow
-      });
-
-      this.selectPagesToTest = new selectPagesToTestMod.SelectPagesToTest({
-        testItemDataSource: this.ItemInfoDataSource,
-        hostPage: this,
-        testItemUriProperty: this._testItemUriProperty,
-        testItemTemplateProperty: this._testItemTemplateIdProperty,
-        selectedLanguageProperty: this._selectedLanguageProperty,
-        compareTemplates : true,
-        selectItemDialog: selectItemDialog
-      });
-
-      if (!this.showThumbnails) {
-        this.ThumbnailBorder.set("isVisible", false);
-        this.ThumbnailProgressIndicator.set("isVisible", false);
-      }
-    },
-
-    initReviewTab: function () {
-      this.reviewTest = new reviewTestMod.ReviewTest({
-        hostPage: this,
-        testItemsProperty: selectPagesToTestMod.testItemsProperty,
-        testItemUriProperty: this._testItemUriProperty
-      });
-
-      if (this.showThumbnails) {
-        this.CarouselImage.set("imageThumbs", new thumbsMod.ImageThumbs({
-          dictionary: this.Texts
-        }));
-      }
-      else {
-        this.PreviewAccordion.set("isVisible", false);
-      }
     },
 
     initReportTab: function () {
@@ -280,7 +185,7 @@
         sourceProp: this._testItemUriProperty,
         target: this.TestDefinitionDataSource,
         targetProp: function (ob, value) {
-          var uri = new dataUtilMod.DataUri(value);
+          var uri = new dataUtil.DataUri(value);
           ob.set({
             "itemId": uri.id,
             "version": self.ItemInfoDataSource.get("lastTestVersion") || uri.ver,
@@ -294,47 +199,38 @@
         sourceProp: "itemUri",
         target: this.DetailThumbnailImage,
         targetProp: function (ob, value) {
-          var uri = new dataUtilMod.DataUri(value);
+          var uri = new dataUtil.DataUri(value);
           ob.set({
             "itemId": uri.id,
-            "version": self.ItemInfoDataSource.get("lastTestVersion") || uri.ver
+            "version": self.ItemInfoDataSource.get("lastTestVersion") || uri.ver,
+      "language": uri.lang
           });
         }
       });
 
       this.ConversionRateIndicator.on("change:selectedItem", this.setSelectedExperience, { control: this.ConversionRateIndicator, app: this });
+      this.ConversionRateIndicator.on("click:entry", this.showDetailPanel, { control: this.ConversionRateIndicator, app: this });
+      
       this.EngagementValueIndicator.on("change:selectedItem", this.setSelectedExperience, { control: this.EngagementValueIndicator, app: this });
+      this.EngagementValueIndicator.on("click:entry", this.showDetailPanel, { control: this.EngagementValueIndicator, app: this });
+
       this.on("change:selectedExperience", this.notifyExperienceChange, { app: this });
     },
     
     selectValidTestPage: function()
     {
-      var itemId = this.get("selectedItemId");
-      var infoItemId = this.ItemInfoDataSource.get("itemId");
-      
-      if (itemId == infoItemId)
-      {
-        this.validateTestStatus();
-      }
-      else
-      {
-          this.ItemInfoDataSource.once("change:name", this.validateTestStatus, this);
-          this.ItemInfoDataSource.set("itemId", itemId);
-      }
+      var self = this;
+      this.pageTestUtil.validateSelectTest(function () {
+        self.selectTestPage();
+      });
     },
-    
-    validateTestStatus: function()
-    {
-      var status = this.ItemInfoDataSource.get("status");
-      if (status == "Active")
-      {
-        var message = this.Texts.get("This page has active test. Please select another page.");
-        alert(message);
-      }
-      else
-      {
-        this.selectTestPage();
-      }
+
+    // Called from the "Select page to add version test to" dialog
+    addExistingItemTest: function () {
+      var self = this;
+      this.pageTestUtil.validateSelectTest(function () {
+        self.selectPagesToTest.addExistingItemTest();
+      });
     },
 
     selectTestPage: function () {
@@ -364,7 +260,7 @@
       };
 
       if (itemId && language && version) {
-        var uri = new dataUtilMod.DataUri();
+        var uri = new dataUtil.DataUri();
         uri.id = itemId;
         uri.ver = version;
         uri.lang = language;
@@ -372,15 +268,21 @@
         setProperties(uri);
       }
       else {
-      versionInfoMod.getLatestVersionNumber({ id: itemId, language: language }, function (id, version, revision, language) {
-        var uri = new dataUtilMod.DataUri();
-        uri.id = id;
-        uri.ver = version;
-        uri.rev = revision;
-        uri.lang = language;
+        versionInfoMod.getLatestVersionNumber({ id: itemId, lang: language }, function (parsedId, version, revision, language) {
+
+          if (!version) {
+            alert(self.Texts.get("The item does not have a version in the current language"));
+            return;
+          }
+
+          var uri = new dataUtil.DataUri();
+          uri.id = parsedId;
+          uri.ver = version;
+          uri.rev = revision;
+          uri.lang = language;
 
           setProperties(uri);
-      });
+        });
       }
     },
 
@@ -452,16 +354,19 @@
         ]);
       }
 
-      if (this.ConfidenceLevelSelect) {
+      if (this.rbConfidence90 && this.rbConfidence95 && this.rbConfidence99) {
         this.SummaryRepeater.viewModel.addData([
           {
             Name: this.Texts.get("Confidence level"),
-            ValueRef: this.ConfidenceLevelSelect,
-            ValueProp: "selectedValue",
-            Postfix: "%"
+            ValueRef: [this.rbConfidence90, this.rbConfidence95, this.rbConfidence99],
+            ValueProp: "isChecked",
+            ValuePropName: "value",
+            Postfix: "%",
+            isConfidenceLevel: true
           }
         ]);
       }
+
 
       if (this.ObjectiveList) {
         this.SummaryRepeater.viewModel.addData([
@@ -504,15 +409,34 @@
 
       if (data.ValueRef) {
         
-        data.ValueRef.on("change:" + data.ValueProp, bindingUtil.propagateChange, {
-          target: subapp.Value,
-          targetProp: "text",
-          source: data.ValueRef,
-          sourceProp: data.ValueProp,
-          postfix: data.Postfix
-        });
+        var value = "";
+        // ConfidenceLevel binding
+        if (data.isConfidenceLevel && data.ValueRef.length && data.ValueRef.length > 1) {
+          for (var i = 0; i < data.ValueRef.length; i++) {
+            data.ValueRef[i].on("change:" + data.ValueProp, bindingUtil.propagateChange, {
+              target: subapp.Value,
+              targetProp: "text",
+              source: data.ValueRef[i],
+              sourceProp: data.ValuePropName,
+              postfix: data.Postfix
+            });
+          }
+          if (this.reviewTest.confidenceLevelCtrl)
+            value = this.reviewTest.confidenceLevelCtrl.getConfidenceLevel();
+        }
+        // binding of other parameters
+        else {
+          data.ValueRef.on("change:" + data.ValueProp, bindingUtil.propagateChange, {
+            target: subapp.Value,
+            targetProp: "text",
+            source: data.ValueRef,
+            sourceProp: data.ValueProp,
+            postfix: data.Postfix
+          });
 
-        var value = data.ValueRef.get(data.ValueProp);
+          value = data.ValueRef.get(data.ValueProp);
+        }
+
         if (value === null || value === undefined) {
           value = "--";
         }
@@ -544,11 +468,6 @@
 
     addPageOptionSelect: function(){
       this.selectPagesToTest.addPageOptionSelect();
-    },
-
-    // Called from the "Select page to add version test to" dialog
-    addExistingItemTest: function () {
-      this.selectPagesToTest.addExistingItemTest();
     },
 
     showLastReport: function () {
@@ -583,14 +502,19 @@
     },
 
     testStatusChanged: function () {
-      var status = this.self.ItemInfoDataSource.get("status");
-      if (status === "Active") {
+      var status = this.self.ItemInfoDataSource.get("statusCode");
+
+      if (this.self.ItemInfoDataSource.get("isValidateTest")) {
+        this.self.ItemInfoDataSource.set("isValidateTest", false);
+        return;
+      }
+
+      if (status === "active") {
         this.self.set("mode", "report");
         this.self.loadTest(function(app){
           app.showLastReport();
 
           app.AddPage.set("isEnabled", false);
-          app.ExpectationSlider.set("isEnabled", false);
           app.FirstStartButton.set("isEnabled", false);
 
           if (app.BottomStartButton) {
@@ -598,7 +522,7 @@
           }
         });
       }
-      else if (status === "Test stopped") {
+      else if (status === "teststopped") {
         // Make sure this is an initial load and not a change from saving
         if (!this.self.savedOptions) {
           var res = false;
@@ -611,7 +535,7 @@
           }
         }
       }
-      else if (status === "Draft test") {
+      else if (status === "drafttest" || status === "draft") {
         if (this.self._forceLoad) {
           this.self.loadTest();
         }
@@ -632,36 +556,54 @@
     },
 
     saveTest: function () {
-      var options = this.createTestOptions();
-      this.savedOptions = options;
-      this.actions.savePageTest(options);
-      this.invalidated = false;
-      this.ItemInfoDataSource.refresh();
+      if (this.pageTestUtil) {
+        this.pageTestUtil.saveTest();
+      }
+    },
+
+    cancelTest: function () {
+      var message = "";
+      if (this.ItemInfoDataSource.get("hasActiveTest")) {
+        message = this.Texts.get("Do you want to cancel the test?");
+      } else {
+        message = this.Texts.get("Do you want to delete the draft test?");
+      }
+
+      this.CancelConfirmText.set("text", message);
+      this.CancelTestDialogWindow.show();
+    },
+
+    confirmCancelTest: function () {
+      this.CancelTestDialogWindow.hide();
+
+      var uri = this.get(this._testItemUriProperty);
+
+      var successCallback = function (data) {
+        var message = null;
+        if (data.DeleteDraftTest) {
+          message = messages.draftTestDeleted;
+        }
+
+        if (data.CancelRunningTest) {
+          message = messages.testCancelled;
+        }
+
+        var url = urls.dashboard;
+
+        if (message) {
+          url = _sc.Helpers.url.addQueryParameters(url, { message: message });
+        }
+
+        window.location.href = url;
+      };
+
+      this.actions.cancelDraftTest(uri, successCallback, this);
     },
 
     startTest: function () {
-      var options = this.createTestOptions();
-      this.savedOptions = options;
-      var self = this;
-      this.actions.savePageTest(options, true, function () {
-        self.actions.startPageTest({
-          ItemUri: options.ItemUri
-        }, function () {
-          self.ItemInfoDataSource.refresh();
-          self.invalidated = false;
-        });
-      });
-    },
-
-    createTestOptions: function () {
-      var options = {
-        ItemUri: this.get(this._testItemUriProperty)
-      };
-
-      this.selectPagesToTest.createTestOptions(options);
-      this.reviewTest.createTestOptions(options);
-
-      return options;
+      if (this.pageTestUtil) {
+        this.pageTestUtil.startTest();
+      }
     },
 
     setSelectedExperience: function () {
@@ -670,28 +612,31 @@
         return;
       }
 
-      // not sure why this is needed. Can we get rid of it?
-      this.app.set("selectedExperience", {}, { silent: true });
-
       this.app.set("selectedExperience", {
         Combination: selected.Combination,
         GoalId: selected.GoalId,
-        Description: selected.Description,
         title: selected.title
       });
     },
 
-    notifyExperienceChange: function () {
+    showDetailPanel: function() {
       var experience = this.app.get("selectedExperience");
       if (!experience) {
         this.app.DetailPanel.set("isOpen", false);
         return;
       }
 
+      this.app.DetailPanel.set("isOpen", true);
+    },
+
+    notifyExperienceChange: function () {
+      var experience = this.app.get("selectedExperience");
+      if (!experience) {
+        return;
+      }
+
       var detailText = this.app.get("detailsTitleText") + " - " + experience.title;
       this.app.DetailPanelTitle.set("text", detailText);
-
-      this.app.DetailPanel.set("isOpen", true);
 
       var combinationstring = "";
 
@@ -712,7 +657,7 @@
       this.app.ReachDataSource.set("isBusy", false);
       this.app.ReachDataSource.set("combination", combinationstring);
       
-      this.app.TestActions.set("combination", combinationstring);
+      //this.app.TestActions.set("combination", combinationstring);
     },
 
     confirmWinner: function(){
@@ -720,7 +665,10 @@
       this.AppProgressIndicator.set("isBusy", true);
 
       this.ConfirmDialogWindow.hide();
-      this.TestActions.stopTest(this.stopTestSucceeded, this.stopTestError, this);
+
+      var combinationstring = this.ReachDataSource.get("combination");
+      actions.stopTest(combinationstring, this.stopTestSucceeded, this.stopTestError, this);
+      //this.TestActions.stopTest(this.stopTestSucceeded, this.stopTestError, this);
     },
 
     pickWinner: function () {
@@ -766,8 +714,7 @@
         });
         this.GoalsListFiltered.set("items", itemsCorrect);
       }      
-    },
-
+    }
   });
 
   return PageTest;

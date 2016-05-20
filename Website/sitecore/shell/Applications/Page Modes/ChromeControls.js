@@ -329,7 +329,7 @@
     var displayName = this.chrome.displayName();
     
     var isReadOnly = this.chrome.isReadOnly();
-           
+
     var title = $sc("<span class='scChromeText'></span>")     
       .text($sc.truncate(displayName, this._maxDisplayNameLength))
       .appendTo(container);
@@ -556,7 +556,7 @@
 
   _maxToolbarCommands: 7,
 
-  _maxDisplayNameLength: 40,
+  _maxDisplayNameLength: 70,
 
   _hasMoreCommands: function() {
     return this.moreCommands.children().length > 0;

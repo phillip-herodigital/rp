@@ -7,7 +7,7 @@
   }
 });
 
-define("bootstrap", ["jquery", "bootstraplib"], function () {
+define("bootstrap", ["jquery", "bootstraplib", "jqueryui"], function () {
   $.widget.bridge('uitooltip', $.ui.tooltip);
   return true;
 });

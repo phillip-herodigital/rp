@@ -4,7 +4,13 @@
   }
 });
 
-define(["sitecore", "dataRepeaterBinding", "/-/speak/v1/contenttesting/ModeFix.js"], function (_sc, dataRepeaterBinding, modeFix) {
+define([
+  "sitecore",
+  "dataRepeaterBinding",
+  "/-/speak/v1/contenttesting/ModeFix.js",
+  "/-/speak/v1/contenttesting/Messages.js",
+  "/-/speak/v1/contenttesting/DataUtil.js"
+], function (_sc, dataRepeaterBinding, modeFix, messages, dataUtil) {
   var Dashboard = _sc.Definitions.App.extend({
     initialized: function () {
       // workaround
@@ -15,6 +21,11 @@ define(["sitecore", "dataRepeaterBinding", "/-/speak/v1/contenttesting/ModeFix.j
         improvementText: this.Texts.get("{0} % improvement from last month"),
         decreaseText: this.Texts.get("{0} % decrease from last month")
       });
+
+      var arrowIndicators = [{component:this.TestsStartedArrowIndicator, treatNull:false}, {component:this.TestsRunningArrowIndicator, treatNull:false}, {component:this.VisitorsExposedArrowIndicator, treatNull:false}, {component:this.TestOutcomeArrowIndicator, treatNull:false},
+                             {component:this.ScoreSpotArrowIndicator, treatNull:false}, {component:this.GuessSpotArrowIndicator, treatNull:false}, {component:this.EffectSpotArrowIndicator, treatNull:false}, {component:this.ActivitySpotArrowIndicator, treatNull:false}];
+      dataUtil.arrowIndicatorEventAssign(arrowIndicators);
+
 
       // Bind data repeater data
       this.PrevTestOutcomesDataSource.on("change:items", dataRepeaterBinding.setRepeaterData, { app: this, repeater: this.PrevTestOutcomes, dataSource: this.PrevTestOutcomesDataSource });
@@ -41,6 +52,8 @@ define(["sitecore", "dataRepeaterBinding", "/-/speak/v1/contenttesting/ModeFix.j
       var activityExtractor = function (data) { return data.Activity; };
       this.PrevActiveUsers.on("subAppLoaded", this.bindMetricEntryData, { app: this, extractor: activityExtractor, metric: this.Texts.get("Activity") });
       this.CurrentActiveUsers.on("subAppLoaded", this.bindMetricEntryData, { app: this, extractor: activityExtractor, metric: this.Texts.get("Activity") });
+
+      this.setDashboardMessage();
     },
 
     bindMetricEntryData: function(args) {
@@ -75,6 +88,17 @@ define(["sitecore", "dataRepeaterBinding", "/-/speak/v1/contenttesting/ModeFix.j
         // Explicitly hide individual KPIs. Admins would see both
         if (this.IndividualKPIProtection) {
           this.IndividualKPIProtection.set("isVisible", false);
+        }
+      }
+    },
+
+    setDashboardMessage: function () {
+      this.MessageBar.removeMessages("notification");
+      var params = _sc.Helpers.url.getQueryParameters(window.location.href);
+      if (params.message) {
+        var text = this.Texts.get(messages.getDictionaryKey(params.message));
+        if (text) {
+          this.MessageBar.addMessage("notification", text);
         }
       }
     }

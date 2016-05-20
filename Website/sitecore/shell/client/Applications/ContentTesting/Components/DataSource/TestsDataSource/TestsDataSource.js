@@ -33,7 +33,7 @@
       },
 
       next: function () {
-        if (this.get("isBusy") || this.get("hasMore") != "true") {
+        if (this.get("isBusy") || this.get("hasMore") !== "true") {
           return;
         }
         this.fetchMore();
@@ -75,7 +75,6 @@
             throw ("Unknown mode: " + this.get("mode"));
         }
 
-        this.set("pageSize", 75); //Enough to trigger the scroll bar on the page
         url += "?page=" + this.get("page") + "&pageSize=" + this.get("pageSize");
 
         if (this.get("hostItemId")) {

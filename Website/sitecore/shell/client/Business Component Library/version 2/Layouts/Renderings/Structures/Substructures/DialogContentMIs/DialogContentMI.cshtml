@@ -1,0 +1,26 @@
+﻿@using Sitecore.Mvc
+@model Sitecore.Speak.Components.Models.Structures.Substructures.DialogContentMIs.DialogContentMIRenderingModel
+@if (Model.ShowToolbar)
+{
+  <section class="sc-dialogContent-toolbar">
+    <div class="sc-dialogContent-toolbar-back">
+      @Html.Sitecore().Placeholder("DialogContent.Back")
+    </div>
+    <div class="sc-dialogContent-toolbar-contextSwitcher">
+      @Html.Sitecore().Placeholder("DialogContent.ContextSwitch")
+    </div>
+    <div class="sc-dialogContent-toolbar-actions text-right">
+      @Html.Sitecore().Placeholder("DialogContent.Actions")
+    </div>
+  </section>
+}
+<div class="row sc-contentRowFix">
+  <div class="col-md-9">
+    <section class=" sc-dialogContent-main">
+      @Html.Sitecore().Placeholder("DialogContent.Main")
+    </section>
+  </div>
+  <aside class="col-md-3 sc-dialogContent-info">
+    @Html.Sitecore().Placeholder("DialogContent.Info")
+  </aside>
+</div>
