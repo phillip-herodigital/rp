@@ -41,7 +41,7 @@
                 @for (var i = 0; i < topLeaderList.Top10.Count; i++)
                 {
                     var person = topLeaderList.Top10[i];
-                    <li class="@Html.Sitecore().Field("Director Level")"><div class="star-image"><img src="@Html.Sitecore().Field("Stars")" /></div><div>@person.Key<span>@person.Value</span></div></li>
+                    <li class="@person.Rank"><div class="star-image"><img src="@person.Stars" /></div><div>@person.Name<span>@person.Location</span></div></li>
                 }
             </ul>
         </div>
@@ -56,7 +56,7 @@
                 @for (var i = 0; i < topLeaderList.Top15.Count; i++)
                 {
                     var person = topLeaderList.Top15[i];
-                    <li class="@Html.Sitecore().Field("Director Level")"><div class="star-image"><img src="@Html.Sitecore().Field("Stars")" /></div><div>@person.Key<span>@person.Value</span></div></li>
+                    <li class="@person.Rank"><div class="star-image"><img src="@person.Stars" /></div><div>@person.Name<span>@person.Location</span></div></li>
                 }
             </ul>
         </div>

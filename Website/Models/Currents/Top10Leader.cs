@@ -11,6 +11,6 @@ namespace StreamEnergy.MyStream.Models.Currents
         public string Name { get; set; }
         public string Rank { get; set; }
         public string Location { get; set; }
-        public string Star { get; set; }
+        public string Stars { get; set; }
     }
 }
