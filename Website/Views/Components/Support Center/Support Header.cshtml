@@ -23,13 +23,13 @@
             <div ng-class="{reveal: dropDown}" class="category-dropdown-container">
                 <div class="triangle-up"></div>
                 <ul class="category-dropdown">
-                    <li ng-repeat="category in categories">
+                    <li ng-repeat="category in categories" ng-class="{noHover: category.states.length}">
                         <div ng-click="selectCategory(category, null)" ng-class="{noHover: category.states.length}">
                             {{category.displayTitle}}<span ng-show="category.states.length"> (select state)</span>
                         </div>
                         <ul class="state" ng-show="category.states">
                             <li ng-repeat="state in category.states">
-                                <div ng-click="selectCategory($parent.category, state)">{{state.name}}</div>
+                                <div ng-click="selectCategory($parent.category, state)" ng-style="{'background-image': 'URL(' + state.iconURL + ')'}">{{state.abbreviation}}</div>
                             </li>
                         </ul>
                     </li>

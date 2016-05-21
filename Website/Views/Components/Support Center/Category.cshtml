@@ -1,6 +1,10 @@
 ﻿@using StreamEnergy.MyStream.Controllers
 @using StreamEnergy.MyStream.Models.Marketing.Support
+@using Sitecore.Data.Fields
 @{
+    var categoryContent = Sitecore.Context.Database.GetItem("{E507A0DB-A122-406B-862E-6C163BCCA7E7}");
+    ImageField iconField = categoryContent.Fields["Icon"];
+    var iconURL = Sitecore.Resources.Media.MediaManager.GetMediaUrl(iconField.MediaItem);
 
     SupportCenterController controller = new SupportCenterController();
     var categories = StreamEnergy.Json.Stringify(controller.GetAllCategories());
@@ -35,7 +39,7 @@
         <div class="pagination-display clearfix">
             <a href="" ng-click="backToSupport(@categoryFaqs)" ng-show="searchResults">Back to Support</a>
             <p>
-                <span>Showing {{resultsPageRange[resultsPage].low + 1}} - {{resultsPageRange[resultsPage].high + 1}} of {{getDisplayedFAQCount()}}</span>
+                <span>@categoryContent.Fields["Showing"] {{resultsPageRange[resultsPage].low + 1}} - {{resultsPageRange[resultsPage].high + 1}} of {{displayedFAQCount}}</span>
                 <span ng-show="searchResults"> search results for “{{searchData.text}}”</span>
                 <span> in {{searchData.category}}</span>
                 <span ng-show="searchData.state.name"> - {{searchData.state.abbreviation}}</span>
@@ -48,7 +52,7 @@
         </div>    
         <article class="faqs marketing">
             <div class="content">
-                <div class="faq" ng-repeat="faq in faqs track by $index" ng-show="faqFilter(faq, $index)" ng-init="isHelpful = ''; helpfulSelected = false; feedback = ''" id="id{{faq.guid}}">
+                <div class="faq" ng-repeat="faq in getDisplayedFAQs() track by $index" ng-show="faqFilter(faq, $index)" ng-init="isHelpful = ''; helpfulSelected = false; feedback = ''" id="id{{faq.guid}}">
                     <div class="question clearfix" ng-click="selectFaq($index)">
                             <div class="plus-minus">
                                 <div class="plus" ng-class="{minus: faq.selected}"></div>
@@ -98,19 +102,36 @@
             <p>9am-5pm, CST, Saturday.</p>
             <a href="" ng-click="showModal('emergency-contact');">Emergency Contacts</a>
         </aside>
-        <div class="secondary-footer" id="footer">
-            Can't find what you're looking for? <a href="" ng-click="">Ask Us a Question</a>
-        </div>
+    </div>
+    <div class="secondary-footer" id="footer">
+        Can't find what you're looking for? <a href="" ng-click="">Ask Us a Question</a>
     </div>
 </div>
 <script type="text/ng-template" id="emergency-contact">
     <div class="support-modal">
         <div class="modal-header">
             <a href="" ng-click="$dismiss()">Close</a>
-            <h2>Emergency Contacts - {{search.category.name}}<span ng-show="search.state"> - {{search.state.abbreviation}}</span></h2>
+            <h2>Emergency Contacts - {{category.displayTitle}}<span ng-show="searchData.state"> - {{searchData.state.abbreviation}}</span></h2>
+            <h4>@Html.Sitecore().Field("Subheading")</h4>
+            <img class="life-preserver" src="@iconURL" />
+            <div ng-show="category.states">
+                <span>
+                    Please select a state:
+                    <select ng-model="searchData.state"
+                            ng-change="selectCategory(category, searchData.state)"
+                            ng-options="state.name for state in category.states">
+                        <option disabled selected value="">Select State</option>
+                    </select>
+                </span>
+            </div>
         </div>
         <div class="modal-body">
-            <p>In case of emergency or outage, please contact your Local Wires Company directly.</p>
+            <div class="content" ng-hide="category.states">
+                @Html.Sitecore().Field("Content")
+            </div>
+            <div class="content" ng-show="category.states">
+                <div ng-bind-html="searchData.state.energyModalContent"></div>
+            </div>
         </div>
         @*
             <div class="modal-footer">

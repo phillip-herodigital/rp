@@ -48,8 +48,8 @@
                 .select {
                     position: relative;
                     float: left;
-                    width: 200px;
-                    padding: 22px 15px;
+                    width: 180px;
+                    padding: 22px 10px;
                     height: 100%;
                     border-right: 1px solid #999999;
                     background-color: #eff2f3;
@@ -64,13 +64,13 @@
                     .triangle-down {
                         height: 0;
                         width: 0;
-                        border-left: 15px solid transparent;
-                        border-right: 15px solid transparent;
-                        border-top: 15px solid #999999;
+                        border-left: 10px solid transparent;
+                        border-right: 10px solid transparent;
+                        border-top: 10px solid #999999;
                         background-color: #eff2f3;
                         position: relative;
                         float: right;
-                        bottom: 22px;
+                        bottom: 19px;
                         transition: all linear 0.5s;
 
                         &.flipped {
@@ -82,7 +82,7 @@
 
                 .input {
                     padding: 6px;
-                    width: calc(100% - 200px);
+                    width: calc(100% - 180px);
                     float: right;
 
                     input[type=text] {
@@ -136,7 +136,7 @@
                     overflow: hidden;
                     top: 10px;
                     position: relative;
-                    width: 100%;
+                    width: 180px;
 
                     .triangle-up {
                         height: 0;
@@ -146,17 +146,17 @@
                         border-bottom: 15px solid #eff2f3;
                         position: relative;
                         top: 0;
-                        left: 90px;
+                        left: 75px;
                     }
 
                     ul.category-dropdown {
                         background-color: #eff2f3;
                         color: #000;
                         border-radius: 5px;
-                        padding: 20px;
+                        padding: 10px 10px 0 10px;
                         margin: 0;
+                        width: 100%;
                         position: absolute;
-                        width: 210px;
                         list-style: none;
                         z-index: 10;
                         font-size: 16px;
@@ -165,16 +165,36 @@
                             padding: 10px;
                         }
 
-                        div:hover {
+                        li:hover {
                             background-color: #00a8e1;
+
+                            &.noHover {
+                                background-color: initial;
+                            }
                         }
 
-                        div.noHover:hover {
-                            background-color: initial;
+                        li {
+                            border-bottom: 1px solid #dcdfdf;
+
+                            &:last-child {
+                                border: none;
+                            }
                         }
 
                         ul.state {
                             list-style: none;
+                            padding: 0;
+
+                            li:first-child {
+                                border-top: 1px solid #dcdfdf;
+                            }
+
+                            li > div {
+                                background-position: left center;
+                                background-repeat: no-repeat;
+                                padding-left: 35px;
+                                margin-left: 30px;
+                            }
                         }
                     }
 
@@ -529,6 +549,36 @@
 
             a {
                 font-weight: 700;
+            }
+        }
+    }
+
+    .support-modal {
+        .modal-header {
+            padding-bottom: 40px;
+
+            h2{
+                font-size: 34px;
+                font-weight: 500;
+            }
+
+            h4 {
+                font-size: 24px;
+                font-weight: 300;
+            }
+
+            img.life-preserver {
+                position: absolute;
+                right: 80px;
+                top: 60px;
+            }
+        }
+
+        .modal-body {
+            background: image-url('marketing/redesign/Modules/module_background.png') no-repeat center top;
+
+            .content {
+                padding: 50px;
             }
         }
     }
