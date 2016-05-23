@@ -54,7 +54,8 @@
     handle.click($sc.proxy(function(e) {
       e.stop();
       Sitecore.PageModes.DesignManager.sortingEnd();
-      Sitecore.PageModes.DesignManager.moveControlTo(this.rendering, this.placeholder, insertPosition);      
+      Sitecore.PageModes.DesignManager.moveControlTo(this.rendering, this.placeholder, insertPosition);
+      Sitecore.PageModes.ChromeManager.scrollChromeIntoView(this.rendering);
     }, this));
            
     var offset = chrome.position.offset();

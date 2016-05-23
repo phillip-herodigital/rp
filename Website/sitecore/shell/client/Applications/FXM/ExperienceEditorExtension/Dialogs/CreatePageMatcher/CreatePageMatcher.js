@@ -5,9 +5,10 @@ define([
     "/-/speak/v1/FXM/Validation.js",
     "/-/speak/v1/FXM/PageMatcherService.js",
     "/-/speak/v1/FXM/ExperienceEditorExtension/Utils/ClientBeacon.js",
+    "/-/speak/v1/FXM/WebUtil.js",
     "/-/speak/v1/FXM/Commands.js",
 	"/-/speak/v1/FXM/purl.js",
-], function (_sc, Q, _paramUtils, _validator, _service, _clientBeacon) {
+], function (_sc, Q, _paramUtils, _validator, _service, _clientBeacon, webUtil) {
   return _sc.Definitions.App.extend({
     initialize: function () {
       this.currentMatcher = {};
@@ -43,8 +44,12 @@ define([
               this.RuleXmlValue = this.MatchRuleType == '3' ? this.RuleFinalValue : '';
             };
             data.updateMatchCriteria = function () {
+              if (this.MatchRuleType !== "3" && self.RuleTemplateValueTextBox.get("text") === "") {
+                self.RuleTemplateValueTextBox.set("text", webUtil.resolveExternalSitePath());
+              }
+
               this.RuleXmlValue = this.RuleXmlValue === '<ruleset />' ? '' : this.RuleXmlValue;
-              this.RuleFinalValue = this.MatchRuleType == '3' ? this.RuleXmlValue : self.RuleTemplateValueTextBox.get('text');
+              this.RuleFinalValue = this.MatchRuleType == '3' ? this.RuleXmlValue : self.RuleTemplateValueTextBox.get("text");
             };
             data.initMatchCriteria();
             return data;
@@ -84,9 +89,7 @@ define([
       this.DetailsNameTextbox.set('text', this.currentMatcher.Name);
 
       if (this.currentMatcher.RuleTemplateValue === null) {
-        var externalPageUrl = _sc.Helpers.url.getQueryParameters(window.top.location.href)["url"] || '/';
-        var parsedUrl = $.url(externalPageUrl) || '';
-        var path = parsedUrl.attr('path') || '';
+        var path = webUtil.resolveExternalSitePath();
 
         this.RuleTemplateValueTextBox.set('text', path);
       } else {

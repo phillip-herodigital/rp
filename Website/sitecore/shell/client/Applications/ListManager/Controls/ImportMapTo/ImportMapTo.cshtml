@@ -19,7 +19,8 @@
     <div class="col-md-5">
       <select class="form-control sc-combobox" name="sc-combobox-@controlId"
               id="sc-combobox-@controlId" data-position="<%= position %>"
-              data-datafield="<%= dataField %>" data-automap="<%= autoMap %>">
+              data-datafield="<%= dataField %>" data-automap="<%= autoMap %>"
+              data-automapsource="<%= autoMapSource %>">
         <option value="-1" selected="selected" data-lastposition="">@Sitecore.ClientHost.Globalization.Translate(Texts.SelectFieldFromFile)</option>
         <% for (var i = 0; i < fileFields.length; i = i + 1) { %>
         <option value="<%= i %>"><%= fileFields[i] %></option>

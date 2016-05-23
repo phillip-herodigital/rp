@@ -213,12 +213,18 @@
         tag.click(function(e) {       
           Sitecore.PageModes.ChromeManager.setCommandSender(chrome);
           Sitecore.PageModes.ChromeManager.handleCommonCommands(chrome, click.message, click.params);
+          if (command.click.indexOf("chrome:rendering:sort") > -1) {
+            e.stop();
+          }
         });
       }
       else {
         tag.click(function(e) {       
           Sitecore.PageModes.ChromeManager.setCommandSender(chrome);
           chrome.handleMessage(click.message, click.params);
+          if (command.click.indexOf("chrome:rendering:sort") > -1) {
+            e.stop();
+          }
         });
       }
     }

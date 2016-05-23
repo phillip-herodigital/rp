@@ -8,6 +8,7 @@
 <html>
 <head runat="server">
   <title>Welcome to Sitecore</title>
+  <meta http-equiv="X-Frame-Options" content="SAMEORIGIN">
   <link rel="shortcut icon" href="/sitecore/images/favicon.ico" />
   <meta name="robots" content="noindex, nofollow" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge"> 

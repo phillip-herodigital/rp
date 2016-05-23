@@ -10,7 +10,7 @@
     }
   });
 
-  sitecore.Factories.createBaseComponent({
+  return sitecore.Factories.createBaseComponent({
     name: "ContactMap",
     base: "ControlBase",
     selector: ".sc-importMapTo",

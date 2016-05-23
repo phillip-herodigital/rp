@@ -4,6 +4,7 @@
 <%@ Import Namespace="Sitecore"%>
 <%@ Import Namespace="Sitecore.Configuration" %>
 <%@ Import Namespace="Sitecore.Web" %>
+<meta http-equiv="X-Frame-Options" content="SAMEORIGIN">
 <script language="c#" runat="server">
   override protected void OnInit([NotNull] EventArgs e) {
     Assert.ArgumentNotNull(e, "e");

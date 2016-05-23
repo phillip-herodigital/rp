@@ -407,7 +407,7 @@ ImageSourceFilter.registerClass('ImageSourceFilter', Telerik.Web.UI.Editor.Filte
 function scGetImageSource(text) {
   var sourceStart = text.indexOf("src=\"");
   var sourceEnd;
-  var source;
+  var source = '';
 
   if (sourceStart > -1) {
     sourceStart += "src=\"".length;
@@ -454,23 +454,9 @@ function scAddLanguageToImageSource(src, language) {
 }
 
 function scRemoveLanguageFromImageSource(src, language) {
-  var lang = src.indexOf("la=" + language);
+  var regex = new RegExp("la=" + language + "&?");
+  src = src.replace(regex, "").replace(/\?$/, "");
   
-  if (lang > -1) {
-    src = src.substr(0, lang-1) + src.substr(lang + ("la=" + language).length);
-  }
-
-   var qs = src.indexOf("?&");
-   if (qs > -1) {
-     src = src.substr(0, qs + 1) + src.substr(qs + 2);
-   }
-
-  qs = src.indexOf("?");
-  
-  if (qs == src.length - 1) {
-    src = src.substr(0, qs);
-  }
-
   return src;
 }
 

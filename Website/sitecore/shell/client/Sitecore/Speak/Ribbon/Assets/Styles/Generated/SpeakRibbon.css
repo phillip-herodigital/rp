@@ -317,6 +317,6 @@ div.container-narrow .sc-globalHeader {
   margin-left: 10px;
 }
 
-.sc-simpleCommand {
+.sc-simpleCommand, .sc-commandDependency {
   display: none;
 }

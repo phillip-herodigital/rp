@@ -2,16 +2,32 @@
   Sitecore.Commands.EnableEditing =
   {
     isEnabled: false,
+    button: null,
+
+    reEvaluate: function (context) {
+      if (!Sitecore.Commands.EnableEditing.button) {
+        return;
+      }
+
+      context.button = Sitecore.Commands.EnableEditing.button;
+      var result = Sitecore.Commands.EnableEditing.canExecute(context);
+      Sitecore.Commands.EnableEditing.button.set("isEnabled", result);
+    },
+
     canExecute: function (context) {
       if (!ExperienceEditor.isInMode("edit") || context.currentContext.isFallback) {
         return false;
       }
+
       var isChecked = context.button.get("isChecked") == "1";
-      ExperienceEditorProxy.changeCapability("edit", isChecked);
       context.currentContext.value = context.button.get("registryKey");
       var canEdit = context.app.canExecute("ExperienceEditor.EnableEditing.CanEdit", context.currentContext);
       this.isEnabled = isChecked && canEdit;
+      ExperienceEditorProxy.changeCapability("edit", this.isEnabled);
       Sitecore.Commands.ShowControls.reEvaluate();
+      if (!Sitecore.Commands.EnableEditing.button) {
+        Sitecore.Commands.EnableEditing.button = context.button;
+      }
 
       return canEdit;
     },

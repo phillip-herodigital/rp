@@ -89,9 +89,9 @@
               @foreach (var item in row)
               {
                 var icon = Images.GetThemedImageSource(item["Icon"], ImageDimension.id48x48);
-                <a href="@(item["OpenIframe"] == "1" ?  Html.Raw(WebUtil.AddQueryString(externalAppLink, "id", item.ID.ToString())) : Html.Raw(item["Link"]))" class="sc-launchpad-item" @(item["OpenNewTab"] == "1" ? "target=_blank" : "") title="@item["Text"]">
+                <a href="@(item["OpenIframe"] == "1" ?  Html.Raw(WebUtil.AddQueryString(externalAppLink, "id", item.ID.ToString())) : Html.Raw(Html.Encode(item["Link"])))" class="sc-launchpad-item" @(item["OpenNewTab"] == "1" ? "target=_blank" : "") title="@item["Text"]">
                   <span class="icon">
-                    <img src="@Html.Raw(icon)" width="48" height="48" alt="@Html.Raw(item["Text"])" />
+                    <img src="@icon" width="48" height="48" alt="@item["Text"]" />
                   </span>
                   <span class="sc-launchpad-text">
                     @item["Text"]

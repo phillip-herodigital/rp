@@ -21,22 +21,10 @@
       
       this.AppProgressIndicator.set("isBusy", true);
 
-      // PageTestUtil - initialization
-      this.pageTestUtil = new PageTestUtil(this);
-      this.pageTestUtil.initialize();
-
-      this.pageTestUtil.initPagesTab();
-      this.pageTestUtil.initReviewTab();
-
-      //this.SelectPageWindow.show();
-
-      
       var uri = _sc.Helpers.url.getQueryParameters(window.location.href);
 
       // Make sure the ID is not double encoded
-      if (uri.id.indexOf("%7b") >= 0) {
-        uri.id = decodeURI(uri.id);
-      }
+      uri.id = decodeURIComponent(uri.id);
 
       var databaseUri = new _sc.Definitions.Data.DatabaseUri("master");
       var db = new _sc.Definitions.Data.Database(databaseUri);
@@ -46,8 +34,16 @@
         self.selectTestPage(uri);
       });
       
-      // check if we have a previously started test saved in the parent
       var key = "saved" + uri.id;
+
+      // PageTestUtil - initialization
+      this.pageTestUtil = new PageTestUtil(this, key);
+      this.pageTestUtil.initialize();
+
+      this.pageTestUtil.initPagesTab();
+      this.pageTestUtil.initReviewTab();
+
+      // check if we have a previously started test saved in the parent
       if (window.top[key]) {
         this.loadTest(window.top[key]);
       }

@@ -21,7 +21,7 @@ define(["sitecore", "experienceAnalyticsChartBase"], function (Sitecore, experie
         initialize: function() {
             this._super();
 
-            this.model.setTimeResolution("-");
+            this.model.setPreferredTimeResolution("-");
         },
 
         afterRender: function () {

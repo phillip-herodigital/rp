@@ -162,6 +162,7 @@
     },
 
     listItemClick: function (e, itemId, canSelect, commandName) {
+      e.preventDefault();
       if (!canSelect) {
         var evt = e;
         if (!evt) {

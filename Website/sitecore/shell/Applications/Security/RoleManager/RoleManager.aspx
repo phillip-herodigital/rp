@@ -9,16 +9,31 @@
 
 <html>
 <head runat="server">
+  <meta http-equiv="X-Frame-Options" content="SAMEORIGIN">
   <meta http-equiv="X-UA-Compatible" content="IE=Edge"> 
   <title><sc:Literal runat="server" Text="Role Manager"></sc:Literal></title>
   <link rel="shortcut icon" href="/sitecore/images/favicon.ico" />
   <sc:Stylesheet Src="Content Manager.css" DeviceDependant="true" runat="server" />
   <sc:Stylesheet Src="Ribbon.css" DeviceDependant="true" runat="server" />
   <sc:Stylesheet Src="/sitecore/shell/Themes/Standard/default/Grid.css" DeviceDependant="true" runat="server" />
+  <sc:Script Src="/sitecore/shell/Controls/Lib/jQuery/jquery.noconflict.js" runat="server" />
   <sc:Script Src="/sitecore/shell/Applications/Content Manager/Content Editor.js" runat="server" />
   <style type="text/css">
     html body {
       overflow: hidden;
+    }
+    .scRibbonClose{
+          top: auto;
+          bottom: 0px;
+    }
+    .scRibbonOpen {
+          top: 0px;
+          bottom: auto;
+    }
+    #RibbonPanel {
+        position: relative;
+        border-bottom: 1px solid #e3e3e3;
+        background-color: #f7f7f7;
     }
   </style>
   <script type="text/javascript">
@@ -44,6 +59,13 @@
 
     window.onresize = OnResize;
 
+    setInterval(function () {
+      var searchBox = document.querySelector("[id$=searchBox]");
+      if (searchBox && searchBox.value.indexOf('\"') != -1) {
+        searchBox.value = searchBox.value.replace(/"/g, "");
+      };
+    }, 50);
+
   </script>
 
 </head>
@@ -53,7 +75,7 @@
     <sc:ContinuationManager runat="server" />
     <uc:GlobalHeader runat="server" />
     <div class="scFlexColumnContainer scHeight100">
-      <div>
+      <div id="RibbonPanel">
         <sc:Ribbon runat="server" ID="Ribbon" />
       </div>
       <div id="GridCell" class="scFlexContent">
@@ -83,7 +105,7 @@
             PagerImagesFolderUrl="/sitecore/shell/themes/standard/componentart/grid/pager/"
             ShowSearchBox="true"
             SearchTextCssClass="GridHeaderText scTextAlignRight "
-            SearchBoxCssClass="SearchBox"
+            SearchBoxCssClass="SearchBox scIgnoreModified"
             SliderHeight="20"
             SliderWidth="150"
             SliderGripWidth="24"

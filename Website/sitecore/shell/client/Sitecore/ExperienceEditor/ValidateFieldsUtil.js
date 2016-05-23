@@ -84,9 +84,7 @@
           if (chrome.data.errors) {
             for (var e = 0; e < chrome.data.errors.length; e++) {
               var error = chrome.data.errors[e];
-              ExperienceEditor.getContext().instance.NotificationBar.removeMessage(function (msg) {
-                return msg.text === error.Text;
-              });
+              ExperienceEditor.Common.removeNotificationMessage(error.Text);
             }
           }
 

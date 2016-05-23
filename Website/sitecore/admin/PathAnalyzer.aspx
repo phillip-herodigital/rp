@@ -138,7 +138,6 @@
 
     <script type="text/javascript" src="/sitecore/shell/controls/lib/jQuery/jquery-1.10.2.min.js"></script>
     <script type="text/javascript" src="/sitecore/shell/Controls/Lib/jQuery/jQueryUI/1.10.3/jquery-ui-1.10.3.min.js"></script>
-
     <script type="text/javascript">
         jQuery(document).ready(function () {
             jQuery('#tbDailyAgentEndDate').datepicker({
@@ -148,12 +147,5 @@
             });
         });
     </script>
-
-    <%--
-    The webframework.js code has an error trying to test for "jquery.browser.msie".
-    Be sure to load any custom scripts before this file.
-    --%>
-    <script type="text/javascript" src="/sitecore/shell/controls/webframework/webframework.js"></script>
-
 </body>
 </html>

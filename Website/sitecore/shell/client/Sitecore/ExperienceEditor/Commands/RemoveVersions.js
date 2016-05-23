@@ -10,7 +10,7 @@
         return context.app.canExecute("ExperienceEditor.RemoveVersions.CanRemoveVersion", context.currentContext);
       }
 
-      return !context.app.canExecute("ExperienceEditor.Versions.GetStatus", context.currentContext);
+      return true;
     },
     execute: function (context) {
       context.currentContext.value = context.currentContext.argument;

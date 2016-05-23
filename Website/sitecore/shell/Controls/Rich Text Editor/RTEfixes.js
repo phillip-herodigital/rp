@@ -292,13 +292,10 @@ function validateScripts(el) {
     });
   }
 }
-
 (function () {
   if (!window.Telerik) return;
-
   var $T = Telerik.Web.UI;
   var Editor = $T.Editor;
-
   Editor.UnlinkCommand = function (editor, options) {
     var settings = {
       tag: "a",
@@ -310,11 +307,9 @@ function validateScripts(el) {
     getState: function (wnd, editor, range) {
       var states = Editor.CommandStates;
       var result = Editor.UnlinkCommand.callBaseMethod(this, "getState", [wnd, editor, range]);
-
       return result === states.Off ? states.Disabled : states.Off;
     }
   };
-
   Editor.UnlinkCommand.registerClass("Telerik.Web.UI.Editor.UnlinkCommand", Editor.InlineCommand);
   Editor.UpdateCommandsArray.Unlink = new Editor.UnlinkCommand();
 })();

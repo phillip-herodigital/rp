@@ -260,7 +260,8 @@ function meme(a) {
                 function () {
                     var escapedText = scHtmlEscape(this.title);
                     var innerText = this.title.length > 16 ? (scHtmlEscape(this.title.substring(0, 16)) + "...") : escapedText;
-                    facetList += '<li class="filter"><a href="javascript:void(0);" onclick="javascript:RemoveFacet(\'' + this.value + '\');" title="' + escapedText + '" class="facetClick facetClickSelected">' + innerText + "</a></li>";
+                    var escapedValue = scHtmlEscape(this.value);
+                    facetList += '<li class="filter"><a href="javascript:void(0);" onclick="javascript:RemoveFacet(\'' + escapedValue + '\');" title="' + escapedText + '" class="facetClick facetClickSelected">' + innerText + "</a></li>";
                 });
             facetList += "</ul></div></div></div>";
             $j(".navAlpha").append(facetList);
@@ -274,11 +275,11 @@ function meme(a) {
 
                  $j.each(this,
                      function () {
-                         var cleanString = this.Template;
-                         cleanString = cleanString.replace("\\", "~");
+                         var cleanString = scHtmlEscape(this.Template.replace("\\", "~"));
                          var escapedTitle = scHtmlEscape(this.LocalizedName);
                          var innerText = (this.LocalizedName.length > 32 ? (scHtmlEscape(this.LocalizedName.substring(0, 32)) + "...") : escapedTitle);
-                         b += '<li class="filter"><a href="javascript:void(0);" title="' + escapedTitle + '" class="facetClick" onclick="javascript:AppendFacet(\'' + this.ID + "','" + cleanString + "','" + this.Custom + "','" + escapedTitle + "');\"><span>" + innerText + "</span> <span>" + this.Value + "</span>" + "</a></li>";
+                         var escapedValue = scHtmlEscape(this.Value);
+                         b += '<li class="filter"><a href="javascript:void(0);" title="' + escapedTitle + '" class="facetClick" onclick="javascript:AppendFacet(\'' + this.ID + "','" + cleanString + "','" + this.Custom + "','" + escapedTitle + "');\"><span>" + innerText + "</span> <span>" + escapedValue + "</span>" + "</a></li>";
                      });
 
                  b += "</ul></div></div></div>";

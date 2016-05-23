@@ -3,6 +3,7 @@
 <!DOCTYPE html>
 <html>
 <head runat="server">
+  <meta http-equiv="X-Frame-Options" content="SAMEORIGIN">
   <title>Sitecore</title>
   <sc:Stylesheet Src="Default.css" DeviceDependant="true" runat="server" />
   <sc:Stylesheet Src="Dialogs.css" DeviceDependant="true" runat="server" />
@@ -22,11 +23,7 @@
     }
 
     function onCancel() {
-      var answer = confirm(closeWarningText);
-      if (answer) {
-        window.top.dialogClose();
-      }
-
+      window.top.dialogClose();
       window.event.cancelBubble = true;
       return false;
     }

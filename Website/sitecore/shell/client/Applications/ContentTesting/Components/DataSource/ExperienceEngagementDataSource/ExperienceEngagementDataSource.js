@@ -31,7 +31,6 @@
       if (this.get("isBusy"))
         return;
 
-      this.set("items", []);
       this.fetch();
     },
 

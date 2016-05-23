@@ -108,6 +108,7 @@
 <html>
 <head runat="server">
   <title>Serialize and revert databases</title>
+  <meta http-equiv="X-Frame-Options" content="SAMEORIGIN">
   <link rel="shortcut icon" href="/sitecore/images/favicon.ico" />
   <link rel="Stylesheet" type="text/css" href="/sitecore/shell/themes/standard/default/WebFramework.css" />
   

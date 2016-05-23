@@ -1,19 +1,15 @@
-﻿define(["sitecore"], function (Sitecore) {
+﻿define(["sitecore", "/-/speak/v1/ExperienceEditor/ExperienceEditor.js"], function (Sitecore, ExperienceEditor) {
   return {
     priority: 1,
     execute: function (context) {
-      $.each(context.commands, function () {
-        if (this.command === undefined) {
-          var controlStateResult = this.initiator.viewModel.$el.attr("data-sc-controlstateresult");
-          if (controlStateResult && controlStateResult != "") {
-            this.initiator.set({ isEnabled: controlStateResult == "True" });
-          }
-          return;
+      ExperienceEditor.CommandsUtil.runCommandsCollectionCanExecute(context.commands, function (stripId) {
+        var cookieValue = ExperienceEditor.Common.getCookieValue("sitecore_webedit_activestrip");
+        if (cookieValue === "") {
+          return false;
         }
 
-        context.button = this.initiator;
-        this.initiator.set({ isEnabled: this.command.canExecute(context, this) });
-      });
+        return stripId && stripId + "_ribbon_tab" !== cookieValue;
+      }, false);
     }
   };
 });

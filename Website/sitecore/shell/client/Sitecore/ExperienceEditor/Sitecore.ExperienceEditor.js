@@ -425,9 +425,13 @@ Sitecore.ExperienceEditor.Web = {
   },
 
   postServerRequest: function (requestType, commandContext, handler, async) {
+    var token = $('input[name="__RequestVerificationToken"]').val();
     jQuery.ajax({
       url: "/-/speak/request/v1/expeditor/" + requestType,
-      data: "data=" + JSON.stringify(commandContext),
+      data: {
+        __RequestVerificationToken: token,
+        data: decodeURIComponent(decodeURIComponent(JSON.stringify(commandContext)))
+      },
       success: handler,
       type: "POST",
       async: async != undefined ? async : false

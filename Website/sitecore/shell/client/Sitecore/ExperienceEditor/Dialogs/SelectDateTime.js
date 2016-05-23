@@ -18,12 +18,11 @@
       }
 
       this.SelectedDate.set('date', scDate);
-      this.SelectedTime.set('time', scDate);
+      this.SelectedTime.set('time', scDate.substring(scDate.indexOf('T')));
     },
     setOkButtonClick: function () {
       this.on("button:ok", function () {
-        var selectedDate = this.SelectedDate.get("date");
-        this.closeDialog(selectedDate.replace("T000000", this.SelectedTime.get("time")));
+        this.closeDialog(this.SelectedDate.get("date"));
       }, this);
     },
     setCancelButtonClick: function () {

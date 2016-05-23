@@ -56,11 +56,11 @@ Sitecore.LayoutDefinition.moveToPosition = function (uid, placeholderKey, positi
     return;
   }
 
-  if (position == 0) {
-    if (originalPosition == -1) {
-      r["@ph"] = placeholderKey;
-    }
+  Sitecore.LayoutDefinition.handleRelatedRenderings(placeholderKey, r, device.r);
 
+  r["@ph"] = placeholderKey;
+
+  if (position == 0) {
     device.r.splice(0, 0, r);
     this.setLayoutDefinition(layoutDefinition);
     return;
@@ -74,12 +74,14 @@ Sitecore.LayoutDefinition.moveToPosition = function (uid, placeholderKey, positi
   var placeholderWiseCount = 0;
   for (var totalCount = 0; totalCount < device.r.length; totalCount++) {
     var rendering = device.r[totalCount];
-    var renderingPlaceholder = rendering["@ph"];
-    if (renderingPlaceholder == '') {
-      renderingPlaceholder = placeholderKey;
+    if (rendering["@ph"] == '') {
+      //if @ph value is empty(e.g. when placehoder was set on rendereng but not in ther layout definition)
+      //then get placeholder key from DOM
+      var identifier = "#r_" + rendering["@uid"].replace(/[{}-]/g, '');
+      rendering["@ph"] = $sc(identifier).parent().children().first().attr("key");
     }
 
-    if (Sitecore.PageModes.Utility.areEqualPlaceholders(renderingPlaceholder, placeholderKey)) {
+    if (Sitecore.PageModes.Utility.areEqualPlaceholders(rendering["@ph"], placeholderKey)) {
       placeholderWiseCount++;
     }
 
@@ -91,6 +93,70 @@ Sitecore.LayoutDefinition.moveToPosition = function (uid, placeholderKey, positi
   }
 
   this.setLayoutDefinition(layoutDefinition);
+};
+
+Sitecore.LayoutDefinition.handleRelatedRenderings = function (newPlaceholder, renderingToMove, renderings) {
+  if (!renderingToMove) {
+    return;
+  }
+
+  if (!renderings || renderings.length == 0) {
+    return;
+  }
+
+  if (newPlaceholder == "") {
+    return;
+  }
+
+  var chrome = $sc.first(Sitecore.PageModes.ChromeManager.chromes(), function () {
+    if (!this.type || typeof this.type.uniqueId != 'function') {
+      return false;
+    }
+
+    return this.type.uniqueId() === $sc.toShortId(renderingToMove["@uid"]);
+  });
+
+  if (!chrome) {
+    return;
+  }
+
+  var relatedRenderings = Sitecore.LayoutDefinition.getRelatedRenderingsUID(chrome);
+
+  for (var i = 0; i < renderings.length; i++) {
+    var r = renderings[i];
+    if (relatedRenderings.indexOf($sc.toShortId(r["@uid"])) == -1) {
+      continue;
+    }
+
+    var renderingPlaceholder = Sitecore.LayoutDefinition.checkPlaceholderPath(r["@ph"]);
+    var movedRenderingPlaceholder = Sitecore.LayoutDefinition.checkPlaceholderPath(renderingToMove["@ph"]);
+
+    if (renderingPlaceholder.match("^" + movedRenderingPlaceholder)) {
+      r["@ph"] = r["@ph"].replace(movedRenderingPlaceholder, Sitecore.LayoutDefinition.checkPlaceholderPath(newPlaceholder))
+    }
+  }
+};
+
+Sitecore.LayoutDefinition.checkPlaceholderPath = function (placeholder) {
+  if (placeholder.indexOf('/') != 0) {
+    return '/' + placeholder;
+  }
+
+  return placeholder;
+};
+
+Sitecore.LayoutDefinition.getRelatedRenderingsUID = function (chrome) {
+  var renderingsUid = [];
+  var childChromes = chrome.getChildChromes(function () {
+    return this.type && typeof this.type.uniqueId == 'function';
+  }, true);
+
+  $sc.each(childChromes, function () {
+    renderingsUid.push(this.type.uniqueId().toString());
+    renderingsUid = renderingsUid.concat(Sitecore.LayoutDefinition.getRelatedRenderingsUID(this));
+  });
+
+  return renderingsUid;
 };
 
 Sitecore.LayoutDefinition.getRenderingConditions = function(renderingUid) {
@@ -240,7 +306,7 @@ Sitecore.LayoutDefinition._getRenderingPositionInPlaceholder = function(device, 
       devicePlaceholder = defaultPlaceholderKey;
     }
 
-    if (Sitecore.PageModes.Utility.areEqualPlaceholders(devicePlaceholder, placeholderKey)) {
+    if (device.r[i]["@ph"] == "" || Sitecore.PageModes.Utility.areEqualPlaceholders(devicePlaceholder, placeholderKey)) {
       if (this.getShortID(device.r[i]["@uid"]) == uid) {
         return counter;
       }

@@ -1,4 +1,4 @@
-﻿define(["sitecore"], function (_sc) {
+﻿define(["sitecore", "/-/speak/v1/FXM/WebUtil.js"], function (_sc, webUtil) {
   _sc.Factories.createBaseComponent({
 
     name: "EditElementReplacerControl",
@@ -55,6 +55,9 @@
         _.each(subEventListeners[key], function (entry) {
           if (!!entry) {
             entry.on(key, self.setChanges, self);
+            if (key == "change:text") {
+              webUtil.triggerEventOnFieldChange(self, entry, key);
+            }
           }
         });
       });

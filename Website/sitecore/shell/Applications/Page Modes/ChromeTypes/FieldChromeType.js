@@ -80,8 +80,6 @@
       else {
         this.fontSize = parseInt(this.chrome.element.css("font-size"));
       }
-    } else {
-      this.disabledField();
     }
 
     if (Sitecore.PageModes.Personalization) {
@@ -99,16 +97,30 @@
     }
 
     this.chrome.fieldIdentifier = this.id();
+
+    // attach new line breaks handler.
+    if (this.fieldType == "rich text") {
+      if (!this.preventLineBreak()) {
+        Sitecore.PageModes.InlineEditingUtil.processNewLineBreaks(this.chrome.element[0]);
+      }
+    }
   },
 
   // attaches content editable elements specific event handlers
   attachEventHandlers: function () {
     this.chrome.element.bind("keyup", this.onKeyUpHandler);
-    this.chrome.element.bind("keydown", this.onKeyDownHandler);
     this.chrome.element.bind("paste", this.onCutPasteHandler);
     this.chrome.element.bind("cut", this.onCutPasteHandler);
     this.chrome.element.bind("click", this.onClickHandler);
     this.chrome.element.bind("blur", this.onBlurHandler);
+
+    if (this.fieldType != "rich text" || this.preventLineBreak()) {
+      this.chrome.element.bind("keydown", this.onKeyDownHandler);
+    }
+  },
+
+  preventLineBreak: function () {
+    return this.parameters["prevent-line-break"] === "true";
   },
 
   contentEditable: function () {
@@ -119,11 +131,14 @@
   // detaches content editable elements specific event handlers
   detachEventHandlers: function () {
     this.chrome.element.unbind("keyup", this.onKeyUpHandler);
-    this.chrome.element.unbind("keydown", this.onKeyDownHandler);
     this.chrome.element.unbind("paste", this.onCutPasteHandler);
     this.chrome.element.unbind("cut", this.onCutPasteHandler);
     this.chrome.element.unbind("click", this.onClickHandler);
     this.chrome.element.unbind("blur", this.onBlurHandler);
+
+    if (this.fieldType != "rich text" || this.preventLineBreak()) {
+      this.chrome.element.unbind("keydown", this.onKeyDownHandler);
+    }
   },
 
   dataNode: function (domElement) {
@@ -177,45 +192,6 @@
       return this.chrome.element;
     }
 
-    return this.disabledField();
-  },
-
-  disabledField: function () {
-    var parametersAttr = this.chrome.element.attr("sc_parameters") || this.chrome.element.parent().children().attr("sc_parameters");
-    if (!parametersAttr || parametersAttr.indexOf("disabledField=true") <= -1) {
-      return this.chrome.element;
-    }
-
-    var width = this.chrome.element.width();
-    var height = this.chrome.element.height();
-
-    if (!this.chrome.element.is('img')) {
-      this.chrome.element.text(Sitecore.PageModes.Texts.ThisFieldIsAVersionedFieldTheContentMightVaryInOtherVersionsOfTheItem);
-    } else {
-      this.chrome.element.outerHtml("");
-      var span = document.createElement("span");
-      span.innerHTML = "Sitecore.PageModes.Texts.ThisFieldIsAVersionedFieldTheContentMightVaryInOtherVersionsOfTheItem";
-      this.chrome.element.append(span);
-    }
-
-    width = Math.max(width, this.chrome.element.width());
-    height = Math.max(height, this.chrome.element.height());
-
-    this.chrome.element.css(
-      {
-        lineHeight: height + "px",
-        textAlign: "center",
-        fontFamily: "Arial",
-        fontSize: "12px",
-        color: "#131313",
-        width: width,
-        height: height,
-        borderColor: "#289BC8",
-        borderStyle: "dashed",
-        borderWidth: "2px"
-      }
-    );
-
     var children = this.chrome.element.children();
     if (children.length == 1) {
       return $sc(children[0]);
@@ -231,6 +207,10 @@
       var clone = this.chrome.element.clone();
       clone.find(".scExtraBreak").remove();
       html = clone.html();
+    }
+
+    if (this.watermarkHTML == null) {
+      this.watermarkHTML = this.chrome.element.attr("scDefaultText");
     }
 
     this.fieldValue.val(html);
@@ -565,6 +545,17 @@
 
       if (this.parameters["linebreak"] == "br") {
         e.stop();
+        if (this.fieldType == "multi-line text") {
+          var linebreakTimesParamterName = "linebreak-times";
+          var linebreakTimesParamter = this.parameters[linebreakTimesParamterName];
+          var linebreakTimes = !linebreakTimesParamter || linebreakTimesParamter > 2 ? 0 : linebreakTimesParamter;
+          linebreakTimes++;
+          this.parameters[linebreakTimesParamterName] = linebreakTimes;
+          if (linebreakTimes > 1) {
+            return;
+          }
+        }
+
         this._insertLineBreak();
       }
     }
@@ -572,10 +563,16 @@
 
   onKeyUp: function (event) {
     if ($sc.inArray(event.keyCode, this._ignoreKeyCodes) > -1) return;
+    if (this.chrome.element.attr("scfieldtype") == "rich text"
+      && event.currentTarget.innerText != null && event.currentTarget.innerText.trim() == "") {
+      event.currentTarget.innerHTML = "";
+    }
     if (this.fieldValue.val() != event.currentTarget.innerHTML) {
       this.setModified();
       //at least one modification has been done, so we don't need to check for modifications any more
-      this.chrome.element.unbind("keyup", this.onKeyUpHanler);
+      if (this.chrome.element.attr("scfieldtype") != "rich text") {
+        this.chrome.element.unbind("keyup", this.onKeyUpHanler);
+      }
     }
   },
 
@@ -667,17 +664,18 @@
 
   _insertLineBreak: function () {
     var range, tmpRange, lineBreak, extraLineBreak, selection;
-    // MSIE
-    if (document.selection && document.selection.createRange) {
-      this.insertHtmlFragment("<br/>");
-      // Moving caret to new position
-      range = document.selection.createRange();
-      range.select();
-      return;
-    }
 
     // Unsupported browser
     if (!document.createRange || !window.getSelection) {
+      // MSIE
+      if (document.selection && document.selection.createRange) {
+        this.insertHtmlFragment("<br/>");
+        // Moving caret to new position
+        range = document.selection.createRange();
+        range.select();
+        return;
+      }
+
       return;
     }
 
@@ -735,7 +733,7 @@
 
   _tryUpdateFromWatermark: function () {
     if (this.watermarkHTML &&
-        (this.chrome.element.html() == "" || this.fieldType == "text" && $sc.removeTags(this.chrome.element.html()) == "")) {
+        (this.chrome.element.html() == "" || (this.fieldType == "text" || this.fieldType == "rich text") && $sc.removeTags(this.chrome.element.html()) == "")) {
       this.chrome.element.update(this.watermarkHTML);
       this.chrome.element.attr("scWatermark", "true");
     }

@@ -191,9 +191,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Libraries\MicrosoftAzure\Microsoft.WindowsAzure.ServiceRuntime.dll</HintPath>
     </Reference>
-    <Reference Include="MongoDB.Bson, Version=1.8.3.9, Culture=neutral, PublicKeyToken=f686731cfb9cc103, processorArchitecture=MSIL">
+    <Reference Include="MongoDB.Bson, Version=1.10.0.62, Culture=neutral, PublicKeyToken=f686731cfb9cc103, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\mongocsharpdriver.1.8.3\lib\net35\MongoDB.Bson.dll</HintPath>
+      <HintPath>bin\MongoDB.Bson.dll</HintPath>
     </Reference>
     <Reference Include="MongoDB.Driver, Version=1.8.3.9, Culture=neutral, PublicKeyToken=f686731cfb9cc103, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -232,430 +232,681 @@
     <Reference Include="RestSharp">
       <HintPath>..\packages\RestSharp.104.4.0\lib\net4\RestSharp.dll</HintPath>
     </Reference>
-    <Reference Include="Sitecore.Analytics, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Sitecore.Abstractions, Version=8.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Libraries\Sitecore\Sitecore.Analytics.dll</HintPath>
+      <HintPath>bin\Sitecore.Abstractions.dll</HintPath>
     </Reference>
-    <Reference Include="Sitecore.Analytics.Automation.Aggregation">
-      <HintPath>..\Libraries\Sitecore\Sitecore.Analytics.Automation.Aggregation.dll</HintPath>
-    </Reference>
-    <Reference Include="Sitecore.Analytics.Automation.MongoDB">
-      <HintPath>..\Libraries\Sitecore\Sitecore.Analytics.Automation.MongoDB.dll</HintPath>
-    </Reference>
-    <Reference Include="Sitecore.Analytics.DataAccess, Version=8.0.5138.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Sitecore.Analytics, Version=8.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Libraries\Sitecore\Sitecore.Analytics.DataAccess.dll</HintPath>
+      <HintPath>bin\Sitecore.Analytics.dll</HintPath>
     </Reference>
-    <Reference Include="Sitecore.Analytics.Model, Version=8.0.5138.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Sitecore.Analytics.Aggregation, Version=8.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Libraries\Sitecore\Sitecore.Analytics.Model.dll</HintPath>
+      <HintPath>bin\Sitecore.Analytics.Aggregation.dll</HintPath>
     </Reference>
-    <Reference Include="Sitecore.Analytics.MongoDB">
-      <HintPath>..\Libraries\Sitecore\Sitecore.Analytics.MongoDB.dll</HintPath>
-    </Reference>
-    <Reference Include="Sitecore.Analytics.OmniChannel">
-      <HintPath>..\Libraries\Sitecore\Sitecore.Analytics.OmniChannel.dll</HintPath>
-    </Reference>
-    <Reference Include="Sitecore.Analytics.Outcome">
-      <HintPath>..\Libraries\Sitecore\Sitecore.Analytics.Outcome.dll</HintPath>
-    </Reference>
-    <Reference Include="Sitecore.Analytics.RobotDetection">
-      <HintPath>..\Libraries\Sitecore\Sitecore.Analytics.RobotDetection.dll</HintPath>
-    </Reference>
-    <Reference Include="Sitecore.Analytics.Sql">
-      <HintPath>..\Libraries\Sitecore\Sitecore.Analytics.Sql.dll</HintPath>
-    </Reference>
-    <Reference Include="Sitecore.Analytics.TestFramework">
-      <HintPath>..\Libraries\Sitecore\Sitecore.Analytics.TestFramework.dll</HintPath>
-    </Reference>
-    <Reference Include="Sitecore.Apps.Loader, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Sitecore.Analytics.Automation, Version=8.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Libraries\Sitecore\Sitecore.Apps.Loader.dll</HintPath>
+      <HintPath>bin\Sitecore.Analytics.Automation.dll</HintPath>
     </Reference>
-    <Reference Include="Sitecore.Apps.TagInjection">
-      <HintPath>..\Libraries\Sitecore\Sitecore.Apps.TagInjection.dll</HintPath>
+    <Reference Include="Sitecore.Analytics.Automation.Aggregation, Version=8.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Sitecore.Analytics.Automation.Aggregation.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.Analytics.Automation.MongoDB, Version=8.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Sitecore.Analytics.Automation.MongoDB.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.Analytics.Core, Version=8.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Sitecore.Analytics.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.Analytics.DataAccess, Version=8.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Sitecore.Analytics.DataAccess.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.Analytics.Model, Version=8.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Sitecore.Analytics.Model.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.Analytics.MongoDB, Version=8.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Sitecore.Analytics.MongoDB.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.Analytics.OmniChannel, Version=8.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Sitecore.Analytics.OmniChannel.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.Analytics.Outcome, Version=8.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Sitecore.Analytics.Outcome.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.Analytics.Processing, Version=8.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Sitecore.Analytics.Processing.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.Analytics.RobotDetection, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Sitecore.Analytics.RobotDetection.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.Analytics.Sql, Version=8.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Sitecore.Analytics.Sql.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.Analytics.TestFramework, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Sitecore.Analytics.TestFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.Apps.Loader, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Sitecore.Apps.Loader.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.Apps.TagInjection, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Sitecore.Apps.TagInjection.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.Automation.MarketingAutomation, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Sitecore.Automation.MarketingAutomation.dll</HintPath>
     </Reference>
     <Reference Include="Sitecore.Buckets, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Libraries\Sitecore\Sitecore.Buckets.dll</HintPath>
+      <HintPath>bin\Sitecore.Buckets.dll</HintPath>
     </Reference>
     <Reference Include="Sitecore.Buckets.Client, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Libraries\Sitecore\Sitecore.Buckets.Client.dll</HintPath>
+      <HintPath>bin\Sitecore.Buckets.Client.dll</HintPath>
     </Reference>
-    <Reference Include="Sitecore.Cintel">
-      <HintPath>..\Libraries\Sitecore\Sitecore.Cintel.dll</HintPath>
-    </Reference>
-    <Reference Include="Sitecore.Cintel.Client">
-      <HintPath>..\Libraries\Sitecore\Sitecore.Cintel.Client.dll</HintPath>
-    </Reference>
-    <Reference Include="Sitecore.Client, Version=7.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Sitecore.CES, Version=1.3.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Libraries\Sitecore\Sitecore.Client.dll</HintPath>
+      <HintPath>bin\Sitecore.CES.dll</HintPath>
     </Reference>
-    <Reference Include="Sitecore.Client.Extensions.Compiler">
-      <HintPath>..\Libraries\Sitecore\Sitecore.Client.Extensions.Compiler.dll</HintPath>
+    <Reference Include="Sitecore.CES.DeviceDetection, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Sitecore.CES.DeviceDetection.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.CES.DeviceDetection.Rules, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Sitecore.CES.DeviceDetection.Rules.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.CES.GeoIp, Version=1.3.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Sitecore.CES.GeoIp.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.CES.GeoIp.LegacyLocation, Version=1.3.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Sitecore.CES.GeoIp.LegacyLocation.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.Cintel, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Sitecore.Cintel.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.Cintel.Client, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Sitecore.Cintel.Client.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.Client, Version=8.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Sitecore.Client.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.Client.Extensions, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Sitecore.Client.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.Client.Extensions.Compiler, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Sitecore.Client.Extensions.Compiler.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.Client.LicenseOptions, Version=1.3.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Sitecore.Client.LicenseOptions.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.Cloud.ContentSearch, Version=8.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Sitecore.Cloud.ContentSearch.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.Cloud.Nexus, Version=2.2.0.43, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Sitecore.Cloud.Nexus.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.Cloud.RestClient, Version=6.2.0.23, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Sitecore.Cloud.RestClient.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.Cloud.ServiceModel, Version=4.0.0.15, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Sitecore.Cloud.ServiceModel.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.Cloud.Xdb, Version=8.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Sitecore.Cloud.Xdb.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.Commerce, Version=8.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Sitecore.Commerce.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.Commerce.ExperienceProfile, Version=8.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Sitecore.Commerce.ExperienceProfile.dll</HintPath>
     </Reference>
     <Reference Include="Sitecore.ContentSearch, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Libraries\Sitecore\Sitecore.ContentSearch.dll</HintPath>
+      <HintPath>bin\Sitecore.ContentSearch.dll</HintPath>
     </Reference>
     <Reference Include="Sitecore.ContentSearch.Analytics, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Libraries\Sitecore\Sitecore.ContentSearch.Analytics.dll</HintPath>
+      <HintPath>bin\Sitecore.ContentSearch.Analytics.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.ContentSearch.Analytics.Client, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Sitecore.ContentSearch.Analytics.Client.dll</HintPath>
     </Reference>
     <Reference Include="Sitecore.ContentSearch.Client, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Libraries\Sitecore\Sitecore.ContentSearch.Client.dll</HintPath>
+      <HintPath>bin\Sitecore.ContentSearch.Client.dll</HintPath>
     </Reference>
     <Reference Include="Sitecore.ContentSearch.Linq, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Libraries\Sitecore\Sitecore.ContentSearch.Linq.dll</HintPath>
+      <HintPath>bin\Sitecore.ContentSearch.Linq.dll</HintPath>
     </Reference>
     <Reference Include="Sitecore.ContentSearch.Linq.Lucene, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Libraries\Sitecore\Sitecore.ContentSearch.Linq.Lucene.dll</HintPath>
+      <HintPath>bin\Sitecore.ContentSearch.Linq.Lucene.dll</HintPath>
     </Reference>
     <Reference Include="Sitecore.ContentSearch.LuceneProvider, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Libraries\Sitecore\Sitecore.ContentSearch.LuceneProvider.dll</HintPath>
+      <HintPath>bin\Sitecore.ContentSearch.LuceneProvider.dll</HintPath>
     </Reference>
-    <Reference Include="Sitecore.ContentTesting">
-      <HintPath>..\Libraries\Sitecore\Sitecore.ContentTesting.dll</HintPath>
-    </Reference>
-    <Reference Include="Sitecore.ContentTesting.Intelligence, Version=1.0.0.22120, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Sitecore.ContentTesting, Version=8.1.2.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Libraries\Sitecore\Sitecore.ContentTesting.Intelligence.dll</HintPath>
+      <HintPath>bin\Sitecore.ContentTesting.dll</HintPath>
     </Reference>
-    <Reference Include="Sitecore.ContentTesting.Mvc">
-      <HintPath>..\Libraries\Sitecore\Sitecore.ContentTesting.Mvc.dll</HintPath>
-    </Reference>
-    <Reference Include="Sitecore.ControlPanel">
-      <HintPath>..\Libraries\Sitecore\Sitecore.ControlPanel.dll</HintPath>
-    </Reference>
-    <Reference Include="Sitecore.EmailCampaign, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Sitecore.ContentTesting.Intelligence, Version=8.1.2.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Libraries\Sitecore\Sitecore.EmailCampaign.dll</HintPath>
+      <HintPath>bin\Sitecore.ContentTesting.Intelligence.dll</HintPath>
     </Reference>
-    <Reference Include="Sitecore.EmailCampaign.Analytics.Model">
-      <HintPath>..\Libraries\Sitecore\Sitecore.EmailCampaign.Analytics.Model.dll</HintPath>
+    <Reference Include="Sitecore.ContentTesting.Model, Version=8.1.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Sitecore.ContentTesting.Model.dll</HintPath>
     </Reference>
-    <Reference Include="Sitecore.EmailCampaign.Application">
-      <HintPath>..\Libraries\Sitecore\Sitecore.EmailCampaign.Application.dll</HintPath>
+    <Reference Include="Sitecore.ContentTesting.Mvc, Version=8.1.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Sitecore.ContentTesting.Mvc.dll</HintPath>
     </Reference>
-    <Reference Include="Sitecore.EmailCampaign.Client">
-      <HintPath>..\Libraries\Sitecore\Sitecore.EmailCampaign.Client.dll</HintPath>
+    <Reference Include="Sitecore.ContentTesting.Upgrade, Version=8.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Sitecore.ContentTesting.Upgrade.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.ControlPanel, Version=1.3.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Sitecore.ControlPanel.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.EmailCampaign, Version=3.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Sitecore.EmailCampaign.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.EmailCampaign.Analytics.Model, Version=3.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Sitecore.EmailCampaign.Analytics.Model.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.EmailCampaign.Application, Version=3.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Sitecore.EmailCampaign.Application.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.EmailCampaign.Client, Version=3.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Sitecore.EmailCampaign.Client.dll</HintPath>
     </Reference>
     <Reference Include="Sitecore.EmailCampaign.Controls, Version=3.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Libraries\Sitecore\Sitecore.EmailCampaign.Controls.dll</HintPath>
+      <HintPath>bin\Sitecore.EmailCampaign.Controls.dll</HintPath>
     </Reference>
-    <Reference Include="Sitecore.EmailCampaign.Server">
-      <HintPath>..\Libraries\Sitecore\Sitecore.EmailCampaign.Server.dll</HintPath>
-    </Reference>
-    <Reference Include="Sitecore.EmailCampaign.Statistics">
-      <HintPath>..\Libraries\Sitecore\Sitecore.EmailCampaign.Statistics.dll</HintPath>
-    </Reference>
-    <Reference Include="Sitecore.ExperienceAnalytics">
-      <HintPath>..\Libraries\Sitecore\Sitecore.ExperienceAnalytics.dll</HintPath>
-    </Reference>
-    <Reference Include="Sitecore.ExperienceAnalytics.Client">
-      <HintPath>..\Libraries\Sitecore\Sitecore.ExperienceAnalytics.Client.dll</HintPath>
-    </Reference>
-    <Reference Include="Sitecore.ExperienceExplorer.Business">
-      <HintPath>..\Libraries\Sitecore\Sitecore.ExperienceExplorer.Business.dll</HintPath>
-    </Reference>
-    <Reference Include="Sitecore.ExperienceExplorer.Web">
-      <HintPath>..\Libraries\Sitecore\Sitecore.ExperienceExplorer.Web.dll</HintPath>
-    </Reference>
-    <Reference Include="Sitecore.Forms.Core">
-      <HintPath>..\Libraries\Sitecore\Sitecore.Forms.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="Sitecore.Forms.Custom">
-      <HintPath>..\Libraries\Sitecore\Sitecore.Forms.Custom.dll</HintPath>
-    </Reference>
-    <Reference Include="Sitecore.FXM">
-      <HintPath>..\Libraries\Sitecore\Sitecore.FXM.dll</HintPath>
-    </Reference>
-    <Reference Include="Sitecore.FXM.Client">
-      <HintPath>..\Libraries\Sitecore\Sitecore.FXM.Client.dll</HintPath>
-    </Reference>
-    <Reference Include="Sitecore.FXM.Service">
-      <HintPath>..\Libraries\Sitecore\Sitecore.FXM.Service.dll</HintPath>
-    </Reference>
-    <Reference Include="Sitecore.FXM.Speak">
-      <HintPath>..\Libraries\Sitecore\Sitecore.FXM.Speak.dll</HintPath>
-    </Reference>
-    <Reference Include="Sitecore.ItemWebApi">
-      <HintPath>..\Libraries\Sitecore\Sitecore.ItemWebApi.dll</HintPath>
-    </Reference>
-    <Reference Include="Sitecore.Kernel, Version=7.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Sitecore.EmailCampaign.Server, Version=3.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Libraries\Sitecore\Sitecore.Kernel.dll</HintPath>
+      <HintPath>bin\Sitecore.EmailCampaign.Server.dll</HintPath>
     </Reference>
-    <Reference Include="Sitecore.LaunchPad">
-      <HintPath>..\Libraries\Sitecore\Sitecore.LaunchPad.dll</HintPath>
+    <Reference Include="Sitecore.EmailCampaign.Statistics, Version=3.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Sitecore.EmailCampaign.Statistics.dll</HintPath>
     </Reference>
-    <Reference Include="Sitecore.ListManagement">
-      <HintPath>..\Libraries\Sitecore\Sitecore.ListManagement.dll</HintPath>
+    <Reference Include="Sitecore.ExperienceAnalytics, Version=1.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Sitecore.ExperienceAnalytics.dll</HintPath>
     </Reference>
-    <Reference Include="Sitecore.ListManagement.Analytics">
-      <HintPath>..\Libraries\Sitecore\Sitecore.ListManagement.Analytics.dll</HintPath>
+    <Reference Include="Sitecore.ExperienceAnalytics.Client, Version=1.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Sitecore.ExperienceAnalytics.Client.dll</HintPath>
     </Reference>
-    <Reference Include="Sitecore.ListManagement.Client">
-      <HintPath>..\Libraries\Sitecore\Sitecore.ListManagement.Client.dll</HintPath>
+    <Reference Include="Sitecore.ExperienceAnalytics.ReAggregation, Version=1.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Sitecore.ExperienceAnalytics.ReAggregation.dll</HintPath>
     </Reference>
-    <Reference Include="Sitecore.ListManagement.ContentSearch">
-      <HintPath>..\Libraries\Sitecore\Sitecore.ListManagement.ContentSearch.dll</HintPath>
+    <Reference Include="Sitecore.ExperienceContentManagement.Administration, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Sitecore.ExperienceContentManagement.Administration.dll</HintPath>
     </Reference>
-    <Reference Include="Sitecore.ListManagement.Services">
-      <HintPath>..\Libraries\Sitecore\Sitecore.ListManagement.Services.dll</HintPath>
+    <Reference Include="Sitecore.ExperienceEditor, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Sitecore.ExperienceEditor.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.ExperienceEditor.Speak, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Sitecore.ExperienceEditor.Speak.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.ExperienceEditor.Speak.Ribbon, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Sitecore.ExperienceEditor.Speak.Ribbon.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.ExperienceExplorer.Business, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Sitecore.ExperienceExplorer.Business.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.ExperienceExplorer.Web, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Sitecore.ExperienceExplorer.Web.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.Forms.Core, Version=2.4.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Sitecore.Forms.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.Forms.Custom, Version=2.4.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Sitecore.Forms.Custom.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.FXM, Version=2.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Sitecore.FXM.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.FXM.Client, Version=2.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Sitecore.FXM.Client.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.FXM.Service, Version=2.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Sitecore.FXM.Service.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.FXM.Speak, Version=2.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Sitecore.FXM.Speak.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.ItemWebApi, Version=1.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Sitecore.ItemWebApi.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.Kernel, Version=8.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Sitecore.Kernel.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.LaunchPad, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Sitecore.LaunchPad.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.ListManagement, Version=1.1.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Sitecore.ListManagement.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.ListManagement.Analytics, Version=1.1.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Sitecore.ListManagement.Analytics.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.ListManagement.Client, Version=1.1.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Sitecore.ListManagement.Client.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.ListManagement.ContentSearch, Version=1.1.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Sitecore.ListManagement.ContentSearch.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.ListManagement.Services, Version=1.1.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Sitecore.ListManagement.Services.dll</HintPath>
     </Reference>
     <Reference Include="Sitecore.Logging, Version=1.2.0.30715, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Libraries\Sitecore\Sitecore.Logging.dll</HintPath>
+      <HintPath>bin\Sitecore.Logging.dll</HintPath>
     </Reference>
-    <Reference Include="Sitecore.Marketing.Client">
-      <HintPath>..\Libraries\Sitecore\Sitecore.Marketing.Client.dll</HintPath>
+    <Reference Include="Sitecore.Logging.Client, Version=2.8.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Sitecore.Logging.Client.dll</HintPath>
     </Reference>
-    <Reference Include="Sitecore.Marketing.Definitions.MarketingAssets.Repositories">
-      <HintPath>..\Libraries\Sitecore\Sitecore.Marketing.Definitions.MarketingAssets.Repositories.dll</HintPath>
+    <Reference Include="Sitecore.Marketing, Version=8.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Sitecore.Marketing.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.Marketing.Campaigns.Client, Version=1.1.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Sitecore.Marketing.Campaigns.Client.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.Marketing.Campaigns.Services, Version=1.1.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Sitecore.Marketing.Campaigns.Services.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.Marketing.Client, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Sitecore.Marketing.Client.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.Marketing.Core, Version=8.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Sitecore.Marketing.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.Marketing.Definitions.MarketingAssets.Repositories, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Sitecore.Marketing.Definitions.MarketingAssets.Repositories.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.Marketing.Search, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Sitecore.Marketing.Search.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.Marketing.Taxonomy, Version=8.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Sitecore.Marketing.Taxonomy.dll</HintPath>
     </Reference>
     <Reference Include="Sitecore.Mvc, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Libraries\Sitecore\Sitecore.Mvc.dll</HintPath>
+      <HintPath>bin\Sitecore.Mvc.dll</HintPath>
     </Reference>
-    <Reference Include="Sitecore.Mvc.Analytics, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Sitecore.Mvc.Analytics, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Libraries\Sitecore\Sitecore.Mvc.Analytics.dll</HintPath>
+      <HintPath>bin\Sitecore.Mvc.Analytics.dll</HintPath>
     </Reference>
     <Reference Include="Sitecore.Mvc.DeviceSimulator, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Libraries\Sitecore\Sitecore.Mvc.DeviceSimulator.dll</HintPath>
+      <HintPath>bin\Sitecore.Mvc.DeviceSimulator.dll</HintPath>
     </Reference>
-    <Reference Include="Sitecore.Mvc.ExperienceEditor, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Sitecore.Mvc.ExperienceEditor, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Libraries\Sitecore\Sitecore.Mvc.ExperienceEditor.dll</HintPath>
+      <HintPath>bin\Sitecore.Mvc.ExperienceEditor.dll</HintPath>
     </Reference>
     <Reference Include="sitecore.nexus, Version=1.0.0.4404, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Libraries\Sitecore\sitecore.nexus.dll</HintPath>
+      <HintPath>bin\sitecore.nexus.dll</HintPath>
     </Reference>
     <Reference Include="Sitecore.NVelocity, Version=0.4.2.8580, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Libraries\Sitecore\Sitecore.NVelocity.dll</HintPath>
+      <HintPath>bin\Sitecore.NVelocity.dll</HintPath>
     </Reference>
-    <Reference Include="Sitecore.Oracle, Version=7.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Sitecore.Oracle, Version=8.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Libraries\Sitecore\Sitecore.Oracle.dll</HintPath>
+      <HintPath>bin\Sitecore.Oracle.dll</HintPath>
     </Reference>
-    <Reference Include="Sitecore.PathAnalyzer">
-      <HintPath>..\Libraries\Sitecore\Sitecore.PathAnalyzer.dll</HintPath>
-    </Reference>
-    <Reference Include="Sitecore.PathAnalyzer.Client">
-      <HintPath>..\Libraries\Sitecore\Sitecore.PathAnalyzer.Client.dll</HintPath>
-    </Reference>
-    <Reference Include="Sitecore.PathAnalyzer.Services">
-      <HintPath>..\Libraries\Sitecore\Sitecore.PathAnalyzer.Services.dll</HintPath>
-    </Reference>
-    <Reference Include="Sitecore.Publishing.WebDeploy, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Sitecore.PathAnalyzer, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Libraries\Sitecore\Sitecore.Publishing.WebDeploy.dll</HintPath>
+      <HintPath>bin\Sitecore.PathAnalyzer.dll</HintPath>
     </Reference>
-    <Reference Include="Sitecore.Rocks.Server">
-      <HintPath>..\Libraries\Sitecore\Sitecore.Rocks.Server.dll</HintPath>
+    <Reference Include="Sitecore.PathAnalyzer.Client, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Sitecore.PathAnalyzer.Client.dll</HintPath>
     </Reference>
-    <Reference Include="Sitecore.Rocks.Server.Core">
-      <HintPath>..\Libraries\Sitecore\Sitecore.Rocks.Server.Core.dll</HintPath>
+    <Reference Include="Sitecore.PathAnalyzer.Services, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Sitecore.PathAnalyzer.Services.dll</HintPath>
     </Reference>
-    <Reference Include="Sitecore.Rocks.Server.Lucene.3030">
-      <HintPath>..\Libraries\Sitecore\Sitecore.Rocks.Server.Lucene.3030.dll</HintPath>
+    <Reference Include="Sitecore.Publishing.WebDeploy, Version=8.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Sitecore.Publishing.WebDeploy.dll</HintPath>
     </Reference>
-    <Reference Include="Sitecore.Rocks.Server.Speak">
-      <HintPath>..\Libraries\Sitecore\Sitecore.Rocks.Server.Speak.dll</HintPath>
+    <Reference Include="Sitecore.Rocks.Server, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Sitecore.Rocks.Server.dll</HintPath>
     </Reference>
-    <Reference Include="Sitecore.Rocks.Server.Validation">
-      <HintPath>..\Libraries\Sitecore\Sitecore.Rocks.Server.Validation.dll</HintPath>
+    <Reference Include="Sitecore.Rocks.Server.Core, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Sitecore.Rocks.Server.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.Rocks.Server.Lucene.3030, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Sitecore.Rocks.Server.Lucene.3030.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.Rocks.Server.Speak, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Sitecore.Rocks.Server.Speak.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.Rocks.Server.Validation, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Sitecore.Rocks.Server.Validation.dll</HintPath>
     </Reference>
     <Reference Include="Sitecore.Security.AntiCsrf, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Libraries\Sitecore\Sitecore.Security.AntiCsrf.dll</HintPath>
+      <HintPath>bin\Sitecore.Security.AntiCsrf.dll</HintPath>
     </Reference>
     <Reference Include="Sitecore.SegmentBuilder, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Libraries\Sitecore\Sitecore.SegmentBuilder.dll</HintPath>
+      <HintPath>bin\Sitecore.SegmentBuilder.dll</HintPath>
     </Reference>
-    <Reference Include="Sitecore.SequenceAnalyzer">
-      <HintPath>..\Libraries\Sitecore\Sitecore.SequenceAnalyzer.dll</HintPath>
+    <Reference Include="Sitecore.SequenceAnalyzer, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Sitecore.SequenceAnalyzer.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.Services.Client, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Sitecore.Services.Client.dll</HintPath>
     </Reference>
     <Reference Include="Sitecore.Services.Core, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Libraries\Sitecore\Sitecore.Services.Core.dll</HintPath>
+      <HintPath>bin\Sitecore.Services.Core.dll</HintPath>
     </Reference>
     <Reference Include="Sitecore.Services.Infrastructure, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Libraries\Sitecore\Sitecore.Services.Infrastructure.dll</HintPath>
+      <HintPath>bin\Sitecore.Services.Infrastructure.dll</HintPath>
     </Reference>
-    <Reference Include="Sitecore.SessionProvider.MongoDB">
-      <HintPath>..\Libraries\Sitecore\Sitecore.SessionProvider.MongoDB.dll</HintPath>
+    <Reference Include="Sitecore.Services.Infrastructure.Sitecore, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Sitecore.Services.Infrastructure.Sitecore.dll</HintPath>
     </Reference>
-    <Reference Include="Sitecore.SessionProvider.Sql">
-      <HintPath>..\Libraries\Sitecore\Sitecore.SessionProvider.Sql.dll</HintPath>
+    <Reference Include="Sitecore.SessionProvider, Version=8.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Sitecore.SessionProvider.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.SessionProvider.Memory, Version=8.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Sitecore.SessionProvider.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.SessionProvider.MongoDB, Version=8.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Sitecore.SessionProvider.MongoDB.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.SessionProvider.Sql, Version=8.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Sitecore.SessionProvider.Sql.dll</HintPath>
     </Reference>
     <Reference Include="Sitecore.Shell.MarketingAutomation, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Libraries\Sitecore\Sitecore.Shell.MarketingAutomation.dll</HintPath>
+      <HintPath>bin\Sitecore.Shell.MarketingAutomation.dll</HintPath>
     </Reference>
-    <Reference Include="Sitecore.Social, Version=4.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Sitecore.Social, Version=8.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Libraries\Sitecore\Sitecore.Social.dll</HintPath>
+      <HintPath>bin\Sitecore.Social.dll</HintPath>
     </Reference>
-    <Reference Include="Sitecore.Social.Api">
-      <HintPath>..\Libraries\Sitecore\Sitecore.Social.Api.dll</HintPath>
-    </Reference>
-    <Reference Include="Sitecore.Social.Client">
-      <HintPath>..\Libraries\Sitecore\Sitecore.Social.Client.dll</HintPath>
-    </Reference>
-    <Reference Include="Sitecore.Social.Client.Api">
-      <HintPath>..\Libraries\Sitecore\Sitecore.Social.Client.Api.dll</HintPath>
-    </Reference>
-    <Reference Include="Sitecore.Social.Client.Common, Version=4.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Sitecore.Social.Api, Version=8.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Libraries\Sitecore\Sitecore.Social.Client.Common.dll</HintPath>
+      <HintPath>bin\Sitecore.Social.Api.dll</HintPath>
     </Reference>
-    <Reference Include="Sitecore.Social.Client.Domain, Version=4.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Sitecore.Social.Client, Version=8.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Libraries\Sitecore\Sitecore.Social.Client.Domain.dll</HintPath>
+      <HintPath>bin\Sitecore.Social.Client.dll</HintPath>
     </Reference>
-    <Reference Include="Sitecore.Social.Client.Mvc">
-      <HintPath>..\Libraries\Sitecore\Sitecore.Social.Client.Mvc.dll</HintPath>
-    </Reference>
-    <Reference Include="Sitecore.Social.Client.Speak">
-      <HintPath>..\Libraries\Sitecore\Sitecore.Social.Client.Speak.dll</HintPath>
-    </Reference>
-    <Reference Include="Sitecore.Social.Configuration, Version=4.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Sitecore.Social.Client.Api, Version=8.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Libraries\Sitecore\Sitecore.Social.Configuration.dll</HintPath>
+      <HintPath>bin\Sitecore.Social.Client.Api.dll</HintPath>
     </Reference>
-    <Reference Include="Sitecore.Social.Domain, Version=4.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Sitecore.Social.Client.Common, Version=8.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Libraries\Sitecore\Sitecore.Social.Domain.dll</HintPath>
+      <HintPath>bin\Sitecore.Social.Client.Common.dll</HintPath>
     </Reference>
-    <Reference Include="Sitecore.Social.ExperienceProfile.Client">
-      <HintPath>..\Libraries\Sitecore\Sitecore.Social.ExperienceProfile.Client.dll</HintPath>
-    </Reference>
-    <Reference Include="Sitecore.Social.Facebook">
-      <HintPath>..\Libraries\Sitecore\Sitecore.Social.Facebook.dll</HintPath>
-    </Reference>
-    <Reference Include="Sitecore.Social.Facebook.Api">
-      <HintPath>..\Libraries\Sitecore\Sitecore.Social.Facebook.Api.dll</HintPath>
-    </Reference>
-    <Reference Include="Sitecore.Social.Facebook.Client">
-      <HintPath>..\Libraries\Sitecore\Sitecore.Social.Facebook.Client.dll</HintPath>
-    </Reference>
-    <Reference Include="Sitecore.Social.Facebook.Client.Mvc">
-      <HintPath>..\Libraries\Sitecore\Sitecore.Social.Facebook.Client.Mvc.dll</HintPath>
-    </Reference>
-    <Reference Include="Sitecore.Social.GooglePlus">
-      <HintPath>..\Libraries\Sitecore\Sitecore.Social.GooglePlus.dll</HintPath>
-    </Reference>
-    <Reference Include="Sitecore.Social.GooglePlus.Client">
-      <HintPath>..\Libraries\Sitecore\Sitecore.Social.GooglePlus.Client.dll</HintPath>
-    </Reference>
-    <Reference Include="Sitecore.Social.GooglePlus.Client.Mvc">
-      <HintPath>..\Libraries\Sitecore\Sitecore.Social.GooglePlus.Client.Mvc.dll</HintPath>
-    </Reference>
-    <Reference Include="Sitecore.Social.Infrastructure, Version=4.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Sitecore.Social.Client.Domain, Version=8.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Libraries\Sitecore\Sitecore.Social.Infrastructure.dll</HintPath>
+      <HintPath>bin\Sitecore.Social.Client.Domain.dll</HintPath>
     </Reference>
-    <Reference Include="Sitecore.Social.Infrastructure.Logging">
-      <HintPath>..\Libraries\Sitecore\Sitecore.Social.Infrastructure.Logging.dll</HintPath>
-    </Reference>
-    <Reference Include="Sitecore.Social.Installation">
-      <HintPath>..\Libraries\Sitecore\Sitecore.Social.Installation.dll</HintPath>
-    </Reference>
-    <Reference Include="Sitecore.Social.Klout.Api">
-      <HintPath>..\Libraries\Sitecore\Sitecore.Social.Klout.Api.dll</HintPath>
-    </Reference>
-    <Reference Include="Sitecore.Social.Klout.Client">
-      <HintPath>..\Libraries\Sitecore\Sitecore.Social.Klout.Client.dll</HintPath>
-    </Reference>
-    <Reference Include="Sitecore.Social.LinkedIn">
-      <HintPath>..\Libraries\Sitecore\Sitecore.Social.LinkedIn.dll</HintPath>
-    </Reference>
-    <Reference Include="Sitecore.Social.LinkedIn.Client">
-      <HintPath>..\Libraries\Sitecore\Sitecore.Social.LinkedIn.Client.dll</HintPath>
-    </Reference>
-    <Reference Include="Sitecore.Social.LinkedIn.Client.Mvc">
-      <HintPath>..\Libraries\Sitecore\Sitecore.Social.LinkedIn.Client.Mvc.dll</HintPath>
-    </Reference>
-    <Reference Include="Sitecore.Social.NetworkProviders, Version=4.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Sitecore.Social.Client.Mvc, Version=8.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Libraries\Sitecore\Sitecore.Social.NetworkProviders.dll</HintPath>
+      <HintPath>bin\Sitecore.Social.Client.Mvc.dll</HintPath>
     </Reference>
-    <Reference Include="Sitecore.Social.SitecoreAccess, Version=4.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Sitecore.Social.Client.Speak, Version=8.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Libraries\Sitecore\Sitecore.Social.SitecoreAccess.dll</HintPath>
+      <HintPath>bin\Sitecore.Social.Client.Speak.dll</HintPath>
     </Reference>
-    <Reference Include="Sitecore.Social.SocialMarketer">
-      <HintPath>..\Libraries\Sitecore\Sitecore.Social.SocialMarketer.dll</HintPath>
+    <Reference Include="Sitecore.Social.Configuration, Version=8.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Sitecore.Social.Configuration.dll</HintPath>
     </Reference>
-    <Reference Include="Sitecore.Social.SocialMarketer.Api">
-      <HintPath>..\Libraries\Sitecore\Sitecore.Social.SocialMarketer.Api.dll</HintPath>
+    <Reference Include="Sitecore.Social.Domain, Version=8.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Sitecore.Social.Domain.dll</HintPath>
     </Reference>
-    <Reference Include="Sitecore.Social.SocialMarketer.Client">
-      <HintPath>..\Libraries\Sitecore\Sitecore.Social.SocialMarketer.Client.dll</HintPath>
+    <Reference Include="Sitecore.Social.ExperienceProfile.Client, Version=8.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Sitecore.Social.ExperienceProfile.Client.dll</HintPath>
     </Reference>
-    <Reference Include="Sitecore.Social.Twitter">
-      <HintPath>..\Libraries\Sitecore\Sitecore.Social.Twitter.dll</HintPath>
+    <Reference Include="Sitecore.Social.Facebook, Version=8.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Sitecore.Social.Facebook.dll</HintPath>
     </Reference>
-    <Reference Include="Sitecore.Social.Twitter.Api">
-      <HintPath>..\Libraries\Sitecore\Sitecore.Social.Twitter.Api.dll</HintPath>
+    <Reference Include="Sitecore.Social.Facebook.Api, Version=8.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Sitecore.Social.Facebook.Api.dll</HintPath>
     </Reference>
-    <Reference Include="Sitecore.Social.Twitter.Client">
-      <HintPath>..\Libraries\Sitecore\Sitecore.Social.Twitter.Client.dll</HintPath>
+    <Reference Include="Sitecore.Social.Facebook.Client, Version=8.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Sitecore.Social.Facebook.Client.dll</HintPath>
     </Reference>
-    <Reference Include="Sitecore.Social.Twitter.Client.Mvc">
-      <HintPath>..\Libraries\Sitecore\Sitecore.Social.Twitter.Client.Mvc.dll</HintPath>
+    <Reference Include="Sitecore.Social.Facebook.Client.Mvc, Version=8.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Sitecore.Social.Facebook.Client.Mvc.dll</HintPath>
     </Reference>
-    <Reference Include="Sitecore.Speak">
-      <HintPath>..\Libraries\Sitecore\Sitecore.Speak.dll</HintPath>
+    <Reference Include="Sitecore.Social.GooglePlus, Version=8.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Sitecore.Social.GooglePlus.dll</HintPath>
     </Reference>
-    <Reference Include="Sitecore.Speak.Applications">
-      <HintPath>..\Libraries\Sitecore\Sitecore.Speak.Applications.dll</HintPath>
+    <Reference Include="Sitecore.Social.GooglePlus.Client, Version=8.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Sitecore.Social.GooglePlus.Client.dll</HintPath>
     </Reference>
-    <Reference Include="Sitecore.Speak.Charting">
-      <HintPath>..\Libraries\Sitecore\Sitecore.Speak.Charting.dll</HintPath>
+    <Reference Include="Sitecore.Social.GooglePlus.Client.Mvc, Version=8.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Sitecore.Social.GooglePlus.Client.Mvc.dll</HintPath>
     </Reference>
-    <Reference Include="Sitecore.Speak.Client">
-      <HintPath>..\Libraries\Sitecore\Sitecore.Speak.Client.dll</HintPath>
+    <Reference Include="Sitecore.Social.Infrastructure, Version=8.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Sitecore.Social.Infrastructure.dll</HintPath>
     </Reference>
-    <Reference Include="Sitecore.Speak.Dialogs">
-      <HintPath>..\Libraries\Sitecore\Sitecore.Speak.Dialogs.dll</HintPath>
+    <Reference Include="Sitecore.Social.Infrastructure.Logging, Version=8.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Sitecore.Social.Infrastructure.Logging.dll</HintPath>
     </Reference>
-    <Reference Include="Sitecore.Speak.ItemWebApi">
-      <HintPath>..\Libraries\Sitecore\Sitecore.Speak.ItemWebApi.dll</HintPath>
+    <Reference Include="Sitecore.Social.Installation, Version=8.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Sitecore.Social.Installation.dll</HintPath>
     </Reference>
-    <Reference Include="Sitecore.Speak.Mvc">
-      <HintPath>..\Libraries\Sitecore\Sitecore.Speak.Mvc.dll</HintPath>
+    <Reference Include="Sitecore.Social.Klout.Api, Version=8.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Sitecore.Social.Klout.Api.dll</HintPath>
     </Reference>
-    <Reference Include="Sitecore.Speak.Web">
-      <HintPath>..\Libraries\Sitecore\Sitecore.Speak.Web.dll</HintPath>
+    <Reference Include="Sitecore.Social.Klout.Client, Version=8.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Sitecore.Social.Klout.Client.dll</HintPath>
     </Reference>
-    <Reference Include="Sitecore.Speak.WebSite">
-      <HintPath>..\Libraries\Sitecore\Sitecore.Speak.WebSite.dll</HintPath>
+    <Reference Include="Sitecore.Social.LinkedIn, Version=8.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Sitecore.Social.LinkedIn.dll</HintPath>
     </Reference>
-    <Reference Include="Sitecore.Support.414299">
-      <HintPath>..\Libraries\Sitecore\Sitecore.Support.414299.dll</HintPath>
+    <Reference Include="Sitecore.Social.LinkedIn.Client, Version=8.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Sitecore.Social.LinkedIn.Client.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.Social.LinkedIn.Client.Mvc, Version=8.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Sitecore.Social.LinkedIn.Client.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.Social.NetworkProviders, Version=8.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Sitecore.Social.NetworkProviders.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.Social.SitecoreAccess, Version=8.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Sitecore.Social.SitecoreAccess.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.Social.SocialMarketer, Version=8.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Sitecore.Social.SocialMarketer.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.Social.SocialMarketer.Api, Version=8.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Sitecore.Social.SocialMarketer.Api.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.Social.SocialMarketer.Client, Version=8.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Sitecore.Social.SocialMarketer.Client.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.Social.Twitter, Version=8.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Sitecore.Social.Twitter.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.Social.Twitter.Api, Version=8.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Sitecore.Social.Twitter.Api.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.Social.Twitter.Client, Version=8.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Sitecore.Social.Twitter.Client.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.Social.Twitter.Client.Mvc, Version=8.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Sitecore.Social.Twitter.Client.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.Social.Update, Version=8.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Sitecore.Social.Update.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.Speak.Applications, Version=1.3.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Sitecore.Speak.Applications.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.Speak.Charting, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Sitecore.Speak.Charting.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.Speak.Client, Version=2.0.812.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Sitecore.Speak.Client.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.Speak.Components, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Sitecore.Speak.Components.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.Speak.Components.Guidance, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Sitecore.Speak.Components.Guidance.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.Speak.Components.Web, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Sitecore.Speak.Components.Web.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.Speak.ItemWebApi, Version=2.0.812.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Sitecore.Speak.ItemWebApi.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.Speak.Mvc, Version=2.0.812.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Sitecore.Speak.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.Speak.Web, Version=2.0.812.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Sitecore.Speak.Web.dll</HintPath>
     </Reference>
     <Reference Include="Sitecore.Update, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Libraries\Sitecore\Sitecore.Update.dll</HintPath>
+      <HintPath>bin\Sitecore.Update.dll</HintPath>
     </Reference>
-    <Reference Include="Sitecore.Zip, Version=7.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Sitecore.Web, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Libraries\Sitecore\Sitecore.Zip.dll</HintPath>
+      <HintPath>bin\Sitecore.Web.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.Xdb.Configuration, Version=8.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Sitecore.Xdb.Configuration.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.Zip, Version=8.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Sitecore.Zip.dll</HintPath>
     </Reference>
     <Reference Include="StackExchange.Redis, Version=1.0.297.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -695,9 +946,9 @@
     <Reference Include="System.Net.Http.Extensions">
       <HintPath>..\packages\Microsoft.Net.Http.2.2.13\lib\net45\System.Net.Http.Extensions.dll</HintPath>
     </Reference>
-    <Reference Include="System.Net.Http.Formatting, Version=5.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+    <Reference Include="System.Net.Http.Formatting, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.1.2\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+      <HintPath>bin\System.Net.Http.Formatting.dll</HintPath>
     </Reference>
     <Reference Include="System.Net.Http.Primitives">
       <HintPath>..\packages\Microsoft.Net.Http.2.2.13\lib\net45\System.Net.Http.Primitives.dll</HintPath>
@@ -717,21 +968,21 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.0\lib\net45\System.Web.Helpers.dll</HintPath>
     </Reference>
-    <Reference Include="System.Web.Http, Version=5.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+    <Reference Include="System.Web.Http, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.1.2\lib\net45\System.Web.Http.dll</HintPath>
+      <HintPath>bin\System.Web.Http.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.Http.Cors, Version=5.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Cors.5.1.0\lib\net45\System.Web.Http.Cors.dll</HintPath>
     </Reference>
-    <Reference Include="System.Web.Http.WebHost, Version=5.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+    <Reference Include="System.Web.Http.WebHost, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.5.1.2\lib\net45\System.Web.Http.WebHost.dll</HintPath>
+      <HintPath>bin\cs\System.Web.Http.WebHost.dll</HintPath>
     </Reference>
-    <Reference Include="System.Web.Mvc, Version=5.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+    <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.0\lib\net45\System.Web.Mvc.dll</HintPath>
+      <HintPath>bin\cs\System.Web.Mvc.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.Optimization, Version=1.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -775,8 +1026,9 @@
     <Reference Include="WebFormsMvp.Unity">
       <HintPath>..\Libraries\Sitecore\WebFormsMvp.Unity.dll</HintPath>
     </Reference>
-    <Reference Include="WebGrease">
-      <HintPath>..\packages\WebGrease.1.5.2\lib\WebGrease.dll</HintPath>
+    <Reference Include="WebGrease, Version=1.6.5135.21930, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\WebGrease.dll</HintPath>
     </Reference>
     <Reference Include="XBlogGlobal">
       <HintPath>..\Libraries\Sitecore\XBlogGlobal.dll</HintPath>

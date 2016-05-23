@@ -4,8 +4,9 @@ define(["sitecore",
         "/-/speak/v1/FXM/ManageFunctionsUtil.js",
         "/-/speak/v1/FXM/DomainMatcherService.js",
         "/-/speak/v1/FXM/BeaconService.js",
+        "/-/speak/v1/FXM/WebUtil.js",
         "/-/speak/v1/FXM/Commands.js"],
-        function (_sc, _validator, _paramUtils, _viewManager, _domainMatcherService, _beaconService) {
+        function (_sc, _validator, _paramUtils, _viewManager, _domainMatcherService, _beaconService, webUtil) {
           return _sc.Definitions.App.extend({
             initialize: function () {
 
@@ -221,8 +222,8 @@ define(["sitecore",
               this.DomainTabUrlTextBox.on("change:text", this.readyForSaving, this);
 
               var that = this;
-              jQuery(this.DomainTabNameTextBox.viewModel.$el[0]).on("keypress", this, function () { that.DomainTabNameTextBox.trigger("change:text"); });
-              jQuery(this.DomainTabUrlTextBox.viewModel.$el[0]).on("keypress", this, function () { that.DomainTabUrlTextBox.trigger("change:text"); });
+              webUtil.triggerEventOnFieldChange(that, this.DomainTabNameTextBox, "change:text");
+              webUtil.triggerEventOnFieldChange(that, this.DomainTabUrlTextBox, "change:text");
 
               // bind view manager
               this.viewManager.bindAllEvent("saved", this.saveRuleItemSuccess, this);

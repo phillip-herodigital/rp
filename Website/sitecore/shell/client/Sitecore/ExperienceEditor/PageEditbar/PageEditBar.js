@@ -26,6 +26,8 @@
       this.model.set("siteName", this.$el.data("sc-sitename"));
       this.model.set("isReadOnly", this.$el.data("sc-isreadonly"));
       this.model.set("analytisEnabled", this.$el.data("sc-analyticsenabled"));
+      this.model.set("requireLockBeforeEdit", this.$el.data("sc-requirelockbeforeedit"));
+      this.model.set("virtualFolder", this.$el.data("sc-virtualfolder"));
       this.generateTabs();
 
       ExperienceEditor.Common.addOneTimeEvent(function (that) {

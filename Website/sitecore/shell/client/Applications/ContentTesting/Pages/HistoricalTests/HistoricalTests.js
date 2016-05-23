@@ -7,7 +7,7 @@
 define(["sitecore", "executedTestsListMod"], function (_sc, executedTestsListMod) {
   var HistoricalTests = _sc.Definitions.App.extend({
     initialized: function () {
-      this.historicalTestsList = new executedTestsListMod.ExecutedTestsList({ host: this });
+      this.historicalTestsList = new executedTestsListMod.ExecutedTestsList({ host: this, enableClickEvent: false });
 
       // no need to bind these as ItemFromQueryString won't change after load
       this.TestsDataSource.set({

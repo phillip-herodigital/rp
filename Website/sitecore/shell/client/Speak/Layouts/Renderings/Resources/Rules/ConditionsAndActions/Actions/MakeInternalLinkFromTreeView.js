@@ -57,7 +57,7 @@
       displayText: htmlEncode(targetDisplayTextID.get("text")),
       alternateText: htmlEncode(targetAltTextID.get("text")),
       itemId: targetControlID.get("selectedItemId"),
-      queryString: encodeURIComponent(targetQueryID.get("text")),
+      queryString: htmlEncode(targetQueryID.get("text")),
       target: targetWindowValue,
       styleClass: targetStyleID.get("text"),
       path: path

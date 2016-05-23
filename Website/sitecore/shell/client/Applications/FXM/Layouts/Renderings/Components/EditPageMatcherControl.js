@@ -1,4 +1,4 @@
-﻿define(["sitecore", "/-/speak/v1/assets/q.js"], function (_sc, Q) {
+﻿define(["sitecore", "/-/speak/v1/assets/q.js", "/-/speak/v1/FXM/WebUtil.js", "/-/speak/v1/FXM/purl.js"], function (_sc, Q, webUtil) {
   _sc.Factories.createBaseComponent({
 
     name: "EditPageMatcherControl",
@@ -8,6 +8,7 @@
     attributes: [
         { name: "tabControl", defaultValue: "", value: "$el.data:sc-tabControl" },
         { name: "item", defaultValue: {}, value: "$el.data:sc-item" },
+        { name: "isInExperienceEditorRendering", defaultValue: false, value: "$el.data:sc-isinexperienceeditorrendering" },
         { name: "nameControlId", defaultValue: "", value: "$el.data:sc-Namecontrolid" },
         { name: "urlControlId", defaultValue: "", value: "$el.data:sc-Urlcontrolid" },
         { name: "campaignsPickerControlId", defaultValue: "", value: "$el.data:sc-campaignspickercontrolid" },
@@ -123,9 +124,11 @@
         this.setMatcherListField('ProfileIds', data);
       }, this);
 
+      var textBoxes = [this.nameControl(), this.urlControl()];
+
       // listen to change events on sub controls
       var subEventListeners = {
-        'change:text': [this.nameControl(), this.urlControl()],
+        'change:text': textBoxes,
         'change:isChecked': this.allRadioControls()
       }
 
@@ -136,6 +139,10 @@
             entry.on(key, self.setChanges, self);
           }
         });
+      });
+
+      _.each(textBoxes, function (control) {
+        webUtil.triggerEventOnFieldChange(self, control, "change:text");
       });
     },
 
@@ -177,6 +184,10 @@
       if (this.currentMatcher.MatchRuleType === "3") {
         this.currentMatcher.RuleFinalValue = this.currentMatcher.RuleXmlValue;
       } else {
+        if (this.urlControl().get("text") === "") {
+          this.urlControl().set("text", this.model.get("isInExperienceEditorRendering") ? webUtil.resolveExternalSitePath() : "/");
+        }
+
         this.currentMatcher.RuleFinalValue = this.urlControl().get("text");
       }
 
@@ -236,12 +247,23 @@
         },
         complete: $.proxy(function (data) {
           if (data) {
+            var originalValue = self.removeNewLinesAndWhitespaces(self.model.get("item").RuleFinalValue || "");
+            var newValue = self.removeNewLinesAndWhitespaces(data);
+
             self.model.get("item").RuleXmlValue = data;
+
+            if (originalValue != newValue) {
+              self.setChanges();
+            }
           }
         }, self)
       };
 
       _sc.Pipelines.OpenRulesEditor.execute(context);
+    },
+
+    removeNewLinesAndWhitespaces: function(value) {
+      return value.replace(/(\r\n|\n|\r)/gm, "").replace(/(>\s+<)/gm, "><");
     },
 
     populateAnalyticsItemPicker: function (control, idList) {
@@ -298,7 +320,6 @@
         if (this.currentMatcher.MatchRuleType.toString() === customRadioControl.get("value")) {
           customRadioControl.set("isChecked", true);
           urlControl.set("text", "");
-          urlControl.set("isEnabled", "false");
         }
       }
 

@@ -6,6 +6,7 @@
 <!DOCTYPE html>
 <html style="overflow: hidden; width: 100%; height: 100%">
 <head runat="server">
+  <meta http-equiv="X-Frame-Options" content="SAMEORIGIN">
   <title>Sitecore</title>
   <link href="/sitecore/shell/Themes/Standard/Default/Content Manager.css" rel="stylesheet" type="text/css" />
   <link href="/sitecore/shell/Themes/Standard/Default/Dialogs.css" rel="stylesheet" type="text/css" />
@@ -28,11 +29,11 @@
     <asp:Placeholder runat="server" ID="ScriptConstants" />
 
     var scRichText = new Sitecore.Controls.RichEditor(scClientID);
-    var currentKey = null;  
-    
+    var currentKey = null;
+
       var $j = jQuery.noConflict();
- 
-      $j(document).ready(function() {      
+
+    $j(document).ready(function() {
         $j(".reMode_design").click(function(){
           RemoveInlineScripts();
         });
@@ -90,17 +91,18 @@
 
     function scSendRequest(evt, command)
     {
+        RemoveInlineScripts();
+        
       var editor = scRichText.getEditor();
       if (editor.get_mode() == 2){//If in HTML edit mode
         editor.set_mode(1); //Set mode to Design
       }
 
-        RemoveInlineScripts();
       $("EditorValue").value = editor.get_html(true);
-        
-        RemoveInlineScripts();
+
+      RemoveInlineScripts();
       scForm.browser.clearEvent(evt);
-        
+
       scForm.postRequest("", "", "", command);
 
       return false;
@@ -110,31 +112,8 @@
     }
 
     function OnClientModeChange(editor, args) {
-      scFitEditor();
     }
 
-    function scFitEditor() {
-      var designIframe = document.getElementById('Editor_contentIframe');
-      var designMode = designIframe.style.height != '0px'; 
-      if (designMode) {
-        designIframe.style.height = "0";
-      }
-
-      var htmlIframe = document.querySelector('#Editor_contentIframe + iframe');
-      htmlIframe && (htmlIframe.style.height = "0");
-      setTimeout(function () {
-        var clientHeight = document.getElementById('EditorCenter').clientHeight  + 'px';
-
-        if (designMode) {
-          designIframe.style.height = clientHeight;
-        }
-
-        htmlIframe && (htmlIframe.style.height = clientHeight);
-
-      }, 0);
-    }
-
-    Event.observe(window, "resize", scFitEditor);
   </script>
 </head>
 
@@ -145,7 +124,7 @@
     <telerik:RadScriptManager ID="ScriptManager1" runat="server" />
 
     <input type="hidden" id="EditorValue" />
- 
+
     <div class="scStretch scFlexColumnContainer">
 
       <div class="scFlexContent">
@@ -173,6 +152,7 @@
                 MediaManager-UploadPaths="/media library"
                 MediaManager-DeletePaths="/media library"
                 MediaManager-ViewPaths="/media library"
+                DocumentManager-ViewPaths="/media library"
                 TemplateManager-UploadPaths="/media library"
                 TemplateManager-DeletePaths="/media library"
                 TemplateManager-ViewPaths="/media library"

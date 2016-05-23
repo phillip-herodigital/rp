@@ -47,7 +47,7 @@
       duplicatesRemovedNotification = "duplicate contacts have been removed from this list.",
       duplicateContactsWereNotRemoved = "The duplicate contacts were not removed because an error occurred. Please contact your System Administrator.",
       saveListNotification = "The list has been saved.",
-      entireDatabaseKey = "Entire database",
+      entireDatabaseKey = "All contacts (Entire database)",
       listWasNotRemoved = "The list was not removed.",
       listSourceIsCurrentlyInUse = "List source is currently in use and cannot be added to or amended at this time. Please try again later.",
       listIdKey = "listId",

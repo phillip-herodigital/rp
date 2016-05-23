@@ -35,6 +35,13 @@
         Items.InitialRender();
         scForm.autoIncreaseModalDialogHeight();
         }
+
+        setInterval(function () {
+        var searchBox = document.querySelector("[id$=searchBox]");
+        if (searchBox &amp;&amp; searchBox.value.indexOf('\"') != -1) {
+        searchBox.value = searchBox.value.replace(/"/g, "");
+        };
+        }, 50);
       </Script>
       <Style>
         #GridContainer {

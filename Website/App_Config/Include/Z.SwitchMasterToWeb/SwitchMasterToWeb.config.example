@@ -92,9 +92,6 @@
           <index id="sitecore_fxm_master_index">
             <patch:delete />
           </index>
-          <index id="sitecore_list_index">
-            <patch:delete/>
-          </index>
           <index id="social_messages_master">
             <patch:delete/>
           </index>
@@ -121,11 +118,6 @@
     <reporting>
       <dataProvider>
         <datasources>
-          <add key="item">
-            <FiltersFactory>
-              <param desc="definitionDatabaseName">web</param>
-            </FiltersFactory>
-          </add>
           <add key="collection">
             <FiltersFactory>
               <param desc="definitionDatabaseName">web</param>

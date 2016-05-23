@@ -13,12 +13,15 @@
 
       // translated prompt
       Enter_a_new_name_for_the_item: "Enter a new name for the item:",
+      Enter_a_new_display_name_for_the_item: "Enter a new display name for the item:",
       Enter_the_filename_where_to_save_the_profile: "Enter the path and file name to save the profile:",
       Enter_the_filename_where_to_save_the_trace: "Enter the path and file name to save the trace:",
 
       //Common texts
       Lock: "Lock",
+      Lock_and_edit: "Lock and Edit",
       Unlock: "Unlock",
+      You_must_lock_this_item_before_you_can_edit_it: "You must lock this item before you can edit it."
     },
 
     translateText: function (key) {

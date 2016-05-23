@@ -83,22 +83,38 @@ Sitecore.PageModes.ChromeManager = new function() {
   },
 
   this.getChromesByFieldIdAndDataSource = function(fieldId, dataSourceId) {
-    return $sc.grep(this.chromes(), function (c) {
-      var chromeElementId = c.element.attr("id");
-      if (!chromeElementId) {
-        return false;
+    var result = [];
+    var chromesList = this.chromes();
+    for (var c = 0; c < chromesList.length; c++) {
+      var chrome = chromesList[c];
+
+      var controlId = null;
+      if (chrome.controlId) {
+        controlId = chrome.controlId();
       }
 
-      var idParts = chromeElementId.split('_');
+      if (!controlId || controlId == "") {
+        controlId = chrome.element.attr("id");
+      }
+
+      if (!controlId) {
+        continue;
+      }
+
+      var idParts = controlId.split('_');
       if (idParts.length < 3) {
-        return false;
+        continue;
       }
 
       var fieldIdentifier = idParts[2];
       var dataSourceIdentifier = idParts[1];
 
-      return $sc.toShortId(fieldId.toLowerCase()) === fieldIdentifier.toLowerCase() && $sc.toShortId(dataSourceId.toLowerCase()) === dataSourceIdentifier.toLowerCase();
-    });
+      if ($sc.toShortId(fieldId.toLowerCase()) === fieldIdentifier.toLowerCase() && $sc.toShortId(dataSourceId.toLowerCase()) === dataSourceIdentifier.toLowerCase()) {
+        result.push(chrome);
+      }
+    }
+
+    return result;
   },
 
   // Updates current chromes position in array according to DOM changes

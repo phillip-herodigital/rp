@@ -1,4 +1,4 @@
-﻿define(["sitecore", "/-/speak/v1/ExperienceEditor/ExperienceEditor.js"], function (Sitecore, ExperienceEditor) {
+﻿define(["sitecore", "/-/speak/v1/ExperienceEditor/ExperienceEditor.js", "/-/speak/v1/ExperienceEditor/ExperienceEditorProxy.js"], function (Sitecore, ExperienceEditor, ExperienceEditorProxy) {
   Sitecore.Commands.Save =
   {
     canExecute: function (context, parent) {
@@ -28,6 +28,7 @@
     execute: function (context) {
       context = ExperienceEditor.generatePageContext(context, window.parent.document);
       context.currentContext.scLayout = ExperienceEditor.Web.encodeHtml(window.parent.document.getElementById("scLayout").value);
+      ExperienceEditorProxy.onSaving();
 
       if (context.app && context.app.disableButtonClickEvents) {
         context.app.disableButtonClickEvents();
@@ -38,7 +39,6 @@
       var pipelineContext = ExperienceEditor.getContext().instance || window.top.ExperienceEditor.instance;
       ExperienceEditor.PipelinesUtil.executePipeline(pipelineContext.SavePipeline, function () {
         ExperienceEditor.PipelinesUtil.executeProcessors(Sitecore.Pipelines.Save, context);
-        ExperienceEditor.getContext().isContentSaved = true;
         ExperienceEditor.setSaveButtonState(context.aborted);
       });
 

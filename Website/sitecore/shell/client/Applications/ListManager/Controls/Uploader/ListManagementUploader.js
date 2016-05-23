@@ -376,7 +376,7 @@ define(["sitecore", "jqueryui", "fileUpload", "iFrameTransport"], function (_sc,
       var that = this;
       this.uploadFile.fileupload(
           {
-
+            pasteZone: $(".sc-uploader-content"),
             add: function (e, data) {
               data.url = that.url;
               //acceptFileTypes

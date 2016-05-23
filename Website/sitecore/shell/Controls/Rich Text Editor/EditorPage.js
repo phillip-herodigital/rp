@@ -4,8 +4,6 @@ if (typeof (Sitecore.Controls) == "undefined") Sitecore.Controls = new Object();
 Sitecore.Controls.RichEditor = Class.create({
   initialize: function(editorId) {
     this.editorId = editorId;
-
-    Event.observe(window, "resize", this.fitEditorToScreen.bind(this));
   },
 
   onClientLoad: function(editor) {
@@ -34,8 +32,6 @@ Sitecore.Controls.RichEditor = Class.create({
     }
 
     this.oldValue = editor.get_html(true);
-
-    this.fitEditorToScreen();
   },
 
   getEditor: function() {
@@ -44,18 +40,6 @@ Sitecore.Controls.RichEditor = Class.create({
     }
 
     return null;
-  },
-
-  fitEditorToScreen: function () {
-      if (!scForm.browser.isChrome) {
-          return;
-      }
-
-      setTimeout(function () {
-          var editorBody = $('Editor_contentIframe').contentWindow.document.body;
-          var editorCenter = $('EditorCenter');
-          editorBody.style.height = editorCenter.clientHeight - 10 + "px";
-      }, 0);
   },
 
   saveRichText: function (html) {

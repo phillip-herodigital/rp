@@ -52,6 +52,10 @@ Sitecore.PageModes.Chrome = Base.extend({
         return;
       }
 
+      if (Sitecore.PageModes.Utility.isIE) {
+        return;
+      }
+
       var parentElement = e.target.parentNode;
       parentElement.removeChild(e.target);
 
@@ -201,40 +205,7 @@ Sitecore.PageModes.Chrome = Base.extend({
   },
 
   commands: function () {
-    var commands = this.data.commands ? this.data.commands : new Array();
-    return this.filterCommands(commands);
-  },
-
-  filterCommands: function (commands) {
-    var parametersAttr = this.element.attr("sc_parameters") || this.element.parent().children().attr("sc_parameters");
-    if (!parametersAttr || parametersAttr.indexOf("disabledField=true") == -1) {
-      return commands;
-    }
-
-    var restrictedCommands =
-      [
-        'chrome:field:editcontrol({command:"webedit:edithtml"})',
-        'chrome:field:execute({command:"bold", userInterface:true, value:true})',
-        'chrome:field:execute({command:"Italic", userInterface:true, value:true})',
-        'chrome:field:execute({command:"Underline", userInterface:true, value:true})',
-        'chrome:field:insertlink',
-        'chrome:field:insertimage',
-        'chrome:field:editcontrol({command:"webedit:editdate"})',
-        'chrome:field:editcontrol({command:"webedit:chooseimage"})',
-        'chrome:field:editcontrol({command:"webedit:editimage"})',
-        'chrome:field:editcontrol({command:"webedit:clearimage"})',
-        'chrome:field:editcontrol({command:"webedit:editlink"})',
-        'chrome:field:editcontrol({command:"webedit:clearlink"})'
-      ];
-    var filteredCommands = new Array();
-    for (var i = 0; i < commands.length; i++) {
-      var command = commands[i];
-      if ($sc.inArray(command.click, restrictedCommands) < 0) {
-        filteredCommands.push(command);
-      }
-    }
-
-    return filteredCommands;
+    return this.data.commands ? this.data.commands : new Array();
   },
 
   controlId: function() {
@@ -722,7 +693,7 @@ Sitecore.PageModes.Chrome = Base.extend({
     });
   },
 
-  _parseElements: function() {
+  _parseElements: function () {
     /* if this is an orphan chrome that is being deleted, not do anything */
     if (!this._originalDOMElement || this._originalDOMElement.parent().length == 0) {
       return;

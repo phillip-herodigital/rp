@@ -1,4 +1,4 @@
-﻿define(["sitecore", "css!/sitecore/shell/client/applications/listmanager/navigation/navigationmenu.css"], function (_sc) {
+﻿define(["sitecore", "css!/-/speak/v1/listmanager/navigationmenu.css"], function (_sc) {
   var App = _sc.Definitions.App.extend({
     initialized: function () {
       this.addClickToBorder(this.ImportNewContactsBorder);

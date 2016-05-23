@@ -20,7 +20,10 @@
         },
 
         activate: function() {
-            this.addTarget('top', this.placeholder, null);
+          this.addTarget('top', this.placeholder, null);
+          
+          // Fix markup
+          $sc(".scInsertionHandleCenter").css('height', 'auto');
         },
 
         addControl: function () {

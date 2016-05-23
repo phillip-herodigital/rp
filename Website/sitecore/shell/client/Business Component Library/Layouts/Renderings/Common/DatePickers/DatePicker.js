@@ -125,7 +125,12 @@ define(['sitecore', 'jqueryui'], function (_sc) {
 
       onSelect: function () {
         this.model.set("formattedDate", this.$el.val());
-        this.$el.blur();
+        
+        // This is done to prevent IE from opening the DatePicker when the dates change.
+        this.$el.datepicker("option", "disabled", true);
+        setTimeout(function () {
+          this.$el.datepicker("option", "disabled", false);
+        }.bind(this), 0);
       },
 
       beforeShowHandler: function (inp, data) {

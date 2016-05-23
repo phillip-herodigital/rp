@@ -11,7 +11,7 @@
 <head runat="server">
     <script type="text/JavaScript" src="/sitecore/shell/Controls/Lib/jQuery/jquery-1.10.2.min.js"></script>
     <script type="text/javascript">if (!window.$sc) $sc = jQuery.noConflict();</script>
-    <title><%= Translate.Text(WebUtil.GetQueryString("he", "Content Editor")) %></title>
+    <title><%= HttpUtility.HtmlEncode(Translate.Text(WebUtil.GetQueryString("he", "Content Editor"))) %></title>
     <link rel="shortcut icon" href="/sitecore/images/favicon.ico" />
     <asp:PlaceHolder ID="BrowserTitle" runat="server" />
     <sc:Stylesheet runat="server" Src="Ribbon.css" DeviceDependant="true" />
@@ -57,7 +57,7 @@
                 runat="server" />
         </span>
         <asp:ScriptManager ID="ScriptManager1" runat="server" />
-        <telerik:RadSpell ID="RadSpell" Skin="Metro" DialogsCssFile="/sitecore/shell/themes/standard/default/Content Manager.css" LocalizationPath="~/sitecore/shell/Applications/Content Manager/Localization/" runat="server" />
+        <telerik:RadSpell ID="RadSpell" Skin="Metro" DialogsCssFile="/sitecore/shell/themes/standard/default/Content Manager.css" LocalizationPath="~/sitecore/shell/Applications/Content Manager/Localization/" SpellCheckProvider="EditDistanceProvider" EditDistance="2" runat="server" />
         <telerik:RadToolTipManager Skin="Metro" runat="server" ID="ToolTipManager" class="scRadTooltipManager" LocalizationPath="~/sitecore/shell/Applications/Content Manager/Localization/" />
         <iframe id="overlayWindow" src="/sitecore/shell/Controls/Rich Text Editor/EditorWindow.aspx" style="position: absolute; width: 100%; height: 100%; top: 0; left: 0; right: 0; bottom: 0; display: none; z-index: 999; border: none" frameborder="0" allowtransparency="allowtransparency"></iframe>
         <uc:GlobalHeader runat="server" />
@@ -182,16 +182,9 @@
     <script>
         // Do not move this code to "scContentEditor.prototype.onLoad", because it starts running much faster here.
         var href = window.location.href;
-        if ((scForm.getCookie("scContentEditorFolders") != "0") && href.indexOf("mo=preview") < 0 && href.indexOf("mo=mini") < 0 && href.indexOf("mo=popup") < 0
+        if ((scForm.getCookie("scContentEditorFolders") != "0") && href.indexOf("mo=mini") < 0 && href.indexOf("mo=popup") < 0
           || href.indexOf("mo=template") >= 0) {
-
-            jQuery('.scContentEditorSplitter').splitter({
-                resizeTo: document.getElementById('MainPanel'),
-                sizeLeft: scForm.getCookie("scContentEditorFoldersWidth") || 200,
-                onEndSplitMouse: function (pos) {
-                    scForm.setCookie("scContentEditorFoldersWidth", pos);
-                }
-            });
+          scContent.turnOnSplitter();
         }
     </script>
 </body>

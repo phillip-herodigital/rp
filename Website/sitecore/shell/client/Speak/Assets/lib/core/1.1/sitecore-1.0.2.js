@@ -705,7 +705,7 @@ Speak.Definitions.App = Backbone.Model.extend({
       ajaxOptions = options["ajax"]|| {},
       defaultOptions = {
         database: "core",
-        path: "/api/sitecore/Layout/RenderItem"
+        path: "/sitecore/shell/api/sitecore/Layout/RenderItem"
       },
       cb = callback,
       jqxhr,
@@ -2035,7 +2035,7 @@ var antiForgeryHelper = {
 var sessionHelper = {
   unauthorized: function () {
     sessionHelper.logout(function (result) {
-      window.top.location.reload(true);
+      window.top.location.replace(top.location.href);
     });
   },
   

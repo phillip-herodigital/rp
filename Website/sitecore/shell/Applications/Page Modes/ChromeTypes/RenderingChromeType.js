@@ -46,7 +46,7 @@
     }
   },
 
-  elements: function(domElement) {
+  elements: function (domElement) {
     if (!domElement.is("code[type='text/sitecore'][chromeType='rendering']")) {
       console.error("Unexpected domelement passed to RenderingChromeType for initialization:");
       console.log(domElement);
@@ -105,9 +105,14 @@
     }
     
     if (result.type.key() != "placeholder") {
-      console.warn(result.element);
-      console.log();
-      throw "Rendering must have placeholder chrome as its parent. Got '" + result.type.key() + "' instead";
+      var parentElement = result.parent();
+      if (!parentElement || parentElement.type.key() != "placeholder") {
+        console.warn(result.element);
+        console.log();
+        throw "Rendering must have placeholder chrome as its parent. Got '" + result.type.key() + "' instead";
+      }
+
+      result = parentElement;
     }
 
     return result;

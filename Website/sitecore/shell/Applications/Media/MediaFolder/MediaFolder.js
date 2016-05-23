@@ -227,7 +227,7 @@ var SitecoreMediaUploader = Class.create({
       if (file.size > this.uploadLimit()) {
         if (this.simple || file.size > this.uploadFileLimit()) {
           this.cancelledFiles.push(file);
-          return false;
+          continue;
         }
         else {
           this.forcedFileUpload = true;
@@ -284,6 +284,7 @@ var SitecoreMediaUploader = Class.create({
     }
     else {
       $("AdvancedOptions").show();
+      $("UploadUI").setStyle({ height: "calc(100% - 300px)" });
     }
   },
 
@@ -317,7 +318,7 @@ var SitecoreMediaUploader = Class.create({
     var alt = $(file.id).down("input.alt").value;
     params["Alt"] = alt;
 
-    this.yUploader.upload(file, this.destination, "POST", params);
+    this.yUploader.upload(file, this.destination, params);
     return true;
   },
 

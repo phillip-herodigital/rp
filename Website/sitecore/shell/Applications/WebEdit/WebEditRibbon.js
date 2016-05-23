@@ -165,6 +165,16 @@ function scOnLoad() {
   });
 
   prepareHeaderButtons();
+
+  if (window.parent.NotifcationMessages != undefined) {
+    window.parent.NotifcationMessages.forEach(function (entry) {
+      console.log(entry);
+      var notificaton = new window.parent.Sitecore.PageModes.Notification("pageeditorchrome" + entry.text, entry.text, {
+        type: entry.type
+      });
+      Sitecore.PageEditorProxy.showNotification(notificaton);
+    });
+  }
 }
 
 function prepareHeaderButtons() {

@@ -1,4 +1,4 @@
-﻿define(["sitecore"], function (_sc) {
+﻿define(["sitecore", "/-/speak/v1/FXM/WebUtil.js"], function (_sc, webUtil) {
   _sc.Factories.createBaseComponent({
 
     name: "EditClientActionControl",
@@ -63,7 +63,7 @@
       // listen to change events on sub controls
       var subEventListeners = {
         'change:text': [this.nameControl()],
-        'change:items': [this.goalsPickerControl(), this.eventsPickerControl(), this.campaignsPickerControl()]
+        'change:items': [this.goalsPickerControl(), this.eventsPickerControl(), this.campaignsPickerControl(), this.outcomesPickerControl()]
       }
 
       var self = this;
@@ -74,6 +74,8 @@
           }
         });
       });
+
+      webUtil.triggerEventOnFieldChange(this, this.nameControl(), "change:text");
     },
 
     show: function () {

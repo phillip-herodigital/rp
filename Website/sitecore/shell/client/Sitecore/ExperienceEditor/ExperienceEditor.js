@@ -113,7 +113,7 @@
       var fields = {};
       if (postElements) {
         for (var i = 0; i < postElements.length; i++) {
-          fields[postElements[i].id] = experienceEditor.Web.encodeHtml(postElements[i].value.replace(/\\/g, '\\\\'));
+          fields[postElements[i].id] = experienceEditor.Web.encodeHtml(postElements[i].value);
         }
       }
       context.currentContext.scValidatorsKey = "VK_SC_PAGEEDITOR";
@@ -143,7 +143,17 @@
     },
 
     navigateToItem: function (itemId) {
-      var url = window.parent.location.origin + window.parent.location.search;
+      var origin = window.parent.location.origin;
+      if (!origin) {
+        origin = window.parent.location.protocol + "//" + window.parent.location.hostname + (window.parent.location.port ? ':' + window.parent.location.port : '');
+      }
+
+      var virtualFolder = experienceEditor.getContext().instance.currentContext.virtualFolder;
+      if (virtualFolder != "/" && virtualFolder != "") {
+        origin = origin + virtualFolder;
+      }
+
+      var url = origin + window.parent.location.search;
       url = experienceEditor.Web.replaceItemIdParameter(url, itemId);
       url = experienceEditor.Web.setQueryStringValue(url, "sc_ee_fb", "false");
       url = experienceEditor.Web.removeQueryStringParameter(url, "sc_version");
@@ -256,7 +266,14 @@
       if (!tabControl) {
         var tabs = jQuery(".sc-quickbar-tab");
         tabs.first().addClass("sc-quickbar-tab-selected");
+        document.cookie = "sitecore_webedit_activestrip" + "=" + escape(tabs.first().attr('id'));
         return;
+      }
+
+      if (ExperienceEditorContext.instance && ExperienceEditorContext.instance.cachedCommands) {
+        experienceEditor.CommandsUtil.runCommandsCollectionCanExecute(ExperienceEditorContext.instance.cachedCommands, function (stripId) {
+          return stripId + "_ribbon_tab" !== tabControl.id;
+        }, true);
       }
 
       var clickedTab = jQuery(tabControl);
@@ -328,6 +345,20 @@
 
     getElementById: function (id) {
       return document.querySelector('[data-sc-id="' + id + '"]');
+    },
+
+    removeNotificationMessage: function(messageText) {
+      experienceEditor.getContext().instance.NotificationBar.removeMessage(function (message) {
+        return message.text == messageText;
+      });
+
+      if (!window.parent.Sitecore
+        || !window.parent.Sitecore.PageModes
+        || !window.parent.Sitecore.PageModes.DesignManager) {
+        return;
+      }
+
+      window.parent.Sitecore.PageModes.DesignManager.sortingEnd();
     }
   };
 
@@ -425,7 +456,7 @@
     },
 
     encodeHtml: function (htmlSource) {
-      htmlSource = htmlSource.replace(/\"/g, "\\\"");
+      htmlSource = htmlSource.replace(/\\/g, '\\\\').replace(/\"/g, "\\\"");
       var encodedHtml = encodeURIComponent(htmlSource);
       return encodedHtml;
     },
@@ -478,9 +509,13 @@
     },
 
     postServerRequest: function (requestType, commandContext, handler, async) {
+      var token = $('input[name="__RequestVerificationToken"]').val();
       jQuery.ajax({
         url: "/-/speak/request/v1/expeditor/" + requestType,
-        data: "data=" + JSON.stringify(commandContext),
+        data: {
+          __RequestVerificationToken: token,
+          data: decodeURIComponent(JSON.stringify(commandContext))
+        },
         success: handler,
         type: "POST",
         async: async != undefined ? async : false
@@ -662,6 +697,31 @@
       this.dropDownMenuItemCommands.push({
         menuItemId: menuItemId,
         commandName: commandName
+      });
+    },
+
+    runCommandsCollectionCanExecute: function(commands, skipConditionFuncByStripId, skipEvaluated) {
+      $.each(commands, function () {
+        if (skipConditionFuncByStripId && skipConditionFuncByStripId(this.stripId)) {
+          return;
+        }
+
+        if (this.command === undefined) {
+          var controlStateResult = this.initiator.viewModel.$el.attr("data-sc-controlstateresult");
+          if (controlStateResult && controlStateResult != "") {
+            this.initiator.set({ isEnabled: controlStateResult == "True" });
+          }
+          return;
+        }
+
+        if (skipEvaluated && this.evaluated) {
+          return;
+        }
+
+        var context = experienceEditor.getContext().instance.getContext(this.initiator);
+        var clonedContext = experienceEditor.getContext().instance.clone(context);
+        this.initiator.set({ isEnabled: this.command.canExecute(clonedContext, this) });
+        this.evaluated = true;
       });
     },
 

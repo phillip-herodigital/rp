@@ -40,11 +40,11 @@
         <span id="pageEditorHeader"></span>
         <button type="button" class="page-editor-button" onclick="javascript:window.top.location.href='/?sc_mode=edit';">Experience Editor</button>
         <a class="trigger" href="#"></a>
-        <iframe scrolling="no" src="@Html.Raw(Paths.Module.Controls.RelativePath)ExpEditor.aspx?@Html.Raw(SettingsHelper.AddOnQueryStringKey)=1&@Html.Raw(SettingsHelper.ContextItemIdQueryStringKey)=@Html.Raw(Sitecore.Context.Item.ID.ToString())&@Html.Raw(SettingsHelper.ContextDeviceIdQueryStringKey)=@Html.Raw(Sitecore.Context.Device.ID.ToString())&@Html.Raw(SettingsHelper.CurrentWebsiteStringKey)=@Html.Raw(Sitecore.Context.Site.Name)" id="IframeExperienceExplorerEditor" class="ee-iframe"></iframe>
+        <iframe scrolling="no" src="@Html.Raw(Paths.Module.Controls.RelativePath)ExpEditor.aspx?@Html.Raw(SettingsHelper.AddOnQueryStringKey)=1&@Html.Raw(SettingsHelper.ContextItemIdQueryStringKey)=@Html.Raw(Sitecore.Context.Item.ID.ToString())&@Html.Raw(SettingsHelper.ContextDeviceIdQueryStringKey)=@Html.Raw(Sitecore.Context.Device.ID.ToString())&@Html.Raw(SettingsHelper.CurrentWebsiteStringKey)=@Html.Raw(Sitecore.Context.Site.Name)&sc_preventProfilesScoring=1&sc_lang=@Html.Raw(Sitecore.ExperienceExplorer.Web.Controls.ExpExplorerExtender.LanguageName)" id="IframeExperienceExplorerEditor" class="ee-iframe"></iframe>
       </div>
         <div class="panel viewer">
             <a class="trigger" href="#"></a>
-            <iframe scrolling="no" src="@Html.Raw(Paths.Module.Controls.RelativePath)ExpViewer.aspx?@Html.Raw(SettingsHelper.AddOnQueryStringKey)=1&@Html.Raw(SettingsHelper.ContextItemIdQueryStringKey)=@Html.Raw(Sitecore.Context.Item.ID.ToString())&@Html.Raw(SettingsHelper.ContextDeviceIdQueryStringKey)=@Html.Raw(Sitecore.Context.Device.ID.ToString())&@Html.Raw(SettingsHelper.CurrentWebsiteStringKey)=@Html.Raw(Sitecore.Context.Site.Name)" id="IframeExperienceExplorerViewer" class="ee-iframe"></iframe>
+            <iframe scrolling="no" src="@Html.Raw(Paths.Module.Controls.RelativePath)ExpViewer.aspx?@Html.Raw(SettingsHelper.AddOnQueryStringKey)=1&@Html.Raw(SettingsHelper.ContextItemIdQueryStringKey)=@Html.Raw(Sitecore.Context.Item.ID.ToString())&@Html.Raw(SettingsHelper.ContextDeviceIdQueryStringKey)=@Html.Raw(Sitecore.Context.Device.ID.ToString())&@Html.Raw(SettingsHelper.CurrentWebsiteStringKey)=@Html.Raw(Sitecore.Context.Site.Name)&sc_preventProfilesScoring=1&sc_lang=@Html.Raw(Sitecore.ExperienceExplorer.Web.Controls.ExpExplorerExtender.LanguageName)" id="IframeExperienceExplorerViewer" class="ee-iframe"></iframe>
         </div>
     </div>
 

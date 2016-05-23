@@ -20,7 +20,7 @@
     return this._dimensions;
   },
   
-  offset: function() {
+  offset: function () {
     var minLeft, minTop;
     minLeft = minTop = 100000;
 
@@ -34,6 +34,10 @@
       var offset = $sc(part).offset();
 
       if ($sc.inArray(part.tagName.toLowerCase(), ignoreTags) >= 0) {
+        return;
+      }
+
+      if ($sc(part).css("display") == "none") {
         return;
       }
 

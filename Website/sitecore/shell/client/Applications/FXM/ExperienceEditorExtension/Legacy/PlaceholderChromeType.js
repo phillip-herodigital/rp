@@ -1,7 +1,8 @@
 ﻿define([
     "/-/speak/v1/FXM/ExperienceEditorExtension/Legacy/LegacySitecore.js",
-    "/-/speak/v1/FXM/ExperienceEditorExtension/Legacy/LegacyjQuery.js"
-], function (_scl, $sc) {
+    "/-/speak/v1/FXM/ExperienceEditorExtension/Legacy/LegacyjQuery.js",
+    "/-/speak/v1/FXM/ExperienceEditorExtension/Utils/ClientBeacon.js"
+], function (_scl, $sc, clientBeacon) {
 
   var FINAL_LAYOUT_FIELD = "{04BF00DB-F5FB-41F7-8AB7-22408372A981}";
 
@@ -36,6 +37,54 @@
       this.chrome.remove();
       _scl.PageModes.ChromeManager.resetChromes();
     }
+  }
+
+  function deleteControl(chrome) {
+    var rootPlaceholder = this.resolveRootPlaceholder(chrome);
+    if (!rootPlaceholder) {
+      return;
+    }
+
+    this._deleteControl(chrome);
+
+    var key = rootPlaceholder.attr("key");
+    var id = key.split('/')[0];
+
+    var itemUri = new _scl.ItemUri(id, _scl.PageModes.PageEditor.language(), 1, "");
+    _scl.PageModes.ChromeManager.setFieldValue(itemUri, FINAL_LAYOUT_FIELD, "updated");
+  }
+
+  function resolveRootPlaceholder(chrome) {
+    var parent = chrome.parent();
+    var done = false;
+    while (!done) {
+      if (!parent) {
+        return null;
+      }
+
+      if (parent._openingMarker
+        && parent._openingMarker.is("code[chrometype=placeholder][kind=open]")
+        && parent._openingMarker.attr("key")
+        && this.isFxmPlaceholder(parent._openingMarker.attr("key"))) {
+        done = true;
+      } else {
+        parent = parent.parent();
+      }
+    }
+
+    return parent._openingMarker;
+  }
+
+  function isFxmPlaceholder(key) {
+    var placeholders = clientBeacon.placeholders();
+
+    for (var p = 0; p < placeholders.length; p++) {
+      if (placeholders[p].toLowerCase() == key.replace("/", "").toLowerCase()) {
+        return true;
+      }
+    }
+
+    return false;
   }
 
   function addControlResponse(id, openProperties, ds) {
@@ -200,4 +249,8 @@
   _scl.PageModes.ChromeTypes.Placeholder.prototype.removePlaceholder = removePlaceholder;
   _scl.PageModes.ChromeTypes.Placeholder.prototype.addControlResponse = addControlResponse;
   _scl.PageModes.ChromeTypes.Placeholder.prototype.editPropertiesResponse = editPropertiesResponse;
+  _scl.PageModes.ChromeTypes.Placeholder.prototype._deleteControl = _scl.PageModes.ChromeTypes.Placeholder.prototype.deleteControl;
+  _scl.PageModes.ChromeTypes.Placeholder.prototype.deleteControl = deleteControl;
+  _scl.PageModes.ChromeTypes.Placeholder.prototype.resolveRootPlaceholder = resolveRootPlaceholder;
+  _scl.PageModes.ChromeTypes.Placeholder.prototype.isFxmPlaceholder = isFxmPlaceholder;
 });

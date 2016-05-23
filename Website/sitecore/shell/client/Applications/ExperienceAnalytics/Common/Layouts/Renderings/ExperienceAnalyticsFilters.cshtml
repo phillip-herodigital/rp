@@ -1,12 +1,12 @@
-﻿@using Sitecore.ExperienceAnalytics.Client
+﻿@using Sitecore
 @using Sitecore.ExperienceAnalytics.Client
 @using Sitecore.ExperienceAnalytics.Core.Extensions
 @using Sitecore.Mvc
-@using Sitecore.Mvc.Presentation
 @using Sitecore.Web.UI.Controls.Common.Renderings
 @using Sitecore.Web.UI.Controls.Common.UserControls
-
-@model RenderingModel
+@using Globals = Sitecore.ExperienceAnalytics.Client.Globals
+@using UserControl = Sitecore.Web.UI.Controls.Common.UserControls.UserControl
+@model Sitecore.Mvc.Presentation.RenderingModel
 @{
   var rendering = Html.Sitecore().Controls().GetUserControl(Model.Rendering);
 
@@ -18,15 +18,15 @@
 
 @EmbedFilters(rendering)
 
-@helper EmbedFilters(Sitecore.Web.UI.Controls.Common.UserControls.UserControl rendering)
+@helper EmbedFilters(UserControl rendering)
 {
   var renderingId = rendering.ControlId;
   var helper = new RenderingHelper(Html, renderingId);
   
   var selectedSubsiteName = "{Binding " + renderingId + "SubsiteFilter.SelectedSubsiteName}";
 
-  var fromDate = Sitecore.DateUtil.ToServerTime(DateTime.UtcNow).AddMonths(-1).ToDateRangeFormat();
-  var toDate = Sitecore.DateUtil.ToServerTime(DateTime.UtcNow).ToDateRangeFormat();
+  var fromDate = DateUtil.ToServerTime(DateTime.UtcNow).AddMonths(-1).ToDateRangeFormat();
+  var toDate = DateUtil.ToServerTime(DateTime.UtcNow).ToDateRangeFormat();
 
   var dateRangeText = string.Concat(fromDate, " - ", toDate);
   

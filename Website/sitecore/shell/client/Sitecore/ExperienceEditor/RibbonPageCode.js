@@ -21,11 +21,13 @@
           deviceId: this.PageEditBar.get("deviceId"),
           isLocked: this.PageEditBar.get("isLocked"),
           isLockedByCurrentUser: this.PageEditBar.get("isLockedByCurrentUser"),
-          ribbonUrl: this.PageEditBar.get("url"),
+          ribbonUrl: decodeURIComponent(this.PageEditBar.get("url")),
           siteName: this.PageEditBar.get("siteName"),
           isReadOnly: this.PageEditBar.get("isReadOnly"),
           analyticsEnabled: this.PageEditBar.get("analytisEnabled"),
           webEditMode: ExperienceEditor.Web.getUrlQueryStringValue("mode"),
+          requireLockBeforeEdit: this.PageEditBar.get("requireLockBeforeEdit"),
+          virtualFolder: this.PageEditBar.get("virtualFolder"),
           argument: ""
         };
 
@@ -46,6 +48,7 @@
         if (this.currentContext.webEditMode == "edit") {
           this.initializeNotifications(this);
           this.initializeFieldsValidation(this);
+          this.processItemLocking(this);
         }
 
         DOMHelper.divideButtons("sc-chunk-button-small", "sc-chunk-button-small-list");
@@ -73,6 +76,12 @@
             that.save();
           };
         }, 50, this);
+
+        if (window.parent.NotifcationMessages != undefined) {
+          window.parent.NotifcationMessages.forEach(function (entry) {
+            self.showNotification(entry.type, entry.text, true, false);
+          });
+        }
 
         window.parent.onbeforeunload = ExperienceEditor.handleIsModified;
       },
@@ -103,6 +112,9 @@
       initializeNotifications: function (context) {
         this.registerPageEditorNotificationHandler();
         ExperienceEditorContext.instance.NotificationBar.viewModel.$el.click(function () { ExperienceEditorContext.instance.setToggleShow(); });
+        ExperienceEditorContext.instance.NotificationBar.viewModel.$el.on("click", "button.close", function(e) {
+          window.parent.Sitecore.PageModes.DesignManager.sortingEnd();
+        });
         ExperienceEditor.PipelinesUtil.generateRequestProcessor("ExperienceEditor.Item.Notifications", function (response) {
           var notificationTypes = ["error", "notification", "warning"];
           var notifications = response.responseValue.value;
@@ -148,8 +160,31 @@
           actions: [],
           closable: isClosable,
         });
+        window.parent.Sitecore.PageModes.DesignManager.sortingEnd();
         ExperienceEditorContext.instance.setHeight();
         return ExperienceEditor.Common.searchElementWithText(text);
+      },
+      processItemLocking: function (context) {
+        if (!Sitecore.Commands.Lock || !Sitecore.Commands.Lock.allowLock(context.getContext())) {
+          return;
+        }
+
+        if (!context.currentContext.requireLockBeforeEdit) {
+          return;
+        }
+
+        if (context.currentContext.isLocked) {
+          return;
+        }
+
+        var notificationTitle = TranslationUtil.translateText(TranslationUtil.keys.You_must_lock_this_item_before_you_can_edit_it);
+        var notification = this.showNotification("warning", notificationTitle, true);
+        var notificationOption = $(DOMHelper.getNotificationOption(TranslationUtil.translateText(TranslationUtil.keys.Lock_and_edit)));
+        notificationOption.click(function (e) {
+          context.executeCommand("Lock");
+        });
+
+        $(notification).append(notificationOption);
       },
       initializeExperienceEditorObject: function (context) {
         // Execute hooks
@@ -167,7 +202,8 @@
           that.setHeight(that.ScopedEl.height());
         }, 50, this);
 
-        if (!this.QuickRibbon) {
+        if (!this.QuickRibbon
+          || this.QuickRibbon.viewModel.$el.attr("style")) {
           return;
         }
 
@@ -260,7 +296,7 @@
         this.on("button:click", function (event) {
           var button = this.getButton(event.sender.el);
           var that = this;
-          var scriptUrl = button.viewModel.$el.attr('data-sc-PageCodeScriptFileName');
+          var scriptUrl = this.getPageCodeScriptFileUrl(button);
           require(["sitecore", scriptUrl], function () {
             that.executeButtonCommand(button);
           });
@@ -272,12 +308,15 @@
         this.on("button:check", function (event) {
           var button = this.getButton(event.sender.el);
           var that = this;
-          var scriptUrl = button.viewModel.$el.attr('data-sc-PageCodeScriptFileName');
+          var scriptUrl = this.getPageCodeScriptFileUrl(button);
           require(["sitecore", scriptUrl], function () {
             button.set({ isChecked: !button.get("isChecked") });
             that.executeButtonCommand(button);
           });
         }, this);
+      },
+      getPageCodeScriptFileUrl: function(button) {
+        return button.viewModel.$el.attr('data-sc-PageCodeScriptFileName');
       },
       disableButtonClickEvents: function () {
         this.off("button:click");

@@ -647,3 +647,7 @@ iframe[data-sc-id="xfileFrame"] {
 }
 
 .modal-backdrop.fade.in {z-index: 2050 !important;}
+
+div[data-sc-id="LegendToggleColumnPanel"] {
+    margin-left: 15px;
+}

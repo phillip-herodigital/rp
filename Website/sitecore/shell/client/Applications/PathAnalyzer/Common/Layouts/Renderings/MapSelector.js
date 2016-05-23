@@ -63,7 +63,7 @@
             if (dateRange) {
                 var dateFrom = dateRange.dateFrom != null ? pathAnalyzer.formatDateForDisplay(dateRange.dateFrom) : "";
                 var dateTo = dateRange.dateTo != null ? pathAnalyzer.formatDateForDisplay(dateRange.dateTo) : stringDictionary.get("Present");
-                text += " | " + dateFrom + " to " + dateTo;
+                text += " | " + dateFrom + " " + stringDictionary.get("to") + " " + dateTo;
             }
 
             filterToggleButton.set("text", text);

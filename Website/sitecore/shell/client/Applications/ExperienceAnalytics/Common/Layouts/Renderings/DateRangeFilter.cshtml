@@ -1,14 +1,14 @@
 ﻿@using Newtonsoft.Json
-@using Sitecore.ExperienceAnalytics.Client
+@using Sitecore
 @using Sitecore.ExperienceAnalytics.Client
 @using Sitecore.ExperienceAnalytics.Core.Extensions
 @using Sitecore.Mvc
-@using Sitecore.Mvc.Presentation
 @using Sitecore.Web.UI.Controls.Common.Renderings
 @using Sitecore.Web.UI.Controls.Common.Texts
 @using Sitecore.Web.UI.Controls.Common.UserControls
-
-@model RenderingModel
+@using Globals = Sitecore.ExperienceAnalytics.Client.Globals
+@using UserControl = Sitecore.Web.UI.Controls.Common.UserControls.UserControl
+@model Sitecore.Mvc.Presentation.RenderingModel
 @{
   var rendering = Html.Sitecore().Controls().GetUserControl(Model.Rendering);
   rendering.Class = "sc-DateRangeFilter";
@@ -22,14 +22,14 @@
   };
   
   rendering.Attributes.Add("data-sc-errortexts", JsonConvert.SerializeObject(errorMessages));
-  rendering.Attributes.Add("data-sc-serverdate", Sitecore.DateUtil.ToServerTime(System.DateTime.UtcNow).ToDashedDateRangeFormat());
+  rendering.Attributes.Add("data-sc-serverdate", DateUtil.ToServerTime(DateTime.UtcNow).ToDashedDateRangeFormat());
   rendering.Attributes.Add("data-sc-defaultdaterangeoffset-from", Config.DefaultDateRangeOffsetFrom.ToString());
   rendering.Attributes.Add("data-sc-defaultdaterangeoffset-to", Config.DefaultDateRangeOffsetTo.ToString());
 }
 
 @EmbedDateRangeFilter(rendering)
 
-@helper EmbedDateRangeFilter(Sitecore.Web.UI.Controls.Common.UserControls.UserControl rendering)
+@helper EmbedDateRangeFilter(UserControl rendering)
 {
   var renderingId = rendering.ControlId;
   var helper = new RenderingHelper(Html, renderingId);

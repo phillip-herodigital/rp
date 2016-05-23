@@ -1917,6 +1917,15 @@ a.scHyperlinkButton {
   right: 0;
 }
 
+.scStretchAbsolute .scTreeviewContainerLayout {
+	position: relative;
+}
+
+.scStretchAbsolute .scTreeviewContainerLayout .scTreeviewInnerLayout {
+	position: absolute;
+	width: 100%;
+}
+
 .scMarginAbsolute {
     top: 15px;
     right: 15px;
@@ -3549,6 +3558,7 @@ form[lang|='ja'] *,
 
   .scListControl > thead img {
       margin-left: 5px;
+      vertical-align: middle;
   }
 
   .scListControl > tbody > tr:nth-child(odd) {
@@ -3566,6 +3576,7 @@ form[lang|='ja'] *,
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
+    text-align: left;
   }
 
   .scListControl > thead th,

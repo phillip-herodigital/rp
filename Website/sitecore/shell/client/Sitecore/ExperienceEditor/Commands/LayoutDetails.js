@@ -15,7 +15,7 @@
     execute: function (context) {
       this.handleDialogDocument(context);
 
-      var dialogPath = "/sitecore/shell/default.aspx?xmlcontrol=LayoutDetails&id=" + context.currentContext.itemId + "&la=" + context.currentContext.language + "&vs=" + context.currentContext.version;
+      var dialogPath = "/sitecore/shell/default.aspx?xmlcontrol=LayoutDetails&id=" + decodeURI(context.currentContext.itemId)+ "&la=" + context.currentContext.language + "&vs=" + context.currentContext.version;
       var dialogFeatures = "dialogHeight: 600px;dialogWidth: 500px;";
       ExperienceEditor.Dialogs.showModalDialog(dialogPath, '', dialogFeatures, null, function (result) {
         if (!result) {
@@ -25,7 +25,7 @@
         context.currentContext.value = ExperienceEditor.Web.encodeHtml(result);
 
         ExperienceEditor.PipelinesUtil.generateRequestProcessor("ExperienceEditor.LayoutDetails.SetValue", function () {
-          window.top.location.reload();
+          window.parent.location.reload();
         }).execute(context);
       });
     },

@@ -53,7 +53,7 @@
       options.data.datasource = ds;
     }
 
-    options.success = function(serverData) {
+    options.success = function (serverData) {
       var data = Sitecore.PageModes.Utility.parsePalleteResponse(serverData);       
       var persistedLayout;
       if (data.layout) {
@@ -224,9 +224,8 @@
     if (position == 0) {
       placeholder.prepend(newElement);
     }
-    else if (position < childRenderings.length) {
+    else if (childRenderings.length != 0 && position < childRenderings.length) {
       var rendering = childRenderings[position - 1];
-
       rendering.after(newElement);
     }
     else {
@@ -249,13 +248,19 @@
       });
 
       if (!containsChromeNodes) {
-        console.log("Chrome rendering was added but can not be selected due to absence of editable elements.");
-        Sitecore.PageModes.PageEditor.setModified(true);
+        this.handleEmptyRendering();
         return;
       }
     }
 
+    Sitecore.PageModes.PageEditor.setModified(true);
+
     if (!newRenderingChrome) {
+      if (newRenderingUniqueId && newRenderingUniqueId != "" && !data.content) {
+        this.handleEmptyRendering();
+        return;
+      }
+
       console.error("Cannot find rendering chrome with unique id: " + newRenderingUniqueId);
       Sitecore.PageModes.ChromeHighlightManager.resume();
       return;
@@ -277,6 +282,11 @@
     }
 
     console.groupEnd("insertRendering");
+  },
+
+  handleEmptyRendering: function () {
+    console.log("Chrome rendering was added but can not be selected due to absence of editable elements.");
+    Sitecore.PageModes.PageEditor.setModified(true);
   },
 
   /* used by design manager while moving controls around on the page */
@@ -490,7 +500,7 @@
     chrome.element.remove();
   },
 
-  renderings: function() {
+  renderings: function () {
     return this.chrome.getChildChromes(function() { return this.key() == "rendering" });
   },
 
@@ -601,7 +611,7 @@
     this._loadingFrame[0].src = url + "&rnd=" + Math.random();       
   },
 
-  _frameLoaded: function() {
+  _frameLoaded: function () {
     if (this._loadingFrame == null) {
       console.error("cannot load data from frame. Frame isn't defined");
       return;    
@@ -621,7 +631,7 @@
       if (!start.is("code[type='text/sitecore'][chromeType='rendering'][kind='open']")) {
          throw "Loaded unexpected element while trying to get rendering html from server. Expected opening script marker.";
       }
-
+      
       var middle = this._getRenderingContent(start, "code[type='text/sitecore'][chromeType='rendering'][kind='close']");
       var end = middle.length > 0 ?
         $sc(middle.last()[0].nextSibling) :

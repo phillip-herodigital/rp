@@ -22,14 +22,13 @@
       this.MappingModel = [];
       this.RequiredModel = [];
       this.unselectedValue = -1;
-      this.emailDataField = "PreferredEmail";
     },
     onSelectChange: function (val, $el) {
       var self = this;
       var value = !isNaN(val) ? Number(val) : self.unselectedValue;
       var mappingModelIndex = $el.attr("data-position");
-      var dataField = $el.attr("data-datafield");
       var autoMap = $el.attr("data-automap");
+      var autoMapSource = $el.attr("data-automapsource");
 
       if (typeof mappingModelIndex !== "undefined" && self.MappingModel[mappingModelIndex]) {
         if (autoMap === "true") {
@@ -37,7 +36,7 @@
           self.MappingModel[mappingModelIndex].isVisible = isVisible;
           if (isVisible === false) {
             var emailFields = self.MappingModel.filter(function (m) {
-              return m.isEmail === true;
+              return m.autoMapSource === true;
             });
             if (emailFields.length > 0) {
               value = emailFields[0].value;
@@ -47,8 +46,8 @@
         }
         self.MappingModel[mappingModelIndex].value = value;
         $el.val(value);
-        if (dataField === self.emailDataField) {
-          self.MappingModel[mappingModelIndex].isEmail = true;
+        if (autoMapSource === "true") {
+          self.MappingModel[mappingModelIndex].autoMapSource = true;
           self.setAutoValue(self.MappingModel, value);
         } 
       }
@@ -77,9 +76,9 @@
         var fieldValue = self.originalModel[i];
         var mapping = { key: fieldValue.DataField, value: this.unselectedValue };
 
-        var fieldModel = backbone.Model.extend({ defaults: { fieldName: "", dataField: "", required: false, position: "", fileFields: [], autoMap: false } });
+        var fieldModel = backbone.Model.extend({ defaults: { fieldName: "", dataField: "", required: false, position: "", fileFields: [], autoMap: false, autoMapSource: false} });
 
-        var field = new fieldModel({ fieldName: fieldValue.FieldName, dataField: fieldValue.DataField, required: fieldValue.Required, position: i, fileFields: csvData, autoMap: fieldValue.AutoMap });
+        var field = new fieldModel({ fieldName: fieldValue.FieldName, dataField: fieldValue.DataField, required: fieldValue.Required, position: i, fileFields: csvData, autoMap: fieldValue.AutoMap, autoMapSource: fieldValue.AutoMapSource });
         var mapToRowPanel = new mapToRow({ model: field, parent: self, app: self.app, serialize: field.toJSON() });
 
         self.mapToRows.push(mapToRowPanel);

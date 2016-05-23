@@ -7,7 +7,7 @@
   return {
     priority: 1,
     execute: function (context) {
-      ExperienceEditor.Dialogs.prompt(TranslationUtil.translateText(TranslationUtil.keys.Enter_a_new_name_for_the_item), context.currentContext.value, function (newDisplayName) {
+      ExperienceEditor.Dialogs.prompt(TranslationUtil.translateText(TranslationUtil.keys.Enter_a_new_display_name_for_the_item), context.currentContext.value, function (newDisplayName) {
         if (newDisplayName == null) {
           context.aborted = true;
           return;
