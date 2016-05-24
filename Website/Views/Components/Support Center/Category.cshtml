@@ -3,8 +3,12 @@
 @using Sitecore.Data.Fields
 @{
     var categoryContent = Sitecore.Context.Database.GetItem("{E507A0DB-A122-406B-862E-6C163BCCA7E7}");
-    ImageField iconField = categoryContent.Fields["Icon"];
-    var iconURL = Sitecore.Resources.Media.MediaManager.GetMediaUrl(iconField.MediaItem);
+    ImageField modalIconField = categoryContent.Fields["Modal Icon"];
+    var modalIconURL = Sitecore.Resources.Media.MediaManager.GetMediaUrl(modalIconField.MediaItem);
+    ImageField headsetIconField = categoryContent.Fields["Headset Icon"];
+    var headsetIconURL = Sitecore.Resources.Media.MediaManager.GetMediaUrl(headsetIconField.MediaItem);
+    ImageField mailIconField = categoryContent.Fields["Mail Icon"];
+    var mailIconURL = Sitecore.Resources.Media.MediaManager.GetMediaUrl(mailIconField.MediaItem);
 
     SupportCenterController controller = new SupportCenterController();
     var categories = StreamEnergy.Json.Stringify(controller.GetAllCategories());
@@ -36,75 +40,97 @@
 }
 <div class="support-container layout" ng-cloak>
     <div class="category clearfix" ng-init="categoryInit(@categories, @category, @categoryFaqs, @subcategories, @subcategory, @searchFAQ, @search)">
-        <div class="pagination-display clearfix">
-            <a href="" ng-click="backToSupport(@categoryFaqs)" ng-show="searchResults">Back to Support</a>
+        <div class="pagination-display clearfix" ng-show="searchResults">
+            <p><a href="" ng-click="backToSupport(@categoryFaqs)" ng-show="searchResults">Back to Support</a></p>
             <p>
                 <span>@categoryContent.Fields["Showing"] {{resultsPageRange[resultsPage].low + 1}} - {{resultsPageRange[resultsPage].high + 1}} of {{displayedFAQCount}}</span>
-                <span ng-show="searchResults"> search results for “{{searchData.text}}”</span>
+                <span> search results for “{{searchData.text}}”</span>
                 <span> in {{searchData.category}}</span>
                 <span ng-show="searchData.state.name"> - {{searchData.state.abbreviation}}</span>
-                <span ng-show="subcategory"> - {{subcategory}}</span>
+                <span> - {{subcategory}}</span>
                 <span class="per-page">Results Per Page </span>
                 <select ng-model="resultsPerPage.value" ng-change="setResultsPerPage()">
                     <option ng-repeat="value in resultsPerPage.options">{{value}}</option>
                 </select>
             </p>
-        </div>    
-        <article class="faqs marketing">
-            <div class="content">
-                <div class="faq" ng-repeat="faq in getDisplayedFAQs() track by $index" ng-show="faqFilter(faq, $index)" ng-init="isHelpful = ''; helpfulSelected = false; feedback = ''" id="id{{faq.guid}}">
-                    <div class="question clearfix" ng-click="selectFaq($index)">
+        </div>
+        <div class="pagination-spacer" ng-hide="searchResults"></div>
+        <div class="faqs clearfix">
+            <article class="marketing">
+                <div class="content">
+                    <div class="faq" ng-repeat="faq in getDisplayedFAQs() track by $index" ng-show="faqFilter(faq, $index)" ng-init="isHelpful = ''; helpfulSelected = false; feedback = ''" id="id{{faq.guid}}">
+                        <div class="question clearfix" ng-click="selectFaq($index)">
                             <div class="plus-minus">
                                 <div class="plus" ng-class="{minus: faq.selected}"></div>
                             </div>
-                        <a href="">{{faq.faqQuestion}}</a>
-                    </div>
-                    <div ng-if="faq.selected">{{scroll()}}</div>
-                    <div class="answer-container">
-                        <div class="triangle-up"></div>
-                        <div class="answer clearfix" ng-class="{reveal: faq.selected}">
-                            <div class="answer-content" ng-bind-html="faq.faqAnswer"></div>
-                            <div class="helpful">
-                                <p>
-                                    <label for="helpful">Was this helpful?</label>
-                                    <input type="radio" name="helpful" ng-model="isHelpful" ng-change="helpfulSelected = true" ng-value="true" /> Yes
-                                    <input type="radio" name="helpful" ng-model="isHelpful" ng-change="helpfulSelected = true" ng-value="false" /> No
-                                </p>
-                                <div class="response" ng-show="helpfulSelected">
-                                    <p>Thanks for your feedback! If you would like to add a comment, please enter it below.</p>
-                                    <textarea placeholder="Add comments here..." ng-model="feedback"></textarea>
-                                    <button class="button primary" ng-click="sendFeedback(faq.guid, isHelpful, feedback)">Submit</button>
+                            <a href="">{{faq.faqQuestion}}</a>
+                        </div>
+                        <div ng-if="faq.selected">{{scroll()}}</div>
+                        <div class="answer-container">
+                            <div class="triangle-up"></div>
+                            <div class="answer clearfix" ng-class="{reveal: faq.selected}">
+                                <div class="answer-content" ng-bind-html="faq.faqAnswer"></div>
+                                <div class="helpful">
+                                    <p>
+                                        <label for="helpful">Was this helpful?</label>
+                                        <input type="radio" name="helpful" ng-model="isHelpful" ng-change="helpfulSelected = true" ng-value="true" /> Yes
+                                        <input type="radio" name="helpful" ng-model="isHelpful" ng-change="helpfulSelected = true" ng-value="false" /> No
+                                    </p>
+                                    <div class="response" ng-show="helpfulSelected">
+                                        <p>Thanks for your feedback! If you would like to add a comment, please enter it below.</p>
+                                        <textarea placeholder="Add comments here..." ng-model="feedback"></textarea>
+                                        <button class="button primary" ng-click="sendFeedback(faq.guid, isHelpful, feedback)">Submit</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="pagination-container">
-                <div class="pagination clearfix" ng-show="faqs.length > resultsPerPage.value">
-                    <div class="back"><a href="" ng-click="setResultsPage(0)" ng-class="{disabled: resultsPage == 0}">First</a></div>
-                    <div class="back"><a href="" ng-click="setResultsPage(resultsPage - 1)" ng-class="{disabled: resultsPage == 0}">Previous</a></div>
-                    <div class="page-number" ng-repeat="page in resultsPageRange" ng-class="{selected: resultsPage == $index}" ng-click="setResultsPage($index)">{{$index + 1}}</div>
-                    <div class="forward"><a href="" ng-click="setResultsPage(resultsPage + 1)" ng-class="{disabled: resultsPage == resultsPages - 1}">Next</a></div>
-                    <div class="forward"><a href="" ng-click="setResultsPage(resultsPageRange.length - 1)" ng-class="{disabled: resultsPage == resultsPages - 1}">Last</a></div>
+                <div class="pagination-container">
+                    <div class="pagination clearfix" ng-show="faqs.length > resultsPerPage.value">
+                        <div class="back"><a href="" ng-click="setResultsPage(0)" ng-class="{disabled: resultsPage == 0}">First</a></div>
+                        <div class="back"><a href="" ng-click="setResultsPage(resultsPage - 1)" ng-class="{disabled: resultsPage == 0}">Previous</a></div>
+                        <div class="page-number" ng-repeat="page in resultsPageRange" ng-show="pageFilter1($index)" ng-class="{selected: resultsPage == $index}" ng-click="setResultsPage($index)">{{$index + 1}}</div>
+                        <div ng-show="pageFilter2()">...</div>
+                        <div class="page-number" ng-repeat="page in resultsPageRange" ng-show="pageFilter3($index)" ng-class="{selected: resultsPage == $index}" ng-click="setResultsPage($index)">{{$index + 1}}</div>
+                        <div ng-show="pageFilter4()">...</div>
+                        <div class="page-number" ng-repeat="page in resultsPageRange" ng-show="pageFilter5($index)" ng-class="{selected: resultsPage == $index}" ng-click="setResultsPage($index)">{{$index + 1}}</div>
+                        <div class="forward"><a href="" ng-click="setResultsPage(resultsPage + 1)" ng-class="{disabled: resultsPage == resultsPages - 1}">Next</a></div>
+                        <div class="forward"><a href="" ng-click="setResultsPage(resultsPageRange.length - 1)" ng-class="{disabled: resultsPage == resultsPages - 1}">Last</a></div>
+                    </div>
                 </div>
-            </div>
-        </article>
-        <aside>
-            <h4>What what you're looking for quickly by choosing a tag below:</h4>
-            <div ng-repeat="keyword in keywords">
-                <p ng-class="{selected: keyword.selected}"><a href="" ng-click="toggleKeyword(keyword)">{{keyword.name}}</a></p>
-            </div>
-            <h4>Still having issues?</h4>
-            <p>Please contact us!</p>
-            <p>Customer Service at 877-743-5893</p>
-            <p>from 7am-10pm, CST, Monday-Friday or</p>
-            <p>9am-5pm, CST, Saturday.</p>
-            <a href="" ng-click="showModal('emergency-contact');">Emergency Contacts</a>
-        </aside>
-    </div>
-    <div class="secondary-footer" id="footer">
-        Can't find what you're looking for? <a href="" ng-click="">Ask Us a Question</a>
+            </article>
+            <aside>
+                <h4>What what you're looking for quickly by choosing a tag below:</h4>
+                <div class="keyword">
+                    <p><a href="" ng-class="{selected: noKeywordSelected}" ng-click="toggleKeyword()">All</a></p>
+                </div>
+                <div ng-repeat="keyword in keywords" class="keyword">
+                    <p ng-class="{selected: keyword.selected}"><a href="" ng-click="toggleKeyword(keyword)">{{keyword.name}}</a></p>
+                </div>
+                <hr />
+                <div class="contact">
+                    <div class="headset">
+                        <img src="@headsetIconURL" />
+                        <h4>Still having issues?</h4>
+                        <p>Please contact us!</p>
+                    </div>
+                    <div class="contact-info">
+                        <p>Customer Service at 877-743-5893 from</p>
+                        <p>7am-10pm, CST, Monday-Friday or</p>
+                        <p>9am-5pm, CST, Saturday.</p>
+                    </div>
+                </div>
+                <p><a href="" ng-click="showModal('emergency-contact');">Emergency Contacts</a></p>
+            </aside>
+        </div>
+        <div class="address-footer clearfix">
+            <img src="@mailIconURL" />
+            <p>Stream, Attn: Customer Operations, 1950 N Stemmons Fwy, Suite 3000, Dallas, TX 75207</p>
+        </div>
+        <div class="secondary-footer">
+            Can't find what you're looking for? <a href="" ng-click="">Ask Us a Question</a>
+        </div>
     </div>
 </div>
 <script type="text/ng-template" id="emergency-contact">
@@ -113,7 +139,7 @@
             <a href="" ng-click="$dismiss()">Close</a>
             <h2>Emergency Contacts - {{category.displayTitle}}<span ng-show="searchData.state"> - {{searchData.state.abbreviation}}</span></h2>
             <h4>@Html.Sitecore().Field("Subheading")</h4>
-            <img class="life-preserver" src="@iconURL" />
+            <img class="life-preserver" src="@modalIconURL" />
             <div ng-show="category.states">
                 <span>
                     Please select a state:

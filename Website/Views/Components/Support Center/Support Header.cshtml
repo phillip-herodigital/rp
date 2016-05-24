@@ -1,6 +1,12 @@
-﻿<div class="support-search" ng-class="{'category-search': isCategorySupport}" ng-cloak>
+﻿@using Sitecore.Data.Fields
+
+@{ 
+    ImageField backgroundField = Html.Sitecore().CurrentItem.Fields["Background"];
+    string backgroundURL = Sitecore.Resources.Media.MediaManager.GetMediaUrl(backgroundField.MediaItem);
+}
+<div class="support-search" ng-class="{'category-search': isCategorySupport}" ng-style="{'background-image': 'URL(@backgroundURL)'}" ng-cloak>
     <div class="content">
-        <h1 ng-show="!subcategories.length && !searchResults">Stream Support Center</h1>
+        <h1 ng-show="!subcategories.length && !searchResults">@Html.Sitecore().Field("Heading")</h1>
         <h1 ng-show="subcategories.length  && !searchResults">{{category.displayTitle}} Support</h1>
         <h1 ng-show="searchResults">Search Results</h1>
         <h4 ng-hide="isCategorySupport">At Stream, we're here to help. Contact us if you can't find what you're looking for.</h4>
@@ -16,7 +22,7 @@
                 <input type="text" class="search-input"
                        placeholder="Have a question? Enter a search term..."
                        ng-model="searchData.text"
-                       typeahead="faq.faqQuestion for faq in searchFAQs | filter:{faqQuestion:$viewValue} | limitTo:4" 
+                       typeahead="faq.faqQuestion for faq in searchFAQs | filter:{faqQuestion:$viewValue} | limitTo:6" 
                        typeahead-template-url="typeahead-results"/>
                 <img class="mag-glass" src="/frontend/assets/i/mag-glass.png" ng-click="search()"/>
             </div>
@@ -40,12 +46,14 @@
 </div>
 <nav class="tertiary-nav" ng-if="subcategories.length" ng-cloak>
     <div class="wrapper">
-        <ul ng-style="{'margin-left': true}">
-            <li ng-repeat="subcategory in subcategories" ng-class="{selected: subcategory.selected}"><a href="" ng-click="selectSubcategory($index)">{{subcategory.displayTitle}}</a></li>
+        <ul>
+            <li ng-repeat="subcategory in subcategories" ng-class="{selected: subcategory.selected}">
+                <a href="" ng-click="selectSubcategory($index)">{{subcategory.displayTitle}}</a>
+            </li>
         </ul>
     </div>
 </nav>
 <script type="text/ng-template" id="typeahead-results">
-    <p bind-html-unsafe="match.label | typeaheadHighlight:query" class="typeaheadQuestion"></p>
+    <div bind-html-unsafe="match.label | typeaheadHighlight:query" class="typeaheadQuestion"></div>
     <div ng-bind-html="match.model.faqAnswer" class="typeaheadAnswer"></div>
 </script>

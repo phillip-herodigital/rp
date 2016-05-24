@@ -7,7 +7,6 @@
         .support-search {
             height: 370px;
             color: #fff;
-            background-image: url('/~/media/Images/Banners/support-banner.png');
             padding: 1px;
             background-size: cover;
 
@@ -108,11 +107,35 @@
                         left: 0 !important;
                         top: 90px !important;
                         background-color: #eff2f3;
-                        padding: 5px;
+                        padding: 0 15px 15px;
+
+                        &::before {
+                            content: "";
+                            height: 0px;
+                            width: 0px;
+                            display: block;
+                            border-left: 15px solid transparent;
+                            border-right: 15px solid transparent;
+                            border-bottom: 15px solid #eff2f3;
+                            position: relative;
+                            bottom: 15px;
+                            left: 215px;
+                        }
 
                         li {
+                            padding: 15px 10px;
+                            border-bottom: 1px solid #dcdfdf;
+
+                            &:first-child {
+                                padding-top: 0;
+                            }
+
+                            &:last-child {
+                                border-bottom: none;
+                                padding-bottom: 0;
+                            }
+
                             .typeaheadQuestion {
-                                margin-bottom: 0;
                                 font-size: 16px;
                                 font-weight: 400;
                                 color: #333333;
@@ -125,6 +148,10 @@
                                 p {
                                     margin: 0;
                                 }
+                            }
+
+                            &.active {
+                                background-color: #ffffff;
                             }
                         }
                     }
@@ -286,7 +313,7 @@
                     }
                 }
 
-                article.faqs {
+                .faqs {
                     margin-top: 25px;
 
                     .wrapper {
@@ -330,114 +357,198 @@
             }
 
             .category { //category page specific styling
-                padding: 20px 20px 0;
+                .pagination-display {
+                    width: calc(100% - 100px);
+                    border-bottom: 2px solid #efefef;
+                    margin: 20px 50px 0;
 
-                article.faqs {
-                    float: left;
-                    width: calc(100% - 250px);
+                    p {
+                        font-size: 20px;
+                    }
 
-                    .content {
-                        .faq {
-                            .question {
-                                a {
-                                    width: calc(100% - 51px);
+                    a {
+                        font-weight: 500;
+                    }
+
+                    .per-page {
+                        margin-left: 10px;
+                        border-left: 1px solid grey;
+                        padding-left: 10px;
+                    }
+
+                    select {
+                        width: 60px;
+                    }
+                }
+
+                .pagination-spacer {
+                    margin-bottom: 50px;
+                }
+
+                .faqs {
+                    position: relative;
+                    margin: 0 50px;
+
+                    article {
+                        float: left;
+                        width: calc(100% - 400px);
+                        position: static;
+
+                        .content {
+                            padding: 0;
+                            margin-bottom: 78px;
+
+                            .faq {
+                                .question {
+                                    a {
+                                        width: calc(100% - 51px);
+                                    }
                                 }
-                            }
 
-                            .answer-container {
-                                .triangle-up {
-                                    height: 0;
-                                    width: 0;
-                                    border-left: 15px solid transparent;
-                                    border-right: 15px solid transparent;
-                                    border-bottom: 15px solid #eff2f3;
-                                    background-color: #fff;
-                                    position: relative;
-                                    top: 0;
-                                    left: 45px;
-                                }
+                                .answer-container {
+                                    .triangle-up {
+                                        height: 0;
+                                        width: 0;
+                                        border-left: 15px solid transparent;
+                                        border-right: 15px solid transparent;
+                                        border-bottom: 15px solid #eff2f3;
+                                        background-color: #fff;
+                                        position: relative;
+                                        top: 0;
+                                        left: 45px;
+                                    }
 
-                                .answer {
-                                    background-color: #eff2f3;
+                                    .answer {
+                                        background-color: #eff2f3;
 
-                                    .answer-content {
-                                        padding: 20px;
+                                        .answer-content {
+                                            padding: 20px;
+                                        }
                                     }
                                 }
                             }
                         }
                     }
-                }
 
-                aside {
-                    float: right;
-                    width: 250px;
+                    aside {
+                        float: right;
+                        width: 400px;
+                        font-size: 16px;
+                        padding: 20px 50px 20px;
 
-                    .selected {
-                        font-weight: 700;
-                    }
-                }
-            }
+                        h4 {
+                            margin-top: 0;
+                        }
 
-            .pagination-display {
-                width: 100%;
-                border-bottom: 2px solid #efefef;
+                        .keyword {
+                            margin-left: 25px;
 
-                .per-page {
-                    margin-left: 10px;
-                    border-left: 1px solid grey;
-                    padding-left: 10px;
-                }
+                            p {
+                                margin: 0 0 15px;
 
-                select {
-                    width: 60px;
-                }
-            }
+                                a {
+                                    color: inherit;
+                                    font-size: 16px;
+                                }
+                            }
 
-            .pagination-container {
-                display: flex;
-                margin: 20px;
+                            .selected {
+                                font-weight: 600;
+                                color: #29a4dd;
+                            }
+                        }
 
-                .pagination {
-                    margin: 0 auto;
+                        hr {
+                            border-top: 1px solid #efefef;
+                        }
 
-                    div {
-                        margin: 0 2px;
-                        float: left;
-                    }
+                        .contact {
 
-                    .back {
-                        background: url(/frontend/assets/i/icon/backward.png) left center no-repeat;
-                        padding-left: 10px;
-                    }
+                            .headset {
+                                margin-bottom: 30px;
 
-                    .page-number {
-                        border: 1px solid grey;
-                        width: 24px;
-                        text-align: center;
-                        border-radius: 5px;
+                                img {
+                                    float: left;
+                                    margin-right: 36px;
+                                }
 
-                        &.selected {
-                            background-color: #1991cf;
-                            border-color: #1991cf;
-                            color: #ffffff;
+                                h4 {
+                                    margin-bottom: 0;
+                                }
+                            }
+
+                            p {
+                                margin: 0;
+                            }
                         }
                     }
+                }
 
-                    .forward {
-                        background: url(/frontend/assets/i/icon/forward.png) right center no-repeat;
-                        padding-right: 10px;
+                .pagination-container {
+                    display: flex;
+                    margin: 36px auto;
+                    position: absolute;
+                    bottom: 0;
+                    width: inherit;
+
+                    .pagination {
+                        margin: 0 auto;
+                        font-size: 18px;
+
+                        div {
+                            margin: 0 4px;
+                            float: left;
+                        }
+
+                        .back {
+                            background: url(/frontend/assets/i/icon/backward.png) left center no-repeat;
+                            padding-left: 10px;
+                        }
+
+                        .page-number {
+                            border: 1px solid grey;
+                            width: 26px;
+                            text-align: center;
+                            border-radius: 5px;
+
+                            &.selected {
+                                background-color: #1991cf;
+                                border-color: #1991cf;
+                                color: #ffffff;
+                            }
+                        }
+
+                        .forward {
+                            background: url(/frontend/assets/i/icon/forward.png) right center no-repeat;
+                            padding-right: 10px;
+                        }
+
+                        .disabled {
+                            color: #000000;
+                        }
+                    }
+                }
+
+                .address-footer {
+                    width: 100%;
+                    height: 75px;
+                    background-color: #f7f8f9;
+                    padding: 27px 50px;
+
+                    p {
+                        font-size: 20px;
+                        margin: 0;
                     }
 
-                    .disabled {
-                        color: #000000;
+                    img {
+                        float: left;
+                        margin-right: 10px;
                     }
                 }
             }
 
             .faqs { //styling applied to both category and main page
                 .content {
-
                     .faq {
                         border-bottom: 2px solid #efefef;
 
@@ -545,6 +656,7 @@
             float: left;
             background-color: #eff2f3;
             padding: 36px;
+            padding-left: 40px;
             font-size: 21px;
 
             a {
@@ -557,7 +669,7 @@
         .modal-header {
             padding-bottom: 40px;
 
-            h2{
+            h2 {
                 font-size: 34px;
                 font-weight: 500;
             }

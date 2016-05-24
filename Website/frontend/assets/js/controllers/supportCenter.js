@@ -9,7 +9,7 @@
     $scope.subcategories = []; //list of subcategories for $scope.category
     $scope.subcategory = "All"; //currently selected subcategory name
     $scope.faqs = []; //popular faqs on /support page, category/subcategory faqs on category/subcategory pages
-    $scope.searchData = { //seach data
+    $scope.searchData = { //search data
         category: "",
         state: null,
         text: ""
@@ -18,7 +18,7 @@
     $scope.resultsPage = 0;
     $scope.resultsPerPage = {
         value: 15,
-        options: [2, 5, 10, 15]
+        options: [5, 10, 15, 25, 50]
     };
     $scope.resultsPages = Math.ceil($scope.faqs.length / $scope.resultsPerPage.value);
     var scrollGuid = "";
@@ -26,6 +26,7 @@
     var scrollPage = 0;
     $scope.isCategorySupport = false;
     $scope.keywords = []; //list of keywords for current faq list
+    $scope.noKeywordSelected = true;
     $scope.init = function (categories, popFaqs) {
         $scope.categories = categories;
         $scope.category.name = "";
@@ -63,6 +64,11 @@
                 subcat.selected = true;
             }
         });
+        if (category.states) {
+            angular.forEach($scope.category.states, function (state) {
+                state.energyModalContent = $sce.trustAsHtml(state.energyModalContent);
+            });
+        }
         if (search) {
             var searchArray = search.split("|");
             angular.forEach(categories, function (category) {
@@ -245,12 +251,36 @@
         }
     };
 
+    $scope.dividePaginationInto = 2;
+
+    $scope.pageFilter1 = function (index) {
+        if (index < $scope.dividePaginationInto) return true;
+        else return false;
+    }
+    $scope.pageFilter2 = function () {
+        if ($scope.resultsPage > $scope.dividePaginationInto + Math.floor($scope.dividePaginationInto / 2)) return true;
+        else return false;
+    }
+    $scope.pageFilter3 = function (index) {
+        if (index >= $scope.resultsPage - Math.floor($scope.dividePaginationInto / 2) &&
+            index <= $scope.resultsPage + Math.floor($scope.dividePaginationInto / 2) &&
+            index >= $scope.dividePaginationInto &&
+            index < $scope.resultsPages - $scope.dividePaginationInto) return true;
+        else return false;
+    }
+    $scope.pageFilter4 = function () {
+        if ($scope.resultsPage < $scope.resultsPages - $scope.dividePaginationInto - Math.floor($scope.dividePaginationInto / 2)) return true;
+        else return false;
+    }
+    $scope.pageFilter5 = function (index) {
+        if (index >= $scope.resultsPages - $scope.dividePaginationInto &&
+            index >= $scope.dividePaginationInto * 2) return true;
+        else return false;
+    }
+
     $scope.selectCategory = function (category, state) {
         $scope.searchData.category = category.name;
         $scope.searchData.state = state;
-        if (state) {
-            $scope.searchData.state.energyModalContent = $sce.trustAsHtml($scope.searchData.state.energyModalContent)
-        }
         $scope.dropDown = false;
         $scope.searchData.text = "";
         paginate();
@@ -466,8 +496,22 @@
     };
 
     $scope.toggleKeyword = function (keyword) {
-        keyword.selected = !keyword.selected;
-        $scope.resultsPage = 0;
+        if (keyword === undefined) {
+            angular.forEach($scope.keywords, function (keyword) {
+                keyword.selected = false;
+            });
+            $scope.noKeywordSelected = true;
+        }
+        else {
+            keyword.selected = !keyword.selected;
+            $scope.resultsPage = 0;
+            $scope.noKeywordSelected = true;
+            angular.forEach($scope.keywords, function (keyword) {
+                if (keyword.selected) {
+                    $scope.noKeywordSelected = false;
+                }
+            });
+        }
         paginate();
     };
     $scope.showModal = function (templateUrl, size) {
