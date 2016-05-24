@@ -1,10 +1,12 @@
 ﻿@using StreamEnergy.MyStream.Controllers
 @using StreamEnergy.MyStream.Models.Marketing.Support
+@using Sitecore.Data.Fields
 @{
     SupportCenterController controller = new SupportCenterController();
     var categories = StreamEnergy.Json.Stringify(controller.GetAllCategories());
     List<FAQ> popularFAQS = new List<FAQ>();
-
+    ImageField headsetIconField = Html.Sitecore().CurrentItem.Fields["Headset Icon"];
+    var headsetIconURL = Sitecore.Resources.Media.MediaManager.GetMediaUrl(headsetIconField.MediaItem);
     if (!string.IsNullOrEmpty(Sitecore.Context.Item.Fields["Popular FAQs"].Value))
     {
         var guids = Sitecore.Context.Item.Fields["Popular FAQs"].Value.Split("|".ToCharArray());
@@ -76,8 +78,19 @@
                                         <div ng-repeat="relatedFAQ in faq.relatedFAQs">
                                             <p><a href="" ng-click="selectRelated(relatedFAQ)">{{relatedFAQ.display}}</a></p>
                                         </div>
-                                        <h4>Still having issues?</h4>
-                                        <p>Please contact customer support at 877-743-5893</p>
+                                        <hr />
+                                        <div class="contact">
+                                            <div class="headset">
+                                                <img src="@headsetIconURL" />
+                                                <h4>Still having issues?</h4>
+                                                <p>Please contact us!</p>
+                                            </div>
+                                            <div class="contact-info">
+                                                <p>Customer Service at 877-743-5893 from</p>
+                                                <p>7am-10pm, CST, Monday-Friday or</p>
+                                                <p>9am-5pm, CST, Saturday.</p>
+                                            </div>
+                                        </div>
                                     </aside>
                                     <div class="helpful">
                                         <p>

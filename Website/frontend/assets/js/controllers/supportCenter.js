@@ -73,7 +73,7 @@
             var searchArray = search.split("|");
             angular.forEach(categories, function (category) {
                 if (category.states) {
-                    angular.forEach(category.states, function (state) {
+                    angular.forEach($scope.category.states, function (state) {
                         if (state.name === searchArray[0]) {
                             $scope.searchData.state = state;
                         }
@@ -279,13 +279,18 @@
     }
 
     $scope.selectCategory = function (category, state) {
-        $scope.searchData.category = category.name;
-        $scope.searchData.state = state;
-        $scope.dropDown = false;
-        $scope.searchData.text = "";
-        paginate();
-        buildKeywords();
-        $scope.resultsPage = 0;
+        if (!category.states.length > 0 || state) {
+            if (state) {
+                state.energyModalContent = $sce.trustAsHtml(state.energyModalContent);
+            }
+            $scope.searchData.category = category.name;
+            $scope.searchData.state = state;
+            $scope.dropDown = false;
+            $scope.searchData.text = "";
+            paginate();
+            buildKeywords();
+            $scope.resultsPage = 0;
+        }
     };
     
     $scope.selectSubcategory = function (index) {

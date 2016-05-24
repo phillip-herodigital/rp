@@ -143,10 +143,11 @@
             <div ng-show="category.states">
                 <span>
                     Please select a state:
-                    <select ng-model="searchData.state"
+                    <select ng-model="searchData.state.name"
                             ng-change="selectCategory(category, searchData.state)"
-                            ng-options="state.name for state in category.states">
-                        <option disabled selected value="">Select State</option>
+                            ng-options="state.name for state in category.states"
+                            ng-value="state.name">
+                        <option disabled value="">Select State</option>
                     </select>
                 </span>
             </div>

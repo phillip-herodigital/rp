@@ -461,26 +461,6 @@
                         hr {
                             border-top: 1px solid #efefef;
                         }
-
-                        .contact {
-
-                            .headset {
-                                margin-bottom: 30px;
-
-                                img {
-                                    float: left;
-                                    margin-right: 36px;
-                                }
-
-                                h4 {
-                                    margin-bottom: 0;
-                                }
-                            }
-
-                            p {
-                                margin: 0;
-                            }
-                        }
                     }
                 }
 
@@ -548,6 +528,26 @@
             }
 
             .faqs { //styling applied to both category and main page
+                .contact {
+
+                    .headset {
+                        margin-bottom: 30px;
+
+                        img {
+                            float: left;
+                            margin-right: 36px;
+                        }
+
+                        h4 {
+                            margin-bottom: 0;
+                        }
+                    }
+
+                    p {
+                        margin: 0;
+                    }
+                }
+
                 .content {
                     .faq {
                         border-bottom: 2px solid #efefef;
@@ -606,12 +606,12 @@
 
                                 .answer-content {
                                     float: left;
-                                    width: calc(100% - 250px);
+                                    width: calc(100% - 350px);
                                 }
 
                                 aside {
                                     float: right;
-                                    width: 250px;
+                                    width: 350px;
                                     font-size: 16px;
                                     padding: 0 20px 20px;
                                 }
