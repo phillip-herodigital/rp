@@ -183,11 +183,11 @@
     <Reference Include="Microsoft.Web.RedisSessionStateProvider">
       <HintPath>..\packages\Microsoft.Web.RedisSessionStateProvider.0.1.0.375-Pre\lib\net45\Microsoft.Web.RedisSessionStateProvider.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.WindowsAzure.Diagnostics, Version=2.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
+    <Reference Include="Microsoft.WindowsAzure.Diagnostics, Version=2.9.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Libraries\MicrosoftAzure\Microsoft.WindowsAzure.Diagnostics.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.WindowsAzure.ServiceRuntime, Version=2.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
+    <Reference Include="Microsoft.WindowsAzure.ServiceRuntime, Version=2.9.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Libraries\MicrosoftAzure\Microsoft.WindowsAzure.ServiceRuntime.dll</HintPath>
     </Reference>
