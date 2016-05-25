@@ -1,7 +1,7 @@
 ﻿ngApp.controller('MobileEnrollmentConfigureDataCtrl', ['$scope', '$modal', 'uiGmapGoogleMapApi','uiGmapIsReady', '$http', 'enrollmentService', 'enrollmentStepsService', 'enrollmentCartService', 'analytics', function ($scope, $modal, uiGmapGoogleMapApi, uiGmapIsReady, $http, enrollmentService, enrollmentStepsService, enrollmentCartService, analytics) {
 
     $scope.currentMobileLocationInfo = enrollmentCartService.getActiveService;
-    $scope.getDevicesCount = enrollmentCartService.getDevicesCount;
+    $scope.cartDevices = enrollmentCartService.getCartDevices;
     $scope.formFields = {
         chosenPlanId: undefined
     };
@@ -12,12 +12,18 @@
     $scope.zipCodeInvalid = false;
     $scope.enrollmentStepsService = enrollmentStepsService;
     $scope.itemIndex = 0;
-    $scope.cartDevices = enrollmentCartService.getCartDevices();
+    var mobilePlanIDUsed = 0;
 
-    $scope.$watch("cartDevices.length", function (newVal, oldVal) {
+    $scope.$watch("cartDevices().length", function (newVal, oldVal) {
         if (newVal != oldVal) {
-            $scope.phoneOptions = $scope.cartDevices[activeServiceIndex()];
+            $scope.phoneOptions = $scope.cartDevices()[activeServiceIndex()];
             $scope.selectedPlan = {};
+        }
+    });
+
+    $scope.$watch(enrollmentCartService.getActiveService, function (newVal, oldVal) {
+        if (newVal != oldVal) {
+            $scope.phoneOptions = enrollmentCartService.getCartDevices()[$scope.activeServiceIndex()];
         }
     });
 
@@ -181,6 +187,7 @@
         }
         else {
             enrollmentService.setAccountInformation();
+            $scope.selectedPlan = {};
         }
     };
 
