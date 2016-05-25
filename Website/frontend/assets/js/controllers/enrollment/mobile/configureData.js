@@ -12,7 +12,6 @@
     $scope.zipCodeInvalid = false;
     $scope.enrollmentStepsService = enrollmentStepsService;
     $scope.itemIndex = 0;
-    var mobilePlanIDUsed = 0;
 
     $scope.$watch("cartDevices().length", function (newVal, oldVal) {
         if (newVal != oldVal) {
