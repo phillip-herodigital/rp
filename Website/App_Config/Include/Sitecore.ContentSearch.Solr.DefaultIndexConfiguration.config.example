@@ -277,7 +277,6 @@
                This maps a field type by name to a Strongly Typed Implementation of the field type e.g. html maps to HTMLField
             -->
           <fieldReaders type="Sitecore.ContentSearch.FieldReaders.FieldReaderMap, Sitecore.ContentSearch">
-            <param desc="id">defaultFieldReaderMap</param>
             <mapFieldByTypeName hint="raw:AddFieldReaderByFieldTypeName">
               <fieldReader fieldTypeName="checkbox"                                             fieldReaderType="Sitecore.ContentSearch.FieldReaders.CheckboxFieldReader, Sitecore.ContentSearch" />
               <fieldReader fieldTypeName="date|datetime"                                        fieldReaderType="Sitecore.ContentSearch.FieldReaders.DateFieldReader, Sitecore.ContentSearch" />
@@ -393,9 +392,6 @@
           <defaultSearchSecurityOption ref="contentSearch/indexConfigurations/defaultSearchSecurityOption" />
 
         </defaultSolrIndexConfiguration>
-        
-        <solrHttpWebRequestFactory type="HttpWebAdapters.HttpWebRequestFactory, SolrNet" />
-        
       </indexConfigurations>
     </contentSearch>
     <pipelines>

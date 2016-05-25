@@ -609,9 +609,9 @@
              <summary></summary>
             --------------------------------------------------------------------------
         </member>
-        <member name="T:Sitecore.sitecore.admin.Aggregation">
+        <member name="T:Sitecore.sitecore.admin.RebuildKeyBehaviorCache">
             <summary>
-            Aggregation class.
+            Rebuild Key Behavior Cache class.
             </summary>
         </member>
         <member name="T:Sitecore.sitecore.admin.AdminPage">
@@ -639,6 +639,416 @@
             <value>
             <c>true</c> if current user is developer; otherwise, <c>false</c>.
             </value>
+        </member>
+        <member name="F:Sitecore.sitecore.admin.RebuildKeyBehaviorCache.TaskId">
+            <summary>
+            The task id.
+            </summary>
+        </member>
+        <member name="M:Sitecore.sitecore.admin.RebuildKeyBehaviorCache.CancelClick(System.Object,System.EventArgs)">
+            <summary>
+            Handle click event from cancel button.
+            </summary>
+            <param name="sender">
+            Reference to the button.
+            </param>
+            <param name="e">
+            Event arguments.
+            </param>
+        </member>
+        <member name="M:Sitecore.sitecore.admin.RebuildKeyBehaviorCache.OnInit(System.EventArgs)">
+            <summary>
+            Raises the <see cref="E:System.Web.UI.Control.Init"/> event to initialize the page.
+            </summary>
+            <param name="e">
+            An <see cref="T:System.EventArgs"/> that contains the event data.
+            </param>
+        </member>
+        <member name="M:Sitecore.sitecore.admin.RebuildKeyBehaviorCache.Page_Load(System.Object,System.EventArgs)">
+            <summary>
+            Handles the Load event of the Page control.
+            </summary>
+            <param name="sender">
+            The source of the event.
+            </param>
+            <param name="e">
+            The <see cref="T:System.EventArgs"/> instance containing the event data.
+            </param>
+        </member>
+        <member name="M:Sitecore.sitecore.admin.RebuildKeyBehaviorCache.ProgressTimer_Tick(System.Object,System.EventArgs)">
+            <summary>
+            Handles the Tick event of the ProgressTimer control.
+            </summary>
+            <param name="sender">
+            The source of the event.
+            </param>
+            <param name="e">
+            The <see cref="T:System.EventArgs"/> instance containing the event data.
+            </param>
+        </member>
+        <member name="M:Sitecore.sitecore.admin.RebuildKeyBehaviorCache.StartClick(System.Object,System.EventArgs)">
+            <summary>
+            Handle click event from startOrCancel button.
+            </summary>
+            <param name="sender">
+            Reference to the button.
+            </param>
+            <param name="e">
+            Event arguments.
+            </param>
+        </member>
+        <member name="M:Sitecore.sitecore.admin.RebuildKeyBehaviorCache.UpdateUiForOverallStatus">
+            <summary>
+            Updates the UI for overall status.
+            </summary>
+        </member>
+        <member name="M:Sitecore.sitecore.admin.RebuildKeyBehaviorCache.UpdateUiStatusAll">
+            <summary>
+            Updates the UI for all status.
+            </summary>
+        </member>
+        <member name="M:Sitecore.sitecore.admin.RebuildKeyBehaviorCache.ResolveTimeString(System.DateTime)">
+            <summary>
+            Resolves the time string.
+            </summary>
+            <param name="utcDateTime">
+            The UTC date time.
+            </param>
+            <returns>
+            The formatted date time.
+            </returns>
+        </member>
+        <member name="F:Sitecore.sitecore.admin.RebuildKeyBehaviorCache.mainForm">
+            <summary>
+            mainForm control.
+            </summary>
+            <remarks>
+            Auto-generated field.
+            To modify move field declaration from designer file to code-behind file.
+            </remarks>
+        </member>
+        <member name="F:Sitecore.sitecore.admin.RebuildKeyBehaviorCache.ProgressTimer">
+            <summary>
+            ProgressTimer control.
+            </summary>
+            <remarks>
+            Auto-generated field.
+            To modify move field declaration from designer file to code-behind file.
+            </remarks>
+        </member>
+        <member name="F:Sitecore.sitecore.admin.RebuildKeyBehaviorCache.StartButton">
+            <summary>
+            StartButton control.
+            </summary>
+            <remarks>
+            Auto-generated field.
+            To modify move field declaration from designer file to code-behind file.
+            </remarks>
+        </member>
+        <member name="F:Sitecore.sitecore.admin.RebuildKeyBehaviorCache.CancelButton">
+            <summary>
+            CancelButton control.
+            </summary>
+            <remarks>
+            Auto-generated field.
+            To modify move field declaration from designer file to code-behind file.
+            </remarks>
+        </member>
+        <member name="F:Sitecore.sitecore.admin.RebuildKeyBehaviorCache.TableOverallStatus">
+            <summary>
+            TableOverallStatus control.
+            </summary>
+            <remarks>
+            Auto-generated field.
+            To modify move field declaration from designer file to code-behind file.
+            </remarks>
+        </member>
+        <member name="F:Sitecore.sitecore.admin.RebuildKeyBehaviorCache.TableHeaderOverallStatus">
+            <summary>
+            TableHeaderOverallStatus control.
+            </summary>
+            <remarks>
+            Auto-generated field.
+            To modify move field declaration from designer file to code-behind file.
+            </remarks>
+        </member>
+        <member name="F:Sitecore.sitecore.admin.RebuildKeyBehaviorCache.TableHeaderCellOverallStatus">
+            <summary>
+            TableHeaderCellOverallStatus control.
+            </summary>
+            <remarks>
+            Auto-generated field.
+            To modify move field declaration from designer file to code-behind file.
+            </remarks>
+        </member>
+        <member name="F:Sitecore.sitecore.admin.RebuildKeyBehaviorCache.TableRowOverallState">
+            <summary>
+            TableRowOverallState control.
+            </summary>
+            <remarks>
+            Auto-generated field.
+            To modify move field declaration from designer file to code-behind file.
+            </remarks>
+        </member>
+        <member name="F:Sitecore.sitecore.admin.RebuildKeyBehaviorCache.TableCellOverallStateKey">
+            <summary>
+            TableCellOverallStateKey control.
+            </summary>
+            <remarks>
+            Auto-generated field.
+            To modify move field declaration from designer file to code-behind file.
+            </remarks>
+        </member>
+        <member name="F:Sitecore.sitecore.admin.RebuildKeyBehaviorCache.TableCellOverallStateValue">
+            <summary>
+            TableCellOverallStateValue control.
+            </summary>
+            <remarks>
+            Auto-generated field.
+            To modify move field declaration from designer file to code-behind file.
+            </remarks>
+        </member>
+        <member name="F:Sitecore.sitecore.admin.RebuildKeyBehaviorCache.ProcesStateLabel">
+            <summary>
+            ProcesStateLabel control.
+            </summary>
+            <remarks>
+            Auto-generated field.
+            To modify move field declaration from designer file to code-behind file.
+            </remarks>
+        </member>
+        <member name="F:Sitecore.sitecore.admin.RebuildKeyBehaviorCache.TableRowStartedAt">
+            <summary>
+            TableRowStartedAt control.
+            </summary>
+            <remarks>
+            Auto-generated field.
+            To modify move field declaration from designer file to code-behind file.
+            </remarks>
+        </member>
+        <member name="F:Sitecore.sitecore.admin.RebuildKeyBehaviorCache.TableCellStartedAtKey">
+            <summary>
+            TableCellStartedAtKey control.
+            </summary>
+            <remarks>
+            Auto-generated field.
+            To modify move field declaration from designer file to code-behind file.
+            </remarks>
+        </member>
+        <member name="F:Sitecore.sitecore.admin.RebuildKeyBehaviorCache.TableCellStartedAtValue">
+            <summary>
+            TableCellStartedAtValue control.
+            </summary>
+            <remarks>
+            Auto-generated field.
+            To modify move field declaration from designer file to code-behind file.
+            </remarks>
+        </member>
+        <member name="F:Sitecore.sitecore.admin.RebuildKeyBehaviorCache.StartedAtLabel">
+            <summary>
+            StartedAtLabel control.
+            </summary>
+            <remarks>
+            Auto-generated field.
+            To modify move field declaration from designer file to code-behind file.
+            </remarks>
+        </member>
+        <member name="F:Sitecore.sitecore.admin.RebuildKeyBehaviorCache.TableRowLastAccessed">
+            <summary>
+            TableRowLastAccessed control.
+            </summary>
+            <remarks>
+            Auto-generated field.
+            To modify move field declaration from designer file to code-behind file.
+            </remarks>
+        </member>
+        <member name="F:Sitecore.sitecore.admin.RebuildKeyBehaviorCache.TableCellFinishedAtKey">
+            <summary>
+            TableCellFinishedAtKey control.
+            </summary>
+            <remarks>
+            Auto-generated field.
+            To modify move field declaration from designer file to code-behind file.
+            </remarks>
+        </member>
+        <member name="F:Sitecore.sitecore.admin.RebuildKeyBehaviorCache.TableCellFinishedAtValue">
+            <summary>
+            TableCellFinishedAtValue control.
+            </summary>
+            <remarks>
+            Auto-generated field.
+            To modify move field declaration from designer file to code-behind file.
+            </remarks>
+        </member>
+        <member name="F:Sitecore.sitecore.admin.RebuildKeyBehaviorCache.LastChangedLabel">
+            <summary>
+            LastChangedLabel control.
+            </summary>
+            <remarks>
+            Auto-generated field.
+            To modify move field declaration from designer file to code-behind file.
+            </remarks>
+        </member>
+        <member name="F:Sitecore.sitecore.admin.RebuildKeyBehaviorCache.TableRowProcessedContacts">
+            <summary>
+            TableRowProcessedContacts control.
+            </summary>
+            <remarks>
+            Auto-generated field.
+            To modify move field declaration from designer file to code-behind file.
+            </remarks>
+        </member>
+        <member name="F:Sitecore.sitecore.admin.RebuildKeyBehaviorCache.ProcessedContacts">
+            <summary>
+            ProcessedContacts control.
+            </summary>
+            <remarks>
+            Auto-generated field.
+            To modify move field declaration from designer file to code-behind file.
+            </remarks>
+        </member>
+        <member name="F:Sitecore.sitecore.admin.RebuildKeyBehaviorCache.TableRowError">
+            <summary>
+            TableRowError control.
+            </summary>
+            <remarks>
+            Auto-generated field.
+            To modify move field declaration from designer file to code-behind file.
+            </remarks>
+        </member>
+        <member name="F:Sitecore.sitecore.admin.RebuildKeyBehaviorCache.ErrorLabel">
+            <summary>
+            ErrorLabel control.
+            </summary>
+            <remarks>
+            Auto-generated field.
+            To modify move field declaration from designer file to code-behind file.
+            </remarks>
+        </member>
+        <member name="P:Sitecore.sitecore.admin.RebuildKeyBehaviorCache.RebuildStatus">
+            <summary>
+            Gets the rebuild status.
+            </summary>
+            <value>
+            The rebuild status.
+            </value>
+        </member>
+        <member name="P:Sitecore.sitecore.admin.RebuildKeyBehaviorCache.RebuildingManager">
+            <summary>
+            Gets or sets the rebuilding manager.
+            </summary>
+            <value>
+            The rebuilding manager.
+            </value>
+        </member>
+        <member name="T:Sitecore.sitecore.admin.RebuildKeyBehaviorCacheStatus">
+            <summary>
+            The rebuild key behavior cache status.
+            </summary>
+        </member>
+        <member name="F:Sitecore.sitecore.admin.RebuildKeyBehaviorCacheStatus.task">
+            <summary>
+            The task.
+            </summary>
+        </member>
+        <member name="M:Sitecore.sitecore.admin.RebuildKeyBehaviorCacheStatus.#ctor(Sitecore.Analytics.Processing.ProcessingTask)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Sitecore.sitecore.admin.RebuildKeyBehaviorCacheStatus"/> class.
+            </summary>
+            <param name="task">
+            The task.
+            </param>
+        </member>
+        <member name="M:Sitecore.sitecore.admin.RebuildKeyBehaviorCacheStatus.#ctor(Sitecore.Analytics.Processing.TaskHandle)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Sitecore.sitecore.admin.RebuildKeyBehaviorCacheStatus"/> class.
+            </summary>
+            <param name="task">
+            The task.
+            </param>
+        </member>
+        <member name="P:Sitecore.sitecore.admin.RebuildKeyBehaviorCacheStatus.Error">
+            <summary>
+            Gets the error.
+            </summary>
+            <value>
+            The error.
+            </value>
+        </member>
+        <member name="P:Sitecore.sitecore.admin.RebuildKeyBehaviorCacheStatus.IsActive">
+            <summary>
+            Gets a value indicating whether is active.
+            </summary>
+            <value>
+            The is active.
+            </value>
+        </member>
+        <member name="P:Sitecore.sitecore.admin.RebuildKeyBehaviorCacheStatus.LastChanged">
+            <summary>
+            Gets the last changed.
+            </summary>
+            <value>
+            The last changed.
+            </value>
+        </member>
+        <member name="P:Sitecore.sitecore.admin.RebuildKeyBehaviorCacheStatus.Processed">
+            <summary>
+            Gets the processed.
+            </summary>
+            <value>
+            The processed.
+            </value>
+        </member>
+        <member name="P:Sitecore.sitecore.admin.RebuildKeyBehaviorCacheStatus.RebuildingState">
+            <summary>
+            Gets the status.
+            </summary>
+            <value>
+            The status.
+            </value>
+        </member>
+        <member name="P:Sitecore.sitecore.admin.RebuildKeyBehaviorCacheStatus.Started">
+            <summary>
+            Gets the started.
+            </summary>
+            <value>
+            The started.
+            </value>
+        </member>
+        <member name="T:Sitecore.sitecore.admin.RebuildKeyBehaviorCacheStatus.State">
+            <summary>
+            Rebuild states to reflect status
+            </summary>
+        </member>
+        <member name="F:Sitecore.sitecore.admin.RebuildKeyBehaviorCacheStatus.State.None">
+            <summary>
+            The none.
+            </summary>
+        </member>
+        <member name="F:Sitecore.sitecore.admin.RebuildKeyBehaviorCacheStatus.State.New">
+            <summary>
+            The new.
+            </summary>
+        </member>
+        <member name="F:Sitecore.sitecore.admin.RebuildKeyBehaviorCacheStatus.State.InProgress">
+            <summary>
+            The in progress.
+            </summary>
+        </member>
+        <member name="F:Sitecore.sitecore.admin.RebuildKeyBehaviorCacheStatus.State.Processed">
+            <summary>
+            The success.
+            </summary>
+        </member>
+        <member name="F:Sitecore.sitecore.admin.RebuildKeyBehaviorCacheStatus.State.Failed">
+            <summary>
+            The failed.
+            </summary>
+        </member>
+        <member name="T:Sitecore.sitecore.admin.Aggregation">
+            <summary>
+            Aggregation class.
+            </summary>
         </member>
         <member name="F:Sitecore.sitecore.admin.Aggregation.CheckRefreshSessionTag">
             <summary>
@@ -682,11 +1092,6 @@
         <member name="M:Sitecore.sitecore.admin.Aggregation.UpdateUiForOverallStatus">
             <summary>
             Updates the UI for overall status.
-            </summary>
-        </member>
-        <member name="M:Sitecore.sitecore.admin.Aggregation.UpdateUiForProcessingPoolStatus">
-            <summary>
-            Updates the UI for processing pool status.
             </summary>
         </member>
         <member name="M:Sitecore.sitecore.admin.Aggregation.StartClick(System.Object,System.EventArgs)">
@@ -1027,36 +1432,12 @@
             To modify move field declaration from designer file to code-behind file.
             </remarks>
         </member>
-        <member name="P:Sitecore.sitecore.admin.Aggregation.HistoryTaskStatus">
-            <summary>
-            Gets the history task status.
-            </summary>
-            <value>
-            The history task status.
-            </value>
-        </member>
         <member name="P:Sitecore.sitecore.admin.Aggregation.RebuildStatus">
             <summary>
             Gets the rebuild status.
             </summary>
             <value>
             The rebuild status.
-            </value>
-        </member>
-        <member name="P:Sitecore.sitecore.admin.Aggregation.UpdateIntervalInSeconds">
-            <summary>
-            Gets the update interval in seconds.
-            </summary>
-            <value>
-            The update interval in seconds.
-            </value>
-        </member>
-        <member name="P:Sitecore.sitecore.admin.Aggregation.HistoryTaskManager">
-            <summary>
-            Gets or sets the history task manager.
-            </summary>
-            <value>
-            The history task manager.
             </value>
         </member>
         <member name="P:Sitecore.sitecore.admin.Aggregation.ReportingManager">
@@ -2683,6 +3064,15 @@
             To modify move field declaration from designer file to code-behind file.
             </remarks>
         </member>
+        <member name="F:Sitecore.sitecore.login.Default.PlaceHolder4">
+            <summary>
+            PlaceHolder4 control.
+            </summary>
+            <remarks>
+            Auto-generated field.
+            To modify move field declaration from designer file to code-behind file.
+            </remarks>
+        </member>
         <member name="F:Sitecore.sitecore.login.Default.PlaceHolder1">
             <summary>
             PlaceHolder1 control.
@@ -2747,469 +3137,6 @@
             Required method for Designer support - do not modify
             the contents of this method with the code editor.
             </summary>
-        </member>
-        <member name="T:Sitecore.sitecore.login.LoginPage">
-            <summary>
-            Represents the login page.
-            </summary>
-        </member>
-        <member name="F:Sitecore.sitecore.login.LoginPage.originalUserName">
-            <summary>
-            The original user name.
-            </summary>
-        </member>
-        <member name="F:Sitecore.sitecore.login.LoginPage.uiMode">
-            <summary>
-            The UI mode.
-            </summary>
-        </member>
-        <member name="M:Sitecore.sitecore.login.LoginPage.System#Collections#IComparer#Compare(System.Object,System.Object)">
-            <summary>
-            Compares two objects and returns a value indicating
-            whether one is less than, equal to, or greater than the other.
-            </summary>
-            <param name="x">
-            The first object to compare.
-            </param>
-            <param name="y">
-            The second object to compare.
-            </param>
-            <returns>
-            Value
-            Condition
-            Less than zero
-            <paramref name="x"/> is less than <paramref name="y"/>.
-            Zero
-            <paramref name="x"/> equals <paramref name="y"/>.
-            Greater than zero
-            <paramref name="x"/> is greater than <paramref name="y"/>.
-            </returns>
-            <exception cref="T:System.ArgumentException">
-            Neither <paramref name="x"/> nor <paramref name="y"/>
-            implements the <see cref="T:System.IComparable"/> interface.
-            -or-
-            <paramref name="x"/> and <paramref name="y"/> are of different
-            types and neither one can handle comparisons with the other.
-            </exception>
-            <exception cref="T:System.InvalidOperationException">
-            Language not specified.
-            </exception>
-        </member>
-        <member name="M:Sitecore.sitecore.login.LoginPage.OnInit(System.EventArgs)">
-            <summary>
-            Raises the <see cref="E:System.Web.UI.Control.Init"></see> event to initialize the page.
-            </summary>
-            <param name="e">
-            An <see cref="T:System.EventArgs"></see> that contains the event data.
-            </param>
-        </member>
-        <member name="M:Sitecore.sitecore.login.LoginPage.OnLoad(System.EventArgs)">
-            <summary>
-            Raises the <see cref="E:System.Web.UI.Control.Load"/> event.
-            </summary>
-            <param name="e">The e.</param>
-        </member>
-        <member name="M:Sitecore.sitecore.login.LoginPage.OnPreRender(System.EventArgs)">
-            <summary>
-            Raises the <see cref="E:System.Web.UI.Control.PreRender"></see> event.
-            </summary>
-            <param name="e">
-            An <see cref="T:System.EventArgs"></see> object that contains the event data.
-            </param>
-        </member>
-        <member name="M:Sitecore.sitecore.login.LoginPage.AddLanguageAttributes">
-            <summary>
-            Adds the language attributes to the form tag on the page.
-            Adds CSS class: lang_ + context language code.
-            Adds lang="context language code" attribute to the form.
-            </summary>
-        </member>
-        <member name="M:Sitecore.sitecore.login.LoginPage.AddXRobotsTagHeader">
-            <summary>
-            Add X-Robots-Tag to http header.
-            </summary>
-        </member>
-        <member name="M:Sitecore.sitecore.login.LoginPage.IsAdvanced">
-            <summary>
-            Determines whether this instance is advanced.
-            </summary>
-            <returns>
-            <c>true</c> if this instance is advanced; otherwise, <c>false</c>.
-            </returns>
-        </member>
-        <member name="M:Sitecore.sitecore.login.LoginPage.WriteCookie(System.String,System.String)">
-            <summary>
-            Writes the cookie.
-            </summary>
-            <param name="name">
-            The cookie name.
-            </param>
-            <param name="value">
-            The cookie value.
-            </param>
-        </member>
-        <member name="M:Sitecore.sitecore.login.LoginPage.FilterStartUrls">
-            <summary>
-            Renders the start URLs.
-            </summary>
-        </member>
-        <member name="M:Sitecore.sitecore.login.LoginPage.GetSession">
-            <summary>
-            Gets the session.
-            </summary>
-            <returns>
-            Returns the session.
-            </returns>
-        </member>
-        <member name="M:Sitecore.sitecore.login.LoginPage.GetStartUrl(Sitecore.Security.Accounts.User)">
-            <summary>
-            Gets the start URL.
-            </summary>
-            <param name="user">
-            The user.
-            </param>
-            <returns>
-            The start URL.
-            </returns>
-        </member>
-        <member name="M:Sitecore.sitecore.login.LoginPage.GetUserName">
-            <summary>
-            Gets the name of the user.
-            </summary>
-            <returns>
-            The name of the user.
-            </returns>
-        </member>
-        <member name="M:Sitecore.sitecore.login.LoginPage.HandleDomain">
-            <summary>
-            Handles the domain.
-            </summary>
-        </member>
-        <member name="M:Sitecore.sitecore.login.LoginPage.Localize">
-            <summary>Performs some localization stuff that cannot be done from aspx.
-            </summary>
-        </member>
-        <member name="M:Sitecore.sitecore.login.LoginPage.Login_LoggedIn(System.Object,System.EventArgs)">
-            <summary>
-            Handles the <c>LoggedIn</c> event of the Login control.
-            </summary>
-            <param name="sender">
-            The source of the event.
-            </param>
-            <param name="e">
-            The <see cref="T:System.EventArgs"/> instance containing the event data.
-            </param>
-        </member>
-        <member name="M:Sitecore.sitecore.login.LoginPage.Login_LoggingIn(System.Object,System.Web.UI.WebControls.LoginCancelEventArgs)">
-            <summary>
-            Handles the <c>LoggingIn</c> event of the Login control.
-            </summary>
-            <param name="sender">
-            The source of the event.
-            </param>
-            <param name="e">
-            The <see cref="T:System.Web.UI.WebControls.LoginCancelEventArgs"/> instance containing the event data.
-            </param>
-        </member>
-        <member name="M:Sitecore.sitecore.login.LoginPage.Login_LoginError(System.Object,System.EventArgs)">
-            <summary>
-            Handles the LoginError event of the Login control.
-            </summary>
-            <param name="sender">
-            The source of the event.
-            </param>
-            <param name="e">
-            The <see cref="T:System.EventArgs"/> instance containing the event data.
-            </param>
-        </member>
-        <member name="M:Sitecore.sitecore.login.LoginPage.RenderCustomText">
-            <summary>
-            Renders the custom text.
-            </summary>
-        </member>
-        <member name="M:Sitecore.sitecore.login.LoginPage.RenderError(System.String)">
-            <summary>
-            Displays the error.
-            </summary>
-            <param name="errorText">
-            The error text.
-            </param>
-        </member>
-        <member name="M:Sitecore.sitecore.login.LoginPage.RenderErrorMessage">
-            <summary>
-            Renders the error message.
-            </summary>
-        </member>
-        <member name="M:Sitecore.sitecore.login.LoginPage.RenderLanguages">
-            <summary>
-            Builds the languages.
-            </summary>
-        </member>
-        <member name="M:Sitecore.sitecore.login.LoginPage.RenderLicenseText">
-            <summary>
-            Renders the license.
-            </summary>
-        </member>
-        <member name="M:Sitecore.sitecore.login.LoginPage.RenderLoginControls">
-            <summary>
-            Renders the login controls.
-            </summary>
-        </member>
-        <member name="M:Sitecore.sitecore.login.LoginPage.RenderLoginTitle(System.String)">
-            <summary>
-            Renders the login title.
-            </summary>
-            <param name="title">
-            The title.
-            </param>
-        </member>
-        <member name="M:Sitecore.sitecore.login.LoginPage.RenderPartnerLogo(System.String)">
-            <summary>
-            Renders the partner logo.
-            </summary>
-            <param name="logo">
-            The partner logo.
-            </param>
-        </member>
-        <member name="M:Sitecore.sitecore.login.LoginPage.RenderStartPage">
-            <summary>
-            Renders the start page.
-            </summary>
-        </member>
-        <member name="M:Sitecore.sitecore.login.LoginPage.RenderVersionText">
-            <summary>
-            Renders the version text.
-            </summary>
-        </member>
-        <member name="M:Sitecore.sitecore.login.LoginPage.RenderWarning(System.String)">
-            <summary>
-            Displays the warning.
-            </summary>
-            <param name="warningText">
-            The warning text.
-            </param>
-        </member>
-        <member name="M:Sitecore.sitecore.login.LoginPage.SetActiveTab">
-            <summary>
-            Sets the active tab.
-            </summary>
-        </member>
-        <member name="M:Sitecore.sitecore.login.LoginPage.SetExpressStylesheet">
-            <summary>
-            Sets the express stylesheet.
-            </summary>
-        </member>
-        <member name="M:Sitecore.sitecore.login.LoginPage.VerifyLicense">
-            <summary>
-            Checks the license.
-            </summary>
-        </member>
-        <member name="F:Sitecore.sitecore.login.LoginPage.ExpressStylesheet">
-            <summary>
-            ExpressStylesheet control.
-            </summary>
-            <remarks>
-            Auto-generated field.
-            To modify move field declaration from designer file to code-behind file.
-            </remarks>
-        </member>
-        <member name="F:Sitecore.sitecore.login.LoginPage.LoginForm">
-            <summary>
-            LoginForm control.
-            </summary>
-            <remarks>
-            Auto-generated field.
-            To modify move field declaration from designer file to code-behind file.
-            </remarks>
-        </member>
-        <member name="F:Sitecore.sitecore.login.LoginPage.ActiveTab">
-            <summary>
-            ActiveTab control.
-            </summary>
-            <remarks>
-            Auto-generated field.
-            To modify move field declaration from designer file to code-behind file.
-            </remarks>
-        </member>
-        <member name="F:Sitecore.sitecore.login.LoginPage.AdvancedOptionsStartUrl">
-            <summary>
-            AdvancedOptionsStartUrl control.
-            </summary>
-            <remarks>
-            Auto-generated field.
-            To modify move field declaration from designer file to code-behind file.
-            </remarks>
-        </member>
-        <member name="F:Sitecore.sitecore.login.LoginPage.PartnerLogo">
-            <summary>
-            PartnerLogo control.
-            </summary>
-            <remarks>
-            Auto-generated field.
-            To modify move field declaration from designer file to code-behind file.
-            </remarks>
-        </member>
-        <member name="F:Sitecore.sitecore.login.LoginPage.LicenseText">
-            <summary>
-            LicenseText control.
-            </summary>
-            <remarks>
-            Auto-generated field.
-            To modify move field declaration from designer file to code-behind file.
-            </remarks>
-        </member>
-        <member name="F:Sitecore.sitecore.login.LoginPage.VersionText">
-            <summary>
-            VersionText control.
-            </summary>
-            <remarks>
-            Auto-generated field.
-            To modify move field declaration from designer file to code-behind file.
-            </remarks>
-        </member>
-        <member name="F:Sitecore.sitecore.login.LoginPage.DatabasePanel">
-            <summary>
-            DatabasePanel control.
-            </summary>
-            <remarks>
-            Auto-generated field.
-            To modify move field declaration from designer file to code-behind file.
-            </remarks>
-        </member>
-        <member name="F:Sitecore.sitecore.login.LoginPage.DatabaseText">
-            <summary>
-            DatabaseText control.
-            </summary>
-            <remarks>
-            Auto-generated field.
-            To modify move field declaration from designer file to code-behind file.
-            </remarks>
-        </member>
-        <member name="F:Sitecore.sitecore.login.LoginPage.CustomTextPanel">
-            <summary>
-            CustomTextPanel control.
-            </summary>
-            <remarks>
-            Auto-generated field.
-            To modify move field declaration from designer file to code-behind file.
-            </remarks>
-        </member>
-        <member name="F:Sitecore.sitecore.login.LoginPage.CustomText">
-            <summary>
-            CustomText control.
-            </summary>
-            <remarks>
-            Auto-generated field.
-            To modify move field declaration from designer file to code-behind file.
-            </remarks>
-        </member>
-        <member name="F:Sitecore.sitecore.login.LoginPage.StartPage">
-            <summary>
-            StartPage control.
-            </summary>
-            <remarks>
-            Auto-generated field.
-            To modify move field declaration from designer file to code-behind file.
-            </remarks>
-        </member>
-        <member name="F:Sitecore.sitecore.login.LoginPage.LoginTitleText">
-            <summary>
-            LoginTitleText control.
-            </summary>
-            <remarks>
-            Auto-generated field.
-            To modify move field declaration from designer file to code-behind file.
-            </remarks>
-        </member>
-        <member name="F:Sitecore.sitecore.login.LoginPage.Login">
-            <summary>
-            Login control.
-            </summary>
-            <remarks>
-            Auto-generated field.
-            To modify move field declaration from designer file to code-behind file.
-            </remarks>
-        </member>
-        <member name="F:Sitecore.sitecore.login.LoginPage.FailureText2">
-            <summary>
-            FailureText2 control.
-            </summary>
-            <remarks>
-            Auto-generated field.
-            To modify move field declaration from designer file to code-behind file.
-            </remarks>
-        </member>
-        <member name="F:Sitecore.sitecore.login.LoginPage.ForgotYourPassword">
-            <summary>
-            ForgotYourPassword control.
-            </summary>
-            <remarks>
-            Auto-generated field.
-            To modify move field declaration from designer file to code-behind file.
-            </remarks>
-        </member>
-        <member name="F:Sitecore.sitecore.login.LoginPage.ChangePassword">
-            <summary>
-            ChangePassword control.
-            </summary>
-            <remarks>
-            Auto-generated field.
-            To modify move field declaration from designer file to code-behind file.
-            </remarks>
-        </member>
-        <member name="F:Sitecore.sitecore.login.LoginPage.OptionBox">
-            <summary>
-            OptionBox control.
-            </summary>
-            <remarks>
-            Auto-generated field.
-            To modify move field declaration from designer file to code-behind file.
-            </remarks>
-        </member>
-        <member name="F:Sitecore.sitecore.login.LoginPage.AdvancedDesktop">
-            <summary>
-            AdvancedDesktop control.
-            </summary>
-            <remarks>
-            Auto-generated field.
-            To modify move field declaration from designer file to code-behind file.
-            </remarks>
-        </member>
-        <member name="F:Sitecore.sitecore.login.LoginPage.AdvancedContentEditor">
-            <summary>
-            AdvancedContentEditor control.
-            </summary>
-            <remarks>
-            Auto-generated field.
-            To modify move field declaration from designer file to code-behind file.
-            </remarks>
-        </member>
-        <member name="F:Sitecore.sitecore.login.LoginPage.AdvancedWebEdit">
-            <summary>
-            AdvancedWebEdit control.
-            </summary>
-            <remarks>
-            Auto-generated field.
-            To modify move field declaration from designer file to code-behind file.
-            </remarks>
-        </member>
-        <member name="F:Sitecore.sitecore.login.LoginPage.AdvancedAppLauncher">
-            <summary>
-            AdvancedAppLauncher control.
-            </summary>
-            <remarks>
-            Auto-generated field.
-            To modify move field declaration from designer file to code-behind file.
-            </remarks>
-        </member>
-        <member name="F:Sitecore.sitecore.login.LoginPage.Language">
-            <summary>
-            Language control.
-            </summary>
-            <remarks>
-            Auto-generated field.
-            To modify move field declaration from designer file to code-behind file.
-            </remarks>
         </member>
         <member name="T:Sitecore.Web.Services.HeartbeatCode">
             <summary>
@@ -3484,6 +3411,53 @@
             </remarks>
         </member>
         <member name="F:SitecoreClient.Page.NotFound.SiteName">
+            <summary>
+            SiteName control.
+            </summary>
+            <remarks>
+            Auto-generated field.
+            To modify move field declaration from designer file to code-behind file.
+            </remarks>
+        </member>
+        <member name="T:SitecoreClient.Page.Disabled">
+            <summary>
+            Displays a page informing the user that xDB is disabled.
+            </summary>
+        </member>
+        <member name="M:SitecoreClient.Page.Disabled.OnPreRender(System.EventArgs)">
+            <summary>
+            Raises the <see cref="E:System.Web.UI.Control.PreRender"></see> event.
+            </summary>
+            <param name="e">An <see cref="T:System.EventArgs"></see> object that contains the event data.</param>
+        </member>
+        <member name="F:SitecoreClient.Page.Disabled.form1">
+            <summary>
+            form1 control.
+            </summary>
+            <remarks>
+            Auto-generated field.
+            To modify move field declaration from designer file to code-behind file.
+            </remarks>
+        </member>
+        <member name="F:SitecoreClient.Page.Disabled.RequestedUrl">
+            <summary>
+            RequestedUrl control.
+            </summary>
+            <remarks>
+            Auto-generated field.
+            To modify move field declaration from designer file to code-behind file.
+            </remarks>
+        </member>
+        <member name="F:SitecoreClient.Page.Disabled.UserName">
+            <summary>
+            UserName control.
+            </summary>
+            <remarks>
+            Auto-generated field.
+            To modify move field declaration from designer file to code-behind file.
+            </remarks>
+        </member>
+        <member name="F:SitecoreClient.Page.Disabled.SiteName">
             <summary>
             SiteName control.
             </summary>
@@ -6622,6 +6596,41 @@
         <member name="T:Sitecore.Shell.Applications.Analytics.Reports.ReportDataHandler.RequestProcessor">
             <summary>Internal delegate for the ProcessRequest method.</summary>
             <param name="context">Context of the request.</param>
+        </member>
+        <member name="T:Sitecore.Shell.Applications.Analytics.Reporting.Taxonomies.Deploy">
+            <summary>
+            Taxonomy deploy command implementation.
+            </summary>
+        </member>
+        <member name="M:Sitecore.Shell.Applications.Analytics.Reporting.Taxonomies.Deploy.Execute(Sitecore.Shell.Framework.Commands.CommandContext)">
+            <summary>
+            Taxonomy deploy command execute method.
+            </summary>
+            <param name="context">Command context value.</param>
+        </member>
+        <member name="M:Sitecore.Shell.Applications.Analytics.Reporting.Taxonomies.Deploy.Run(Sitecore.Web.UI.Sheer.ClientPipelineArgs)">
+            <summary>
+            Runs the deploy in the context of a client pipeline.
+            </summary>
+            <param name="args"></param>
+        </member>
+        <member name="M:Sitecore.Shell.Applications.Analytics.Reporting.Taxonomies.Deploy.QueryState(Sitecore.Shell.Framework.Commands.CommandContext)">
+            <summary>
+            Taxonomy deploy command query state implementation.
+            </summary>
+            <param name="context">Command context value.</param>
+            <returns>The state of the command.</returns>
+        </member>
+        <member name="M:Sitecore.Shell.Applications.Analytics.Reporting.Taxonomies.Deploy.HasTaxonomyTemplate(Sitecore.Data.Items.Item)">
+            <summary>
+            Checks if the item inherits the taxonomy template.
+            </summary>
+            <param name="item">
+            The item.
+            </param>
+            <returns>
+            The <see cref="T:System.Boolean"/>.
+            </returns>
         </member>
         <member name="T:Sitecore.Shell.Applications.Analytics.ReportRunner.Filters.FilterEditorPage">
             <summary>Defines the rule set editor page class.</summary>
@@ -11407,6 +11416,11 @@
             The personalization.
             </summary>
         </member>
+        <member name="F:Sitecore.Shell.Applications.WebEdit.Dialogs.Personalization.PersonalizationForm.AfterActionPlaceholderName">
+            <summary>
+            The name of the placeholder positioned after the action.
+            </summary>
+        </member>
         <member name="F:Sitecore.Shell.Applications.WebEdit.Dialogs.Personalization.PersonalizationForm.ConditionDescriptionDefault">
             <summary>
             The default condition description
@@ -11577,13 +11591,6 @@
             The args.
             </param>
         </member>
-        <member name="M:Sitecore.Shell.Applications.WebEdit.Dialogs.Personalization.PersonalizationForm.GetDataSourceExamples(System.String)">
-            <summary>
-            Gets the data source examples.
-            </summary>
-            <param name="datasource">The datasource.</param>
-            <returns>The HTML markup.</returns>
-        </member>
         <member name="M:Sitecore.Shell.Applications.WebEdit.Dialogs.Personalization.PersonalizationForm.SetDatasourceClick(System.String)">
             <summary>
             Sets the datasource click.
@@ -11716,6 +11723,14 @@
             <returns>
             The get rule section html.
             </returns>
+        </member>
+        <member name="M:Sitecore.Shell.Applications.WebEdit.Dialogs.Personalization.PersonalizationForm.RenderRulePlaceholder(System.String,System.Xml.Linq.XElement)">
+            <summary>
+            Render the placeholder for the rule.
+            </summary>
+            <param name="placeholderName">The name of the placeholder to render.</param>
+            <param name="rule">The rule to render.</param>
+            <returns>The markup for the placeholder.</returns>
         </member>
         <member name="M:Sitecore.Shell.Applications.WebEdit.Dialogs.Personalization.PersonalizationForm.IsComponentDisplayed(System.String)">
             <summary>
@@ -19867,6 +19882,11 @@
             </summary>
             <value>The disabled notice.</value>
         </member>
+        <member name="F:Sitecore.Shell.Applications.ContentEditor.Editors.Preview.PreviewPage.AlertMessage">
+            <summary>
+            The alert message.
+            </summary>
+        </member>
         <member name="F:Sitecore.Shell.Applications.ContentEditor.Editors.Preview.PreviewPage.Editor">
             <summary>
             Gets or sets the editor.
@@ -19906,6 +19926,34 @@
         </member>
         <member name="M:Sitecore.Shell.Applications.ContentEditor.Editors.Preview.PreviewPage.UpdateRibbon">
             <summary>Updates this instance.</summary>
+        </member>
+        <member name="M:Sitecore.Shell.Applications.ContentEditor.Editors.Preview.PreviewPage.ReplaceUrlHost(System.String,System.String,System.String)">
+            <summary>
+            The replace url host.
+            </summary>
+            <param name="Source">
+            The source.
+            </param>
+            <param name="Find">
+            The find.
+            </param>
+            <param name="Replace">
+            The replace.
+            </param>
+            <returns>
+            The <see cref="T:System.String"/>.
+            </returns>
+        </member>
+        <member name="M:Sitecore.Shell.Applications.ContentEditor.Editors.Preview.PreviewPage.GetDevice(Sitecore.Data.Items.Item)">
+            <summary>
+            The get device.
+            </summary>
+            <param name="item">
+            The item.
+            </param>
+            <returns>
+            The <see cref="T:Sitecore.Data.Items.DeviceItem"/>.
+            </returns>
         </member>
         <member name="P:Sitecore.Shell.Applications.ContentEditor.Editors.Preview.PreviewPage.DeviceID">
             <summary>
@@ -24548,7 +24596,7 @@
             The context database.
             </summary>
         </member>
-        <member name="F:Sitecore.Shell.Applications.Globalization.ImportLanguage.ImportLanguageForm.Importer.dictionarySections">
+        <member name="F:Sitecore.Shell.Applications.Globalization.ImportLanguage.ImportLanguageForm.Importer.sectionDictionaries">
             <summary>
             Cache of dictionary sections.
             </summary>
@@ -30337,7 +30385,7 @@
             The version.
             </param>
         </member>
-        <member name="M:Sitecore.Shell.Applications.Workbox.WorkboxForm.DisplayState(Sitecore.Workflows.IWorkflow,Sitecore.Workflows.WorkflowState,Sitecore.Data.DataUri[],System.Web.UI.Control,System.Int32,System.Int32)">
+        <member name="M:Sitecore.Shell.Applications.Workbox.WorkboxForm.DisplayState(Sitecore.Workflows.IWorkflow,Sitecore.Workflows.WorkflowState,Sitecore.Shell.Applications.Workbox.WorkboxForm.StateItems,System.Web.UI.Control,System.Int32,System.Int32)">
             <summary>
             Displays the state.
             </summary>
@@ -30347,8 +30395,8 @@
             <param name="state">
             The state.
             </param>
-            <param name="items">
-            The items.
+            <param name="stateItems">
+            The item for the workflow state.
             </param>
             <param name="control">
             The control.
@@ -30358,7 +30406,7 @@
             </param>
             <param name="pageSize">
             Size of the page.
-            </param>
+            </param>    
         </member>
         <member name="M:Sitecore.Shell.Applications.Workbox.WorkboxForm.DisplayStates(Sitecore.Workflows.IWorkflow,Sitecore.Web.UI.XmlControls.XmlControl)">
             <summary>
@@ -30539,6 +30587,14 @@
             Array of item DataUri.
             </returns>
         </member>
+        <member name="M:Sitecore.Shell.Applications.Workbox.WorkboxForm.GetStateItems(Sitecore.Workflows.WorkflowState,Sitecore.Workflows.IWorkflow)">
+            <summary>
+            Gets the items in the workflow state.
+            </summary>
+            <param name="state">The state to get the items for.</param>
+            <param name="workflow">The workflow the state belongs to.</param>
+            <returns>The items for the state.</returns>
+        </member>
         <member name="M:Sitecore.Shell.Applications.Workbox.WorkboxForm.GetPaneID(Sitecore.Workflows.IWorkflow)">
             <summary>
             Gets the pane ID.
@@ -30594,6 +30650,12 @@
             The message.
             </param>
         </member>
+        <member name="M:Sitecore.Shell.Applications.Workbox.WorkboxForm.WorkflowCompleteRefresh(Sitecore.Workflows.Simple.WorkflowPipelineArgs)">
+            <summary>
+            Workflow callback to refresh the UI.
+            </summary>
+            <param name="args">The args for the workflow execution.</param>
+        </member>
         <member name="M:Sitecore.Shell.Applications.Workbox.WorkboxForm.SendSelected(Sitecore.Web.UI.Sheer.Message)">
             <summary>
             Sends the selected.
@@ -30615,6 +30677,12 @@
             The control.
             </param>
         </member>
+        <member name="M:Sitecore.Shell.Applications.Workbox.WorkboxForm.WorkflowCompleteStateItemCount(Sitecore.Workflows.Simple.WorkflowPipelineArgs)">
+            <summary>
+            Workflow completion callback to refresh the counts of items in workflow states.
+            </summary>
+            <param name="args">The arguments for the workflow execution.</param>
+        </member>
         <member name="P:Sitecore.Shell.Applications.Workbox.WorkboxForm.PageSize">
             <summary>
             Gets or sets the size of the page.
@@ -30626,6 +30694,21 @@
             Gets a value indicating whether page is reloads by reload button on the ribbon.
             </summary>
             <value><c>true</c> if this instance is reload; otherwise, <c>false</c>.</value>
+        </member>
+        <member name="T:Sitecore.Shell.Applications.Workbox.WorkboxForm.StateItems">
+            <summary>
+            Holds items for a workflow state.
+            </summary>
+        </member>
+        <member name="P:Sitecore.Shell.Applications.Workbox.WorkboxForm.StateItems.Items">
+            <summary>
+            Gets or sets the items for the state.
+            </summary>
+        </member>
+        <member name="P:Sitecore.Shell.Applications.Workbox.WorkboxForm.StateItems.CommandIds">
+            <summary>
+            Gets or sets the command IDs for the state.
+            </summary>
         </member>
         <member name="T:Sitecore.Shell.Applications.Workbox.WorkboxHistoryXmlControl">
             <summary>
@@ -35206,17 +35289,6 @@
             The context.
             </param>
         </member>
-        <member name="M:Sitecore.Shell.Applications.Analytics.TrackingField.OpenTrackingField.QueryState(Sitecore.Shell.Framework.Commands.CommandContext)">
-            <summary>
-            Queries the state of the command.
-            </summary>
-            <param name="context">
-            The context.
-            </param>
-            <returns>
-            The state of the command.
-            </returns>
-        </member>
         <member name="M:Sitecore.Shell.Applications.Analytics.TrackingField.OpenTrackingField.GetUrl">
             <summary>
             Gets the URL.
@@ -35876,13 +35948,6 @@
             Executes the command in the specified context.
             </summary>
             <param name="context">The context.</param>
-        </member>
-        <member name="M:Sitecore.Shell.Applications.Analytics.TrackingField.ViewTrackingDetails.QueryState(Sitecore.Shell.Framework.Commands.CommandContext)">
-            <summary>
-            Queries the state of the command.
-            </summary>
-            <param name="context">The context.</param>
-            <returns>The state of the command.</returns>
         </member>
         <member name="T:Sitecore.sitecore.shell.Applications.Analytics.VisitorIdentifications.VisitorIdentificationPage">
             <summary>Defines the Contact identification page class.</summary>
@@ -47782,23 +47847,29 @@
             Error
             </summary>
         </member>
-        <member name="T:Sitecore.Shell.Upgrades.SC72Release">
+        <member name="T:Sitecore.sitecore.Upgrades.Bug448325PostStep">
             <summary>
-            CMS 7.2 Release upgrade post step.
+            Bug 448325 PostStep implementation.
             </summary>
         </member>
-        <member name="M:Sitecore.Shell.Upgrades.SC72Release.Run(Sitecore.Install.Framework.ITaskOutput,System.Collections.Specialized.NameValueCollection)">
+        <member name="M:Sitecore.sitecore.Upgrades.Bug448325PostStep.Run(Sitecore.Install.Framework.ITaskOutput,System.Collections.Specialized.NameValueCollection)">
             <summary>
             Runs this post step
             </summary>
             <param name="output">The output.</param>
             <param name="metaData">The meta data.</param>
         </member>
-        <member name="M:Sitecore.Shell.Upgrades.SC72Release.UpdateSecurity(Sitecore.Install.Framework.ITaskOutput)">
+        <member name="T:Sitecore.sitecore.Upgrades.Bug430743PostStep">
             <summary>
-            Updates the security.
+            Bug 430743 PostStep implementation.
+            </summary>
+        </member>
+        <member name="M:Sitecore.sitecore.Upgrades.Bug430743PostStep.Run(Sitecore.Install.Framework.ITaskOutput,System.Collections.Specialized.NameValueCollection)">
+            <summary>
+            Runs this post step
             </summary>
             <param name="output">The output.</param>
+            <param name="metaData">The meta data.</param>
         </member>
         <member name="T:Sitecore.Shell.Upgrades.Hotfix382010PostStep">
             <summary>
@@ -47841,6 +47912,13 @@
             </summary>
             <returns>The upgrade steps.</returns>
         </member>
+        <member name="M:Sitecore.Shell.Upgrades.PostStep.IsPostStep(System.Type)">
+            <summary>
+            Checks if the given type is defined as post step. If the method fails it is logged and false is returned.
+            </summary>
+            <param name="type">The type to check.</param>
+            <returns><c>True</c>, if the type has the <c>UpgradeStepAttribute</c> defined, otherwise <c>false</c>. If loading the type failed, <c>false</c>.</returns>
+        </member>
         <member name="M:Sitecore.Shell.Upgrades.PostStep.Run(Sitecore.Install.Framework.ITaskOutput,System.Collections.Specialized.NameValueCollection)">
             <summary>
              Runs the upgrade steps
@@ -47854,28 +47932,6 @@
             </summary>
             <param name="output">The output.</param>
             <param name="text">The text.</param>
-        </member>
-        <member name="T:Sitecore.sitecore.Upgrades.SC75Release">
-            <summary>
-            CMS 7.5 Release upgrade post step.
-            </summary>
-        </member>
-        <member name="M:Sitecore.sitecore.Upgrades.SC75Release.Run(Sitecore.Install.Framework.ITaskOutput,System.Collections.Specialized.NameValueCollection)">
-            <summary>
-            Runs this post step
-            </summary>
-            <param name="output">The output.</param>
-            <param name="metaData">The meta data.</param>
-        </member>
-        <member name="M:Sitecore.sitecore.Upgrades.SC75Release.UpdateSecurity">
-            <summary>
-            Updates the security.
-            </summary>
-        </member>
-        <member name="M:Sitecore.sitecore.Upgrades.SC75Release.CreateServiceApiUser">
-            <summary>
-            Creates the service API user.
-            </summary>
         </member>
         <member name="T:Sitecore.Shell.Upgrades.UpgradeStepAttribute">
             <summary>
@@ -47898,6 +47954,12 @@
             <summary>
             Sheers the init.
             </summary>
+        </member>
+        <member name="M:Sitecore.Shell.Feeds.ActionPage.RenderAction(Sitecore.Shell.Feeds.ViewData)">
+            <summary>
+            Event handler to handle changed action data.
+            </summary>
+            <param name="data">The data which has changed.</param>
         </member>
         <member name="M:Sitecore.Shell.Feeds.ActionPage.GetLanguageIcon(Sitecore.Data.Items.Item)">
             <summary>
@@ -48020,6 +48082,11 @@
             Mini MVC framework for action pages
             </summary>
         </member>
+        <member name="F:Sitecore.Shell.Feeds.ActionMvc.DataKey">
+            <summary>
+            The key used to access data in the Context.Items collection.
+            </summary>
+        </member>
         <member name="M:Sitecore.Shell.Feeds.ActionMvc.ProcessRequest(Sitecore.Shell.Feeds.ActionPage,System.Collections.Specialized.NameValueCollection)">
             <summary>
             Processes the request.
@@ -48028,6 +48095,18 @@
             <param name="parameters">The parameters.</param>
             <returns>The request.</returns>
         </member>
+        <member name="M:Sitecore.Shell.Feeds.ActionMvc.SetData(Sitecore.Shell.Feeds.ViewData)">
+            <summary>
+            Set result data.
+            </summary>
+            <param name="data">The data to set.</param>
+        </member>
+        <member name="M:Sitecore.Shell.Feeds.ActionMvc.GetData">
+            <summary>
+            Get result data that was previously set.
+            </summary>
+            <returns>The data if set, otherwise null.</returns>
+        </member>
         <member name="M:Sitecore.Shell.Feeds.ActionMvc.GetController(System.String)">
             <summary>
             Gets the controller.
@@ -48035,6 +48114,17 @@
             <param name="controllerName">Name of the controller.</param>
             <returns>The controller.</returns>
             <exception cref="T:Sitecore.Exceptions.SyndicationException"><c>SyndicationException</c>.</exception>
+        </member>
+        <member name="E:Sitecore.Shell.Feeds.ActionMvc.DataChanged">
+            <summary>
+            An event indicating the action result data has been changed.
+            </summary>
+        </member>
+        <member name="T:Sitecore.Shell.Feeds.ActionMvc.DataChangedHandler">
+            <summary>
+            Delegate for the data changed event.
+            </summary>
+            <param name="data">The data that was set.</param>
         </member>
         <member name="T:Sitecore.Shell.Feeds.Controllers.ControllerCondition">
             <summary>
@@ -48134,6 +48224,12 @@
             <param name="item">The Sitecore item</param>
             <param name="command">The command.</param>
             <returns>The action.</returns>
+        </member>
+        <member name="M:Sitecore.Shell.Feeds.Controllers.WorkflowController.WorkflowCompleteCallback(Sitecore.Workflows.Simple.WorkflowPipelineArgs)">
+            <summary>
+            Processor delegate to be executed when workflow completes successfully.
+            </summary>
+            <param name="args">The arguments for the workflow invocation.</param>
         </member>
         <member name="M:Sitecore.Shell.Feeds.Controllers.WorkflowController.HandleFailedAction(Sitecore.Workflows.WorkflowResult,System.String)">
             <summary>

@@ -72,13 +72,6 @@ Purpose: This include file defines the indexes used by the content testing featu
             <param desc="core">$(id)</param>
             <param desc="propertyStore" ref="contentSearch/indexConfigurations/databasePropertyStore" param1="$(id)" />
             <configuration ref="contentSearch/indexConfigurations/defaultSolrIndexConfiguration">
-              <fieldMap ref="contentSearch/indexConfigurations/defaultSolrIndexConfiguration/fieldMap">
-                <fieldNames hint="raw:AddFieldByFieldName">
-                  <field fieldName="impact" returnType="double" />
-                  <field fieldName="potential" returnType="double" />
-                  <field fieldName="recommendation" returnType="double" />
-                </fieldNames>
-              </fieldMap>
               <documentOptions ref="contentSearch/indexConfigurations/defaultSolrIndexConfiguration/documentOptions">
                 <indexAllFields>false</indexAllFields>
                 <exclude hint="list:AddExcludedTemplate">

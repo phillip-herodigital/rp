@@ -63,7 +63,6 @@
       </outcome>
     </marketingDefinitions>
     <taxonomy>
-      <cacheExpirationInSeconds>10</cacheExpirationInSeconds>
       <sc.variable name="taxonomy.repository">
         <patch:attribute name="value">rdbTaxonomyRepository</patch:attribute>
       </sc.variable>

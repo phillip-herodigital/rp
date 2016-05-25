@@ -2407,6 +2407,59 @@
             - Value per Visits.
             </returns>
         </member>
+        <member name="T:Sitecore.Social.DMS.InlineCampaignIndicators.XAnalyticsReportReader">
+            <summary>
+            Read inline campaign indicators from the Experience Analytics report.
+            </summary>
+        </member>
+        <member name="F:Sitecore.Social.DMS.InlineCampaignIndicators.XAnalyticsReportReader.AllVisitsByCampaignSegmentKey">
+            <summary>
+            All visits by campaign segment key
+            </summary>
+            <remarks>
+            /sitecore/system/Marketing Control Panel/Experience Analytics/Dimensions/Visits/By Campaign/All visits by Campaign
+            </remarks>
+        </member>
+        <member name="M:Sitecore.Social.DMS.InlineCampaignIndicators.XAnalyticsReportReader.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Sitecore.Social.DMS.InlineCampaignIndicators.XAnalyticsReportReader"/> class.
+            </summary>
+        </member>
+        <member name="M:Sitecore.Social.DMS.InlineCampaignIndicators.XAnalyticsReportReader.#ctor(Sitecore.ExperienceAnalytics.Api.IReportingService,Sitecore.Marketing.Definitions.IDefinitionManager{Sitecore.Marketing.Definitions.Campaigns.ICampaignActivityDefinition})">
+            <summary>
+            Initializes a new instance of the <see cref="T:Sitecore.Social.DMS.InlineCampaignIndicators.XAnalyticsReportReader"/> class.
+            </summary>
+            <param name="reportingService">The reporting service.</param>
+            <param name="definitionManager">The definition manager.</param>
+        </member>
+        <member name="M:Sitecore.Social.DMS.InlineCampaignIndicators.XAnalyticsReportReader.Read(Sitecore.Data.ID)">
+            <summary>
+            Reads the inline campaign indicators.
+            </summary>
+            <param name="campaignId">The campaign id.</param>
+            <returns>
+            The following indicators:
+            - Value;
+            - Visits;
+            - Value per Visits.
+            </returns>
+        </member>
+        <member name="P:Sitecore.Social.DMS.InlineCampaignIndicators.XAnalyticsReportReader.DefinitionManager">
+            <summary>
+            Gets the definition manager.
+            </summary>
+            <value>
+            The definition manager.
+            </value>
+        </member>
+        <member name="P:Sitecore.Social.DMS.InlineCampaignIndicators.XAnalyticsReportReader.ReportingService">
+            <summary>
+            Gets the reporting service.
+            </summary>
+            <value>
+            The reporting service.
+            </value>
+        </member>
         <member name="T:Sitecore.Social.Encryption.StringCipher">
             <summary>
             Represents a string encryption.

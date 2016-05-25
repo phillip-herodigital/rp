@@ -41,9 +41,6 @@
                      { "AccountName", newAccountName }
                    });
             
-               // to get AccessToken without expiration
-               accountDataRequest.Permissions.Add("offline_access", string.Empty);
-            
                // to grant publish on the wall
                accountDataRequest.Permissions.Add("publish_actions", string.Empty);
             
