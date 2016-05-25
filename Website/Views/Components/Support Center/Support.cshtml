@@ -62,7 +62,7 @@
                         </p>
                     </div>
                     <div class="content">
-                        <div class="faq" ng-repeat="faq in getDisplayedFAQs() track by $index" ng-show="faqFilter(faq, $index)" ng-init="isHelpful = ''; helpfulSelected = false; feedback = ''">
+                        <div class="faq" ng-repeat="faq in getDisplayedFAQs() track by $index" ng-show="splitFaqFilter($index)" ng-init="isHelpful = ''; helpfulSelected = false; feedback = ''">
                             <div class="question clearfix" ng-click="selectFaq($index)">
                                 <div class="plus-minus">
                                     <div class="plus" ng-class="{minus: faq.selected}"></div>
@@ -109,6 +109,7 @@
                         </div>
                     </div>
                 </div>
+                <div class="pagination-spacer" ng-show="searchResults"></div>
                 <div class="pagination-container">
                     <div class="pagination clearfix" ng-show="faqs.length > resultsPerPage.value">
                         <div class="back"><a href="" ng-click="setResultsPage(0)" ng-class="{disabled: resultsPage == 0}">First</a></div>

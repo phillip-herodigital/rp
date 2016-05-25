@@ -22,7 +22,7 @@
                 <input type="text" class="search-input"
                        placeholder="Have a question? Enter a search term..."
                        ng-model="searchData.text"
-                       typeahead="faq.faqQuestion for faq in searchFAQs | filter:{faqQuestion:$viewValue} | limitTo:6" 
+                       typeahead="faq.faqQuestion for faq in searchFAQs | filter:{faqQuestion:$viewValue} | limitTo:4" 
                        typeahead-template-url="typeahead-results"/>
                 <img class="mag-glass" src="/frontend/assets/i/mag-glass.png" ng-click="search()"/>
             </div>

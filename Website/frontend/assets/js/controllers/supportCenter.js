@@ -64,18 +64,14 @@
                 subcat.selected = true;
             }
         });
-        if (category.states) {
-            angular.forEach($scope.category.states, function (state) {
-                state.energyModalContent = $sce.trustAsHtml(state.energyModalContent);
-            });
-        }
         if (search) {
             var searchArray = search.split("|");
             angular.forEach(categories, function (category) {
                 if (category.states) {
                     angular.forEach($scope.category.states, function (state) {
                         if (state.name === searchArray[0]) {
-                            $scope.searchData.state = state;
+                            //$scope.searchData.state = state;
+                            $scope.selectCategory(category, state);
                         }
                     });
                 }
@@ -177,6 +173,7 @@
                                 faqIndex = index;
                             }
                         });
+                        $scope.searchResults = false;
                         scrolled = false;
                         $scope.selectFaq(faqIndex);
                         $scope.$apply();
@@ -269,7 +266,7 @@
         else return false;
     }
     $scope.pageFilter4 = function () {
-        if ($scope.resultsPage < $scope.resultsPages - $scope.dividePaginationInto - Math.floor($scope.dividePaginationInto / 2)) return true;
+        if ($scope.resultsPage < $scope.resultsPages - $scope.dividePaginationInto - Math.floor($scope.dividePaginationInto / 2) - 1) return true;
         else return false;
     }
     $scope.pageFilter5 = function (index) {
@@ -280,7 +277,7 @@
 
     $scope.selectCategory = function (category, state) {
         if (!category.states.length > 0 || state) {
-            if (state) {
+            if (state && typeof(state.energyModalContent) === "string") {
                 state.energyModalContent = $sce.trustAsHtml(state.energyModalContent);
             }
             $scope.searchData.category = category.name;
@@ -290,8 +287,15 @@
             paginate();
             buildKeywords();
             $scope.resultsPage = 0;
+            $scope.selectedStateName = $scope.searchData.state.name;
         }
     };
+
+    $scope.selectCategoryByName = function (category, stateName) {
+        angular.forEach($scope.category.states, function (state) {
+            if (state.name === stateName) $scope.selectCategory(category, state);
+        });
+    }
     
     $scope.selectSubcategory = function (index) {
         $scope.subcategory = $scope.subcategories[index].name;
@@ -432,11 +436,11 @@
         return result;
     }
 
-    $scope.faqFilter = function (faq, index) {
-        return (keywordFilter(faq) && searchStateFilter(faq) && subcategoryFilter(faq) && splitFaqFilter(faq, index));
-    }
+    //$scope.faqFilter = function (faq, index) {
+    //    return (keywordFilter(faq) && searchStateFilter(faq) && subcategoryFilter(faq) && splitFaqFilter(index));
+    //}
 
-    splitFaqFilter = function (faq, index) {
+    $scope.splitFaqFilter = function (index) {
         if ($scope.resultsPerPage.value * $scope.resultsPage <= index && index < $scope.resultsPerPage.value * ($scope.resultsPage + 1)) {
             return true;
         }

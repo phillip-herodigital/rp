@@ -16,11 +16,11 @@ namespace StreamEnergy.MyStream.Controllers
     {
         #region Sitecore Item And Template IDs
         private string categoryRootItemID = "{8A3629FC-AE99-472F-AFDF-1A1C003C4A12}"; // /sitecore/content/Data/Support/Categories
-        private string categoryTemplateID = "{9A6FE321-EC0F-4378-9739-6D0AD2E67B89}"; // /sitecore/templates/User Defined/Taxonomy/Faq Category
+        private string categoryTemplateID = "{9A6FE321-EC0F-4378-9739-6D0AD2E67B89}"; // /sitecore/templates/User Defined/Components/Support/Faq Category
         private string subcategoryRootItemID = "{6EE881AD-754B-4E1D-B94B-BDFF1C1D3365}"; // /sitecore/content/Data/Support/Subcategories
-        private string subcategoryRootTemplateID = "{C0B03D6C-84B7-4E66-88E0-7D1EF490CCBC}"; // /sitecore/templates/User Defined/Taxonomy/FAQ Subcategory
+        private string subcategoryRootTemplateID = "{C0B03D6C-84B7-4E66-88E0-7D1EF490CCBC}"; // /sitecore/templates/User Defined/Components/Support/FAQ Subcategory
         private string FAQsRootItemID = "{29E812CF-FC71-4375-8B9C-58863AA0362B}"; // /sitecore/content/Data/Support/FAQs
-        private string FAQsTempalteID = "{BE70CAA9-D9B4-40E4-9D54-F2164E0846C9}"; // 	/sitecore/templates/User Defined/Components/Marketing/State FAQ 
+        private string FAQsTempalteID = "{BE70CAA9-D9B4-40E4-9D54-F2164E0846C9}"; // 	/sitecore/templates/User Defined/Components/Support/State FAQ
         private string FAQStateRootItemID = "{1275AE28-0537-455B-A89F-C28467219351}"; // /sitecore/content/Data/Taxonomy/Modules/States
         private string FAQStateTemplateID = "{FAD51EE9-1FCC-4A16-B0EA-07CA91C92E46}"; // /sitecore/templates/User Defined/Taxonomy/State
         #endregion
