@@ -1537,6 +1537,7 @@
     <Content Include="frontend\assets\i\icon\autopay-17x17.png" />
     <Content Include="frontend\assets\i\icon\autopay-large.png" />
     <Content Include="frontend\assets\i\icon\autopay-small.png" />
+    <Content Include="frontend\assets\i\icon\backward.png" />
     <Content Include="frontend\assets\i\icon\bbb.png" />
     <Content Include="frontend\assets\i\icon\bill-analysis-circle.png" />
     <Content Include="frontend\assets\i\icon\bill-analysis.png" />
@@ -1600,6 +1601,7 @@
     <Content Include="frontend\assets\i\icon\facebook.png" />
     <Content Include="frontend\assets\i\icon\faq-hide.png" />
     <Content Include="frontend\assets\i\icon\faq-show.png" />
+    <Content Include="frontend\assets\i\icon\forward.png" />
     <Content Include="frontend\assets\i\icon\gas-blue.png" />
     <Content Include="frontend\assets\i\icon\gas-icon.png" />
     <Content Include="frontend\assets\i\icon\gas.png" />

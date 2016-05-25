@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using Sitecore.Data.Items;
+using Sitecore.Data.Fields;
+
 namespace StreamEnergy.MyStream.Models.Marketing.Support
 {
     public class FAQState
@@ -10,6 +12,8 @@ namespace StreamEnergy.MyStream.Models.Marketing.Support
         public string Name;
         public string Abbreviation;
         public string Guid;
+        public string IconURL;
+        public string EnergyModalContent;
 
         public FAQState() { }
 
@@ -29,6 +33,12 @@ namespace StreamEnergy.MyStream.Models.Marketing.Support
             Name = item.Fields["State Name"].Value;
             Abbreviation = item.Fields["State Abberviation"].Value;
             Guid = item.ID.ToString();
+            ImageField iconField = item.Fields["Icon"];
+            if (iconField.MediaItem != null)
+            {
+                IconURL = Sitecore.Resources.Media.MediaManager.GetMediaUrl(iconField.MediaItem);
+            }
+            EnergyModalContent = item.Fields["Energy Modal Content"].Value;
         }
     }
 }

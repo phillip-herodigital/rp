@@ -7,7 +7,6 @@
         .support-search {
             height: 370px;
             color: #fff;
-            background-image: url('/~/media/Images/Banners/support-banner.png');
             padding: 1px;
             background-size: cover;
 
@@ -48,8 +47,8 @@
                 .select {
                     position: relative;
                     float: left;
-                    width: 200px;
-                    padding: 22px 15px;
+                    width: 180px;
+                    padding: 22px 10px;
                     height: 100%;
                     border-right: 1px solid #999999;
                     background-color: #eff2f3;
@@ -64,13 +63,13 @@
                     .triangle-down {
                         height: 0;
                         width: 0;
-                        border-left: 15px solid transparent;
-                        border-right: 15px solid transparent;
-                        border-top: 15px solid #999999;
+                        border-left: 10px solid transparent;
+                        border-right: 10px solid transparent;
+                        border-top: 10px solid #999999;
                         background-color: #eff2f3;
                         position: relative;
                         float: right;
-                        bottom: 22px;
+                        bottom: 19px;
                         transition: all linear 0.5s;
 
                         &.flipped {
@@ -82,7 +81,7 @@
 
                 .input {
                     padding: 6px;
-                    width: calc(100% - 200px);
+                    width: calc(100% - 180px);
                     float: right;
 
                     input[type=text] {
@@ -108,21 +107,51 @@
                         left: 0 !important;
                         top: 90px !important;
                         background-color: #eff2f3;
-                        padding: 5px;
+                        padding: 0 15px 15px;
 
-                        li{
+                        &::before {
+                            content: "";
+                            height: 0px;
+                            width: 0px;
+                            display: block;
+                            border-left: 15px solid transparent;
+                            border-right: 15px solid transparent;
+                            border-bottom: 15px solid #eff2f3;
+                            position: relative;
+                            bottom: 15px;
+                            left: 215px;
+                        }
+
+                        li {
+                            padding: 15px 10px;
+                            border-bottom: 1px solid #dcdfdf;
+
+                            &:first-child {
+                                padding-top: 0;
+                            }
+
+                            &:last-child {
+                                border-bottom: none;
+                                padding-bottom: 0;
+                            }
+
                             .typeaheadQuestion {
-                                margin-bottom: 0;
                                 font-size: 16px;
                                 font-weight: 400;
                                 color: #333333;
                             }
+
                             .typeaheadAnswer {
                                 height: 22px;
                                 overflow: hidden;
-                                p{
+
+                                p {
                                     margin: 0;
                                 }
+                            }
+
+                            &.active {
+                                background-color: #ffffff;
                             }
                         }
                     }
@@ -134,15 +163,27 @@
                     overflow: hidden;
                     top: 10px;
                     position: relative;
-                    width: 100%;
+                    width: 180px;
+
+                    .triangle-up {
+                        height: 0;
+                        width: 0;
+                        border-left: 15px solid transparent;
+                        border-right: 15px solid transparent;
+                        border-bottom: 15px solid #eff2f3;
+                        position: relative;
+                        top: 0;
+                        left: 75px;
+                    }
 
                     ul.category-dropdown {
                         background-color: #eff2f3;
                         color: #000;
                         border-radius: 5px;
-                        padding: 20px;
+                        padding: 10px 10px 0 10px;
+                        margin: 0;
+                        width: 100%;
                         position: absolute;
-                        width: 210px;
                         list-style: none;
                         z-index: 10;
                         font-size: 16px;
@@ -151,16 +192,36 @@
                             padding: 10px;
                         }
 
-                        div:hover {
+                        li:hover {
                             background-color: #00a8e1;
+
+                            &.noHover {
+                                background-color: initial;
+                            }
                         }
 
-                        div.noHover:hover {
-                            background-color: initial;
+                        li {
+                            border-bottom: 1px solid #dcdfdf;
+
+                            &:last-child {
+                                border: none;
+                            }
                         }
 
                         ul.state {
                             list-style: none;
+                            padding: 0;
+
+                            li:first-child {
+                                border-top: 1px solid #dcdfdf;
+                            }
+
+                            li > div {
+                                background-position: left center;
+                                background-repeat: no-repeat;
+                                padding-left: 35px;
+                                margin-left: 30px;
+                            }
                         }
                     }
 
@@ -252,7 +313,7 @@
                     }
                 }
 
-                article.faqs {
+                .faqs {
                     margin-top: 25px;
 
                     .wrapper {
@@ -296,54 +357,18 @@
             }
 
             .category { //category page specific styling
-                padding: 20px 20px 0;
+                .pagination-display {
+                    width: calc(100% - 100px);
+                    border-bottom: 2px solid #efefef;
+                    margin: 20px 50px 0;
 
-                article.faqs {
-                    float: left;
-                    width: calc(100% - 250px);
-
-                    .content {
-                        .faq {
-                            .answer-container {
-                                .triangle-up {
-                                    height: 0;
-                                    width: 0;
-                                    border-left: 15px solid transparent;
-                                    border-right: 15px solid transparent;
-                                    border-bottom: 15px solid #eff2f3;
-                                    background-color: #fff;
-                                    position: relative;
-                                    top: 0;
-                                    left: 45px;
-                                }
-
-                                .answer {
-                                    background-color: #eff2f3;
-
-                                    .answer-content {
-                                        padding: 20px;
-                                    }
-                                }
-                            }
-                        }
+                    p {
+                        font-size: 20px;
                     }
-                }
 
-                aside {
-                    float: right;
-                    width: 250px;
-
-                    .selected {
-                        font-weight: 700;
+                    a {
+                        font-weight: 500;
                     }
-                }
-            }
-
-            .results-content {
-                width: 100%;
-                border-bottom: 2px solid #efefef;
-
-                .display-options {
 
                     .per-page {
                         margin-left: 10px;
@@ -356,33 +381,174 @@
                     }
                 }
 
-                .pagination {
+                .pagination-spacer {
+                    margin-bottom: 50px;
+                }
 
-                    div {
-                        margin: 0 2px;
+                .faqs {
+                    position: relative;
+                    margin: 0 50px;
+
+                    article {
                         float: left;
-                    }
+                        width: calc(100% - 400px);
+                        position: static;
 
-                    .back {
-                    }
+                        .content {
+                            padding: 0;
+                            margin-bottom: 78px;
 
-                    .page-number {
-                        border: 1px solid grey;
-                        width: 24px;
+                            .faq {
+                                .question {
+                                    a {
+                                        width: calc(100% - 51px);
+                                    }
+                                }
 
-                        &.selected {
-                            background-color: lightblue;
+                                .answer-container {
+                                    .triangle-up {
+                                        height: 0;
+                                        width: 0;
+                                        border-left: 15px solid transparent;
+                                        border-right: 15px solid transparent;
+                                        border-bottom: 15px solid #eff2f3;
+                                        background-color: #fff;
+                                        position: relative;
+                                        top: 0;
+                                        left: 45px;
+                                    }
+
+                                    .answer {
+                                        background-color: #eff2f3;
+
+                                        .answer-content {
+                                            padding: 20px;
+                                        }
+                                    }
+                                }
+                            }
                         }
                     }
 
-                    .forward {
+                    aside {
+                        float: right;
+                        width: 400px;
+                        font-size: 16px;
+                        padding: 20px 50px 20px;
+
+                        h4 {
+                            margin-top: 0;
+                        }
+
+                        .keyword {
+                            margin-left: 25px;
+
+                            p {
+                                margin: 0 0 15px;
+
+                                a {
+                                    color: inherit;
+                                    font-size: 16px;
+                                }
+                            }
+
+                            .selected {
+                                font-weight: 600;
+                                color: #29a4dd;
+                            }
+                        }
+
+                        hr {
+                            border-top: 1px solid #efefef;
+                        }
+                    }
+                }
+
+                .pagination-container {
+                    display: flex;
+                    margin: 36px auto;
+                    position: absolute;
+                    bottom: 0;
+                    width: inherit;
+
+                    .pagination {
+                        margin: 0 auto;
+                        font-size: 18px;
+
+                        div {
+                            margin: 0 4px;
+                            float: left;
+                        }
+
+                        .back {
+                            background: url(/frontend/assets/i/icon/backward.png) left center no-repeat;
+                            padding-left: 10px;
+                        }
+
+                        .page-number {
+                            border: 1px solid grey;
+                            width: 26px;
+                            text-align: center;
+                            border-radius: 5px;
+
+                            &.selected {
+                                background-color: #1991cf;
+                                border-color: #1991cf;
+                                color: #ffffff;
+                            }
+                        }
+
+                        .forward {
+                            background: url(/frontend/assets/i/icon/forward.png) right center no-repeat;
+                            padding-right: 10px;
+                        }
+
+                        .disabled {
+                            color: #000000;
+                        }
+                    }
+                }
+
+                .address-footer {
+                    width: 100%;
+                    height: 75px;
+                    background-color: #f7f8f9;
+                    padding: 27px 50px;
+
+                    p {
+                        font-size: 20px;
+                        margin: 0;
+                    }
+
+                    img {
+                        float: left;
+                        margin-right: 10px;
                     }
                 }
             }
 
             .faqs { //styling applied to both category and main page
-                .content {
+                .contact {
 
+                    .headset {
+                        margin-bottom: 30px;
+
+                        img {
+                            float: left;
+                            margin-right: 36px;
+                        }
+
+                        h4 {
+                            margin-bottom: 0;
+                        }
+                    }
+
+                    p {
+                        margin: 0;
+                    }
+                }
+
+                .content {
                     .faq {
                         border-bottom: 2px solid #efefef;
 
@@ -429,7 +595,7 @@
                             .answer {
                                 color: #636367;
                                 max-height: 750px;
-                                margin-top: -750px;
+                                margin-top: -775px;
                                 overflow: auto;
                                 position: relative;
                                 transition: margin-top 500ms;
@@ -440,14 +606,14 @@
 
                                 .answer-content {
                                     float: left;
-                                    width: calc(100% - 250px);
+                                    width: calc(100% - 350px);
                                 }
 
                                 aside {
                                     float: right;
-                                    width: 250px;
+                                    width: 350px;
                                     font-size: 16px;
-                                    padding: 20px;
+                                    padding: 0 20px 20px;
                                 }
 
                                 .helpful {
@@ -490,10 +656,41 @@
             float: left;
             background-color: #eff2f3;
             padding: 36px;
+            padding-left: 40px;
             font-size: 21px;
 
             a {
                 font-weight: 700;
+            }
+        }
+    }
+
+    .support-modal {
+        .modal-header {
+            padding-bottom: 40px;
+
+            h2 {
+                font-size: 34px;
+                font-weight: 500;
+            }
+
+            h4 {
+                font-size: 24px;
+                font-weight: 300;
+            }
+
+            img.life-preserver {
+                position: absolute;
+                right: 80px;
+                top: 60px;
+            }
+        }
+
+        .modal-body {
+            background: image-url('marketing/redesign/Modules/module_background.png') no-repeat center top;
+
+            .content {
+                padding: 50px;
             }
         }
     }
