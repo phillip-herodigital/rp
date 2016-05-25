@@ -707,3 +707,45 @@ article.contact {
 	}
 }
 
+article.faq {
+	border: none;
+	section.faq {
+		background-color: #eff2f3;
+		padding: 20px;
+		&:before {
+			border-color: #eff2f3;
+			border-bottom-color: #eff2f3;
+			border-width: 11px;
+			margin-left: -11px;
+		}
+		p.intro {
+			margin-top: 0px;
+		}
+		.two-column-faq {
+			.grid .col {
+				padding-bottom: 20px;
+				p {
+					padding-right: 20px;
+				}
+			}
+		}
+		.one-column-faq {
+			padding-bottom: 20px;
+		}
+		.feedback {
+			background-color: #eeeeee;
+			margin: -20px;
+			padding: 0px 20px 20px 20px;
+			hr {
+				border-top: 1px solid #fff;
+				margin: 15px 0px;
+			}
+			a.button {
+				float: right;
+			}
+			textarea {
+				margin-top: 10px;
+			}
+		}
+	}
+}
