@@ -158,7 +158,7 @@
         <member name="F:Sitecore.Social.Facebook.Connector.Paths.FacebookPaths.Links.IdsForBusiness">
             <summary>
             The ids for business
-            https://developers.facebook.com/docs/graph-api/reference/v2.2/user/ids_for_business
+            https://developers.facebook.com/docs/graph-api/reference/v2.5/user/ids_for_business
             </summary>
         </member>
         <member name="F:Sitecore.Social.Facebook.Connector.Paths.FacebookPaths.Links.Oauth">
@@ -170,31 +170,31 @@
         <member name="F:Sitecore.Social.Facebook.Connector.Paths.FacebookPaths.Links.Accounts">
             <summary>
             The accounts link.
-            https://developers.facebook.com/docs/graph-api/reference/v2.2/user/accounts?locale=en_GB
+            https://developers.facebook.com/docs/graph-api/reference/v2.5/user/accounts?locale=en_GB
             </summary>
         </member>
         <member name="F:Sitecore.Social.Facebook.Connector.Paths.FacebookPaths.Links.Feed">
             <summary>
             The feed link.
-            https://developers.facebook.com/docs/graph-api/reference/v2.2/user/feed?locale=en_GB
+            https://developers.facebook.com/docs/graph-api/reference/v2.5/user/feed?locale=en_GB
             </summary>
         </member>
         <member name="F:Sitecore.Social.Facebook.Connector.Paths.FacebookPaths.Links.User">
             <summary>
             The user link.
-            https://developers.facebook.com/docs/graph-api/reference/v2.2/user?locale=en_GB
+            https://developers.facebook.com/docs/graph-api/reference/v2.5/user?locale=en_GB
             </summary>
         </member>
         <member name="F:Sitecore.Social.Facebook.Connector.Paths.FacebookPaths.Links.Post">
             <summary>
             The post link.
-            https://developers.facebook.com/docs/graph-api/reference/v2.2/post?locale=en_GB
+            https://developers.facebook.com/docs/graph-api/reference/v2.5/post?locale=en_GB
             </summary>
         </member>
         <member name="F:Sitecore.Social.Facebook.Connector.Paths.FacebookPaths.Links.Comments">
             <summary>
             The comments link.
-            https://developers.facebook.com/docs/graph-api/reference/v2.2/object/comments?locale=en_GB
+            https://developers.facebook.com/docs/graph-api/reference/v2.5/object/comments?locale=en_GB
             </summary>
         </member>
         <member name="M:Sitecore.Social.Facebook.Connector.Paths.FacebookPaths.Links.#ctor(System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String)">

@@ -2420,17 +2420,23 @@
             /sitecore/system/Marketing Control Panel/Experience Analytics/Dimensions/Visits/By Campaign/All visits by Campaign
             </remarks>
         </member>
+        <member name="F:Sitecore.Social.DMS.InlineCampaignIndicators.XAnalyticsReportReader.KeyUrlParameterName">
+            <summary>
+            The URL parameter name of the key
+            </summary>
+        </member>
         <member name="M:Sitecore.Social.DMS.InlineCampaignIndicators.XAnalyticsReportReader.#ctor">
             <summary>
             Initializes a new instance of the <see cref="T:Sitecore.Social.DMS.InlineCampaignIndicators.XAnalyticsReportReader"/> class.
             </summary>
         </member>
-        <member name="M:Sitecore.Social.DMS.InlineCampaignIndicators.XAnalyticsReportReader.#ctor(Sitecore.ExperienceAnalytics.Api.IReportingService,Sitecore.Marketing.Definitions.IDefinitionManager{Sitecore.Marketing.Definitions.Campaigns.ICampaignActivityDefinition})">
+        <member name="M:Sitecore.Social.DMS.InlineCampaignIndicators.XAnalyticsReportReader.#ctor(Sitecore.ExperienceAnalytics.Api.IReportingService,Sitecore.Marketing.Definitions.IDefinitionManager{Sitecore.Marketing.Definitions.Campaigns.ICampaignActivityDefinition},Sitecore.ExperienceAnalytics.Api.Encoding.ITextCodec)">
             <summary>
             Initializes a new instance of the <see cref="T:Sitecore.Social.DMS.InlineCampaignIndicators.XAnalyticsReportReader"/> class.
             </summary>
             <param name="reportingService">The reporting service.</param>
             <param name="definitionManager">The definition manager.</param>
+            <param name="textCodec">The text codec.</param>
         </member>
         <member name="M:Sitecore.Social.DMS.InlineCampaignIndicators.XAnalyticsReportReader.Read(Sitecore.Data.ID)">
             <summary>
@@ -2443,6 +2449,20 @@
             - Visits;
             - Value per Visits.
             </returns>
+        </member>
+        <member name="M:Sitecore.Social.DMS.InlineCampaignIndicators.XAnalyticsReportReader.CreateEmptyInlineCampaignIndicators">
+            <summary>
+            Creates the empty inline campaign indicators.
+            </summary>
+            <returns>The empty inline campaign indicators.</returns>
+        </member>
+        <member name="P:Sitecore.Social.DMS.InlineCampaignIndicators.XAnalyticsReportReader.TextCodec">
+            <summary>
+            Gets the text codec.
+            </summary>
+            <value>
+            The text codec.
+            </value>
         </member>
         <member name="P:Sitecore.Social.DMS.InlineCampaignIndicators.XAnalyticsReportReader.DefinitionManager">
             <summary>

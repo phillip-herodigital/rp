@@ -30,7 +30,18 @@ To enable this include file, rename it so that it has a ".config" extension.
            Running a non-production solution on a production data set will pollute the production data set.
       -->
       <setting name="Sitecore.Cloud.Xdb.DeploymentType" value="Prod" />
-      
+
+      <!-- DEPLOYMENT REGION
+           This value identifies for xDB Cloud the region that this Sitecore installation should attempt to provision in.
+           Important: Before you run Sitecore for the first time, you must specify a value for the DeploymentRegion setting. 
+           You can do this after you configure Sitecore to use xDB Cloud. Thereafter Sitecore ignores the DeploymentRegion setting because it automatically connects to the xDB Set that you specified. 
+           For a list of supported regions, go to: https://doc.sitecore.net/cloud/xdb_cloud/configure_a_sitecore_xdb_cloud_connection. 
+           The “Nearest” value is currently subject to availability and local latency estimated by Azure traffic management. Note: 
+           The value “Nearest” selects the closest deployment region, therefore there is no guarantee that the deployment region will be in the same country as your delivery servers. 
+           Default value: "" (must be specified before connecting to xDB Cloud for the first time)
+      -->
+      <setting name="Sitecore.Cloud.Xdb.DeploymentRegion" value="" />
+
       <!-- PATH ANALYZER - REMOTE CLIENT - IGNORE SSL CERTIFICATE ERRORS
                  If true, SSL certificate errors will be ignored when the client attempts to connect to the remote Path Analyzer services.
                  This is particularly useful for self-signed certificates or other certificates not signed by a recognized CA.
@@ -138,11 +149,13 @@ To enable this include file, rename it so that it has a ".config" extension.
     </aggregation>
 
     <hooks>
-      <hook type="Sitecore.Cloud.Xdb.DisableAggregation, Sitecore.Cloud.Xdb" patch:after="processor[@type='Sitecore.Analytics.Aggregation.AggregationLoader, Sitecore.Analytics.Aggregation']"/>
-      <hook type="Sitecore.Cloud.Xdb.DisableAutomation, Sitecore.Cloud.Xdb" patch:after="processor[@type='Sitecore.Analytics.Automation.Aggregation.SubsystemLoader, Sitecore.Analytics.Automation.Aggregation']"/>
-      <hook type="Sitecore.Cloud.Xdb.DisablePathAnalyzerProcessing, Sitecore.Cloud.Xdb" patch:after="processor[@type='Sitecore.PathAnalyzer.Processing.SubsystemLoader, Sitecore.PathAnalyzer']"/>
+      <hook type="Sitecore.Cloud.Xdb.DisableAggregation, Sitecore.Cloud.Xdb" patch:after="hook[@type='Sitecore.Analytics.Aggregation.AggregationLoader, Sitecore.Analytics.Aggregation']"/>
+      <hook type="Sitecore.Cloud.Xdb.DisableProcessing, Sitecore.Cloud.Xdb" patch:after="hook[@type='Sitecore.Analytics.Processing.ProcessingLoader, Sitecore.Analytics.Processing']"/>
+      <hook type="Sitecore.Cloud.Xdb.DisableAutomation, Sitecore.Cloud.Xdb" patch:after="hook[@type='Sitecore.Analytics.Automation.Aggregation.SubsystemLoader, Sitecore.Analytics.Automation.Aggregation']"/>
+      <hook type="Sitecore.Cloud.Xdb.DisablePathAnalyzerProcessing, Sitecore.Cloud.Xdb" patch:after="hook[@type='Sitecore.PathAnalyzer.Processing.SubsystemLoader, Sitecore.PathAnalyzer']"/>
+      <hook type="Sitecore.Cloud.Xdb.DisableExperienceAnalyticsReduce, Sitecore.Cloud.Xdb" patch:after="hook[@type='Sitecore.ExperienceAnalytics.Reduce.SubSystemLoader, Sitecore.ExperienceAnalytics']"/>
     </hooks>
-
+    
     <maintenanceService>
       <Services>
         <rdbCleanUpPrimary>

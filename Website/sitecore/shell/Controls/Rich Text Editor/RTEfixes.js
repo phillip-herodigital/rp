@@ -101,7 +101,7 @@ function fixImageParameters(image, mediaPrefixes) {
     if (!isMediaLink) { return; };
 
     _toQueryParams = function (href) {
-        var result = {};
+        var result = {};        
 
         var search = href.split("?")[1];
 
@@ -116,9 +116,12 @@ function fixImageParameters(image, mediaPrefixes) {
         return result;
     };
 
-    // This code corrects inconsistencies between image sizes set in style attribute, width and height attributes, w and h image parameters.
+    // This code corrects inconsistencies between image sizes set in style attribute, width and height attributes, w and h image parameters.    
     var src = image.getAttribute("src");
-
+        
+    src = convertToRelativeUrl(src);
+    
+    
     var params = _toQueryParams(src);
 
     var n = src.indexOf("?");
@@ -231,6 +234,22 @@ function getRelativeUrl() {
     }
 
     return result;
+}
+
+function convertToRelativeUrl(url) {
+    if (!url) {
+        return url;
+    }
+    url = decodeURIComponent(url);
+    var index = url.indexOf('~/');
+    var anotherIndex = url.indexOf('-/');
+    if (index > 0) {
+        return url.substring(index);
+    }
+    else if (anotherIndex > 0) {
+        return url.substring(anotherIndex);
+    }
+    return url;
 }
 
 function fixIeObjectTagBug() {

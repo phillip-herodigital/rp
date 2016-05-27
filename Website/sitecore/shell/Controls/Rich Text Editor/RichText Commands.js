@@ -38,6 +38,8 @@ Telerik.Web.UI.Editor.CommandList["InsertSitecoreLink"] = function(commandName, 
     id = scItemID;
   }
 
+  id = scFormatId(id);
+
   scEditor = editor;
 
   editor.showExternalDialog(
@@ -54,6 +56,13 @@ Telerik.Web.UI.Editor.CommandList["InsertSitecoreLink"] = function(commandName, 
     false //showTitleBar
   );
 };
+
+function scFormatId(id){
+  if (decodeURIComponent(id) === id){
+    return encodeURI(id);
+  }
+  return id;
+}
 
 Telerik.Web.UI.Editor.CommandList["SetImageProperties"] = function (commandName, editor, args) {
   var currentImage = editor.getSelectedElement();

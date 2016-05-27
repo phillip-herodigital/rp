@@ -197,6 +197,7 @@
               <field fieldName="sizerange"                      returnType="string"          >Sitecore.ContentSearch.ComputedFields.FileSizeGrouping,Sitecore.ContentSearch</field>
               <field fieldName="version"                        returnType="intCollection"   >Sitecore.ContentSearch.ComputedFields.StoreVersionTermVector,Sitecore.ContentSearch</field>
               <field fieldName="isbucket_text"                  returnType="string"          >Sitecore.ContentSearch.ComputedFields.IsBucket,Sitecore.ContentSearch</field>
+			  <field fieldName="__lock"                         returnType="string"          >Sitecore.ContentSearch.ComputedFields.ParsedLockOwner,Sitecore.ContentSearch</field>
               <!-- Disabled for speed of indexing. Enable if you would like to query by the fields below -->
               <!--<field fieldName="_isclone"                   returnType="bool"             >Sitecore.ContentSearch.ComputedFields.IsClone,Sitecore.ContentSearch</field>-->
               <!--<field fieldName="_links"                     returnType="string"           >Sitecore.ContentSearch.ComputedFields.ItemLinks, Sitecore.ContentSearch</field>-->
@@ -277,6 +278,7 @@
                This maps a field type by name to a Strongly Typed Implementation of the field type e.g. html maps to HTMLField
             -->
           <fieldReaders type="Sitecore.ContentSearch.FieldReaders.FieldReaderMap, Sitecore.ContentSearch">
+            <param desc="id">defaultFieldReaderMap</param>
             <mapFieldByTypeName hint="raw:AddFieldReaderByFieldTypeName">
               <fieldReader fieldTypeName="checkbox"                                             fieldReaderType="Sitecore.ContentSearch.FieldReaders.CheckboxFieldReader, Sitecore.ContentSearch" />
               <fieldReader fieldTypeName="date|datetime"                                        fieldReaderType="Sitecore.ContentSearch.FieldReaders.DateFieldReader, Sitecore.ContentSearch" />
@@ -392,12 +394,18 @@
           <defaultSearchSecurityOption ref="contentSearch/indexConfigurations/defaultSearchSecurityOption" />
 
         </defaultSolrIndexConfiguration>
+        
+        <solrHttpWebRequestFactory type="HttpWebAdapters.HttpWebRequestFactory, SolrNet" />
+        
       </indexConfigurations>
     </contentSearch>
     <pipelines>
       <contentSearch.translateQuery>
         <processor type="Sitecore.ContentSearch.SolrProvider.Pipelines.TranslateQuery.ApplySolrTranslation, Sitecore.ContentSearch.SolrProvider" />
       </contentSearch.translateQuery>
+      <contentSearch.formatQueryFieldValue>
+        <processor type="Sitecore.ContentSearch.SolrProvider.Pipelines.FormatQueryFieldValue.ApplyFieldMappingRule, Sitecore.ContentSearch.SolrProvider" />        
+      </contentSearch.formatQueryFieldValue>
     </pipelines>
     <settings>
 
@@ -435,7 +443,6 @@
             The size of document batch before flushing to the database.
       -->
       <setting name="ContentSearch.Update.BatchSize" value="500" />
-
     </settings>
   </sitecore>
 </configuration>

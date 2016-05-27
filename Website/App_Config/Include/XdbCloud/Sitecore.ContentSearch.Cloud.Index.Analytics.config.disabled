@@ -146,7 +146,7 @@
                 </fields>
               </documentOptions>
               
-              <fieldReaders ref="contentSearch/indexConfigurations/defaultLuceneIndexConfiguration/fieldReaders">
+              <fieldReaders ref="contentSearch/indexConfigurations/defaultCloudIndexConfiguration/fieldReaders">
                 <fieldNames hint="raw:AddFieldReaderByType">
                   <fieldReader fieldType="System.Byte[]"                                               fieldReaderType="Sitecore.ContentSearch.Analytics.FieldReaders.ByteArrayFieldReader, Sitecore.ContentSearch.Analytics"/>
                   <fieldReader fieldType="Sitecore.Analytics.Model.UrlData, Sitecore.Analytics.Model"  fieldReaderType="Sitecore.ContentSearch.Analytics.FieldReaders.ToStringFieldReader, Sitecore.ContentSearch.Analytics"/>
