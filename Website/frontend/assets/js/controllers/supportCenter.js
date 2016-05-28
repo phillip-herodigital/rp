@@ -3,13 +3,14 @@
     $scope.selectedFaqIndex = null;
     $scope.searchFAQs = [];
     $scope.category = {
+        name: "",
         states: []
     }; //currently selected category object
     $scope.categories = []; //list of categories
     $scope.subcategories = []; //list of subcategories for $scope.category
-    $scope.subcategory = "All"; //currently selected subcategory name
+    $scope.subcategory = "All";
     $scope.faqs = []; //popular faqs on /support page, category/subcategory faqs on category/subcategory pages
-    $scope.searchData = { //search data
+    $scope.searchData = {
         category: "",
         state: null,
         text: ""
@@ -23,13 +24,10 @@
     $scope.resultsPages = Math.ceil($scope.faqs.length / $scope.resultsPerPage.value);
     var scrollGuid = "";
     var scrolled = false;
-    var scrollPage = 0;
-    $scope.isCategorySupport = false;
     $scope.keywords = []; //list of keywords for current faq list
     $scope.noKeywordSelected = true;
     $scope.init = function (categories, popFaqs) {
         $scope.categories = categories;
-        $scope.category.name = "";
         $scope.faqs = popFaqs;
         angular.forEach($scope.faqs, function (faq) {
             faq.faqAnswer = $sce.trustAsHtml(faq.faqAnswer);
@@ -70,7 +68,6 @@
                 if (category.states) {
                     angular.forEach($scope.category.states, function (state) {
                         if (state.name === searchArray[0]) {
-                            //$scope.searchData.state = state;
                             $scope.selectCategory(category, state);
                         }
                     });
@@ -248,30 +245,31 @@
         }
     };
 
-    $scope.dividePaginationInto = 2;
+    $scope.dividePaginationInto = 1;
 
     $scope.pageFilter1 = function (index) {
         if (index < $scope.dividePaginationInto) return true;
         else return false;
     }
     $scope.pageFilter2 = function () {
-        if ($scope.resultsPage > $scope.dividePaginationInto + Math.floor($scope.dividePaginationInto / 2)) return true;
+        if ($scope.resultsPage > $scope.dividePaginationInto + Math.ceil($scope.dividePaginationInto / 2)) return true;
         else return false;
     }
     $scope.pageFilter3 = function (index) {
-        if (index >= $scope.resultsPage - Math.floor($scope.dividePaginationInto / 2) &&
-            index <= $scope.resultsPage + Math.floor($scope.dividePaginationInto / 2) &&
+        if (index >= $scope.resultsPage - Math.ceil($scope.dividePaginationInto / 2) &&
+            index <= $scope.resultsPage + Math.ceil($scope.dividePaginationInto / 2) &&
             index >= $scope.dividePaginationInto &&
             index < $scope.resultsPages - $scope.dividePaginationInto) return true;
         else return false;
     }
     $scope.pageFilter4 = function () {
-        if ($scope.resultsPage < $scope.resultsPages - $scope.dividePaginationInto - Math.floor($scope.dividePaginationInto / 2) - 1) return true;
+        if ($scope.resultsPage < $scope.resultsPages - $scope.dividePaginationInto - Math.ceil($scope.dividePaginationInto / 2) - 1) return true;
         else return false;
     }
     $scope.pageFilter5 = function (index) {
-        if (index >= $scope.resultsPages - $scope.dividePaginationInto &&
-            index >= $scope.dividePaginationInto * 2) return true;
+        if (index >= $scope.resultsPages - $scope.dividePaginationInto
+            //&& index >= $scope.dividePaginationInto * 2
+            ) return true;
         else return false;
     }
 
@@ -415,9 +413,6 @@
 
     $scope.backToSupport = function (FAQs) {
         $scope.faqs = FAQs;
-        angular.forEach($scope.faqs, function (faq) {
-            faq.faqAnswer = $sce.trustAsHtml(faq.faqAnswer);
-        });
         $scope.searchResults = false;
         buildKeywords();
         $scope.searchData.text = "";
@@ -435,10 +430,6 @@
         $scope.displayedFAQCount = result.length;
         return result;
     }
-
-    //$scope.faqFilter = function (faq, index) {
-    //    return (keywordFilter(faq) && searchStateFilter(faq) && subcategoryFilter(faq) && splitFaqFilter(index));
-    //}
 
     $scope.splitFaqFilter = function (index) {
         if ($scope.resultsPerPage.value * $scope.resultsPage <= index && index < $scope.resultsPerPage.value * ($scope.resultsPage + 1)) {

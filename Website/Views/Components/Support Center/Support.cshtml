@@ -109,14 +109,37 @@
                         </div>
                     </div>
                 </div>
-                <div class="pagination-spacer" ng-show="searchResults"></div>
                 <div class="pagination-container">
-                    <div class="pagination clearfix" ng-show="faqs.length > resultsPerPage.value">
-                        <div class="back"><a href="" ng-click="setResultsPage(0)" ng-class="{disabled: resultsPage == 0}">First</a></div>
-                        <div class="back"><a href="" ng-click="setResultsPage(resultsPage - 1)" ng-class="{disabled: resultsPage == 0}">Previous</a></div>
-                        <div class="page-number" ng-repeat="page in resultsPageRange" ng-class="{selected: resultsPage == $index}" ng-click="setResultsPage($index)">{{$index + 1}}</div>
-                        <div class="forward"><a href="" ng-click="setResultsPage(resultsPage + 1)" ng-class="{disabled: resultsPage == resultsPages - 1}">Next</a></div>
-                        <div class="forward"><a href="" ng-click="setResultsPage(resultsPageRange.length - 1)" ng-class="{disabled: resultsPage == resultsPages - 1}">Last</a></div>
+                    <div class="pagination clearfix" ng-show="getDisplayedFAQs().length > resultsPerPage.value">
+                        <div class="back">
+                            <div><a href="" ng-click="setResultsPage(0)" ng-class="{disabled: resultsPage == 0}">First</a></div>
+                            <div><a href="" ng-click="setResultsPage(resultsPage - 1)" ng-class="{disabled: resultsPage == 0}">Previous</a></div>
+                        </div>
+                        <div class="page-numbers">
+                            <div class="content clearfix">
+                                <div class="page-number" ng-repeat="page in resultsPageRange" ng-show="pageFilter1($index)" ng-class="{selected: resultsPage == $index}" ng-click="setResultsPage($index)">{{$index + 1}}</div>
+                                <div ng-show="pageFilter2()">...</div>
+                                <div class="page-number" ng-repeat="page in resultsPageRange" ng-show="pageFilter3($index)" ng-class="{selected: resultsPage == $index}" ng-click="setResultsPage($index)">{{$index + 1}}</div>
+                                <div ng-show="pageFilter4()">...</div>
+                                <div class="page-number" ng-repeat="page in resultsPageRange" ng-show="pageFilter5($index)" ng-class="{selected: resultsPage == $index}" ng-click="setResultsPage($index)">{{$index + 1}}</div>
+                            </div>
+                        </div>
+                        <div class="forward">
+                            <div><a href="" ng-click="setResultsPage(resultsPage + 1)" ng-class="{disabled: resultsPage == resultsPages - 1}">Next</a></div>
+                            <div><a href="" ng-click="setResultsPage(resultsPageRange.length - 1)" ng-class="{disabled: resultsPage == resultsPages - 1}">Last</a></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="contact small">
+                    <div class="headset">
+                        <img src="@headsetIconURL" />
+                        <h4>Still having issues?</h4>
+                        <p>Please contact us!</p>
+                    </div>
+                    <div class="contact-info">
+                        <p>Customer Service at 877-743-5893 from</p>
+                        <p>7am-10pm, CST, Monday-Friday or</p>
+                        <p>9am-5pm, CST, Saturday.</p>
                     </div>
                 </div>
             </article>
