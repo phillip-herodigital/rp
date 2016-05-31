@@ -22,7 +22,7 @@
 
     $scope.$watch(enrollmentCartService.getActiveService, function (newVal, oldVal) {
         if (newVal != oldVal) {
-            $scope.phoneOptions = enrollmentCartService.getCartDevices()[$scope.activeServiceIndex()];
+            $scope.phoneOptions = $scope.cartDevices()[activeServiceIndex()];
         }
     });
 
