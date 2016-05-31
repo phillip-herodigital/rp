@@ -1876,6 +1876,189 @@ $local-meeting-color: #00a8e1;
         }
     }
 
+    .ten-in-2016 {
+        .top-10-header {
+            .leaderboard-header {
+                padding-bottom: 0px;
+
+                h1 {
+                    text-align: center;
+                    color: #033d5b;
+                    font-size: 2.5em;
+                }
+            }
+            .leaderboard-content {
+                text-align: center;
+            }
+        }
+        .green-bar {
+            display: block;
+            width: 100%;
+            min-height: 60px;
+            background: #b4d33a;
+            color: #ffffff;
+            text-align: center;
+            font-size: 2.3em;
+            padding-top: 6px;
+            font-weight: bold;
+        }
+
+        .legend {
+            text-align: center;
+            display: block;
+            width: 80%;
+            margin: 0 auto;
+            margin-top: 20px;
+            @include breakpoint(small-medium){
+                width: 100%;
+            }
+        }
+        .top-list { 
+             margin: 0 auto;
+        }
+        .top-container {
+            width: 80%;
+            margin: 0 auto;
+            @include breakpoint(small-medium){
+               width: 100%;
+            }
+        }
+        .list {
+            padding: 25px;
+            position: relative;
+
+            h2 {
+                font-size: 48px;
+                line-height: 0.9;
+                margin: 0;
+                display:inline-block;
+                width: 85%;         
+            }
+
+            h3 {
+                font-size: 24px;
+                margin: 0;
+            }
+
+            p {
+                font-size: 18px;
+            }
+            
+            .top-header {
+                display: block;
+                background: #eeeeee;
+                min-height: 170px;
+                margin-bottom: 10px;
+                width: 100%;
+                margin: 0 auto;
+                text-align: center;
+                padding-top: 40px;
+                line-height: 1em;
+            }
+
+             .director-list {
+                span {
+                    display: block;
+                    font-size: 12px;
+                    font-weight: bold;
+                    letter-spacing: 0.14em;
+                    text-transform: uppercase;
+
+                }
+
+                ul {
+                    padding: 0;
+                    margin-top: 5px;
+                }
+
+                li {
+                    padding: 10px 0;
+                    width: 100%;
+                    margin: 0 auto;
+                    font-size: 24px;
+                    list-style-type: none;
+                    background-image: linear-gradient(#d7dbdd, #ebedee);
+                    list-style-type: none;
+                    color: #000000;
+
+                    .star-image {
+                        display: inline-block;
+                        vertical-align: top;
+                        width: 40px;
+                        min-height: 65px;
+                        padding: 10px;
+                        margin-left: 5px;
+                    
+                        img {
+                            display: inline;
+                            vertical-align: middle;
+                            background: #000000;
+                        }
+                    }
+                } 
+
+                li.national-director {
+                    span {
+                        color: #2e2925
+                    }
+                    .star-image img {
+                        background: #2e2925;
+                    }
+                }
+
+                li.regional-director {
+                    span {
+                        color: #005cb9;
+                    }
+                    .star-image img {
+                        background: #005cb9;
+                    }
+                }
+
+               li.executive-director {
+                    span {
+                        color: #c2c6ca;
+                    }
+                    .star-image img {
+                        background: #c2c6ca;
+                    }
+                }
+
+                li.managing-director {
+                    span {
+                        color: #007851;
+                    }
+                    .star-image img {
+                        background: #007851;
+                    }
+                }
+
+                li.senior-director {
+                    span {
+                        color: #5d0e8b;
+                    }
+                    .star-image img {
+                        background: #5d0e8b;
+                    }
+                }
+
+                li.director {
+                    span {
+                        color: #000000;
+                    }
+                    .star-image img {
+                        background: #000000;
+                    }
+                }
+
+                ul li div {
+                    display: inline-block;
+                    padding-top: 4px;
+                }             
+            }
+        }
+    }
+
     .ribbon-wrapper {
         width: 85px;
         height: 88px;
