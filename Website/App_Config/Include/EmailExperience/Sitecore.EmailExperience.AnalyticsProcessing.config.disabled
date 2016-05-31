@@ -1,0 +1,57 @@
+<configuration xmlns:patch="http://www.sitecore.net/xmlconfig/">
+  <sitecore>
+
+    <exm>
+      <!-- ROLES
+           Describes which Email Experience Manager server roles are enabled by this configuration file.
+      -->
+      <roles>
+        <role name="Analytics Processing" />
+      </roles>
+    </exm>
+
+    <aggregation>
+      <routines>
+        <ExecRoutineStatementBuilder type="Sitecore.Analytics.Aggregation.Scripting.Builders.ExecRoutineStatementBuilder, Sitecore.Analytics.Sql" singleInstance="true">
+          <mappings hint="list:AddMapping">
+            <!-- ecm_index is used to correct work of a config merging tool, otherwise it will add only the last SqlMappingEntity  -->
+            <SqlMappingEntity type="Sitecore.Analytics.Aggregation.SqlMappingEntity, Sitecore.Analytics.Sql" ecm_index="1">
+              <Table>Fact_VisitsByMessage</Table>
+              <Routine>Add_VisitsByMessage</Routine>
+            </SqlMappingEntity>
+            <SqlMappingEntity type="Sitecore.Analytics.Aggregation.SqlMappingEntity, Sitecore.Analytics.Sql" ecm_index="2">
+              <Table>Fact_LandingPages</Table>
+              <Routine>Add_LandingPages</Routine>
+            </SqlMappingEntity>
+            <SqlMappingEntity type="Sitecore.Analytics.Aggregation.SqlMappingEntity, Sitecore.Analytics.Sql" ecm_index="3">
+              <Table>Fact_AbnVisitsByMessage</Table>
+              <Routine>Add_AbnVisitsByMessage</Routine>
+            </SqlMappingEntity>
+            <SqlMappingEntity type="Sitecore.Analytics.Aggregation.SqlMappingEntity, Sitecore.Analytics.Sql" ecm_index="4">
+              <Table>LandingPageDetails</Table>
+              <Routine>Ensure_LandingPageDetails</Routine>
+            </SqlMappingEntity>
+          </mappings>
+        </ExecRoutineStatementBuilder>
+      </routines>
+    </aggregation>
+
+    <pipelines>
+      <group groupName="analytics.aggregation">
+        <pipelines>
+          <interactions>
+            <processor type="Sitecore.Modules.EmailCampaign.Core.Analytics.Aggregation.Interaction.Pipeline.LandingPagesProcessor, Sitecore.EmailCampaign" />
+            <processor type="Sitecore.Modules.EmailCampaign.Core.Analytics.Aggregation.Interaction.Pipeline.VisitsByMessageProcessor, Sitecore.EmailCampaign" />
+            <processor type="Sitecore.Modules.EmailCampaign.Core.Analytics.Aggregation.Interaction.Pipeline.AbnVisitsByMessageProcessor, Sitecore.EmailCampaign" />
+          </interactions>
+
+          <automationStates>
+            <processor type="Sitecore.Modules.EmailCampaign.Core.Analytics.Aggregation.Automation.Pipeline.AutomationStatesStatisticsByAbnMessageProcessor, Sitecore.EmailCampaign" />
+            <processor type="Sitecore.Modules.EmailCampaign.Core.Analytics.Aggregation.Automation.Pipeline.AutomationStatesStatisticsByMessageProcessor, Sitecore.EmailCampaign" />
+          </automationStates>
+        </pipelines>
+      </group>
+    </pipelines>
+
+  </sitecore>
+</configuration>

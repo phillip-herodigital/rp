@@ -2,19 +2,37 @@
   "sitecore",
   "/-/speak/v1/ecm/MessageBase.js",
   "/-/speak/v1/ecm/UrlService.js",
-  "/-/speak/v1/ecm/ServerRequest.js"
-], function (sitecore, messageBase, urlService) {
+  "/-/speak/v1/ecm/ServerRequest.js",
+  "/-/speak/v1/ecm/MessageHelper.js"
+], function (
+  sitecore,
+  messageBase,
+  urlService,
+  ServerRequest,
+  MessageHelper
+  ) {
   var messageReport = messageBase.extend({
     initialized: function() {
       this._super();
       this.MessageInfo.set("hidePreviewForRecipient", true);
       this.loadPreviewImage();
-      sitecore.on("change:messageContext", this.updateLanguageSwitcher, this);
+      sitecore.on("change:messageContext", this.onChangeMessageContext, this);
+    },
+
+    setPageTitle: function() {
+      document.title = this.MessageContext.get('messageName') +
+        ' - ' +
+        sitecore.Resources.Dictionary.translate("ECM.EmailExperienceManager");
+    },
+
+    onChangeMessageContext: function () {
+      this.setPageTitle();
+      this.updateLanguageSwitcher();
     },
 
     updateLanguageSwitcher: function () {
       var activeLanguages = this.LanguageSwitcher.viewModel.getActiveLanguages();
-      if (this.MessageContext.get("messageState") !== 0 && activeLanguages.length > 1) {
+      if (this.MessageContext.get("messageState") !== MessageHelper.MessageStates.DRAFT && activeLanguages.length > 1) {
         this.LanguageSwitcher.viewModel.showAllLanguagesItem();
       }
     },

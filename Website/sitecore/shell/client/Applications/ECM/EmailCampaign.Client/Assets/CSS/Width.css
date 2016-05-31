@@ -113,12 +113,11 @@ div[data-sc-id="PageProgressIndicator"] {
   table-layout: fixed;
 }
 
-.sc .sc-message-progress-table tr {
-  border-bottom: solid 2px rgb(240, 240, 240);
-}
-
-.sc .sc-message-progress-table tr td {
-  padding: 7px 10px;
+.sc .sc-message-progress-table td {
+  padding-left: 15px;
+  padding-right: 15px;
+  height: 41px;
+  border-bottom: solid 1px rgb(240, 240, 240);
 }
 
 .sc .sc-message-progress-table tr td:last-child {
@@ -306,8 +305,48 @@ img[data-sc-id="TemplateImage"], img[data-sc-id="TemplateThumbnailImage"] {
 }
 
 /*dispatch tab start*/
+div.sc-border[data-sc-id="ABVariantsBorder"] {
+  padding: 0 15px 10px 15px;
+}
+
+.sc-border[data-sc-id="ABWinnerAutomaticRadioBorder"],
+.sc-border[data-sc-id="ABWinnerManualRadioBorder"] {
+  margin-left: -5px;
+}
+
+
+div.sc-border[data-sc-id="ButtonsBorder"] {
+  padding: 0 15px 15px 15px !important;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-top: none;
+}
+
+div.sc-advancedExpander[data-sc-id="DispatchAccordion"] {
+  margin-bottom: 0;
+}
+
+div.sc-advancedExpander[data-sc-id="DispatchAccordion"] .sc-advancedExpander-body {
+  border-bottom: none;  
+}
+
+div.sc-advancedExpander[data-sc-id="DispatchAccordion"] .sc-advancedExpander-footer {
+  padding-bottom: 0;
+  padding-right: 0;
+}
+
+div[data-sc-id="ABVariantsSizeLabelColumnPanel"],
+div[data-sc-id="ABVariantsChooseLeftColumnPanel"],
+div[data-sc-id="ABWinnerLeftColumnPanel"] {
+  padding-left: 0 !important;
+}
+
+span.sc-text[data-sc-id="ABVariantsHeaderText"] {
+  line-height: 56px;
+}
+
 div[data-sc-id="DispatchAccordionBorder"] {
-  padding: 8px 20px !important;
+  padding: 20px 0 !important;
 }
 
   div.sc-border[data-sc-id="DispatchAccordionBorder"] .sc-label {
@@ -334,15 +373,20 @@ div[data-sc-id="DispatchAccordionBorder"] {
   margin-right: 20px;
 }
 
-.sc-border[data-sc-id="ScheduledMessageDataBorder"],
-.sc-border[data-sc-id="ScheduleRecurringBorder"],
-.row[data-sc-id="ABVariantsSizeRowPanel"] {
+.sc-border[data-sc-id="ScheduledMessageDataBorder"] {
   margin-top: 6px;
-  margin-left: 34px;
+  margin-left: -10px;
 }
 
-div.sc-border[data-sc-id="DispatchAccordionBorder"] .sc-radiobutton {
+div.sc-border[data-sc-id="DispatchAccordionBorder"] .sc-radiobutton,
+.sc-radiobutton[data-sc-id="ABWinnerManualRadioButton"],
+.sc-radiobutton[data-sc-id="ABWinnerAutomaticRadioButton"] {
   margin: 5px 0;
+}
+div[data-sc-id="ScheduleRecurringBorderRowPanel"],
+div[data-sc-id="ScheduleRecurringBodyRowPanel"],
+div.sc-border[data-sc-id="ScheduledMessageDataBorder"] {
+  margin-left: 2px !important;
 }
 
 div[data-sc-id="MonthlyFirstRowPanel"],
@@ -357,7 +401,9 @@ div[data-sc-id="ScheduledMessagesDateTimeRowPanel"],
 div[data-sc-id="ScheduleRecurringBorderRowPanel"],
 div[data-sc-id="ScheduleRecurringDateTimeRowPanel"],
 div[data-sc-id="ScheduleRecurringTimezoneRowPanel"],
-div[data-sc-id="ScheduledMessagesEndDateTimeRowPanel"] {
+div[data-sc-id="ScheduledMessagesEndDateTimeRowPanel"],
+div[data-sc-id="ScheduleRecurringBorderRowPanel"],
+.sc-border[data-sc-id="ScheduleRecurringRadioBorder"] {
   padding-bottom: 6px;
 }
 
@@ -401,23 +447,31 @@ div[data-sc-id="ScheduleRecurringEndNoEndDateRowPanel"] {
   padding-top: 8px;
 }
 
+div[data-sc-id="UsePreferredLanguageHintBorder"],
+div[data-sc-id="NotificationEmailHintBorder"] {
+  color: #999;
+}
+
+.sc-border[data-sc-id="ABWinnerBorder"] {
+  padding: 0 15px 15px 15px !important;
+}
+
 .sc-border[data-sc-id="NotificationHeaderBorder"],
 .sc-border[data-sc-id="MultiLanguageHeaderBorder"],
 .sc-border[data-sc-id="NotificationEmailBorder"],
 .sc-border[data-sc-id="EmulationModeHeaderBorder"],
 .sc-border[data-sc-id="ABVariantsInstructionsBorder"],
-.sc-border[data-sc-id="ABVariantsSelectorBorder"],
 .sc-border[data-sc-id="ABWinnerInstructionsBorder"] {
   margin-bottom: 4px;
 }
 
 .sc-border[data-sc-id="DeliverySpacerBorder"],
-.sc-border[data-sc-id="ABVariantsSizeBorder"] {
+.sc-border[data-sc-id="AutomaticRowPanel"] {
   margin-top: 5px;
 }
 
-.sc-border[data-sc-id="ButtonsBorder"] {
-  margin-bottom: 15px;
+.sc-border[data-sc-id="AutomaticRowPanel"] {
+  overflow: hidden;  
 }
 
 .sc-tabcontrol div[data-sc-id="AutomaticIntervalValueColumnPanel"] {
@@ -425,23 +479,40 @@ div[data-sc-id="ScheduleRecurringEndNoEndDateRowPanel"] {
 }
 
 .sc-border[data-sc-id="ScheduleRecurringSpaceBorder"],
-.sc-border[data-sc-id="ABWinnerBorder"],
 .sc-border[data-sc-id="DeliveryHeaderBorder"] {
   margin-top: 15px;
+}
+
+.sc-listcontrol[data-sc-id="VariantsList"] {
+  margin-top: 10px;
 }
 
 .sc-combobox[data-sc-id="ABVariantsSizeComboBox"] {
   width: 80px;
 }
 
-div.row[data-sc-id="AutomaticRowPanel"] input.sc-textbox[data-sc-id="AutomaticTimeTextBox"] {
-  text-align: center;
+div[data-sc-id="AutomaticRowPanel"] > div {
+  float: left;
 }
 
 div[data-sc-id="AutomationUsingLabelColumnPanel"] {
-  text-align: right;
   margin-right: 10px;
-  max-width: 50px;
+  height: 36px;
+}
+
+div[data-sc-id="AutomationOptionsColumnPanel"] {
+  width: 200px;
+}
+
+
+div[data-sc-id="ABWinnerRightColumnPanel"],
+div[data-sc-id="ABVariantsChooseRightColumnPanel"],
+div[data-sc-id="ABVariantsSizeValueColumnPanel"] {
+  padding-left: 13px !important;
+}
+
+div.row[data-sc-id="AutomaticRowPanel"] input.sc-textbox[data-sc-id="AutomaticTimeTextBox"] {
+  text-align: center;
 }
 
 div.sc-border[data-sc-id="DispatchAccordionBorder"] div[data-sc-id="AutomationOptionsColumnPanel"] label.sc-radiobutton {
@@ -509,12 +580,6 @@ div[data-sc-id="AutomaticTimeValueColumnPanel"] {
 
 .sc-border[data-sc-id="WinnerResumeMessageBorder"] {
   margin: 0 130px;
-}
-
-.sc-border[data-sc-id="ScheduleMessageBorder"],
-.sc-border[data-sc-id="DeactivateMessageBorder"] {
-  margin: auto;
-  display: table;
 }
 
 .sc-text[data-sc-id="WhouldYouLikeText"],
@@ -625,6 +690,18 @@ div.sc-advancedExpander-body, div.sc-border.sc-show-border {
 }
 
 /* ReviewTab.css */
+span.sc-text[data-sc-id="TestIdText"],
+span.sc-text[data-sc-id="TestIdValue"] {
+  float: left;
+  display: inline-block;
+  margin-right: 5px;
+  font-size: 0.9em;
+}
+
+span.sc-text[data-sc-id="TestIdText"] {
+  font-weight: bold;
+}
+
 .sc-border[data-sc-id="EmailPreviewSelectedVariantsBorder"],
 .sc-border[data-sc-id="SpamCheckSelectedVariantsBorder"] {
   margin-top: 15px;
@@ -643,20 +720,35 @@ div[data-sc-id="SpamCheckReportListControl"] .sc-listcontrol-body table tr td {
 
 div.sc-variants-selector .variant-button button.btn.sc-togglebutton {
   min-width: 0;
-  border: solid 1px rgb(189, 189, 189);
-  background-color: transparent;
+  border: solid 1px #ccc;
+  background: white;
   box-shadow: none;
-  width: 31px;
-  height: 30px;
-  margin-right: 1px;
-  margin-bottom: 1px;
+  width: 56px;
+  height: 56px;
+  margin-right: 15px;
+  margin-bottom: 15px;
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
 }
 
-  div.sc-variants-selector .variant-button button.btn.sc-togglebutton.up {
-    background-image: none;
-    background-color: #969696;
-    border: solid 1px #636363;
-  }
+div.sc-variants-selector .variant-button button.btn.sc-togglebutton .sc-togglebutton-text {
+  width: 24px;
+  height: 24px;
+  line-height: 24px;
+  display: inline-block;
+}
+
+div.sc-variants-selector .variant-button button.btn.sc-togglebutton.up,
+div.sc-variants-selector .variant-button button.btn.sc-togglebutton.up:hover {
+  background-image: none;
+  background-color: #AADBEE;
+  border: solid 1px #636363;
+}
+
+div.sc-variants-selector .variant-button button.btn.sc-togglebutton:hover {
+  background-color: #E3E3E3;
+}
 
 div[data-sc-id="EmailPreviewVariantsColumn"],
 div[data-sc-id="SpamCheckVariantsColumn"] {
@@ -700,13 +792,14 @@ div[data-sc-id="SendQuickTestVariantsPresenter"] {
   background: #dc271e;
 }
 
-[data-sc-id="ConfirmText"] {
+[data-sc-id=DialogWindow] [data-sc-id="Text"] {
   font-size: 1.167em;
   color: #131313;
   line-height: 1.42857143;
+  padding-right: 20px;
 }
 
-[data-sc-id="ConfirmText"]:hover,
+[data-sc-id=DialogWindow] [data-sc-id="Text"]:hover,
 .sc-dialogWindow-header-title:hover,
 .sc-border[data-sc-id="DispatchConfirmationMessageBorder"]:hover,
 .sc-border[data-sc-id="ManualWinnerMessageBorder"]:hover,
@@ -714,7 +807,8 @@ div[data-sc-id="SendQuickTestVariantsPresenter"] {
   cursor: default;
 }
 
-img[data-sc-id="MessageIcon"] {
+[data-sc-id=DialogWindow] [data-sc-id="Icon"],
+[data-sc-id="MessageIcon"] {
   float: left;
   margin: 3px 11px 0 0;
 }
@@ -729,7 +823,7 @@ img[data-sc-id="MessageIconSmall"] {
   margin-left: 75px;
 }
 
-[data-sc-id="ConfirmText"],
+[data-sc-id=DialogWindow] [data-sc-id="Text"],
 [data-sc-id="DispatchConfirmationMessageBorder"],
 .sc-border[data-sc-id="ManualWinnerMessageBorder"],
 .sc-border[data-sc-id="ActivateMessageBorder"] {
@@ -761,7 +855,7 @@ img[data-sc-id="MessageIconSmall"] {
   float: right;    
 }
 [data-sc-id=Search] .sc-search-searches [data-sc-id=SearchTextBox] {
-  margin-right: 10px;
+  margin-right: 6px;
 }
 
 /* Apply paddings according to #38201 */

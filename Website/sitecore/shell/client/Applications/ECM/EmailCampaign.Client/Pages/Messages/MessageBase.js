@@ -1,26 +1,37 @@
 ﻿define([
   "sitecore",
-  "/-/speak/v1/ecm/AppBase.js",
-  "/-/speak/v1/ecm/Messages.js",
-  "/-/speak/v1/ecm/ActionControl.js",
+  "/-/speak/v1/ecm/PageBase.js",
   "/-/speak/v1/ecm/Language.js",
-  "/-/speak/v1/ecm/Notifications.js",
-  "/-/speak/v1/ecm/Validation.js"
-], function (sitecore, appBase, messages, actionControl, language, notifications) {
-  var messageBase = appBase.extend({
-    initialized: function () {
-      this.initErrorMessage();
-       
-      initActionControl(this, this.MessageContext);
+  "/-/speak/v1/ecm/MessageHelper.js",
+  "/-/speak/v1/ecm/ServerRequest.js",
+  "/-/speak/v1/ecm/DialogService.js",
+  "/-/speak/v1/ecm/Notifications.js"
+], function (
+  sitecore,
+  PageBase,
+  language,
+  MessageHelper,
+  ServerRequest,
+  DialogService,
+  notifications) {
+  var messageBase = PageBase.extend({
+    messageActionIds: {
+      saveAsSubscribtion: '0661D49FE0204040A255705AA20F67FA',
+      engagementPlan: '34BE63852A2C4AC6BB3A9F35C3280564'
+    },
+    
 
-      this.initDialogs();
+    initialized: function () {
+      this._super();
+      this.initErrorMessage();
+
       this.initActions(this, this.MessageContext);
       this.initButtons();
       this.initUnload();
       this.attachEventHandlers();
 
       language.initLanguage(this);
-      messages_ChangeManagerRoot(this);
+      MessageHelper.changeManagerRoot(this);
     },
 
     attachEventHandlers: function () {
@@ -32,13 +43,31 @@
           subapp.trigger("change:messageContext");
         },
         "message:delivery:verifyMessage": function (actionName, isSchedule) {
-          if (verifyMessage(sitecore, this, "send", addCreatedEmptyList)) {
+          if (MessageHelper.verifyMessage(sitecore, this, "send", MessageHelper.addCreatedEmptyList)) {
             sitecore.trigger("message:delivery:dispatch", actionName, isSchedule);
           }
         },
         "notify:recipientList:locked": function () {
           notifications.recipientListLocked(this.MessageBar);
-        }
+        },
+        "action:previewrecipients": function () {
+          DialogService.show("previewRecipients", {
+            contextApp: this,
+            messageContext: this.MessageContext
+          });
+        },
+        "action:showattachments": function () {
+          DialogService.show("attachments", {
+            contextApp: this,
+            messageContext: this.MessageContext
+          });
+        },
+        "change:messageContext": this.toggleSaveAsSubscribtionAction
+      }, this);
+
+      this.MessageContext.on({
+        "change:isBusy": this.toggleEngagementPlanAction,
+        "change:isReadonly": this.toggleEngagementPlanAction
       }, this);
     },
 
@@ -56,25 +85,15 @@
     },
 
     initErrorMessage: function () {
-      messages_NotFound(this.MessageContext, sitecore, this.MessageBar);
+      MessageHelper.notFound(this.MessageContext, sitecore, this.MessageBar);
     },
 
     initUnload: function () {
-      messages_PromtWithoutSaving(this.MessageContext, sitecore);
+      MessageHelper.promtWithoutSaving(this.MessageContext, sitecore);
     },
 
     initButtons: function () {
-      messages_SaveBackButtons(sitecore, this);
-    },
-
-    initDialogs: function() {
-      messages_InitializeAddAttachmentDialog(this, sitecore, this.MessageContext);
-      messages_InitializeSaveAsSubscriptionDialog(this, sitecore, this.MessageContext);
-      messages_InitializeAttachmentsDialog(this, sitecore, this.MessageContext, true);
-      messages_InitializePreviewRecipientsDialog(this, sitecore, this.MessageContext, true);
-      messages_InitializeAlertDialog(this, sitecore);
-      messages_InitializePromptDialog(this, sitecore);
-      messages_InitializeConfirmDialog(this, sitecore);
+      MessageHelper.saveBackButtons(sitecore, this);
     },
 
     initActions: function () {
@@ -88,20 +107,36 @@
           var messageId = this.MessageContext.get("messageId");
           var messageName = this.MessageContext.get("messageName");
 
-          copySelectedMessage(messageId, messageName, sitecore);
+          MessageHelper.copySelectedMessage(this.MessageContext);
         },
         "action:opensitecoreappcenter": function () {
           this.openSitecoreAppCenter();
         },
+        "action:saveassubscription": this.onSaveAsSubscribtion,
         // TODO: Implement action:import
         "action:import": function () {
           alert("show exisitng import i.e. (/sitecore/shell/default.aspx?xmlcontrol=EmailCampaign.ImportUsersWizard&itemID={E164FD28-E95B-4F25-A063-61F7AA23FD8F})");
         }
       }, this);
 
-      sitecore.on("action:openengagementplan", function () {
-        this.openEngagementPlan(false);
+      sitecore.on({
+        "action:openengagementplan": function () {
+          this.openEngagementPlan(false);
+        },
+        "action:addattachment": function () {
+          DialogService.show("addAttachment", {
+            messageId: this.MessageContext.get("messageId"),
+            language: this.MessageContext.get("language")
+          });
+        },
+        "attachment:file:added": function () {
+          this.MessageContext.viewModel.refresh();
+        },
+        "attachment:file:removed": function () {
+          this.MessageContext.viewModel.refresh();
+        }
       }, this);
+      
     },
 
     getMessageReportUrlKey: function() {
@@ -162,6 +197,53 @@
         if (response.value) {
           window.open(response.value, "_blank");
         }
+      });
+    },
+
+    toggleEngagementPlanAction: function() {
+      // Only react on the event if MessageContext is not busy loading.
+      var isReadOnly = this.MessageContext.get("isReadonly");
+
+      if (this.MessageContext.get("isBusy") === false) {
+        _.each(this.ActionControl.get("actions"), _.bind(function(action) {
+          if (action.id() === this.messageActionIds.engagementPlan) {
+            if (isReadOnly === false) {
+              action.enable();
+            } else {
+              action.disable();
+            }
+          }
+        }, this));
+      }
+    },
+
+    toggleSaveAsSubscribtionAction: function() {
+      var saveAsSubscriptionAction = $('li[data-sc-actionid="' + this.messageActionIds.saveAsSubscribtion + '"]');
+      if (this.MessageContext.get("messageType") === "OneTime") {
+        saveAsSubscriptionAction.show();
+      } else {
+        saveAsSubscriptionAction.hide();
+      }
+    },
+
+    onSaveAsSubscribtion: function() {
+      ServerRequest("EXM/CanSaveSubscriptionTemplate", {
+        success: function (response) {
+          var errorMessageId = "error.ecm.saveassubscriptiontemplate.execute";
+          this.MessageBar.removeMessage(function (error) {
+            return error.id === errorMessageId;
+          });
+          if (response.error) {
+            this.MessageBar.addMessage("error", { id: errorMessageId, text: response.errorMessage, actions: [], closable: true });
+            return;
+          }
+          DialogService.show('saveAsSubscription', {
+            contextApp: this,
+            messageContext: this.MessageContext
+          });
+        },
+        context: this,
+        async: false
       });
     }
   });

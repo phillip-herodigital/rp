@@ -439,32 +439,26 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Libraries\Sitecore\Sitecore.ControlPanel.dll</HintPath>
     </Reference>
-    <Reference Include="Sitecore.EmailCampaign, Version=3.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="Sitecore.EmailCampaign">
       <HintPath>..\Libraries\Sitecore\Sitecore.EmailCampaign.dll</HintPath>
     </Reference>
-    <Reference Include="Sitecore.EmailCampaign.Analytics.Model, Version=3.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="Sitecore.EmailCampaign.Analytics.Model">
       <HintPath>..\Libraries\Sitecore\Sitecore.EmailCampaign.Analytics.Model.dll</HintPath>
     </Reference>
-    <Reference Include="Sitecore.EmailCampaign.Application, Version=3.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="Sitecore.EmailCampaign.Application">
       <HintPath>..\Libraries\Sitecore\Sitecore.EmailCampaign.Application.dll</HintPath>
     </Reference>
     <Reference Include="Sitecore.EmailCampaign.Client, Version=3.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Libraries\Sitecore\Sitecore.EmailCampaign.Client.dll</HintPath>
     </Reference>
-    <Reference Include="Sitecore.EmailCampaign.Controls, Version=3.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="Sitecore.EmailCampaign.Controls">
       <HintPath>..\Libraries\Sitecore\Sitecore.EmailCampaign.Controls.dll</HintPath>
     </Reference>
-    <Reference Include="Sitecore.EmailCampaign.Server, Version=3.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="Sitecore.EmailCampaign.Server">
       <HintPath>..\Libraries\Sitecore\Sitecore.EmailCampaign.Server.dll</HintPath>
     </Reference>
-    <Reference Include="Sitecore.EmailCampaign.Statistics, Version=3.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="Sitecore.EmailCampaign.Statistics">
       <HintPath>..\Libraries\Sitecore\Sitecore.EmailCampaign.Statistics.dll</HintPath>
     </Reference>
     <Reference Include="Sitecore.ExperienceAnalytics, Version=1.2.1.0, Culture=neutral, processorArchitecture=MSIL">

@@ -21,7 +21,7 @@
 
   <xsl:variable name="linkTid" select="'{4DF80BE6-AE83-40E4-81B4-480F7B60AE15}'"/>
 
-  <xsl:variable name="bg" select="'~/media/Images/Newsletter/Common/bg_white.ashx'" />
+  <xsl:variable name="bg" select="'-/media/Images/Newsletter/Common/bg_white.ashx'" />
   
   <!-- entry point -->
   <xsl:template match="*">

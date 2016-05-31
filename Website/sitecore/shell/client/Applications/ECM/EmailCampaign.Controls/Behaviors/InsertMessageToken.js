@@ -16,7 +16,7 @@
     lastSelected.hide();
   });
 
-  Sitecore.Factories.createBehavior("InsertMessageToken", {
+  return Sitecore.Factories.createBehavior("InsertMessageToken", {
     tokenInput: null,
     selectionStart: 0,
     selectionEnd: 0,
@@ -35,8 +35,10 @@
     attachHandlers: function() {
       this.tokenInput.on("focus", _.bind(this.hide, this));
       this.$el.on("focusout", _.bind(this.onFocusout, this));
-      this.model.on("change:text", this.onTextChange, this);
-      this.model.on("change:isReadOnly", this.onChangeIsReadOnly, this);
+      this.model.on({
+        "change:text": this.onTextChange,
+        "change:isReadOnly": this.onChangeIsReadOnly
+      }, this);
       MessageTokenService.on("change:tokens", this.insertToken, this);
     },
 

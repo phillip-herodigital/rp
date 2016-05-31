@@ -1,4 +1,4 @@
-﻿<%@ Control Language="c#" AutoEventWireup="true" Inherits="Sitecore.Modules.EmailCampaign.Layouts.SubscriptionForm"
+﻿<%@ Control Language="c#" AutoEventWireup="true" Inherits="Sitecore.Modules.EmailCampaign.Layouts.SubscriptionForm" 
     CodeBehind="Subscription Form.ascx.cs" TargetSchema="http://schemas.microsoft.com/intellisense/ie5" %>
 <div id="subscriptionForm" class="subscriptionPanel">
     <table id="subscriptionArea" class="subscriptionArea" cellpadding="0" cellspacing="0">

@@ -1,8 +1,16 @@
 ﻿define([
   "sitecore",
   "/-/speak/v1/ecm/MessageBase.js",
-  "/-/speak/v1/ecm/UrlService.js"
-], function (sitecore, messageBase, urlService) {
+  "/-/speak/v1/ecm/UrlService.js",
+  "/-/speak/v1/ecm/MessageTabsHelper.js",
+  "/-/speak/v1/ecm/MessageHelper.js"
+], function (
+  sitecore,
+  messageBase,
+  urlService,
+  MessageTabsHelper,
+  MessageHelper
+  ) {
   var messageCreation = messageBase.extend({
     initialized: function () {
       this._super();
@@ -17,13 +25,16 @@
 
     updateLanguageSwitcher: function () {
       var activeLanguages = this.LanguageSwitcher.viewModel.getActiveLanguages();
-      if (this.MessageContext.get("messageState") !== 0 && activeLanguages.length > 1) {
+      if (this.MessageContext.get("messageState") !== MessageHelper.MessageStates.DRAFT && activeLanguages.length > 1) {
         this.LanguageSwitcher.viewModel.hideAllLanguagesItem();
       }
     },
 
     bindProgressIndicatorToLoadOnDemand: function() {
-      var loadOnDemandPanels = GetLoadOnDemandPanels(this);
+      var loadOnDemandPanels = MessageTabsHelper.GetLoadOnDemandPanels(this);
+      sitecore.on('ajax:error', function () {
+        this.PageProgressIndicator.set("isBusy", false);
+      }, this);
 
       /*
        * Since LoadOnDemandPanel component doesn't trigger any "before load" events,
@@ -49,8 +60,8 @@
     },
 
     initTabs: function() {
-      messages_TabOnClick(sitecore, this);
-      messages_SetPreselectedTab(this, sitecore);
+      MessageTabsHelper.tabOnClick(sitecore, this);
+      MessageTabsHelper.setPreselectedTab(this, sitecore);
       sitecore.on({ "action:switchtab": this.onSwitchTab }, this);
     },
 
@@ -60,7 +71,7 @@
       tab.click();
 
       if (args.subtab != "undefined") {
-        var panels = GetLoadOnDemandPanels(this);
+        var panels = MessageTabsHelper.GetLoadOnDemandPanels(this);
         var panel = panels[args.tab];
         if (!panel) {
           return;
