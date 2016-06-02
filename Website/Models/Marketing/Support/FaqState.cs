@@ -13,7 +13,8 @@ namespace StreamEnergy.MyStream.Models.Marketing.Support
         public string Abbreviation;
         public string Guid;
         public string IconURL;
-        public string EnergyModalContent;
+        public string EmergencyContactContent;
+        public string ContactPageContent;
 
         public FAQState() { }
 
@@ -30,15 +31,16 @@ namespace StreamEnergy.MyStream.Models.Marketing.Support
         }
 
         private void createState(Item item) {
-            Name = item.Fields["State Name"].Value;
-            Abbreviation = item.Fields["State Abberviation"].Value;
+            Name = item.Fields["Name"].Value;
+            Abbreviation = item.Fields["Abberviation"].Value;
             Guid = item.ID.ToString();
             ImageField iconField = item.Fields["Icon"];
             if (iconField.MediaItem != null)
             {
                 IconURL = Sitecore.Resources.Media.MediaManager.GetMediaUrl(iconField.MediaItem);
             }
-            EnergyModalContent = item.Fields["Energy Modal Content"].Value;
+            EmergencyContactContent = item.Fields["Emergency Contact Content"].Value;
+            ContactPageContent = item.Fields["Contact Page Content"].Value;
         }
     }
 }

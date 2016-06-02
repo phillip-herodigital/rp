@@ -1,66 +1,59 @@
-﻿@model StreamEnergy.MyStream.Models.Marketing.Contact
-@using System.Linq.Expressions;
-@using StreamEnergy.Extensions;
+﻿@using StreamEnergy.MyStream.Controllers
+@model StreamEnergy.MyStream.Models.Marketing.Contact
+@using Sitecore.Data.Fields
 
 @{
-    var visitor = Sitecore.Analytics.Tracker.Current;
+    SupportCenterController controller = new SupportCenterController();
+    var categories = StreamEnergy.Json.Stringify(controller.GetAllCategories());
 
-    var selectedTab = "";
-
-    switch (visitor.Interaction.GeoData.Region)
-    {
-        case "TX":
-            selectedTab = "texas";
-            break;
-        case "GA":
-            selectedTab = "georgia";
-            break;
-        case "PA":
-            selectedTab = "pennsylvania";
-            break;
-        case "MD":
-            selectedTab = "maryland";
-            break;
-        case "NJ":
-            selectedTab = "newjersey";
-            break;
-        case "NY":
-            selectedTab = "newyork";
-            break;
-        case "DC":
-            selectedTab = "washingtondc";
-            break;
-    }
+    var categoryContent = Sitecore.Context.Database.GetItem("{E507A0DB-A122-406B-862E-6C163BCCA7E7}");
+    ImageField modalIconField = categoryContent.Fields["Modal Icon"];
+    var modalIconURL = Sitecore.Resources.Media.MediaManager.GetMediaUrl(modalIconField.MediaItem);
 }
-<div>
+<div ng-controller="supportCenterCtrl" ng-init="contactInit(@categories)">
     <article class="marketing contact">
         <div class="wrapper">
             @Html.Sitecore().Field("Intro Text")
-            <div class="grid border four">
-                <div class="col energy" ng-click="selectPane('mobile')">
-                    @Html.Sitecore().Field("Energy Category")
-                </div>
-                <div class="col mobile" ng-click="selectPane('mobile')">
-                    @Html.Sitecore().Field("Mobile Category")
-                </div>
-                <div class="col protective" ng-click="selectPane('protect')">
-                    @Html.Sitecore().Field("Protective Category")
-                </div>
-                <div class="col home" ng-click="selectPane('home')">
-                    @Html.Sitecore().Field("Home Category")
+            <div class="category" ng-repeat="category in categories" ng-if="category.displayOnContactPage">
+                <div ng-class="category.name" ng-style="{'background-image': 'URL(' + category.iconURL + ')'}">
+                    <div ng-if="!category.states.length">
+                        <h4><strong>{{category.name}}</strong></h4>
+                        <p>Click below to view the {{category.name}} contact info.</p>
+                        <p><a href="" ng-click="selectPane(category)">Get Contact Information</a></p>
+                    </div>
+                    <div class="dropdown-toggle" dropdown-toggle ng-if="category.states.length">
+                        <h4><strong>{{category.name}}</strong></h4>
+                        <p>Select state below to view the Energy contact info.</p>
+                        <p class="link"><a href="">Get Contact Information</a></p>
+                    </div>
+                    <ul class="dropdown-menu" role="menu" ng-if="category.states.length">
+                        <li disabled>Select State</li>
+                        <li class="icon" ng-repeat="state in category.states">
+                            <div ng-style="{'background-image': 'URL(' + state.iconURL + ')'}" ng-click="selectPane(category, state)">{{state.abbreviation}}</div>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </div>
     </article>
-    <article class="marketing contact contact-info">
-        <div class="wrapper">
-            @Html.Sitecore().Field("Texas Energy Contact Information")
+    <article class="marketing contact contact-info" ng-repeat="category in categories">
+        <div class="wrapper" ng-show="pane == category.name">
+            <div class="content">
+                <div ng-bind-html="category.contactPageContent" ></div>
+                <a href="" ng-click="showModal('emergency-contact')">Emergency Contacts</a>
+            </div>
+        </div>
+        <div class="wrapper" ng-repeat="state in category.states" ng-show="pane == state.name">
+            <div class="content">
+                <div ng-bind-html="state.contactPageContent"></div>
+                <a href="" ng-click="showModal('emergency-contact')">Emergency Contacts</a>
+            </div>
         </div>
     </article>
     <article class="marketing contact" ng-class="{ hidden : pane }">
         @Html.Sitecore().Field("Send Request Intro Text")
     </article>
-    <article class="marketing contact" ng-class="{ hidden : pane }">
+    <article class="marketing contact">
         <div class="request">
             <div class="wrapper">
                 <h2>@Html.Sitecore().Field("Request Form Text")</h2>
@@ -149,12 +142,41 @@
                 </div>
             </div>
         }
-
         <div class="associate-support">
             <div class="wrapper">
-                <h1>@Html.Sitecore().Field("Associate Support Text")</h1>
-                @Html.Sitecore().Field("Associate Support Content")
+                <div class="content">
+                    <h1>@Html.Sitecore().Field("Associate Support Text")</h1>
+                    @Html.Sitecore().Field("Associate Support Content")
+                </div>
             </div>
         </div>
     </article>
 </div>
+<script type="text/ng-template" id="emergency-contact">
+    <div class="support-modal">
+        <div class="modal-header">
+            <a href="" ng-click="$dismiss()">Close</a>
+            <h2>Emergency Contacts - {{category.displayTitle}}<span ng-show="searchData.state"> - {{searchData.state.abbreviation}}</span></h2>
+            <p ng-bind-html="category.emergencyContactSubheading"></p>
+            <img class="life-preserver" src="@modalIconURL" />
+            <div ng-show="category.states">
+                <span>
+                    Please select a state:
+                    <select ng-model="selectedStateName"
+                            ng-change="selectCategoryByName(category, selectedStateName)"
+                            ng-options="state.name as state.name for state in category.states">
+                        <option disabled value="">Select State</option>
+                    </select>
+                </span>
+            </div>
+        </div>
+        <div class="modal-body">
+            <div class="content" ng-hide="category.states">
+                <div ng-bind-html="category.emergencyContactContent"></div>
+            </div>
+            <div class="content" ng-show="category.states">
+                <div ng-bind-html="searchData.state.emergencyContactContent"></div>
+            </div>
+        </div>
+    </div>
+</script>

@@ -16,9 +16,14 @@ namespace StreamEnergy.MyStream.Models.Marketing.Support
         public string DisplayTitle;
         public string Name;
         public string Description;
+        public string ContactPageContent;
+        public string EmergencyContactSubheading;
+        public string EmergencyContactContent;
         public string Link;
         public List<FAQState> States = new List<FAQState>();
         public string IconURL;
+        public bool DisplayOnMainPage;
+        public bool DisplayOnContactPage;
 
         public string Guid;
         public FAQCategory() { }
@@ -27,6 +32,9 @@ namespace StreamEnergy.MyStream.Models.Marketing.Support
             DisplayTitle = getValue("Display Title");
             Name = getValue("Name");
             Description = getValue("Description");
+            ContactPageContent = getValue("Contact Page Content");
+            EmergencyContactSubheading = getValue("Emergency Contact Subheading");
+            EmergencyContactContent = getValue("Emergency Contact Content");
             Guid = SitecoreItem.ID.ToString();
             ImageField iconField = SitecoreItem.Fields["Icon"];
             if(iconField.MediaItem != null)
@@ -46,8 +54,10 @@ namespace StreamEnergy.MyStream.Models.Marketing.Support
                     States.Add(new FAQState(state));
                 }
             }
-
-            //how do we want links/images to be passed over? - TODO
+            CheckboxField MainPageField = SitecoreItem.Fields["Main Page"];
+            DisplayOnMainPage = MainPageField.Checked;
+            CheckboxField ContactPageField = SitecoreItem.Fields["Contact Page"];
+            DisplayOnContactPage = ContactPageField.Checked;
         }
 
         private string getValue(string key) {

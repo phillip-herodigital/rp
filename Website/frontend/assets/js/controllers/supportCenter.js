@@ -28,6 +28,12 @@
     $scope.noKeywordSelected = true;
     $scope.init = function (categories, popFaqs) {
         $scope.categories = categories;
+        $scope.displayCategories = [];
+        angular.forEach($scope.categories, function (category) {
+            if (category.displayOnMainPage) {
+                $scope.displayCategories.push(category);
+            }
+        });
         $scope.faqs = popFaqs;
         angular.forEach($scope.faqs, function (faq) {
             faq.faqAnswer = $sce.trustAsHtml(faq.faqAnswer);
@@ -90,6 +96,32 @@
         buildKeywords();
         paginate();
         $scope.isCategorySupport = true;
+    }
+
+    $scope.contactInit = function (categories) {
+        $scope.categories = categories;
+        $scope.pane = "";
+        angular.forEach($scope.categories, function (category) {
+            category.contactPageContent = $sce.trustAsHtml(category.contactPageContent);
+            category.emergencyContactSubheading = $sce.trustAsHtml(category.emergencyContactSubheading);
+            category.emergencyContactContent = $sce.trustAsHtml(category.emergencyContactContent);
+            if (category.states.length) {
+                angular.forEach(category.states, function (state) {
+                    state.contactPageContent = $sce.trustAsHtml(state.contactPageContent);
+                });
+            }
+        });
+    }
+
+    $scope.selectPane = function (category, state) {
+        if (state) {
+            $scope.pane = state.name;
+        }
+        else {
+            $scope.pane = category.name;
+        }
+        $scope.category = category;
+        $scope.selectCategory(category, state);
     }
 
     $scope.scroll = function () {
@@ -275,8 +307,8 @@
 
     $scope.selectCategory = function (category, state) {
         if (!category.states.length > 0 || state) {
-            if (state && typeof(state.energyModalContent) === "string") {
-                state.energyModalContent = $sce.trustAsHtml(state.energyModalContent);
+            if (state && typeof (state.emergencyContactContent) === "string") {
+                state.emergencyContactContent = $sce.trustAsHtml(state.emergencyContactContent);
             }
             $scope.searchData.category = category.name;
             $scope.searchData.state = state;
@@ -285,7 +317,7 @@
             paginate();
             buildKeywords();
             $scope.resultsPage = 0;
-            $scope.selectedStateName = $scope.searchData.state.name;
+            if (state) $scope.selectedStateName = $scope.searchData.state.name;
         }
     };
 

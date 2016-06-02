@@ -26,7 +26,7 @@
             <article class="faq-categories marketing" ng-hide="searchResults">
                 <div class="primary clearfix">
                     <h1>Get Support On Our Service</h1>
-                    <div class="category" ng-repeat="category in categories" ng-if="$index < 4">
+                    <div class="category" ng-repeat="category in displayCategories" ng-if="$index < 4">
                         <div ng-class="category.name" ng-style="{'background-image': 'URL(' + category.iconURL + ')'}">
                             <p class="service-name">{{category.name}}</p>
                             <p>{{category.description}}</p>
@@ -34,9 +34,9 @@
                         </div>
                     </div>
                 </div>
-                <div class="secondary clearfix">
+                <div class="secondary clearfix" ng-show="displayCategories.length > 4">
                     <h1>You Might Also Be Interested In</h1>
-                    <div class="category " ng-repeat="category in categories" ng-if="$index > 3">
+                    <div class="category " ng-repeat="category in displayCategories" ng-if="$index > 3">
                         <div ng-class="category.name" ng-style="{'background-image': 'URL(' + category.iconURL + ')'}">
                             <p class="service-name">{{category.name}}</p>
                             <p>{{category.description}}</p>

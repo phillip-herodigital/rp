@@ -586,6 +586,10 @@
 
                         .content {
 
+                            @include breakpoint(small) {
+                                padding: 20px 0;
+                            }
+
                             .faq {
                                 &:first-child {
                                     border-top: 2px solid #efefef;
@@ -718,6 +722,7 @@
 
                         @include breakpoint(small) {
                             width: 100%;
+                            padding: 0;
                         }
                     }
 
@@ -976,50 +981,53 @@
         }
     }
 
-    .support-modal {
-        .modal-header {
-            padding-bottom: 40px;
+}
 
-            h2 {
-                font-size: 34px;
-                font-weight: 500;
 
-                span {
-                    font-size: inherit;
-                    font-weight: inherit;
-                }
-            }
+.support-modal {
+    .modal-header {
+        padding-bottom: 40px;
 
-            h4 {
-                font-size: 24px;
-                font-weight: 300;
-            }
+        h2 {
+            font-size: 34px;
+            font-weight: 500;
 
-            img.life-preserver {
-                position: absolute;
-                right: 80px;
-                top: 60px;
-
-                @include breakpoint(small) {
-                    display: none;
-                }
+            span {
+                font-size: inherit;
+                font-weight: inherit;
             }
         }
 
-        .modal-body {
-            background: image-url('marketing/redesign/Modules/module_background.png') no-repeat center top;
+        h4 {
+            font-size: 24px;
+            font-weight: 300;
+        }
 
-            .content {
-                padding: 50px;
+        img.life-preserver {
+            position: absolute;
+            right: 80px;
+            top: 60px;
 
-                @include breakpoint(small) {
-                    padding: 10px;
-                    overflow-wrap: break-word;
-                }
+            @include breakpoint(small) {
+                display: none;
+            }
+        }
+    }
+
+    .modal-body {
+        background: image-url('marketing/redesign/Modules/module_background.png') no-repeat center top;
+
+        .content {
+            padding: 50px;
+
+            @include breakpoint(small) {
+                padding: 10px;
+                overflow-wrap: break-word;
             }
         }
     }
 }
+
 
 article.mobile-acronyms .wrapper {
 	.grid .col {
@@ -1115,101 +1123,226 @@ article.support-mobile-guides {
 }
 
 article.contact {
-	h1 {
-		width: 75%;
-		margin: 0px auto 1em auto;
-	}
-	.grid {
-		margin-bottom: 20px;
-		.col {
-			padding-top: 50px;
-			h4 {
-				text-align: center;
-			}
-			p a {
-				font-weight: 500;
-			}
-			&:first-child, &:last-child {
-				padding: 50px 30px 0px 30px;
-			}
-			&.energy {
-				background: image-url('marketing/redesign/Modules/HomeHeader/home_header_energy_icon.png') top center no-repeat;
-			}
-			&.mobile {
-				background: image-url('marketing/redesign/Modules/HomeHeader/home_header_mobile_icon.png') top center no-repeat;
-			}
-			&.protective {
-				background: image-url('marketing/redesign/Modules/HomeHeader/home_header_protect_icon.png') top center no-repeat;
-			}
-			&.home {
-				background: image-url('marketing/redesign/Modules/HomeHeader/home_header_home_icon.png') top center no-repeat;
-			}
-			.item {
+
+    &.marketing{
+        padding: 0;
+    }
+    h1 {
+        width: 75%;
+        margin: 0px auto 1em auto;
+    }
+
+    .wrapper {
+
+        @include breakpoint(small) {
+            padding-bottom: 20px;
+        }
+
+        .category {
+            width: 25%;
+            float: left;
+            border-width: 0 2px 0 0;
+            border-style: solid;
+            border-image: linear-gradient(white, #efefef, white) 1 100%;
+            padding: 0 10px;
+
+            @include breakpoint(small) {
+                width: 100%;
+                border-width: 0 0 2px 0;
+                border-image: linear-gradient(to right, white, #efefef, white) 2;
+                margin-bottom: 10px;
+                text-align: center;
+            }
+
+            &:last-child {
+                border: none;
+            }
+
+            h4 {
+                text-align: center;
+            }
+
+            p a {
+                font-weight: 500;
+            }
+
+            > div {
                 position: relative;
-                //width: 90%;
+                background-position: top center;
+                background-repeat: no-repeat;
+                padding: 60px 0 30px;
+
+                @include breakpoint(medium) {
+                    padding: initial initial 10px;
+                }
+
+                .dropdown-toggle {
+                    p.link {
+                        position: relative;
+                        padding-right: 40px;
+
+                        &:after {
+                            content: "";
+                            height: 0;
+                            width: 0;
+                            border-left: 8px solid transparent;
+                            border-right: 8px solid transparent;
+                            border-top: 8px solid #257ab3;
+                            background-color: #ffffff;
+                            position: absolute;
+                            bottom: 8px;
+                            right: 20px;
+                        }
+                    }
+                }
+
+                .dropdown-menu {
+                    display: none;
+                    background-color: #eff2f3;
+                    color: #000;
+                    padding: 10px 10px 0 10px;
+                    margin-top: 8px;
+                    right: 0;
+                    min-width: 0;
+                    width: 175px;
+                    font-size: 16px;
+                    border: none;
+                    box-shadow: #ebebeb 0 0 2px 2px;
+
+                    &:before {
+                        content: "";
+                        height: 0;
+                        width: 0;
+                        border-left: 10px transparent solid;
+                        border-right: 10px transparent solid;
+                        border-bottom: 10px solid #eff2f3;
+                        position: absolute;
+                        top: -10px;
+                        right: 18px;
+                    }
+
+                    li {
+                        border-bottom: 1px solid #dcdfdf;
+                        padding: 10px;
+
+                        > div {
+                            background-repeat: no-repeat;
+                            padding-left: 36px;
+                        }
+
+                        &.icon {
+                            padding-left: 10px;
+                        }
+
+                        &:last-child {
+                            border: none;
+                        }
+
+                        &:hover {
+                            background-color: #00a8e1;
+                        }
+
+                        &[disabled] {
+
+                            &:hover {
+                                background-color: initial;
+                            }
+                        }
+                    }
+                }
+
+                &:hover > .dropdown-menu {
+                    display: block;
+                }
+            }
+        }
+    }
+
+    &.contact-info {
+        .grid .col {
+            padding-top: 0px;
+
+            p {
+                margin-top: .5em;
+
+                &.address {
+                    background: image-url('../i/icon/email-small.png') 0% 5% no-repeat;
+                    padding-left: 45px;
+                }
+            }
+        }
+    }
+
+    div.request {
+        background-color: #f3f6f7;
+        border-radius: 0px;
+        color: #333;
+
+        h2 {
+            color: #333;
+            margin-top: 0px;
+        }
+
+        .wrapper {
+            padding: 20px;
+        }
+
+        .wrapper .grid .col {
+            padding: 0px;
+
+            .item {
+                position: relative;
+
                 input,
                 select,
                 textarea {
                     width: 85%;
                 }
-			}
-			.group .item, .item.half-width {
-                width: 44.8%;
             }
-		}
-	}
-	&.contact-info {
-		.grid .col {
-			padding-top: 0px;
-			p {
-				margin-top: .5em;
-				&.address {
-					background: image-url('../i/icon/email-small.png') 0% 5% no-repeat;
-					padding-left: 45px;
-				}
-			}
-		}
-	}
-	div.request {
-		background-color: #f3f6f7;
-		border-radius: 0px;
-		color: #333;
-		h2 {
-			color: #333;
-			margin-top: 0px;
-		}
-		.wrapper .grid .col {
-			padding: 0px;
-			.submit {
-				width: 85%;
-				button {
-					background-color: #257ab3;
-					background-image: linear-gradient(#75b7e2, #257ab3);
-					float: right;
-					color: #fff;
-				}
-			}
-		}
-		.notice.error {
+
+            .group .item, .item.half-width {
+                width: 44.8%;
+
+                @include breakpoint(small) {
+                    width: 100%;
+                }
+            }
+
+            .submit {
+                width: 85%;
+
+                button {
+                    background-color: #257ab3;
+                    background-image: linear-gradient(#75b7e2, #257ab3);
+                    float: right;
+                    color: #fff;
+                }
+            }
+        }
+
+        .notice.error {
             background: #136cc1;
             color: #fff;
             border: 0;
-			border-radius: 5px;
+            border-radius: 5px;
         }
+
         .item.error {
             span.field-validation-error {
                 color: #fcd22b;
             }
         }
-	}
+    }
 
-	div.success-message {
+    div.success-message {
         margin: 20px 0;
         background-color: #e8e8e8;
         border-bottom: 3px solid #136cc1;
+
         h2 {
             text-align: center;
         }
+
         h4 {
             text-align: center;
             text-transform: none;
@@ -1218,15 +1351,16 @@ article.contact {
         }
     }
 
-	.associate-support {
-		.address {
-			background: image-url('../i/icon/email-small.png') 0% 5% no-repeat;
-			padding-left: 45px;
-		}
-		.grid .col {
-			padding-top: 0px;
-		}
-	}
+    .associate-support {
+        .address {
+            background: image-url('../i/icon/email-small.png') 0% 5% no-repeat;
+            padding-left: 45px;
+        }
+
+        .grid .col {
+            padding-top: 0px;
+        }
+    }
 }
 
 article.faq {

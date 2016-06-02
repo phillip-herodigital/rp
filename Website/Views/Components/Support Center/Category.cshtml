@@ -132,7 +132,7 @@
                         <p>9am-5pm, CST, Saturday.</p>
                     </div>
                 </div>
-                <p><a href="" ng-click="showModal('emergency-contact');">Emergency Contacts</a></p>
+                <p><a href="" ng-click="showModal('emergency-contact')">Emergency Contacts</a></p>
                 <p><a href="" ng-click="mobileAcronyms = true" ng-show="category.name == 'Mobile'">Mobile Acronyms</a></p>
             </aside>
         </div>
@@ -151,7 +151,7 @@
         <div class="modal-header">
             <a href="" ng-click="$dismiss()">Close</a>
             <h2>Emergency Contacts - {{category.displayTitle}}<span ng-show="searchData.state"> - {{searchData.state.abbreviation}}</span></h2>
-            <h4>@Html.Sitecore().Field("Subheading")</h4>
+            <p>@categoryItem.EmergencyContactSubheading.AsHtml()</p>
             <img class="life-preserver" src="@modalIconURL" />
             <div ng-show="category.states">
                 <span>
@@ -166,16 +166,11 @@
         </div>
         <div class="modal-body">
             <div class="content" ng-hide="category.states">
-                @Html.Sitecore().Field("Content")
+                @categoryItem.EmergencyContactContent.AsHtml()
             </div>
             <div class="content" ng-show="category.states">
-                <div ng-bind-html="searchData.state.energyModalContent"></div>
+                <div ng-bind-html="searchData.state.emergencyContactContent"></div>
             </div>
         </div>
-        @*
-            <div class="modal-footer">
-                @Html.Sitecore().Field("Footer - Unlock Sprint")
-            </div>
-        *@
     </div>
 </script>
