@@ -4838,8 +4838,8 @@ article.mobile.mobile-plans-usage-calculator {
                                     border-radius: 5px 5px 0 0;
                                     height: 40px;
                                     position: absolute;
-                                    width: 196px;
-                                    left: calc(50% - 98px);
+                                    width: calc(100% + 4px);
+                                    left: -2px;
                                     @include breakpoint-max(1100px) {
                                         width: 220px;
                                         left: calc(50% - 110px);
@@ -4909,8 +4909,11 @@ article.mobile.mobile-plans-usage-calculator {
 
                             .col {
                                 border: none;
-                                .plan-details.recommended {
-                                    outline: 2px solid #eea525;
+                                .plan-details {
+                                    padding: 25px 6px 15px;
+                                    &.recommended {
+                                        outline: 2px solid #eea525;
+                                    }
                                 }
                                 &:after {
                                     display: none;
