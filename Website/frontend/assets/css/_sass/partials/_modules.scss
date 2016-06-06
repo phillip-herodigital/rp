@@ -2868,33 +2868,41 @@ aside {
     article {
         header {
             padding: 15px;
+
             h3 {
                 margin: 0;
                 font-size: 20px;
             }
         }
+
         div.content {
             padding: 15px;
         }
     }
-    article.promo { 
+
+    article.promo {
         header {
             border-bottom: 0;
             padding-bottom: 0;
+
             h3 {
                 font-size: 16px;
                 text-transform: uppercase;
             }
         }
+
         p {
             margin: 0;
         }
+
         img {
             max-width: 100%;
             height: auto;
         }
+
         div.action {
             margin-top: 5px;
+
             button, .button {
                 width: 100%;
             }
@@ -2909,6 +2917,7 @@ aside {
                 text-transform: uppercase;
                 margin: 10px;
             }
+
             p {
                 margin-bottom: 20px;
                 font-size: 16px;
@@ -2923,43 +2932,52 @@ aside {
             }
         }
     }
+
     article.promo2 {
-        position:relative;
-        min-height:185px;
-        color:#fff;
-        overflow:hidden;
+        position: relative;
+        min-height: 185px;
+        color: #fff;
+        overflow: hidden;
         border-radius: 9px;
+
         .promobackground {
             position: absolute;
-            top:0;
-            right:0;
+            top: 0;
+            right: 0;
         }
+
         header {
-            padding-bottom:0;
-            border:none;
+            padding-bottom: 0;
+            border: none;
+
             span {
-                display:block;
+                display: block;
                 text-align: center;
+
                 img {
                     position: relative;
                 }
             }
         }
+
         .content {
-            padding-top:5px;
+            padding-top: 5px;
             text-align: center;
+
             hr {
-                border-top:1px solid #fff;
+                border-top: 1px solid #fff;
                 margin: 20px 25px 20px 25px;
             }
+
             h2 {
                 margin: 0;
                 color: #fff;
                 text-transform: uppercase;
                 letter-spacing: 2px;
             }
+
             h3 {
-                margin:2px 0 2px 0;
+                margin: 2px 0 2px 0;
                 font-size: 18px;
                 text-transform: uppercase;
                 color: #fff;
@@ -2967,16 +2985,34 @@ aside {
                 text-align: center;
                 letter-spacing: 2px;
             }
+
             a {
-                color:#fff;
-                font-weight:bold;
+                color: #fff;
+                font-weight: bold;
             }
         }
+
         p {
             text-align: center;
-            margin-bottom:0; 
-        }   
+            margin-bottom: 0;
+        }
     }
+
+    article.portal-faqs {
+        border: none;
+
+        .content {
+            padding-top: 0;
+
+            .all {
+
+                a {
+                    font-weight: 700;
+                }
+            }
+        }
+    }
+
     article.subnav {
         ul {
             list-style-type: none;
@@ -2987,112 +3023,141 @@ aside {
                 padding: 20px 15px;
                 border-bottom: 1px solid #ddd;
                 text-transform: uppercase;
-                &.active a {        
+
+                &.active a {
                     color: #333;
                 }
             }
         }
     }
+
     article.grey-box {
         padding: 0;
+
         .active {
             background-color: #fff;
         }
+
         p {
             margin: 0;
             padding: 20px 15px;
             text-transform: uppercase;
         }
+
         p + p {
             border-top: 1px solid #ddd;
         }
     }
+
     article.thermostat {
         .content {
             padding: 0px 15px;
             background-color: #fdfdfd;
+
             .grid .col {
                 i {
                     float: left;
                     margin: 10px 7px 0 0;
                 }
+
                 h5 {
                     margin: 0 0 -10px 0;
                 }
+
                 .current-temp {
                     font-size: 41px;
+
                     .temp-scale {
                         font-size: 30px;
                         vertical-align: text-top;
                     }
                 }
+
                 dl {
                     margin: 0;
+
                     dd.temperature {
                         font-size: 30px;
                     }
+
                     dt {
                         font-size: 14px;
                     }
                 }
+
                 @include breakpoint(medium) {
                     width: 100%;
                     float: left;
                 }
+
                 @include breakpoint(small) {
                     padding-bottom: 20px;
                 }
             }
         }
+
         footer {
             p {
                 padding: 0;
             }
+
             .online {
                 float: left;
             }
+
             .settings {
                 float: right;
+
                 a {
                     text-transform: none;
                 }
             }
         }
     }
+
     article.homelife {
         .content {
             background-color: #fdfdfd;
             padding: 0px 15px;
         }
+
         ul {
             list-style-type: none;
             padding-left: 0px;
+
             li {
                 padding: 15px 15px 15px 0;
                 border-bottom: 1px solid #ddd;
+
                 &:last-child {
                     border-bottom: 0px;
                 }
+
                 .icon-tech-support {
                     float: right;
                 }
+
                 .buttons {
                     float: left;
                 }
             }
         }
     }
+
     article.mobile-sidebar {
         &.add-device p {
             margin: 5px 0;
         }
+
         select {
             width: 100%;
         }
+
         ul {
             list-style-type: none;
             padding-left: 0;
         }
+
         img {
             max-width: 100%;
             height: initial;

@@ -796,6 +796,8 @@
     <Compile Include="Conditions\CustomerAccountsCountCondition.cs" />
     <Compile Include="Conditions\HasUtilityEnrollmentCondition.cs" />
     <Compile Include="Conditions\HasMobileEnrollmentCondition.cs" />
+    <Compile Include="Conditions\GasAccountCondition.cs" />
+    <Compile Include="Conditions\ElectricityAccountConditioncs.cs" />
     <Compile Include="Conditions\MobileAccountCondition.cs" />
     <Compile Include="Conditions\CustomerDismissedModalCondition.cs" />
     <Compile Include="Conditions\CustomerAutoPayCondition.cs" />
@@ -5562,9 +5564,8 @@
     <Content Include="Views\Components\Support Center\Category.cshtml" />
     <Content Include="Views\Components\Support Center\Support Header.cshtml" />
     <Content Include="Views\Components\Support Center\Container.cshtml" />
-    <Content Include="Views\Components\Support Center\FAQ Results.cshtml" />
-    <Content Include="Views\Components\Support Center\Search Results.cshtml" />
     <Content Include="Views\Components\Support Center\Mobile Acronyms.cshtml" />
+    <Content Include="Views\Components\Account\Sidebar Widgets\FAQs.cshtml" />
     <None Include="Web.Azure-Production Sitecore.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>

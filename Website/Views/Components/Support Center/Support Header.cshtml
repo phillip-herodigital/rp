@@ -6,15 +6,15 @@
 }
 <div class="support-search" ng-class="{'category-search': isCategorySupport}" ng-style="{'background-image': 'URL(@backgroundURL)'}" ng-cloak>
     <div class="content clearfix">
-        <h1 ng-show="!subcategories.length && !searchResults && !mobileAcronyms">@Html.Sitecore().Field("Heading")</h1>
-        <h1 ng-show="subcategories.length  && !searchResults && !mobileAcronyms">{{category.displayTitle}} Support</h1>
-        <h1 ng-show="searchResults">Search Results</h1>
-        <h1 ng-show="mobileAcronyms" class="mobile-acronyms-header">Mobile Acronyms Guide</h1>
-        <h4 ng-hide="isCategorySupport">At Stream, we're here to help. Contact us if you can't find what you're looking for.</h4>
+        <h1 ng-show="!subcategories.length && !searchResults && !mobileAcronyms">@Html.Sitecore().Field("Main Heading")</h1>
+        <h1 ng-show="subcategories.length  && !searchResults && !mobileAcronyms">{{category.displayTitle}} @Html.Sitecore().Field("Support")</h1>
+        <h1 ng-show="searchResults">@Html.Sitecore().Field("Search Results Heading")</h1>
+        <h1 ng-show="mobileAcronyms" class="mobile-acronyms-header">@Html.Sitecore().Field("Mobile Acronyms Heading")</h1>
+        <h4 ng-hide="isCategorySupport">@Html.Sitecore().Field("Main Subheading")</h4>
         <form class="search" ng-submit="search()" ng-hide="mobileAcronyms">
             <div class="input">
                 <input type="text" class="search-input"
-                       placeholder="Enter a search term..."
+                       placeholder="@Html.Sitecore().Field("Search Placeholder")"
                        ng-model="searchData.text"
                        typeahead="faq.faqQuestion for faq in searchFAQs | filter:{faqQuestion:$viewValue} | limitTo:4"
                        typeahead-template-url="typeahead-results" />
@@ -24,7 +24,7 @@
                 <div class="selected-category" ng-show="searchData.category">
                     In {{searchData.category}}<span ng-show="searchData.state"> - {{searchData.state.abbreviation}}</span>
                 </div>
-                <div class="selected-category" ng-hide="searchData.category" ng-cloak>Service Type</div>
+                <div class="selected-category" ng-hide="searchData.category" ng-cloak>@Html.Sitecore().Field("Service Type")</div>
                 <div class="triangle-down" ng-class="{flipped: dropDown}"></div>
             </div>
             <div ng-class="{reveal: dropDown}" class="category-dropdown-container">
@@ -32,7 +32,7 @@
                 <ul class="category-dropdown">
                     <li ng-repeat="category in categories" ng-class="{noHover: category.states.length}">
                         <div ng-click="selectCategory(category, null)" ng-class="{noHover: category.states.length}">
-                            {{category.displayTitle}}<span ng-show="category.states.length"> (select state)</span>
+                            {{category.displayTitle}}<span ng-show="category.states.length"> @Html.Sitecore().Field("Select State")</span>
                         </div>
                         <ul class="state" ng-show="category.states">
                             <li ng-repeat="state in category.states">

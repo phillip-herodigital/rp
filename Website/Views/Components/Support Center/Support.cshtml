@@ -18,29 +18,29 @@
     }
 
     var popFaqs = StreamEnergy.Json.Stringify(popularFAQS);
-
 }
 <div class="support-container layout" ng-cloak>
     <div class="main" ng-init="init(@categories, @popFaqs)">
         <div class="wrapper">
             <article class="faq-categories marketing" ng-hide="searchResults">
                 <div class="primary clearfix">
-                    <h1>Get Support On Our Service</h1>
+                    <h1>@Html.Sitecore().Field("Categories Heading")</h1>
+                    <h4>@Html.Sitecore().Field("Categories Subheading")</h4>
                     <div class="category" ng-repeat="category in displayCategories" ng-if="$index < 4">
                         <div ng-class="category.name" ng-style="{'background-image': 'URL(' + category.iconURL + ')'}">
                             <p class="service-name">{{category.name}}</p>
                             <p>{{category.description}}</p>
-                            <p class="get-support"><a href="{{category.link}}">Get Support</a></p>
+                            <p class="get-support"><a href="{{category.link}}">@Html.Sitecore().Field("Get support")</a></p>
                         </div>
                     </div>
                 </div>
                 <div class="secondary clearfix" ng-show="displayCategories.length > 4">
-                    <h1>You Might Also Be Interested In</h1>
+                    <h1>@Html.Sitecore().Field("Secondary Categories Heading")</h1>
                     <div class="category " ng-repeat="category in displayCategories" ng-if="$index > 3">
                         <div ng-class="category.name" ng-style="{'background-image': 'URL(' + category.iconURL + ')'}">
                             <p class="service-name">{{category.name}}</p>
                             <p>{{category.description}}</p>
-                            <p class="get-support"><a href="{{category.link}}">Get Support</a></p>
+                            <p class="get-support"><a href="{{category.link}}">@Html.Sitecore().Field("Get support")</a></p>
                         </div>
                     </div>
                 </div>
@@ -48,17 +48,17 @@
             <article class="faqs marketing">
                 <div class="wrapper">
                     <header ng-hide="searchResults">
-                        <h1>Most Popular FAQs</h1>
+                        <h1>@Html.Sitecore().Field("Pop FAQs Heading")</h1>
                     </header>
                     <div class="pagination-display clearfix" ng-show="searchResults">
-                        <a href="" ng-click="backToSupport(@popFaqs)">Back to Support</a>
+                        <a href="" ng-click="backToSupport(@popFaqs)">@Html.Sitecore().Field("Back to Support")</a>
                         <p>
-                            <span>Showing {{resultsPageRange[resultsPage].low + 1}} - {{resultsPageRange[resultsPage].high + 1}} of {{displayedFAQCount}}</span>
-                            <span ng-show="searchResults"> search results for “{{searchData.text}}”</span>
-                            <span class="per-page">Results Per Page </span>
+                            <span>@Html.Sitecore().Field("Showing") {{resultsPageRange[resultsPage].low + 1}} - {{resultsPageRange[resultsPage].high + 1}} @Html.Sitecore().Field("Of") {{displayedFAQCount}}</span>
+                            <span ng-show="searchResults"> @Html.Sitecore().Field("search results for") “{{searchData.text}}”</span>
+                            @*<span class="per-page">Results Per Page </span>
                             <select ng-model="resultsPerPage.value" ng-change="setResultsPerPage()">
                                 <option ng-repeat="value in resultsPerPage.options">{{value}}</option>
-                            </select>
+                            </select>*@
                         </p>
                     </div>
                     <div class="content">
@@ -74,7 +74,7 @@
                                 <div class="answer clearfix" ng-class="{reveal: faq.selected}">
                                     <div class="answer-content" ng-bind-html="faq.faqAnswer"></div>
                                     <aside>
-                                        <h4>Related Questions</h4>
+                                        <h4>@Html.Sitecore().Field("Related Questions")</h4>
                                         <div ng-repeat="relatedFAQ in faq.relatedFAQs">
                                             <p><a href="" ng-click="selectRelated(relatedFAQ)">{{relatedFAQ.display}}</a></p>
                                         </div>
@@ -82,26 +82,24 @@
                                         <div class="contact">
                                             <div class="headset">
                                                 <img src="@headsetIconURL" />
-                                                <h4>Still having issues?</h4>
-                                                <p>Please contact us!</p>
+                                                <h4>@Html.Sitecore().Field("Still having issues")</h4>
+                                                <p>@Html.Sitecore().Field("Please contact us")</p>
                                             </div>
                                             <div class="contact-info">
-                                                <p>Customer Service at 877-743-5893 from</p>
-                                                <p>7am-10pm, CST, Monday-Friday or</p>
-                                                <p>9am-5pm, CST, Saturday.</p>
+                                                @Html.Sitecore().Field("Customer Service")
                                             </div>
                                         </div>
                                     </aside>
                                     <div class="helpful">
                                         <p>
-                                            <label for="helpful">Was this helpful?</label>
-                                            <input type="radio" name="helpful" ng-model="isHelpful" ng-change="helpfulSelected = true" ng-value="true" /> Yes
-                                            <input type="radio" name="helpful" ng-model="isHelpful" ng-change="helpfulSelected = true" ng-value="false" /> No
+                                            <label for="helpful">@Html.Sitecore().Field("Helpful")</label>
+                                            <input type="radio" name="helpful" ng-model="isHelpful" ng-change="helpfulSelected = true" ng-value="true" />@Html.Sitecore().Field("Yes")
+                                            <input type="radio" name="helpful" ng-model="isHelpful" ng-change="helpfulSelected = true" ng-value="false" />@Html.Sitecore().Field("No")
                                         </p>
                                         <div class="response" ng-show="helpfulSelected">
-                                            <p>Thanks for your feedback! If you would like to add a comment, please enter it below.</p>
-                                            <textarea placeholder="Add comments here..." ng-model="feedback"></textarea>
-                                            <button class="button primary" ng-click="sendFeedback(faq.guid, isHelpful, feedback)">Submit</button>
+                                            <p>@Html.Sitecore().Field("Thanks for your feedback")</p>
+                                            <textarea placeholder="@Html.Sitecore().Field("Helpful Placeholder")" ng-model="feedback"></textarea>
+                                            <button class="button primary" ng-click="sendFeedback(faq.guid, isHelpful, feedback)">@Html.Sitecore().Field("Submit")</button>
                                         </div>
                                     </div>
                                 </div>
@@ -112,8 +110,8 @@
                 <div class="pagination-container">
                     <div class="pagination clearfix" ng-show="getDisplayedFAQs().length > resultsPerPage.value">
                         <div class="back">
-                            <div><a href="" ng-click="setResultsPage(0)" ng-class="{disabled: resultsPage == 0}">First</a></div>
-                            <div><a href="" ng-click="setResultsPage(resultsPage - 1)" ng-class="{disabled: resultsPage == 0}">Previous</a></div>
+                            <div><a href="" ng-click="setResultsPage(0)" ng-class="{disabled: resultsPage == 0}">@Html.Sitecore().Field("First")</a></div>
+                            <div><a href="" ng-click="setResultsPage(resultsPage - 1)" ng-class="{disabled: resultsPage == 0}">@Html.Sitecore().Field("Previous")</a></div>
                         </div>
                         <div class="page-numbers">
                             <div class="content clearfix">
@@ -125,27 +123,25 @@
                             </div>
                         </div>
                         <div class="forward">
-                            <div><a href="" ng-click="setResultsPage(resultsPage + 1)" ng-class="{disabled: resultsPage == resultsPages - 1}">Next</a></div>
-                            <div><a href="" ng-click="setResultsPage(resultsPageRange.length - 1)" ng-class="{disabled: resultsPage == resultsPages - 1}">Last</a></div>
+                            <div><a href="" ng-click="setResultsPage(resultsPage + 1)" ng-class="{disabled: resultsPage == resultsPages - 1}">@Html.Sitecore().Field("Next")</a></div>
+                            <div><a href="" ng-click="setResultsPage(resultsPageRange.length - 1)" ng-class="{disabled: resultsPage == resultsPages - 1}">@Html.Sitecore().Field("Last")</a></div>
                         </div>
                     </div>
                 </div>
                 <div class="contact small">
                     <div class="headset">
                         <img src="@headsetIconURL" />
-                        <h4>Still having issues?</h4>
-                        <p>Please contact us!</p>
+                        <h4>@Html.Sitecore().Field("Still having issues")</h4>
+                        <p>@Html.Sitecore().Field("Please contact us")</p>
                     </div>
                     <div class="contact-info">
-                        <p>Customer Service at 877-743-5893 from</p>
-                        <p>7am-10pm, CST, Monday-Friday or</p>
-                        <p>9am-5pm, CST, Saturday.</p>
+                        @Html.Sitecore().Field("Customer Service")
                     </div>
                 </div>
             </article>
         </div>
         <div class="secondary-footer">
-            Can't find what you're looking for? <a href="" ng-click="">Ask Us a Question</a>
+            <p>@Html.Sitecore().Field("Drop a line")</p>
         </div>
     </div>
 </div>

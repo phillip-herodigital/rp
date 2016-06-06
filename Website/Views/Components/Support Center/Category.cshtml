@@ -27,6 +27,12 @@
         subcategory = Request.QueryString["subcat"];
     }
 
+    string keyword = StreamEnergy.Json.Stringify("All");
+    if (!string.IsNullOrEmpty(Request.QueryString["keyword"]))
+    {
+        keyword = StreamEnergy.Json.Stringify(Request.QueryString["keyword"]);
+    }
+
     string searchFAQ = StreamEnergy.Json.Stringify(null);
     if (!string.IsNullOrEmpty(Request.QueryString["searchFAQ"]))
     {
@@ -40,13 +46,13 @@
     }
 }
 <div class="support-container layout" ng-cloak>
-    <div class="category clearfix" ng-init="categoryInit(@categories, @category, @categoryFaqs, @subcategories, @subcategory, @searchFAQ, @search)">
+    <div class="category clearfix" ng-init="categoryInit(@categories, @category, @categoryFaqs, @subcategories, @subcategory, @keyword, @searchFAQ, @search)">
         <div class="pagination-display clearfix" ng-show="searchResults">
-            <p><a href="" ng-click="backToSupport(@categoryFaqs)" ng-show="searchResults">Back to Support</a></p>
+            <p><a href="" ng-click="backToSupport(@categoryFaqs)" ng-show="searchResults">@categoryContent.Fields["Back to Support"]</a></p>
             <p>
-                <span>@categoryContent.Fields["Showing"] {{resultsPageRange[resultsPage].low + 1}} - {{resultsPageRange[resultsPage].high + 1}} of {{displayedFAQCount}}</span>
-                <span> search results for “{{searchData.text}}”</span>
-                <span> in {{searchData.category}}</span>
+                <span>@categoryContent.Fields["Showing"] {{resultsPageRange[resultsPage].low + 1}} - {{resultsPageRange[resultsPage].high + 1}} @categoryContent.Fields["of"] {{displayedFAQCount}}</span>
+                <span> @categoryContent.Fields["results for"] “{{searchData.text}}”</span>
+                <span> @categoryContent.Fields["in"] {{searchData.category}}</span>
                 <span ng-show="searchData.state.name"> - {{searchData.state.abbreviation}}</span>
                 <span> - {{subcategory}}</span>
                 @*<span class="per-page">Results Per Page </span>
@@ -58,9 +64,9 @@
         <div class="pagination-spacer" ng-hide="searchResults || mobileAcronyms"></div>
         <div class="faqs clearfix" ng-hide="mobileAcronyms">
             <aside class="top">
-                <h4>Find what you're looking for quickly by choosing a tag below:</h4>
+                <h4>@categoryContent.Fields["Keyword Heading"]</h4>
                 <div class="keyword">
-                    <p><a href="" ng-class="{selected: noKeywordSelected}" ng-click="toggleKeyword()">All</a></p>
+                    <p><a href="" ng-class="{selected: noKeywordSelected}" ng-click="toggleKeyword()">@categoryContent.Fields["All"]</a></p>
                 </div>
                 <div ng-repeat="keyword in keywords" class="keyword">
                     <p ng-class="{selected: keyword.selected}"><a href="" ng-click="toggleKeyword(keyword)">{{keyword.name}}</a></p>
@@ -83,14 +89,14 @@
                                 <div class="answer-content" ng-bind-html="faq.faqAnswer"></div>
                                 <div class="helpful">
                                     <p>
-                                        <label for="helpful">Was this helpful?</label>
-                                        <input type="radio" name="helpful" ng-model="isHelpful" ng-change="helpfulSelected = true" ng-value="true" /> Yes
-                                        <input type="radio" name="helpful" ng-model="isHelpful" ng-change="helpfulSelected = true" ng-value="false" /> No
+                                        <label for="helpful">@categoryContent.Fields["Helpful Label"]</label>
+                                        <input type="radio" name="helpful" ng-model="isHelpful" ng-change="helpfulSelected = true" ng-value="true" /> @categoryContent.Fields["Yes"]
+                                        <input type="radio" name="helpful" ng-model="isHelpful" ng-change="helpfulSelected = true" ng-value="false" /> @categoryContent.Fields["No"]
                                     </p>
                                     <div class="response" ng-show="helpfulSelected">
-                                        <p>Thanks for your feedback! If you would like to add a comment, please enter it below.</p>
-                                        <textarea placeholder="Add comments here..." ng-model="feedback"></textarea>
-                                        <button class="button primary" ng-click="sendFeedback(faq.guid, isHelpful, feedback)">Submit</button>
+                                        <p>@categoryContent.Fields["Thanks for your feedback"]</p>
+                                        <textarea placeholder="@categoryContent.Fields["Comment Placeholder"]" ng-model="feedback"></textarea>
+                                        <button class="button primary" ng-click="sendFeedback(faq.guid, isHelpful, feedback)">@categoryContent.Fields["Submit"]</button>
                                     </div>
                                 </div>
                             </div>
@@ -100,8 +106,8 @@
                 <div class="pagination-container">
                     <div class="pagination clearfix" ng-show="getDisplayedFAQs().length > resultsPerPage.value">
                         <div class="back">
-                            <div ng-click="setResultsPage(0)"><a href="" ng-class="{disabled: resultsPage == 0}">First</a></div>
-                            <div ng-click="setResultsPage(resultsPage - 1)"><a href="" ng-class="{disabled: resultsPage == 0}">Previous</a></div>
+                            <div ng-click="setResultsPage(0)"><a href="" ng-class="{disabled: resultsPage == 0}">@categoryContent.Fields["First"]</a></div>
+                            <div ng-click="setResultsPage(resultsPage - 1)"><a href="" ng-class="{disabled: resultsPage == 0}">@categoryContent.Fields["Previous"]</a></div>
                         </div>
                         <div class="page-numbers">
                             <div class="content clearfix">
@@ -113,8 +119,8 @@
                             </div>
                         </div>
                         <div class="forward">
-                            <div ng-click="setResultsPage(resultsPage + 1)"><a href="" ng-class="{disabled: resultsPage == resultsPages - 1}">Next</a></div>
-                            <div ng-click="setResultsPage(resultsPageRange.length - 1)"><a href="" ng-class="{disabled: resultsPage == resultsPages - 1}">Last</a></div>
+                            <div ng-click="setResultsPage(resultsPage + 1)"><a href="" ng-class="{disabled: resultsPage == resultsPages - 1}">@categoryContent.Fields["Next"]</a></div>
+                            <div ng-click="setResultsPage(resultsPageRange.length - 1)"><a href="" ng-class="{disabled: resultsPage == resultsPages - 1}">@categoryContent.Fields["Last"]</a></div>
                         </div>
                     </div>
                 </div>
@@ -123,26 +129,24 @@
                 <div class="contact">
                     <div class="headset">
                         <img src="@headsetIconURL" />
-                        <h4>Still having issues?</h4>
-                        <p>Please contact us!</p>
+                        <h4>@categoryContent.Fields["Still having Issues"]</h4>
+                        <p>@categoryContent.Fields["Please Contact"]</p>
                     </div>
                     <div class="contact-info">
-                        <p>Customer Service at 877-743-5893 from</p>
-                        <p>7am-10pm, CST, Monday-Friday or</p>
-                        <p>9am-5pm, CST, Saturday.</p>
+                        @categoryContent.Fields["Contact Info"].Value.AsHtml()
                     </div>
                 </div>
-                <p><a href="" ng-click="showModal('emergency-contact')">Emergency Contacts</a></p>
-                <p><a href="" ng-click="mobileAcronyms = true" ng-show="category.name == 'Mobile'">Mobile Acronyms</a></p>
+                <p><a href="" ng-click="showModal('emergency-contact')">@categoryContent.Fields["Emergency Contacts"]</a></p>
+                <p><a href="" ng-click="mobileAcronyms = true" ng-show="category.name == 'Mobile'">@categoryContent.Fields["Mobile Acronyms"]</a></p>
             </aside>
         </div>
         @Html.Partial("~/Views/Components/Support Center/Mobile Acronyms.cshtml")
         <div class="address-footer clearfix">
             <img src="@mailIconURL" />
-            <p>Stream, Attn: Customer Operations, 1950 N Stemmons Fwy, Suite 3000, Dallas, TX 75207</p>
+            <p>@categoryContent.Fields["Address"]</p>
         </div>
         <div class="secondary-footer">
-            Can't find what you're looking for? <a href="" ng-click="">Ask Us a Question</a>
+            <p>@categoryContent.Fields["Contact Link"].Value.AsHtml()</p>
         </div>
     </div>
 </div>
@@ -150,16 +154,16 @@
     <div class="support-modal">
         <div class="modal-header">
             <a href="" ng-click="$dismiss()">Close</a>
-            <h2>Emergency Contacts - {{category.displayTitle}}<span ng-show="searchData.state"> - {{searchData.state.abbreviation}}</span></h2>
+            <h2>@categoryContent.Fields["Modal Heading"] - {{category.displayTitle}}<span ng-show="searchData.state"> - {{searchData.state.abbreviation}}</span></h2>
             <p>@categoryItem.EmergencyContactSubheading.AsHtml()</p>
             <img class="life-preserver" src="@modalIconURL" />
             <div ng-show="category.states">
                 <span>
-                    Please select a state:
+                    @categoryContent.Fields["State Select Label"]
                     <select ng-model="selectedStateName"
                             ng-change="selectCategoryByName(category, selectedStateName)"
                             ng-options="state.name as state.name for state in category.states">
-                        <option disabled value="">Select State</option>
+                        <option disabled value="">@categoryContent.Fields["Select State Text"]</option>
                     </select>
                 </span>
             </div>
@@ -168,9 +172,7 @@
             <div class="content" ng-hide="category.states">
                 @categoryItem.EmergencyContactContent.AsHtml()
             </div>
-            <div class="content" ng-show="category.states">
-                <div ng-bind-html="searchData.state.emergencyContactContent"></div>
-            </div>
+            <div ng-bind-html="searchData.state.emergencyContactContent" ng-show="category.states"></div>
         </div>
     </div>
 </script>
