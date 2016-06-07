@@ -40,17 +40,18 @@
         <div class="wrapper" ng-show="pane == category.name">
             <div class="content">
                 <div ng-bind-html="category.contactPageContent" ></div>
-                <a href="" ng-click="showModal('emergency-contact')">Emergency Contacts</a>
+                <hr />
             </div>
         </div>
         <div class="wrapper" ng-repeat="state in category.states" ng-show="pane == state.name">
             <div class="content">
                 <div ng-bind-html="state.contactPageContent"></div>
-                <a href="" ng-click="showModal('emergency-contact')">Emergency Contacts</a>
+                <p><a href="" ng-click="showModal('emergency-contact')">Emergency Contacts</a></p>
+                <hr />
             </div>
         </div>
     </article>
-    <article class="marketing contact" ng-class="{ hidden : pane }">
+    <article class="marketing contact">
         @Html.Sitecore().Field("Send Request Intro Text")
     </article>
     <article class="marketing contact">
@@ -143,12 +144,10 @@
             </div>
         }
         <div class="associate-support">
-            <div class="wrapper">
                 <div class="content">
                     <h1>@Html.Sitecore().Field("Associate Support Text")</h1>
                     @Html.Sitecore().Field("Associate Support Content")
                 </div>
-            </div>
         </div>
     </article>
 </div>

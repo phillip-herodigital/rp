@@ -23,24 +23,43 @@
     <div class="main" ng-init="init(@categories, @popFaqs)">
         <div class="wrapper">
             <article class="faq-categories marketing" ng-hide="searchResults">
-                <div class="primary clearfix">
+                <div class="primary">
                     <h1>@Html.Sitecore().Field("Categories Heading")</h1>
                     <h4>@Html.Sitecore().Field("Categories Subheading")</h4>
-                    <div class="category" ng-repeat="category in displayCategories" ng-if="$index < 4">
-                        <div ng-class="category.name" ng-style="{'background-image': 'URL(' + category.iconURL + ')'}">
-                            <p class="service-name">{{category.name}}</p>
-                            <p>{{category.description}}</p>
-                            <p class="get-support"><a href="{{category.link}}">@Html.Sitecore().Field("Get support")</a></p>
+                    <div class="categories clearfix">
+                        <div class="category" ng-repeat="category in displayCategories" ng-if="$index < 4">
+                            <div ng-class="category.name" ng-style="{'background-image': 'URL(' + category.iconURL + ')'}" ng-if="!category.states.length">
+                                <p class="service-name">{{category.name}}</p>
+                                <p>{{category.description}}</p>
+                                <p class="get-support">
+                                    <a href="{{category.link}}">@Html.Sitecore().Field("Get support")</a>
+                                </p>
+                            </div>
+                            <div ng-class="category.name" class="dropdown-toggle" dropdown-toggle ng-style="{'background-image': 'URL(' + category.iconURL + ')'}" ng-if="category.states.length">
+                                <p class="service-name">{{category.name}}</p>
+                                <p>{{category.description}}</p>
+                                <div class="get-support">
+                                    <a href="">@Html.Sitecore().Field("Get support")</a>
+                                    <ul class="dropdown-menu" role="menu" ng-if="category.states.length">
+                                        <li disabled>Select State</li>
+                                        <li class="icon" ng-repeat="state in category.states">
+                                            <div ng-style="{'background-image': 'URL(' + state.iconURL + ')'}" ng-click="selectCategory($parent.category, state); search();">{{state.abbreviation}}</div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div class="secondary clearfix" ng-show="displayCategories.length > 4">
                     <h1>@Html.Sitecore().Field("Secondary Categories Heading")</h1>
-                    <div class="category " ng-repeat="category in displayCategories" ng-if="$index > 3">
-                        <div ng-class="category.name" ng-style="{'background-image': 'URL(' + category.iconURL + ')'}">
-                            <p class="service-name">{{category.name}}</p>
-                            <p>{{category.description}}</p>
-                            <p class="get-support"><a href="{{category.link}}">@Html.Sitecore().Field("Get support")</a></p>
+                    <div class="categories clearfix">
+                        <div class="category " ng-repeat="category in displayCategories" ng-if="$index > 3">
+                            <div ng-class="category.name" ng-style="{'background-image': 'URL(' + category.iconURL + ')'}">
+                                <p class="service-name">{{category.name}}</p>
+                                <p>{{category.description}}</p>
+                                <p class="get-support"><a href="{{category.link}}">@Html.Sitecore().Field("Get support")</a></p>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -56,9 +75,9 @@
                             <span>@Html.Sitecore().Field("Showing") {{resultsPageRange[resultsPage].low + 1}} - {{resultsPageRange[resultsPage].high + 1}} @Html.Sitecore().Field("Of") {{displayedFAQCount}}</span>
                             <span ng-show="searchResults"> @Html.Sitecore().Field("search results for") “{{searchData.text}}”</span>
                             @*<span class="per-page">Results Per Page </span>
-                            <select ng-model="resultsPerPage.value" ng-change="setResultsPerPage()">
-                                <option ng-repeat="value in resultsPerPage.options">{{value}}</option>
-                            </select>*@
+                        <select ng-model="resultsPerPage.value" ng-change="setResultsPerPage()">
+                            <option ng-repeat="value in resultsPerPage.options">{{value}}</option>
+                        </select>*@
                         </p>
                     </div>
                     <div class="content">
@@ -78,16 +97,15 @@
                                         <div ng-repeat="relatedFAQ in faq.relatedFAQs">
                                             <p><a href="" ng-click="selectRelated(relatedFAQ)">{{relatedFAQ.display}}</a></p>
                                         </div>
-                                        <hr />
-                                        <div class="contact">
-                                            <div class="headset">
-                                                <img src="@headsetIconURL" />
+                                        <div class="contact clearfix">
+                                            <img src="@headsetIconURL" />
+                                            <div>
                                                 <h4>@Html.Sitecore().Field("Still having issues")</h4>
                                                 <p>@Html.Sitecore().Field("Please contact us")</p>
                                             </div>
-                                            <div class="contact-info">
-                                                @Html.Sitecore().Field("Customer Service")
-                                            </div>
+                                            @*<div class="contact-info">
+                                            @Html.Sitecore().Field("Customer Service")
+                                        </div>*@
                                         </div>
                                     </aside>
                                     <div class="helpful">

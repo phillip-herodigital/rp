@@ -151,10 +151,12 @@
 
                             &:first-child {
                                 padding-top: 0;
+                                border-radius: 5px 5px 0 0;
                             }
 
                             &:last-child {
                                 border-bottom: none;
+                                border-radius: 0 0 5px 5px;
                                 padding-bottom: 0;
                             }
 
@@ -344,6 +346,14 @@
                     div {
                         margin: 0 4px;
                         float: left;
+
+                        &:first-child {
+                            margin: 0 4px 0 0;
+                        }
+
+                        &:last-child {
+                            margin: 0 0 0 4px;
+                        }
                     }
 
                     .back {
@@ -457,7 +467,7 @@
                     .primary {
                         margin-bottom: 36px;
 
-                        @include breakpoint(small) {
+                        @include breakpoint(small-medium) {
                             margin-bottom: 10px;
                         }
 
@@ -469,65 +479,163 @@
                             text-align: center;
                         }
 
-                        .category {
-                            min-height: 600px;
-                            width: 25%;
-                            padding: 0 20px;
-                            float: left;
+                        .categories {
+                            padding-bottom: 36px;
                             position: relative;
-                            border-width: 0 2px 0 0;
-                            border-style: solid;
-                            border-image: linear-gradient(white, #efefef, white) 1 100%;
 
-                            > div {
-                                background-position: top center;
-                                background-repeat: no-repeat;
-                                padding: 65px 0px 10px;
-                            }
+                            .category {
+                                width: 25%;
+                                height: 100%;
+                                padding: 0 20px;
+                                float: left;
+                                border-width: 0 2px 0 0;
+                                border-style: solid;
+                                border-image: linear-gradient(white, #efefef, white) 1 100%;
 
-                            &:last-child {
-                                border: none;
-                            }
+                                > div {
+                                    background-position: top center;
+                                    background-repeat: no-repeat;
+                                    padding: 65px 0px 10px;
+                                }
 
-                            @include breakpoint(medium) {
-                                width: 50%;
-                                padding: 0 10px;
-
-                                &:nth-of-type(2) {
+                                &:last-child {
                                     border: none;
                                 }
 
+                                .dropdown-toggle {
 
-                                &:nth-of-type(3), &:nth-of-type(4) {
-                                    margin-top: 10px;
+                                    .get-support {
+                                        position: absolute;
+                                        bottom: 0;
+                                        padding-bottom: 10px;
+                                        width: calc(25% - 40px);
 
-                                    &:before {
-                                        width: 100%;
-                                        height: 2px;
-                                        margin-bottom: 10px;
-                                        content: "";
-                                        display: block;
-                                        background: linear-gradient(to right, white, #efefef, white);
+                                        @include breakpoint(small-medium) {
+                                            width: calc(100% - 20px);
+                                        }
+
+                                        &:after {
+                                            content: "";
+                                            height: 0;
+                                            width: 0;
+                                            border-left: 8px solid transparent;
+                                            border-right: 8px solid transparent;
+                                            border-top: 8px solid #257ab3;
+                                            background-color: #ffffff;
+                                            position: absolute;
+                                            top: 8px;
+                                            right: 20px;
+                                        }
+
+                                        &:hover {
+                                            .dropdown-menu {
+                                                display: block;
+                                            }
+                                        }
                                     }
                                 }
 
-                                &:nth-of-type(3) {
-                                    border-width: 0 2px 0 0;
-                                }
 
-                                &:nth-of-type(4) {
+
+                                .dropdown-menu {
+                                    display: none;
+                                    background-color: #eff2f3;
+                                    color: #000;
+                                    padding: 10px;
+                                    margin-top: 8px;
+                                    right: 0;
+                                    top: 20px;
+                                    min-width: 0;
+                                    width: 175px;
+                                    font-size: 16px;
                                     border: none;
-                                }
-                            }
+                                    box-shadow: #ebebeb 0 0 2px 2px;
 
-                            @include breakpoint(small) {
-                                width: 100%;
-                                border-width: 0 0 2px 0;
-                                border-image: linear-gradient(to right, white, #efefef, white) 2;
-                                margin-bottom: 10px;
-                                padding: 0;
-                                min-height: 0;
-                                padding-bottom: 32px;
+                                    &:before {
+                                        content: "";
+                                        height: 0;
+                                        width: 0;
+                                        border-left: 10px transparent solid;
+                                        border-right: 10px transparent solid;
+                                        border-bottom: 10px solid #eff2f3;
+                                        position: absolute;
+                                        top: -10px;
+                                        right: 18px;
+                                    }
+
+                                    li {
+                                        border-bottom: 1px solid #dcdfdf;
+                                        padding: 10px;
+
+                                        > div {
+                                            background-repeat: no-repeat;
+                                            padding-left: 36px;
+                                        }
+
+                                        &.icon {
+                                            padding-left: 10px;
+                                        }
+
+                                        &:last-child {
+                                            border: none;
+                                            border-radius: 0 0 5px 5px;
+                                        }
+
+                                        &:hover {
+                                            background-color: #00a8e1;
+                                        }
+
+                                        &[disabled] {
+
+                                            &:hover {
+                                                background-color: initial;
+                                            }
+                                        }
+                                    }
+                                }
+
+                                @include breakpoint(medium) {
+                                    width: 50%;
+                                    padding: 0 10px 36px;
+                                    position: relative;
+
+                                    &:nth-of-type(2) {
+                                        border: none;
+                                    }
+
+
+                                    &:nth-of-type(3), &:nth-of-type(4) {
+                                        margin-top: 10px;
+
+                                        &:before {
+                                            width: 100%;
+                                            height: 2px;
+                                            margin-bottom: 10px;
+                                            content: "";
+                                            display: block;
+                                            background: linear-gradient(to right, white, #efefef, white);
+                                        }
+                                    }
+
+                                    &:nth-of-type(3) {
+                                        border-width: 0 2px 0 0;
+                                    }
+
+                                    &:nth-of-type(4) {
+                                        border: none;
+                                    }
+                                }
+
+                                @include breakpoint(small) {
+                                    width: 100%;
+                                    position: relative;
+                                    border-width: 0 0 2px 0;
+                                    border-image: linear-gradient(to right, white, #efefef, white) 2;
+                                    margin-bottom: 10px;
+                                    padding: 0;
+                                    min-height: 0;
+                                    padding-bottom: 32px;
+                                }
                             }
                         }
                     }
@@ -540,32 +648,37 @@
                         h1 {
                         }
 
-                        .category {
-                            width: 50%;
-                            float: left;
-                            min-height: 200px;
-                            padding: 0 20px 40px;
+                        .categories {
+                            padding-bottom: 36px;
                             position: relative;
 
-                            > div {
-                                background-position: top left;
-                                background-repeat: no-repeat;
-                                padding: 0 0 0 80px;
-                            }
-
-                            @include breakpoint(small) {
-                                width: 100%;
-                                padding: 0px 0 40px 0;
-                                margin-bottom: 20px;
+                            .category {
+                                width: 50%;
+                                float: left;
+                                height: 100%;
+                                padding: 0 20px 40px;
 
                                 > div {
-                                    background-position: top center;
-                                    padding: 50px 0 0 0;
+                                    background-position: top left;
+                                    background-repeat: no-repeat;
+                                    padding: 0 0 0 80px;
                                 }
 
-                                &:first-of-type {
-                                    border-width: 0 0 2px 0;
-                                    border-image: linear-gradient(to right, white, #efefef, white) 100% 1;
+                                @include breakpoint(small) {
+                                    width: 100%;
+                                    padding: 0px 0 40px 0;
+                                    margin-bottom: 20px;
+                                    position: relative;
+
+                                    > div {
+                                        background-position: top center;
+                                        padding: 50px 0 0 0;
+                                    }
+
+                                    &:first-of-type {
+                                        border-width: 0 0 2px 0;
+                                        border-image: linear-gradient(to right, white, #efefef, white) 100% 1;
+                                    }
                                 }
                             }
                         }
@@ -631,8 +744,20 @@
                                                 display: none;
                                             }
 
+
+
+                                            .contact {
+                                                margin-top: 28px;
+
+                                                div {
+                                                    width: calc(100% - 42px);
+                                                    float: right;
+                                                    padding-left: 16px;
+                                                }
+                                            }
+
                                             h4:first-child {
-                                                margin-top: 0;
+                                                margin: 0 0 8px;
                                             }
                                         }
                                     }
@@ -675,7 +800,7 @@
                         float: left;
                         width: calc(100% - 350px);
                         position: static;
-                        min-height: 400px;
+                        min-height: 600px;
 
                         .content {
                             padding: 0;
@@ -768,6 +893,15 @@
 
                         &.bottom {
                             padding-top: 0;
+
+                            p {
+                                font-size: 16px;
+                                padding: 8px 0;
+
+                                > strong {
+                                    font-weight: 600;
+                                }
+                            }
                         }
 
                         @include breakpoint(medium) {
@@ -984,7 +1118,6 @@
             }
         }
     }
-
 }
 
 
@@ -1137,9 +1270,10 @@ article.support-mobile-guides {
 
 article.contact {
 
-    &.marketing{
+    &.marketing {
         padding: 0;
     }
+
     h1 {
         width: 75%;
         margin: 0px auto 1em auto;
@@ -1272,15 +1406,33 @@ article.contact {
     }
 
     &.contact-info {
-        .grid .col {
-            padding-top: 0px;
 
-            p {
-                margin-top: .5em;
+        .wrapper {
+            padding: 0;
 
-                &.address {
-                    background: image-url('../i/icon/email-small.png') 0% 5% no-repeat;
-                    padding-left: 45px;
+            .content {
+
+                .grid .col {
+                    padding-top: 0px;
+
+                    p {
+                        margin-top: .5em;
+
+                        &.address {
+                            background: image-url('../i/icon/email-small.png') 0% 5% no-repeat;
+                            padding-left: 45px;
+                        }
+                    }
+                }
+
+                a {
+                    font-weight: 600;
+                }
+
+                hr {
+                    border-width: 2px 0 0 0;
+                    border-style: solid;
+                    border-image: linear-gradient(to right, white, #efefef, white) 2;
                 }
             }
         }
@@ -1365,6 +1517,11 @@ article.contact {
     }
 
     .associate-support {
+
+        h1 {
+            margin-top: 1em;
+        }
+
         .address {
             background: image-url('../i/icon/email-small.png') 0% 5% no-repeat;
             padding-left: 45px;

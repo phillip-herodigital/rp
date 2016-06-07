@@ -256,7 +256,11 @@
         if ($scope.searchData.state) {
             state = $scope.searchData.state.name;
         }
-        window.location.href = "/support/" + $scope.searchData.category + "?search=" + state + "|" + $scope.searchData.text;
+        var text = ""
+        if ($scope.searchData.text) {
+            text = "|" + $scope.searchData.text;
+        }
+        window.location.href = "/support/" + $scope.searchData.category + "?search=" + state + text;
     };
 
     var paginate = function () {
@@ -538,10 +542,10 @@
     };
 
     $scope.toggleKeyword = function (keyword) {
+        angular.forEach($scope.keywords, function (keyword) {
+            keyword.selected = false;
+        });
         if (keyword === undefined) {
-            angular.forEach($scope.keywords, function (keyword) {
-                keyword.selected = false;
-            });
             $scope.noKeywordSelected = true;
         }
         else {

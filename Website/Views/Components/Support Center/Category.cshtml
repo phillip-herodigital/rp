@@ -56,9 +56,9 @@
                 <span ng-show="searchData.state.name"> - {{searchData.state.abbreviation}}</span>
                 <span> - {{subcategory}}</span>
                 @*<span class="per-page">Results Per Page </span>
-                <select ng-model="resultsPerPage.value" ng-change="setResultsPerPage()">
-                    <option ng-repeat="value in resultsPerPage.options">{{value}}</option>
-                </select>*@
+                    <select ng-model="resultsPerPage.value" ng-change="setResultsPerPage()">
+                        <option ng-repeat="value in resultsPerPage.options">{{value}}</option>
+                    </select>*@
             </p>
         </div>
         <div class="pagination-spacer" ng-hide="searchResults || mobileAcronyms"></div>
@@ -134,10 +134,10 @@
                     </div>
                     <div class="contact-info">
                         @categoryContent.Fields["Contact Info"].Value.AsHtml()
+                        <p ng-show="category.states.length"><a href="" ng-click="showModal('emergency-contact')">@categoryContent.Fields["Emergency Contacts"]</a></p>
+                        <p ng-show="category.name == 'Mobile'"><a href="" ng-click="mobileAcronyms = true">@categoryContent.Fields["Mobile Acronyms"]</a></p>
                     </div>
                 </div>
-                <p><a href="" ng-click="showModal('emergency-contact')">@categoryContent.Fields["Emergency Contacts"]</a></p>
-                <p><a href="" ng-click="mobileAcronyms = true" ng-show="category.name == 'Mobile'">@categoryContent.Fields["Mobile Acronyms"]</a></p>
             </aside>
         </div>
         @Html.Partial("~/Views/Components/Support Center/Mobile Acronyms.cshtml")
