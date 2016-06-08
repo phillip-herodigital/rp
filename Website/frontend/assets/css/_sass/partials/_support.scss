@@ -532,63 +532,65 @@
                                                 display: block;
                                             }
                                         }
-                                    }
-                                }
 
-
-
-                                .dropdown-menu {
-                                    display: none;
-                                    background-color: #eff2f3;
-                                    color: #000;
-                                    padding: 10px;
-                                    margin-top: 8px;
-                                    right: 0;
-                                    top: 20px;
-                                    min-width: 0;
-                                    width: 175px;
-                                    font-size: 16px;
-                                    border: none;
-                                    box-shadow: #ebebeb 0 0 2px 2px;
-
-                                    &:before {
-                                        content: "";
-                                        height: 0;
-                                        width: 0;
-                                        border-left: 10px transparent solid;
-                                        border-right: 10px transparent solid;
-                                        border-bottom: 10px solid #eff2f3;
-                                        position: absolute;
-                                        top: -10px;
-                                        right: 18px;
-                                    }
-
-                                    li {
-                                        border-bottom: 1px solid #dcdfdf;
-                                        padding: 10px;
-
-                                        > div {
-                                            background-repeat: no-repeat;
-                                            padding-left: 36px;
-                                        }
-
-                                        &.icon {
-                                            padding-left: 10px;
-                                        }
-
-                                        &:last-child {
+                                        .dropdown-menu {
+                                            display: none;
+                                            background-color: #eff2f3;
+                                            color: #000;
+                                            padding: 10px;
+                                            margin-top: 8px;
+                                            right: 0;
+                                            top: 20px;
+                                            min-width: 0;
+                                            width: 175px;
+                                            font-size: 16px;
                                             border: none;
-                                            border-radius: 0 0 5px 5px;
-                                        }
+                                            box-shadow: #ebebeb 0 0 2px 2px;
 
-                                        &:hover {
-                                            background-color: #00a8e1;
-                                        }
+                                            @include breakpoint(small) {
+                                                width: 100%;
+                                            }
 
-                                        &[disabled] {
+                                            &:before {
+                                                content: "";
+                                                height: 0;
+                                                width: 0;
+                                                border-left: 10px transparent solid;
+                                                border-right: 10px transparent solid;
+                                                border-bottom: 10px solid #eff2f3;
+                                                position: absolute;
+                                                top: -10px;
+                                                right: 18px;
+                                            }
 
-                                            &:hover {
-                                                background-color: initial;
+                                            li {
+                                                border-bottom: 1px solid #dcdfdf;
+                                                padding: 10px;
+
+                                                > div {
+                                                    background-repeat: no-repeat;
+                                                    padding-left: 36px;
+                                                }
+
+                                                &.icon {
+                                                    padding-left: 10px;
+                                                }
+
+                                                &:last-child {
+                                                    border: none;
+                                                    border-radius: 0 0 5px 5px;
+                                                }
+
+                                                &:hover {
+                                                    background-color: #00a8e1;
+                                                }
+
+                                                &[disabled] {
+
+                                                    &:hover {
+                                                        background-color: initial;
+                                                    }
+                                                }
                                             }
                                         }
                                     }
@@ -720,8 +722,8 @@
 
                                 .answer-container {
                                     .answer {
-                                        .answer-content & aside {
-                                            padding: 0 20px 20px;
+                                        aside {
+                                            padding: 20px;
                                         }
 
                                         .answer-content {
@@ -743,8 +745,6 @@
                                             @include breakpoint(small) {
                                                 display: none;
                                             }
-
-
 
                                             .contact {
                                                 margin-top: 28px;
@@ -826,11 +826,6 @@
                                     }
 
                                     .answer {
-                                        background-color: #eff2f3;
-
-                                        .answer-content {
-                                            padding: 20px;
-                                        }
                                     }
                                 }
                             }
@@ -1042,6 +1037,7 @@
                                 overflow: auto;
                                 position: relative;
                                 transition: margin-top 500ms;
+                                background-color: #eff2f3;
 
                                 &.reveal {
                                     margin-top: 0;
@@ -1049,6 +1045,7 @@
 
                                 .answer-content {
                                     float: left;
+                                            padding: 20px;
                                 }
 
                                 aside {
@@ -1102,19 +1099,28 @@
         }
 
         .secondary-footer {
-            float: left;
             background-color: #eff2f3;
-            padding: 36px;
-            padding-left: 40px;
-            font-size: 21px;
             width: 100%;
+            padding: 20px 0;
 
-            @include breakpoint(small) {
-                padding: 24px;
-            }
+            .content {
+                width: 1040px;
+                margin: 0 auto;
+                font-size: 21px;
 
-            a {
-                font-weight: 700;
+                @include breakpoint(medium) {
+                    width: auto;
+                    padding: 0 20px;
+                }
+
+                @include breakpoint(small) {
+                    width: auto;
+                    padding: 0 10px;
+                }
+
+                a {
+                    font-weight: 700;
+                }
             }
         }
     }

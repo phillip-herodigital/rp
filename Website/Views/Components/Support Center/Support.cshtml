@@ -16,7 +16,6 @@
             popularFAQS.Add(new FAQ(guid));
         }
     }
-
     var popFaqs = StreamEnergy.Json.Stringify(popularFAQS);
 }
 <div class="support-container layout" ng-cloak>
@@ -39,7 +38,7 @@
                                 <p class="service-name">{{category.name}}</p>
                                 <p>{{category.description}}</p>
                                 <div class="get-support">
-                                    <a href="">@Html.Sitecore().Field("Get support")</a>
+                                    <a>@Html.Sitecore().Field("Get support")</a>
                                     <ul class="dropdown-menu" role="menu" ng-if="category.states.length">
                                         <li disabled>Select State</li>
                                         <li class="icon" ng-repeat="state in category.states">
@@ -75,9 +74,9 @@
                             <span>@Html.Sitecore().Field("Showing") {{resultsPageRange[resultsPage].low + 1}} - {{resultsPageRange[resultsPage].high + 1}} @Html.Sitecore().Field("Of") {{displayedFAQCount}}</span>
                             <span ng-show="searchResults"> @Html.Sitecore().Field("search results for") “{{searchData.text}}”</span>
                             @*<span class="per-page">Results Per Page </span>
-                        <select ng-model="resultsPerPage.value" ng-change="setResultsPerPage()">
-                            <option ng-repeat="value in resultsPerPage.options">{{value}}</option>
-                        </select>*@
+                                <select ng-model="resultsPerPage.value" ng-change="setResultsPerPage()">
+                                    <option ng-repeat="value in resultsPerPage.options">{{value}}</option>
+                                </select>*@
                         </p>
                     </div>
                     <div class="content">
@@ -104,8 +103,8 @@
                                                 <p>@Html.Sitecore().Field("Please contact us")</p>
                                             </div>
                                             @*<div class="contact-info">
-                                            @Html.Sitecore().Field("Customer Service")
-                                        </div>*@
+                                                    @Html.Sitecore().Field("Customer Service")
+                                                </div>*@
                                         </div>
                                     </aside>
                                     <div class="helpful">
@@ -159,7 +158,9 @@
             </article>
         </div>
         <div class="secondary-footer">
-            <p>@Html.Sitecore().Field("Drop a line")</p>
+            <div class="content">
+                <p>@Html.Sitecore().Field("Drop a line")</p>
+            </div>
         </div>
     </div>
 </div>

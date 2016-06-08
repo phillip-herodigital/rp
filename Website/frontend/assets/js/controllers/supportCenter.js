@@ -1,4 +1,5 @@
 ﻿ngApp.controller('supportCenterCtrl', ['$scope', '$http', '$sce', '$modal', 'scrollService', function ($scope, $http, $sce, $modal, scrollService) {
+    $scope.isLoading = false;
     $scope.dropDown = false;
     $scope.selectedFaqIndex = null;
     $scope.searchFAQs = [];
@@ -39,10 +40,19 @@
             faq.faqAnswer = $sce.trustAsHtml(faq.faqAnswer);
 
             angular.forEach(faq.relatedFAQs, function (relatedFAQ, index) {
-                var split = relatedFAQ.split("|");
+                var split = relatedFAQ.split("||");
+                var categoryGuids = split[1].split("|");
+                var categories = [];
+                angular.forEach(categoryGuids, function (guid) {
+                    angular.forEach($scope.categories, function (category) {
+                        if (category.guid === guid) {
+                            categories.push(category);
+                        }
+                    });
+                });
                 var object = {
                     display: split[0],
-                    link: split[1],
+                    categories: categories,
                     guid: split[2]
                 };
                 faq.relatedFAQs[index] = object;
@@ -71,7 +81,7 @@
         if (search) {
             var searchArray = search.split("|");
             angular.forEach(categories, function (category) {
-                if (category.states) {
+                if (category.states.length) {
                     angular.forEach($scope.category.states, function (state) {
                         if (state.name === searchArray[0]) {
                             $scope.selectCategory(category, state);
@@ -134,7 +144,8 @@
     }
 
     $scope.$watch("searchData.text", function (newVal, oldVal) {
-        if (newVal) {
+        if (newVal != oldVal) {
+            $scope.searchFAQs = [];
             var promise = getSearchFaqs();
             promise.then(function (value) {
                 $scope.searchFAQs = value;
@@ -150,7 +161,6 @@
         var searchCategory = "/-";
         var searchState = "/-";
         var searchSubcategory = "/-";
-        var result = null;
         if ($scope.searchData.text) {
             searchText = $scope.searchData.text.replace("?", "");
         }
@@ -167,13 +177,13 @@
         var promise = new Promise(function (resolve, reject) {
             $http({
                 method: 'GET',
+                headers : { 'Content-Type': 'application/JSON' },
                 url: searchUrl,
             }).then(function successCallback(response) {
-                result = response.data;
-                angular.forEach(result, function (faq) {
+                angular.forEach(response.data, function (faq) {
                     faq.faqAnswer = $sce.trustAsHtml(faq.faqAnswer);
                 });
-                resolve(result);
+                resolve(response.data);
             }, function errorCallback(response) {
                 //handle error
                 reject(null);
@@ -183,9 +193,10 @@
     }
 
     $scope.search = function () {
+        $scope.isLoading = true;
         var promise = getSearchFaqs();
-        promise.then(function (value) {
-            var response = value
+        promise.then(function (response) {
+            $scope.isLoading = false;
             var mainSearch = $scope.subcategories.length === 0;
             var categorySame = $scope.category.name === $scope.searchData.category;
             if (categorySame) {
@@ -303,9 +314,7 @@
         else return false;
     }
     $scope.pageFilter5 = function (index) {
-        if (index >= $scope.resultsPages - $scope.dividePaginationInto
-            //&& index >= $scope.dividePaginationInto * 2
-            ) return true;
+        if (index >= $scope.resultsPages - $scope.dividePaginationInto) return true;
         else return false;
     }
 
@@ -359,7 +368,7 @@
                 $scope.getDisplayedFAQs()[index].selected = false;
                 $scope.selectedFaqIndex = null;
             }
-                //select different faq
+            //select different faq
             else {
                 angular.forEach($scope.faqs, function (faq) {
                     faq.selected = false;

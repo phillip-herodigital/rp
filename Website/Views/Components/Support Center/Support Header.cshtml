@@ -3,8 +3,12 @@
 @{ 
     ImageField backgroundField = Html.Sitecore().CurrentItem.Fields["Background"];
     string backgroundURL = Sitecore.Resources.Media.MediaManager.GetMediaUrl(backgroundField.MediaItem);
+
+    var categoryContent = Sitecore.Context.Database.GetItem("{E507A0DB-A122-406B-862E-6C163BCCA7E7}");
+    ImageField categoryBackgroundField = categoryContent.Fields["Background"];
+    string categoryBackgroundURL = Sitecore.Resources.Media.MediaManager.GetMediaUrl(categoryBackgroundField.MediaItem);
 }
-<div class="support-search" ng-class="{'category-search': isCategorySupport}" ng-style="{'background-image': 'URL(@backgroundURL)'}" ng-cloak>
+<div class="support-search" ng-class="{'category-search': isCategorySupport}" ng-style="{'background-image': isCategorySupport ? 'URL(@categoryBackgroundURL)' : 'URL(@backgroundURL)'}" ng-cloak>
     <div class="content clearfix">
         <h1 ng-show="!subcategories.length && !searchResults && !mobileAcronyms">@Html.Sitecore().Field("Main Heading")</h1>
         <h1 ng-show="subcategories.length  && !searchResults && !mobileAcronyms">{{category.displayTitle}} @Html.Sitecore().Field("Support")</h1>
@@ -15,8 +19,9 @@
             <div class="input">
                 <input type="text" class="search-input"
                        placeholder="@Html.Sitecore().Field("Search Placeholder")"
+                       autocomplete="off"
                        ng-model="searchData.text"
-                       typeahead="faq.faqQuestion for faq in searchFAQs | filter:{faqQuestion:$viewValue} | limitTo:4"
+                       typeahead="faq.faqQuestion for faq in searchFAQs | limitTo:4"
                        typeahead-template-url="typeahead-results" />
                 <img class="mag-glass" src="/frontend/assets/i/mag-glass.png" ng-click="search()" />
             </div>

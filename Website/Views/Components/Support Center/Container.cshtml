@@ -1,3 +1,6 @@
 ﻿<div ng-controller="supportCenterCtrl">
+    <div ng-if="isLoading" class="enrollment__loadingMessage">
+        <span class="inner"><img class="loading" src="/frontend/assets/i/loading_screen.gif" width="44" height="44" /><br />@Html.Sitecore().Field("Processing")</span>
+    </div>
     @Html.Sitecore().Placeholder("support-content")
 </div>

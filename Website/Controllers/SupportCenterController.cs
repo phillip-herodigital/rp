@@ -20,7 +20,8 @@ namespace StreamEnergy.MyStream.Controllers
         private string subcategoryRootItemID = "{6EE881AD-754B-4E1D-B94B-BDFF1C1D3365}"; // /sitecore/content/Data/Support/Subcategories
         private string subcategoryRootTemplateID = "{C0B03D6C-84B7-4E66-88E0-7D1EF490CCBC}"; // /sitecore/templates/User Defined/Components/Support/FAQ Subcategory
         private string FAQsRootItemID = "{29E812CF-FC71-4375-8B9C-58863AA0362B}"; // /sitecore/content/Data/Support/FAQs
-        private string FAQsTempalteID = "{BE70CAA9-D9B4-40E4-9D54-F2164E0846C9}"; // 	/sitecore/templates/User Defined/Components/Support/State FAQ
+        private string FAQsTempalteID = "{91C1C9DB-210B-4B2B-8A3C-D83EF33D284C}"; // 	/sitecore/templates/User Defined/Components/Support/FAQ
+        private string StateFAQsTempalteID = "{BE70CAA9-D9B4-40E4-9D54-F2164E0846C9}"; // 	/sitecore/templates/User Defined/Components/Support/State FAQ
         private string FAQStateRootItemID = "{1275AE28-0537-455B-A89F-C28467219351}"; // /sitecore/content/Data/Taxonomy/Modules/States
         private string FAQStateTemplateID = "{FAD51EE9-1FCC-4A16-B0EA-07CA91C92E46}"; // /sitecore/templates/User Defined/Taxonomy/State
         #endregion
@@ -78,7 +79,7 @@ namespace StreamEnergy.MyStream.Controllers
             get {
                 if (_allfaqs != null) return _allfaqs;
 
-                _allfaqs = FAQsRootItem.Axes.GetDescendants().Where(a => a.TemplateID.ToString() == FAQsTempalteID).ToList();
+                _allfaqs = FAQsRootItem.Axes.GetDescendants().Where(a => a.TemplateID.ToString() == FAQsTempalteID || a.TemplateID.ToString() == StateFAQsTempalteID).ToList();
 
                 return _allfaqs;
             }
