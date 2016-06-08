@@ -7,24 +7,28 @@
     var categoryContent = Sitecore.Context.Database.GetItem("{E507A0DB-A122-406B-862E-6C163BCCA7E7}");
     ImageField categoryBackgroundField = categoryContent.Fields["Background"];
     string categoryBackgroundURL = Sitecore.Resources.Media.MediaManager.GetMediaUrl(categoryBackgroundField.MediaItem);
+
+    var defaultSearchPlaceholder = StreamEnergy.Json.Stringify(Html.Sitecore().Field("Search Placeholder"));
+    var selectSearchPlaceholder = StreamEnergy.Json.Stringify("Select a Service");
 }
 <div class="support-search" ng-class="{'category-search': isCategorySupport}" ng-style="{'background-image': isCategorySupport ? 'URL(@categoryBackgroundURL)' : 'URL(@backgroundURL)'}" ng-cloak>
-    <div class="content clearfix">
+    <div class="content clearfix" ng-init="searchInit(@selectSearchPlaceholder, @defaultSearchPlaceholder)">
         <h1 ng-show="!subcategories.length && !searchResults && !mobileAcronyms">@Html.Sitecore().Field("Main Heading")</h1>
         <h1 ng-show="subcategories.length  && !searchResults && !mobileAcronyms">{{category.displayTitle}} @Html.Sitecore().Field("Support")</h1>
-        <h1 ng-show="searchResults">@Html.Sitecore().Field("Search Results Heading")</h1>
+        <h1 ng-show="searchResults"></h1>
         <h1 ng-show="mobileAcronyms" class="mobile-acronyms-header">@Html.Sitecore().Field("Mobile Acronyms Heading")</h1>
         <h4 ng-hide="isCategorySupport">@Html.Sitecore().Field("Main Subheading")</h4>
         <form class="search" ng-submit="search()" ng-hide="mobileAcronyms">
             <div class="input">
                 <input type="text" class="search-input"
-                       placeholder="@Html.Sitecore().Field("Search Placeholder")"
+                       placeholder="{{searchPlaceholder}}"
                        autocomplete="off"
                        ng-model="searchData.text"
-                       typeahead="faq.faqQuestion for faq in searchFAQs | limitTo:4"
+                       typeahead-loading="isSearchLoading"
+                       typeahead="faq.faqQuestion for faq in getSearchFaqs() | limitTo:4"
                        typeahead-template-url="typeahead-results" />
                 <img ng-hide="isSearchLoading" class="mag-glass" src="/frontend/assets/i/mag-glass.png" ng-click="search()" />
-                <img ng-show="isSearchLoading" src="~/frontend/assets/i/loading.gif" />
+                <img ng-show="isSearchLoading" class="mag-glass" src="~/frontend/assets/i/loading.gif" />
             </div>
             <div class="select clearfix" ng-click="dropDown=!dropDown">
                 <div class="selected-category" ng-show="searchData.category">

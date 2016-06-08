@@ -11,6 +11,7 @@
     $scope.subcategories = []; //list of subcategories for $scope.category
     $scope.subcategory = "All";
     $scope.faqs = []; //popular faqs on /support page, category/subcategory faqs on category/subcategory pages
+
     $scope.searchData = {
         category: "",
         state: null,
@@ -59,6 +60,11 @@
             });
         });
         $scope.isCategorySupport = false;
+    }
+
+    $scope.searchInit = function (selectSearchPlaceholder, defaultSearchPlaceholder) {
+        $scope.searchPlaceholder = selectSearchPlaceholder;
+        $scope.defaultSearchPlaceholder = defaultSearchPlaceholder;
     }
 
     $scope.categoryInit = function (categories, category, categoryFaqs, subcategories, subcategory, keyword, searchFAQ, search) {
@@ -143,20 +149,7 @@
         }
     }
 
-    $scope.$watch("searchData.text", function (newVal, oldVal) {
-        if (newVal != oldVal) {
-            $scope.searchFAQs = [];
-            var promise = getSearchFaqs();
-            promise.then(function (value) {
-                $scope.searchFAQs = value;
-                $scope.$apply();
-            }, function (error) {
-                console.log(error);
-            });
-        }
-    });
-
-    var getSearchFaqs = function () {
+    $scope.getSearchFaqs = function () {
         var searchText = "-";
         var searchCategory = "/-";
         var searchState = "/-";
@@ -194,7 +187,7 @@
 
     $scope.search = function () {
         $scope.isLoading = true;
-        var promise = getSearchFaqs();
+        var promise = $scope.getSearchFaqs();
         promise.then(function (response) {
             $scope.isLoading = false;
             var mainSearch = $scope.subcategories.length === 0;
@@ -328,6 +321,7 @@
             $scope.searchData.category = category.name;
             $scope.searchData.state = state;
             $scope.dropDown = false;
+            $scope.searchPlaceholder = $scope.defaultSearchPlaceholder;
             $scope.searchData.text = "";
             paginate();
             buildKeywords();
