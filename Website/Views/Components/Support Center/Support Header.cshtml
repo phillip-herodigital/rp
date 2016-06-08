@@ -15,7 +15,7 @@
     <div class="content clearfix" ng-init="searchInit(@selectSearchPlaceholder, @defaultSearchPlaceholder)">
         <h1 ng-show="!subcategories.length && !searchResults && !mobileAcronyms">@Html.Sitecore().Field("Main Heading")</h1>
         <h1 ng-show="subcategories.length  && !searchResults && !mobileAcronyms">{{category.displayTitle}} @Html.Sitecore().Field("Support")</h1>
-        <h1 ng-show="searchResults"></h1>
+        <h1 ng-show="searchResults">@Html.Sitecore().Field("Search Results Heading")</h1>
         <h1 ng-show="mobileAcronyms" class="mobile-acronyms-header">@Html.Sitecore().Field("Mobile Acronyms Heading")</h1>
         <h4 ng-hide="isCategorySupport">@Html.Sitecore().Field("Main Subheading")</h4>
         <form class="search" ng-submit="search()" ng-hide="mobileAcronyms">
@@ -23,9 +23,10 @@
                 <input type="text" class="search-input"
                        placeholder="{{searchPlaceholder}}"
                        autocomplete="off"
+                       ng-disabled="!searchData.category || (searchData.category.states.length && !searchData.state)"
                        ng-model="searchData.text"
                        typeahead-loading="isSearchLoading"
-                       typeahead="faq.faqQuestion for faq in getSearchFaqs() | limitTo:4"
+                       typeahead="faq.faqQuestion for faq in getSearchFaqs() | filter:$viewValue"
                        typeahead-template-url="typeahead-results" />
                 <img ng-hide="isSearchLoading" class="mag-glass" src="/frontend/assets/i/mag-glass.png" ng-click="search()" />
                 <img ng-show="isSearchLoading" class="mag-glass" src="~/frontend/assets/i/loading.gif" />

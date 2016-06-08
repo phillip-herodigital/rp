@@ -109,6 +109,10 @@
                         font-size: 20px;
                         border: none;
                         box-shadow: none;
+
+                        &:disabled {
+                            background: #fff;
+                        }
                     }
 
                     img.mag-glass {
@@ -802,6 +806,12 @@
             }
 
             .category { //category page specific styling
+                .faqs-heading {
+                    margin: 40px 50px 0;
+                    padding-left: 50px;
+                    border-bottom: 2px solid #efefef;
+                }
+
                 .faqs {
                     position: relative;
                     margin: 0 50px;
@@ -1055,7 +1065,7 @@
 
                                 .answer-content {
                                     float: left;
-                                            padding: 20px;
+                                    padding: 20px;
                                 }
 
                                 aside {

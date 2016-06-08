@@ -48,14 +48,14 @@
     }
 }
 <div class="support-container layout" ng-cloak>
-    <div class="category clearfix" ng-init="categoryInit(@categories, @category, @categoryFaqs, @subcategories, @subcategory, @keyword, @searchFAQ, @search)">
+    <div class="category clearfix" id="category" ng-init="categoryInit(@categories, @category, @categoryFaqs, @subcategories, @subcategory, @keyword, @searchFAQ, @search)">
         <div class="pagination-display clearfix" ng-show="searchResults">
             <p><a href="" ng-click="backToSupport(@categoryFaqs)" ng-show="searchResults">@categoryContent.Fields["Back to Support"]</a></p>
             <p>
                 <span>@categoryContent.Fields["Showing"] {{resultsPageRange[resultsPage].low + 1}} - {{resultsPageRange[resultsPage].high + 1}} @categoryContent.Fields["of"] {{displayedFAQCount}}</span>
-                <span> @categoryContent.Fields["results for"] “{{searchData.text}}”</span>
-                <span> @categoryContent.Fields["in"] {{searchData.category}}</span>
-                <span ng-show="searchData.state.name"> - {{searchData.state.abbreviation}}</span>
+                <span> @categoryContent.Fields["results for"] “{{searchedData.text}}”</span>
+                <span> @categoryContent.Fields["in"] {{searchedData.category}}</span>
+                <span ng-show="searchedData.state.name"> - {{searchedData.state.abbreviation}}</span>
                 <span> - {{subcategory}}</span>
                 @*<span class="per-page">Results Per Page </span>
                     <select ng-model="resultsPerPage.value" ng-change="setResultsPerPage()">
@@ -63,7 +63,10 @@
                     </select>*@
             </p>
         </div>
-        <div class="pagination-spacer" ng-hide="searchResults || mobileAcronyms"></div>
+        <div class="faqs-heading" ng-show="!mobileAcronyms && category.states.length && !searchResults">
+            <h2>FAQs for {{category.name}}<span ng-show="searchData.state.name"> - {{searchData.state.name}}</span></h2>
+        </div>
+        <div class="pagination-spacer" ng-hide="searchResults || mobileAcronyms || category.states.length"></div>
         <div class="faqs clearfix" ng-hide="mobileAcronyms">
             <aside class="top">
                 <h4>@categoryContent.Fields["Keyword Heading"]</h4>
