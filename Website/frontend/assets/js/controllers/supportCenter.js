@@ -208,7 +208,8 @@
                     else {
                         //same category, one result
                         var faqIndex = -1;
-                        angular.forEach($scope.getDisplayedFAQs(), function (faq, index) {
+                        var displayedFAQs = $scope.getDisplayedFAQs()
+                        angular.forEach(displayedFAQs, function (faq, index) {
                             if (faq.name === response[0].name) {
                                 faqIndex = index;
                             }
@@ -216,6 +217,7 @@
                         $scope.searchResults = false;
                         scrolled = false;
                         $scope.selectFaq(faqIndex);
+                        scrollGuid = "id" + displayedFAQs[faqIndex].guid;
                         $scope.$apply();
                     }
                 }

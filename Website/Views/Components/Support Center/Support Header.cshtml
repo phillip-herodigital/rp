@@ -23,7 +23,8 @@
                        ng-model="searchData.text"
                        typeahead="faq.faqQuestion for faq in searchFAQs | limitTo:4"
                        typeahead-template-url="typeahead-results" />
-                <img class="mag-glass" src="/frontend/assets/i/mag-glass.png" ng-click="search()" />
+                <img ng-hide="isSearchLoading" class="mag-glass" src="/frontend/assets/i/mag-glass.png" ng-click="search()" />
+                <img ng-show="isSearchLoading" src="~/frontend/assets/i/loading.gif" />
             </div>
             <div class="select clearfix" ng-click="dropDown=!dropDown">
                 <div class="selected-category" ng-show="searchData.category">
