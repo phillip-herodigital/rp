@@ -439,6 +439,26 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Libraries\Sitecore\Sitecore.ControlPanel.dll</HintPath>
     </Reference>
+    <Reference Include="Sitecore.EDS.Core, Version=3.3.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Libraries\Sitecore\Sitecore.EDS.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.EDS.Dyn.Client, Version=3.3.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Libraries\Sitecore\Sitecore.EDS.Dyn.Client.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.EDS.Dyn.ClientServices, Version=3.3.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Libraries\Sitecore\Sitecore.EDS.Dyn.ClientServices.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.EDS.Providers.CustomSmtp, Version=3.3.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Libraries\Sitecore\Sitecore.EDS.Providers.CustomSmtp.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.EDS.Providers.Dyn, Version=3.3.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Libraries\Sitecore\Sitecore.EDS.Providers.Dyn.dll</HintPath>
+    </Reference>
     <Reference Include="Sitecore.EmailCampaign, Version=3.3.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Libraries\Sitecore\Sitecore.EmailCampaign.dll</HintPath>
