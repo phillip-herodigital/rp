@@ -499,6 +499,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Libraries\Sitecore\Sitecore.EmailCampaign.Statistics.dll</HintPath>
     </Reference>
+    <Reference Include="Sitecore.ExM.Framework, Version=3.3.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Libraries\Sitecore\Sitecore.ExM.Framework.dll</HintPath>
+    </Reference>
     <Reference Include="Sitecore.ExperienceAnalytics, Version=1.2.1.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Libraries\Sitecore\Sitecore.ExperienceAnalytics.dll</HintPath>
