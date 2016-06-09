@@ -1504,9 +1504,6 @@
     <Content Include="App_Config\Include\EmailExperience\Sitecore.EmailExperience.AnalyticsProcessing.config" />
     <Content Include="App_Config\Include\EmailExperience\Sitecore.EmailExperience.ContentDelivery.config" />
     <Content Include="App_Config\Include\EmailExperience\Sitecore.EmailExperience.ContentManagement.config" />
-    <Content Include="App_Config\Include\EmailExperience\Sitecore.EmailExperience.ContentManagementPrimary.config">
-      <SubType>Designer</SubType>
-    </Content>
     <Content Include="App_Config\Include\EmailExperience\Sitecore.EmailExperience.Core.config">
       <SubType>Designer</SubType>
     </Content>
