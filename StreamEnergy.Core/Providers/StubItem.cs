@@ -14,7 +14,7 @@ namespace StreamEnergy.Providers
 
         private Language originalLanguage;
 
-        public Language OriginalLanguage
+        public new Language OriginalLanguage
         {
             get
             {

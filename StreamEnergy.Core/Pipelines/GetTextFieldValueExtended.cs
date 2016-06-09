@@ -14,7 +14,7 @@ namespace StreamEnergy.Pipelines.RenderField
         private static ISettings settings = StreamEnergy.Unity.Container.Instance.Resolve<ISettings>();
         public void Process(RenderFieldArgs args)
         {
-            if (!Sitecore.Context.PageMode.IsPageEditor && args.Result != null && !string.IsNullOrEmpty(args.Result.FirstPart))
+            if (!Sitecore.Context.PageMode.IsExperienceEditor && args.Result != null && !string.IsNullOrEmpty(args.Result.FirstPart))
             {
                 foreach (var domain in settings.GetDomainTranslations())
                 {
