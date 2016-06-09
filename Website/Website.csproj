@@ -1403,7 +1403,6 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="App_Config\Include\Sitecore.Analytics.Tracking.RobotDetection.config" />
-    <Content Include="App_Config\Include\Sitecore.Apps.TagInjection.config" />
     <Content Include="App_Config\Include\Channel\Sitecore.Analytics.Channel.config" />
     <Content Include="App_Config\Include\ContentTesting\Sitecore.ContentTesting.config" />
     <Content Include="App_Config\Include\ContentTesting\Sitecore.ContentTesting.Intelligence.config" />
