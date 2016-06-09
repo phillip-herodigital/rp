@@ -1,0 +1,19 @@
+﻿@model Sitecore.Speak.Components.Models.Common.DatePickers.DatePickerRenderingModel
+@{
+  Model.Class.Append("sc-datepicker");
+  
+  Model.DataBind.Value("FormattedDate").IsVisible().IsEnabled().Bind("readonly", "IsReadOnly");
+  if (Model.ViewMode == "Textbox")
+  {
+    Model.Class.Append("form-control");
+  }
+}
+
+@if (Model.ViewMode == "Textbox")
+{
+  <input @Model.HtmlAttributes type="text"/>
+}
+else
+{
+  <div @Model.HtmlAttributes></div>
+}

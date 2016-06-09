@@ -1,5 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" ClassName="Sitecore.Modules.EmailCampaign.UI.DispatchSummaryPage"
-    Inherits="Sitecore.Modules.EmailCampaign.UI.DispatchSummary" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="DispatchSummary.aspx.cs" Inherits="Sitecore.EmailCampaign.Cm.UI.sitecore.admin.DispatchSummary" %>
 
 <%@ Import Namespace="Sitecore.Globalization" %>
 <%@ Import Namespace="Sitecore.Modules.EmailCampaign.Core" %>
@@ -134,7 +133,7 @@
     </table>
     <br />
     <div style="height: 800px; overflow: auto;">
-        <asp:gridview id="GridView1" runat="server" autogeneratecolumns="False" enablemodelvalidation="True"
+        <asp:GridView id="GridView1" runat="server" autogeneratecolumns="False" enablemodelvalidation="True"
             showheader="False" width="100%" border="0">
             <columns>
             <asp:TemplateField>
@@ -271,8 +270,8 @@
             </ItemTemplate>
 
             </asp:TemplateField>
-        </columns>
-        </asp:gridview>
+        </Columns>
+        </asp:GridView>
     </div>
     </form>
 </body>

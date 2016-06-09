@@ -26,7 +26,23 @@ function stopTimer() {
   scTimerStopped = true;
 }
 
+function startInit() {
+  var initFn = function () {
+    scForm.postRequest("", "", "", "SheerInit");
+  };
+
+  // Wait for the modal dialog host to complete loading
+  var jqueryModalDialogsFrame = top.document.getElementById("jqueryModalDialogsFrame");
+  if (jqueryModalDialogsFrame && jqueryModalDialogsFrame.contentWindow && !jqueryModalDialogsFrame.contentWindow.showModalDialog) {
+    scForm.browser.attachEvent(jqueryModalDialogsFrame.contentWindow, "onload", function () {
+      initFn();
+    });
+  } else {
+    initFn();
+  }
+}
+
 Event.observe(window, "load", function() {
   startTimer();
-  scForm.postRequest("", "", "", "SheerInit");
+  startInit();
 });

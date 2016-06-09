@@ -11,7 +11,7 @@
       { name: "actionUrl", defaultValue: "/sitecore/shell/api/ct/Reach/GetReachValue" },
       { name: "actionUrlForTestValue", defaultValue: "/sitecore/shell/api/ct/Reach/GetReachByTestValue" },
       { name: "value", defaultValue: 0 },
-      { name: "rate", defaultValue: 0 },
+      { name: "rate", defaultValue: 0 }
     ],
 
     initialize: function () {
@@ -20,7 +20,7 @@
 
     extendModel: {
       _setData: function (data) {
-        if (data[0]) {
+        if (data && data[0]) {
           var item = data[0];
           this.set({
             value: parseInt(item.Value, 10),

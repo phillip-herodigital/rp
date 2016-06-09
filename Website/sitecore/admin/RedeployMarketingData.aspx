@@ -16,10 +16,17 @@
 <%@ Import Namespace="Sitecore.Sites" %>
 <%@ Import Namespace="Sitecore" %>
 <%@ Import Namespace="Sitecore.Data.Fields" %>
+<%@ Import Namespace="Sitecore.Analytics.Configuration" %>
+<%@ Import Namespace="Sitecore.Xdb.Configuration" %>
+<%@ Import Namespace="Sitecore.PathAnalyzer.Data.Maps" %>
+<%@ Import Namespace="Sitecore.PathAnalyzer.Data.Models" %>
+<%@ Import Namespace="Sitecore.Configuration" %>
+<%@ Import Namespace="Sitecore.Common" %>
 
 <script runat="server">
 
-    private const string DisabledAnalytics = "Error: Experience Analytics is disabled. In the Sitecore.Analytics.config file, set the Analytics.Enabled setting to <i>true</i>. <br />";
+    private readonly Database MasterDatabase = Factory.GetDatabase("master");
+    private const string DisabledAnalytics = "Error: xDB is disabled. In the Sitecore.Xdb.config file, set the Xdb.Enabled setting to <i>true</i>. <br />";
     private const string NoSiteContext = "Error: The context website is not available. <br />";
     private const string NoSegmentDefinitionService = "Error: The SegmentDefinitionService object is not available. <br />";
     private const string NoSegmentRepository = "Error: The SegmentRepository object is not available. <br />";
@@ -52,7 +59,7 @@
         {
             return;
         }
-        
+
         if (Sitecore.Context.Site == null)
         {
             Response.Write(NoSiteContext);
@@ -65,7 +72,7 @@
         {
             reportDataCache.Clear();
         }
-        
+
         if (Sitecore.Context.Site.EnableWorkflow)
         {
             if (Request.Form["RedeployMaps"] == null)
@@ -105,13 +112,13 @@
     {
         pnlResults.Visible = true;
 
-        if (!Sitecore.Configuration.Settings.Analytics.Enabled)
+        if (!XdbSettings.Enabled)
         {
             Response.Write(DisabledAnalytics);
             return;
         }
 
-        if (Config.MasterDatabase.WorkflowProvider == null)
+        if (MasterDatabase.WorkflowProvider == null)
         {
             Response.Write(NoWorkflowProvider);
             return;
@@ -138,28 +145,28 @@
 
         int processedSegments = 0;
         int skippedSegments = 0;
-        
+
         foreach (var segment in segmentsToDeploy)
         {
-            Item item = Config.MasterDatabase.GetItem(Sitecore.Data.ID.Parse(segment.Id));
+            Item item = MasterDatabase.GetItem(Sitecore.Data.ID.Parse(segment.Id));
             if (item == null)
             {
                 Response.Write(string.Format(WorkflowStateNotChangedFormat, segment.Title, segment.Id.ToString()));
                 Response.Write(string.Format(NoItemFormat, segment.Title, segment.Id.ToString()));
                 Response.Flush();
                 skippedSegments++;
-                
+
                 continue;
             }
 
-            IWorkflow workflow = Config.MasterDatabase.WorkflowProvider.GetWorkflow(item);
+            IWorkflow workflow = MasterDatabase.WorkflowProvider.GetWorkflow(item);
             if (workflow == null)
             {
                 Response.Write(string.Format(WorkflowStateNotChangedFormat, item.Name, item.ID.ToString()));
                 Response.Write(string.Format(NoWorkflowFormat, item.Name, item.ID.ToString()));
                 Response.Flush();
                 skippedSegments++;
-                
+
                 continue;
             }
 
@@ -170,7 +177,7 @@
                 Response.Write(string.Format(NoWorkflowStateFormat, item.Name, item.ID.ToString()));
                 Response.Flush();
                 skippedSegments++;
-                
+
                 continue;
             }
 
@@ -188,7 +195,7 @@
                 Response.Write(string.Format(IncorrectWorkflowStateFormat, item.Name, item.ID.ToString()));
                 Response.Flush();
                 skippedSegments++;
-                
+
                 continue;
             }
 
@@ -196,10 +203,10 @@
 
             Response.Write(string.Format(SegmentDeployedFormat, item.Name, item.ID.ToString()));
             Response.Flush();
-            
+
             processedSegments++;
         }
-        
+
         Response.Write(string.Format(DeployFinished, processedSegments, skippedSegments));
     }
 
@@ -213,7 +220,7 @@
     private const string MapWorkflowStateNotChangedFormat = "The {0} ({1}) map has not been moved to a different workflow state. <br />";
     private const string MapDeployedFormat = "Deployed: The {0} ({1}) map has been deployed. <br /><br />";
     private const string MapDeployFinishedFormat = "<b> Finished: {0} maps have been deployed sucessfully. {1} maps have been skipped. </b>";
-    
+
     /// <summary>
     /// Deploys default maps
     /// </summary>
@@ -221,40 +228,39 @@
     {
         pnlResults.Visible = true;
 
-        var mapRepository = Sitecore.PathAnalyzer.ApplicationContainer.GetMapRepository();
-
+        var mapRepository = Sitecore.PathAnalyzer.ApplicationContainer.GetMapItemRepository();
         if (mapRepository == null)
         {
             Response.Write(NoMapRepository);
             return;
         }
-        
-        var treeDefsService = Sitecore.PathAnalyzer.ApplicationContainer.GetDefinitionService();
 
+        var treeDefsService = Sitecore.PathAnalyzer.ApplicationContainer.GetDefinitionService();
         if (treeDefsService == null)
         {
             Response.Write(NoTreeDefinitionService);
             return;
         }
 
-        IEnumerable<Item> mapItems = mapRepository.GetAllMapItems();
+        List<Guid> mapsInRepo = mapRepository.GetAll().Select(m => m.ID.Guid).ToList();
 
-        if (mapItems == null)
+        if (!mapsInRepo.Any())
         {
             Response.Write(NoMapDefinitionItems);
             return;
         }
 
-        var mapsInDb = treeDefsService.GetAllDefinitions() ?? new List<Sitecore.PathAnalyzer.Data.Models.TreeDefinition>();
+        List<Guid> mapsInRDb = treeDefsService.GetAllDefinitions().Select(d => d.Id).ToList();
 
         int processedMaps = 0;
         int skippedMaps = 0;
 
-        mapItems = mapItems.Where(map => !mapsInDb.Any(dbMap => dbMap.Id == map.ID.Guid));
+        var mapIdsToDeploy = mapsInRepo.Where(repoMapId => !mapsInRDb.Any(dbMapId => dbMapId == repoMapId));
 
-        foreach (Item mapItem in mapItems)
+        foreach (var mapId in mapIdsToDeploy)
         {
-            IWorkflow workflow = Config.MasterDatabase.WorkflowProvider.GetWorkflow(mapItem);
+            var mapItem = MasterDatabase.GetItem(mapId.ToID());
+            IWorkflow workflow = MasterDatabase.WorkflowProvider.GetWorkflow(mapItem);
             if (workflow == null)
             {
                 Response.Write(string.Format(MapWorkflowStateNotChangedFormat, mapItem.Name, mapItem.ID.ToString()));
@@ -293,16 +299,16 @@
                 skippedMaps++;
                 continue;
             }
-            
+
             workflow.Execute(Sitecore.PathAnalyzer.Constants.WorkflowIDs.DeployCommand, mapItem, string.Empty, false);
-            
+
             Response.Write(string.Format(MapDeployedFormat, mapItem.Name, mapItem.ID.ToString()));
             Response.Flush();
-            
+
             processedMaps++;
         }
-        
-         Response.Write(string.Format(MapDeployFinishedFormat, processedMaps, skippedMaps));
+
+        Response.Write(string.Format(MapDeployFinishedFormat, processedMaps, skippedMaps));
     }
 
     /// <summary>
@@ -349,7 +355,7 @@
                 Note: Only segments that are in the <i>Deployed</i> workflow state and that do not have any data in the <i>Analytics</i> database will be redeployed.
             </p>
             <p>
-                <input type="submit" name="RedeploySegments" value="Redeploy segments"/>
+                <input type="submit" name="RedeploySegments" value="Redeploy segments" />
             </p>
 
             <br />
@@ -365,9 +371,9 @@
                 Note: Only maps that are in the <i>Deployed</i> workflow state and that do not have any data in the <i>Analytics</i> database will be redeployed.
             </p>
             <p>
-                <input type="submit" name="RedeployMaps" value="Redeploy maps"/>
+                <input type="submit" name="RedeployMaps" value="Redeploy maps" />
             </p>
-  
+
             <asp:Panel ID="pnlResults" runat="server">
                 <div class="wf-configsection">
                     <h2><span>Result</span></h2>

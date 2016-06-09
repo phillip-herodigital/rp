@@ -23,7 +23,7 @@
     getTestDependencies: function () {
       var ajaxOptions = {
         cache: false,
-        url: "/sitecore/shell/api/ct/CreateTestDialog/GetTestDependencies?uri=" + this.get("itemuri"),
+        url: "/sitecore/shell/api/ct/CreateTestDialog/GetTestDependencies?datauri=" + this.get("itemuri"),
         context: this,
         success: function (data) {
           this.set("dependencies", data);

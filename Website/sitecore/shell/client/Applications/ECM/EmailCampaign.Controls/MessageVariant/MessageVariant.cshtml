@@ -13,8 +13,6 @@
   rendering.Class = "sc-MessageVariant";
 }
 
-@RenderMessageVariant(rendering)
-
 @helper RenderMessageVariant(UserControl rendering)
 {
   RenderingHelper helper = new RenderingHelper(this.Html, rendering.ControlId);
@@ -62,6 +60,8 @@
     "",
     ".Body");
 }
+
+@RenderMessageVariant(rendering)
 
 <div @rendering.HtmlAttributes data-sc-hasnested="true">
   @(this.Html.Sitecore().Controls().Rendering(this.Html, Bcl.AdvancedExpander, rendering.ControlId + "AdvancedExpander", DataSources.AdvancedExpander))

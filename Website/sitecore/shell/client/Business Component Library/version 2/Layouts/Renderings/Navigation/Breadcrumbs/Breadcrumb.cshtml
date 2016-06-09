@@ -1,0 +1,14 @@
+﻿@model Sitecore.Speak.Components.Models.Navigation.Breadcrumbs.BreadcrumbRenderingModel
+@{
+  Model.Class.Append("sc-breadcrumb"); 
+}
+<div @Model.HtmlAttributes>
+  <ul>
+        @foreach (var item in Model.BreadCrumbItems)
+    {
+          <li class="@Model.IsSelected(item)">
+            <a href="@Model.GetLink(item)">@item.DisplayName</a>
+          </li>
+    }
+  </ul>
+</div>

@@ -8,11 +8,11 @@
 
         <Border Click="$Click" GridPanel.Valign="top">
           <input type="hidden" name="$HiddenID" value="$CheckValue"/>
-          <ThemedImage Src="$Icon" Width="24" Height="24" Margin="0 10px"/>
+          <ThemedImage Src="$Icon" Width="32" Height="32" Margin="0 10px"/>
         </Border>
         
         <Border Cursor="default" GridPanel.Width="100%" GridPanel.Valign="top" Class="scWorkBoxData">
-          <Border Class="scRollOver" RollOver="true" Click="$Click">
+          <Border Class="scRollOver" Margin="0 0 5px 0" RollOver="true" Click="$Click">
             <Literal Class="scClickFont" Style="font-size:14px; font-weight:bold" Text="$Header"/>
             <Literal Text="$Details"/>
           </Border>

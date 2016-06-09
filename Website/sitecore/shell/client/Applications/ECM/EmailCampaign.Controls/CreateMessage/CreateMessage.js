@@ -6,7 +6,8 @@
     attributes: [
       { name: "dataSourceValue", defaultValue: null },
       { name: "messageType", value: "$el.data:sc-messagetype" },
-      { name: "noContentMessage", value: "$el.data:sc-emptycontentmessage" }
+      { name: "noContentMessage", value: "$el.data:sc-emptycontentmessage" },
+      { name: "itemNameValidation", value: "$el.data:sc-itemnamevalidation" }
     ],
     events:
     {
@@ -48,10 +49,10 @@
 
       this.app.BrowseNameLabel.set("isVisible", true);
       this.app.BrowseTextBox.set("isVisible", true);
-
-
+      
       this.app.UploaderInfo.set("isVisible", false);
       this.app.Uploader.set("isVisible", false);
+      this.app.ImportNameTextBox.viewModel.focus();
 
       $("[data-sc-id=UploaderRowPanel]").hide();
       $("[data-sc-id=UploaderSpaceBorder]").hide();
@@ -71,15 +72,12 @@
      
       this.app.UploaderInfo.set("isVisible", false);
       this.app.Uploader.set("isVisible", false);
-
-      var nameTextBoxViewModel = this.app.NameTextBox.viewModel;
-      nameTextBoxViewModel.focus();
+      this.app.NameTextBox.viewModel.focus();
 
       $("[data-sc-id=UploaderRowPanel]").hide();
       $("[data-sc-id=UploaderSpaceBorder]").hide();
       this.setActiveOption(event);
     },
-
 
     onClickimporthtml: function (event) {
       this.app.NameLabel.set("isVisible", false);
@@ -90,6 +88,7 @@
 
       this.app.BrowseNameLabel.set("isVisible", false);
       this.app.BrowseTextBox.set("isVisible", false);
+      this.app.ImportNameTextBox.viewModel.focus();
 
       $("[data-sc-id=UploaderRowPanel]").show();
       $("[data-sc-id=UploaderSpaceBorder]").show();
@@ -203,7 +202,7 @@
     },
 
     renderCreateOptionsFolder: function (option, parentSectionIndex, rootDiv, contextApp) {
-      var htmlToAppend = "<div class='sc-createmessage-section row-fluid  sc-show-padding " + option.sectionIndex + "' style='display: none'><h3><span title='back' class='sc-goback' data-sc-messageparameters='" + parentSectionIndex + "'><img src='/~/media/A0C408E4BBBF42CFAD87683F4DB2E494.ashx?sc_database=core' alt='Back' style='cursor: pointer'/></span> " + option.name + "</h3>";
+      var htmlToAppend = "<div class='sc-createmessage-section row-fluid  sc-show-padding " + option.sectionIndex + "' style='display: none'><h3><span title='back' class='sc-goback' data-sc-messageparameters='" + parentSectionIndex + "'><img src='/-/media/A0C408E4BBBF42CFAD87683F4DB2E494.ashx?sc_database=core' alt='Back' /></span> " + option.name + "</h3>";
 	    _.each(option.children, function(child) {
 	        htmlToAppend += contextApp.renderCreateOption(child, parentSectionIndex, rootDiv, contextApp);
 	    });
@@ -220,25 +219,26 @@
         } else {
             switch (option.CreateType) {
                 case 1:
-                    htmlToAppend += "<div title='" + option.name + "' class='sc-createmessage-item sc-createmessage-option sc-createmessage-existingpage' data-sc-messageparameters='" + option.parameters + "' data-sc-messageurl='" + option.url + "'>";
+                    htmlToAppend += "<div class='sc-createmessage-item sc-createmessage-option sc-createmessage-existingpage' data-sc-messageparameters='" + option.parameters + "' data-sc-messageurl='" + option.url + "'>";
                     break;
                 case 2:
-                    htmlToAppend += "<div title='" + option.name + "' class='sc-createmessage-item sc-createmessage-option sc-createmessage-existingtemplate' data-sc-messageparameters='" + option.parameters + "' data-sc-messageurl='" + option.url + "'>";
+                    htmlToAppend += "<div class='sc-createmessage-item sc-createmessage-option sc-createmessage-existingtemplate' data-sc-messageparameters='" + option.parameters + "' data-sc-messageurl='" + option.url + "'>";
                     break;
                 case 3:
-                    htmlToAppend += "<div title='" + option.name + "' class='sc-createmessage-item sc-createmessage-option sc-createmessage-importdesigner' data-sc-messageparameters='" + option.parameters + "' data-sc-messageurl='" + option.url + "'>";
+                    htmlToAppend += "<div class='sc-createmessage-item sc-createmessage-option sc-createmessage-importdesigner' data-sc-messageparameters='" + option.parameters + "' data-sc-messageurl='" + option.url + "'>";
                     break;
                 case 4:
-                    htmlToAppend += "<div title='" + option.name + "' class='sc-createmessage-item sc-createmessage-option sc-createmessage-importhtml' data-sc-messageparameters='" + option.parameters + "' data-sc-messageurl='" + option.url + "'>";
+                    htmlToAppend += "<div class='sc-createmessage-item sc-createmessage-option sc-createmessage-importhtml' data-sc-messageparameters='" + option.parameters + "' data-sc-messageurl='" + option.url + "'>";
                     break;
                 default:
-                    htmlToAppend += "<div title='" + option.name + "' class='sc-createmessage-item sc-createmessage-option' data-sc-messageparameters='" + option.parameters + "' data-sc-messageurl='" + option.url + "'>";
+                    htmlToAppend += "<div class='sc-createmessage-item sc-createmessage-option' data-sc-messageparameters='" + option.parameters + "' data-sc-messageurl='" + option.url + "'>";
                     break;
             }
         }
 
         htmlToAppend += "<div class='icon'>";
-        htmlToAppend += "<img src='" + option.iconUrl.replace("bc=White", "bc=Transparent") + "' alt='" + option.name + "'>";
+        // image url attributes replaced in JS because of problems with Sitecore cache system 
+        htmlToAppend += "<img src='" + option.iconUrl.replace("bc=White", "bc=Transparent").replace("thn=1", "thn=0") + "' alt='" + option.name + "'>";
         htmlToAppend += "</div>";
         htmlToAppend += "<div class='name'>" + option.name + "</div>";
         htmlToAppend += "</div>";

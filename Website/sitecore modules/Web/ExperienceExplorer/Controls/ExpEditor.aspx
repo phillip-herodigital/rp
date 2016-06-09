@@ -257,7 +257,7 @@
             {{include tmpl="#HeaderTmpl"/}}
             
             <div class="geo-ip">
-                <p><a id="link_testgeo" class="link_testgeo" href="#GeoResult">{{:itemData.GeoTestMaxmind}}</a></p>
+                <p><a id="link_testgeo" class="link_testgeo" href="#GeoResult">{{:itemData.GeoIpServiceTest}}</a></p>
                 <div class="test-result" id="GeoResult"></div>
 
                 {{for itemData}}
@@ -277,7 +277,7 @@
                                 <label for="GeoLatitude">{{:Latitude}}</label>
                                 <input type="text" class="form-control sc-textbox input-large input-shallow" id="GeoLatitude" value="{{:Source.Latitude}}" />
 
-                                <label for="GeoLongitude">{{:Longtitude}}</label>
+                                <label for="GeoLongitude">{{:Longitude}}</label>
                                 <input type="text" class="form-control sc-textbox input-large input-shallow" id="GeoLongitude" value="{{:Source.Longitude}}" />
                             </div>
                             <div id="CountryArea" class="geo-ip-data collpase-geo">

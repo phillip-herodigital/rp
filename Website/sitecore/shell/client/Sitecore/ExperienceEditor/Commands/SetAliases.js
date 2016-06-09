@@ -1,4 +1,4 @@
-﻿define(["sitecore"], function (Sitecore) {
+﻿define(["sitecore", "/-/speak/v1/ExperienceEditor/ExperienceEditor.js"], function (Sitecore, ExperienceEditor) {
   Sitecore.Commands.SetAliases =
   {
     canExecute: function (context) {
@@ -12,7 +12,7 @@
       dialogUrl += "&la=" + context.currentContext.language;
       dialogUrl += "&vs=" + context.currentContext.version;
 
-      Sitecore.ExperienceEditor.Dialogs.showModalDialog(dialogUrl, "", dialogFeatures, null);
+      ExperienceEditor.Dialogs.showModalDialog(dialogUrl, "", dialogFeatures, null);
     }
   };
 });

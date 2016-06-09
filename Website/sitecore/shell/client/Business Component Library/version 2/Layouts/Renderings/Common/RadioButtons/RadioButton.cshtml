@@ -1,0 +1,10 @@
+﻿@using Sitecore.Globalization
+@model Sitecore.Speak.Components.Models.Common.RadioButtons.RadioButtonRenderingModel
+@{
+  Model.Class.Append("sc-radio");
+  Model.DataBind.IsVisible();
+}
+<label @Model.HtmlAttributes>
+  <input class="sc-radiobutton-input" @Model.GetAttributeName() data-bind="enable: IsEnabled, checked: IsChecked, value:Value" value="@Model.Value" type="radio">
+  <span class="sc-radiobutton-label" data-bind="text: Text">@Translate.Text(@Model.Text)</span>
+</label>

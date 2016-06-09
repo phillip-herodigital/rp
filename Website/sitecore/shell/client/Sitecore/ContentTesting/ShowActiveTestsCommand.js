@@ -1,10 +1,10 @@
 ﻿require.config({
   paths: {
-    "loadingImage": "/sitecore/shell/client/Sitecore/ContentTesting/LoadingImage"
+    loadingImage: "/sitecore/shell/client/Sitecore/ContentTesting/LoadingImage"
   }
 });
 
-define(["sitecore", "loadingImage"], function (Sitecore, loadingImage) {
+define(["sitecore", "loadingImage", "/-/speak/v1/ExperienceEditor/ExperienceEditor.js"], function (Sitecore, loadingImage, ExperienceEditor) {
   Sitecore.Commands.ActiveTests =
   {
     canExecute: function (context) {
@@ -26,7 +26,7 @@ define(["sitecore", "loadingImage"], function (Sitecore, loadingImage) {
     execute: function (context) {
       var dialogPath = "/sitecore/client/Applications/ContentTesting/Pages/ActiveTests";
       var dialogFeatures = "dialogHeight: 600px;dialogWidth: 500px;";
-      Sitecore.ExperienceEditor.Dialogs.showModalDialog(dialogPath, '', dialogFeatures, null, function (result) {
+      ExperienceEditor.Dialogs.showModalDialog(dialogPath, '', dialogFeatures, null, function (result) {
         if (!result) {
           return;
         }

@@ -1,0 +1,7 @@
+﻿@model Sitecore.Speak.Components.Models.Charts.ChartBaseRenderingModel
+@{
+  Model.Class.Append("sc-FusionChartsRadarChart");
+  Model.DataBind.IsVisible();
+}
+<div @Model.HtmlAttributes style="@Model.Style"></div>
+@*@this.Html.Sitecore().Controls().ProgressIndicator(Model.ControlId + "ProgressIndicator", false, new { TargetControl = Model.ControlId })*@

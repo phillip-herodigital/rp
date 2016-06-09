@@ -1,8 +1,9 @@
 ﻿define([
   "sitecore",
   "/-/speak/v1/contenttesting/DataUtil.js",
-  "/-/speak/v1/contenttesting/RequestUtil.js"
-], function (Sitecore, dataUtil, requestUtil) {
+  "/-/speak/v1/contenttesting/RequestUtil.js",
+  "/-/speak/v1/ExperienceEditor/ExperienceEditorProxy.js"
+], function (Sitecore, dataUtil, requestUtil, PageEditorProxy) {
   var model = Sitecore.Definitions.Models.ControlModel.extend({
     initialize: function (options) {
       this._super();
@@ -16,20 +17,22 @@
         return;
 
       var app = this;
-      var deviceId = window.top.ExperienceEditor.PageEditorProxy.deviceId();
+      var deviceId = PageEditorProxy.deviceId();
       var ruleId = this.get("ruleId");
       var ruleSetId = this.get("ruleSetId");
       var uri = dataUtil.composeUri(this);
       var ajaxOptions = {
         cache: false,
-        url: "/sitecore/shell/api/ct/PersonalizationRule/GetPersonalizationCondition?" +
-          "itemuri=" + encodeURIComponent(uri) +
+        url: "/sitecore/shell/api/ct/Personalization/GetRuleData?" +
+          "itemDataUri=" + encodeURIComponent(uri) +
           "&ruleSetId=" + ruleSetId +
           "&ruleId=" + ruleId +
           "&deviceId=" + deviceId,
         context: this,
         success: function(data) {
           app.set({ "conditions": data.Conditions });
+          app.set({ "ruleOrigin": data.RuleOrigin });
+          app.set({ "isInCurrentTest": data.IsInCurrentTest });
         }
       };
 

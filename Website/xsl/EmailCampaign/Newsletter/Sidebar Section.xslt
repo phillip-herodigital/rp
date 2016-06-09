@@ -21,8 +21,8 @@
 
   <xsl:variable name="linkTid" select="'{4DF80BE6-AE83-40E4-81B4-480F7B60AE15}'"/>
 
-  <xsl:variable name="bg" select="'~/media/Images/Newsletter/Common/bg_side.ashx'" />
-  <xsl:variable name="blue" select="'~/media/Images/Newsletter/Common/blue.ashx'" />
+  <xsl:variable name="bg" select="'-/media/Images/Newsletter/Common/bg_side.ashx'" />
+  <xsl:variable name="blue" select="'-/media/Images/Newsletter/Common/blue.ashx'" />
 
   <xsl:variable name="colorBlue" select="'#517ACC'" />
 
@@ -36,7 +36,7 @@
       <tr valign="top">
         <!--<xsl:choose>
         <xsl:when test="position()=1">
-          <td width="3"><img height="3" width="3" border="0" style="border-color: transparent; display: block;" alt="" src="~/media/Images/Newsletter/Common/blue_left.ashx" /></td>
+          <td width="3"><img height="3" width="3" border="0" style="border-color: transparent; display: block;" alt="" src="-/media/Images/Newsletter/Common/blue_left.ashx" /></td>
         </xsl:when>
         <xsl:otherwise>-->
         <td width="3">
@@ -47,7 +47,7 @@
 
         <td colspan="3" bgcolor="{$colorBlue}" style="font-size: 1px;">&#32;</td>
         <td width="3">
-          <img height="3" width="3" border="0" style="border-color: transparent; display: block;" alt="" src="~/media/Images/Newsletter/Common/blue_right.ashx" />
+          <img height="3" width="3" border="0" style="border-color: transparent; display: block;" alt="" src="-/media/Images/Newsletter/Common/blue_right.ashx" />
         </td>
       </tr>
 
@@ -86,7 +86,7 @@
               <xsl:if test="position()>1">
                 <tr>
                   <td colspan="2">
-                    <img height="2" width="169" border="0" style="border-color: transparent; display: block;" alt="" src="~/media/Images/Newsletter/Common/split_hor.ashx" />
+                    <img height="2" width="169" border="0" style="border-color: transparent; display: block;" alt="" src="-/media/Images/Newsletter/Common/split_hor.ashx" />
                   </td>
                 </tr>
               </xsl:if>
@@ -97,7 +97,7 @@
               </tr>
               <tr valign="top">
                 <td width="10" nowrap="nowrap">
-                  <img height="5" width="5" border="0" style="border-color: transparent;" alt="" src="~/media/Images/Newsletter/Common/bullet_blue.ashx" />
+                  <img height="5" width="5" border="0" style="border-color: transparent;" alt="" src="-/media/Images/Newsletter/Common/bullet_blue.ashx" />
                   <img height="9" width="2" border="0" style="border-color: transparent;" alt="" src="{$bg}" />
                 </td>
                 <td width="160">

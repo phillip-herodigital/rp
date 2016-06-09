@@ -1,115 +1,119 @@
-﻿define(["sitecore"],
-  function (sitecore) {
-  return sitecore.Definitions.App.extend({
-    variantContextObj: null,
+﻿define([
+        "sitecore",
+        "/-/speak/v1/ExperienceEditor/ExperienceEditor.js",
+        "/-/speak/v1/ecm/DialogBase.js"
+    ],
+    function(
+        sitecore,
+        experienceEditor,
+        DialogBase
+    ) {
+        return DialogBase.extend({
+            variantContextObj: null,
+            initialized: function() {
+                this._super();
+                this.bindToWebEditRibbonLoaded();
+                this.on({
+                    "experience:editor:context:loaded": this.onWebEditRibbonLoaded
+                }, this);
+            },
 
-    initialized: function () {
-      this.bindToWebEditRibbonLoaded();
-      this.attachEventHandlers();
-    },
+            showDialog: function(options) {
+                this.experienceEditorContext = null;
+                if (!options.data.variant && options.data.variant.readonly) {
+                    return;
+                }
+                this._super(options);
+                this.updateFrame();
+            },
 
-    attachEventHandlers: function() {
-      sitecore.on("message:variant:content:editor:dialog:show", function (variantContext, hideCallback) {
-        this.experienceEditorContext = null;
-          this.onDialogShow(variantContext, hideCallback);
-      }, this);
+            updateFrame: function() {
+                this.Frame.set("sourceUrl", this.options.data.variant.urlToEdit);
+            },
 
-      this.on({
-        "message:variant:content:editor:dialog:ok": this.onDialogOk,
-        "message:variant:content:editor:dialog:cancel": this.onDialogCancel,
-        "experience:editor:context:loaded": function (experienceEditorContext) {
-          this.experienceEditorContext = experienceEditorContext;
-          this.setExperienceEditorEditMode();
-        }
-      }, this);
+            onWebEditRibbonLoaded: function(experienceEditor) {
+                this.experienceEditor = experienceEditor;
+                this.experienceEditorContext = experienceEditor.Context;
+            },
 
-      this.DialogWindow.viewModel.$el.on("hide", _.bind(function () {
-        if (typeof this.hideCallback === "function") {
-          this.hideCallback();
-        }
-      }, this));
-    },
+            bindToWebEditRibbonLoaded: function() {
+                this.Frame.viewModel.$el.off('load.messageVariantsContentEditorDialog');
+                this.Frame.viewModel.$el.on('load.messageVariantsContentEditorDialog', _.bind(function() {
+                    var webRibbon = this.Frame.viewModel.$el.contents()
+                        .find('#scWebEditRibbon');
 
-    bindToWebEditRibbonLoaded: function() {
-      this.Frame.viewModel.$el.off('load.messageVariantsContentEditorDialog');
-      this.Frame.viewModel.$el.on('load.messageVariantsContentEditorDialog', _.bind(function () {
-        var webRibbon = this.Frame.viewModel.$el.contents()
-          .find('#scWebEditRibbon');
+                    if (webRibbon.length) {
+                        // Need to wait while Sitecore object will be initialized inside webRibbon iframe.
+                        // It doesn't trigger any events when initialized, so setInterval is used here.
+                        var loadRibbonInterval = setInterval(_.bind(function() {
+                            if (sitecore && sitecore.ExperienceEditor) {
+                                this.trigger("experience:editor:context:loaded", sitecore.ExperienceEditor);
+                                clearInterval(loadRibbonInterval);
+                            }
+                        }, this), 1000);
+                    }
+                }, this));
+            },
 
-        if (webRibbon.length) {
-          // Need to wait while Sitecore object will be initialized inside webRibbon iframe.
-          // It doesn't trigger any events when initialized, so setInterval is used here.
-          var loadRibbonInterval = setInterval(_.bind(function () {
-            var webRiddonSitecore = webRibbon.get(0).contentWindow.Sitecore;
-            if (webRiddonSitecore && webRiddonSitecore.ExperienceEditor) {
-              this.trigger("experience:editor:context:loaded", webRibbon.get(0).contentWindow.Sitecore.ExperienceEditor);
-              clearInterval(loadRibbonInterval);
+            disableEditMode: function() {
+                this.Frame.set('sourceUrl', '');
+                document.cookie = 'website#sc_mode=normal;path=/';
+            },
+
+            getExperienceEditor: function() {
+                return window.top.ExperienceEditor;
+            },
+
+            getExperienceEditorContext: function() {
+                return window.top && window.top.ExperienceEditor ?
+                    this.getExperienceEditor().getContext() :
+                    false;
+            },
+
+            ok: function() {
+                this.experienceEditorContext = this.getExperienceEditorContext();
+                if (this.experienceEditorContext && this.experienceEditorContext.isModified) {
+                    this.experienceEditorContext.instance.disableRedirection = true;
+                    this.experienceEditorContext.instance.executeCommand("Save");
+
+                    this.experienceEditor = this.getExperienceEditor();
+
+                    // wait for content saving
+                    this.experienceEditor.Common.addOneTimeEvent(_.bind(function() {
+                        return this.experienceEditorContext.isContentSaved;
+                    }, this), _.bind(function() {
+                        this.options.on.ok();
+                        this.hideDialog();
+                        this.resetDefaults();
+                    }, this), 100, this);
+                } else {
+                    this._super();
+                }
+            },
+
+            cancel: function() {
+                this.experienceEditorContext = this.getExperienceEditorContext();
+                if (this.experienceEditorContext) {
+                    this.getExperienceEditor().modifiedHandling(true, _.bind(function(isOkButtonPressed) {
+                        if (!isOkButtonPressed) {
+                            this.experienceEditorContext.isModified = false;
+                        }
+                        this._super();
+                    }, this));
+                } else {
+                    this._super();
+                }
+            },
+
+            complete: function() {
+                this._super();
+                this.disableEditMode();
+            },
+
+            saveMessage: function() {
+                var args = { Verified: false };
+                sitecore.trigger("message:save", args);
+                return args.Verified;
             }
-          }, this), 1000);
-        }
-      }, this));
-    },
-
-    disableEditMode: function () {
-      this.Frame.set('sourceUrl', '');
-      document.cookie = 'website#sc_mode=normal;path=/';
-    },
-
-    onDialogShow: function (variant, hideCallback) {
-      if (!variant && variant.readOnly && !this.saveMessage()) {
-        return;
-      }
-
-      this.hideCallback = hideCallback;
-
-      var urlToEdit = variant.urlToEdit;
-      if (urlToEdit) {
-        this.Frame.set("sourceUrl", urlToEdit);
-        this.DialogWindow.show();
-      }
-    },
-
-    onDialogOk: function () {
-      if (this.experienceEditorContext && this.experienceEditorContext.isModified) {
-        this.experienceEditorContext.instance.disableRedirection = true;
-        this.experienceEditorContext.CommandsUtil.runCommandExecute("Save", this.experienceEditorContext.instance);
-
-        // wait for content saving
-        this.experienceEditorContext.Common.addOneTimeEvent(_.bind(function () {
-          return this.experienceEditorContext.isContentSaved;
-        }, this), _.bind(function () {
-          this.DialogWindow.hide();
-          this.disableEditMode();
-        }, this), 100, this);
-      } else {
-        this.DialogWindow.hide();
-        this.disableEditMode();
-      }
-    },
-
-    onDialogCancel: function () {
-      if (this.experienceEditorContext) {
-        this.experienceEditorContext.modifiedHandling(true, _.bind(function (isOkButtonPressed) {
-          if (!isOkButtonPressed) {
-            this.experienceEditorContext.isModified = false;
-          }
-          this.DialogWindow.hide();
-          this.disableEditMode();
-        }, this));
-      }
-    },
-
-    //Todo: This is the workaround to set the Experience Editor to edit mode. Remove it in Sitecore 8.o update 1. 
-    setExperienceEditorEditMode: function () {
-      if (this.experienceEditorContext) {
-        this.experienceEditorContext.PageEditorProxy.changeCapability("edit", true);
-      }
-    },
-
-    saveMessage: function() {
-      var args = { Verified: false };
-      sitecore.trigger("message:save", args);
-      return args.Verified;
-    }
-  });
-});
+        });
+    });

@@ -1,39 +1,45 @@
-﻿define(["sitecore"], function (_sc) {
+﻿define([
+  "sitecore",
+  "/-/speak/v1/ecm/DialogService.js",
+  "/-/speak/v1/ecm/EmailPreviewResult.js"
+], function (
+  sitecore,
+  DialogService,
+  EmailPreviewResult
+) {
   "use strict";
+  var model = EmailPreviewResult.model;
 
-  var model = _sc.Definitions.Models.ComponentModel.extend(
-    {
-      initialize: function () {
-        this._super();
+  var view = EmailPreviewResult.view.extend({
+    getOptions: function() {
+      var options = this._super();
+      options.rootElementSelector = 'div.sc-spamcheckresult';
+      options.previewDialogName = 'spamCheck';
+      return options;
+    },
+
+    render: function() {
+      this.setupModel();
+      this.bindVariants();
+    },
+
+    isVariantElementValid: function (element) {
+      return !!element.data("sc-title");
+    },
+
+    setIndex: function (element) {
+      this.model.setIndex(this.model.getIndexByAttr('title', element.data("sc-title")));
+    },
+    serializeVariant: function (element) {
+      return {
+        title: element.data("sc-title"),
+        body: element.data("sc-body"),
+        name: element.data("sc-name")
       }
     }
-  );
+  });
 
-  var view = _sc.Definitions.Views.ComponentView.extend(
-    {
-      initialize: function () {
-        this._super();
-      },
-      render: function() {
-        var rootElement = this.$el.find("div.sc-spamcheckresult");
-        var variantId = rootElement.data("sc-variant-id");
-        var dateandtime = rootElement.data("sc-report-dateandtime");
-        var elements = this.$el.find("div.sc-report-item a");
+  sitecore.Factories.createComponent("SpamCheckResult", model, view, ".sc-SpamCheckResult");
 
-        $.each(elements, function (k, v) {
-          var item = $(v);
-          item.on("click", function () {
-            if (item.data("sc-title") == "") {
-              return false;
-            }
-            
-            _sc.trigger("click:spamcheck", { variantId: variantId, dateandtime: dateandtime, title: item.data("sc-title"), body: item.data("sc-body"), name: item.data("sc-name") });
-          });
-        });
-      }
-
-    }
-  );
-
-  _sc.Factories.createComponent("SpamCheckResult", model, view, ".sc-SpamCheckResult");
+  return { model: model, view: view };
 });

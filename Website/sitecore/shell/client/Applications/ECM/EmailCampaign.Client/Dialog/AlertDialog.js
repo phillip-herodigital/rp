@@ -1,15 +1,18 @@
-﻿define(["sitecore"], function (sitecore) {
-  return sitecore.Definitions.App.extend({
+﻿define(["sitecore", "/-/speak/v1/ecm/DialogBase.js"], function (sitecore, DialogBase) {
+  return DialogBase.extend({
     initialized: function () {
-      sitecore.on("alertdialog:show", this.showDialog, this);
-      this.on("alertdialog:hide", this.hideDialog, this);
+      this._super();
+      this.defaults.text = this.Text.get("text");
     },
-    showDialog: function (text) {
-      this.AlertText.set("text", text.text);
-      this.AlertDialogWindow.show();
+
+    update: function () {
+      this.Text.set("text", this.options.text);
+      this._super();
     },
-    hideDialog: function () {
-      this.AlertDialogWindow.hide();
+
+    resetDefaults: function () {
+      this.Text.set("text", this.defaults.text);
+      this._super();
     }
   });
 });

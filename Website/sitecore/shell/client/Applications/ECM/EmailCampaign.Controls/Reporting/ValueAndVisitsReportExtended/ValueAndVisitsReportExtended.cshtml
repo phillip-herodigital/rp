@@ -1,0 +1,89 @@
+﻿@using Sitecore.Mvc
+@using EmailCampaign.Controls
+@using Sitecore.Web.UI.Controls.Common.Renderings
+@using Sitecore.Web.UI.Controls.Common.UserControls
+@using UserControl = Sitecore.Web.UI.Controls.Common.UserControls.UserControl
+@using Bcl = EmailCampaign.Controls.Constants.Renderings.Bcl
+@using Exm = EmailCampaign.Controls.Constants.Renderings.Exm
+@using BaseDataSources = EmailCampaign.Controls.Reporting.ValueAndVisitsReport.DataSources
+@using DataSources = EmailCampaign.Controls.Reporting.ValueAndVisitsReportExtended.DataSources;
+@model Sitecore.Mvc.Presentation.RenderingModel
+@{
+    UserControl rendering = Html.Sitecore().Controls().GetUserControl(Model.Rendering);
+    rendering.Requires.Script("ecm", "ValueAndVisitsReportExtended.js");
+    rendering.Requires.Css("ecm", "ValueAndVisitsReportExtended.css");
+    rendering.Class = "sc-ValueAndVisitsReportExtended";
+    string bottomLink = rendering.GetString("BottomLink");
+    string height = rendering.GetString("Height");
+}
+
+@helper RenderValueAndVisitsReportExtended(UserControl rendering)
+{
+    RenderingHelper helper = new RenderingHelper(this.Html, rendering.ControlId);
+
+    helper.CreateRenderingAt(Bcl.Tabs, "Tabs", rendering.ControlId + "Card", null, DataSources.Tabs, "Wrapper.Content");
+
+    // Value over time Tab
+
+    
+
+    helper.CreateRenderingAt(Bcl.Border, "TabContent0", rendering.ControlId + "Card", null, BaseDataSources.TabBorder, "Wrapper.Content");
+
+    // Value and visits Tab
+
+    helper.CreateRenderingAt(Bcl.ScoreCard, "ValueScoreCard", rendering.ControlId + "ValueScoreBorder", null, BaseDataSources.ValueScoreCard);
+
+    helper.CreateRenderingAt(Bcl.ScoreCard, "ValuePerVisitScoreCard", rendering.ControlId + "ValuePerVisitScoreBorder", null, BaseDataSources.ValuePerVisitScoreCard);
+
+    helper.CreateRenderingAt(Bcl.ScoreCard, "ValuePerEmailScoreCard", rendering.ControlId + "ValuePerEmailScoreBorder", null, BaseDataSources.ValuePerEmailScoreCard);
+
+    helper.CreateRenderingAt(Bcl.ScoreCard, "VisitsPerEmailScoreCard", rendering.ControlId + "VisitsPerEmailScoreBorder", null, BaseDataSources.VisitsPerEmailScoreCard);
+    
+
+    helper.CreateRenderingAt(Bcl.Border, "TabContent1", rendering.ControlId + "Card", null, BaseDataSources.TabBorder, "Wrapper.Content");
+    
+
+    helper.CreateRenderingAt(Bcl.ColumnPanel, "ValueScoreBorder", rendering.ControlId + "LeftValuesRowPanel", null, DataSources.ColumnPanel);
+
+    helper.CreateRenderingAt(Bcl.ColumnPanel, "ValuePerVisitScoreBorder", rendering.ControlId + "LeftValuesRowPanel", null, DataSources.ColumnPanel);
+
+    helper.CreateRenderingAt(Bcl.ColumnPanel, "ValuePerEmailScoreBorder", rendering.ControlId + "RightValuesRowPanel", null, DataSources.ColumnPanel);
+
+    helper.CreateRenderingAt(Bcl.ColumnPanel, "VisitsPerEmailScoreBorder", rendering.ControlId + "RightValuesRowPanel", null, DataSources.ColumnPanel);
+    
+
+    helper.CreateRenderingAt(Exm.D3.BarChart, "BarChart", rendering.ControlId + "RightChartBorder", null, DataSources.BarChart);
+
+    helper.CreateRenderingAt(Exm.D3.CombinationChart, "CombinationChart", rendering.ControlId + "LeftChartBorder", null, DataSources.CombinationChart);
+
+    helper.CreateRenderingAt(Bcl.Border, "LeftChartBorder", rendering.ControlId + "LeftColumnPanel", null, DataSources.ChartBorder);
+    
+    helper.CreateRenderingAt(Bcl.Border, "RightChartBorder", rendering.ControlId + "RightColumnPanel", null, DataSources.ChartBorder);
+
+
+    helper.CreateRenderingAt(Bcl.RowPanel, "LeftValuesRowPanel", rendering.ControlId + "LeftColumnPanel", null, DataSources.RowPanel);
+
+    helper.CreateRenderingAt(Bcl.RowPanel, "RightValuesRowPanel", rendering.ControlId + "RightColumnPanel", null, DataSources.RowPanel);
+    
+    
+    helper.CreateRenderingAt(Bcl.ColumnPanel, "LeftColumnPanel", rendering.ControlId + "ValueAndVisitsRowPanel", null, DataSources.ColumnPanel);
+
+    helper.CreateRenderingAt(Bcl.ColumnPanel, "RightColumnPanel", rendering.ControlId + "ValueAndVisitsRowPanel", null, DataSources.ColumnPanel);
+    
+    
+    helper.CreateRenderingAt(Bcl.RowPanel, "ValueAndVisitsRowPanel", rendering.ControlId + "BorderContent");
+
+    helper.CreateRenderingAt(Bcl.Border, "BorderContent", rendering.ControlId + "Card", null, DataSources.ContentBorder, "Wrapper.Content");
+    
+    helper.CreateRenderingAt(Bcl.StringDictionary, "StringDictionary", rendering.ControlId + "Card", null, BaseDataSources.StringDictionary, "Wrapper.Content");
+    }
+
+@RenderValueAndVisitsReportExtended(rendering)
+
+<div @rendering.HtmlAttributes data-sc-hasnested="true">
+    @(this.Html.Sitecore().Controls().Rendering(this.Html, Bcl.Card, rendering.ControlId + "Card", DataSources.Card, new
+            {
+                BottomLink = @bottomLink,
+                Height = @height
+            }))
+</div>

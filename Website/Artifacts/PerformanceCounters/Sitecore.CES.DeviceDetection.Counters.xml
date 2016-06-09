@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<counters xmlns="urn:sitecore:core:performancecounters">
+  <category name="Sitecore.CES.DeviceDetection" description="Sitecore CES Device Detection counters">
+    <counter name="DeviceDetection | Requests - Total / sec" type="AmountPerSecond" description="The total number of device information resolving per second."/>
+    <counter name="DeviceDetection | Unknown Device / sec" type="AmountPerSecond" description="The number of unsuccessful device information resolving."/>
+    <counter name="DeviceDetection | Cache Hits / sec" type="AmountPerSecond" description="The number of devices information resolved from the cache."/>
+    <counter name="DeviceDetection | Cache Misses / sec" type="AmountPerSecond" description="The number of devices information resolved with the provider."/>
+    <counter name="DeviceDetection | Average Resolve Time" type="Average" description="The average time that it takes to resolve device information."/>
+   </category>
+</counters>

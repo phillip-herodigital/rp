@@ -1,4 +1,4 @@
-﻿define(["sitecore", "/-/speak/v1/ExperienceEditor/RibbonPageCode.js"], function (Sitecore) {
+﻿define(["sitecore", "/-/speak/v1/ExperienceEditor/RibbonPageCode.js", "/-/speak/v1/ExperienceEditor/ExperienceEditor.js"], function (Sitecore, RibbonPageCode, ExperienceEditor) {
   Sitecore.Factories.createBaseComponent({
     name: "LargeDropDownButton",
     base: "ButtonBase",
@@ -41,7 +41,7 @@
         currentEvent.stopPropagation();
       });
 
-      Sitecore.ExperienceEditor.Common.registerDocumentStyles(["/-/speak/v1/ribbon/LargeDropDownButton.css"], window.parent.document);
+      ExperienceEditor.Common.registerDocumentStyles(["/-/speak/v1/ribbon/LargeDropDownButton.css"], window.parent.document);
     },
 
     handleClick: function () {
@@ -66,15 +66,15 @@
 
     retrieveDropDownItems: function () {
       var self = this;
-      var context = Sitecore.ExperienceEditor.generateDefaultContext();
+      var context = ExperienceEditor.generateDefaultContext();
       context.currentContext.value = this.model.get("datasourceDatabase") + "|" + this.model.get("listDataSourceId");
-      Sitecore.ExperienceEditor.PipelinesUtil.generateRequestProcessor(this.model.get("retrieveListItemsRequest"), function (response) {
+      ExperienceEditor.PipelinesUtil.generateRequestProcessor(this.model.get("retrieveListItemsRequest"), function (response) {
         self.dropDownItems = response.responseValue.value;
       }).execute(context);
     },
 
     getClientRect: function (id) {
-      var sourceNode = Sitecore.ExperienceEditor.Common.getElementById(id);
+      var sourceNode = ExperienceEditor.Common.getElementById(id);
       if (!sourceNode) {
         return null;
       }
@@ -100,7 +100,7 @@
       var boundingClientRect = this.getClientRect(this.$el.attr("data-sc-id"));
 
       var container = window.parent.document.createElement("div");
-      var containerStyle = "position:absolute;z-index:10000;top:" + boundingClientRect.bottom + "px;left:" + (boundingClientRect.left + Sitecore.ExperienceEditor.ribbonFrame().offsetLeft) + "px;background-color:#ffffff;";
+      var containerStyle = "position:fixed;z-index:10000;top:" + boundingClientRect.bottom + "px;left:" + (boundingClientRect.left + ExperienceEditor.ribbonFrame().offsetLeft) + "px;background-color:#ffffff;";
       container.setAttribute("style", containerStyle);
       container.setAttribute("class", "sc_LargeDropDownButton_DropDownItemsContainer");
       container.setAttribute("id", this.dropDownButtonsListClientId);
@@ -147,7 +147,7 @@
     },
 
     resolveDropDownItemCommand: function (itemId) {
-      var command = Sitecore.ExperienceEditor.CommandsUtil.getCommandByDropDownMenuItemId(itemId);
+      var command = ExperienceEditor.CommandsUtil.getCommandByDropDownMenuItemId(itemId);
       if (!command) {
         return this.model.get("defaultListItemCommand");
       }
@@ -156,12 +156,13 @@
     },
 
     checkDropDownCommandCanExecute: function (itemId, commandName) {
-      var context = Sitecore.ExperienceEditor.instance.getContext(null);
+      var context = ExperienceEditor.getContext().instance.getContext(null);
       context.currentContext.value = itemId;
-      return Sitecore.ExperienceEditor.CommandsUtil.runCommandCanExecute(commandName, context);
+      return ExperienceEditor.CommandsUtil.runCommandCanExecute(commandName, context);
     },
 
     listItemClick: function (e, itemId, canSelect, commandName) {
+      e.preventDefault();
       if (!canSelect) {
         var evt = e;
         if (!evt) {
@@ -176,9 +177,9 @@
         return;
       }
 
-      var context = Sitecore.ExperienceEditor.instance.getContext(null);
+      var context = ExperienceEditor.getContext().instance.getContext(null);
       context.currentContext.argument = itemId;
-      Sitecore.ExperienceEditor.CommandsUtil.runCommandExecute(commandName, context);
+      ExperienceEditor.CommandsUtil.runCommandExecute(commandName, context);
     },
 
     toggleEnable: function () {

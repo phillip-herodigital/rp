@@ -6,6 +6,7 @@
 <!DOCTYPE html>
 <html style="overflow: hidden; width: 100%; height: 100%">
 <head runat="server">
+  <meta http-equiv="X-Frame-Options" content="SAMEORIGIN">
   <title>Sitecore</title>
   <link href="/sitecore/shell/Themes/Standard/Default/Content Manager.css" rel="stylesheet" type="text/css" />
   <link href="/sitecore/shell/Themes/Standard/Default/Dialogs.css" rel="stylesheet" type="text/css" />
@@ -14,35 +15,37 @@
 
     textarea {
       outline: none;
-    }
-  </style>
-
-  <script src="/sitecore/shell/controls/lib/jquery/jquery.noconflict.js" type="text/javascript"></script>
-  <script src="/sitecore/shell/controls/lib/prototype/prototype.js" type="text/javascript"></script>
-  <script type="text/javascript" src="/sitecore/shell/Controls/Rich Text Editor/EditorPage.js"></script>
-  <script type="text/javascript" src="/sitecore/shell/Controls/Rich Text Editor/RTEfixes.js"></script>
+      }
+    </style>
+    
+    <script src="/sitecore/shell/controls/lib/jquery/jquery-1.10.2.min.js" type="text/javascript"></script>
+    <script type="text/javascript">
+      if (typeof(window.$sc) == "undefined") window.$sc = jQuery.noConflict();
+    </script>
+    <script src="/sitecore/shell/controls/lib/prototype/prototype.js" type="text/javascript"></script>
+    <script type="text/javascript" src="/sitecore/shell/Controls/Rich Text Editor/EditorPage.js"></script>
 
   <script type="text/javascript">
     <asp:Placeholder runat="server" ID="ScriptConstants" />
 
     var scRichText = new Sitecore.Controls.RichEditor(scClientID);
-    var currentKey = null;  
-    
-    var $j = jQuery.noConflict();
- 
-    $j(document).ready(function() {      
+    var currentKey = null;
+
+      var $j = jQuery.noConflict();
+
+    $j(document).ready(function() {
         $j(".reMode_design").click(function(){
-            RemoveInlineScripts();
+          RemoveInlineScripts();
         });
-    });
+      });
 
-    function RemoveInlineScripts() {
+      function RemoveInlineScripts() {
         if (scRemoveScripts === "true") {
-            removeInlineScriptsInRTE(scRichText);
+          removeInlineScriptsInRTE(scRichText);
         }
-    }
+      }  
 
-    function scLoad(key, html) {
+      function scLoad(key, html) {
       if (key == currentKey) {
         scRichText.setText(html);
         scRichText.setFocus();
@@ -50,17 +53,17 @@
       }
 
       currentKey = key;
-    }
+      }
 
-    function OnClientLoad(editor) {
-      editor.attachEventHandler("mouseup", function() {
-        var element = editor.getSelection().getParentElement();
-        if (element !== undefined && element.tagName.toUpperCase() === "IMG") {
-          fixImageParameters(element, prefixes.split("|"));
-        }
-      });
+      function OnClientLoad(editor) {
+        editor.attachEventHandler("mouseup", function() {
+          var element = editor.getSelection().getParentElement();
+          if (element !== undefined && element.tagName.toUpperCase() === "IMG") {
+            fixImageParameters(element, prefixes.split("|"));
+          }
+        });
 
-      scRichText.onClientLoad(editor);
+        scRichText.onClientLoad(editor);
 
       var filter = new WebControlFilter();
       editor.get_filtersManager().add(filter);
@@ -88,17 +91,18 @@
 
     function scSendRequest(evt, command)
     {
+        RemoveInlineScripts();
+        
       var editor = scRichText.getEditor();
       if (editor.get_mode() == 2){//If in HTML edit mode
         editor.set_mode(1); //Set mode to Design
       }
 
-        RemoveInlineScripts();
       $("EditorValue").value = editor.get_html(true);
-        
-        RemoveInlineScripts();
+
+      RemoveInlineScripts();
       scForm.browser.clearEvent(evt);
-        
+
       scForm.postRequest("", "", "", command);
 
       return false;
@@ -108,31 +112,8 @@
     }
 
     function OnClientModeChange(editor, args) {
-      scFitEditor();
     }
 
-    function scFitEditor() {
-      var designIframe = document.getElementById('Editor_contentIframe');
-      var designMode = designIframe.style.height != '0px'; 
-      if (designMode) {
-        designIframe.style.height = "0";
-      }
-
-      var htmlIframe = document.querySelector('#Editor_contentIframe + iframe');
-      htmlIframe && (htmlIframe.style.height = "0");
-      setTimeout(function () {
-        var clientHeight = document.getElementById('EditorCenter').clientHeight  + 'px';
-
-        if (designMode) {
-          designIframe.style.height = clientHeight;
-        }
-
-        htmlIframe && (htmlIframe.style.height = clientHeight);
-
-      }, 0);
-    }
-
-    Event.observe(window, "resize", scFitEditor);
   </script>
 </head>
 
@@ -143,7 +124,7 @@
     <telerik:RadScriptManager ID="ScriptManager1" runat="server" />
 
     <input type="hidden" id="EditorValue" />
- 
+
     <div class="scStretch scFlexColumnContainer">
 
       <div class="scFlexContent">
@@ -171,6 +152,7 @@
                 MediaManager-UploadPaths="/media library"
                 MediaManager-DeletePaths="/media library"
                 MediaManager-ViewPaths="/media library"
+                DocumentManager-ViewPaths="/media library"
                 TemplateManager-UploadPaths="/media library"
                 TemplateManager-DeletePaths="/media library"
                 TemplateManager-ViewPaths="/media library"
@@ -187,6 +169,7 @@
         </div>
       </div>
       <script type="text/javascript" src="/sitecore/shell/Controls/Rich Text Editor/RichText Commands.js"></script>
+      <script type="text/javascript" src="/sitecore/shell/Controls/Rich Text Editor/RTEfixes.js"></script>
 
       <asp:PlaceHolder ID="EditorClientScripts" runat="server" />
 
@@ -202,10 +185,10 @@
           </sc:Button>
         </div>
       </div>
-    </div>
+      </div>
         
         <script type="text/javascript">
-            fixFirefoxPaste();
+          fixFirefoxPaste();
         </script>
 
     </form>

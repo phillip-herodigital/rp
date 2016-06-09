@@ -1,0 +1,38 @@
+﻿@using Sitecore
+@model Sitecore.Speak.Components.Models.Containers.TabControl.TabControlRenderingModel
+@{
+  Model.DataBind.IsVisible();
+
+  Model.Class.Append("sc-tab-control");
+
+  Model.Class.Append("sc-tab-control-" + Model.TabVisualStyle.ToLower());
+  //Model.HasNestedControls = true;
+}
+<div @Model.HtmlAttributes>
+  <div class="sc-tab-control-nav-wrap">
+    <div class="sc-tab-control-button-left">
+      <span class="glyphicon glyphicon-chevron-left"></span>
+    </div>
+
+    <ul class="sc-tab-control-nav" data-bind="foreach: Items, style: {minWidth: TabControlMinWidth()}">
+      <li class="sc-tab-control-tab-item"
+          data-bind="css: {'first-tab':$index() == 0, 'last-tab':$index() == ($parent.Items().length-1), 'selected':$parent.SelectedValue() == $data[$parent.ValueFieldName()](), 'disabled': IsDisabled}, style: {minWidth: $parent.TabMinWidth()}">
+        <a href="javascript:;" data-bind="attr: {title: Tooltip()}" ><span class="sc-tab-control-header-content" data-bind="html: $parent.getDisplayName($data)"></span></a>
+      </li>
+    </ul>
+
+    <div class="sc-tab-control-button-right">
+      <span class="glyphicon glyphicon-chevron-right"></span>
+    </div>
+  </div>
+
+  <div class="sc-tab-control-content-wrap" data-bind="foreach: Items">
+    <div data-bind="attr:{'data-sc-content-for': itemId()}, css:{'selected': IsDisabled()!=='1' && $parent.SelectedValue() == $data[$parent.ValueFieldName()]()}"
+         class="sc-tab-control-content">
+    </div>
+  </div>
+  <div class="sc-tab-control-content-disabled" >
+    @ClientHost.Globalization.Translate(Sitecore.Speak.Components.Texts.SelectedTabIsDisabled)
+  </div>
+</div>
+

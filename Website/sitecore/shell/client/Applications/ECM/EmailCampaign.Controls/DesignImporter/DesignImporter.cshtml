@@ -1,5 +1,6 @@
 ﻿
 @using Sitecore.EmailCampaign.Server.Helpers
+@using Sitecore.ExM.Framework.Diagnostics
 @using Sitecore.Mvc
 @using Sitecore.Mvc.Presentation
 @using Sitecore.StringExtensions
@@ -7,7 +8,7 @@
 @model RenderingModel
 @{  
   var rendering = Html.Sitecore().Controls().GetUserControl(Model.Rendering);
-  var createLayoutHelper = new CreateLayoutHelper();
+  var createLayoutHelper = new CreateLayoutHelper(Logger.Instance);
   var importFolderId = createLayoutHelper.CreateImportFolder();
   var designImporterUrl = @"/sitecore%20modules/Shell/DesignImporter/DesignImporter.aspx" + "?saveOptions=hide&cp={0}".FormatWith(importFolderId);
   

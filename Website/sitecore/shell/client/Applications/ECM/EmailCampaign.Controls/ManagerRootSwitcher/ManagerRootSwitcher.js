@@ -1,75 +1,88 @@
-﻿define(["sitecore"], function(_sc) {
-  _sc.Factories.createBaseComponent({
-    name: "ManagerRootSwitcher",
-    base: "BlockBase",
-    selector: ".sc-ecm-managerroot",
-    events:
-    {
-      "click .js-managerroot-btn": "toggleContextMenu",
-      "click .root-item": "selectRoot",
-      "click .sc-actionpanel-popup": "toggleContextMenu"
-    },
-    attributes: [
-      { name: "isTaskPage", value: "$el.data:sc-istaskpage" },
-      { name: "defaultManagerRootId", value: "$el.data:sc-defaultmanagerrootid" },
-      { name: "managerRootId", value: "" }
+﻿define([
+  'sitecore',
+  '/-/speak/v1/ecm/CompositeComponentBase.js',
+  '/-/speak/v1/ecm/ManagerRootService.js'
+], function(
+  _sc,
+  CompositeComponentBase,
+  ManagerRootService
+) {
+
+  var model = _sc.Definitions.Models.ControlModel.extend({
+    initialize: function() {
+      this._super();
+      this.set('managerRoot', null);
+      this.set('defaultManagerRootId', null);
+      this.set('managerRootId', '');
+    }
+  });
+
+  var view = CompositeComponentBase.view.extend({
+    childComponents: [
+      'DropDownButton'
     ],
 
     initialize: function() {
-      var select = "a.root-item[data-root-id=\'" + this.getManagerRootId() + "\']";
-      var currentLink = this.$el.find(select).first();
-      if (currentLink) {
-        this.$el.find(".js-managerroot-btn").find("span:first").text(currentLink.text());
+      this._super();
+      this.model.set('isTaskPage', this.$el.data('sc-istaskpage'));
+      this.model.set('defaultManagerRootId', this.$el.data('sc-defaultmanagerrootid'));
+      this.attachHandlers();
+      this.setRootsList();
+      this.setManagerRoot();
 
-        $.each(this.$el.find("a.root-item"), function () {
-          if ($(this).text() == currentLink.text()) {
-            $(this).addClass("current");
-            return false;
-          }
-        });
-      }
-      setTimeout(function() { $('.sc-ecm-managerroot').fadeIn(800); }, 100);
+      setTimeout(function() {
+        $('.sc-ecm-managerroot').fadeIn(800);
+      }, 100);
     },
 
-    getManagerRootId: function () {
-      var isTaskPage = this.model.get("isTaskPage");
-      if (isTaskPage) {
-        sessionStorage.managerRootId = this.model.get("defaultManagerRootId");
+    attachHandlers: function() {
+      this.model.on('change:managerRoot', this.onChangeManagerRoot, this);
+      this.$el.find('.root-item').on('click', _.bind(this.selectRoot, this));
+    },
+
+    onChangeManagerRoot: function() {
+      var managerRoot = this.model.get('managerRoot');
+      if (managerRoot) {
+        this.children.DropDownButton.set('text', managerRoot.title);
+        this.$el.find('.selected').removeClass('selected');
+        this.$el.find('[data-root-id="' + managerRoot.id + '"]').parent().addClass('selected');
+        this.model.set('managerRootId', managerRoot.id);
       }
+    },
+
+    setRootsList: function() {
+      this.model.set('rootsList', ManagerRootService.getManagerRootList());
+    },
+
+    getRootById: function(id) {
+      return _.findWhere(this.model.get('rootsList'), {id: id});
+    },
+
+    setManagerRoot: function() {
+      if (this.model.get('isTaskPage')) {
+        sessionStorage.managerRootId = this.model.get('defaultManagerRootId');
+      }
+
       var storedRootId = sessionStorage.managerRootId;
-      if (storedRootId === undefined || $.inArray(storedRootId, this.getRootsList()) == -1) {
-        storedRootId = this.model.get("defaultManagerRootId");
+      if (!storedRootId || !this.getRootById(storedRootId)) {
+        storedRootId = this.model.get('defaultManagerRootId');
         sessionStorage.managerRootId = storedRootId;
       }
-      this.model.set("managerRootId", storedRootId);
-      return storedRootId;
+      this.model.set('managerRoot', this.getRootById(storedRootId));
     },
 
-    getRootsList: function() {
-      var roots = [];
-      var id = "root-id";
-      $.each($('div[data-sc-id="EmailManagerRoot"]').find('*[data-' + id + ']'), function() {
-        roots.push($(this).data(id));
-      });
-      return roots;
-    },
+    selectRoot: function(e) {
+      e.preventDefault();
 
-    toggleContextMenu: function () {
-      this.$el.find(".js-managerroot-btn .sc-dropdownbutton-chevron").toggleClass("up");
-      this.$el.find(".js-managerroot-list").toggleClass("open");
-      this.$el.find(".sc-actionpanel-popup").toggle();
-    },
+      var target = $(e.target),
+        rootId = target.data('root-id'),
+        selectedRoot = this.getRootById(rootId);
 
-    selectRoot: function(event) {
-      var rootId = $(event.target).data("root-id");
-      
-      $(event.target).parent().siblings().find("a").removeClass("current");
-      $(event.target).addClass("current");
-      
       sessionStorage.managerRootId = rootId;
-      this.$el.find(".js-managerroot-btn").find("span:first").text($(event.target).text());
-      this.model.set("managerRootId", rootId);
-      this.toggleContextMenu();
+      this.model.set('managerRoot', selectedRoot);
+      this.children.DropDownButton.set('isOpen', false);
     }
   });
+
+  return _sc.Factories.createComponent('ManagerRootSwitcher', model, view, '.sc-ecm-managerroot');
 });
