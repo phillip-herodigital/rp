@@ -1512,6 +1512,7 @@
     <Content Include="App_Config\Include\Z\StreamEnergy.overrides.config">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="sitecore\default.aspx" />
     <Content Include="_CMP\RazlService.asmx" />
     <None Include="Properties\PublishProfiles\PackageForUpgrade.pubxml" />
     <None Include="Properties\PublishProfiles\Package.pubxml" />
@@ -1661,7 +1662,6 @@
     <Content Include="sitecore\apps\js\sc.validate.release.js" />
     <Content Include="sitecore\ConfirmSubscription.aspx" />
     <Content Include="sitecore\RedirectUrlPage.aspx" />
-    <Content Include="sitecore\RegisterEmailOpened.aspx" />
     <Content Include="sitecore\shell\Applications\Feeds\Layouts\FeedDeliveryLayout.aspx" />
     <Content Include="sitecore\shell\Applications\Feeds\SetFeedPresentation\SetFeedPresentation.xaml.xml" />
     <Content Include="sitecore\Unsubscribe.aspx" />
@@ -2000,6 +2000,10 @@
     <Content Include="Views\Pages\Marketing\Services\Voice FAQs.cshtml" />
     <Content Include="Views\Pages\Marketing\Services\Voice International.cshtml" />
     <Content Include="Views\Pages\Marketing\Return\Return Form.cshtml" />
+    <Content Include="sitecore\AutomationStates.ashx" />
+    <Content Include="sitecore\RegisterEmailOpened.ashx" />
+    <Content Include="sitecore\SelectedDatabase.ashx" />
+    <Content Include="sitecore\ContactLists.ashx" />
     <None Include="Web.Azure-Production Sitecore.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>
