@@ -648,6 +648,58 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             };
         }
 
+        public static TopLeaderList GetTopLeaderList(Item currentItem, string filterValue)
+        {
+            Item currentMonthItem;
+            if (currentItem.Children.InnerChildren.Exists(el => el.Fields["List Date Text"].Value.ToLower() == filterValue.ToLower()))
+            {
+                currentMonthItem = currentItem.Children.InnerChildren.Where(el => el.Fields["List Date Text"].Value.ToLower() == filterValue.ToLower()).FirstOrDefault();
+            }
+            else
+            {
+                // get the most recent item
+                currentMonthItem = currentItem.Children.InnerChildren.OrderByDescending(e => Sitecore.DateUtil.IsoDateToDateTime(e.Fields["List Date"].Value)).First();
+            }
+
+            List<TopLeader> top10 = new List<TopLeader>();
+            var top10Field = (Sitecore.Data.Fields.MultilistField)currentMonthItem.Fields["Top 10 List"];
+            foreach (Sitecore.Data.ID id in top10Field.TargetIDs)
+            {
+                var item = Sitecore.Context.Database.GetItem(id);
+                TopLeader leader = new TopLeader
+                {
+                    Name = item.Fields["Associate Name"].Value,
+                    Location = item.Fields["Associate Location"].Value,
+                    Rank = item.Fields["Associate Rank"].Value.Replace(" ", "-").ToLower(),
+                    Stars = item.Fields["Stars"].Value,
+                };
+                top10.Add(leader);
+            }
+
+            List<TopLeader> top15 = new List<TopLeader>();
+            var top15Field = (Sitecore.Data.Fields.MultilistField)currentMonthItem.Fields["Top 15 List"];
+            foreach (Sitecore.Data.ID id in top15Field.TargetIDs)
+            {
+                var item = Sitecore.Context.Database.GetItem(id);
+                TopLeader leader = new TopLeader
+                {
+                    Name = item.Fields["Associate Name"].Value,
+                    Location = item.Fields["Associate Location"].Value,
+                    Rank = item.Fields["Associate Rank"].Value.Replace(" ", "-").ToLower(),
+                    Stars = item.Fields["Stars"].Value,
+                };
+                top15.Add(leader);
+            }
+
+            return new TopLeaderList
+            {
+                Top10 = top10,
+                Top15 = top15,
+                ListDate = Sitecore.DateUtil.IsoDateToDateTime(currentMonthItem.Fields["List Date"].Value).ToShortDateString(),
+                ListDateText = currentMonthItem.Fields["List Date Text"].Value,
+            };
+        }
+
         public static List<string> GetPreviousLeaderListMonths(Item currentItem, LeaderList leaderList)
         {
             List<string> months = new List<string>();

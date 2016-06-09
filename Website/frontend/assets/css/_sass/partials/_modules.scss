@@ -2780,6 +2780,25 @@ article.coverage-map {
         margin-top: 20px;
         li {
             margin-right: 20px;
+            line-height: 1;
+            input[type="checkbox"] {
+                height: 16px;
+                width: 16px;
+            }
+            .layer-legend {
+                display: inline-block;
+                width: 16px;
+                height: 16px;
+                &.voice {
+                    background-color: rgba(157, 201, 68, 0.5);
+                }
+                &.data {
+                    background-color: rgba(106, 150, 59, 0.5);
+                }
+                &.lte {
+                    background-color: rgba(15, 76, 40, 0.5);
+                }
+            }
         }
     }
 }

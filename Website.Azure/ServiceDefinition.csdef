@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ServiceDefinition name="Website.Azure" xmlns="http://schemas.microsoft.com/ServiceHosting/2008/10/ServiceDefinition" schemaVersion="2014-01.2.3">
+<ServiceDefinition name="Website.Azure" xmlns="http://schemas.microsoft.com/ServiceHosting/2008/10/ServiceDefinition" schemaVersion="2015-04.2.6">
   <WebRole name="Website" vmsize="Large">
     <Startup>
       <Task commandLine="newrelic.cmd" executionContext="elevated" taskType="simple">
@@ -40,7 +40,7 @@
       <LocalStorage name="DataFolderStore" sizeInMB="100000" cleanOnRoleRecycle="false" />
     </LocalResources>
     <Certificates>
-      <Certificate name="StreamCertificate" storeLocation="LocalMachine" storeName="My"/>
+      <Certificate name="StreamCertificate" storeLocation="LocalMachine" storeName="My" />
     </Certificates>
     <ConfigurationSettings>
       <Setting name="NewRelic.LicenseKey" />
@@ -48,6 +48,7 @@
       <Setting name="StreamEnergy.Services.WebsiteUrl" />
       <Setting name="StreamEnergy.Services.redisCache" />
       <Setting name="StreamEnergy.Services.azureStorage" />
+      <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" />
     </ConfigurationSettings>
   </WebRole>
 </ServiceDefinition>

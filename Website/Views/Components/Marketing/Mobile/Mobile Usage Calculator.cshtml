@@ -1,4 +1,7 @@
-﻿@model StreamEnergy.MyStream.Models.Marketing.UsageCalculator
+﻿@{
+    Sitecore.Data.Items.Item planSelectionItem = Sitecore.Context.Database.GetItem("{2F9BF741-D951-4C8C-957F-07F1C846A169}");
+}
+@model StreamEnergy.MyStream.Models.Marketing.UsageCalculator
 @using Sitecore.Mvc.Extensions
 @functions{
     Sitecore.Data.Items.Item dataCalculator = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Components/Marketing/Mobile/Mobile Usage Calculator");
@@ -633,170 +636,215 @@
                                 <span class="slider-tick-ruler text unlimited">@GetFieldValue("Unlimited")</span>
                                 <span class="slider-tick-ruler text infinity">&infin;</span>
                             </div>
-                            <article class="marketing rec-plan-box clearfix mobile cdma-pricing-plans">
-                                <div class="wrapper">
-                                    <div class="grid border four">
-                                        <div class="col" ng-repeat="plan in serverData.dataPlans | filter: filterPlans">
-                                            <div class="recommended-box">
-                                                <div class="heading" ng-show="recommendedPlanData == plan.data">
-                                                    <h3>@Html.Sitecore().Field("Recommended Plan")</h3>
+                                <article class="marketing rec-plan-box clearfix mobile cdma-pricing-plans">
+                                    <div class="wrapper">
+                                        <div class="grid border four">
+                                            <div class="col">
+                                                <div class="recommended-box">
+                                                    <div class="heading" ng-show="recommendedPlanData + 'GB' == '@planSelectionItem["Plan 1 GB"]'">
+                                                        <h3>@Html.Sitecore().Field("Recommended Plan")</h3>
+                                                    </div>
+                                                </div>
+                                                <div class="plan-details" ng-class="{recommended: recommendedPlanData + 'GB' == '@planSelectionItem["Plan 1 GB"]'}">
+                                                    <p class="data">@Html.Sitecore().Field("Plan 1 GB", planSelectionItem)</p>
+                                                    <p class="lte">@Html.Sitecore().Field("LTE Data", planSelectionItem)</p>
+                                                    <h2>@Html.Sitecore().Field("Plan 1 Service", planSelectionItem)</h2>
+                                                    <p class="international">@Html.Sitecore().Field("Add International Service", planSelectionItem)</p>
+                                                    <p class="price no-international">@Html.Sitecore().Field("Plan 1 Price", planSelectionItem)</p>
+                                                    <p>@Html.Sitecore().Field("Plan 1 Button", planSelectionItem)</p>
                                                 </div>
                                             </div>
-                                            <div class="plan-details" ng-class="{recommended: recommendedPlanData == plan.data}">
-                                                <p class="data" ng-if="plan.data != 'Unlimited'">{{ plan.data }}@Html.Sitecore().Field("GB Text")</p>
-                                                <p class="data" ng-if="plan.data == 'Unlimited'">@Html.Sitecore().Field("Unlimited")</p>
-                                                <p class="lte">@Html.Sitecore().Field("4G LTE Data")</p>
-                                                <h2>@Html.Sitecore().Field("Unlimited Talk")</h2>
-                                                <p class="international" ng-if="!plan.includesInternational">@Html.Sitecore().Field("Add International")</p>
-                                                <div class="international" ng-if="plan.includesInternational">
-                                                    <p>@Html.Sitecore().Field("Stream International Plus")</p>
+                                            <div class="col">
+                                                <div class="recommended-box">
+                                                    <div class="heading" ng-show="recommendedPlanData + 'GB' == '@planSelectionItem["Plan 2 GB"]'">
+                                                        <h3>@Html.Sitecore().Field("Recommended Plan")</h3>
+                                                    </div>
                                                 </div>
-                                                <p class="price no-international">${{plan.price}}<span>@Html.Sitecore().Field("Per Month")</span></p>
-                                                <a class="button plan-button" href="/enrollment?ServiceType=Mob&MobilePlanId={{plan.planId}}">
-                                                   @Html.Sitecore().Field("Select")
-                                                </a>
+                                                <div class="plan-details" ng-class="{recommended: recommendedPlanData + 'GB' == '@planSelectionItem["Plan 2 GB"]'}">
+                                                    <p class="data">@Html.Sitecore().Field("Plan 2 GB", planSelectionItem)</p>
+                                                    <p class="lte">@Html.Sitecore().Field("LTE Data", planSelectionItem)</p>
+                                                    <h2>@Html.Sitecore().Field("Plan 2 Service", planSelectionItem)</h2>
+                                                    <p class="international">@Html.Sitecore().Field("Add International Service", planSelectionItem)</p>
+                                                    <p class="price no-international">@Html.Sitecore().Field("Plan 2 Price", planSelectionItem)</p>
+                                                    <p>@Html.Sitecore().Field("Plan 2 Button", planSelectionItem)</p>
+                                                </div>
+                                            </div>
+                                            <div class="col">
+                                                <div class="recommended-box">
+                                                    <div class="heading" ng-show="recommendedPlanData + 'GB' == '@planSelectionItem["Plan 3 GB"]'">
+                                                        <h3>@Html.Sitecore().Field("Recommended Plan")</h3>
+                                                    </div>
+                                                </div>
+                                                <div class="plan-details" ng-class="{recommended: recommendedPlanData + 'GB' == '@planSelectionItem["Plan 3 GB"]'}">
+                                                    <span class="best-deal">
+                                                        @Html.Sitecore().Field("Best Deal", planSelectionItem)
+                                                    </span>
+                                                    <p class="data">@Html.Sitecore().Field("Plan 3 GB", planSelectionItem)</p>
+                                                    <p class="lte">@Html.Sitecore().Field("LTE Data", planSelectionItem)</p>
+                                                    <h2>@Html.Sitecore().Field("Plan 3 Service", planSelectionItem)</h2>
+                                                    <div class="international">
+                                                        <p>@Html.Sitecore().Field("Stream International", planSelectionItem)</p>
+                                                    </div>
+                                                    <p class="price">@Html.Sitecore().Field("Plan 3 Price", planSelectionItem)</p>
+                                                    <p>@Html.Sitecore().Field("Plan 3 Button", planSelectionItem)</p>
+                                                </div>
+                                            </div>
+                                            <div class="col">
+                                                <div class="recommended-box">
+                                                    <div class="heading" ng-show="recommendedPlanData > '6'">
+                                                        <h3>@Html.Sitecore().Field("Recommended Plan")</h3>
+                                                    </div>
+                                                </div>
+                                                <div class="plan-details" ng-class="{recommended: recommendedPlanData > '6'}">
+                                                    <p class="data">@Html.Sitecore().Field("Plan 4 GB", planSelectionItem)</p>
+                                                    <p class="lte">@Html.Sitecore().Field("LTE Data", planSelectionItem)</p>
+                                                    <h2>@Html.Sitecore().Field("Plan 4 Service", planSelectionItem)</h2>
+                                                    <div class="international">
+                                                        <p>@Html.Sitecore().Field("Stream International", planSelectionItem)</p>
+                                                    </div>
+                                                    <p class="price">@Html.Sitecore().Field("Plan 4 Price", planSelectionItem)</p>
+                                                    <p>@Html.Sitecore().Field("Plan 4 Button", planSelectionItem)</p>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            </article>                            
-                            
-                                </div>
-                        </div>
-                    <div class="usageLinks mktgStyle">
-                        <a href="/services/mobile/plans" ng-click="">@GetFieldValue("View Plan Details")</a> | <a class="a2" href="/services/mobile/coverage-map#?carrier=sprint">@GetFieldValue("Launch Coverage Map")</a> | <a class="a3" ng-click="" href="/services/mobile/faqs">@Html.Sitecore().Field("Mobile FAQs")</a>
-                    </div>
-                    <div class="international-plus">
-                        <div class="info">
-                            <h3>@Html.Sitecore().Field("Stream Plus Header")</h3>
-                            @Html.Sitecore().Field("Stream Plus Content")
-                        </div>
-                        <div class="add-price">
-                            @Html.Sitecore().Field("Add")
-                            <div class="cost">@Html.Sitecore().Field("Stream Plus Price")</div>
-                        </div>
-                        <div class="footnotes">
-                            @Html.Sitecore().Field("Footnotes")
-                        </div>
-                    </div>
-                    
-                    @*<div class="grid" ng-show="isModal">
-                            <div class="col right addToCart">
-                                @if (!Model.IsJavascriptSubmit)
-                                {
-                                    <a ng-href="/enrollment?ServiceType=Mob&amp;MobilePlanId={{getManualRecommendation('sprint').planId}}&amp;SPID={{SPID}}&amp;BC_ID={{BC_ID}}&amp;RefSite={{RefSite}}&amp;AccountType={{AccountType}}" class="button">@Html.Raw(@GetFieldValue("Modal Button Text"))</a>
-                                }
-                                else
-                                {
-                                    <a href="" ng-click="setMobilePlanID()" class="button">@Html.Raw(@GetFieldValue("Modal Button Text"))</a>
-                                }
+                                </article>
                             </div>
-                        </div>*@
-                    @*< <div class="stretch" ng-show="!isModal">
-                                            <div ng-show="!hasRecommendationForCarrier('sprint') && !hasRecommendationForCarrier('att')">
-                                                <div class="content">
-                                                    @GetFieldValue("No Plans Available")
-                                                </div>
-                                            </div>
-                                            div class="plan-table" ng-show="hasRecommendationForCarrier('sprint') || hasRecommendationForCarrier('att')">
-                                <div class="table-row">
-                                    <div class="table-cell label">
-                                        @GetFieldValue("Network Provider")
-                                    </div>
-                                    <div class="table-cell" ng-show="hasRecommendationForCarrier('sprint')">
-                                        <div class="mobile-network">
-                                            <i class="icon-cdma"></i>
-                                            <h2>@GetFieldValue("Network")</h2>
-                                        </div>
-                                    </div>
-                                    <div class="table-cell" ng-show="hasRecommendationForCarrier('att')">
-                                        <div class="mobile-network">
-                                            <i class="icon-gsm"></i>
-                                            <h2>@GetFieldValue("Network")</h2>
-                                        </div>
-                                    </div>
+                            </div>
+                            <div class="usageLinks mktgStyle">
+                                <a href="/services/mobile/plans" ng-click="">@GetFieldValue("View Plan Details")</a> | <a class="a2" href="/services/mobile/coverage-map#?carrier=sprint">@GetFieldValue("Launch Coverage Map")</a> | <a class="a3" ng-click="" href="/services/mobile/faqs">@Html.Sitecore().Field("Mobile FAQs")</a>
+                            </div>
+                            <div class="international-plus">
+                                <div class="info">
+                                    <h3>@Html.Sitecore().Field("Stream Plus Header")</h3>
+                                    @Html.Sitecore().Field("Stream Plus Content")
                                 </div>
-                                <div class="table-row">
-                                    <div class="table-cell label">
-                                        @GetFieldValue("Coverage Map")
-                                    </div>
-                                    <div class="table-cell" ng-show="hasRecommendationForCarrier('sprint')">
-                                        @GetFieldValue("Nationwide CDMA Network")
-                                        <a href="/services/mobile/coverage-map#?carrier=sprint">@GetFieldValue("Launch Coverage Map")</a>
-                                    </div>
-                                    <div class="table-cell" ng-show="hasRecommendationForCarrier('att')">
-                                        @GetFieldValue("Nationwide GSM Network")
-                                        <a href="/services/mobile/coverage-map#?carrier=att">@GetFieldValue("Launch Coverage Map")</a>
-                                    </div>
+                                <div class="add-price">
+                                    @Html.Sitecore().Field("Add")
+                                    <div class="cost">@Html.Sitecore().Field("Stream Plus Price")</div>
                                 </div>
-                                <div class="table-row">
-                                    <div class="table-cell label">
-                                        @GetFieldValue("Phone Lines")
-                                    </div>
-                                    <div class="table-cell" ng-show="hasRecommendationForCarrier('sprint')">
-                                        <span ng-bind="manualCalculator.lines"></span>
-                                    </div>
-                                    <div class="table-cell" ng-show="hasRecommendationForCarrier('att')">
-                                        <span ng-bind="manualCalculator.lines"></span>
-                                    </div>
-                                </div>
-                                <div class="table-row">
-                                    <div class="table-cell label">
-                                        @GetFieldValue("Monthly Data")
-                                    </div>
-                                    <div class="table-cell" ng-show="hasRecommendationForCarrier('sprint')">
-                                        <div ng-show="getManualRecommendation('sprint').data < 1000000">
-                                            <span ng-bind="getManualRecommendation('sprint').data"></span> GB
-                                        </div>
-                                        <div ng-show="getManualRecommendation('sprint').data == 1000000">
-                                            @GetFieldValue("Unlimited")
-                                        </div>
-                                    </div>
-                                    <div class="table-cell" ng-show="hasRecommendationForCarrier('att')">
-                                        <div ng-show="getManualRecommendation('att').data < 1000000">
-                                            <span ng-bind="getManualRecommendation('att').data"></span> GB
-                                        </div>
-                                        <div ng-show="getManualRecommendation('att').data == 1000000">
-                                            @GetFieldValue("Unlimited")
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="table-row">
-                                    <div class="table-cell label">
-                                        @GetFieldValue("Text And Talk")
-                                    </div>
-                                    <div class="table-cell" ng-show="hasRecommendationForCarrier('sprint')">
-                                        @GetFieldValue("Unlimited")
-                                    </div>
-                                    <div class="table-cell" ng-show="hasRecommendationForCarrier('att')">
-                                        @GetFieldValue("Unlimited")
-                                    </div>
-                                </div>
-                                <div class="table-row">
-                                    <div class="table-cell label">
-                                        @GetFieldValue("Monthly Cost")
-                                    </div>
-                                    <div class="table-cell" ng-show="hasRecommendationForCarrier('sprint')">
-                                        <span ng-bind="getMonthlyTotal(getManualRecommendation('sprint').planId) | currency"></span>
-                                    </div>
-                                    <div class="table-cell" ng-show="hasRecommendationForCarrier('att')">
-                                        <span ng-bind="getMonthlyTotal(getManualRecommendation('att').planId) | currency"></span>
-                                    </div>
-                                </div>
-                                <div class="table-row">
-                                    <div class="table-cell label">
-                                        @GetFieldValue("Plan Selection")
-                                    </div>
-                                    <div class="table-cell" ng-show="hasRecommendationForCarrier('sprint')">
-                                        <a ng-href="/enrollment?ServiceType=Mob&amp;MobilePlanId={{getManualRecommendation('sprint').planId}}&amp;SPID={{SPID}}&amp;BC_ID={{BC_ID}}&amp;RefSite={{RefSite}}&amp;AccountType={{AccountType}}" class="button">@GetFieldValue("Select Sprint Plan")</a>
-                                    </div>
-                                    <div class="table-cell" ng-show="hasRecommendationForCarrier('att')">
-                                        <a ng-href="/enrollment?ServiceType=Mob&amp;MobilePlanId={{getManualRecommendation('att').planId}}&amp;SPID={{SPID}}&amp;BC_ID={{BC_ID}}&amp;RefSite={{RefSite}}&amp;AccountType={{AccountType}}" class="button">@GetFieldValue("Select ATT Plan")</a>
-                                    </div>
+                                <div class="footnotes">
+                                    @Html.Sitecore().Field("Footnotes")
                                 </div>
                             </div>
-                        </div>*@
+
+                            @*<div class="grid" ng-show="isModal">
+                <div class="col right addToCart">
+                    @if (!Model.IsJavascriptSubmit)
+                    {
+                        <a ng-href="/enrollment?ServiceType=Mob&amp;MobilePlanId={{getManualRecommendation('sprint').planId}}&amp;SPID={{SPID}}&amp;BC_ID={{BC_ID}}&amp;RefSite={{RefSite}}&amp;AccountType={{AccountType}}" class="button">@Html.Raw(@GetFieldValue("Modal Button Text"))</a>
+                    }
+                    else
+                    {
+                        <a href="" ng-click="setMobilePlanID()" class="button">@Html.Raw(@GetFieldValue("Modal Button Text"))</a>
+                    }
                 </div>
+            </div>*@
+                            @*< <div class="stretch" ng-show="!isModal">
+                                <div ng-show="!hasRecommendationForCarrier('sprint') && !hasRecommendationForCarrier('att')">
+                                    <div class="content">
+                                        @GetFieldValue("No Plans Available")
+                                    </div>
+                                </div>
+                                div class="plan-table" ng-show="hasRecommendationForCarrier('sprint') || hasRecommendationForCarrier('att')">
+                    <div class="table-row">
+                        <div class="table-cell label">
+                            @GetFieldValue("Network Provider")
+                        </div>
+                        <div class="table-cell" ng-show="hasRecommendationForCarrier('sprint')">
+                            <div class="mobile-network">
+                                <i class="icon-cdma"></i>
+                                <h2>@GetFieldValue("Network")</h2>
+                            </div>
+                        </div>
+                        <div class="table-cell" ng-show="hasRecommendationForCarrier('att')">
+                            <div class="mobile-network">
+                                <i class="icon-gsm"></i>
+                                <h2>@GetFieldValue("Network")</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="table-row">
+                        <div class="table-cell label">
+                            @GetFieldValue("Coverage Map")
+                        </div>
+                        <div class="table-cell" ng-show="hasRecommendationForCarrier('sprint')">
+                            @GetFieldValue("Nationwide CDMA Network")
+                            <a href="/services/mobile/coverage-map#?carrier=sprint">@GetFieldValue("Launch Coverage Map")</a>
+                        </div>
+                        <div class="table-cell" ng-show="hasRecommendationForCarrier('att')">
+                            @GetFieldValue("Nationwide GSM Network")
+                            <a href="/services/mobile/coverage-map#?carrier=att">@GetFieldValue("Launch Coverage Map")</a>
+                        </div>
+                    </div>
+                    <div class="table-row">
+                        <div class="table-cell label">
+                            @GetFieldValue("Phone Lines")
+                        </div>
+                        <div class="table-cell" ng-show="hasRecommendationForCarrier('sprint')">
+                            <span ng-bind="manualCalculator.lines"></span>
+                        </div>
+                        <div class="table-cell" ng-show="hasRecommendationForCarrier('att')">
+                            <span ng-bind="manualCalculator.lines"></span>
+                        </div>
+                    </div>
+                    <div class="table-row">
+                        <div class="table-cell label">
+                            @GetFieldValue("Monthly Data")
+                        </div>
+                        <div class="table-cell" ng-show="hasRecommendationForCarrier('sprint')">
+                            <div ng-show="getManualRecommendation('sprint').data < 1000000">
+                                <span ng-bind="getManualRecommendation('sprint').data"></span> GB
+                            </div>
+                            <div ng-show="getManualRecommendation('sprint').data == 1000000">
+                                @GetFieldValue("Unlimited")
+                            </div>
+                        </div>
+                        <div class="table-cell" ng-show="hasRecommendationForCarrier('att')">
+                            <div ng-show="getManualRecommendation('att').data < 1000000">
+                                <span ng-bind="getManualRecommendation('att').data"></span> GB
+                            </div>
+                            <div ng-show="getManualRecommendation('att').data == 1000000">
+                                @GetFieldValue("Unlimited")
+                            </div>
+                        </div>
+                    </div>
+                    <div class="table-row">
+                        <div class="table-cell label">
+                            @GetFieldValue("Text And Talk")
+                        </div>
+                        <div class="table-cell" ng-show="hasRecommendationForCarrier('sprint')">
+                            @GetFieldValue("Unlimited")
+                        </div>
+                        <div class="table-cell" ng-show="hasRecommendationForCarrier('att')">
+                            @GetFieldValue("Unlimited")
+                        </div>
+                    </div>
+                    <div class="table-row">
+                        <div class="table-cell label">
+                            @GetFieldValue("Monthly Cost")
+                        </div>
+                        <div class="table-cell" ng-show="hasRecommendationForCarrier('sprint')">
+                            <span ng-bind="getMonthlyTotal(getManualRecommendation('sprint').planId) | currency"></span>
+                        </div>
+                        <div class="table-cell" ng-show="hasRecommendationForCarrier('att')">
+                            <span ng-bind="getMonthlyTotal(getManualRecommendation('att').planId) | currency"></span>
+                        </div>
+                    </div>
+                    <div class="table-row">
+                        <div class="table-cell label">
+                            @GetFieldValue("Plan Selection")
+                        </div>
+                        <div class="table-cell" ng-show="hasRecommendationForCarrier('sprint')">
+                            <a ng-href="/enrollment?ServiceType=Mob&amp;MobilePlanId={{getManualRecommendation('sprint').planId}}&amp;SPID={{SPID}}&amp;BC_ID={{BC_ID}}&amp;RefSite={{RefSite}}&amp;AccountType={{AccountType}}" class="button">@GetFieldValue("Select Sprint Plan")</a>
+                        </div>
+                        <div class="table-cell" ng-show="hasRecommendationForCarrier('att')">
+                            <a ng-href="/enrollment?ServiceType=Mob&amp;MobilePlanId={{getManualRecommendation('att').planId}}&amp;SPID={{SPID}}&amp;BC_ID={{BC_ID}}&amp;RefSite={{RefSite}}&amp;AccountType={{AccountType}}" class="button">@GetFieldValue("Select ATT Plan")</a>
+                        </div>
+                    </div>
+                </div>
+            </div>*@
+                        </div>
             }
             else
             {
