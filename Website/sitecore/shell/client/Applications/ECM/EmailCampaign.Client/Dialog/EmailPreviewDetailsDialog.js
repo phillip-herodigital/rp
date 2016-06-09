@@ -1,84 +1,51 @@
-﻿define(["sitecore", "/-/speak/v1/ecm/ServerRequest.js"], function (_sc) {
-  return _sc.Definitions.App.extend({
-    initialized: function () {
-      _sc.on("emailpreview:details:dialog:show", this.showDialog, this);
-      this.on("emailpreview:details:dialog:next", this.next, this);
-      this.on("emailpreview:details:dialog:previous", this.previous, this);
+﻿define([
+  "sitecore",
+  "/-/speak/v1/ecm/DialogBase.js"
+], function (
+  sitecore,
+  DialogBase
+) {
+  return DialogBase.extend({
+    showDialog: function (options) {
+      this._super(options);
+      this.TestIdValue.set("text", this.model.get("testId"));
+      this.initButtons();
     },
-    PreviewDetails: null,
-    showDialog: function (context) {
-      this.PreviewDetails = context;
-      this.EmailPreviewDetailsDialog.show();
-      this.setUrlAndTitle(this.PreviewDetails.url, this.PreviewDetails.name);
 
-      this.PreviewDetails.list = [];
-
-      var that = this;
-      var root = $("div.sc-emailpreviewresult[data-sc-variant-id='" + this.PreviewDetails.variantId + "']");
-      $.each($("div.sc-report-item a", root), function (k, v) {
-        var item = $(v);
-        if (item.data("sc-url") != "") {
-          that.PreviewDetails.list.push({
-            name: item.data("sc-name"),
-            url: item.data("sc-url")
-          });
-        }
-      });
-
-      if (this.PreviewDetails.list.length == 1) {
-        this.EmailPreviewDetailsDialogNextButton.viewModel.hide();
-        this.EmailPreviewDetailsDialogPreviousButton.viewModel.hide();
+    initButtons: function() {
+      if (this.model.get('list').length <= 1) {
+        this.NextButton.set('isVisible', false);
+        this.PreviousButton.set('isVisible', false);
       } else {
-        this.EmailPreviewDetailsDialogNextButton.viewModel.show();
-        this.EmailPreviewDetailsDialogPreviousButton.viewModel.show();
+        this.NextButton.set('isVisible', true);
+        this.PreviousButton.set('isVisible', true);
       }
     },
-    next: function () {
-      var currentUrl = this.EmailPreviewImage.get("imageUrl");
-      var currentIndex;
-      $.each(this.PreviewDetails.list, function (k, v) {
-        if (v.url == currentUrl) {
-          currentIndex = k;
-        }
-      });
 
-      if (currentIndex + 1 >= this.PreviewDetails.list.length) {
-        currentIndex = 0;
-      } else {
-        currentIndex++;
+    detachModel: function() {
+      if (this.model) {
+        this.model.off(null, null, this);
+        this.off(null, null, this.model);
       }
-
-      this.setUrlAndTitle(this.PreviewDetails.list[currentIndex].url, this.PreviewDetails.list[currentIndex].name);
     },
-    previous: function () {
-      var currentUrl = this.EmailPreviewImage.get("imageUrl");
-      var currentIndex;
-      $.each(this.PreviewDetails.list, function (k, v) {
-        if (v.url == currentUrl) {
-          currentIndex = k;
-        }
-      });
 
-      if (currentIndex - 1 < 0) {
-        currentIndex = this.PreviewDetails.list.length - 1;
-      } else {
-        currentIndex--;
-      }
+    attachModel: function (model) {
+      this.detachModel();
+      this.model = model;
+      this.model.on({
+        'change:index': this.onChangeIndex
+      }, this);
+      this.on({
+        'dialog:next': this.model.next,
+        'dialog:previous': this.model.prev
+      }, this.model);
+    },
 
-      this.setUrlAndTitle(this.PreviewDetails.list[currentIndex].url, this.PreviewDetails.list[currentIndex].name);
-    },
-    hideDialog: function () {
-      this.EmailPreviewDetailsDialog.hide();
-    },
-    setUrlAndTitle: function (url, title) {
-      this.EmailPreviewImage.set("imageUrl", url);
-      var clientSpan = this.EmailPreviewDetailsDialog.viewModel.$el.find(".sc-dialogWindow-header-title-client");
-      if (clientSpan.length == 0) {
-        this.EmailPreviewDetailsDialog.viewModel.$el.find(".sc-dialogWindow-header-title").prepend('<span class="sc-dialogWindow-header-title-client">' + title + '</span>');
-      } else {
-        clientSpan.text(title);
-      }
+    onChangeIndex: function () {
+      var list = this.model.get('list'),
+        itemData = list[this.model.get('index')];
+      this.EmailPreviewImage.set("imageUrl", itemData.url);
+      this.updateTitle(itemData.name + ' ' + this.defaults.title);
     }
-
   });
 });

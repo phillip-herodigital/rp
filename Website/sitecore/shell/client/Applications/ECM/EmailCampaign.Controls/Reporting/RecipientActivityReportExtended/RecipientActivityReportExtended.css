@@ -1,0 +1,62 @@
+﻿@media (max-width: 992px) {
+  .sc-RecipientActivityReport .row[data-sc-id$="RowPanel"] > div.col-md-6,
+  .sc-RecipientActivityReportExtended .row[data-sc-id$="RowPanel"] > div.col-md-6 {
+    float: left;
+    width: 50%;
+  }
+}
+.sc-RecipientActivityReport .sc-exm-Card .sc-ScoreCard,
+.sc-RecipientActivityReportExtended .sc-exm-Card .sc-ScoreCard {
+  padding: 15px 0 10px 0;
+}
+.sc-RecipientActivityReport .sc-exm-Card .sc-ScoreCard span[data-sc-id$="TextValue"],
+.sc-RecipientActivityReport .sc-exm-Card .sc-ScoreCard a[data-sc-id$="LinkValue"],
+.sc-RecipientActivityReportExtended .sc-exm-Card .sc-ScoreCard span[data-sc-id$="TextValue"],
+.sc-RecipientActivityReportExtended .sc-exm-Card .sc-ScoreCard a[data-sc-id$="LinkValue"] {
+  line-height: 160%;
+}
+.sc-RecipientActivityReport .sc-exm-Card .row[data-sc-id$="TopRowPanel"],
+.sc-RecipientActivityReportExtended .sc-exm-Card .row[data-sc-id$="TopRowPanel"] {
+  padding-bottom: 15px;
+}
+.sc-RecipientActivityReport .sc-exm-Card .row[data-sc-id$="BottomRowPanel"],
+.sc-RecipientActivityReportExtended .sc-exm-Card .row[data-sc-id$="BottomRowPanel"] {
+  margin: 0;
+  border-top: 1px solid #f0f0f0;
+}
+@media (max-width: 992px) {
+  .sc-RecipientActivityReportExtended .sc-exm-Card .sc-advancedExpander-bodywrapper {
+    height: auto !important;
+  }
+  .sc-RecipientActivityReportExtended .sc-exm-Card div[data-sc-id$="RightMainColumn"] {
+    padding-left: 0 !important;
+  }
+  .sc-RecipientActivityReportExtended .sc-exm-Card div[data-sc-id$="LeftMainColumn"] {
+    padding-right: 0 !important;
+  }
+}
+@media (min-width: 992px) and (max-width: 1280px) {
+  .sc-RecipientActivityReportExtended div[data-sc-id$="DoughnutRowPanel"] .col-md-6 {
+    padding-left: 0 !important;
+  }
+}
+.sc-RecipientActivityReportExtended .sc-exm-Card .sc-ScoreCard[data-sc-id$="BouncedScore"] {
+  border-top: 1px solid #f0f0f0;
+}
+.sc-RecipientActivityReportExtended .sc-exm-Card .sc-ScoreCard[data-sc-id$="TotalSentScore"] .sc-text[data-sc-id$="Description"] {
+  display: inline-block;
+}
+.sc-RecipientActivityReportExtended .sc-exm-Card div[data-sc-id$="DoughnutLeftColumn"] {
+  padding-right: 0;
+}
+.sc-RecipientActivityReportExtended .sc-exm-Card .row[data-sc-id$="TopRowPanel"] {
+  height: 185px;
+}
+.sc-RecipientActivityReportExtended .sc-exm-Card div[data-sc-id$="LeftMainColumn"] {
+  padding-left: 0;
+  padding-right: 10px;
+}
+.sc-RecipientActivityReportExtended .sc-exm-Card div[data-sc-id$="RightMainColumn"] {
+  padding-right: 0;
+  padding-left: 10px;
+}

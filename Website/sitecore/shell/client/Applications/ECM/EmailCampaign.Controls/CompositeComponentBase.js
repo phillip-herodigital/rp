@@ -2,11 +2,11 @@
   var model = sitecore.Definitions.Models.ControlModel.extend({});
 
   var view = sitecore.Definitions.Views.ControlView.extend({
-    children: {},
     childComponents: [],
 
     initialize: function () {
       this._super();
+      this.children = {};
       this.id = this.$el.data("sc-id");
       this._findChildren();
     },

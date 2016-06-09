@@ -4,7 +4,6 @@
 <%@ Register TagPrefix="sc" Namespace="Sitecore.Web.UI.WebControls" Assembly="Sitecore.Kernel" %>
 <%@ Register TagPrefix="sc" Namespace="Sitecore.Web.UI.WebControls" Assembly="Sitecore.Analytics" %>
 <%@ OutputCache Location="None" VaryByParam="none" %>
-<sc:Placeholder Key="nl-target-item" runat="server" />
 <html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <sc:Placeholder Key="nl-html-title" runat="server" />

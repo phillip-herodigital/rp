@@ -19,7 +19,8 @@
     initDefaultSettingsDialog: function () {
       if (
         !sessionStorage.managerRootId ||
-        sessionStorage.managerRootId === 'null'
+        sessionStorage.managerRootId === 'null' ||
+        sessionStorage.managerRootId === 'undefined'
         ) {
         DialogService.get('defaultSettings')
           .done(function(dialog) { dialog.firstrun(); });
@@ -33,6 +34,28 @@
       this.on("action:defaultsettings", function() {
         DialogService.show('defaultSettings');
       }, this);
+    },
+
+    openMessage: function (message) {
+      if (message) {
+        var url = message.get("url");
+        if (url) {
+          window.location.href = url;
+        }
+      }
+    },
+
+    deleteMessage: function (message, callback) {
+      if (!message) {
+        return;
+      }
+
+      var data = currentContext = {
+        messageId: message.get("itemId"),
+        messageName: message.get("name")
+      };
+
+      sitecore.Pipelines.DeleteMessage.execute({ currentContext: data, callback: callback });
     }
   });
   return ListPageBase;

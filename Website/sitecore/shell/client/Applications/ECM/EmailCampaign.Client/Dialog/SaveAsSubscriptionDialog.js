@@ -1,51 +1,80 @@
-﻿define(["sitecore", "/-/speak/v1/ecm/ServerRequest.js", "/-/speak/v1/ecm/Messages.js"], function (sitecore) {
-  return sitecore.Definitions.App.extend({
-    initialized: function () {
-      sitecore.on("save:as:subscription:dialog:show", this.showDialog, this);
-      this.on("save:as:subscription:dialog:save", this.saveDialog, this);
-      this.on("save:as:subscription:dialog:close", this.hideDialog, this);
-
+﻿define([
+  "sitecore",
+  "jquery",
+  "/-/speak/v1/ecm/ServerRequest.js",
+  "/-/speak/v1/ecm/Validation.js",
+  "/-/speak/v1/ecm/DialogBase.js"
+], function (
+  sitecore,
+  $,
+  ServerRequest,
+  Validation,
+  DialogBase
+  ) {
+  return DialogBase.extend({
+    setupValidation: function (nameExpression) {
+      this.Validation = Validation.create({
+        id: 'SaveAsSubscription',
+        inputs: [
+          {
+            input: this.NameTextBox,
+            validators: {
+              nameIsValid: {
+                params: {
+                  expression: nameExpression
+                }
+              }
+            }
+          }]
+      }).on({
+        'validation:input:error': function (message) {
+          this.MessageBar.removeMessage(function (mess) { return mess.id ? mess.id === message.id : false; });
+          this.MessageBar.addMessage("error", _.extend({ actions: [], closable: true }, message));
+        },
+        'validation:input:success': function (message) {
+          this.MessageBar.removeMessage(function (mess) { return mess.id ? mess.id.indexOf(message.id) > -1 : false; });
+        },
+        'change:valid': function () {
+          this.Ok.set("isEnabled", this.Validation.get('valid'));
+        }
+      }, this);
     },
-    showDialog: function (messageInfo) {
-      if (!messageInfo) {
-        return;
+
+    showDialog: function (options) {
+      this._super(options);
+      this.setupValidation(options.data.messageContext.get('itemNameValidation'));
+      if (options.data) {
+        this.NameTextBox.set("text", options.data.messageContext.get("messageName"));
+        this.TemplateImage.set("imageUrl", options.data.messageContext.get("thumbnail"));
+
+        if (this.IncludedRecipientDataSource) {
+          this.IncludedRecipientDataSource.set("messageId", options.data.messageContext.get("messageId"));
+          this.IncludedRecipientDataSource.viewModel.refresh();
+        }
       }
-
-      var contextApp = this;
-      contextApp.messageInfo = messageInfo;
-      this.NameTextBox.set("text", contextApp.messageInfo.messageContext.get("messageName"));
-      this.TemplateImage.set("imageUrl", contextApp.messageInfo.messageContext.get("thumbnail"));
-
-      var messageId = contextApp.messageInfo.messageContext.get("messageId");
-      if (contextApp.IncludedRecipientDataSource) {
-        contextApp.IncludedRecipientDataSource.set("messageId", messageId);
-        contextApp.IncludedRecipientDataSource.viewModel.refresh();
-      }
-
-      this.SaveAsSubscriptionDialog.show();
     },
-    saveDialog: function () {
-      var contextApp = this;
-      contextApp.currentContext = {
-        messageId: contextApp.messageInfo.messageContext.get("messageId"),
-        messageName: contextApp.NameTextBox.get("text").escapeAmpersand(),
-        language: contextApp.messageInfo.messageContext.get("language"),
-        messageBar: contextApp.MessageBar,
-        messageBarMain: contextApp.messageInfo.contextApp.MessageBar,
+    ok: function () {
+      var params = {
+        messageId: this.options.data.messageContext.get("messageId"),
+        messageName: _.escape(this.NameTextBox.get("text")),
+        language: this.options.data.messageContext.get("language"),
+        messageBar: this.MessageBar,
+        messageBarMain: this.options.data.contextApp.MessageBar,
         errorPopupResult: 0
       };
-      sitecore.Pipelines.SaveAsSubscriptionTemplate.execute({ app: contextApp });
-      if (contextApp.currentContext.errorPopupResult == 0) {
-        
-        if (!contextApp.aborted) {
+      sitecore.Pipelines.SaveAsSubscriptionTemplate.execute(params);
+      if (params.errorPopupResult == 0) {
+        if (!params.aborted) {
           sitecore.trigger("message:switchtosubscriptionmessage");
           $('li[data-sc-actionid="0661D49FE0204040A255705AA20F67FA"]').hide();
         }
-        this.SaveAsSubscriptionDialog.hide();
+        this._super();
       }
     },
-    hideDialog: function () {
-      this.SaveAsSubscriptionDialog.hide();
+    complete: function() {
+      this._super();
+      this.Validation.destroy();
+      this.MessageBar.removeMessages();
     }
   });
 });

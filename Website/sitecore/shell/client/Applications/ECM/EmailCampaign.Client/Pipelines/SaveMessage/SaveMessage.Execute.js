@@ -1,19 +1,28 @@
-﻿define(["sitecore", "/-/speak/v1/ecm/ServerRequest.js"], function (sitecore) {
-  return {
-    priority: 1,
-    execute: function (context) {
-      postServerRequest("EXM/SaveMessage", { message: context.currentContext.message, language: context.currentContext.language }, function (response) {
-        context.currentContext.messageBar.removeMessage(function (error) { return error.id === "error.ecm.savemessage.save"; });
-        context.currentContext.refreshMessageContext = response.refreshMessageContext;
-        if (response.error) {
-          var messagetoAddError = { id: "error.ecm.savemessage.save", text: response.errorMessage, actions: [], closable: true };
-          context.currentContext.messageBar.addMessage("error", messagetoAddError);
-          context.currentContext.errorCount = 1;
-          context.aborted = true;
-          return;
+﻿define([
+    "sitecore",
+    "/-/speak/v1/ecm/ServerRequest.js",
+    "/-/speak/v1/ecm/constants.js"
+], function(
+    sitecore,
+    ServerRequest,
+    Constants
+) {
+    return {
+        priority: 1,
+        execute: function(context) {
+            ServerRequest(Constants.ServerRequests.SAVE_MESSAGE, {
+                data: { message: context.currentContext.message, language: context.currentContext.language },
+                success: function(response) {
+                    context.currentContext.refreshMessageContext = response.refreshMessageContext;
+                    if (response.error) {
+                        context.currentContext.errorCount = 1;
+                        context.aborted = true;
+                        return;
+                    }
+                    context.currentContext.saved = true;
+                },
+                async: false
+            });
         }
-        context.currentContext.saved = true;
-      }, false);
-    }
-  };
+    };
 });

@@ -14,13 +14,17 @@
       createTriggeredMessage: '{42B80D20-5148-4291-BA75-ACA39A99592D}',
       addEmptyList: '{BDC2AB0C-9FC6-41F4-B821-214A8F156A91}',
       addFromExistingList: '{BCBFAB6D-15A7-4509-9D55-E570B301355E}',
-      selectFolder: '{64D170BF-507C-4D53-BB4F-8FC76F5F2BBC}',
       designImporter: '{710FEC5A-C168-4603-A171-43BC7B602467}',
       pageEditor: '{8B5A7135-0135-4944-A69F-23D9CD388FE6}',
       messageActivateConfirmation: '{AF46BCDC-AAB7-49C0-91D8-FE48D7CDC94A}',
       messageDispatchConfirmation: '{0EAF272C-EF39-4155-A4E1-B8CF8FFF2F46}',
-      // TODO: check is this dialog used somewhere
-      messageManualWinnerSelectConfirmation: '{125864A1-E4AF-4A6A-87D5-A3534894FE02}'
+      messageManualWinnerSelectConfirmation: '{125864A1-E4AF-4A6A-87D5-A3534894FE02}',
+      emailPreviewDetails: '{EBD54846-CB01-44D3-B3CF-E6129E8DF6F0}',
+      emailPreview: '{BA1B94A2-2651-4495-BEC3-075A781713F8}',
+      spamCheck: '{3E4BC47F-75E7-48AB-9C0A-9D0B456FE0DF}',
+      // List Manager
+      selectFolder: '{64D170BF-507C-4D53-BB4F-8FC76F5F2BBC}',
+      selectList: '{43D7456E-C098-4F42-8805-7D905BA283D9}'
     },
 
     insertRendering = _.bind(
@@ -35,8 +39,13 @@
       var defer = $.Deferred();
       dialogs[type] = dialogs[type] || {};
       if (dialogs[type][id]) {
-        defer.resolve(dialogs[type][id]);
+        if ($.isFunction(dialogs[type][id].promise) && $.isFunction(dialogs[type][id].resolve)) {
+          defer = dialogs[type][id];
+        } else {
+          defer.resolve(dialogs[type][id]);
+        }
       } else {
+        dialogs[type][id] = defer;
         if (DialogRenderingTypes[type]) {
           insertRendering(DialogRenderingTypes[type], { $el: $("body") }, function(dialog) {
             if (dialog) {
@@ -65,6 +74,14 @@
         .done(function (dialog) {
           dialog.showDialog(params);
         });
+    },
+    remove: function(type, id) {
+        id = id || type;
+        if (dialogs.length && dialogs[type] && dialogs[type][id]) {
+            var dialog = dialogs[type][id];
+            dialog.ScopedEl.remove();
+            dialogs[type][id] = null;
+        }
     }
   }
 });

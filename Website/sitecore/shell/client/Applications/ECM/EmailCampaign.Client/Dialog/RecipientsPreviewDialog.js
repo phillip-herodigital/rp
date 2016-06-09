@@ -1,15 +1,18 @@
-﻿define(["sitecore", "/-/speak/v1/ecm/MessageTokenService.js"], function (sitecore, MessageTokenService) {
-  return sitecore.Definitions.App.extend({
-    initialized: function () {
-      this.attachEventHandlers();
-    },
-
-    attachEventHandlers: function() {
+﻿define([
+  "sitecore",
+  "/-/speak/v1/ecm/MessageTokenService.js",
+  "/-/speak/v1/ecm/DialogBase.js"
+], function (
+  sitecore,
+  MessageTokenService,
+  DialogBase
+  ) {
+  return DialogBase.extend({
+    attachHandlers: function () {
+      this._super();
       this.on({
         'add:attachment:dialog:close': this.hideDialog,
-        'action:message:recipients:search': this.onRecipientsSearch,
-        'preview:recipients:dialog:ok': this.ok,
-        'preview:recipients:dialog:cancel': this.hideDialog
+        'action:message:recipients:search': this.onRecipientsSearch
       }, this);
     },
 
@@ -36,22 +39,14 @@
         managerRootId: sessionStorage.managerRootId,
         contactId: personalizationContactId
       });
-      this.hideDialog();
+      this._super();
     },
 
-    showDialog: function (context) {
-      if (!context)
-        return;
-
-      this.context = context;
-      this.RecipientsPreviewDialog.show();
+    showDialog: function (options) {
+      this._super(options);
       this.RecipientPreviewDataSource.set("loadRecipients", true);
-      this.RecipientPreviewDataSource.set("messageId", context.messageContext.get("messageId"));
+      this.RecipientPreviewDataSource.set("messageId", options.data.messageContext.get("messageId"));
       this.RecipientPreviewDataSource.refreshRecipients();
-    },
-    hideDialog: function () {
-      //TODO: Make it hide
-      this.RecipientsPreviewDialog.hide();
     }
   });
 });

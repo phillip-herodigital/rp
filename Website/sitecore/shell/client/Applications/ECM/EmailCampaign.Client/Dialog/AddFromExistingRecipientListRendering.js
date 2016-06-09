@@ -1,119 +1,77 @@
-﻿define(["sitecore", "/-/speak/v1/listmanager/SelectFolder.js", "/-/speak/v1/ecm/guidGenerator.js",
-"/-/speak/v1/listmanager/SelectLists.js"], function (sitecore, selectFolder, guidGenerator, selectLists) {
-  var self;
-  return sitecore.Definitions.App.extend({
-    initialized: function () {
-      self = this;
-      var contextApp = this;
+﻿define([
+    "sitecore",
+    "/-/speak/v1/ecm/guidGenerator.js",
+    "/-/speak/v1/listmanager/SelectLists.js",
+    "/-/speak/v1/ecm/AddEmptyRecipientListRendering.js",
+    "/-/speak/v1/ecm/DialogService.js"
+], function(
+    sitecore,
+    guidGenerator,
+    selectLists,
+    AddEmptyRecipientListRendering,
+    DialogService
+) {
+    return AddEmptyRecipientListRendering.extend({
+        initialized: function() {
+            this._super();
 
-      contextApp.insertRendering("{64D170BF-507C-4D53-BB4F-8FC76F5F2BBC}", { $el: $("body") }, function (subApp) {
-        contextApp["selectFolderDialog"] = subApp;
-      });
+            selectLists.init(this);
 
-      selectLists.init(contextApp);
-
-      contextApp.on("list:select:list", contextApp.showSelectListDialog, contextApp);
-      contextApp.on("list:select:destination", contextApp.showSelectDestinationDialog, contextApp);
-
-      sitecore.on("recipients:add:list:from:existinglist:dialog:show", contextApp.showAddListFromExistingDialog, contextApp);
-
-      contextApp.on("add:list:dialog:close", contextApp.hideAddListDialog, contextApp);
-      contextApp.on("add:list:dialog:ok", contextApp.addList, contextApp);
-
-      self.addListMessageId = null;
-      self.existingList = "";
-    },
-
-    showAddListFromExistingDialog: function () {
-      self.AddListMessageBar.removeMessage(function (error) { return error.id === "listNameIsEmpty"; });
-      self.AddListMessageBar.removeMessage(function (error) { return error.id === "existinglistIsEmpty"; });
-
-      self.ListNameTextBox.set("text", "");
-      self.ListDescriptionTextArea.set("text", "");
-      self.ListDestinationButtonTextBox.set("text", "/sitecore/system/List Manager/All Lists");
-      self.ListSelectListButtonTextBox.set("text", "");
-
-      self.OKButton.viewModel.enable();
-      self.AddListDialogWindow.show();
-
-      // ANB 14-Nov-13: kind of a hack, but it's theonly way it work, because the modal div has the focus
-      setTimeout(function () { self.ListNameTextBox.viewModel.$el.focus(); }, 500);
-    },
-
-    addList: function () {
-      self.OKButton.viewModel.disable();
-      var listName = self.ListNameTextBox.get("text");
-      if (!listName) {
-        self.AddListMessageBar.addMessage("error", { id: "listNameIsEmpty", text: sitecore.Resources.Dictionary.translate("ECM.Recipients.AddEmptyRecipientList"), actions: [], closable: true });
-        return;
-      }
-
-      var listDst = self.ListDestinationButtonTextBox.get("text");
-      var selectList = self.ListSelectListButtonTextBox.get("text");
-      if (!selectList) {
-        self.AddListMessageBar.addMessage("error", { id: "existinglistIsEmpty", text: sitecore.Resources.Dictionary.translate("ECM.Recipients.NoExistingListSelected"), actions: [], closable: true });
-        return;
-      }
-
-      var listDescrption = self.ListDescriptionTextArea.get("text");
-      var listId = guidGenerator.getGuid();
-      var data = { "Id": listId, "Name": listName, "Owner": "", "Description": listDescrption, "Destination": listDst, "Type": "Contact list", "Source": "{\"IncludedLists\":[" + JSON.stringify(self.existingList) + "],\"ExcludedLists\":[]}" };
-      var url = "/sitecore/api/ssc/ListManagement/ContactList";
-
-      $.ajax({
-        url: url,
-        data: data,
-        error: function (args) {
-          if (args.status === 403) {
-            console.error("Not logged in, will reload page");
-            window.top.location.reload(true);
-          }
+            this.on({
+                'list:select:list': this.showSelectListDialog
+            }, this);
         },
-        success: function () {
-          self.hideAddListDialog();
-          self.notify();
+
+        validateFields: function() {
+            var selectList = this.ListSelectListButtonTextBox.get("text");
+            if (!selectList) {
+                this.showError({
+                    id: "existinglistIsEmpty",
+                    Message: sitecore.Resources.Dictionary.translate("ECM.Recipients.NoExistingListSelected")
+                });
+                return false;
+            }
+            return this._super();
         },
-        type: "POST"
-      });
-    },
 
-    hideAddListDialog: function () {
-      self.AddListDialogWindow.hide();
-    },
+        showSelectListDialog: function() {
+            this.resetMessageBar();
+            this.detachHandlers();
+            this.DialogWindow.hide();
+            var callback = _.bind(function(itemId, item) {
+                if (typeof item != "undefined" && item != null) {
+                    this.ListSelectListButtonTextBox.set("text", (item.Name));
+                    this.existingList = item;
+                }
+            }, this);
 
-    notify: function () {
-      sitecore.trigger("listManager:listCreated");
-    },
+            DialogService.get('selectList')
+                .done(_.bind(function(dialog) {
+                    $(document).on('hidden.bs.modal.exm', '[data-sc-id=SelectContactListsDialog]', _.bind(function() {
+                        // jQuery able to catch the namespaced event only on the first trigger. To fix it need to use delegation
+                        $(document).off('hidden.bs.modal.exm');
+                        this.DialogWindow.show();
+                        this.attachHandlers();
+                    }, this));
 
-    showSelectDestinationDialog: function () {
-      self.AddListMessageBar.removeMessage(function (error) { return error.id === "listNameIsEmpty"; });
-      self.AddListMessageBar.removeMessage(function (error) { return error.id === "existinglistIsEmpty"; });
+                    dialog.SelectContactListsDialog.set("backdrop", "static");
+                    dialog.showDialog({
+                        callback: callback,
+                        excludelists: []
+                    });
+                }, this));
+        },
 
-      self.AddListDialogWindow.hide();
-      var callback = function (itemId, item) {
-        if (typeof item != "undefined" && item != null) {
-          self.ListDestinationButtonTextBox.set("text", (item.$path));
-        } else {
-          self.ListDestinationButtonTextBox.set("text", "/sitecore/system/List Manager/All Lists");
+        resetMessageBar: function() {
+            this._super();
+            this.MessageBar.removeMessage(function(error) { return error.id === "existinglistIsEmpty"; });
+        },
+
+        notify: function() {},
+
+        resetDefaults: function() {
+            this._super();
+            this.ListSelectListButtonTextBox.set("text", "");
         }
-        self.AddListDialogWindow.show();
-      };
-      selectFolder.SelectFolder(callback, "{BC799B34-8423-48AC-A2FE-D128E6300659}", self.ListDestinationButtonTextBox.get("text"));
-    },
-
-    showSelectListDialog: function () {
-      self.AddListMessageBar.removeMessage(function (error) { return error.id === "listNameIsEmpty"; });
-      self.AddListMessageBar.removeMessage(function (error) { return error.id === "existinglistIsEmpty"; });
-
-      self.AddListDialogWindow.hide();
-      var callback = function (itemId, item) {
-        if (typeof item != "undefined" && item != null) {
-          self.ListSelectListButtonTextBox.set("text", (item.Name));
-          self.existingList = item;
-        }
-        self.AddListDialogWindow.show();
-      };
-      selectLists.SelectContactListForNewList(callback, []);
-    }
-  });
+    });
 });

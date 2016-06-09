@@ -1,1 +1,1 @@
-﻿<%@ WebHandler Language="C#" CodeBehind="SelectedDatabase.ashx.cs" Class="Sitecore.Modules.EmailCampaign.sitecore.SelectedDatabase" %>
+﻿<%@ WebHandler Language="C#" CodeBehind="SelectedDatabase.ashx.cs" Class="Sitecore.EmailCampaign.Cm.UI.sitecore.SelectedDatabase" %>
