@@ -29,6 +29,7 @@
     var scrolled = false;
     $scope.keywords = []; //list of keywords for current faq list
     $scope.noKeywordSelected = true;
+
     $scope.init = function (categories, popFaqs) {
         $scope.categories = categories;
         $scope.displayCategories = [];
@@ -150,7 +151,7 @@
         }
     }
 
-    $scope.getSearchFaqs = function () {
+    $scope.getSearchFaqs = function (limitResults) {
         var searchText = "-";
         var searchCategory = "/-";
         var searchState = "/-";
@@ -177,7 +178,12 @@
                 angular.forEach(response.data, function (faq) {
                     faq.faqAnswer = $sce.trustAsHtml(faq.faqAnswer);
                 });
-                resolve(response.data.slice(0,4));
+                if (limitResults) {
+                    resolve(response.data.slice(0, 4));
+                }
+                else {
+                    resolve(response.data);
+                }
             }, function errorCallback(response) {
                 //handle error
                 reject(null);
@@ -190,7 +196,7 @@
         $scope.isLoading = true;
         angular.copy($scope.searchData, $scope.searchedData);
         $scope.isSearchLoading = false;
-        var promise = $scope.getSearchFaqs();
+        var promise = $scope.getSearchFaqs(false);
         promise.then(function (response) {
             $scope.isLoading = false;
             var categorySame = $scope.category.name === $scope.searchData.category;
