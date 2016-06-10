@@ -897,7 +897,7 @@
 
                                 .selected {
                                     font-weight: 600;
-                                    color: #29a4dd;
+                                    color: #28a5de;
                                 }
                             }
 
@@ -1121,8 +1121,10 @@
         .secondary-footer {
             background-color: #eff2f3;
             width: 100%;
-            padding: 20px 0;
-
+            padding: 20px 50px;
+			a {
+                font-weight: 700;
+            }	
             .content {
                 width: 1040px;
                 margin: 0 auto;
@@ -1138,9 +1140,6 @@
                     padding: 0 10px;
                 }
 
-                a {
-                    font-weight: 700;
-                }
             }
         }
     }
@@ -1337,6 +1336,7 @@ article.contact {
 
             p a {
                 font-weight: 500;
+				color: #28a5de;
             }
 
             > div {
@@ -1412,7 +1412,7 @@ article.contact {
                         }
 
                         &:hover {
-                            background-color: #00a8e1;
+                            background-color: #28a5de;
                         }
 
                         &[disabled] {
@@ -1453,6 +1453,7 @@ article.contact {
 
                 a {
                     font-weight: 600;
+					color: #28a5de;
                 }
 
                 hr {
@@ -1541,12 +1542,18 @@ article.contact {
                 text-align: center;
                 font-size: 18px;
                 margin-bottom: 30px;
+				
+				a {
+					color: #28a5de;
+				}
+
             }
         }
     }
 
     .associate-support {
-
+		width: 1040px;
+		margin: 0 auto;
         h1 {
             margin-top: 1em;
         }
