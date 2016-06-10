@@ -2145,15 +2145,13 @@ exit 0</PreBuildEvent>
   <Target Name="AfterBuild">
   </Target> -->
   <UsingTask TaskName="TransformXml" AssemblyFile="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v10.0\Web\Microsoft.Web.Publishing.Tasks.dll" />
-  <Target Name="AfterCompile" Condition="exists('Sitecore.$(Configuration).config')">
-    <TransformXml Source="Sitecore.config" Destination="$(IntermediateOutputPath)$(TargetFileName).config" Transform="Sitecore.$(Configuration).config" />
+  <Target Name="AfterCompile" Condition="exists('App_Config\Sitecore.$(Configuration).config')">
+    <TransformXml Source="App_Config\Sitecore.config" Destination="$(IntermediateOutputPath)$(TargetFileName).config" Transform="App_Config\Sitecore.$(Configuration).config" />
+    <!-- Force build process to use the transformed configuration file from now on. -->
     <ItemGroup>
-      <AppConfigWithTargetPath Remove="Sitecore.config" />
+      <AppConfigWithTargetPath Remove="App_Config\Sitecore.config" />
       <AppConfigWithTargetPath Include="$(IntermediateOutputPath)$(TargetFileName).config">
-        <TargetPath>$(TargetFileName).config</TargetPath>
-      </AppConfigWithTargetPath>
-      <AppConfigWithTargetPath Include="$(IntermediateOutputPath)$(TargetFileName).config">
-        <TargetPath>$(TargetName).vshost$(TargetExt).config</TargetPath>
+        <TargetPath>App_Config\$(TargetFileName).config</TargetPath>
       </AppConfigWithTargetPath>
     </ItemGroup>
   </Target>
