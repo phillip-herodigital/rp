@@ -2,7 +2,6 @@
     $scope.isLoading = false;
     $scope.dropDown = false;
     $scope.selectedFaqIndex = null;
-    $scope.searchFAQs = [];
     $scope.category = {
         name: "",
         states: []
@@ -151,6 +150,10 @@
         }
     }
 
+    $scope.textSearch = function () {
+        $scope.search();
+    }
+
     $scope.getSearchFaqs = function (limitResults) {
         var searchText = "-";
         var searchCategory = "/-";
@@ -193,56 +196,58 @@
     }
 
     $scope.search = function () {
-        $scope.isLoading = true;
-        angular.copy($scope.searchData, $scope.searchedData);
-        $scope.isSearchLoading = false;
-        var promise = $scope.getSearchFaqs(false);
-        promise.then(function (response) {
-            $scope.isLoading = false;
-            var categorySame = $scope.category.name === $scope.searchData.category;
-            if (categorySame) {
-                //same category
-                if (response.length == 1) {
-                    //same category, one result
-                    var faqIndex = -1;
-                    var displayedFAQs = $scope.getDisplayedFAQs()
-                    angular.forEach(displayedFAQs, function (faq, index) {
-                        if (faq.name === response[0].name) {
-                            faqIndex = index;
-                        }
-                    });
-                    $scope.searchResults = false;
-                    scrolled = false;
-                    $scope.selectFaq(faqIndex);
-                    $scope.searchData.text = "";
-                    scrollGuid = "id" + displayedFAQs[faqIndex].guid;
-                    $scope.$apply();
+        if ($scope.searchData.text) {
+            $scope.isLoading = true;
+            angular.copy($scope.searchData, $scope.searchedData);
+            $scope.isSearchLoading = false;
+            var promise = $scope.getSearchFaqs(false);
+            promise.then(function (response) {
+                $scope.isLoading = false;
+                var categorySame = $scope.category.name === $scope.searchData.category;
+                if (categorySame) {
+                    //same category
+                    if (response.length == 1) {
+                        //same category, one result
+                        var faqIndex = -1;
+                        var displayedFAQs = $scope.getDisplayedFAQs()
+                        angular.forEach(displayedFAQs, function (faq, index) {
+                            if (faq.name === response[0].name) {
+                                faqIndex = index;
+                            }
+                        });
+                        $scope.searchResults = false;
+                        scrolled = false;
+                        $scope.selectFaq(faqIndex);
+                        $scope.searchData.text = "";
+                        scrollGuid = "id" + displayedFAQs[faqIndex].guid;
+                        $scope.$apply();
+                    }
+                    else {
+                        //same category, multiple results
+                        $scope.faqs = response;
+                        paginate();
+                        $scope.searchResults = true;
+                        buildKeywords();
+                        $scope.$apply();
+                    }
                 }
                 else {
-                    //same category, multiple results
-                    $scope.faqs = response;
-                    paginate();
-                    $scope.searchResults = true;
-                    buildKeywords();
-                    $scope.$apply();
+                    //different category
+                    if (response.length == 1) {
+                        //different category, one result
+                        selectOutsideFAQ(response[0]);
+                    }
+                    else {
+                        //different category, multiple results
+                        selectOutsideFAQs();
+                    }
                 }
             }
-            else {
-                //different category
-                if (response.length == 1) {
-                    //different category, one result
-                    selectOutsideFAQ(response[0]);
-                }
-                else {
-                    //different category, multiple results
-                    selectOutsideFAQs();
-                }
-            }
+            ,
+            function (error)
+            { console.log(error); }
+            );
         }
-        ,
-        function (error)
-        { console.log(error); }
-        );
     };
 
     var selectOutsideFAQ = function (faq) {
@@ -274,7 +279,7 @@
     };
 
     var paginate = function () {
-        $scope.getDisplayedFAQs();
+        var displayFAQs = $scope.getDisplayedFAQs();
         displayLength = $scope.displayedFAQCount;
         $scope.resultsPages = Math.ceil(displayLength / $scope.resultsPerPage.value);
         $scope.resultsPageRange = [];
@@ -282,11 +287,16 @@
             $scope.resultsPageRange.push({ low: 0, high: displayLength - 1 });
         }
         else {
-            for (var page = 0; page < $scope.resultsPages; page++) {
-                var lowVal = page * $scope.resultsPerPage.value;
-                var highVal = lowVal + ($scope.resultsPerPage.value - 1);
-                if (highVal > displayLength - 1) highVal = displayLength - 1;
-                $scope.resultsPageRange.push({ low: lowVal, high: highVal });
+            if (displayLength === 0) {
+                $scope.resultsPageRange.push({ low: -1, high: -1 });
+            }
+            else {
+                for (var page = 0; page < $scope.resultsPages; page++) {
+                    var lowVal = page * $scope.resultsPerPage.value;
+                    var highVal = lowVal + ($scope.resultsPerPage.value - 1);
+                    if (highVal > displayLength - 1) highVal = displayLength - 1;
+                    $scope.resultsPageRange.push({ low: lowVal, high: highVal });
+                }
             }
         }
     };
@@ -418,14 +428,15 @@
         });
     }
 
-    $scope.sendFeedback = function (guid, isHelpful, feedback) {
+    $scope.sendFeedback = function (faq, isHelpful, feedback) {
         $http.post("/api/support/sendFeedback", {
-            guid: guid,
+            guid: faq.guid,
             isHelpful: isHelpful,
             comment: feedback
         })
             .then(function successCallback(response) {
                 if (response.data) {
+                    faq.feedbackSent = true;
                     console.log("feedback sent");
                 }
                 else {

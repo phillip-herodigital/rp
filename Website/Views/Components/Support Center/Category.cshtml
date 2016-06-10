@@ -56,11 +56,6 @@
                 <span> @categoryContent.Fields["results for"] “{{searchedData.text}}”</span>
                 <span> @categoryContent.Fields["in"] {{searchedData.category}}</span>
                 <span ng-show="searchedData.state.name"> - {{searchedData.state.abbreviation}}</span>
-                <span> - {{subcategory}}</span>
-                @*<span class="per-page">Results Per Page </span>
-                    <select ng-model="resultsPerPage.value" ng-change="setResultsPerPage()">
-                        <option ng-repeat="value in resultsPerPage.options">{{value}}</option>
-                    </select>*@
             </p>
         </div>
         <div class="faqs-heading" ng-show="!mobileAcronyms && category.states.length && !searchResults">
@@ -80,7 +75,7 @@
             </aside>
             <article class="marketing">
                 <div class="content">
-                    <div class="faq" ng-repeat="faq in getDisplayedFAQs() track by $index" ng-show="splitFaqFilter($index)" ng-init="isHelpful = ''; helpfulSelected = false; feedback = ''" id="id{{faq.guid}}">
+                    <div class="faq" ng-repeat="faq in getDisplayedFAQs() track by $index" ng-show="splitFaqFilter($index)" ng-init="isHelpful = ''; helpfulSelected = false; feedback = '';" id="id{{faq.guid}}">
                         <div class="question clearfix" ng-click="selectFaq($index)">
                             <div class="plus-minus">
                                 <div class="plus" ng-class="{minus: faq.selected}"></div>
@@ -98,10 +93,13 @@
                                         <input type="radio" name="helpful" ng-model="isHelpful" ng-change="helpfulSelected = true" ng-value="true" /> @categoryContent.Fields["Yes"]
                                         <input type="radio" name="helpful" ng-model="isHelpful" ng-change="helpfulSelected = true" ng-value="false" /> @categoryContent.Fields["No"]
                                     </p>
-                                    <div class="response" ng-show="helpfulSelected">
+                                    <div class="response" ng-show="faq.feedbackSent">
+                                        <p>@categoryContent.Fields["Feedback Sent Text"]</p>
+                                    </div>
+                                    <div class="response" ng-show="helpfulSelected && !faq.feedbackSent">
                                         <p>@categoryContent.Fields["Thanks for your feedback"]</p>
                                         <textarea placeholder="@categoryContent.Fields["Comment Placeholder"]" ng-model="feedback"></textarea>
-                                        <button class="button primary" ng-click="sendFeedback(faq.guid, isHelpful, feedback)">@categoryContent.Fields["Submit"]</button>
+                                        <button class="button primary" ng-click="sendFeedback(faq, isHelpful, feedback)">@categoryContent.Fields["Submit"]</button>
                                     </div>
                                 </div>
                             </div>

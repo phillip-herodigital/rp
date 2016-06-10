@@ -21,7 +21,7 @@
 <div class="support-container layout" ng-cloak>
     <div class="main" ng-init="init(@categories, @popFaqs)">
         <div class="wrapper">
-            <article class="faq-categories marketing" ng-hide="searchResults">
+            <article class="faq-categories marketing">
                 <div class="primary">
                     <h1>@Html.Sitecore().Field("Categories Heading")</h1>
                     <h4>@Html.Sitecore().Field("Categories Subheading")</h4>
@@ -65,20 +65,9 @@
             </article>
             <article class="faqs marketing">
                 <div class="wrapper">
-                    <header ng-hide="searchResults">
+                    <header>
                         <h1>@Html.Sitecore().Field("Pop FAQs Heading")</h1>
                     </header>
-                    <div class="pagination-display clearfix" ng-show="searchResults">
-                        <a href="" ng-click="backToSupport(@popFaqs)">@Html.Sitecore().Field("Back to Support")</a>
-                        <p>
-                            <span>@Html.Sitecore().Field("Showing") {{resultsPageRange[resultsPage].low + 1}} - {{resultsPageRange[resultsPage].high + 1}} @Html.Sitecore().Field("Of") {{displayedFAQCount}}</span>
-                            <span ng-show="searchResults"> @Html.Sitecore().Field("search results for") “{{searchData.text}}”</span>
-                            @*<span class="per-page">Results Per Page </span>
-                                <select ng-model="resultsPerPage.value" ng-change="setResultsPerPage()">
-                                    <option ng-repeat="value in resultsPerPage.options">{{value}}</option>
-                                </select>*@
-                        </p>
-                    </div>
                     <div class="content">
                         <div class="faq" ng-repeat="faq in getDisplayedFAQs() track by $index" ng-show="splitFaqFilter($index)" ng-init="isHelpful = ''; helpfulSelected = false; feedback = ''">
                             <div class="question clearfix" ng-click="selectFaq($index)">
@@ -89,10 +78,11 @@
                                 <p class="faq-category" ng-repeat="category in faq.categories">{{category.displayTitle}}</p>
                             </div>
                             <div class="answer-container">
+                                <div class="triangle-up"></div>
                                 <div class="answer clearfix" ng-class="{reveal: faq.selected}">
                                     <div class="answer-content" ng-bind-html="faq.faqAnswer"></div>
                                     <aside>
-                                        <h4>@Html.Sitecore().Field("Related Questions")</h4>
+                                        <h4 ng-show="faq.relatedFAQs.length">@Html.Sitecore().Field("Related Questions")</h4>
                                         <div ng-repeat="relatedFAQ in faq.relatedFAQs">
                                             <p><a href="" ng-click="selectRelated(relatedFAQ)">{{relatedFAQ.display}}</a></p>
                                         </div>
@@ -102,9 +92,6 @@
                                                 <h4>@Html.Sitecore().Field("Still having issues")</h4>
                                                 <p>@Html.Sitecore().Field("Please contact us")</p>
                                             </div>
-                                            @*<div class="contact-info">
-                                                    @Html.Sitecore().Field("Customer Service")
-                                                </div>*@
                                         </div>
                                     </aside>
                                     <div class="helpful">
@@ -113,35 +100,17 @@
                                             <input type="radio" name="helpful" ng-model="isHelpful" ng-change="helpfulSelected = true" ng-value="true" />@Html.Sitecore().Field("Yes")
                                             <input type="radio" name="helpful" ng-model="isHelpful" ng-change="helpfulSelected = true" ng-value="false" />@Html.Sitecore().Field("No")
                                         </p>
-                                        <div class="response" ng-show="helpfulSelected">
+                                        <div class="response" ng-show="faq.feedbackSent">
+                                            <p>@Html.Sitecore().Field("Feedback Sent Text")</p>
+                                        </div>
+                                        <div class="response" ng-show="helpfulSelected && !faq.feedbackSent">
                                             <p>@Html.Sitecore().Field("Thanks for your feedback")</p>
                                             <textarea placeholder="@Html.Sitecore().Field("Helpful Placeholder")" ng-model="feedback"></textarea>
-                                            <button class="button primary" ng-click="sendFeedback(faq.guid, isHelpful, feedback)">@Html.Sitecore().Field("Submit")</button>
+                                            <button class="button primary" ng-click="sendFeedback(faq, isHelpful, feedback)">@Html.Sitecore().Field("Submit")</button>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="pagination-container">
-                    <div class="pagination clearfix" ng-show="getDisplayedFAQs().length > resultsPerPage.value">
-                        <div class="back">
-                            <div><a href="" ng-click="setResultsPage(0)" ng-class="{disabled: resultsPage == 0}">@Html.Sitecore().Field("First")</a></div>
-                            <div><a href="" ng-click="setResultsPage(resultsPage - 1)" ng-class="{disabled: resultsPage == 0}">@Html.Sitecore().Field("Previous")</a></div>
-                        </div>
-                        <div class="page-numbers">
-                            <div class="content clearfix">
-                                <div class="page-number" ng-repeat="page in resultsPageRange" ng-show="pageFilter1($index)" ng-class="{selected: resultsPage == $index}" ng-click="setResultsPage($index)">{{$index + 1}}</div>
-                                <div ng-show="pageFilter2()">...</div>
-                                <div class="page-number" ng-repeat="page in resultsPageRange" ng-show="pageFilter3($index)" ng-class="{selected: resultsPage == $index}" ng-click="setResultsPage($index)">{{$index + 1}}</div>
-                                <div ng-show="pageFilter4()">...</div>
-                                <div class="page-number" ng-repeat="page in resultsPageRange" ng-show="pageFilter5($index)" ng-class="{selected: resultsPage == $index}" ng-click="setResultsPage($index)">{{$index + 1}}</div>
-                            </div>
-                        </div>
-                        <div class="forward">
-                            <div><a href="" ng-click="setResultsPage(resultsPage + 1)" ng-class="{disabled: resultsPage == resultsPages - 1}">@Html.Sitecore().Field("Next")</a></div>
-                            <div><a href="" ng-click="setResultsPage(resultsPageRange.length - 1)" ng-class="{disabled: resultsPage == resultsPages - 1}">@Html.Sitecore().Field("Last")</a></div>
                         </div>
                     </div>
                 </div>
