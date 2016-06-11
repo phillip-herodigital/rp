@@ -1517,6 +1517,18 @@
     <Content Include="sitecore\default.aspx" />
     <Content Include="_CMP\RazlService.asmx" />
     <Content Include="App_Config\Sitecore.config" />
+    <Content Include="App_Config\Sitecore.Test.config">
+      <DependentUpon>Sitecore.config</DependentUpon>
+    </Content>
+    <Content Include="App_Config\Sitecore.Test - Sitecore.config">
+      <DependentUpon>Sitecore.config</DependentUpon>
+    </Content>
+    <Content Include="App_Config\Sitecore.Azure-Production.config">
+      <DependentUpon>Sitecore.config</DependentUpon>
+    </Content>
+    <Content Include="App_Config\Sitecore.Azure-Production Sitecore.config">
+      <DependentUpon>Sitecore.config</DependentUpon>
+    </Content>
     <None Include="Properties\PublishProfiles\PackageForUpgrade.pubxml" />
     <None Include="Properties\PublishProfiles\Package.pubxml" />
     <None Include="Scripts\_references.js" />
@@ -2132,4 +2144,15 @@ exit 0</PreBuildEvent>
   </Target>
   <Target Name="AfterBuild">
   </Target> -->
+  <UsingTask TaskName="TransformXml" AssemblyFile="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v10.0\Web\Microsoft.Web.Publishing.Tasks.dll" />
+  <Target Name="AfterBuild" Condition="exists('App_Config\Sitecore.$(Configuration).config')">
+    <TransformXml Source="App_Config\Sitecore.config" Destination="$(IntermediateOutputPath)$(TargetFileName).config" Transform="App_Config\Sitecore.$(Configuration).config" />
+    <!-- Force build process to use the transformed configuration file from now on. -->
+    <ItemGroup>
+      <AppConfigWithTargetPath Remove="App_Config\Sitecore.config" />
+      <AppConfigWithTargetPath Include="$(IntermediateOutputPath)$(TargetFileName).config">
+        <TargetPath>App_Config\$(TargetFileName).config</TargetPath>
+      </AppConfigWithTargetPath>
+    </ItemGroup>
+  </Target>
 </Project>
