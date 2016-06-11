@@ -23,13 +23,13 @@ namespace StreamEnergy.Mvc
         public override IController CreateController(System.Web.Routing.RequestContext requestContext, string controllerName)
         {
             var result = base.CreateController(requestContext, controllerName);
-            if (result is IController && result is IDisposable)
+            if (result is Controller && result is IDisposable)
             {
-                return (IController)MvcProxyGenerator.Generator.CreateInterfaceProxyWithTarget(typeof(IController), new[] { typeof(IDisposable) }, result, container.Resolve<ExecuteInterceptor>());
+                return (Controller)MvcProxyGenerator.Generator.CreateClassProxyWithTarget(typeof(Controller), new[] { typeof(IDisposable) }, result, container.Resolve<ExecuteInterceptor>());
             }
-            else if (result is IController)
+            else if (result is Controller)
             {
-                return MvcProxyGenerator.Generator.CreateInterfaceProxyWithTarget(result, container.Resolve<ExecuteInterceptor>());
+                return (Controller)MvcProxyGenerator.Generator.CreateClassProxyWithTarget(result, container.Resolve<ExecuteInterceptor>());
             }
             return result;
         }
