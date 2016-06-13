@@ -20,7 +20,7 @@
         <h4 ng-hide="isCategorySupport">@Html.Sitecore().Field("Main Subheading")</h4>
         <form class="search" name="searchBar" ng-submit="textSearch()" ng-hide="mobileAcronyms">
             <div class="input">
-                <input type="text" class="search-input" name="searchtext"
+                <input type="text" class="search-input" name="searchText" id="seachText"
                        placeholder="{{searchPlaceholder}}"
                        autocomplete="off"
                        typeahead-focus-first="false"
@@ -28,8 +28,10 @@
                        ng-disabled="!searchData.category || (searchData.category.states.length && !searchData.state)"
                        ng-model="searchData.text"
                        typeahead-loading="isSearchLoading"
-                       typeahead="faq.faqQuestion for faq in getSearchFaqs(true) | filter:$viewValue"
-                       typeahead-template-url="typeahead-results" />
+                       typeahead-is-open="isSearchOpen"
+                       typeahead-editable="false"
+                       typeahead="faq.faqQuestion as faq.faqQuestion for faq in getSearchFaqs(true) | filter:$viewValue"
+                       typeahead-template-url="typeahead-results"/>
                 <img ng-hide="isSearchLoading" class="mag-glass" src="/frontend/assets/i/mag-glass.png" ng-click="search()" />
                 <img ng-show="isSearchLoading" class="mag-glass" src="~/frontend/assets/i/loading.gif" />
             </div>
@@ -47,7 +49,7 @@
                         <div ng-click="selectCategory(category, null)" ng-class="{noHover: category.states.length}">
                             {{category.displayTitle}}<span ng-show="category.states.length"> @Html.Sitecore().Field("Select State")</span>
                         </div>
-                        <ul class="state" ng-show="category.states">
+                        <ul class="state" ng-show="category.states.length">
                             <li ng-repeat="state in category.states">
                                 <div ng-click="selectCategory($parent.category, state)" ng-style="{'background-image': 'URL(' + state.iconURL + ')'}">{{state.abbreviation}}</div>
                             </li>
@@ -68,6 +70,7 @@
     </div>
 </nav>
 <script type="text/ng-template" id="typeahead-results">
-    <div bind-html-unsafe="match.label | typeaheadHighlight:query" class="typeaheadQuestion"></div>
+    <div bind-html-unsafe="match.label" class="typeaheadQuestion"></div>
+    <div class="typeaheadQuestion">1 + {{match.label}}</div>
     <div ng-bind-html="match.model.faqAnswer" class="typeaheadAnswer"></div>
 </script>

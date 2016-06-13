@@ -21,12 +21,15 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 return _controller;
             }
         }
-        [HttpGet]
-        [Route("search/{query}/{category}/{state}/{subcategory}")]
-        public List<FAQ> Get(string query, string category, string state, string subcategory) {
+        [HttpPost]
+        [Route("search")]
+        public List<FAQ> Search(searchRequest searchRequest) {
             FaqSearchFilter filter = new FaqSearchFilter();
 
-            query = System.Web.HttpUtility.UrlDecode(query);
+            var query = System.Web.HttpUtility.UrlDecode(searchRequest.Query);
+            var category = searchRequest.Category;
+            var state = searchRequest.State;
+            var subcategory = searchRequest.Subcategory;
 
             if (!string.IsNullOrEmpty(category)) {
                 try {
