@@ -1,0 +1,82 @@
+﻿@using StreamEnergy.MyStream.Controllers.ApiControllers;
+@using StreamEnergy.MyStream.Models.Currents;
+@{
+    string liClass = "";
+    string filterValue = "";
+    string month = DateTime.Now.ToString("MMMM");
+    string year = DateTime.Now.Year.ToString();
+    filterValue = month + " " + year;
+
+    if (!String.IsNullOrEmpty(Request.QueryString["month"]))
+    {
+        filterValue = Request.QueryString["month"];
+    }
+
+    Sitecore.Data.Items.Item dataSourceItem = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Currents/10 in 2016");
+
+    TopLeaderList topLeaderList = CurrentsController.GetTopLeaderList(dataSourceItem, filterValue);
+}
+<div class="ten-in-2016">
+    <article class="currents currents__box leaderboard top-10-header">
+        <div class="wrapper">
+            <div class="leaderboard-header">
+                <h1>@Html.Sitecore().Field("Header Text")</h1>
+            </div>
+            <div class="leaderboard-content">
+                @Html.Sitecore().Field("Content Text")
+            </div>
+        </div>
+    </article>
+
+    <div class="grid one">
+        <div class="green-bar">
+            @Html.Sitecore().Field("Green Bar")
+        </div>
+        <div class="legend">
+            @Html.Sitecore().Field("Legend")
+        </div>
+    </div>
+
+    <div class="grid two top-container">
+        <div class="col top-list top-10">
+            <div class="list">
+                <div class="top-header">
+                    <h3>@Html.Sitecore().Field("Top 10 Header Text")</h3>
+                </div>
+                <div class="top-10-list director-list">
+                    <ul>
+                        @for (var i = 0; i < topLeaderList.Top10.Count; i++)
+                        {
+                            var person = topLeaderList.Top10[i];
+                            <li class="@person.Rank top-person"><div class="star-image"><img src="/~/media/Images/Currents/10%20in%202016/@person.Stars-star.ashx" onerror="this.style.display='none'"/></div><div>@person.Name<span>@person.Rank, @person.Location</span></div></li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="col top-list top-15">
+            <div class="list">
+                <div class="top-header">
+                    <h3>@Html.Sitecore().Field("Top 15 Header Text")</h3>
+                </div>
+                <div class="top-15-list director-list">
+                    <ul>
+                        @for (var i = 0; i < topLeaderList.Top15.Count; i++)
+                        {
+                            var person = topLeaderList.Top15[i];
+                            <li class="@person.Rank top-person"><div class="star-image"><img src="/~/media/Images/Currents/10%20in%202016/@person.Stars-star.ashx" onerror="this.style.display='none'" /></div><div>@person.Name<span>@person.Rank, @person.Location</span></div></li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $('.top-person span').each(function() {
+            var $this = $(this);
+            $this.text($this.text().replace(/-/g, ' '));
+     });
+</script>

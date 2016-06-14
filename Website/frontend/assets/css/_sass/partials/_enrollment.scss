@@ -1059,6 +1059,10 @@
                     text-align: left;
                     padding-left: 20px;
                 }
+                @include breakpoint(medium) {
+                    min-width: 0;
+                    padding: 10px 5px;
+                }
             }
         }
         td, th {
@@ -1130,7 +1134,14 @@
                 color: #5cab0d;
                 border: none;
                 outline: none;
-                background: #fff none;
+                background: transparent none;
+            }
+            @include breakpoint(medium) {
+                min-width: 0;
+                padding: 10px 15px;
+                &.secondary {
+                    padding: 5px;
+                }
             }
         }
         .vertical {
@@ -1209,6 +1220,10 @@
             padding: 15px;
             border-right: none;
             vertical-align: middle;
+            @include breakpoint(medium) {
+                min-width: 0;
+                padding: 15px 5px;
+            }
         }
         .selected-icon {
             position: absolute;
@@ -1347,6 +1362,9 @@
             font-size: 12px;
             margin-left: 12px;
             padding-top: 6px;
+        }
+        @include breakpoint(medium) {
+            min-width: 0;
         }
     }
 }
@@ -2158,6 +2176,9 @@
             color: #333;
             font-size: 24px;
         }
+        .disclosure-documents {
+            float: left;
+        }
     }
 
     .services-header {
@@ -2963,6 +2984,25 @@
     Order confirmation page aside boxes
  */
  .enrollment-confirmation {
+    .confirmation-banner {
+        margin-top: -145px;
+        margin-bottom: 71px;
+        color: #fff;
+        font-size: 26px;
+        h1 {
+            margin: 0;
+            font-size: 36px;
+            color: #fff;
+            font-weight: 600;    
+        }
+        @include breakpoint(large) {
+            padding-top: 20px;
+        }
+        @include breakpoint(medium) {
+            margin-top: -150px;
+            margin-bottom: 96px;
+        }
+    }
     aside {
         margin-top: 20px;
         .promo-box {
@@ -5088,7 +5128,7 @@ h3.success-message{
     }
 
     .location-section {
-        padding: 20px;
+        padding: 13px;
 
         .location-input {
             float: left;

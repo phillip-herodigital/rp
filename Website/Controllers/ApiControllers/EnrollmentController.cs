@@ -627,7 +627,8 @@ FROM [SwitchBack] WHERE ESIID=@esiId";
                                                                                ConfirmationNumber = confirmations.Where(entry => entry.Location == service.Location && entry.Offer.Id == selectedOffer.Offer.Id).Select(entry => entry.Details.ConfirmationNumber).FirstOrDefault()
                                                                                     ?? renewalConfirmations.ConfirmationNumber,
                                                                                DepositType = GetDepositType(selectedOffer),
-                                                                               ConfirmationDetails = confirmations.Where(entry => entry.Location == service.Location && entry.Offer.Id == selectedOffer.Offer.Id && entry.Details is PlaceMobileOrderResult).Select(entry => ((PlaceMobileOrderResult)entry.Details).PhoneNumber).FirstOrDefault()
+                                                                               ConfirmationDetails = confirmations.Where(entry => entry.Location == service.Location && entry.Offer.Id == selectedOffer.Offer.Id && entry.Details is PlaceMobileOrderResult).Select(entry => ((PlaceMobileOrderResult)entry.Details).PhoneNumber).FirstOrDefault(),
+                                                                               RenewalConfirmation = renewalConfirmations
                                                                            },
                                                          Errors = (from entry in locationOfferSet.OfferSetErrors
                                                                    where entry.Key == offerType
@@ -988,7 +989,7 @@ FROM [SwitchBack] WHERE ESIID=@esiId";
             }
 
             stateMachine.Context.PaymentInfo = request.PaymentInfo;
-            if (stateMachine.Context.PaymentInfo is DomainModels.Payments.TokenizedCard)
+            if (stateMachine.Context.PaymentInfo is DomainModels.Payments.TokenizedCard && string.IsNullOrEmpty(((DomainModels.Payments.TokenizedCard)stateMachine.Context.PaymentInfo).Name))
             {
                 ((DomainModels.Payments.TokenizedCard)stateMachine.Context.PaymentInfo).Name = stateMachine.Context.ContactInfo.Name.First + " " + stateMachine.Context.ContactInfo.Name.Last;
             }

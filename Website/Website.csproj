@@ -183,11 +183,11 @@
     <Reference Include="Microsoft.Web.RedisSessionStateProvider">
       <HintPath>..\packages\Microsoft.Web.RedisSessionStateProvider.0.1.0.375-Pre\lib\net45\Microsoft.Web.RedisSessionStateProvider.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.WindowsAzure.Diagnostics, Version=2.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
+    <Reference Include="Microsoft.WindowsAzure.Diagnostics, Version=2.9.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Libraries\MicrosoftAzure\Microsoft.WindowsAzure.Diagnostics.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.WindowsAzure.ServiceRuntime, Version=2.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
+    <Reference Include="Microsoft.WindowsAzure.ServiceRuntime, Version=2.9.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Libraries\MicrosoftAzure\Microsoft.WindowsAzure.ServiceRuntime.dll</HintPath>
     </Reference>
@@ -945,6 +945,8 @@
     <Compile Include="Models\Marketing\Support\FaqSearchFilter.cs" />
     <Compile Include="Models\Marketing\Support\FAQState.cs" />
     <Compile Include="Models\Marketing\Support\FaqSubcategory.cs" />
+    <Compile Include="Models\Currents\Top10Leader.cs" />
+    <Compile Include="Models\Currents\Top10LeaderList.cs" />
     <Compile Include="Models\ReturnForm.cs" />
     <Compile Include="Models\Currents\CalendarEvent.cs" />
     <Compile Include="Models\Currents\CalendarSearchRequest.cs" />
@@ -1054,6 +1056,7 @@
     </Content>
     <Content Include="default.css" />
     <Content Include="default.js" />
+    <Content Include="frontend\**\*" />
     <Content Include="Data\web.config" />
     <Content Include="Data\fw9.pdf" />
     <Content Include="App_Config\ConnectionStrings.production.sitecore.config">
@@ -1713,6 +1716,7 @@
     <Content Include="Views\Components\Support Center\Container.cshtml" />
     <Content Include="Views\Components\Support Center\Mobile Acronyms.cshtml" />
     <Content Include="Views\Components\Account\Sidebar Widgets\FAQs.cshtml" />
+    <Content Include="Views\Pages\Currents\10 in 2016.cshtml" />
     <None Include="Web.Azure-Production Sitecore.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>
@@ -1750,15 +1754,14 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Azure-Production Sitecore|AnyCPU'">
     <OutputPath>bin\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
-    <Optimize>false</Optimize>
-    <DebugType>full</DebugType>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <FilesToIncludeForPublish>AllFilesInProjectFolder</FilesToIncludeForPublish>
     <ExcludeGeneratedDebugSymbol>false</ExcludeGeneratedDebugSymbol>
     <PublishDatabases>false</PublishDatabases>
-    <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\StreamEnergy.Core\StreamEnergy.Core.csproj">

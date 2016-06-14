@@ -1,7 +1,7 @@
 ﻿ngApp.controller('MobileEnrollmentConfigureDataCtrl', ['$scope', '$modal', 'uiGmapGoogleMapApi','uiGmapIsReady', '$http', 'enrollmentService', 'enrollmentStepsService', 'enrollmentCartService', 'analytics', function ($scope, $modal, uiGmapGoogleMapApi, uiGmapIsReady, $http, enrollmentService, enrollmentStepsService, enrollmentCartService, analytics) {
 
     $scope.currentMobileLocationInfo = enrollmentCartService.getActiveService;
-    $scope.getDevicesCount = enrollmentCartService.getDevicesCount;
+    $scope.cartDevices = enrollmentCartService.getCartDevices;
     $scope.formFields = {
         chosenPlanId: undefined
     };
@@ -12,12 +12,17 @@
     $scope.zipCodeInvalid = false;
     $scope.enrollmentStepsService = enrollmentStepsService;
     $scope.itemIndex = 0;
-    $scope.cartDevices = enrollmentCartService.getCartDevices();
 
-    $scope.$watch("cartDevices.length", function (newVal, oldVal) {
+    $scope.$watch("cartDevices().length", function (newVal, oldVal) {
         if (newVal != oldVal) {
-            $scope.phoneOptions = $scope.cartDevices[activeServiceIndex()];
+            $scope.phoneOptions = $scope.cartDevices()[activeServiceIndex()];
             $scope.selectedPlan = {};
+        }
+    });
+
+    $scope.$watch(enrollmentCartService.getActiveService, function (newVal, oldVal) {
+        if (newVal != oldVal) {
+            $scope.phoneOptions = $scope.cartDevices()[activeServiceIndex()];
         }
     });
 
@@ -93,14 +98,14 @@
         if ($scope.selectedPlan.includesInternational) {
             i = _.findIndex($scope.currentMobileLocationInfo().offerInformationByType[0].value.availableOffers, function (o) {
                 if (!o.includesInternational) {
-                    return _(o.data).contains($scope.selectedPlan.data);
+                    return _.isEqual(o.data, $scope.selectedPlan.data);
                 }
             });
         }
         else {
             i = _.findIndex($scope.currentMobileLocationInfo().offerInformationByType[0].value.availableOffers, function (o) {
                 if (o.includesInternational) {
-                    return _(o.data).contains($scope.selectedPlan.data);
+                    return _.isEqual(o.data, $scope.selectedPlan.data);
                 }
             });
         }
@@ -181,6 +186,7 @@
         }
         else {
             enrollmentService.setAccountInformation();
+            $scope.selectedPlan = {};
         }
     };
 
