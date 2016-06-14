@@ -1,4 +1,21 @@
-﻿ngApp.controller('supportCenterCtrl', ['$scope', '$http', '$sce', '$modal', 'scrollService', function ($scope, $http, $sce, $modal, scrollService) {
+﻿ngApp.factory('focus', function ($timeout, $window) {
+    return function (id) {
+        // timeout makes sure that it is invoked after any other event has been triggered.
+        // e.g. click events that need to run before the focus or
+        // inputs elements that are in a disabled state but are enabled when those events
+        // are triggered.
+        $timeout(function () {
+            var element = $window.document.getElementById(id);
+            if (element) {
+                element.focus();
+            }
+        });
+    };
+});
+
+
+
+ngApp.controller('supportCenterCtrl', ['$scope', 'focus', '$http', '$sce', '$modal', 'scrollService', function ($scope, focus, $http, $sce, $modal, scrollService) {
     $scope.isLoading = false;
     $scope.dropDown = false;
     $scope.selectedFaqIndex = null;
@@ -151,40 +168,15 @@
         }
     }
 
-    $scope.textSearch = function () {
-        //var e = $.Event("keypress", {
-        //    keyCode: 27
-        //});
-        //$(this).trigger(e);
-        if ($scope.searchData.text) {
-            $scope.isSearchOpen = false;
-            $scope.search();
-        }
-    }
-
-    //$scope.searchFAQs = [];
-
-    //$scope.$watch("searchData.text", function (newVal, oldVal) {
-    //    if (newVal != oldVal) {
-    //        var promise = $scope.getSearchFaqs(true);
-    //        $scope.isSearchLoading = true;
-    //        promise.then(function (response) {
-    //            $scope.searchFAQs = response;
-    //            $scope.isSearchLoading = false;
-    //            $scope.$apply();
-    //        });
-    //    }
-    //});
-
-    $scope.getSearchFaqs = function (limitResults) {
+    $scope.getSearchFaqs = function (viewValue, limitResults) {
         var searchSubcategory = null;
 
         if ($scope.subcategory != "All") {
             searchSubcategory = $scope.subcategory;
         }
         var request = {
-            query: $scope.searchData.text,
-            state: $scope.searchData.state,
+            query: viewValue,
+            state: $scope.searchData.state ? $scope.searchData.state.name : null,
             category: $scope.searchData.category,
             subcategory: searchSubcategory
         }
@@ -217,7 +209,7 @@
         $scope.isLoading = true;
         angular.copy($scope.searchData, $scope.searchedData);
         $scope.isSearchLoading = false;
-        var promise = $scope.getSearchFaqs(false);
+        var promise = $scope.getSearchFaqs($scope.searchData.text, false);
         promise.then(function (response) {
             $scope.isLoading = false;
             var categorySame = $scope.category.name === $scope.searchData.category;
@@ -451,7 +443,7 @@
             comment: feedback
         })
             .then(function successCallback(response) {
-                if (response.data) {
+                if (response.data.success) {
                     faq.feedbackSent = true;
                     console.log("feedback sent");
                 }

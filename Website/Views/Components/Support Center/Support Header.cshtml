@@ -18,7 +18,7 @@
         <h1 ng-show="searchResults">@Html.Sitecore().Field("Search Results Heading")</h1>
         <h1 ng-show="mobileAcronyms" class="mobile-acronyms-header">@Html.Sitecore().Field("Mobile Acronyms Heading")</h1>
         <h4 ng-hide="isCategorySupport">@Html.Sitecore().Field("Main Subheading")</h4>
-        <form class="search" name="searchBar" ng-submit="textSearch()" ng-hide="mobileAcronyms">
+        <form class="search" name="searchBar" ng-submit="search()" ng-hide="mobileAcronyms">
             <div class="input">
                 <input type="text" class="search-input" name="searchText" id="seachText"
                        placeholder="{{searchPlaceholder}}"
@@ -28,9 +28,7 @@
                        ng-disabled="!searchData.category || (searchData.category.states.length && !searchData.state)"
                        ng-model="searchData.text"
                        typeahead-loading="isSearchLoading"
-                       typeahead-is-open="isSearchOpen"
-                       typeahead-editable="false"
-                       typeahead="faq.faqQuestion as faq.faqQuestion for faq in getSearchFaqs(true) | filter:$viewValue"
+                       typeahead="faq.faqQuestion as faq.faqQuestion for faq in getSearchFaqs($viewValue, true) | filter:$viewValue"
                        typeahead-template-url="typeahead-results"/>
                 <img ng-hide="isSearchLoading" class="mag-glass" src="/frontend/assets/i/mag-glass.png" ng-click="search()" />
                 <img ng-show="isSearchLoading" class="mag-glass" src="~/frontend/assets/i/loading.gif" />
@@ -60,7 +58,7 @@
         </form>
     </div>
 </div>
-<nav class="tertiary-nav" ng-if="subcategories.length" ng-cloak>
+<nav class="tertiary-nav" id="tertiary-nav" ng-if="subcategories.length" ng-cloak>
     <div class="wrapper">
         <ul>
             <li ng-repeat="subcategory in subcategories" ng-class="{selected: subcategory.selected}">
@@ -70,7 +68,6 @@
     </div>
 </nav>
 <script type="text/ng-template" id="typeahead-results">
-    <div bind-html-unsafe="match.label" class="typeaheadQuestion"></div>
-    <div class="typeaheadQuestion">1 + {{match.label}}</div>
+    <div bind-html-unsafe="match.label | typeaheadHighlight:query" class="typeaheadQuestion"></div>
     <div ng-bind-html="match.model.faqAnswer" class="typeaheadAnswer"></div>
 </script>
