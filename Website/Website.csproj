@@ -2008,6 +2008,7 @@
     <Content Include="sitecore\RegisterEmailOpened.ashx" />
     <Content Include="sitecore\SelectedDatabase.ashx" />
     <Content Include="sitecore\ContactLists.ashx" />
+    <Content Include="Views\Pages\Currents\10 in 2016.cshtml" />
     <None Include="Web.Azure-Production Sitecore.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>
