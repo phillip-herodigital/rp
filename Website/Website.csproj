@@ -1296,6 +1296,191 @@
   <ItemGroup>
     <Content Include="App_Browsers\Form.browser" />
     <Content Include="App_Browsers\XamlPage.browser" />
+    <Content Include="App_Config\Include\.Sitecore.Speak.Important.config" />
+    <Content Include="App_Config\Include\Channel\Sitecore.Analytics.Channel.config" />
+    <Content Include="App_Config\Include\ContentTesting\Sitecore.ContentTesting.config" />
+    <Content Include="App_Config\Include\ContentTesting\Sitecore.ContentTesting.Intelligence.config" />
+    <Content Include="App_Config\Include\ContentTesting\Sitecore.ContentTesting.Lucene.IndexConfiguration.config" />
+    <Content Include="App_Config\Include\ContentTesting\Sitecore.ContentTesting.Mvc.config" />
+    <Content Include="App_Config\Include\ContentTesting\Sitecore.ContentTesting.Processing.Aggregation.config" />
+    <Content Include="App_Config\Include\ContentTesting\Sitecore.ContentTesting.Solr.IndexConfiguration.config.disabled" />
+    <Content Include="App_Config\Include\DataFolder.config.example" />
+    <Content Include="App_Config\Include\EmailExperience\Sitecore.EmailExperience.AnalyticsProcessing.config" />
+    <Content Include="App_Config\Include\EmailExperience\Sitecore.EmailExperience.ContentDelivery.config" />
+    <Content Include="App_Config\Include\EmailExperience\Sitecore.EmailExperience.ContentManagement.config" />
+    <Content Include="App_Config\Include\EmailExperience\Sitecore.EmailExperience.Core.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="App_Config\Include\EmailExperience\Sitecore.EmailExperience.Reporting.config" />
+    <Content Include="App_Config\Include\EmailExperience\Sitecore.EmailExperience.UI.config" />
+    <Content Include="App_Config\Include\EventHandler.config.example" />
+    <Content Include="App_Config\Include\ExperienceAnalytics\Sitecore.ExperienceAnalytics.Aggregation.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="App_Config\Include\ExperienceAnalytics\Sitecore.ExperienceAnalytics.Client.config" />
+    <Content Include="App_Config\Include\ExperienceAnalytics\Sitecore.ExperienceAnalytics.Reduce.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="App_Config\Include\ExperienceAnalytics\Sitecore.ExperienceAnalytics.StorageProviders.config" />
+    <Content Include="App_Config\Include\ExperienceAnalytics\Sitecore.ExperienceAnalytics.WebAPI.config" />
+    <Content Include="App_Config\Include\ExperienceProfile\Sitecore.ExperienceProfile.Client.config" />
+    <Content Include="App_Config\Include\ExperienceProfile\Sitecore.ExperienceProfile.config" />
+    <Content Include="App_Config\Include\ExperienceProfile\Sitecore.ExperienceProfile.Reporting.config" />
+    <Content Include="App_Config\Include\ForwardingSecurityEvents.config.example" />
+    <Content Include="App_Config\Include\FXM\Sitecore.FXM.Bundle.config" />
+    <Content Include="App_Config\Include\FXM\Sitecore.FXM.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="App_Config\Include\FXM\Sitecore.FXM.Lucene.Index.DomainsSearch.config" />
+    <Content Include="App_Config\Include\FXM\Sitecore.FXM.Solr.Index.DomainsSearch.config.disabled" />
+    <Content Include="App_Config\Include\FXM\Sitecore.FXM.Speak.config" />
+    <Content Include="App_Config\Include\FXM\Sitecore.Services.Client.FXM.Enabler.config.disabled" />
+    <Content Include="App_Config\Include\ja-JP.config.example" />
+    <Content Include="App_Config\Include\ListManagement\Sitecore.ListManagement.Client.config" />
+    <Content Include="App_Config\Include\ListManagement\Sitecore.ListManagement.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="App_Config\Include\ListManagement\Sitecore.ListManagement.Lucene.Index.List.config" />
+    <Content Include="App_Config\Include\ListManagement\Sitecore.ListManagement.Lucene.IndexConfiguration.config" />
+    <Content Include="App_Config\Include\ListManagement\Sitecore.ListManagement.Services.config" />
+    <Content Include="App_Config\Include\ListManagement\Sitecore.ListManagement.Solr.Index.List.config.disabled" />
+    <Content Include="App_Config\Include\ListManagement\Sitecore.ListManagement.Solr.IndexConfiguration.config.disabled" />
+    <Content Include="App_Config\Include\LiveMode.config.example" />
+    <Content Include="App_Config\Include\ScalabilitySettings.config.example" />
+    <Content Include="App_Config\Include\Sitecore.Analytics.Automation.TimeoutProcessing.config" />
+    <Content Include="App_Config\Include\Sitecore.Analytics.Compatibility.config" />
+    <Content Include="App_Config\Include\Sitecore.Analytics.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="App_Config\Include\Sitecore.Analytics.ExcludeRobots.config" />
+    <Content Include="App_Config\Include\Sitecore.Analytics.MarketingTaxonomy.config" />
+    <Content Include="App_Config\Include\Sitecore.Analytics.Model.config" />
+    <Content Include="App_Config\Include\Sitecore.Analytics.MongoDb.config" />
+    <Content Include="App_Config\Include\Sitecore.Analytics.Oracle.config.disabled" />
+    <Content Include="App_Config\Include\Sitecore.Analytics.Outcome.config" />
+    <Content Include="App_Config\Include\Sitecore.Analytics.Processing.Aggregation.config" />
+    <Content Include="App_Config\Include\Sitecore.Analytics.Processing.Aggregation.ProcessingPools.config" />
+    <Content Include="App_Config\Include\Sitecore.Analytics.Processing.Aggregation.Services.config" />
+    <Content Include="App_Config\Include\Sitecore.Analytics.Processing.config" />
+    <Content Include="App_Config\Include\Sitecore.Analytics.Processing.Services.config" />
+    <Content Include="App_Config\Include\Sitecore.Analytics.Reporting.config" />
+    <Content Include="App_Config\Include\Sitecore.Analytics.Tracking.Aggregation.config" />
+    <Content Include="App_Config\Include\Sitecore.Analytics.Tracking.config" />
+    <Content Include="App_Config\Include\Sitecore.Analytics.Tracking.Database.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="App_Config\Include\Sitecore.Analytics.Tracking.RobotDetection.config" />
+    <Content Include="App_Config\Include\Sitecore.AntiCsrf.config" />
+    <Content Include="App_Config\Include\Sitecore.Buckets.config" />
+    <Content Include="App_Config\Include\Sitecore.Commerce.config" />
+    <Content Include="App_Config\Include\Sitecore.ContentSearch.Analytics.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="App_Config\Include\Sitecore.ContentSearch.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="App_Config\Include\Sitecore.ContentSearch.DefaultConfigurations.config" />
+    <Content Include="App_Config\Include\Sitecore.ContentSearch.Lucene.DefaultIndexConfiguration.config" />
+    <Content Include="App_Config\Include\Sitecore.ContentSearch.Lucene.Index.Analytics.config" />
+    <Content Include="App_Config\Include\Sitecore.ContentSearch.Lucene.Indexes.Sharded.Core.config.example" />
+    <Content Include="App_Config\Include\Sitecore.ContentSearch.Lucene.Indexes.Sharded.Master.config.example" />
+    <Content Include="App_Config\Include\Sitecore.ContentSearch.Lucene.Indexes.Sharded.Web.config.example" />
+    <Content Include="App_Config\Include\Sitecore.ContentSearch.Solr.DefaultIndexConfiguration.config.example" />
+    <Content Include="App_Config\Include\Sitecore.ContentSearch.VerboseLogging.config.example" />
+    <Content Include="App_Config\Include\Sitecore.Diagnostics.config" />
+    <Content Include="App_Config\Include\Sitecore.ExperienceEditor.config" />
+    <Content Include="App_Config\Include\Sitecore.ExperienceEditor.Speak.Requests.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="App_Config\Include\Sitecore.ExperienceExplorer.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="App_Config\Include\Sitecore.ExperienceExplorer.Speak.Requests.config" />
+    <Content Include="App_Config\Include\Sitecore.ItemWebApi.config" />
+    <Content Include="App_Config\Include\Sitecore.Marketing.Client.config" />
+    <Content Include="App_Config\Include\Sitecore.Marketing.config" />
+    <Content Include="App_Config\Include\Sitecore.Marketing.Definitions.MarketingAssets.Repositories.config" />
+    <Content Include="App_Config\Include\Sitecore.Marketing.Definitions.MarketingAssets.Repositories.Lucene.Index.Master.config" />
+    <Content Include="App_Config\Include\Sitecore.Marketing.Definitions.MarketingAssets.Repositories.Lucene.Index.Web.config" />
+    <Content Include="App_Config\Include\Sitecore.Marketing.Definitions.MarketingAssets.Repositories.Lucene.IndexConfiguration.config" />
+    <Content Include="App_Config\Include\Sitecore.Marketing.Definitions.MarketingAssets.Repositories.Solr.Index.Master.config.disabled" />
+    <Content Include="App_Config\Include\Sitecore.Marketing.Definitions.MarketingAssets.Repositories.Solr.Index.Web.config.disabled" />
+    <Content Include="App_Config\Include\Sitecore.Marketing.Definitions.MarketingAssets.Repositories.Solr.IndexConfiguration.config.disabled" />
+    <Content Include="App_Config\Include\Sitecore.Media.RequestProtection.config" />
+    <Content Include="App_Config\Include\Sitecore.Mvc.config" />
+    <Content Include="App_Config\Include\Sitecore.MvcExperienceEditor.config" />
+    <Content Include="App_Config\Include\Sitecore.MvcSimulator.config" />
+    <Content Include="App_Config\Include\Sitecore.PathAnalyzer.Client.config" />
+    <Content Include="App_Config\Include\Sitecore.PathAnalyzer.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="App_Config\Include\Sitecore.PathAnalyzer.Processing.config" />
+    <Content Include="App_Config\Include\Sitecore.PathAnalyzer.RemoteClient.config.disabled" />
+    <Content Include="App_Config\Include\Sitecore.PathAnalyzer.Services.config" />
+    <Content Include="App_Config\Include\Sitecore.PathAnalyzer.Services.RemoteServer.config.disabled" />
+    <Content Include="App_Config\Include\Sitecore.PathAnalyzer.StorageProviders.config" />
+    <Content Include="App_Config\Include\Sitecore.PipelineProfiling.config.disabled" />
+    <Content Include="App_Config\Include\Sitecore.Processing.config" />
+    <Content Include="App_Config\Include\Sitecore.Publishing.DedicatedInstance.config.example" />
+    <Content Include="App_Config\Include\Sitecore.Publishing.EventProvider.Async.config.disabled" />
+    <Content Include="App_Config\Include\Sitecore.Publishing.Optimizations.config.example" />
+    <Content Include="App_Config\Include\Sitecore.Publishing.Parallel.config.disabled" />
+    <Content Include="App_Config\Include\Sitecore.Publishing.Recovery.config.example" />
+    <Content Include="App_Config\Include\Sitecore.SegmentBuilder.config" />
+    <Content Include="App_Config\Include\Sitecore.Services.Client.config" />
+    <Content Include="App_Config\Include\Sitecore.Shell.MarketingAutomation.config" />
+    <Content Include="App_Config\Include\Sitecore.Speak.AntiCsrf.SheerUI.config" />
+    <Content Include="App_Config\Include\Sitecore.Speak.Applications.config" />
+    <Content Include="App_Config\Include\Sitecore.Speak.config" />
+    <Content Include="App_Config\Include\Sitecore.Speak.ItemWebApi.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="App_Config\Include\Sitecore.Speak.LaunchPad.config" />
+    <Content Include="App_Config\Include\Sitecore.Speak.Mvc.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="App_Config\Include\Sitecore.Support.414299.config" />
+    <Content Include="App_Config\Include\Sitecore.WebDAV.config" />
+    <Content Include="App_Config\Include\Sitecore.Xdb.Remote.Client.config.disabled" />
+    <Content Include="App_Config\Include\Sitecore.Xdb.Remote.Client.MarketingAssets.config.disabled" />
+    <Content Include="App_Config\Include\Sitecore.Xdb.Remote.Server.config.disabled" />
+    <Content Include="App_Config\Include\Sitecore.Xdb.Remote.Server.MarketingAssets.config.disabled" />
+    <Content Include="App_Config\Include\SitecoreSettings.config.example" />
+    <Content Include="App_Config\Include\SiteDefinition.config.example" />
+    <Content Include="App_Config\Include\Social\Sitecore.Social.config" />
+    <Content Include="App_Config\Include\Social\Sitecore.Social.ExperienceProfile.config" />
+    <Content Include="App_Config\Include\Social\Sitecore.Social.Facebook.config" />
+    <Content Include="App_Config\Include\Social\Sitecore.Social.GooglePlus.config" />
+    <Content Include="App_Config\Include\Social\Sitecore.Social.Klout.config.disabled" />
+    <Content Include="App_Config\Include\Social\Sitecore.Social.LinkedIn.config" />
+    <Content Include="App_Config\Include\Social\Sitecore.Social.Lucene.Index.Master.config" />
+    <Content Include="App_Config\Include\Social\Sitecore.Social.Lucene.Index.Web.config" />
+    <Content Include="App_Config\Include\Social\Sitecore.Social.Lucene.IndexConfiguration.config" />
+    <Content Include="App_Config\Include\Social\Sitecore.Social.ProfileMapping.Facebook.config" />
+    <Content Include="App_Config\Include\Social\Sitecore.Social.ProfileMapping.GooglePlus.config" />
+    <Content Include="App_Config\Include\Social\Sitecore.Social.ProfileMapping.LinkedIn.config" />
+    <Content Include="App_Config\Include\Social\Sitecore.Social.ProfileMapping.Twitter.config" />
+    <Content Include="App_Config\Include\Social\Sitecore.Social.ScalabilitySettings.config.disabled" />
+    <Content Include="App_Config\Include\Social\Sitecore.Social.SocialMarketer.config" />
+    <Content Include="App_Config\Include\Social\Sitecore.Social.Solr.Index.Master.config.disabled" />
+    <Content Include="App_Config\Include\Social\Sitecore.Social.Solr.Index.Web.config.disabled" />
+    <Content Include="App_Config\Include\Social\Sitecore.Social.Solr.IndexConfiguration.config.disabled" />
+    <Content Include="App_Config\Include\Social\Sitecore.Social.Twitter.config" />
+    <Content Include="App_Config\Include\StreamEnergy.Initialization.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="App_Config\Include\SwitchMasterToWeb.config.example" />
+    <Content Include="App_Config\Include\WebDeploy.config.example" />
+    <Content Include="App_Config\Include\XBlog.Search.config" />
+    <Content Include="App_Config\Include\XBlog.Settings.config" />
+    <Content Include="App_Config\Include\XdbCloud\Sitecore.Cloud.Xdb.config.disabled" />
+    <Content Include="App_Config\Include\XdbCloud\Sitecore.ContentSearch.Cloud.DefaultIndexConfiguration.config.disabled" />
+    <Content Include="App_Config\Include\XdbCloud\Sitecore.ContentSearch.Cloud.Index.Analytics.config.disabled" />
+    <Content Include="App_Config\Include\XslExtension.config.example" />
+    <Content Include="App_Config\Include\Z.SwitchMasterToWeb\important.txt" />
+    <Content Include="App_Config\Include\Z\StreamEnergy.overrides.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="App_Config\Prefetch\Webdb.config">
       <SubType>Designer</SubType>
     </Content>
@@ -1353,112 +1538,6 @@
     <Content Include="App_Config\ConnectionStrings.production.sitecore.config">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="App_Config\Include\.Sitecore.Speak.Important.config" />
-    <Content Include="App_Config\Include\Sitecore.SegmentBuilder.config" />
-    <Content Include="App_Config\Include\Sitecore.Services.Client.config" />
-    <Content Include="App_Config\Include\Sitecore.Speak.AntiCsrf.SheerUI.config" />
-    <Content Include="App_Config\Include\Sitecore.Speak.Applications.config" />
-    <Content Include="App_Config\Include\Sitecore.Speak.LaunchPad.config" />
-    <Content Include="App_Config\Include\Sitecore.PathAnalyzer.Client.config" />
-    <Content Include="App_Config\Include\Sitecore.PathAnalyzer.config">
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="App_Config\Include\Sitecore.PathAnalyzer.Processing.config" />
-    <Content Include="App_Config\Include\Sitecore.PathAnalyzer.Services.config" />
-    <Content Include="App_Config\Include\Sitecore.Marketing.Client.config" />
-    <Content Include="App_Config\Include\Sitecore.Marketing.config" />
-    <Content Include="App_Config\Include\Sitecore.Marketing.Definitions.MarketingAssets.Repositories.config" />
-    <Content Include="App_Config\Include\Sitecore.Marketing.Definitions.MarketingAssets.Repositories.Lucene.Index.Master.config" />
-    <Content Include="App_Config\Include\Sitecore.Marketing.Definitions.MarketingAssets.Repositories.Lucene.Index.Web.config" />
-    <Content Include="App_Config\Include\Sitecore.Marketing.Definitions.MarketingAssets.Repositories.Lucene.IndexConfiguration.config" />
-    <Content Include="App_Config\Include\Sitecore.Media.RequestProtection.config" />
-    <Content Include="App_Config\Include\Sitecore.ExperienceEditor.config" />
-    <Content Include="App_Config\Include\Sitecore.ExperienceEditor.Speak.Requests.config">
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="App_Config\Include\Sitecore.ExperienceExplorer.config">
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="App_Config\Include\Sitecore.ExperienceExplorer.Speak.Requests.config" />
-    <Content Include="App_Config\Include\Sitecore.ContentSearch.Lucene.Index.Analytics.config" />
-    <Content Include="App_Config\Include\Sitecore.ContentSearch.DefaultConfigurations.config" />
-    <Content Include="App_Config\Include\Sitecore.Analytics.Outcome.config" />
-    <Content Include="App_Config\Include\Sitecore.Analytics.Processing.Aggregation.config" />
-    <Content Include="App_Config\Include\Sitecore.Analytics.Processing.Aggregation.ProcessingPools.config" />
-    <Content Include="App_Config\Include\Sitecore.Analytics.Processing.Aggregation.Services.config" />
-    <Content Include="App_Config\Include\Sitecore.Analytics.Processing.config" />
-    <Content Include="App_Config\Include\Sitecore.Analytics.Processing.Services.config" />
-    <Content Include="App_Config\Include\Sitecore.Analytics.Reporting.config" />
-    <Content Include="App_Config\Include\Sitecore.Analytics.MarketingTaxonomy.config" />
-    <Content Include="App_Config\Include\Sitecore.Analytics.Model.config" />
-    <Content Include="App_Config\Include\Sitecore.Analytics.MongoDb.config" />
-    <Content Include="App_Config\Include\Sitecore.Analytics.Automation.TimeoutProcessing.config" />
-    <Content Include="App_Config\Include\Sitecore.Analytics.Compatibility.config" />
-    <Content Include="App_Config\Include\Sitecore.ContentSearch.Analytics.config">
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="App_Config\Include\Sitecore.Analytics.Tracking.Aggregation.config" />
-    <Content Include="App_Config\Include\Sitecore.Analytics.Tracking.config" />
-    <Content Include="App_Config\Include\Sitecore.Analytics.Tracking.Database.config">
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="App_Config\Include\Sitecore.Analytics.Tracking.RobotDetection.config" />
-    <Content Include="App_Config\Include\Channel\Sitecore.Analytics.Channel.config" />
-    <Content Include="App_Config\Include\ContentTesting\Sitecore.ContentTesting.config" />
-    <Content Include="App_Config\Include\ContentTesting\Sitecore.ContentTesting.Intelligence.config" />
-    <Content Include="App_Config\Include\ContentTesting\Sitecore.ContentTesting.Lucene.IndexConfiguration.config" />
-    <Content Include="App_Config\Include\ContentTesting\Sitecore.ContentTesting.Mvc.config" />
-    <Content Include="App_Config\Include\ContentTesting\Sitecore.ContentTesting.Processing.Aggregation.config" />
-    <Content Include="App_Config\Include\ContentTesting\Sitecore.ContentTesting.Solr.IndexConfiguration.config.disabled" />
-    <Content Include="App_Config\Include\ExperienceAnalytics\Sitecore.ExperienceAnalytics.Aggregation.config">
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="App_Config\Include\ExperienceAnalytics\Sitecore.ExperienceAnalytics.Client.config" />
-    <Content Include="App_Config\Include\ExperienceAnalytics\Sitecore.ExperienceAnalytics.Reduce.config">
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="App_Config\Include\ExperienceAnalytics\Sitecore.ExperienceAnalytics.StorageProviders.config" />
-    <Content Include="App_Config\Include\ExperienceAnalytics\Sitecore.ExperienceAnalytics.WebAPI.config" />
-    <Content Include="App_Config\Include\ExperienceProfile\Sitecore.ExperienceProfile.Client.config" />
-    <Content Include="App_Config\Include\ExperienceProfile\Sitecore.ExperienceProfile.config" />
-    <Content Include="App_Config\Include\ExperienceProfile\Sitecore.ExperienceProfile.Reporting.config" />
-    <Content Include="App_Config\Include\FXM\Sitecore.FXM.Bundle.config" />
-    <Content Include="App_Config\Include\FXM\Sitecore.FXM.config">
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="App_Config\Include\FXM\Sitecore.FXM.Lucene.Index.DomainsSearch.config" />
-    <Content Include="App_Config\Include\FXM\Sitecore.FXM.Solr.Index.DomainsSearch.config.disabled" />
-    <Content Include="App_Config\Include\FXM\Sitecore.FXM.Speak.config" />
-    <Content Include="App_Config\Include\FXM\Sitecore.Services.Client.FXM.Enabler.config.disabled" />
-    <Content Include="App_Config\Include\ListManagement\Sitecore.ListManagement.Client.config" />
-    <Content Include="App_Config\Include\ListManagement\Sitecore.ListManagement.config">
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="App_Config\Include\ListManagement\Sitecore.ListManagement.Lucene.Index.List.config" />
-    <Content Include="App_Config\Include\ListManagement\Sitecore.ListManagement.Lucene.IndexConfiguration.config" />
-    <Content Include="App_Config\Include\ListManagement\Sitecore.ListManagement.Services.config" />
-    <Content Include="App_Config\Include\ListManagement\Sitecore.ListManagement.Solr.Index.List.config.disabled" />
-    <Content Include="App_Config\Include\ListManagement\Sitecore.ListManagement.Solr.IndexConfiguration.config.disabled" />
-    <Content Include="App_Config\Include\Social\Sitecore.Social.config" />
-    <Content Include="App_Config\Include\Social\Sitecore.Social.ExperienceProfile.config" />
-    <Content Include="App_Config\Include\Social\Sitecore.Social.Facebook.config" />
-    <Content Include="App_Config\Include\Social\Sitecore.Social.GooglePlus.config" />
-    <Content Include="App_Config\Include\Social\Sitecore.Social.Klout.config.disabled" />
-    <Content Include="App_Config\Include\Social\Sitecore.Social.LinkedIn.config" />
-    <Content Include="App_Config\Include\Social\Sitecore.Social.Lucene.Index.Master.config" />
-    <Content Include="App_Config\Include\Social\Sitecore.Social.Lucene.Index.Web.config" />
-    <Content Include="App_Config\Include\Social\Sitecore.Social.Lucene.IndexConfiguration.config" />
-    <Content Include="App_Config\Include\Social\Sitecore.Social.ProfileMapping.Facebook.config" />
-    <Content Include="App_Config\Include\Social\Sitecore.Social.ProfileMapping.GooglePlus.config" />
-    <Content Include="App_Config\Include\Social\Sitecore.Social.ProfileMapping.LinkedIn.config" />
-    <Content Include="App_Config\Include\Social\Sitecore.Social.ProfileMapping.Twitter.config" />
-    <Content Include="App_Config\Include\Social\Sitecore.Social.ScalabilitySettings.config.disabled" />
-    <Content Include="App_Config\Include\Social\Sitecore.Social.SocialMarketer.config" />
-    <Content Include="App_Config\Include\Social\Sitecore.Social.Solr.Index.Master.config.disabled" />
-    <Content Include="App_Config\Include\Social\Sitecore.Social.Solr.Index.Web.config.disabled" />
-    <Content Include="App_Config\Include\Social\Sitecore.Social.Solr.IndexConfiguration.config.disabled" />
-    <Content Include="App_Config\Include\Social\Sitecore.Social.Twitter.config" />
-    <Content Include="App_Config\Include\XdbCloud\Sitecore.Cloud.Xdb.config.disabled" />
     <Content Include="Components\XBlogMVC\Layouts\XBlogMain.cshtml" />
     <Content Include="Components\XBlogMVC\Renderings\Views\AuthorView.cshtml" />
     <Content Include="Components\XBlogMVC\Renderings\Views\BlogListing.cshtml" />
@@ -1472,52 +1551,90 @@
     <Content Include="Components\XBlogMVC\Renderings\Views\Callouts\TagCloud.cshtml" />
     <Content Include="Components\XBlogMVC\Renderings\Views\Callouts\TagList.cshtml" />
     <Content Include="Components\XBlogMVC\Renderings\Views\Callouts\TextSearch.cshtml" />
-    <Content Include="App_Config\Include\XBlog.Search.config" />
-    <Content Include="App_Config\Include\XBlog.Settings.config" />
-    <Content Include="App_Config\Include\Sitecore.ContentSearch.config">
-      <SubType>Designer</SubType>
-    </Content>
     <Content Include="App_Config\Custom\Index.master.config" />
-    <Content Include="App_Config\Include\XdbCloud\Sitecore.ContentSearch.Cloud.DefaultIndexConfiguration.config.disabled" />
-    <Content Include="App_Config\Include\XdbCloud\Sitecore.ContentSearch.Cloud.Index.Analytics.config.disabled" />
-    <Content Include="App_Config\Include\Sitecore.Analytics.Oracle.config.disabled" />
-    <Content Include="App_Config\Include\Sitecore.ContentSearch.Solr.DefaultIndexConfiguration.config.example" />
-    <Content Include="App_Config\Include\Sitecore.Diagnostics.config" />
-    <Content Include="App_Config\Include\Sitecore.Marketing.Definitions.MarketingAssets.Repositories.Solr.Index.Master.config.disabled" />
-    <Content Include="App_Config\Include\Sitecore.Marketing.Definitions.MarketingAssets.Repositories.Solr.Index.Web.config.disabled" />
-    <Content Include="App_Config\Include\Sitecore.Marketing.Definitions.MarketingAssets.Repositories.Solr.IndexConfiguration.config.disabled" />
-    <Content Include="App_Config\Include\Sitecore.PathAnalyzer.RemoteClient.config.disabled" />
-    <Content Include="App_Config\Include\Sitecore.PathAnalyzer.Services.RemoteServer.config.disabled" />
-    <Content Include="App_Config\Include\Sitecore.PathAnalyzer.StorageProviders.config" />
-    <Content Include="App_Config\Include\Sitecore.Processing.config" />
-    <Content Include="App_Config\Include\Sitecore.Speak.config" />
-    <Content Include="App_Config\Include\Sitecore.Support.414299.config" />
-    <Content Include="App_Config\Include\Sitecore.Xdb.Remote.Client.config.disabled" />
-    <Content Include="App_Config\Include\Sitecore.Xdb.Remote.Client.MarketingAssets.config.disabled" />
-    <Content Include="App_Config\Include\Sitecore.Xdb.Remote.Server.config.disabled" />
-    <Content Include="App_Config\Include\Sitecore.Xdb.Remote.Server.MarketingAssets.config.disabled" />
-    <Content Include="App_Config\Include\SwitchMasterToWeb.config.example" />
     <Content Include="App_Config\Custom\Index.web.config" />
     <Content Include="App_Config\Custom\Settings.local.config" />
     <Content Include="App_Config\Custom\Settings.test.config" />
     <Content Include="App_Config\Custom\Settings.test.sitecore.config" />
     <Content Include="App_Config\Custom\Settings.production.config" />
     <Content Include="App_Config\Custom\Settings.production.sitecore.config" />
-    <Content Include="App_Config\Include\EmailExperience\Sitecore.EmailExperience.AnalyticsProcessing.config" />
-    <Content Include="App_Config\Include\EmailExperience\Sitecore.EmailExperience.ContentDelivery.config" />
-    <Content Include="App_Config\Include\EmailExperience\Sitecore.EmailExperience.ContentManagement.config" />
-    <Content Include="App_Config\Include\EmailExperience\Sitecore.EmailExperience.Core.config">
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="App_Config\Include\EmailExperience\Sitecore.EmailExperience.Reporting.config" />
-    <Content Include="App_Config\Include\EmailExperience\Sitecore.EmailExperience.UI.config" />
-    <Content Include="App_Config\Include\Z\StreamEnergy.overrides.config">
-      <SubType>Designer</SubType>
-    </Content>
     <Content Include="sitecore\default.aspx" />
     <Content Include="_CMP\RazlService.asmx" />
     <Content Include="App_Config\Sitecore.config" />
-    <Content Include="App_Config\Include\Sitecore.Commerce.config" />
+    <Content Include="App_Config\Include\001.Sitecore.Speak.Important.config" />
+    <Content Include="App_Config\Include\CES\Sitecore.CES.config" />
+    <Content Include="App_Config\Include\CES\Sitecore.CES.DeviceDetection.CheckInitialization.config.disabled" />
+    <Content Include="App_Config\Include\CES\Sitecore.CES.DeviceDetection.config" />
+    <Content Include="App_Config\Include\CES\Sitecore.CES.GeoIp.config" />
+    <Content Include="App_Config\Include\CES\Sitecore.CES.GeoIp.LegacyLocation.config" />
+    <Content Include="App_Config\Include\ContentTesting\Sitecore.ContentTesting.ApplicationDependencies.config" />
+    <Content Include="App_Config\Include\ContentTesting\Sitecore.ContentTesting.Client.RulePerformance.config.disabled" />
+    <Content Include="App_Config\Include\ContentTesting\Sitecore.ContentTesting.PreemptiveScreenshot.config.disabled" />
+    <Content Include="App_Config\Include\EmailExperience\Sitecore.EDS.Core.config" />
+    <Content Include="App_Config\Include\EmailExperience\Sitecore.EDS.Dyn.Client.config" />
+    <Content Include="App_Config\Include\EmailExperience\Sitecore.EDS.Providers.CustomSmtp.config.disabled" />
+    <Content Include="App_Config\Include\EmailExperience\Sitecore.EDS.Providers.Dyn.config" />
+    <Content Include="App_Config\Include\EmailExperience\Sitecore.EDS.Providers.Dyn.Sync.config" />
+    <Content Include="App_Config\Include\EmailExperience\Sitecore.EmailExperience.ContentSearch.Solr.config.disabled" />
+    <Content Include="App_Config\Include\EmailExperience\Sitecore.EmailExperience.ExperienceAnalytics.Aggregation.config" />
+    <Content Include="App_Config\Include\EmailExperience\Sitecore.EmailExperience.ExperienceAnalytics.Api.config" />
+    <Content Include="App_Config\Include\EmailExperience\Sitecore.EmailExperience.ExperienceAnalytics.Reduce.config" />
+    <Content Include="App_Config\Include\EmailExperience\Sitecore.EmailExperience.MessageHandling.config" />
+    <Content Include="App_Config\Include\EmailExperience\Sitecore.ExM.Framework.config" />
+    <Content Include="App_Config\Include\EmailExperience\Sitecore.ExM.Framework.ContentDelivery.config" />
+    <Content Include="App_Config\Include\EmailExperience\Sitecore.ExM.Framework.ContentManagement.config" />
+    <Content Include="App_Config\Include\ExperienceAnalytics\Sitecore.ExperienceAnalytics.ReAggregation.config.disabled" />
+    <Content Include="App_Config\Include\ExperienceAnalytics\Sitecore.ExperienceAnalytics.ReAggregation.Scheduling.config.disabled" />
+    <Content Include="App_Config\Include\ExperienceProfile\Sitecore.ExperienceProfile.Reporting.Sitecore.EmailExperience.ExperienceProfile.config" />
+    <Content Include="App_Config\Include\FXM\Sitecore.FXM.Lucene.DomainsSearch.DefaultIndexConfiguration.config" />
+    <Content Include="App_Config\Include\FXM\Sitecore.FXM.Lucene.DomainsSearch.Index.Master.config" />
+    <Content Include="App_Config\Include\FXM\Sitecore.FXM.Lucene.DomainsSearch.Index.Web.config" />
+    <Content Include="App_Config\Include\FXM\Sitecore.FXM.Solr.DomainsSearch.DefaultIndexConfiguration.config.disabled" />
+    <Content Include="App_Config\Include\FXM\Sitecore.FXM.Solr.DomainsSearch.Index.Master.config.disabled" />
+    <Content Include="App_Config\Include\FXM\Sitecore.FXM.Solr.DomainsSearch.Index.Web.config.disabled" />
+    <Content Include="App_Config\Include\Marketing\Sitecore.Marketing.Campaigns.Client.config" />
+    <Content Include="App_Config\Include\Marketing\Sitecore.Marketing.Campaigns.Services.config" />
+    <Content Include="App_Config\Include\Sitecore.Analytics.MarketingTaxonomyCD.config.disabled" />
+    <Content Include="App_Config\Include\Sitecore.Analytics.Processing.Aggregation.Services.config.disabled" />
+    <Content Include="App_Config\Include\Sitecore.Analytics.Processing.Services.config.disabled" />
+    <Content Include="App_Config\Include\Sitecore.Analytics.Tracking.Database.ScaledCM.config.disabled" />
+    <Content Include="App_Config\Include\Sitecore.Analytics.Tracking.Outcome.config" />
+    <Content Include="App_Config\Include\Sitecore.Buckets.WarmupQueries.config.example" />
+    <Content Include="App_Config\Include\Sitecore.Commerce.ExperienceProfile.ReportingServer.config" />
+    <Content Include="App_Config\Include\Sitecore.ContentSearch.Lucene.Index.Core.config" />
+    <Content Include="App_Config\Include\Sitecore.ContentSearch.Lucene.Index.Core.config.disabled" />
+    <Content Include="App_Config\Include\Sitecore.ContentSearch.Lucene.Index.Master.config" />
+    <Content Include="App_Config\Include\Sitecore.ContentSearch.Lucene.Index.Master.config.disabled" />
+    <Content Include="App_Config\Include\Sitecore.ContentSearch.Lucene.Index.Web.config" />
+    <Content Include="App_Config\Include\Sitecore.ContentSearch.Lucene.Index.Web.config.disabled" />
+    <Content Include="App_Config\Include\Sitecore.ContentSearch.Solr.Index.Analytics.config.example" />
+    <Content Include="App_Config\Include\Sitecore.ContentSearch.Solr.Index.Core.config.example" />
+    <Content Include="App_Config\Include\Sitecore.ContentSearch.Solr.Index.Master.config.example" />
+    <Content Include="App_Config\Include\Sitecore.ContentSearch.Solr.Index.Web.config.example" />
+    <Content Include="App_Config\Include\Sitecore.DefaultLanguage.config" />
+    <Content Include="App_Config\Include\Sitecore.Interning.config" />
+    <Content Include="App_Config\Include\Sitecore.JSNLog.config" />
+    <Content Include="App_Config\Include\Sitecore.LanguageFallback.config" />
+    <Content Include="App_Config\Include\Sitecore.Marketing.Definitions.MarketingAssets.RepositoriesCD.config.disabled" />
+    <Content Include="App_Config\Include\Sitecore.Marketing.Lucene.Index.Master.config" />
+    <Content Include="App_Config\Include\Sitecore.Marketing.Lucene.Index.Web.config" />
+    <Content Include="App_Config\Include\Sitecore.Marketing.Lucene.IndexConfiguration.config" />
+    <Content Include="App_Config\Include\Sitecore.Marketing.Search.config" />
+    <Content Include="App_Config\Include\Sitecore.Marketing.Solr.Index.Master.config.disabled" />
+    <Content Include="App_Config\Include\Sitecore.Marketing.Solr.Index.Web.config.disabled" />
+    <Content Include="App_Config\Include\Sitecore.Marketing.Solr.IndexConfiguration.config.disabled" />
+    <Content Include="App_Config\Include\Sitecore.MarketingCD.config.disabled" />
+    <Content Include="App_Config\Include\Sitecore.MarketingProcessingRole.config.disabled" />
+    <Content Include="App_Config\Include\Sitecore.MarketingReportingRole.config.disabled" />
+    <Content Include="App_Config\Include\Sitecore.Media.RequestProtection.config.Sitecore 8.1 rev. 151003" />
+    <Content Include="App_Config\Include\Sitecore.MvcAnalytics.config" />
+    <Content Include="App_Config\Include\Sitecore.Processing.config.Sitecore 8.1 rev. 151003" />
+    <Content Include="App_Config\Include\Sitecore.Speak.Components.config" />
+    <Content Include="App_Config\Include\Sitecore.Speak.ContentSearch.Lucene.config" />
+    <Content Include="App_Config\Include\Sitecore.Speak.ContentSearch.Solr.config.example" />
+    <Content Include="App_Config\Include\Sitecore.Xdb.config" />
+    <Content Include="App_Config\Include\Z.EmailExperience\Sitecore.EmailExperience.ExperienceAnalytics.Client.config" />
+    <Content Include="App_Config\Include\Z.SwitchMasterToWeb\SwitchMasterToWeb.config.example" />
     <None Include="Properties\PublishProfiles\PackageForUpgrade.pubxml" />
     <None Include="Properties\PublishProfiles\Package.pubxml" />
     <None Include="Scripts\_references.js" />
@@ -1685,34 +1802,9 @@
     </Content>
     <Content Include="App_Config\FieldTypes.config" />
     <Content Include="App_Config\Icons.config" />
-    <Content Include="App_Config\Include\DataFolder.config.example" />
-    <Content Include="App_Config\Include\EventHandler.config.example" />
-    <Content Include="App_Config\Include\ForwardingSecurityEvents.config.example" />
-    <Content Include="App_Config\Include\ja-JP.config.example" />
-    <Content Include="App_Config\Include\LiveMode.config.example" />
-    <Content Include="App_Config\Include\ScalabilitySettings.config.example" />
-    <Content Include="App_Config\Include\Sitecore.AntiCsrf.config" />
-    <Content Include="App_Config\Include\Sitecore.Buckets.config" />
-    <None Include="App_Config\Include\Sitecore.Buckets.WarmupQueries.config.example" />
-    <Content Include="App_Config\Include\Sitecore.ContentSearch.Lucene.DefaultIndexConfiguration.config" />
-    <Content Include="App_Config\Include\Sitecore.ContentSearch.Lucene.Indexes.Sharded.Core.config.example" />
-    <Content Include="App_Config\Include\Sitecore.ContentSearch.Lucene.Indexes.Sharded.Master.config.example" />
-    <Content Include="App_Config\Include\Sitecore.ContentSearch.Lucene.Indexes.Sharded.Web.config.example" />
-    <Content Include="App_Config\Include\Sitecore.ContentSearch.VerboseLogging.config.example" />
-    <Content Include="App_Config\Include\Sitecore.Mvc.config" />
     <Content Include="App_Config\ConnectionStrings.production.config">
       <SubType>Designer</SubType>
     </Content>
-    <None Include="App_Config\Include\Sitecore.MvcAnalytics.config" />
-    <Content Include="App_Config\Include\Sitecore.MvcExperienceEditor.config" />
-    <Content Include="App_Config\Include\Sitecore.MvcSimulator.config" />
-    <Content Include="App_Config\Include\Sitecore.PipelineProfiling.config.disabled" />
-    <Content Include="App_Config\Include\Sitecore.Shell.MarketingAutomation.config" />
-    <Content Include="App_Config\Include\Sitecore.WebDAV.config" />
-    <Content Include="App_Config\Include\SitecoreSettings.config.example" />
-    <Content Include="App_Config\Include\SiteDefinition.config.example" />
-    <Content Include="App_Config\Include\WebDeploy.config.example" />
-    <Content Include="App_Config\Include\XslExtension.config.example" />
     <Content Include="App_Config\LanguageDefinitions.config" />
     <Content Include="App_Config\MimeTypes.config">
       <SubType>Designer</SubType>
@@ -1739,22 +1831,6 @@
     <Content Include="Data\webdav.lic" />
     <Content Include="temp\readme.txt" />
     <Content Include="packages.config">
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="App_Config\Include\Sitecore.Analytics.config">
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="App_Config\Include\Sitecore.Analytics.ExcludeRobots.config" />
-    <Content Include="App_Config\Include\Sitecore.ItemWebApi.config" />
-    <Content Include="App_Config\Include\Sitecore.Publishing.DedicatedInstance.config.example" />
-    <Content Include="App_Config\Include\Sitecore.Publishing.EventProvider.Async.config.disabled" />
-    <Content Include="App_Config\Include\Sitecore.Publishing.Optimizations.config.example" />
-    <Content Include="App_Config\Include\Sitecore.Publishing.Parallel.config.disabled" />
-    <Content Include="App_Config\Include\Sitecore.Publishing.Recovery.config.example" />
-    <Content Include="App_Config\Include\Sitecore.Speak.ItemWebApi.config">
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="App_Config\Include\Sitecore.Speak.Mvc.config">
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Views\web.config" />
@@ -1876,9 +1952,6 @@
     <Content Include="Views\Pages\Portal\Account\Invoices\Utility Providers.cshtml" />
     <Content Include="Views\Pages\Temp\Generate W9.cshtml" />
     <Content Include="Views\Temp\Index.cshtml" />
-    <Content Include="App_Config\Include\StreamEnergy.Initialization.config">
-      <SubType>Designer</SubType>
-    </Content>
     <Content Include="App_Config\ConnectionStrings.local.config">
       <SubType>Designer</SubType>
     </Content>
