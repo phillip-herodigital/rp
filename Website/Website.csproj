@@ -1517,6 +1517,7 @@
     <Content Include="sitecore\default.aspx" />
     <Content Include="_CMP\RazlService.asmx" />
     <Content Include="App_Config\Sitecore.config" />
+    <Content Include="App_Config\Include\Sitecore.Commerce.config" />
     <None Include="Properties\PublishProfiles\PackageForUpgrade.pubxml" />
     <None Include="Properties\PublishProfiles\Package.pubxml" />
     <None Include="Scripts\_references.js" />
