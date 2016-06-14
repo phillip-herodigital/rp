@@ -156,7 +156,9 @@ ngApp.controller('supportCenterCtrl', ['$scope', 'focus', '$http', '$sce', '$mod
         }
         $scope.category = category;
         $scope.selectCategory(category, state);
-        scrollService.scrollTo("categoryContact", 0, 500, null);
+        if ($("body").width() < 768) {
+            scrollService.scrollTo("categoryContact", 0, 500, null);
+        }
     }
 
     $scope.scroll = function () {

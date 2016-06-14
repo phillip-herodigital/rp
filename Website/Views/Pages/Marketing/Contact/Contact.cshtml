@@ -18,16 +18,16 @@
                 <div ng-class="category.name" ng-style="{'background-image': 'URL(' + category.iconURL + ')'}">
                     <div ng-if="!category.states.length">
                         <h4><strong>{{category.name}}</strong></h4>
-                        <p>Click below to view the {{category.name}} contact info.</p>
-                        <p><a href="" ng-click="selectPane(category)">Get Contact Information</a></p>
+                        <p>@Html.Sitecore().Field("Click Below")</p>
+                        <p><a href="" ng-click="selectPane(category)">@Html.Sitecore().Field("Get Contact Info")</a></p>
                     </div>
                     <div class="dropdown-toggle" dropdown-toggle ng-if="category.states.length">
                         <h4><strong>{{category.name}}</strong></h4>
-                        <p>Select state below to view the Energy contact info.</p>
-                        <p class="link"><a href="">Get Contact Information</a></p>
+                        <p>@Html.Sitecore().Field("Click Below States")</p>
+                        <p class="link"><a href="">@Html.Sitecore().Field("Get Contact Info")</a></p>
                     </div>
                     <ul class="dropdown-menu" role="menu" ng-if="category.states.length">
-                        <li disabled>Select State</li>
+                        <li disabled>@Html.Sitecore().Field("Select State")</li>
                         <li class="icon" ng-repeat="state in category.states">
                             <div ng-style="{'background-image': 'URL(' + state.iconURL + ')'}" ng-click="selectPane(category, state)">{{state.abbreviation}}</div>
                         </li>
