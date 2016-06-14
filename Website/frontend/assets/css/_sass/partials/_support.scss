@@ -21,6 +21,11 @@
             &.category-search {
                 height: 215px;
 
+                @include breakpoint(small) {
+                    height: auto;
+                    padding-bottom: 8px;
+                }
+
                 h1 {
                     margin: 20px;
 
@@ -273,7 +278,7 @@
                 }
 
                 @include breakpoint (small) {
-                    width: 100%;
+                    width: calc(100% - 8px);
 
                     .input {
                         width: 100%;
@@ -294,6 +299,7 @@
                         width: 100%;
                         border-radius: 5px;
                         padding: 20px 10px;
+                        border: none;
                     }
                 }
             }
@@ -810,6 +816,19 @@
                     margin: 40px 50px 0;
                     padding-left: 50px;
                     border-bottom: 2px solid #efefef;
+
+                    @include breakpoint(medium) {
+                        padding-left: 42px;
+                    }
+
+                    @include breakpoint(small) {
+                        padding-left: 0;
+                        margin: 40px 0;
+
+                        h2 {
+                            text-align: center;
+                        }
+                    }
                 }
 
                 .faqs {
@@ -850,6 +869,7 @@
                         @include breakpoint(small) {
                             width: 100%;
                             padding: 0;
+                            min-height: 0;
                         }
                     }
 
@@ -898,6 +918,9 @@
 
                                 > strong {
                                     font-weight: 600;
+                                }
+                                &.email {
+                                    word-break: break-word;
                                 }
                             }
                         }
@@ -1034,16 +1057,16 @@
                             width: 100%;
 
                             .triangle-up {
-                                        height: 0;
-                                        width: 0;
-                                        border-left: 15px solid transparent;
-                                        border-right: 15px solid transparent;
-                                        border-bottom: 15px solid #eff2f3;
-                                        background-color: #fff;
-                                        position: relative;
-                                        top: 0;
-                                        left: 45px;
-                                    }
+                                height: 0;
+                                width: 0;
+                                border-left: 15px solid transparent;
+                                border-right: 15px solid transparent;
+                                border-bottom: 15px solid #eff2f3;
+                                background-color: #fff;
+                                position: relative;
+                                top: 0;
+                                left: 45px;
+                            }
 
                             .answer {
                                 color: #636367;
@@ -1117,9 +1140,11 @@
             background-color: #eff2f3;
             width: 100%;
             padding: 20px 50px;
-			a {
+
+            a {
                 font-weight: 700;
-            }	
+            }
+
             .content {
                 width: 1040px;
                 margin: 0 auto;
@@ -1134,7 +1159,6 @@
                     width: auto;
                     padding: 0 10px;
                 }
-
             }
         }
     }

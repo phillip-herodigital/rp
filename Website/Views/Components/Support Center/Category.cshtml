@@ -96,7 +96,10 @@
                                     <div class="response" ng-show="faq.feedbackSent">
                                         <p>@categoryContent.Fields["Feedback Sent Text"]</p>
                                     </div>
-                                    <div class="response" ng-show="helpfulSelected && !faq.feedbackSent">
+                                    <div class="response" ng-show="faq.feedbackError">
+                                        <p>@categoryContent.Fields["Feedback Error Text"]</p>
+                                    </div>
+                                    <div class="response" ng-show="helpfulSelected && !faq.feedbackSent && !faq.feedbackError">
                                         <p>@categoryContent.Fields["Thanks for your feedback"]</p>
                                         <textarea placeholder="@categoryContent.Fields["Comment Placeholder"]" ng-model="feedback"></textarea>
                                         <button class="button primary" ng-click="sendFeedback(faq, isHelpful, feedback)">@categoryContent.Fields["Submit"]</button>

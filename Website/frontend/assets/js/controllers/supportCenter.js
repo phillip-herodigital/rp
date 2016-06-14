@@ -192,7 +192,12 @@ ngApp.controller('supportCenterCtrl', ['$scope', 'focus', '$http', '$sce', '$mod
                     faq.faqAnswer = $sce.trustAsHtml(faq.faqAnswer);
                 });
                 if (limitResults) {
-                    resolve(response.data.slice(0, 4));
+                    if ($scope.isLoading) {
+                        resolve([]);
+                    }
+                    else {
+                        resolve(response.data.slice(0, 4));
+                    }
                 }
                 else {
                     resolve(response.data);
@@ -437,25 +442,31 @@ ngApp.controller('supportCenterCtrl', ['$scope', 'focus', '$http', '$sce', '$mod
     }
 
     $scope.sendFeedback = function (faq, isHelpful, feedback) {
-        $http.post("/api/support/sendFeedback", {
+        var request = {
             guid: faq.guid,
             isHelpful: isHelpful,
             comment: feedback
-        })
-            .then(function successCallback(response) {
-                if (response.data.success) {
-                    faq.feedbackSent = true;
-                    console.log("feedback sent");
-                }
-                else {
-                    handleException();
-                }
-            }, function errorCallback(response) {
-                handleException();
-            });
+        }
         var handleException = function () {
+            faq.feedbackError = true;
             console.log("feedback failed");
         }
+        $http({
+            method: 'Post',
+            data: request,
+            headers: { 'Content-Type': 'application/JSON' },
+            url: "/api/support/sendFeedback"
+        }).then(function successCallback(response) {
+            if (response.data.success) {
+                faq.feedbackSent = true;
+                console.log("feedback sent");
+            }
+            else {
+                handleException();
+            }
+        }, function errorCallback(response) {
+            handleException();
+        });
     }
 
     $scope.selectRelated = function (relatedFaq) {
