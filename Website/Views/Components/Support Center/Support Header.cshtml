@@ -1,0 +1,73 @@
+﻿@using Sitecore.Data.Fields
+
+@{ 
+    ImageField backgroundField = Html.Sitecore().CurrentItem.Fields["Background"];
+    string backgroundURL = Sitecore.Resources.Media.MediaManager.GetMediaUrl(backgroundField.MediaItem);
+
+    var categoryContent = Sitecore.Context.Database.GetItem("{E507A0DB-A122-406B-862E-6C163BCCA7E7}");
+    ImageField categoryBackgroundField = categoryContent.Fields["Background"];
+    string categoryBackgroundURL = Sitecore.Resources.Media.MediaManager.GetMediaUrl(categoryBackgroundField.MediaItem);
+
+    var defaultSearchPlaceholder = StreamEnergy.Json.Stringify(Html.Sitecore().CurrentItem.Fields["Search Placeholder"].Value);
+    var selectSearchPlaceholder = StreamEnergy.Json.Stringify("Select a Service");
+}
+<div class="support-search" ng-class="{'category-search': isCategorySupport}" ng-style="{'background-image': isCategorySupport ? 'URL(@categoryBackgroundURL)' : 'URL(@backgroundURL)'}" ng-cloak>
+    <div class="content clearfix" ng-init="searchInit(@selectSearchPlaceholder, @defaultSearchPlaceholder)">
+        <h1 ng-show="!subcategories.length && !searchResults && !mobileAcronyms">@Html.Sitecore().Field("Main Heading")</h1>
+        <h1 ng-show="subcategories.length  && !searchResults && !mobileAcronyms">{{category.displayTitle}} @Html.Sitecore().Field("Support")</h1>
+        <h1 ng-show="searchResults">@Html.Sitecore().Field("Search Results Heading")</h1>
+        <h1 ng-show="mobileAcronyms" class="mobile-acronyms-header">@Html.Sitecore().Field("Mobile Acronyms Heading")</h1>
+        <h4 ng-hide="isCategorySupport">@Html.Sitecore().Field("Main Subheading")</h4>
+        <form class="search" name="searchBar" ng-submit="search()" ng-hide="mobileAcronyms">
+            <div class="input">
+                <input type="text" class="search-input" name="searchText" id="seachText"
+                       placeholder="{{searchPlaceholder}}"
+                       autocomplete="off"
+                       typeahead-focus-first="false"
+                       typeahead-on-select="search()"
+                       ng-disabled="!searchData.category || (searchData.category.states.length && !searchData.state)"
+                       ng-model="searchData.text"
+                       typeahead-loading="isSearchLoading"
+                       typeahead="faq.faqQuestion as faq.faqQuestion for faq in getSearchFaqs($viewValue, true) | filter:$viewValue"
+                       typeahead-template-url="typeahead-results" />
+                <div ng-hide="isSearchLoading" class="mag-glass" ng-click="search()"></div>
+                <div ng-show="isSearchLoading" class="searchLoading"></div>
+            </div>
+            <div class="select clearfix" ng-click="dropDown=!dropDown">
+                <div class="selected-category" ng-show="searchData.category">
+                    In {{searchData.category}}<span ng-show="searchData.state"> - {{searchData.state.abbreviation}}</span>
+                </div>
+                <div class="selected-category" ng-hide="searchData.category" ng-cloak>@Html.Sitecore().Field("Service Type")</div>
+                <div class="triangle-down" ng-class="{flipped: dropDown}"></div>
+            </div>
+            <div ng-class="{reveal: dropDown}" class="category-dropdown-container">
+                <div class="triangle-up"></div>
+                <ul class="category-dropdown">
+                    <li ng-repeat="category in categories" ng-class="{noHover: category.states.length}">
+                        <div ng-click="selectCategory(category, null)" ng-class="{noHover: category.states.length}">
+                            {{category.displayTitle}}<span ng-show="category.states.length"> @Html.Sitecore().Field("Select State")</span>
+                        </div>
+                        <ul class="state" ng-show="category.states.length">
+                            <li ng-repeat="state in category.states">
+                                <div ng-click="selectCategory($parent.category, state)" ng-style="{'background-image': 'URL(' + state.iconURL + ')'}">{{state.abbreviation}}</div>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </form>
+    </div>
+</div>
+<nav class="tertiary-nav" id="tertiary-nav" ng-if="subcategories.length" ng-cloak>
+    <div class="wrapper">
+        <ul>
+            <li ng-repeat="subcategory in subcategories" ng-class="{selected: subcategory.selected}">
+                <a href="" ng-click="selectSubcategory($index)">{{subcategory.displayTitle}}</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+<script type="text/ng-template" id="typeahead-results">
+    <div bind-html-unsafe="match.label | typeaheadHighlight:query" class="typeaheadQuestion"></div>
+    <div ng-bind-html="match.model.faqAnswer" class="typeaheadAnswer"></div>
+</script>
