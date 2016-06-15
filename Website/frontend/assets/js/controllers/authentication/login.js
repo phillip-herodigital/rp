@@ -32,7 +32,7 @@ ngApp.controller('AuthLoginCtrl', ['$scope', '$rootScope', '$http', '$window', '
 		$scope.formData.uri = document.URL;
 		$http({
 			method  : 'POST',
-			url     : '/api/authentication/login',
+			url     : '/api/streamauthentication/login',
 			data    : $scope.formData,
 			headers : { 'Content-Type': 'application/JSON' } 
 		})

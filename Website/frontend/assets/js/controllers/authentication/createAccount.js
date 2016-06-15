@@ -26,7 +26,7 @@ ngApp.controller('AuthCreateAccountCtrl', ['$scope', '$rootScope', '$http', '$wi
 		$scope.isLoading = true;
 		$http({
 			method  : 'POST',
-			url     : '/api/authentication/findAccount',
+			url     : '/api/streamauthentication/findAccount',
 			data    : $scope.formData,
 			headers : { 'Content-Type': 'application/JSON' } 
 		})
@@ -61,7 +61,7 @@ ngApp.controller('AuthCreateAccountCtrl', ['$scope', '$rootScope', '$http', '$wi
 		$scope.isLoading = true;
 		$http({
 			method  : 'POST',
-			url     : '/api/authentication/updateEmail',
+			url     : '/api/streamauthentication/updateEmail',
 			data    : $scope.formData,
 			headers : { 'Content-Type': 'application/JSON' } 
 		})
@@ -85,7 +85,7 @@ ngApp.controller('AuthCreateAccountCtrl', ['$scope', '$rootScope', '$http', '$wi
 		$scope.isLoading = true;
 		$http({
 			method  : 'POST',
-			url     : '/api/authentication/createLogin',
+			url     : '/api/streamauthentication/createLogin',
 			data    : $scope.formData,
 			headers : { 'Content-Type': 'application/JSON' } 
 		})
