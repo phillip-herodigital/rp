@@ -60,9 +60,6 @@
       <HintPath>..\packages\Antlr.3.4.1.9004\lib\Antlr3.Runtime.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="ChilkatDotNet2">
-      <HintPath>..\Libraries\Sitecore\ChilkatDotNet2.dll</HintPath>
-    </Reference>
     <Reference Include="ComponentArt.Web.UI, Version=2010.1.2637.35, Culture=neutral, PublicKeyToken=9bc9f846553156bb, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Libraries\Sitecore\ComponentArt.Web.UI.dll</HintPath>
@@ -1635,6 +1632,10 @@
     <Content Include="App_Config\Include\Sitecore.Xdb.config" />
     <Content Include="App_Config\Include\Z.EmailExperience\Sitecore.EmailExperience.ExperienceAnalytics.Client.config" />
     <Content Include="App_Config\Include\Z.SwitchMasterToWeb\SwitchMasterToWeb.config.example" />
+    <Content Include="App_Config\Include\EmailExperience\Sitecore.EDS.Providers.CustomSMTP.Sync.config.disabled" />
+    <Content Include="App_Config\Include\EmailExperience\Sitecore.EDS.Providers.Dyn.config.disabled" />
+    <Content Include="App_Config\Include\EmailExperience\Sitecore.EDS.Providers.Dyn.Sync.config.disabled" />
+    <Content Include="App_Config\Include\EmailExperience\Sitecore.EmailExperience.ContentManagementPrimary.config" />
     <None Include="Properties\PublishProfiles\PackageForUpgrade.pubxml" />
     <None Include="Properties\PublishProfiles\Package.pubxml" />
     <None Include="Scripts\_references.js" />
