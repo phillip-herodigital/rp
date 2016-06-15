@@ -28,7 +28,7 @@ using ResponsivePath.Logging;
 
 namespace StreamEnergy.MyStream.Controllers.ApiControllers
 {
-    public class AuthenticationController : ApiController, IRequiresSessionState
+    public class StreamAuthenticationController : ApiController, IRequiresSessionState
     {
         private readonly Sitecore.Data.Items.Item item;
         private readonly IUnityContainer container;
@@ -49,7 +49,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         public class CreateAccountSessionHelper : StateMachineSessionHelper<CreateAccountContext, CreateAccountInternalContext>
         {
             public CreateAccountSessionHelper(HttpSessionStateBase session, IUnityContainer container)
-                : base(session, container, typeof(AuthenticationController), typeof(FindAccountState), storeInternal: true)
+                : base(session, container, typeof(StreamAuthenticationController), typeof(FindAccountState), storeInternal: true)
             {
             }
         }
@@ -57,13 +57,13 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         public class ResetPasswordSessionHelper : StateMachineSessionHelper<ResetPasswordContext, object>
         {
             public ResetPasswordSessionHelper(HttpSessionStateBase session, IUnityContainer container)
-                : base(session, container, typeof(AuthenticationController), typeof(GetUsernameState), storeInternal: false)
+                : base(session, container, typeof(StreamAuthenticationController), typeof(GetUsernameState), storeInternal: false)
             {
             }
         }
         #endregion
 
-        public AuthenticationController(IUnityContainer container, CreateAccountSessionHelper coaSessionHelper, ResetPasswordSessionHelper resetPasswordSessionHelper, ResetPasswordTokenManager resetPasswordTokenManager, IEmailService emailService, ISettings settings, IAccountService accountService, ImpersonationUtility impersonation, UserProfileLocator profileLocator, ILogger logger, Models.Account.KubraLoginHelper kubraLoginHelper)
+        public StreamAuthenticationController(IUnityContainer container, CreateAccountSessionHelper coaSessionHelper, ResetPasswordSessionHelper resetPasswordSessionHelper, ResetPasswordTokenManager resetPasswordTokenManager, IEmailService emailService, ISettings settings, IAccountService accountService, ImpersonationUtility impersonation, UserProfileLocator profileLocator, ILogger logger, Models.Account.KubraLoginHelper kubraLoginHelper)
         {
             this.container = container;
             this.coaSessionHelper = coaSessionHelper;
@@ -723,7 +723,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 impAccount.Balance = account.Balance.Balance;
                 impAccount.Ssn = account.Details.SsnLastFour;
                 impAccount.IsError = false;
-                impAccount.ImpersonateUrl = host + string.Format("/api/authentication/impersonate?accountNumber={0}&expiry={1}&token={2}", accountNumber, HttpUtility.UrlEncode(expiry), HttpUtility.UrlEncode(token));
+                impAccount.ImpersonateUrl = host + string.Format("/api/streamauthentication/impersonate?accountNumber={0}&expiry={1}&token={2}", accountNumber, HttpUtility.UrlEncode(expiry), HttpUtility.UrlEncode(token));
             }
 
             return impAccount;

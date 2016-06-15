@@ -1119,13 +1119,13 @@
     <Compile Include="Controllers\ApiControllers\searchRequest.cs" />
     <Compile Include="Controllers\ApiControllers\SitecoreController.cs" />
     <Compile Include="Controllers\ApiControllers\MobileEnrollmentController.cs" />
+    <Compile Include="Controllers\ApiControllers\StreamAuthenticationController.cs" />
     <Compile Include="Controllers\ApiControllers\SupportCenterAPIController.cs" />
     <Compile Include="Models\Marketing\Support\SupportFeedbackResponse.cs" />
     <Compile Include="Models\Marketing\Support\SupportFeedback.cs" />
     <Compile Include="Controllers\ApiControllers\TempController.cs" />
     <Compile Include="Controllers\ApiControllers\AccountController.cs" />
     <Compile Include="Controllers\ApiControllers\AddressesController.cs" />
-    <Compile Include="Controllers\ApiControllers\AuthenticationController.cs" />
     <Compile Include="Controllers\Components\AccountController.cs" />
     <Compile Include="Controllers\Components\AuthenticationController.cs" />
     <Compile Include="Controllers\ApiControllers\EnrollmentController.cs" />

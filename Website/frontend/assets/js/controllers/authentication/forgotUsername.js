@@ -14,7 +14,7 @@ ngApp.controller('AuthForgotUsernameCtrl', ['$scope', '$rootScope', '$http', '$w
         $scope.recoverUsernameError = false;
         $http({
             method  : 'POST',
-            url     : '/api/authentication/recoverUsername',
+            url     : '/api/streamauthentication/recoverUsername',
             data    : $scope.formData,
             headers : { 'Content-Type': 'application/JSON' } 
         })
