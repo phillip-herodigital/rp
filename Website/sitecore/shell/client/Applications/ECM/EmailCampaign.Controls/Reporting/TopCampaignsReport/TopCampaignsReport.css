@@ -1,0 +1,9 @@
+﻿.sc-TopCampaignsReport .sc-d3-barchart {
+  padding: 15px 20px 0 20px;
+}
+.sc-TopCampaignsReport .sc-d3-barchart .nv-x.nv-axis.nvd3-svg text {
+  fill: #3e95c2;
+}
+.sc-TopCampaignsReport .sc-d3-barchart .nv-y.nv-axis.nvd3-svg text {
+  fill: #9c9c9c;
+}

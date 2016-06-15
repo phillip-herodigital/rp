@@ -1,4 +1,12 @@
-﻿define(["backbone", "/-/speak/v1/ecm/ServerRequest.js"], function (backbone) {
+﻿define([
+  "backbone",
+  "/-/speak/v1/ecm/ServerRequest.js",
+  "/-/speak/v1/ecm/StringHelper.js"
+], function (
+  backbone,
+  serverRequest,
+  StringHelper
+  ) {
 
   var messageTokenService = backbone.Model.extend({
     initialize: function() {
@@ -10,11 +18,19 @@
       this.on("change:context", this.loadTokens, this);
     },
 
-    loadTokens: function() {
-      postServerRequest(this.get("url"),
-        this.get("context"),
-        _.bind(this.onResponse, this),
-        false);
+    loadTokens: function () {
+      serverRequest(this.get("url"), {
+        data: this.get("context"),
+        success: this.onResponse,
+        context: this
+      });
+    },
+
+    decodeTokenNames: function (tokens) {
+      _.each(tokens, function (token) {
+        token.name = StringHelper.decodeHTMLCharCodes(token.name);
+      });
+      return tokens;
     },
 
     onResponse: function (response) {
@@ -22,9 +38,10 @@
         alert(response.errorMessage);
         return;
       }
-      if (response.comboBoxList != null) {
+
+      if (response.comboBoxList && $.type(response.comboBoxList) === 'array') {
         this.set("tokens", [], {silent: true});
-        this.set("tokens", response.comboBoxList);
+        this.set("tokens", this.decodeTokenNames(response.comboBoxList));
       }
     },
 

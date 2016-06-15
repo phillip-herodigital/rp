@@ -1,8 +1,9 @@
 ﻿define([
     "/-/speak/v1/FXM/ExperienceEditorExtension/Legacy/LegacySitecore.js",
     "/-/speak/v1/FXM/ExperienceEditorExtension/Legacy/LegacyjQuery.js",
-    "/-/speak/v1/FXM/ExperienceEditorExtension/Legacy/Fxm.js"
-], function (_scl, $sc, _fxm) {
+    "/-/speak/v1/FXM/ExperienceEditorExtension/Legacy/Fxm.js",
+    "/-/speak/v1/ExperienceEditor/TranslationUtil.js"
+], function (_scl, $sc, _fxm, TranslationUtil) {
 
     var translator = null;
 
@@ -11,7 +12,7 @@
 
             var parent = this.chrome.element.parent();
             var isSelectAllowed = false;
-            var displayName = translator.translate("You cannot select parent. It may contain other controls.");
+            var displayName = TranslationUtil.translateTextByServer("You cannot select parent. It may contain other controls.");
 
             if (parent && _fxm.isSelectionAllowed(parent)) {
                 isSelectAllowed = true;

@@ -1,0 +1,25 @@
+﻿@using Sitecore
+@using Sitecore.Modules.EmailCampaign.Core
+
+@model Sitecore.EmailCampaign.Controls.LanguageSwitcher.LanguageSwitcherViewModel        
+
+@if (@Model.MessageLanguages.Count > 0 && @Model.CurrentLanguage != null)
+{
+  <div class="language-switcher-list">
+    <ul>
+      <li class="nav-header">@ClientHost.Globalization.Translate(EcmTexts.MessageLanguages)</li>
+
+      <li class="sc-actionMenu-item language-all hidden">
+        <a class="language-item" data-isocode="sc-report-language-all" href="#" tabindex="-1">@ClientHost.Globalization.Translate(EcmTexts.AllLanguages)</a>
+      </li>
+
+      @foreach (var language in @Model.FormattedLanguages)
+      {
+        <li class="sc-actionMenu-item@(language.HasVersion ? " selected" : "")">
+          <a class="language-item@(language.IsDefault ? " isdefault" : "")" data-isocode="@language.IsoCode" tabindex="-1" href="#">@language.DisplayName</a>
+        </li>
+      }
+    </ul>
+  </div>
+  
+}

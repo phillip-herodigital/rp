@@ -1,18 +1,19 @@
-﻿define(["sitecore", "/-/speak/v1/ecm/String.js"], function (sitecore) {
+﻿define(["sitecore", "/-/speak/v1/ecm/DialogService.js"], function (sitecore, DialogService) {
   return {
     priority: 2,
     execute: function (context) {
       if (!context.currentContext.confirmed) {
         context.aborted = true;
-
-        sitecore.trigger("confirmdialog",
-        {
-          text: sitecore.Resources.Dictionary.translate("ECM.Pipeline.DeleteMessage.ConfirmDelete").replaceAll("{0}", context.currentContext.messageName),
-          ok: function () {
-            context.currentContext.confirmed = true;
-            sitecore.Pipelines.DeleteMessage.execute({ app: sitecore, currentContext: context.currentContext });
-          },
-          cancel: function () {}
+        DialogService.show('confirm', {
+          text: sitecore.Resources.Dictionary.translate("ECM.Pipeline.DeleteMessage.ConfirmDelete")
+            .split("{0}").join(context.currentContext.messageName),
+          on: {
+            ok: function () {
+              context.currentContext.confirmed = true;
+              context.aborted = false;
+              sitecore.Pipelines.DeleteMessage.execute(context);
+            }
+          }
         });
       }
     }

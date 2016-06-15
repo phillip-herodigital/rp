@@ -184,8 +184,8 @@ define(["sitecore", "jqueryui", "fileUpload", "iFrameTransport"], function (_sc,
     initialize: function() {
       this.totalSize = 0;
 
-      var databaseUri = new _sc.Definitions.Data.DatabaseUri("core"),
-        database = new _sc.Definitions.Data.Database(databaseUri);      
+      fileSizeExceededErrorMessage = this.$el.data("sc-filesizeexceededtext");
+      timeoutErrorMessage = this.$el.data("sc-timeoutext");
       
       if (!hasXMLRequestLevel2) {
         this.$el.find(".drag").hide();        
@@ -209,10 +209,6 @@ define(["sitecore", "jqueryui", "fileUpload", "iFrameTransport"], function (_sc,
         infoProgressBar: this.$el.find(".sc-uploader-general-info-progressbar")        
       },
       
-      // Gets translation of messages for error events
-      database.getItem("{7F5A190F-64A6-495B-B148-80569C03348D}", this.setFileSizeExceededErrorMessage);
-      database.getItem("{B995246F-A761-451E-9539-AAC4B7761F06}", this.setTimeoutErrorMessage);
-
       this.model.on("change:destinationUrl", this.changeDestinationUrl, this);
     },
     
@@ -229,13 +225,6 @@ define(["sitecore", "jqueryui", "fileUpload", "iFrameTransport"], function (_sc,
       }
 
       this.$el.find(".sc-uploader-fileupload").attr("data-url", this.url);
-    },
-
-    setTimeoutErrorMessage: function (item) {
-      timeoutErrorMessage = item.Text;
-    },
-    setFileSizeExceededErrorMessage: function (item) {
-      fileSizeExceededErrorMessage = item.Text;
     },
 
     getUploadedSize: function () {      

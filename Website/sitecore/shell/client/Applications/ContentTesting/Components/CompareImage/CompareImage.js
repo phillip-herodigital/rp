@@ -20,7 +20,6 @@ define(["sitecore", imageThumbsPath], function (_sc, thumbs) {
         this._super();
 
         this.set({
-          getThumbnailUrl: null,
           startGetThumbnailUrl: "/sitecore/shell/api/ct/TestThumbnails/StartGetThumbnails",
           tryFinishGetThumbnailUrl: "/sitecore/shell/api/ct/TestThumbnails/TryFinishGetThumbnails",
           items: [],
@@ -36,10 +35,6 @@ define(["sitecore", imageThumbsPath], function (_sc, thumbs) {
     busyCounter: 0,
 
     initialize: function (options) {
-      if (this.$el.attr("data-sc-getthumbnailurl")) {
-        this.model.set("getThumbnailUrl", this.$el.attr("data-sc-getthumbnailurl"));
-      }
-
       if (this.$el.attr("data-sc-startgetthumbnailurl")) {
         this.model.set("startGetThumbnailUrl", this.$el.attr("data-sc-startgetthumbnailurl"));
       }
@@ -57,11 +52,21 @@ define(["sitecore", imageThumbsPath], function (_sc, thumbs) {
 
 
       if (this.app && this.app.ZoomFrame) {
-        $("#imgBefore").click(this.app.ZoomFrame.viewModel.zoomImage);
-        $("#imgAfter").click(this.app.ZoomFrame.viewModel.zoomImage);
+        $("#imgBefore").click(this, this.imgClickHandler);
+        $("#imgAfter").click(this, this.imgClickHandler);
       }
 
       this.model.on("change:items", this.redraw, this);
+    },
+
+    imgClickHandler: function (event) {
+      var self = event.data;
+      var imageUrl = $(event.currentTarget).attr("src");
+
+      self.app.ZoomFrame.set("imageUrl", imageUrl);
+      if (self.app.ZoomFrame.get("isVisible"))
+        self.app.ZoomFrame.set("isVisible", false);
+      self.app.ZoomFrame.set("isVisible", true);
     },
 
     // testing options for unit-tests
@@ -77,8 +82,6 @@ define(["sitecore", imageThumbsPath], function (_sc, thumbs) {
       var self = this;
 
       if (items.length >= 2) {
-
-        var url = this.model.get("getThumbnailUrl")
         var startUrl = this.model.get("startGetThumbnailUrl");
         var endUrl = this.model.get("tryFinishGetThumbnailUrl");
         var imageThumbs = this.model.get("imageThumbs");
@@ -99,12 +102,7 @@ define(["sitecore", imageThumbsPath], function (_sc, thumbs) {
             self.model.set("isBusy", false);
           };
 
-          if (url) {
-            imageThumbs.populateImages(items, locator, url, itemCallback, finishCallback);
-          }
-          else if (startUrl && endUrl) {
-            imageThumbs.populateImages(items, locator, startUrl, endUrl, itemCallback, finishCallback);
-          }
+          imageThumbs.populateImages(items, locator, startUrl, endUrl, itemCallback, finishCallback);
         }
       }
     }

@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<configuration xmlns:patch="http://www.sitecore.net/xmlconfig/">
+  <sitecore>
+      <contentSearch>
+          <indexConfigurations>
+              <defaultSolrIndexConfiguration>
+                  <fieldMap>
+                      <fieldNames>
+                          <field fieldName="message_type" returnType="string" />
+                      </fieldNames>
+                  </fieldMap>
+              </defaultSolrIndexConfiguration>
+          </indexConfigurations>
+      </contentSearch>
+  </sitecore>
+</configuration>

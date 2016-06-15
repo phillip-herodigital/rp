@@ -21,9 +21,6 @@ To enable this include file, rename it so that is has a ".config" extension.
     </settings>
     <!-- PATH ANALYZER -->
     <pathAnalyzer>
-      <propertyStore type="Sitecore.PathAnalyzer.Processing.SqlPropertyStore, Sitecore.PathAnalyzer" singleInstance="true">
-        <param desc="connectionString">reporting</param>
-      </propertyStore>
       <remoteServices>
         <!-- AUTHORIZED CLIENTS
                 Specifies a list of client apps that are allowed to communicate/authenticate with the services API.
@@ -37,12 +34,6 @@ To enable this include file, rename it so that is has a ".config" extension.
         </configuration>
       </remoteServices>
     </pathAnalyzer>
-    <!-- PIPELINES -->
-    <pipelines>
-      <initialize>
-        <processor type="Sitecore.PathAnalyzer.Services.Pipelines.Initialize.RegisterRemoteFilters, Sitecore.PathAnalyzer.Services" patch:after="processor[@type = 'Sitecore.PathAnalyzer.Services.Pipelines.Initialize.RegisterFilters, Sitecore.PathAnalyzer.Services']" />
-      </initialize>
-    </pipelines>
     <!-- API -->
     <api>
       <services>
@@ -74,8 +65,8 @@ To enable this include file, rename it so that is has a ".config" extension.
             A Web API controller with actions used by the /sitecore/admin/PathAnalyzer.aspx page
       -->
       <controller type="Sitecore.PathAnalyzer.Services.Controllers.RemoteAdminController, Sitecore.PathAnalyzer.Services">
-        <param desc="propertyStore" ref="pathAnalyzer/propertyStore" />
         <param desc="configuration" ref="pathAnalyzer/configuration" />
+        <param desc="treeDefinitionService" ref="pathAnalyzer/definitionService" />
       </controller>
     </controllers>
 

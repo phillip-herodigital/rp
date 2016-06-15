@@ -1,4 +1,10 @@
-﻿define(["sitecore", "/-/speak/v1/pathanalyzer/spider.js"], function (Sitecore, spider) {
+﻿require.config({
+    paths: {
+        d3: "/-/speak/v1/pathanalyzer/libs/d3.min"
+    }
+});
+
+define(["sitecore", "d3"], function (Sitecore, d3) {
     var pathAnalyzer = Backbone.Model.extend({
         cookiePrefix: "scPathAnalyzer_",
 
@@ -6,12 +12,18 @@
             "dateRange": null,
             "treeDefinition": null,
             "messageBar": null,
-            "stringDictionary" : null
+            "stringDictionary": null,
+            "nodeGroupingOption": null,
+            "pathSignificanceFilterValue": null
+        },
+
+        getDispatch: function () {
+            return d3.dispatch('reset', 'pathover', 'pathout', 'exitover', 'exitout', 'pathclick', 'contextchanged', 'reload', 'dataload', 'dataloaded', 'dataready', 'baddata', 'nodata', 'filterchanged');
         },
         getTreeDefinition: function () {
             var treeDefinition = "",
                 treeDefinitionFromUrl = this.getTreeDefinitionFromUrl(),
-                treeDefinitionFromSession = this.getSessionValue("treeDefinition");
+                treeDefinitionFromSession = this.getSessionValue("SelectedTreeDefinition");
 
             if (treeDefinitionFromUrl) {
                 treeDefinition = treeDefinitionFromUrl;
@@ -23,7 +35,7 @@
 
         setTreeDefinition: function (value) {
             value = value || "";
-            this.setSessionValue("treeDefinition", value);
+            this.setSessionValue("SelectedTreeDefinition", value);
 
             this.updateUrl({
                 treeDefinition: value
@@ -39,16 +51,12 @@
             return params.treeDefinition;
         },
 
-        reConvertDateFormat: function (date) {
-            return $.datepicker.formatDate("yy-mm-dd", new Date(date));
-        },
-
         updateDateRangeInSession: function (from, to) {
             if (from != null && this.validateDate(from))
-                this.setSessionValue("fromDate", from);
+                this.setSessionValue("SelectedStartDate", from);
 
             if (to != null && this.validateDate(to))
-                this.setSessionValue("toDate", to);
+                this.setSessionValue("SelectedEndDate", to);
         },
 
         updateDateRangeInUrl: function (from, to) {
@@ -61,6 +69,16 @@
         },
 
         setDateRange: function (from, to) {
+            if (Sitecore.Helpers.date.isISO(from) && Sitecore.Helpers.date.isISO(to)) {
+                var now = new Date();
+                var timePart = "T" + this.ensureTwoDigits(now.getHours()) + this.ensureTwoDigits(now.getMinutes()) + this.ensureTwoDigits(now.getSeconds());
+
+                var fromTime = from.slice(8);
+                from = from.replace(fromTime, timePart);
+
+                var toTime = to.slice(8);
+                to = to.replace(toTime, timePart);
+            }
             this.updateDateRangeInSession(from, to);
             this.updateDateRangeInUrl(from, to);
 
@@ -70,10 +88,20 @@
             });
         },
 
+        getDateRangeFromUrl: function () {
+            var hash = window.location.hash.substring(1),
+              params = Sitecore.Helpers.url.getQueryParameters(hash);
+
+            return {
+                dateFrom: params.dateFrom,
+                dateTo: params.dateTo
+            };
+        },
+
         getDateRange: function () {
             var dateRangeFromUrl = this.getDateRangeFromUrl(),
-                sessionFromDate = this.getSessionValue("fromDate"),
-                sessionToDate = this.getSessionValue("toDate"),
+                sessionFromDate = this.getSessionValue("SelectedStartDate"),
+                sessionToDate = this.getSessionValue("SelectedEndDate"),
                 dateObject = null;
 
             if (dateRangeFromUrl.dateFrom && dateRangeFromUrl.dateTo) {
@@ -89,26 +117,87 @@
                 };
             }
 
-            if (dateObject) {
-                dateObject.dateFrom = this.reConvertDateFormat(dateObject.dateFrom);
-                dateObject.dateTo = this.reConvertDateFormat(dateObject.dateTo);
-            }
-
             return dateObject;
         },
 
-        validateDate: function (dateString) {
-            return dateString.match(/^\d{4}[\-]\d{2}[\-]\d{2}$/) || dateString.match(/^\d{2}[\-]\d{2}[\-]\d{4}$/);
+        getNodeGroupingOption: function () {
+            var nodeGroupingOption = "",
+                nodeGroupingOptionFromUrl = this.getNodeGroupingOptionFromUrl(),
+                nodeGroupingOptionFromSession = this.getSessionValue("SelectedGroupingOption");
+
+            if (nodeGroupingOptionFromUrl) {
+                nodeGroupingOption = nodeGroupingOptionFromUrl;
+            } else if (nodeGroupingOptionFromSession)
+                nodeGroupingOption = nodeGroupingOptionFromSession;
+
+            return nodeGroupingOption;
         },
 
-        getDateRangeFromUrl: function () {
-            var hash = window.location.hash.substring(1),
-              params = Sitecore.Helpers.url.getQueryParameters(hash);
+        setNodeGroupingOption: function (value) {
+            value = value || "";
+            this.setSessionValue("SelectedGroupingOption", value);
 
-            return {
-                dateFrom: params.dateFrom,
-                dateTo: params.dateTo
-            };
+            this.updateUrl({
+                nodeGroupingOption: value
+            });
+
+            this.set("nodeGroupingOption", value);
+        },
+
+        getNodeGroupingOptionFromUrl: function () {
+            var hash = window.location.hash.substring(1),
+                params = Sitecore.Helpers.url.getQueryParameters(hash);
+
+            return params.nodeGroupingOption;
+        },
+
+        getPathSignificanceFilterValue: function () {
+            var pathSignificanceFilterValue = "",
+                pathSignificanceFilterValueFromUrl = this.getPathSignificanceFilterValueFromUrl(),
+                pathSignificanceFilterValueFromSession = this.getSessionValue("SelectedFilterOption");
+
+            if (pathSignificanceFilterValueFromUrl) {
+                pathSignificanceFilterValue = pathSignificanceFilterValueFromUrl;
+            } else if (pathSignificanceFilterValueFromSession)
+                pathSignificanceFilterValue = pathSignificanceFilterValueFromSession;
+
+            return pathSignificanceFilterValue;
+        },
+
+        setPathSignificanceFilterValue: function (value) {
+            value = value || "";
+            this.setSessionValue("SelectedFilterOption", value);
+
+            this.updateUrl({
+                pathSignificanceFilterValue: value
+            });
+
+            this.set("pathSignificanceFilterValue", value);
+        },
+
+        getPathSignificanceFilterValueFromUrl: function () {
+            var hash = window.location.hash.substring(1),
+                params = Sitecore.Helpers.url.getQueryParameters(hash);
+
+            return params.pathSignificanceFilterValue;
+        },
+
+        ensureTwoDigits: function (number) {
+            return (number < 10) ? "0" + number.toString() : number.toString();
+        },
+
+        validateDate: function (dateString) {
+            return Sitecore.Helpers.date.isISO(dateString) || dateString.match(/^\d{4}[\-]\d{2}[\-]\d{2}$/) || dateString.match(/^\d{2}[\-]\d{2}[\-]\d{4}$/);
+        },
+
+        formatDateForDisplay: function (date) {
+            var utcDate = Sitecore.Helpers.date.parseISO(date);
+            // workaround for timezone because $.datepicker.formatDate doesn't respect timezone
+            if (utcDate) {
+                var tzDate = new Date(utcDate * 1 + utcDate.getTimezoneOffset() * 60000);
+                return $.datepicker.formatDate("yy-mm-dd", tzDate);
+            }
+            return null;
         },
 
         updateUrl: function (hashObject) {
@@ -153,22 +242,23 @@
 
         showMessage: function (messageBar, type, message) {
             if (messageBar) {
-                var errorObj = {
-                    text: message,
+                var messageObj = {
+                    text: message.text,
                     actions: [],
-                    closable: type !== "error"
+                    closable: type !== "error",
+                    id: message.id
                 };
 
-                messageBar.addMessage(type, errorObj);
+                messageBar.addMessage(type, messageObj);
             }
         },
 
-        updateApp: function() {
+        updateApp: function () {
             var treeDefinitionId = this.get("treeDefinition");
 
-            if (treeDefinitionId == "" || treeDefinitionId == undefined) {
+            if (treeDefinitionId === "" || treeDefinitionId == undefined) {
                 var message = this.get("stringDictionary").get("Please choose a map");
-                this.showMessage(this.get("messageBar"), "notification", message);
+                this.showMessage(this.get("messageBar"), "notification", { text: message, id: "" });
                 return;
             }
 
@@ -180,14 +270,16 @@
                 endDate = dateRange.dateTo;
             }
 
+            var group = this.get("nodeGroupingOption");
+            var pathfilter = this.get("pathSignificanceFilterValue");
+
             //need access to the "raw" silverlight DOM element, so go old skool javascript
             var pathAnalyzerApp = document.getElementById('scSilverlightPathExplorer');
             if (pathAnalyzerApp != null && pathAnalyzerApp.Content.PathAnalyzer != undefined) {
-                pathAnalyzerApp.Content.PathAnalyzer.LoadTreeData(treeDefinitionId, startDate, endDate);
+                pathAnalyzerApp.Content.PathAnalyzer.LoadTreeData(treeDefinitionId, startDate, endDate, group, pathfilter);
             }
 
-            State.pathSelected = false;
-            Bus.instance().publish("query:changed", { treeId: treeDefinitionId, startDate: startDate, endDate: endDate });
+            this.trigger("contextchanged", { treeDefinitionId: treeDefinitionId, startDate: startDate, endDate: endDate, group: group, pathfilter: pathfilter });
         }
     });
 

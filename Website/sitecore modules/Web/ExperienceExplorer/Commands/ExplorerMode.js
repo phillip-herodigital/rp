@@ -1,4 +1,4 @@
-﻿define(["sitecore"], function (Sitecore) {
+﻿define(["sitecore", "/-/speak/v1/ExperienceEditor/ExperienceEditor.js"], function (Sitecore, ExperienceEditor) {
   Sitecore.Commands.ExplorerMode =
   {
     canExecute: function (context) {
@@ -7,7 +7,7 @@
 
     execute: function (context) {
       context.currentContext.value = encodeURIComponent(window.parent.location);
-      Sitecore.ExperienceEditor.PipelinesUtil.generateRequestProcessor("ExperienceExplorer.ExplorerMode.Explore", function (response) {
+      ExperienceEditor.PipelinesUtil.generateRequestProcessor("ExperienceExplorer.ExplorerMode.Explore", function (response) {
         window.parent.location = response.responseValue.value;
       }).execute(context);
     }

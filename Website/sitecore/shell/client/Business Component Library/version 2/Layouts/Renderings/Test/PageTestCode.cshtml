@@ -1,0 +1,11 @@
+﻿@model Sitecore.Speak.Components.Models.Test.PageTestCodeRenderingModel
+@{
+  Model.Class.Append("pageCodeTest");
+  Model.DataBind.IsVisible();
+}
+<div @Model.HtmlAttributes>
+  <div class="pageCodeTest-title">SPEAK Test Reporter</div>
+  <div data-bind="html:Status" >
+    
+  </div>
+</div>

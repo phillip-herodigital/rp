@@ -1,9 +1,7 @@
 ﻿@using Sitecore.ExperienceAnalytics.Client
-@using Sitecore.ExperienceAnalytics.Client
 @using Sitecore.ExperienceAnalytics.Client.Mvc
 @using Sitecore.Mvc
 @using Sitecore.Web.UI.Controls.Common.Renderings
-
 @model Sitecore.ExperienceAnalytics.Client.Mvc.Presentation.ExperienceAnalyticsListControlViewModel
 
 @{
@@ -11,13 +9,23 @@
 
   var wrapperId = Model.Control.ControlId + "Wrapper";
 
-  helper.MakeDataProvider("DataProvider", wrapperId, Model.DataUrl);
-  helper.CreateRenderingAt(Globals.Bcl.Renderings.ListAndGrids.ListControl, "ListControl", wrapperId, null, Globals.System.ListControl);
-  helper.MakeBorder("Border", wrapperId, border =>
+  var bindingTitle = "{Binding " + Model.Control.ControlId + ".title}";
+
+  helper.MakeDataProvider("DataProvider", wrapperId, Model.DataUrl);  
+
+  helper.MakeAdvancedExpander("AdvancedExpander", wrapperId, bindingTitle, false, entry =>
   {
-    helper.MakeButton("Button", border, Globals.System.Texts.ShowMore.Guid.ToString());
-  }, "true", true, "Center");
-  helper.MakeProgressIndicator("ProgressIndicator", wrapperId, Model.Control.ControlId, string.Empty);
+      helper.MakeBorder("AdvancedBorder", entry, wrapper =>
+      {
+          helper.CreateRenderingAt(Globals.Bcl.Renderings.ListAndGrids.ListControl, "ListControl", wrapper, null, Globals.System.ListControl);
+          helper.MakeBorder("Border", wrapper, border =>
+          {
+              helper.MakeButton("Button", border, Globals.System.Texts.ShowMore.Guid.ToString());
+          }, "true", true, "Center");
+          helper.MakeProgressIndicator("ProgressIndicator", wrapper, Model.Control.ControlId, string.Empty);
+
+      }, "true", false, "Center", ".Body");      
+  });
 }
      
 <div @Model.Control.HtmlAttributes>

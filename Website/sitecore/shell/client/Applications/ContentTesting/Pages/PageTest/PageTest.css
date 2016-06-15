@@ -39,10 +39,13 @@ div[data-sc-id="AddPageBorder"] a[data-sc-id="AddPage"]:hover {
   background-color: gainsboro;
 }
 div[data-sc-id="AddPageBorder"] div[data-sc-id="Entry"] {
-  max-height: 150px;
+  height: 150px;
 }
 div[data-sc-id="AddPageBorder"] div[data-sc-id="Entry"] .sc-border {
   display: block;
+}
+div[data-sc-id="AddPageBorder"] div[data-sc-id="Entry"] div[data-sc-id="PageThumbnail"] {
+  height: 116px;
 }
 div[data-sc-id="FirstButtonBorder"] {
   margin-top: 2em;
@@ -152,6 +155,24 @@ div[data-sc-id="DetailsColumn"]::-webkit-scrollbar-thumb:hover {
   padding-left: 15px !important;
   padding-right: 15px !important;
 }
+.sc [data-sc-id="RadioBtnBorder"] .sc-border {
+  display: inline-block;
+  margin-right: 60px;
+}
+.sc [data-sc-id="RadioBtnBorder"] .sc-border:last-child {
+  margin-right: 0px;
+}
+.sc [data-sc-id="RadioBtnBorder"] .sc-ArrowIndicator-Arrow {
+  right: 2px;
+  position: relative;
+  margin-bottom: 4px;
+}
+.sc [data-sc-id="RadioBtnBorder"] .sc-ArrowIndicator-Value {
+  display: none;
+}
+.sc [data-sc-id="ConfidencePanel"] .sc-radiobutton {
+  margin-right: 150px;
+}
 .sc .sc-dialogContent-title {
   display: none;
 }
@@ -206,6 +227,11 @@ div[data-sc-id="KPIRow"] {
   background-color: white;
   padding: 15px;
 }
+div[data-sc-id="KPIRow"] div[data-sc-id="KPIEffectPanel"],
+div[data-sc-id="KPIRow"] div[data-sc-id="KPIConfidencePanel"],
+div[data-sc-id="KPIRow"] div[data-sc-id="KPIScorePanel"] {
+  text-align: left;
+}
 .sc-tile-option {
   text-align: center;
 }
@@ -246,6 +272,21 @@ div[data-sc-id="ReachBorder"] {
 }
 .scExp-dvExperienceList {
   margin-top: 10px;
+}
+[data-sc-id="TrafficAllocationSlider"] .slider.slider-horizontal {
+  margin-left: 0 !important;
+}
+[data-sc-id="TrafficAllocationSlider"] .slider.slider-horizontal .tooltip.top {
+  top: -51px !important;
+}
+div[data-sc-id="TrailingValueIndicator"] .sc-ArrowIndicator-Arrow {
+  display: none;
+}
+div[data-sc-id="ExperienceKPIRowPanel"] .col-md-6 {
+  text-align: center;
+}
+div[data-sc-id="ExperienceKPIRowPanel"] .col-md-6 .sc-ArrowIndicator-Row {
+  display: inline-block;
 }
 body::-webkit-scrollbar-track {
   -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);

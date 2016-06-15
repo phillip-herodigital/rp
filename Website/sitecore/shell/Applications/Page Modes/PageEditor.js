@@ -39,10 +39,9 @@ Sitecore.PageModes.PageEditor = new function() {
     }
         
     if (!enabled) {         
-      var idx = $sc.inArray(capability, this._capabilities);
-      if (idx > -1) {
-        this._capabilities.splice(idx, 1);
-      }
+      this._capabilities = $sc.grep(this._capabilities, function (val) {
+        return val != capability;
+      });
     }
     else {      
       this._capabilities.push(capability);
@@ -457,7 +456,28 @@ Sitecore.PageModes.PageEditor = new function() {
   };
 
    /** @private */  
-  this.onDocumentClick = function(e) {        
+  this.onDocumentClick = function (e) {
+    e = e || window.event;
+    var ribbon = Sitecore.PageModes.PageEditor.ribbon();
+    // fix for copy-paste problem in Firefox
+    if (ribbon != null) {
+      var browser = scForm.browser;
+      if (!browser) {
+        browser = ribbon.contentWindow.scForm.browser;
+      }
+
+      if (browser.isFirefox) {
+        if ("which" in e)  // Gecko (Firefox), WebKit (Safari/Chrome) & Opera
+          isRightMB = e.which == 3;
+        else if ("button" in e)  // IE, Opera 
+          isRightMB = e.button == 2;
+
+        if (isRightMB) {
+          return;
+        }
+      }
+    }
+
     Sitecore.PageModes.ChromeManager.select(null);
   };
   /** @private */
@@ -581,7 +601,7 @@ Sitecore.PageModes.PageEditor = new function() {
   };
   /** @private */
   this.onRibbonResize = function() {
-    if (!this.editing()) {
+    if (!this.editing() || Sitecore.PageModes.DesignManager.sorting) {
       return;
     }
 

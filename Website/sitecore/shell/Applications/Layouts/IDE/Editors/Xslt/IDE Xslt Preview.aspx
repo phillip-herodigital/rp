@@ -5,6 +5,7 @@
 <html>
   <head>
     <title>XSLT Preview</title>
+    <meta http-equiv="X-Frame-Options" content="SAMEORIGIN">
     <meta name="GENERATOR" Content="Microsoft Visual Studio .NET 7.1">
     <meta name="CODE_LANGUAGE" Content="C#">
     <meta name=vs_defaultClientScript content="JavaScript">

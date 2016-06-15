@@ -1,0 +1,20 @@
+﻿@using Sitecore
+@model Sitecore.Speak.Components.Models.Containers.SmartPanels.SmartPanelRenderingModel
+@{
+  Model.Class.Append("sc-smartpanel");
+  Model.DataBind.IsVisible().Bind("css", "Dimensions");
+}
+<div @Model.HtmlAttributes>
+  <div class="sc-smartpanel-wrapper">
+    <div class="sc-smartpanel-header">
+      @Html.Raw(ClientHost.Web.PlaceHolder(Model.Id + ".Header").ToHtmlString())
+    </div>
+    <a data-bind="click:close" class="sc-smartpanel-close" href="#"></a>
+    <div class="sc-smartpanel-content">
+      @Html.Raw(ClientHost.Web.PlaceHolder(Model.Id + ".Content").ToHtmlString())
+    </div>
+    <div class="sc-smartpanel-buttons">
+      @Html.Raw(ClientHost.Web.PlaceHolder(Model.Id + ".Buttons").ToHtmlString())
+    </div>
+  </div>
+</div>

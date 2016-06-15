@@ -2,6 +2,7 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <meta http-equiv="X-Frame-Options" content="SAMEORIGIN">
     <title>DB Browser</title>
     <link rel="shortcut icon" href="/sitecore/images/favicon.ico" />
     <link href="/sitecore/admin/dbbrowser.css" rel="stylesheet">

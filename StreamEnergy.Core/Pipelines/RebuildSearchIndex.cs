@@ -1,4 +1,5 @@
 ﻿using Sitecore;
+using Sitecore.ContentSearch;
 using Sitecore.Pipelines;
 using System;
 using System.Collections.Generic;
@@ -14,13 +15,13 @@ namespace StreamEnergy.Pipelines
         [UsedImplicitly]
         public virtual void Process(PipelineArgs args)
         {
-            if (Sitecore.Search.SearchManager.GetIndex("currents_master_index") != null) 
+            if (ContentSearchManager.GetIndex("currents_master_index") != null) 
             {
-                Sitecore.Search.SearchManager.GetIndex("currents_master_index").Rebuild();
+                ContentSearchManager.GetIndex("currents_master_index").Rebuild();
             }
-            if (Sitecore.Search.SearchManager.GetIndex("currents_web_index") != null)
+            if (ContentSearchManager.GetIndex("currents_web_index") != null)
             {
-                Sitecore.Search.SearchManager.GetIndex("currents_web_index").Rebuild();
+                ContentSearchManager.GetIndex("currents_web_index").Rebuild();
             }
         }
 

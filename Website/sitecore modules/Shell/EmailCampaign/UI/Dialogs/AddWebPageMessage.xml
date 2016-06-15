@@ -4,7 +4,7 @@
     <FormDialog ID="Dialog" Icon="Applications/32x32/window_earth.png" Header="Add Pre-existing Page"
       Text="Select the item that you want to use as the message body and enter a name for the new message." OKButton="Add">
 
-      <CodeBeside Type="Sitecore.Modules.EmailCampaign.UI.Dialogs.AddWebPageMessagePage,Sitecore.EmailCampaign"/>
+      <CodeBeside Type="Sitecore.Modules.EmailCampaign.UI.Dialogs.AddWebPageMessagePage,Sitecore.EmailCampaign.Cm.UI"/>
 
       <DataContext ID="HomeDataContext" DataViewName="Master" Root="{0DE95AE4-41AB-4D01-9EB0-67441B7C2450}"/>
 

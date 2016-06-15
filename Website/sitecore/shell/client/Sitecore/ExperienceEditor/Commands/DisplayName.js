@@ -1,8 +1,8 @@
-﻿define(["sitecore"], function (Sitecore) {
+﻿define(["sitecore", "/-/speak/v1/ExperienceEditor/ExperienceEditor.js"], function (Sitecore, ExperienceEditor) {
   Sitecore.Commands.DisplayName =
   {
     canExecute: function (context) {
-      if (!Sitecore.ExperienceEditor.isInMode("edit")) {
+      if (!ExperienceEditor.isInMode("edit") || context.currentContext.isFallback) {
         return false;
       }
 
@@ -10,8 +10,8 @@
     },
     execute: function (context) {
       context.app.disableButtonClickEvents();
-      Sitecore.ExperienceEditor.PipelinesUtil.executePipeline(context.app.ChangeDisplayNamePipeline, function () {
-        Sitecore.ExperienceEditor.PipelinesUtil.executeProcessors(Sitecore.Pipelines.DisplayName, context);
+      ExperienceEditor.PipelinesUtil.executePipeline(context.app.ChangeDisplayNamePipeline, function () {
+        ExperienceEditor.PipelinesUtil.executeProcessors(Sitecore.Pipelines.DisplayName, context);
       });
       context.app.enableButtonClickEvents();
     }

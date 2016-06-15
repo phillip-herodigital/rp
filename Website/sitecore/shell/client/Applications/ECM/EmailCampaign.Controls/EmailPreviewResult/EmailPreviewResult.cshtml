@@ -1,6 +1,7 @@
 ﻿@using Sitecore.EmailCampaign.Server.Model.Review
 @using Sitecore.EmailCampaign.Server.Services
 @using Sitecore.Modules.EmailCampaign
+@using Sitecore.ExM.Framework.Diagnostics
 @using Sitecore.Modules.EmailCampaign.Messages
 @using Sitecore.Mvc
 @using Sitecore.Web.UI.Controls.Common.UserControls
@@ -18,12 +19,12 @@
   string dateandtime = rendering.GetString("DateAndTime");
 
   MessageItem messageItem = Factory.Instance.GetMessageItem(messageId, language);
-  IEnumerable<EmailPreviewReportResult> result = new ReportsService().GetEmailPreviewReportResult(messageItem, variantId, reportId);
+  EmailPreviewReport result = new ReportsService(Logger.Instance).GetEmailPreviewReportResult(messageItem, variantId, reportId);
 }
 
 <div @rendering.HtmlAttributes data-sc-hasnested="true">
-  <div class="sc-emailpreviewresult" data-sc-variant-id="@variantId" data-sc-report-datetime="@dateandtime">
-    @foreach (EmailPreviewReportResult reportResult in result)
+  <div class="sc-emailpreviewresult" data-sc-variant-id="@variantId" data-sc-test-id="@result.TestId" data-sc-report-datetime="@dateandtime">
+    @foreach (EmailPreviewReportResult reportResult in result.EmailPreviewReportResults)
     {
       <div class="sc-report-item">
         @if (reportResult.CanPreview)

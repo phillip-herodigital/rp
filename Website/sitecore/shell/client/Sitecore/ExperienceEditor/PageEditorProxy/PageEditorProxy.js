@@ -1,6 +1,10 @@
-﻿if (typeof (Sitecore) == "undefined") {
+﻿console.warn("PageEditorProxy.js is obsolete and will be removed in the next product version.");
+
+if (typeof (Sitecore) == "undefined") {
   Sitecore = {};
 }
+
+Sitecore.ExperienceEditor = Sitecore.ExperienceEditor || {};
 
 Sitecore.ExperienceEditor.PageEditorProxy = new function () {
   this._instance = null;
@@ -130,5 +134,9 @@ Sitecore.ExperienceEditor.PageEditorProxy = new function () {
 };
 
 if (Sitecore.Speak) {
-  Sitecore.Speak.PageEditorProxy = Sitecore.ExperienceEditor.PageEditorProxy;
+  var experienceEditor = Sitecore.Speak.ExperienceEditor;
+  Sitecore.Speak.ExperienceEditor = Sitecore.ExperienceEditor;
+  if (experienceEditor) {
+    for (var k in experienceEditor) Sitecore.Speak.ExperienceEditor[k] = experienceEditor[k];
+  }
 }

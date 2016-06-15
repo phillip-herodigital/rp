@@ -5,7 +5,7 @@
     <FormDialog Icon="People/32x32/pawn_view.png" Header="Insert Field"
       Text="Select the user profile field that you want to insert." OKButton="Insert">
 
-      <CodeBeside Type="Sitecore.Modules.EmailCampaign.UI.Dialogs.InsertUserPropertyPage, Sitecore.EmailCampaign.dll"/>
+      <CodeBeside Type="Sitecore.Modules.EmailCampaign.UI.Dialogs.InsertUserPropertyPage, Sitecore.EmailCampaign.Cm.UI"/>
 
       <GridPanel Width="100%" Height="100%">
         <Scrollbox Width="100%" Height="100%" GridPanel.Height="100%" Background="white" Border="1px solid #ADADAD" Padding="0">

@@ -4,6 +4,12 @@
 .sc-createmessage-section h3 {
   margin: 0;
 }
+.sc-createmessage-section h3 .sc-goback img {
+  cursor: pointer;
+  width: 25px;
+  position: relative;
+  top: -2px;
+}
 .sc-createmessage-option {
   display: block;
   padding: 0 8px;
@@ -14,7 +20,7 @@
   background-color: transparent;
   z-index: 100;
 }
-.sc-createmessage-option:hover,  
+.sc-createmessage-option:hover,
 .sc-createmessage-option.active {
   background-color: #D6D6D6;
 }
@@ -26,15 +32,50 @@
   text-overflow: ellipsis;
   text-align: center;
   margin: -25px 0 25px 0;
+  width: 128px;
 }
 .sc-createmessage-option .icon {
-
   display: inline-block;
 }
 .sc-createmessage-option .icon img {
-  height: 128px;
+  width: 60px;
+  height: 60px;
+  margin: 38px 30px 34px;
 }
-.sc-createmessage-option .name,
-.sc-createmessage-option .icon img {
-  width: 128px;
+@media (max-width: 1140px) {
+  .sc-createmessage-option {
+    padding: 0 5px;
+  }
+  .sc-createmessage-option .icon img {
+    width: 48px;
+    height: 48px;
+    margin: 35px 30px 30px;
+  }
+}
+@media (max-width: 930px) {
+  .sc-createmessage-option {
+    padding: 0 4px;
+  }
+  .sc-createmessage-option .name {
+    margin-bottom: 15px;
+  }
+}
+@media (max-width: 878px) {
+  .sc-createmessage-option .icon img {
+    width: 36px;
+    height: 36px;
+    margin: 10px 30px 30px;
+  }
+  .sc-createmessage-option .name {
+    margin-bottom: 10px;
+  }
+}
+@media (max-width: 480px) {
+  .sc-createmessage-option .icon img {
+    width: 32px;
+    height: 32px;
+  }
+  .sc-createmessage-option .name {
+    margin-bottom: 5px;
+  }
 }

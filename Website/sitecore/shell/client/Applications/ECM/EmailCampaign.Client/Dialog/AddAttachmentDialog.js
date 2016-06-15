@@ -1,98 +1,124 @@
-﻿define(["sitecore", "underscore", "/-/speak/v1/ecm/ServerRequest.js"], function (sitecore) {
-  return sitecore.Definitions.App.extend({
-    initialized: function () {
-      sitecore.on("add:attachment:dialog:show", this.showDialog, this);
-      this.on("add:attachment:dialog:close", this.hideDialog, this);
-      this.on("add:attachment:dialog:upload", this.upload, this);
-      this.on("upload-fileUploaded", this.addAttachment, this);
-      this.on("attachment:file:addtoalllanguages", this.copyAttachmentToAllLanguages, this);
+﻿define([
+    "sitecore",
+    "jquery",
+    "/-/speak/v1/ecm/DialogBase.js"
+], function(
+    sitecore,
+    $,
+    DialogBase
+) {
+    return DialogBase.extend({
+        initialized: function() {
+            this._super();
+            this.on({
+                "upload-fileUploaded": this.addAttachment,
+                "attachment:file:addtoalllanguages": this.copyAttachmentToAllLanguages,
+                "action:addattachment": this.onAddAttachment,
+                "sc-error": this.onScError,
+                "upload-fileAdded": this.onFileAdded
+            }, this);
+            sitecore.on({
+                'addAttachments:error': function(message) {
+                    this.MessageBar.addMessage('error', message);
+                }
+            }, this);
+            this.Ok.set("isEnabled", false);
+            var onChangeTotalUploaderSizeDebounced = _.debounce(this.onChangeTotalUploaderSize, 50);
+            this.Uploader.on("change:totalFiles change:totalSize", onChangeTotalUploaderSizeDebounced, this);
+        },
 
-      this.AddAttachmentDialog.on("hide", _.bind(function () {
-        if (this.callback != null) {
-          this.callback();
+        getUploaderFilesTotalSize: function () {
+            var files = this.UploaderInfo.viewModel.files(),            totalSize = 0;            _.each(files, function (file) {
+                totalSize += file.size();
+            });            return totalSize;
+        },
+
+        onChangeTotalUploaderSize: function () {
+            if (this.getUploaderFilesTotalSize() < this.Uploader.get("maxRequestLength")) {
+                this.Ok.set("isEnabled", true);
+                this.MessageBar.removeMessage(function(error) {
+                    return error.id === 'upload-error-fileSizeExceeded';
+                });
+            } else {
+                this.Ok.set("isEnabled", false);
+            }
+        },
+
+        ok: function() {
+            this.upload();
+            this.options.on.ok();
+        },
+
+        addAttachment: function(file) {
+            var context = { file: file, messageId: this.options.data.messageId, language: this.options.data.language, messageBar: this.MessageBar };
+            sitecore.Pipelines.AddAttachment.execute({ app: this, currentContext: context });
+            $("[data-sc-id='UploaderInfo']").find("img[src*='" + file.name + "']").closest('div[class="sc-uploaderInfo-row"]').remove();
+            if ($("div.sc-uploaderInfo-row").length < 1) {
+                this.Ok.set("isEnabled", false);
+            }
+        },
+        copyAttachmentToAllLanguages: function(args) {
+            var context = { fileName: args.fileName, attachmentId: args.attachmentId, messageId: this.options.data.messageId, language: this.options.data.language, messageBar: this.MessageBar }
+            sitecore.Pipelines.CopyAttachmentToAllLanguages.execute({ app: this, currentContext: context });
+        },
+
+        showDialog: function(options) {
+            if (!options.data) {
+                return;
+            }
+            this._super(options);
+            this.MessageBar.removeMessages();
+        },
+
+        hideDialog: function() {
+            this._super();
+            //TODO: Make it hide
+            this.UploaderInfo.set("isVisible", false);
+            this.UploaderInfo.viewModel.hide();
+        },
+
+        upload: function() {
+            var hasError = false;
+            var $uploaderRow = $("div.sc-uploaderInfo-row");
+            $uploaderRow.removeClass("error");
+            var errorId = "upload-error-fileNameDoesntCorrect";
+            this.MessageBar.removeMessage(function(err) {
+                return err.id.indexOf(errorId) > -1;
+            });
+            var files = this.UploaderInfo.viewModel.files();
+            _.each(files, _.bind(function(file, index) {
+                var fileName = file.name();
+                var specialSymbols = new RegExp(/[\~\!\@\#\$\%\^\&\*\)\(\+\=\.\_\-\[\]\{\}\\\|\`\;\:\'\/\?\,\<\>]/g);
+
+                if (!fileName || specialSymbols.test(fileName)) {
+                    hasError = true;
+                    this.showError({
+                        id: errorId + index,
+                        Message: !fileName ? sitecore.Resources.Dictionary.translate("ECM.Pipeline.Validate.FileNameEmpty") :
+                            sitecore.Resources.Dictionary.translate("ECM.Pipeline.Validate.FileNameSpecialSymbols")
+                    });
+                    $uploaderRow.eq(index).addClass("error");
+                }
+            }, this));
+            if (!hasError) {
+                this.MessageBar.removeMessages();
+                this.Uploader.viewModel.upload();
+            }
+        },
+
+        onAddAttachment: function() {
+            sitecore.trigger("action:addattachment");
+        },
+
+        onFileAdded: function() {
+            this.Ok.set("isEnabled", true);
+        },
+
+        onScError: function(errList) {
+            _.each(errList, _.bind(function(error) {
+                this.showError(error);
+            }, this));
         }
-      }, this));
 
-      this.on("sc-error", function (errList) {
-        _.each(errList, function (error) {
-          this.showError(error);
-        });
-      }, this);
-
-      this.on("upload-fileAdded", function () { this.Upload.set("isEnabled", true) }, this);
-
-      this.Upload.set("isEnabled", false);
-    },
-
-    addAttachment: function (file) {
-      var contextApp = this;
-      contextApp.currentContext = { file: file, messageId: contextApp.messageInfo.messageId, language: contextApp.messageInfo.language, messageBar: contextApp.MessageBar };
-      var context = clone(contextApp.currentContext);
-      sitecore.Pipelines.AddAttachment.execute({ app: contextApp, currentContext: context });
-      $("[data-sc-id='UploaderInfo']").find("img[src*='" + file.name + "']").closest('div[class="sc-uploaderInfo-row"]').remove();
-      if ($("div.sc-uploaderInfo-row").length < 1) {
-        this.Upload.set("isEnabled", false);
-      }
-    },
-    copyAttachmentToAllLanguages: function (args) {
-      var contextApp = this;
-      contextApp.currentContext = { fileName: args.fileName, attachmentId: args.attachmentId, messageId: contextApp.messageInfo.messageId, language: contextApp.messageInfo.language, messageBar: contextApp.MessageBar };
-      var context = clone(contextApp.currentContext);
-      sitecore.Pipelines.CopyAttachmentToAllLanguages.execute({ app: contextApp, currentContext: context });
-    },
-    showDialog: function (messageInfo, callback) {
-      if (!messageInfo) {
-        return;
-      }
-      this.callback = callback;
-      var contextApp = this;
-      contextApp.messageInfo = messageInfo;
-      this.AddAttachmentDialog.show();
-      this.MessageBar.removeMessages();
-    },
-    hideDialog: function () {
-      var dialog = this;
-      //TODO: Make it hide
-      dialog.UploaderInfo.set("isVisible", false);
-      dialog.UploaderInfo.viewModel.hide();
-      this.AddAttachmentDialog.hide();
-    },
-    showError: function(err) {
-      this.MessageBar.addMessage("error", {
-        id: err.id,
-        text: err.Message,
-        actions: [],
-        closable: true
-      });
-    } ,
-    upload: function () {
-      var hasError = false;
-      var $uploaderRow = $("div.sc-uploaderInfo-row");
-      $uploaderRow.removeClass("error");
-      var errorId = "upload-error-fileNameDoesntCorrect";
-      this.MessageBar.removeMessage(function (err) { return err.id.indexOf(errorId) > -1; });
-      var i = 0;
-      var that = this;
-      var files = this.UploaderInfo.viewModel.files();
-      _.each(files, function (file) {
-        var fileName = file.name();
-        if (!fileName) {
-          hasError = true;
-          that.showError({ id: errorId + i, Message: sitecore.Resources.Dictionary.translate("ECM.Pipeline.Validate.FileNameEmpty") });
-          $uploaderRow.eq(i).addClass("error");
-        }
-        var specialSymbols = new RegExp(/[\~\!\@\#\$\%\^\&\*\)\(\+\=\.\_\-\[\]\{\}\\\|\`\;\:\'\/\?\,\<\>]/g);
-        if (specialSymbols.test(fileName)) {
-          hasError = true;
-          that.showError({ id: errorId + i, Message: sitecore.Resources.Dictionary.translate("ECM.Pipeline.Validate.FileNameSpecialSymbols") });
-          $uploaderRow.eq(i).addClass("error");
-        }
-        i++;
-      });
-      if (!hasError) {
-        this.MessageBar.removeMessages();
-        this.Uploader.viewModel.upload();
-      }
-    }
-  });
+    });
 });

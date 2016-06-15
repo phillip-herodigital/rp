@@ -63,3 +63,6 @@ div[data-sc-id='TestsList'] tr {
 .sc-buttontextbox {
   margin-bottom: 1px;
 }
+div[data-sc-id='TestsList'] tr {
+  cursor: default;
+}

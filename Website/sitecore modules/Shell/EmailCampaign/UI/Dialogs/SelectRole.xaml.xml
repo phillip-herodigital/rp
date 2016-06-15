@@ -11,7 +11,7 @@
   xmlns:html="http://www.sitecore.net/microsoft/htmlcontrols"
   xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
-  <EmailCampaign.SelectRole x:inherits="Sitecore.Modules.EmailCampaign.UI.Dialogs.SelectRolePage,Sitecore.EmailCampaign">
+  <EmailCampaign.SelectRole x:inherits="Sitecore.Modules.EmailCampaign.UI.Dialogs.SelectRolePage,Sitecore.EmailCampaign.Cm.UI">
     <Sitecore.Controls.DialogPage Header="Role" Text="Select a role." Icon="Network/16x16/id_card.png" runat="server">
       <x:register assembly="ComponentArt.Web.UI" namespace="ComponentArt.Web.UI"/>
 

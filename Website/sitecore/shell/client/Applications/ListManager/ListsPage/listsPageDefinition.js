@@ -39,7 +39,7 @@
               var folderNewName = prompt(text, selectedItemName);
               if (folderNewName !== null && folderNewName !== selectedItemName && folderNewName !== "") {
                 folderNewName = encodeURIComponent(folderNewName);
-                var urlQuery = "/RenameFolder?folderId=" + selectedItemId + "&newName=" + folderNewName;
+                var urlQuery = "/" + encodeURI(selectedItemId) + "/RenameFolder?newName=" + folderNewName;
                 current.callController(parameters, urlQuery,
                   function () {
                     current.onActionSuccess("The folder has been renamed.", targetControl);
@@ -90,14 +90,17 @@
             targetControl = current[targetControlName],
             targetDataSource = current[targetDataSourceName];
         if (typeof targetControl !== "undefined" && targetControl !== null && targetDataSource !== null && typeof targetDataSource !== "undefined") {
-          var destination = targetDataSource.get(current.folderParameterKey);
+          var destination = commonPagesDefinition.defaultIfValueIsUndefinedOrNull(targetDataSource.get(current.folderParameterKey), "");
+          if (destination === "") {
+            destination = "~";
+          }
           if (typeof folderName === "undefined") {
             var text = current.StringDictionary.get(createFolderPromptText);
             folderName = prompt(text, "");
           }
           if (folderName !== null && folderName !== "") {
             folderName = encodeURIComponent(folderName);
-            var actionUrl = "/CreateFolder?folderName=" + folderName + "&destination=" + destination;
+            var actionUrl = "/" + destination + "/CreateFolder?folderName=" + folderName;
             current.callController(parameters, actionUrl,
               function () {
                 current.onActionSuccess(createFolderNotification, targetControl);

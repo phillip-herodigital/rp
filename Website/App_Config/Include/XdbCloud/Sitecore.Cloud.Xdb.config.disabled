@@ -29,7 +29,38 @@ To enable this include file, rename it so that it has a ".config" extension.
            Running a production solution on a non-prod SLA will degrade your overall SLA.
            Running a non-production solution on a production data set will pollute the production data set.
       -->
-      <setting name="Sitecore.Cloud.Xdb.DeploymentType" value="NonProd" />
+      <setting name="Sitecore.Cloud.Xdb.DeploymentType" value="Prod" />
+
+      <!-- DEPLOYMENT REGION
+           This value identifies for xDB Cloud the region that this Sitecore installation should attempt to provision in.
+           Important: Before you run Sitecore for the first time, you must specify a value for the DeploymentRegion setting. 
+           You can do this after you configure Sitecore to use xDB Cloud. Thereafter Sitecore ignores the DeploymentRegion setting because it automatically connects to the xDB Set that you specified. 
+           For a list of supported regions, go to: https://doc.sitecore.net/cloud/xdb_cloud/configure_a_sitecore_xdb_cloud_connection. 
+           The “Nearest” value is currently subject to availability and local latency estimated by Azure traffic management. Note: 
+           The value “Nearest” selects the closest deployment region, therefore there is no guarantee that the deployment region will be in the same country as your delivery servers. 
+           Default value: "" (must be specified before connecting to xDB Cloud for the first time)
+      -->
+      <setting name="Sitecore.Cloud.Xdb.DeploymentRegion" value="" />
+
+      <!-- PATH ANALYZER - REMOTE CLIENT - IGNORE SSL CERTIFICATE ERRORS
+                 If true, SSL certificate errors will be ignored when the client attempts to connect to the remote Path Analyzer services.
+                 This is particularly useful for self-signed certificates or other certificates not signed by a recognized CA.
+            -->
+      <setting name="PathAnalyzer.Remote.IgnoreSslCertificateErrors" value="true" />
+
+      <!-- PATH ANALYZER - REMOTE SERVICES - AUTHENTICATION - API KEY
+            Specifies the key to use for HMAC authentication.
+            IMPORTANT: do not use the default value, instead generate your own random key.
+            This value must match the value specified in Sitecore.PathAnalyzer.Services.RemoteServer.config.
+      -->
+      <setting name="PathAnalyzer.Remote.Authentication.ApiKey" value="`%L$2I4quWUZULm^Y6%|R2dQP\vM';B5bT2H0|z\G\q8" />
+
+      <!-- PATH ANALYZER - REMOTE SERVICES - AUTHENTICATION - AUTHORIZED CLIENT ID
+            Specifies the unique application Id to use for HMAC authentication. This value should be unique to Path Analyzer.
+            IMPORTANT: do not use the default value, instead generate your own random value.
+            This value must be contained in the "/sitecore/pathAnalyzer/remoteServices/configuration/authorizedClients" list specified in Sitecore.PathAnalyzer.Services.RemoteServer.config.
+      -->
+      <setting name="PathAnalyzer.Remote.Authentication.AuthorizedClientId" value="c241da4e6249fe8cd384be1ca4865bff" />
     </settings>
     <httpTransportFactory type="Sitecore.Cloud.Xdb.CloudBasedTransportFactory, Sitecore.Cloud.Xdb" singleInstance="true"/>
 
@@ -39,20 +70,22 @@ To enable this include file, rename it so that it has a ".config" extension.
         <paths>
           <Reporting>/~/v75/reporting/remotedatasourceproxy/</Reporting>
           <DefinitionDeployment>/~/v75/reporting/masterdata/datadefinitionservice/</DefinitionDeployment>
+          <ReportingStorageManager>/~/v81/reporting/reportingstoragemanager/</ReportingStorageManager>
         </paths>
       </remote>
     </reporting>
-	
-	<marketingDefinitions>
+
+    <marketingDefinitions>
       
-      <deploymentManager>
-        <param desc="targetRepository">remote</param>
-      </deploymentManager>
+      <deploymentManagerTargetRepository>remote</deploymentManagerTargetRepository>
+      <sc.variable name="marketingDefinitions.deploymentManager.targetRepository">
+        <patch:attribute name="value">remote</patch:attribute>
+      </sc.variable>
 
       <!--Enable remote definition repositories-->
       <campaign>
         <repositories>
-          <remote type="Sitecore.Marketing.Definitions.Campaigns.Data.Remote.CampaignRemoteDefinitionRepository, Sitecore.Marketing" singleInstance="true">
+          <remote type="Sitecore.Analytics.Reporting.DefinitionData.Marketing.Remote.CampaignRemoteDefinitionRepository, Sitecore.Analytics" singleInstance="true">
             <param desc="httpTransport" ref="httpTransportFactory" />
             <param desc="handler">/~/v80/marketingdefinitions/remote/campaign/</param>
           </remote>
@@ -61,7 +94,7 @@ To enable this include file, rename it so that it has a ".config" extension.
 
       <goal>
         <repositories>
-          <remote type="Sitecore.Marketing.Definitions.Goals.Data.Remote.GoalRemoteDefinitionRepository, Sitecore.Marketing" singleInstance="true">
+          <remote type="Sitecore.Analytics.Reporting.DefinitionData.Marketing.Remote.GoalRemoteDefinitionRepository, Sitecore.Analytics" singleInstance="true">
             <param desc="httpTransport" ref="httpTransportFactory" />
             <param desc="handler">/~/v80/marketingdefinitions/remote/goal/</param>
           </remote>
@@ -70,22 +103,22 @@ To enable this include file, rename it so that it has a ".config" extension.
 
       <outcome>
         <repositories>
-          <remote type="Sitecore.Marketing.Definitions.Outcomes.Data.Remote.OutcomeRemoteDefinitionRepository, Sitecore.Marketing" singleInstance="true">
+          <remote type="Sitecore.Analytics.Reporting.DefinitionData.Marketing.Remote.OutcomeRemoteDefinitionRepository, Sitecore.Analytics" singleInstance="true">
             <param desc="httpTransport" ref="httpTransportFactory" />
             <param desc="handler">/~/v80/marketingdefinitions/remote/outcome/</param>
           </remote>
         </repositories>
       </outcome>
       <!--End-->
-	  
-	  <asset>
+      
+      <asset>
         <repositories>
           <remote type="Sitecore.Marketing.Definitions.MarketingAssets.Data.Remote.MarketingAssetRemoteDefinitionRepository, Sitecore.Marketing.Definitions.MarketingAssets.Repositories" singleInstance="true">
             <param desc="httpTransport" ref="httpTransportFactory" />
             <param desc="handler">/~/v80/marketingdefinitions/remote/asset/</param>
           </remote>
         </repositories>
-      </asset>      
+    </asset>     
     </marketingDefinitions>
 	
 	<taxonomy>
@@ -93,7 +126,7 @@ To enable this include file, rename it so that it has a ".config" extension.
         <patch:delete />
       </deployHandler>
 
-      <deployHandler type="Sitecore.Marketing.Taxonomy.Deploy.HttpDeployHandler, Sitecore.Marketing.Taxonomy" singleInstance="true">
+      <deployHandler type="Sitecore.Analytics.Reporting.DefinitionData.Taxonomy.Deployment.HttpDeployHandler, Sitecore.Analytics" singleInstance="true">
         <param desc="httpTransport" ref="httpTransportFactory"/>
         <param desc="publishPath">/~/v80/publish/taxonomy/</param>
       </deployHandler>
@@ -101,28 +134,79 @@ To enable this include file, rename it so that it has a ".config" extension.
 
     <aggregation>
       <reportingStorageProviders>
-        <primary type="Sitecore.Analytics.Aggregation.SqlReportingStorageProvider, Sitecore.Analytics.Sql" singleInstance="true">
+        <primary>
           <patch:delete />
         </primary>
-        <secondary.live type="Sitecore.Analytics.Aggregation.SqlReportingStorageProvider, Sitecore.Analytics.Sql" singleInstance="true">
+        <secondary.live>
           <patch:delete />
         </secondary.live>
-        <secondary.history type="Sitecore.Analytics.Aggregation.SqlReportingStorageProvider, Sitecore.Analytics.Sql" singleInstance="true">
+        <secondary.history>
           <patch:delete />
         </secondary.history>
         <remote type="Sitecore.Analytics.Reporting.DefinitionData.RemoteWriteOnlyDefinitionsStorageProvider, Sitecore.Analytics" singleInstance="true" />
+        <primary type="Sitecore.Analytics.Reporting.DefinitionData.RemoteWriteOnlyDefinitionsStorageProvider, Sitecore.Analytics" singleInstance="true" />
       </reportingStorageProviders>
     </aggregation>
 
     <hooks>
-      <hook type="Sitecore.Cloud.Xdb.DisableAggregation, Sitecore.Cloud.Xdb" patch:after="processor[@type='Sitecore.Analytics.Aggregation.AggregationLoader, Sitecore.Analytics.Aggregation']"/>
-      <hook type="Sitecore.Cloud.Xdb.DisableAutomation, Sitecore.Cloud.Xdb" patch:after="processor[@type='Sitecore.Analytics.Automation.Aggregation.SubsystemLoader, Sitecore.Analytics.Automation.Aggregation']"/>
+      <hook type="Sitecore.Cloud.Xdb.DisableAggregation, Sitecore.Cloud.Xdb" patch:after="hook[@type='Sitecore.Analytics.Aggregation.AggregationLoader, Sitecore.Analytics.Aggregation']"/>
+      <hook type="Sitecore.Cloud.Xdb.DisableProcessing, Sitecore.Cloud.Xdb" patch:after="hook[@type='Sitecore.Analytics.Processing.ProcessingLoader, Sitecore.Analytics.Processing']"/>
+      <hook type="Sitecore.Cloud.Xdb.DisableAutomation, Sitecore.Cloud.Xdb" patch:after="hook[@type='Sitecore.Analytics.Automation.Aggregation.SubsystemLoader, Sitecore.Analytics.Automation.Aggregation']"/>
+      <hook type="Sitecore.Cloud.Xdb.DisablePathAnalyzerProcessing, Sitecore.Cloud.Xdb" patch:after="hook[@type='Sitecore.PathAnalyzer.Processing.SubsystemLoader, Sitecore.PathAnalyzer']"/>
+      <hook type="Sitecore.Cloud.Xdb.DisableExperienceAnalyticsReduce, Sitecore.Cloud.Xdb" patch:after="hook[@type='Sitecore.ExperienceAnalytics.Reduce.SubSystemLoader, Sitecore.ExperienceAnalytics']"/>
     </hooks>
+    
+    <maintenanceService>
+      <Services>
+        <rdbCleanUpPrimary>
+          <patch:delete />
+        </rdbCleanUpPrimary>
+      </Services>
+    </maintenanceService>
 
     <pipelines>
       <initialize>
         <processor type="Sitecore.Cloud.Xdb.UpdateXdbConnectionStrings, Sitecore.Cloud.Xdb" patch:before="processor[@type='Sitecore.Pipelines.Loader.LoadHooks, Sitecore.Kernel']" />
       </initialize>
     </pipelines>
+    
+    <!-- Path Analyzer -->
+    
+    <!-- PATH ANALYZER
+          Define or override the services used by the Path Analyzer remote client.
+    -->
+    <pathAnalyzer>
+      <!-- DEFINITION SERVICE
+            This service is used to perform CRUD operations against map definitions via a remote service endpoint.
+            Patches the <definitionService /> node defined in Sitecore.PathAnalyzer.config.
+      -->
+      <definitionService patch:instead="definitionService" type="Sitecore.PathAnalyzer.Data.Remote.RemoteTreeDefinitionService, Sitecore.PathAnalyzer" />
+      <!-- TREE PROVIDER
+            This service is used to perform retrieval operations for maps via a remote service endpoint.
+            Patches the <treeProvider /> node defined in Sitecore.PathAnalyzer.config.
+      -->
+      <treeProvider patch:instead="treeProvider" type="Sitecore.PathAnalyzer.Data.Remote.RemoteTreeProvider, Sitecore.PathAnalyzer" singleInstance="true" />
+      <!-- WEB REQUEST FACTORY
+            This service is used to create secure web requests for communicating with remote Path Analyzer services.
+      -->
+      <webRequestFactory type="Sitecore.PathAnalyzer.Data.Remote.RemoteWebRequestFactory, Sitecore.PathAnalyzer">
+        <param desc="configuration" ref="pathAnalyzer/configuration" />
+        <param desc="httpTransportFactory" ref="httpTransportFactory" />
+      </webRequestFactory>
+      <!-- REMOTE
+            Defines settings related to remote server interaction.
+      -->
+      <remoteServices>
+        <!-- ENDPOINTS
+              Defines endpoints that are used for communicating with services on the remote reporting server.
+        -->
+        <endpoints>
+          <treeDefinitionService>/sitecore/api/PathAnalyzer/RemoteTreeDefinition</treeDefinitionService>
+          <treeService>/sitecore/api/PathAnalyzer/RemoteTree</treeService>
+          <adminService>/sitecore/api/PathAnalyzer/RemoteAdmin</adminService>
+        </endpoints>
+      </remoteServices>
+    </pathAnalyzer>
+    <!-- -->
   </sitecore>
 </configuration>

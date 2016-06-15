@@ -1,0 +1,67 @@
+﻿@using Sitecore.Mvc
+@using EmailCampaign.Controls
+@using Sitecore.Web.UI.Controls.Common.Renderings
+@using Sitecore.Web.UI.Controls.Common.UserControls
+@using UserControl = Sitecore.Web.UI.Controls.Common.UserControls.UserControl
+@using Bcl = EmailCampaign.Controls.Constants.Renderings.Bcl
+@using Exm = EmailCampaign.Controls.Constants.Renderings.Exm
+@using DataSources = EmailCampaign.Controls.Reporting.LocationReport.DataSources;
+@model Sitecore.Mvc.Presentation.RenderingModel
+@{
+    UserControl rendering = Html.Sitecore().Controls().GetUserControl(Model.Rendering);
+    rendering.Requires.Script("ecm", "LocationReport.js");
+    rendering.Requires.Css("ecm", "LocationReport.css");
+    rendering.Class = "sc-LocationReport";
+    string bottomLink = rendering.GetString("BottomLink");
+    string height = rendering.GetString("Height");
+}
+
+@helper RenderLocationReport(UserControl rendering)
+{
+    RenderingHelper helper = new RenderingHelper(this.Html, rendering.ControlId);
+
+    helper.CreateRenderingAt(Bcl.StringDictionary, "StringDictionary", rendering.ControlId + "Card", null, DataSources.StringDictionary, "Wrapper.Content");
+
+    helper.CreateRenderingAt(Bcl.Tabs, "Tabs", rendering.ControlId + "Card", null, DataSources.Tabs, "Wrapper.Content");
+    
+    // Countries Tab
+
+    helper.CreateRenderingAt(Exm.D3.DoughnutChart, "CountriesDoughnutChart", rendering.ControlId + "CountriesChartBorder", null, DataSources.CountriesChart);
+
+    helper.CreateRenderingAt(Bcl.ScoreCard, "BestClickScoreCard", rendering.ControlId + "CountriesClicksColumnPanel", null, DataSources.BestClickScoreCard);
+
+    helper.CreateRenderingAt(Bcl.ScoreCard, "MostValuableScoreCard", rendering.ControlId + "CountriesValuableColumnPanel", null, DataSources.MostValuableScoreCard);
+
+    helper.CreateRenderingAt(Bcl.ColumnPanel, "CountriesClicksColumnPanel", rendering.ControlId + "CountriesRowPanel", null, DataSources.ColumnPanel);
+    
+    helper.CreateRenderingAt(Bcl.ColumnPanel, "CountriesValuableColumnPanel", rendering.ControlId + "CountriesRowPanel", null, DataSources.ColumnPanel);
+
+    helper.CreateRenderingAt(Bcl.Border, "CountriesChartBorder", rendering.ControlId + "TabContent0");
+    
+    helper.CreateRenderingAt(Bcl.RowPanel, "CountriesRowPanel", rendering.ControlId + "TabContent0");
+
+    helper.CreateRenderingAt(Bcl.Border, "TabContent0", rendering.ControlId + "Card", null, DataSources.TabBorder, "Wrapper.Content");
+    
+    // Regions Tab
+
+    helper.CreateRenderingAt(Exm.D3.BarChart, "TopRegionsBarChart", rendering.ControlId + "TabContent1", null, DataSources.BarChart);
+    
+    helper.CreateRenderingAt(Bcl.Border, "TabContent1", rendering.ControlId + "Card", null, DataSources.TabBorder, "Wrapper.Content");
+    
+    // Cities Tab
+
+    helper.CreateRenderingAt(Exm.D3.BarChart, "TopCitiesBarChart", rendering.ControlId + "TabContent2", null, DataSources.BarChart);
+    
+    helper.CreateRenderingAt(Bcl.Border, "TabContent2", rendering.ControlId + "Card", null, DataSources.TabBorder, "Wrapper.Content");
+    
+}
+
+@RenderLocationReport(rendering)
+
+<div @rendering.HtmlAttributes data-sc-hasnested="true">
+    @(this.Html.Sitecore().Controls().Rendering(this.Html, Bcl.Card, rendering.ControlId + "Card", DataSources.Card, new
+            {
+                BottomLink = @bottomLink,
+                Height = @height
+            }))
+</div>

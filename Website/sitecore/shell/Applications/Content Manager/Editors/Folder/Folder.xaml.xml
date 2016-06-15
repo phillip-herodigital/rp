@@ -16,12 +16,8 @@
       <AjaxScriptManager runat="server"/>
       <ContinuationManager runat="server" />
 
-      <GridPanel runat="server" Width="100%" Height="100%">
+      <Scrollbox runat="server" ID="ItemList" Width="100%" Height="100%" Border="none" Padding="0px" Background="transparent" GridPanel.Height="100%" ContextMenu="FileList_ContextMenu" />
 
-        <Scrollbox runat="server" ID="ItemList" Width="100%" Height="100%" Border="none" Padding="0px" Background="transparent" GridPanel.Height="100%" ContextMenu="FileList_ContextMenu" />
-
-      </GridPanel>
-      
     </Sitecore.Controls.HtmlPage>
   </Sitecore.Shell.Applications.ContentEditor.Editors.Folder>
 

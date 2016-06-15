@@ -1462,7 +1462,6 @@ a.scSearchLink img {
 
 #ContentTreePanel {
     width: 150px;
-    min-width: 40px;
     background-color: #fff;
 }
 
@@ -1586,7 +1585,12 @@ body .Metro.RadEditor .reEditorModes .reMode_selected {
 }
 
 #EditorBottom {
-    display: none;
+  border-top: 2px solid #dc291e !important;
+}
+
+#EditorBottom, .reModule.reStatistic {
+  background-color: #474747 !important;
+  color: #fff !important;
 }
 
 body .Metro .reTool span, body .Metro.reInsertTable body .reTlbVertical ul .reTool_text span, body .Metro .reToolbar .reTool_text span {
@@ -1634,9 +1638,9 @@ body .Metro .reToolbar .reTool.reTool_selected, body .Metro .reToolbar .reTool.r
     border: none !important;
 }
 
-    .reAjaxspell_wrapper label {
-        color: #E0B406 !important;
-    }
+.reAjaxspell_wrapper label {
+    color: #E0B406 !important;
+}
 
 .Metro .reAjaxspell_button {
     color: #2b2b2b !important;
@@ -1669,22 +1673,6 @@ body .scRadEditor .AjaxSpellCheck {
     background-position: -66px center !important;
 }
 
-.RadSpell .AuxOptions {
-    margin-top: 5px !important;
-    margin-right: 0 !important;
-}
-
-.SpellOptions.AuxOptions li:first-child {
-    margin-top: 0;
-}
-
-.SpellOptions.MainOptions {
-    width: 100%;
-    padding-right: 14px;
-    margin-top: 9px;
-    box-sizing: border-box;
-}
-
 body .RadSpell h4 {
     font: 12px Arial, Helvetica, sans-serif;
     margin: 10px 0 10px;
@@ -1695,29 +1683,33 @@ body .RadSpell {
     font-size: 12px !important;
 }
 
+.RadSpell .MainOptions {
+  margin-top: 9px;
+}
+
+.redSpellCheckDialog body {
+  width: 455px;
+  height: 320px;
+}
+
+.RadWindow_Metro table.rwShadow.rwTable .rwTitleRow .rwTopRight.rwCorner {
+  width: 8px !important;
+}
+
 body .reGrip.grip_last {
     display: none;
 }
 
-.scAdditionalParameters {
+.scAdditionalParameters td {
+    padding-bottom: 10px !important;
 }
 
-    .scAdditionalParameters td {
-        padding-bottom: 10px !important;
-    }
+.scAdditionalParameters td:first-child {
+    padding-right: 5px !important;
+}
 
-        .scAdditionalParameters td:first-child {
-            padding-right: 5px !important;
-        }
-
-        .scAdditionalParameters td:last-child {
-            padding-left: 5px !important;
-        }
-
-.rfdRadio input[type=radio], .rfdCheckbox input[type=checkbox] {
-    width: auto !important;
-    height: auto !important;
-    margin: 5px;
+.scAdditionalParameters td:last-child {
+    padding-left: 5px !important;
 }
 
 #RadWindowWrapper_Editor_dialogOpenerFindAndReplace {

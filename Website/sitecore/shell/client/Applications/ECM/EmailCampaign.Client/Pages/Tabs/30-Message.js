@@ -1,32 +1,17 @@
 ﻿define([
   "sitecore",
-  "/-/speak/v1/ecm/Validation.js",
   "/-/speak/v1/ecm/AddVariant.Execute.js",
   "/-/speak/v1/ecm/RemoveVariant.Execute.js",
   "/-/speak/v1/ecm/DuplicateVariant.Execute.js",
-  "/-/speak/v1/ecm/MessageTokenService.js"
+  "/-/speak/v1/ecm/MessageTokenService.js",
+  "/-/speak/v1/ecm/DialogService.js"
 ], function (
   sitecore,
-  Validation,
   AddVariant,
   RemoveVariant,
   DuplicateVariant,
-  MessageTokenService) {
-
-  function initMessageVariantContentEditorDialog(contextApp, variantContext, hideCallback) {
-    if (contextApp["messageVariantContentEditorDialog"] === undefined) {
-      contextApp.insertRendering("{8B5A7135-0135-4944-A69F-23D9CD388FE6}", { $el: $("body") }, function (subApp) {
-        contextApp["messageVariantContentEditorDialog"] = subApp;
-        messageVariantContentEditorDialogShow();
-      });
-    } else {
-      messageVariantContentEditorDialogShow();
-    }
-
-    function messageVariantContentEditorDialogShow() {
-      sitecore.trigger("message:variant:content:editor:dialog:show", variantContext, hideCallback);
-    }
-  }
+  MessageTokenService,
+  DialogService) {
 
   var messageTab = sitecore.Definitions.App.extend({
     // Actions have only one identificator is - item id. That is why it's hard to avoid hardcoded ids.
@@ -49,6 +34,7 @@
       this.isSubscriptionFromHTML = this.MessageContext.get("messageType") === "Subscription" && this.MessageContext.get("templateName") === "From HTML subscription";     
       this.isExistingPageTemplate = this.MessageContext.get("templateId") === "{A89CF30C-EDFA-442E-8048-9234980E2176}" ? true : false;
       this.isExistingPageBased = this.MessageContext.get("isExistingPageBased");
+      this.isTriggered = this.MessageContext.get('messageType') === 'Triggered';
 
       // Needed to make request to server.
       // TODO: need to re-factor piplines and remove this useless stuff
@@ -62,11 +48,12 @@
         app: this
       }
 
+      var abTestingNotTriggeredNotSubscriptionHTML = this.isAbTesting && !this.isSubscriptionFromHTML && !this.isTriggered;
       this.variantActionsState = {
-        remove: this.isAbTesting && !this.isSubscriptionFromHTML,
-        duplicate: this.isAbTesting && !this.isSubscriptionFromHTML,
-        abTestingResults: this.isAbTesting && !this.isSubscriptionFromHTML,
-        add: this.isAbTesting && !this.isSubscriptionFromHTML && !this.isExistingPageBased,
+        remove: abTestingNotTriggeredNotSubscriptionHTML,
+        duplicate: abTestingNotTriggeredNotSubscriptionHTML,
+        abTestingResults: abTestingNotTriggeredNotSubscriptionHTML,
+        add: abTestingNotTriggeredNotSubscriptionHTML && !this.isExistingPageBased,
         insertToken: true,
         editBody: !this.isExistingPageTemplate || !this.isExistingPageBased,
         sendQuickTest: true,
@@ -103,7 +90,10 @@
 
       if (this.MessageContext.get("isReadonly")) {
         this.setMessageVariantsState("disabled");
-      } else if (!this.MessageContext.get("isAbTesting") || this.isSubscriptionFromHTML || this.isExistingPageBased) {
+      } else if (!this.MessageContext.get("isAbTesting") ||
+        this.isSubscriptionFromHTML ||
+        this.isExistingPageBased ||
+        this.isTriggered) {
         this.setMessageVariantsState("singlevariant");
       }
 
@@ -120,7 +110,16 @@
       });
     },
 
-    setMessageVariantsActionsState: function() {
+    /*
+     * Speak action columns don't have any ids. Currently, the only solution to get the ABTesting actions column
+     *  is to find the first ul element in the actions menu dropdown.
+     */   
+    getAbTestingActionsColumnElement: function() {
+      var actionsElement = this.MessageVariant.viewModel.getChild("Actions").viewModel.$el;
+      return actionsElement.find('.dropdown-menu table tr:first td:first ul');
+    },
+
+    setMessageVariantsActionsState: function () {
       _.each(this.messageVariantActions, _.bind(function (action) {
         var actionName = this.variantActionsMap[action.id()];
         action[this.variantActionsState[actionName] ? "enable" : "disable"]();
@@ -132,11 +131,13 @@
       switch (state) {
         case "multivariate":
           this.setMessageVariantsActionsState();
-          addButton.set("isVisible", true);
+          this.MessageVariants.set('multivariate', true);
+          this.getAbTestingActionsColumnElement().show();
           break;
         case "singlevariant":
           this.setMessageVariantsActionsState();
-          addButton.set("isVisible", false);
+          this.MessageVariants.set('multivariate', false);
+          this.getAbTestingActionsColumnElement().hide();
           break;
         case "disabled":
           this.disableMessageVariantActions();
@@ -151,14 +152,20 @@
     },
 
     attachEventHandlers: function () {
+      /* 
+      * In some cases, properties of messageContext can be updated several times 
+      *   in a very short amaunt of time, it leads to not correct updating of MessageVariant properties.
+      *   To increase performance and fix problem with updating MessageVariant properties, better to use _.debounce.
+      */
+      var messageVariantsChangedDebounced = _.debounce(_.bind(this.onMessageVariantsChanged, this), 50);
       this.MessageContext.on({
         "change:language": function() {
           this.messageVariantsContext.currentContext.language = this.MessageContext.get("language");
         },
-        "change:variants": this.onMessageVariantsChanged,
+        "change:variants": messageVariantsChangedDebounced,
         "change:isReadonly": function () {
           this.setMessageVariantsState(this.MessageContext.get("isReadonly") ? "disabled" : "enabled");
-          this.onMessageVariantsChanged();
+          messageVariantsChangedDebounced();
         }
       }, this);
 
@@ -179,13 +186,10 @@
           sitecore.trigger("action:switchtab", { tab: 4 });
         },
         "action:insertpersonalizationtoken": function () {
-          messages_InitializePersonalizationTokenDialog(sitecore, this);
+          DialogService.show('personalizationToken');
         },
         "action:previewrecipients": function () {
           sitecore.trigger("action:previewrecipients");
-        },
-        "action:addattachment": function () {
-          sitecore.trigger("action:addattachment");
         }
       }, this);
     },
@@ -201,16 +205,18 @@
     },
 
     onRemoveVariant: function () {
-      sitecore.trigger("confirmdialog", {
-        ok: _.bind(function () {
-          this.MessageContext.set("isBusy", true);
-          RemoveVariant.execute(this.messageVariantsContext, _.bind(function (variantId) {
-            this.MessageVariants.removeVariant(variantId);
-            this.MessageContext.set("variants", this.MessageVariants.get("variants"), { silent: true });
-            this.MessageContext.set("isBusy", false);
-            sitecore.trigger("change:messageContext");
-          }, this));
-        }, this),
+      DialogService.show('confirm', {
+        on: {
+          ok: _.bind(function () {
+            this.MessageContext.set("isBusy", true);
+            RemoveVariant.execute(this.messageVariantsContext, _.bind(function (variantId) {
+              this.MessageVariants.removeVariant(variantId);
+              this.MessageContext.set("variants", this.MessageVariants.get("variants"), { silent: true });
+              this.MessageContext.set("isBusy", false);
+              sitecore.trigger("change:messageContext");
+            }, this));
+          }, this)
+        },
         text: sitecore.Resources.Dictionary.translate("ECM.Pages.Message.AreYouSureYouWantToDeleteVariant"),
         title: sitecore.Resources.Dictionary.translate("ECM.AreYouSure")
       });
@@ -235,9 +241,16 @@
     },
 
     onEditMessageVariantContent: function () {
-      initMessageVariantContentEditorDialog(this, this.MessageVariants.get("selectedVariant"), _.bind(function () {
-        this.MessageVariants.viewModel.updateVariant();
-      }, this));
+      DialogService.show('pageEditor', {
+        data: {
+          variant: this.MessageVariants.get("selectedVariant")
+        },
+        on: {
+          complete: _.bind(function () {
+            this.MessageVariants.viewModel.updateVariant();
+          }, this)
+        }
+      });
     },
 
     onMessageVariantModified: function () {
@@ -250,7 +263,7 @@
     },
 
     onMessageVariantsChanged: function () {
-      this.MessageVariants.set("variants", this.MessageContext.get("variants"));
+      this.MessageVariants.setVariants(this.MessageContext.get("variants"));
     }
   });
 

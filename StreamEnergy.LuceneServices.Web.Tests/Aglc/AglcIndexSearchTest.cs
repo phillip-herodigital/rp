@@ -22,7 +22,6 @@ namespace StreamEnergy.LuceneServices.Web.Tests.Aglc
     public class AglcIndexSearchTest
     {
 
-        private TestContext testContextInstance;
         private static IndexSearcher oldIndex;
         private static IndexSearcher newIndex;
 

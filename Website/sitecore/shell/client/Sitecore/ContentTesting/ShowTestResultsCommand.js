@@ -1,15 +1,15 @@
 ﻿require.config({
   paths: {
-    loadingImage: "/sitecore/shell/client/Sitecore/ContentTesting/LoadingImage"
+    loadingImage: "/sitecore/shell/client/Sitecore/ContentTesting/LoadingImage",
+    activeTestState: "/sitecore/shell/client/Sitecore/ContentTesting/ActiveTestState"
   }
 });
 
-define(["sitecore", "loadingImage"], function (Sitecore, loadingImage) {
+define(["sitecore", "loadingImage", "/-/speak/v1/ExperienceEditor/ExperienceEditor.js", "activeTestState"], function (Sitecore, loadingImage, ExperienceEditor, ActiveTestState) {
   Sitecore.Commands.Results =
   {
     canExecute: function (context, sourceControl) {
-      var testCount = context.app.canExecute("Optimization.ActiveItemTests.Count", context.currentContext);
-      return testCount > 0;
+      return ActiveTestState && ActiveTestState.hasActiveTest(context);
     },
 
     execute: function (context) {
@@ -19,8 +19,8 @@ define(["sitecore", "loadingImage"], function (Sitecore, loadingImage) {
         + "&vs=" + context.app.currentContext.version
         + "&deviceId=" + context.app.currentContext.deviceId;
 
-      var dialogFeatures = "dialogHeight: 800px;dialogWidth: 1000px;";
-      Sitecore.ExperienceEditor.Dialogs.showModalDialog(dialogPath, "", dialogFeatures, null, function (result) {
+      var dialogFeatures = "dialogHeight: 800px;dialogWidth: 1100px;";
+      ExperienceEditor.Dialogs.showModalDialog(dialogPath, "", dialogFeatures, null, function (result) {
         if (!result) {
           return;
         }
@@ -28,8 +28,10 @@ define(["sitecore", "loadingImage"], function (Sitecore, loadingImage) {
 
 
       // Show the loading image until dialog doesn't appeared
-      loadingImage.showElement();
-      loadingImage.waitLoadingDialog("jqueryModalDialogsFrame", { height: 860, minWidth: 1000 });
+      if (loadingImage) {
+        loadingImage.showElement();
+        loadingImage.waitLoadingDialog("jqueryModalDialogsFrame", { height: 860, minWidth: 1100 });
+      }
     }
   };
 });

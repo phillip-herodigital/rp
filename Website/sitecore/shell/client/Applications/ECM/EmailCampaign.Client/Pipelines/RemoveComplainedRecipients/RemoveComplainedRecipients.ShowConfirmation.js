@@ -1,26 +1,33 @@
-﻿define(["sitecore"], function (sitecore) {
+﻿define([
+  "sitecore",
+  "/-/speak/v1/ecm/DialogService.js"
+], function (
+  sitecore,
+  DialogService
+  ) {
   return {
     priority: 10,
 
     execute: function (context) {
-      var text = sitecore.Resources.Dictionary.translate("ECM.Pages.Recipients.RemoveComplainedConfirmation").replaceAll("{0}", context.recipientList.name);
+      var text = sitecore.Resources.Dictionary.translate("ECM.Pages.Recipients.RemoveComplainedConfirmation")
+        .split("{0}").join(context.recipientList.name);
      
       if (!context.confirmed) {
         context.aborted = true;
 
-        sitecore.trigger("confirmdialog",
-        {
+        DialogService.show('confirm', {
           text: text,
-          ok: function () {
-            sitecore.Pipelines.RemoveComplainedRecipients.execute({
-              recipientList: context.recipientList,
-              messageId: context.messageId,
-              messageBar: context.messageBar,
-              confirmed: true
+          on: {
+            ok: function () {
+              sitecore.Pipelines.RemoveComplainedRecipients.execute({
+                recipientList: context.recipientList,
+                messageId: context.messageId,
+                messageBar: context.messageBar,
+                confirmed: true
 
-            });
-          },
-          cancel: function () { }
+              });
+            }
+          }
         });
       }
     }

@@ -1,12 +1,24 @@
 ﻿.sc .sc-ecm-language {
   margin-right: 5px;
 }
+.sc .sc-ecm-language li {
+  list-style: none;
+}
 .sc .sc-ecm-language .nav-header {
+  padding: 5px;
+  font-size: 14px;
+  color: #131313;
+  border-bottom: 1px solid #cccccc;
+  line-height: 20px;
   white-space: nowrap;
 }
 .sc .sc-ecm-language .language-switcher-list {
   padding: 5px 3px;
   text-align: left;
+}
+.sc .sc-ecm-language .language-switcher-list ul {
+  margin: 0;
+  padding: 0;
 }
 .sc .sc-ecm-language .language-switcher-list ul .sc-actionMenu-item.selected:before {
   position: absolute;
@@ -14,16 +26,37 @@
   width: 14px;
   height: 14px;
   background: url("/sitecore/shell/client/Speak/Assets/img/sc-sprite.png") no-repeat -322px -339px;
-  top: 5px;
+  top: 7px;
+}
+.sc .sc-ecm-language .language-switcher-list ul .sc-actionMenu-item {
+  position: relative;
+  white-space: nowrap;
+  min-width: 150px;
+  display: block;
+  padding-left: 0;
+  line-height: 30px;
+  float: none;
+  padding: 0;
 }
 .sc .sc-ecm-language .language-switcher-list ul .sc-actionMenu-item a {
-  padding-left: 25px;
+  color: #131313;
   display: list-item;
-  color: rgb(19, 19, 19);
+}
+.sc .sc-ecm-language .language-switcher-list ul .sc-actionMenu-item a:first-child {
+  width: 100%;
+  padding: 4px 20px 3px 25px;
+}
+.sc .sc-ecm-language .language-switcher-list ul .sc-actionMenu-item a:hover {
+  text-decoration: none;
+  background: #e3e3e3;
+  color: #131313;
 }
 .sc .sc-ecm-language .language-switcher-list ul .sc-actionMenu-item a.isdefault {
   font-weight: bold;
 }
 .sc .sc-ecm-language .language-switcher-list ul .sc-actionMenu-item.hidden {
   display: none;
+}
+.sc .sc-ecm-language .sc-dropdownbutton .sc-dropdownbutton-contentpanel {
+  z-index: 3;
 }

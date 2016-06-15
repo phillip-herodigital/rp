@@ -46,7 +46,7 @@
     }
   },
 
-  elements: function(domElement) {
+  elements: function (domElement) {
     if (!domElement.is("code[type='text/sitecore'][chromeType='rendering']")) {
       console.error("Unexpected domelement passed to RenderingChromeType for initialization:");
       console.log(domElement);
@@ -105,9 +105,14 @@
     }
     
     if (result.type.key() != "placeholder") {
-      console.warn(result.element);
-      console.log();
-      throw "Rendering must have placeholder chrome as its parent. Got '" + result.type.key() + "' instead";
+      var parentElement = result.parent();
+      if (!parentElement || parentElement.type.key() != "placeholder") {
+        console.warn(result.element);
+        console.log();
+        throw "Rendering must have placeholder chrome as its parent. Got '" + result.type.key() + "' instead";
+      }
+
+      result = parentElement;
     }
 
     return result;
@@ -194,7 +199,7 @@
     Sitecore.PageModes.PageEditor.postRequest(commandName + "(uniqueId=" + this.uniqueId() + ",controlId=" + controlId + ")");
   },
 
-  editVariationsCompleted: function(parameters, sender) {
+  editVariationsCompleted: function (parameters, sender) {
     var variations = parameters.variations;     
     Sitecore.LayoutDefinition.readLayoutFromRibbon(); 
     // reset command
@@ -269,6 +274,23 @@
     return this._variations.length > 0;
   },
   
+  hasConditions: function () {
+    if (!this._conditions) {
+      return false;
+    }
+    
+    var length = this._conditions.length;
+    if (length > 1) {
+      return true;
+    }
+
+    if (length == 1) {
+      return !this._conditions[0].isDefault();
+    }
+
+    return false;
+  },
+
   key: function() {
     return "rendering";
   },
@@ -301,17 +323,17 @@
     }
     var previousActiveCondition = $sc.first(this.getConditions(), function() {return this.isActive;});
     this.resetConditions();
-    var activeCondition = $sc.first(this.getConditions(), function() {return this.isActive;});
-    var isActivaeConditionModified = false;
+    var activeCondition = $sc.first(this.getConditions(), function() {return this.isActive});
+    var isActiveConditionModified = false;
     for (var i = 0; i < modifiedConditions.length; i++) {
       Sitecore.PageModes.Personalization.RenderingCache.removeCondition(this.chrome,  modifiedConditions[i]);
       if (modifiedConditions[i] == activeCondition.id) {
-        isActivaeConditionModified = true;
+        isActiveConditionModified = true;
       }
     }
                       
-    var activaeConditionChanged = previousActiveCondition && activeCondition && previousActiveCondition.id !== activeCondition.id;
-    if (activaeConditionChanged || isActivaeConditionModified) {
+    var activeConditionChanged = previousActiveCondition && activeCondition && previousActiveCondition.id !== activeCondition.id;
+    if (activeConditionChanged || isActiveConditionModified) {
       var preserveCacheUpdating = true;                            
       this.changeCondition(activeCondition.id, sender, preserveCacheUpdating);
       return;
@@ -701,10 +723,10 @@
   renderPersonalizationCommand : function(command, isMoreCommand, chromeControls) {        
     command.enabledWhenReadonly = true;    
     command.disabled = false;
-    var hasVariations = this.getVariations().length > 0;
-    if (hasVariations || !Sitecore.PageModes.PageEditor.isPersonalizationAccessible()) {
+    var showVariations = this.hasVariations();
+    if (showVariations || !Sitecore.PageModes.PageEditor.isPersonalizationAccessible()) {
       command.disabled = true;
-      if (hasVariations) {
+      if (showVariations) {
         return false; 
       }          
     }
@@ -743,8 +765,13 @@
 
   renderEditVariationsCommand: function (command, isMoreCommand, chromeControls) {
     command.enabledWhenReadonly = true;
-    if (Sitecore.PageModes.PageEditor.isTestRunning() || !Sitecore.PageModes.PageEditor.isTestingAccessible()) {
+    command.disabled = false;
+    var showConditions = this.hasConditions();
+    if (showConditions || Sitecore.PageModes.PageEditor.isTestRunning() || !Sitecore.PageModes.PageEditor.isTestingAccessible()) {
       command.disabled = true;
+      if (showConditions) {
+        return false;
+      }
     }
 
     if (isMoreCommand) {

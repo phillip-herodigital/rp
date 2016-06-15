@@ -1,13 +1,13 @@
-﻿define(["sitecore"], function (Sitecore) {
+﻿define(["sitecore", "/-/speak/v1/ExperienceEditor/ExperienceEditor.js"], function (Sitecore, ExperienceEditor) {
   Sitecore.Commands.Publish =
   {
     canExecute: function (context) {
       return context.app.canExecute("ExperienceEditor.Publish.CanPublish", context.currentContext);
     },
     execute: function (context) {
-      Sitecore.ExperienceEditor.modifiedHandling(true, function (isOk) {
-        Sitecore.ExperienceEditor.PipelinesUtil.executePipeline(context.app.PublishPipeline, function () {
-          Sitecore.ExperienceEditor.PipelinesUtil.executeProcessors(Sitecore.Pipelines.Publish, context);
+      ExperienceEditor.modifiedHandling(true, function (isOk) {
+        ExperienceEditor.PipelinesUtil.executePipeline(context.app.PublishPipeline, function () {
+          ExperienceEditor.PipelinesUtil.executeProcessors(Sitecore.Pipelines.Publish, context);
         });
       });
     }

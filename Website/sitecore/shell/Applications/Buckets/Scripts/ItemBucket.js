@@ -70,7 +70,7 @@ function fetchChildren(searchResult) {
   var isItemExpanded = element.find(".itemchildselector").hasClass("expanded");
 
   if (isItemExpanded) {
-      element.find(".itemchildselector").attr('src', '/sitecore/shell/themes/standard/images/expand15x15.gif');
+    element.find(".itemchildselector").attr('src', '/sitecore/shell/themes/standard/images/expand15x15.gif');
     element.parent().find(".ItemChild").remove();
     //remove all child references.
     jQuery(".BlogPostArea").css('box-shadow', '1px 1px 8px #EEE');
@@ -107,7 +107,7 @@ function fetchChildren(searchResult) {
                 if (objectFromCalll.Languages != null || objectFromCalll.Languages != undefined) {
                   if (objectFromCalll.Languages.length > 0) {
                     $j.each(objectFromCalll.Languages, function () {
-                        languageList += "<a class=\"baketLang\" href=\"\" onclick=\"scForm.browser.clearEvent(event || window.event, true);scForm.getParentForm().postRequest('','','','" + 'contenteditor:launchtab' + "(url=" + itemId + ", la=" + this.split('|')[0] + ", version=" + version + ")'); return false;\">" + this.split('|')[0] + "</a>";
+                      languageList += "<a class=\"baketLang\" href=\"\" onclick=\"scForm.browser.clearEvent(event || window.event, true);scForm.getParentForm().postRequest('','','','" + 'contenteditor:launchtab' + "(url=" + itemId + ", la=" + this.split('|')[0] + ", version=" + version + ")'); return false;\">" + this.split('|')[0] + "</a>";
                     });
                   }
                 }
@@ -260,7 +260,8 @@ function meme(a) {
                 function () {
                     var escapedText = scHtmlEscape(this.title);
                     var innerText = this.title.length > 16 ? (scHtmlEscape(this.title.substring(0, 16)) + "...") : escapedText;
-                    facetList += '<li class="filter"><a href="javascript:void(0);" onclick="javascript:RemoveFacet(\'' + this.value + '\');" title="' + escapedText + '" class="facetClick facetClickSelected">' + innerText + "</a></li>";
+                    var escapedValue = scHtmlEscape(this.value);
+                    facetList += '<li class="filter"><a href="javascript:void(0);" onclick="javascript:RemoveFacet(\'' + escapedValue + '\');" title="' + escapedText + '" class="facetClick facetClickSelected">' + innerText + "</a></li>";
                 });
             facetList += "</ul></div></div></div>";
             $j(".navAlpha").append(facetList);
@@ -270,15 +271,15 @@ function meme(a) {
          function (index) {
              if (typeof (this[0]) != 'undefined') {
 
-               var b = '<div class="sideMask"><div class="side"><div class="sb_filter ' + (index > 4 ? "toggleoff" : "toggleon") + '">' + this[0].DisplayName + "<span></span></div><div class=\"sideFilter\" " + (index > 4 ? "style=\"display:none\"" : "") + "><ul>";
+                 var b = '<div class="sideMask"><div class="side"><div class="sb_filter ' + (index > 4 ? "toggleoff" : "toggleon") + '">' + this[0].DisplayName + "<span></span></div><div class=\"sideFilter\" " + (index > 4 ? "style=\"display:none\"" : "") + "><ul>";
 
                  $j.each(this,
                      function () {
-                         var cleanString = this.Template;
-                         cleanString = cleanString.replace("\\", "~");
+                         var cleanString = scHtmlEscape(this.Template.replace("\\", "~"));
                          var escapedTitle = scHtmlEscape(this.LocalizedName);
                          var innerText = (this.LocalizedName.length > 32 ? (scHtmlEscape(this.LocalizedName.substring(0, 32)) + "...") : escapedTitle);
-                         b += '<li class="filter"><a href="javascript:void(0);" title="' + escapedTitle + '" class="facetClick" onclick="javascript:AppendFacet(\'' + this.ID + "','" + cleanString + "','" + this.Custom + "','" + escapedTitle + "');\"><span>" + innerText + "</span> <span>" + this.Value + "</span>" + "</a></li>";
+                         var escapedValue = scHtmlEscape(this.Value);
+                         b += '<li class="filter"><a href="javascript:void(0);" title="' + escapedTitle + '" class="facetClick" onclick="javascript:AppendFacet(\'' + this.ID + "','" + cleanString + "','" + this.Custom + "','" + escapedTitle + "');\"><span>" + innerText + "</span> <span>" + escapedValue + "</span>" + "</a></li>";
                      });
 
                  b += "</ul></div></div></div>";
@@ -306,7 +307,7 @@ function meme(a) {
     $j(this).removeClass("pageClickLoad");
 
     if ($j(".navAlpha .side").length == 0) {
-      var b = '<div class="sideMask"><div class="side"><div class="sb_filter">' + NoFacetsFound + "</div><div class=\"sideFilter\"><ul></ul></div></div></div>";
+        var b = '<div class="sideMask"><div class="side"><div class="sb_filter">' + NoFacetsFound + "</div><div class=\"sideFilter\"><ul></ul></div></div></div>";
         $j(".navAlpha").append(b);
 
 
@@ -724,7 +725,7 @@ function parseResults(resultCallBack) {
                 if (!!this.Languages) {
                     if (this.Languages.length > 0) {
                         $j.each(this.Languages, function () {
-                            languageList += "<a class=\"baketLang\" href=\"\" onclick=\"scForm.browser.clearEvent(event || window.event, true);scForm.getParentForm().postRequest('','','','" + resultCallBack.launchType + "(url=" + itemId + ", la=" + this.split('|')[1] + ", version=" + version + ", datasource=" + this.Datasource + ")'); return false;\">" + this.split('|')[0] + "</a>";
+                          languageList += "<a class=\"baketLang\" href=\"\" onclick=\"scForm.browser.clearEvent(event || window.event, true);scForm.getParentForm().postRequest('','','','" + resultCallBack.launchType + "(url=" + itemId + ", la=" + this.split('|')[1] + ", version=" + version + ", datasource=" + this.Datasource + ")'); return false;\">" + this.split('|')[0] + "</a>";
                         });
                     }
                 } else {
@@ -766,7 +767,7 @@ function parseResults(resultCallBack) {
                
                 if (!this.CreatedDate) { this.CreatedDate = "" }
               
-                var template = '<div id="' + this.ItemId + '" class="BlogPostArea" onclick="{0}" style="margin-left:' + InnerItem(this) + '"><div class="BlogPostViews">' + '<a class="ceebox imgcontainer"  title="" href="#"  onclick="{0}"><img width="' + imageWidth + '" onerror="this.onerror=null;this.src=\'../Buckets/images/default.jpg\';" height="' + imageHeight + '" src="' + this.ImagePath + '?w=' + imageWidth + '&h=' + imageHeight + '&db=master" ' + resizeTemplateIcon + '  class="attachment-post-thumbnail wp-post-image" alt="' + this.Name + '" title="' + this.Name + ' - ' + this.Path + '" /></a></div><h5 class="BlogPostHeader"><a href="javascript:void(0);" onclick="scForm.browser.clearEvent(event || window.event, true);{0}">' + this.Name + '</a><span title="This item has ' + (this.Languages && this.Languages.length > 1 ? "" + this.Languages.length + " languages" : " 1 language") + '">' + (this.Languages && this.Languages.length > 1 ? "(" + this.Languages.length + ")" : "") + '</span></h5><div class="BlogPostContent"><strong>' + templateStub + ': </strong>' + this.TemplateName + ' <strong>' + locationStub + ': </strong>' + this.Bucket + '</div><div class="BlogPostFooter">' + (this.Content ? (this.Content.length > 250 ? (this.Content.substring(0, 250) + "...") : this.Content) : '') + ' <div><strong>' + versionStub + ': </strong>' + this.Version + ' <strong>' + createdStub + ': </strong>' + this.CreatedDate.substring(0, 10) + ' <strong> ' + byStub + ': </strong> ' + this.CreatedBy + ' <strong> ' + languageStub + ': </strong> ' + this.Language + ' </div><div></div><div class="quickactions" onclick="scForm.browser.clearEvent(event || window.event, true);">' + '<div class="baketActionListWrap">' + actionList + '</div>' + mediaCommand + '<div class="baketLangWrap">' + languageList + '<span class="langFadeout"></span></div></div>' + '<div class="fetchChildren" onclick="scForm.browser.clearEvent(event || window.event, true);fetchChildren(this);" style="float: right;padding: 4px 6px;" title="Fetch Child Items">' + hasChildren + '</div></li>';
+                var template = '<div id="' + this.ItemId + '" class="BlogPostArea" onclick="{0}" style="margin-left:' + InnerItem(this) + '"><div class="BlogPostViews">' + '<a class="ceebox imgcontainer"  title="" href="#"  onclick="{0}"><img width="' + imageWidth + '" onerror="this.onerror=null;this.src=\'../Buckets/images/default.jpg\';" height="' + imageHeight + '" src="' + this.ImagePath + '?w=' + imageWidth + '&h=' + imageHeight + '&db=master" ' + resizeTemplateIcon + '  class="attachment-post-thumbnail wp-post-image" alt="' + this.Name + '" title="' + this.Name + ' - ' + this.Path + '" /></a></div><h5 class="BlogPostHeader"><a href="javascript:void(0);" onclick="scForm.browser.clearEvent(event || window.event, true);{0}">' + this.Name + '</a><span title="This item has ' + (this.Languages && this.Languages.length > 1 ? "" + this.Languages.length + " languages" : " 1 language") + '">' + (this.Languages && this.Languages.length > 1 ? "(" + this.Languages.length + ")" : "") + '</span></h5><div class="BlogPostContent"><strong>' + templateStub + ': </strong>' + this.TemplateName + ' <strong>' + locationStub + ': </strong>' + this.Bucket + '</div><div class="BlogPostFooter">' + (this.Content ? this.Content : '') + ' <div><strong>' + versionStub + ': </strong>' + this.Version + ' <strong>' + createdStub + ': </strong>' + this.CreatedDate.substring(0, 10) + ' <strong> ' + byStub + ': </strong> ' + this.CreatedBy + ' <strong> ' + languageStub + ': </strong> ' + this.Language + ' </div><div></div><div class="quickactions" onclick="scForm.browser.clearEvent(event || window.event, true);">' + '<div class="baketActionListWrap">' + actionList + '</div>' + mediaCommand + '<div class="baketLangWrap">' + languageList + '<span class="langFadeout"></span></div></div>' + '<div class="fetchChildren" onclick="scForm.browser.clearEvent(event || window.event, true);fetchChildren(this);" style="float: right;padding: 4px 6px;" title="Fetch Child Items">' + hasChildren + '</div></li>';
                
                 switch (window.currentBucketsViewType) {
                     case window.rteViewType:
@@ -817,6 +818,9 @@ function parseResults(resultCallBack) {
     });
     
     $j(".contextdataarea").html(b);
+    $j(".buckets-field .buckets-field-value").each(function () {
+        this.title = this.innerText;
+    });
 }
 
 

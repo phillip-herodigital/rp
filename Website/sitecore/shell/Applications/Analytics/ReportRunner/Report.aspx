@@ -6,6 +6,7 @@
 <!DOCTYPE html>
 <html>
 <head runat="server">
+  <meta http-equiv="X-Frame-Options" content="SAMEORIGIN">
   <title>Sitecore</title>
   <script src="/sitecore/shell/controls/lib/prototype/prototype.js" type="text/javascript"></script>
   <script src="/sitecore/shell/controls/Sitecore.Runtime.js" type="text/javascript"></script>
@@ -58,7 +59,7 @@
       elu.style.width = "75px";
       elu.style.height = "25px";
       
-      element.style.width = "75px";
+      element.style.width = "auto";
 
       var eld = element.down();
       if (eld) {
@@ -99,7 +100,7 @@
     var cell = $$('#ReportViewer_ReportViewer_toolBar tr td').first();
 
     if (cell) {
-        cell.innerHTML = "<div class=\"webMenu\"><a onclick=\"javascript:return scMail();\" style=\"white-space:nowrap;border:1px solid #e9e9e9;background:#f9f9f9;margin:1px 0px 0px 0px;padding:4px 4px 0px 4px; width:75px;height:25px;font:8pt tahoma\"><img src=\"/sitecore/shell/Themes/Standard/Reports/MenuMail.gif\" align=\"absmiddle\" width=\"16\" height=\"16\" style=\"width:16px;height:16px\" />&nbsp;<%=Sitecore.Globalization.Translate.Text(Sitecore.Texts.MailReport) %></a></div>";
+      cell.innerHTML = "<div class=\"webMenu\"><a onclick=\"javascript:return scMail();\" style=\"white-space:nowrap;border:1px solid #e9e9e9;background:#f9f9f9;margin:1px 0px 0px 0px;padding:4px 4px 0px 4px; height:25px;font:8pt tahoma\"><img src=\"/sitecore/shell/Themes/Standard/Reports/MenuMail.gif\" align=\"absmiddle\" width=\"16\" height=\"16\" style=\"width:16px;height:16px\" />&nbsp;<%=Sitecore.Globalization.Translate.Text(Sitecore.Texts.MailReport) %></a></div>";
     }
   </script>
   

@@ -1,0 +1,58 @@
+﻿@using Sitecore.Mvc
+@using EmailCampaign.Controls
+@using Sitecore.Web.UI.Controls.Common.Renderings
+@using Sitecore.Web.UI.Controls.Common.UserControls
+@using UserControl = Sitecore.Web.UI.Controls.Common.UserControls.UserControl
+@using Bcl = EmailCampaign.Controls.Constants.Renderings.Bcl
+@using Exm = EmailCampaign.Controls.Constants.Renderings.Exm
+@using DataSources = EmailCampaign.Controls.Reporting.RecipientActivityReport.DataSources;
+@model Sitecore.Mvc.Presentation.RenderingModel
+@{
+    UserControl rendering = Html.Sitecore().Controls().GetUserControl(Model.Rendering);
+    rendering.Requires.Script("ecm", "RecipientActivityReport.js");
+    rendering.Requires.Css("ecm", "RecipientActivityReport.css");
+    rendering.Class = "sc-RecipientActivityReport";
+    string bottomLink = rendering.GetString("BottomLink");
+    string height = rendering.GetString("Height");
+}
+
+@helper RenderLocationReport(UserControl rendering)
+{
+    RenderingHelper helper = new RenderingHelper(this.Html, rendering.ControlId);
+
+    //Content
+    helper.CreateRenderingAt(Exm.D3.DoughnutChart, "DoughnutChart", rendering.ControlId + "LeftColumn", null, DataSources.DoughnutChart);
+
+    helper.CreateRenderingAt(Bcl.ScoreCard, "UniqueOpensScore", rendering.ControlId + "RightColumn", null, DataSources.UniqueOpensScore);
+
+    helper.CreateRenderingAt(Bcl.ScoreCard, "UniqueClicksScore", rendering.ControlId + "RightColumn", null, DataSources.UniqueClicksScore);
+
+    helper.CreateRenderingAt(Bcl.ScoreCard, "BouncedScore", rendering.ControlId + "BottomLeftColumn", null, DataSources.BouncedScore);
+
+    helper.CreateRenderingAt(Bcl.ScoreCard, "UnsubscribedScore", rendering.ControlId + "BottomRightColumn", null, DataSources.UnsubscribedScore);
+    
+    // Layout
+    helper.CreateRenderingAt(Bcl.ColumnPanel, "LeftColumn", rendering.ControlId + "TopRowPanel", null, DataSources.ColumnPanel);
+
+    helper.CreateRenderingAt(Bcl.ColumnPanel, "RightColumn", rendering.ControlId + "TopRowPanel", null, DataSources.ColumnPanel);
+
+    helper.CreateRenderingAt(Bcl.ColumnPanel, "BottomLeftColumn", rendering.ControlId + "BottomRowPanel", null, DataSources.ColumnPanel);
+
+    helper.CreateRenderingAt(Bcl.ColumnPanel, "BottomRightColumn", rendering.ControlId + "BottomRowPanel", null, DataSources.ColumnPanel);
+    
+    helper.CreateRenderingAt(Bcl.RowPanel, "TopRowPanel", rendering.ControlId + "Card", null, "", "Wrapper.Content");
+
+    helper.CreateRenderingAt(Bcl.RowPanel, "BottomRowPanel", rendering.ControlId + "Card", null, "", "Wrapper.Content");
+
+    helper.CreateRenderingAt(Bcl.StringDictionary, "StringDictionary", rendering.ControlId + "Card", null, DataSources.StringDictionary, "Wrapper.Content");
+}
+
+@RenderLocationReport(rendering)
+
+<div @rendering.HtmlAttributes data-sc-hasnested="true">
+    @(this.Html.Sitecore().Controls().Rendering(this.Html, Bcl.Card, rendering.ControlId + "Card", DataSources.Card, new
+            {
+                BottomLink = @bottomLink,
+                Height = @height
+            }))
+</div>
