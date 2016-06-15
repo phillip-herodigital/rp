@@ -76,9 +76,6 @@
         $scope.subcategories = subcategories;
         angular.forEach($scope.faqs, function (faq) {
             faq.faqAnswer = $sce.trustAsHtml(faq.faqAnswer);
-            faq.faqQuestion = $sce.trustAsHtml(faq.faqQuestion);
-            faq.guid = faq.guid.replace("{", "");
-            faq.guid = faq.guid.replace("}", "");
         });
         angular.forEach($scope.subcategories, function (subcat) {
             if (subcat.name === subcategory) {

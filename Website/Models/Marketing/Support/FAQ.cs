@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using Sitecore.Data.Items;
+using System.Text;
 namespace StreamEnergy.MyStream.Models.Marketing.Support
 {
     public class FAQ
@@ -33,8 +34,10 @@ namespace StreamEnergy.MyStream.Models.Marketing.Support
         }
         private void buildFAQ() {
             Name = getValue("FAQ Name");
-            FAQQuestion = HttpUtility.HtmlDecode(HttpUtility.HtmlEncode(getValue("FAQ Question"))); //to avoid weird copy/paste characters
-            FAQAnswer = getValue("FAQ Answer");
+            Encoding iso = Encoding.GetEncoding("ISO-8859-1");
+            Encoding utf8 = Encoding.UTF8;
+            FAQQuestion = utf8.GetString(iso.GetBytes(getValue("FAQ Question"))); //to avoid weird copy/paste characters
+            FAQAnswer = utf8.GetString(iso.GetBytes(getValue("FAQ Answer")));
             Description = getValue("Faq Description");
             FurtherSupportText = getValue("Further Support");
             Guid = SitecoreItem.ID.ToString();
