@@ -33,7 +33,7 @@ namespace StreamEnergy.MyStream.Models.Marketing.Support
         }
         private void buildFAQ() {
             Name = getValue("FAQ Name");
-            FAQQuestion = getValue("FAQ Question");
+            FAQQuestion = HttpUtility.HtmlDecode(HttpUtility.HtmlEncode(getValue("FAQ Question"))); //to avoid weird copy/paste characters
             FAQAnswer = getValue("FAQ Answer");
             Description = getValue("Faq Description");
             FurtherSupportText = getValue("Further Support");

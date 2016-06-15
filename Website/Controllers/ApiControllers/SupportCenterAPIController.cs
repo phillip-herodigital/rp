@@ -8,6 +8,8 @@ using StreamEnergy.MyStream.Models.Marketing.Support;
 using StreamEnergy.MyStream.Controllers;
 
 using System.Threading.Tasks;
+using System.Web;
+
 namespace StreamEnergy.MyStream.Controllers.ApiControllers
 {
     [RoutePrefix("api/support")]
@@ -26,7 +28,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         public List<FAQ> Search(searchRequest searchRequest) {
             FaqSearchFilter filter = new FaqSearchFilter();
 
-            var query = System.Web.HttpUtility.UrlDecode(searchRequest.Query);
+            var query = searchRequest.Query;
             var category = searchRequest.Category;
             var state = searchRequest.State;
             var subcategory = searchRequest.Subcategory;

@@ -197,21 +197,21 @@ VALUES
             return faqs;
         }
 
-        public List<FAQ> GetAllFaqsForSubcategory(FaqSubcategory subcategory, FAQCategory category) {
-            //A FAQ must have both the category and subcategory to be returned from this call.  One alone does not suffice.
+        //public List<FAQ> GetAllFaqsForSubcategory(FaqSubcategory subcategory, FAQCategory category) {
+        //    //A FAQ must have both the category and subcategory to be returned from this call.  One alone does not suffice.
 
-            List<FAQ> faqs = new List<FAQ>();
+        //    List<FAQ> faqs = new List<FAQ>();
 
-            var rawFaqs = AllSitecoreFAQS.Where(a => a.Fields["FAQ Categories"] != null && a.Fields["FAQ Categories"].Value.Contains(category.Guid)
-                    && a.Fields["FAQ Subcategories"]  != null && a.Fields["FAQ Subcategories"].Value.Contains(subcategory.Guid)).ToList();
+        //    var rawFaqs = AllSitecoreFAQS.Where(a => a.Fields["FAQ Categories"] != null && a.Fields["FAQ Categories"].Value.Contains(category.Guid)
+        //            && a.Fields["FAQ Subcategories"]  != null && a.Fields["FAQ Subcategories"].Value.Contains(subcategory.Guid)).ToList();
 
-            foreach (var f in rawFaqs)
-            {
-                faqs.Add(new FAQ(f));
-            }
+        //    foreach (var f in rawFaqs)
+        //    {
+        //        faqs.Add(new FAQ(f));
+        //    }
 
-            return faqs;
-        }
+        //    return faqs;
+        //}
         public List<FAQ> Search(string query) {
             return Search(query, null);
         }

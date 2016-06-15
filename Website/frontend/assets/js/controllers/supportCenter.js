@@ -1,21 +1,4 @@
-﻿ngApp.factory('focus', function ($timeout, $window) {
-    return function (id) {
-        // timeout makes sure that it is invoked after any other event has been triggered.
-        // e.g. click events that need to run before the focus or
-        // inputs elements that are in a disabled state but are enabled when those events
-        // are triggered.
-        $timeout(function () {
-            var element = $window.document.getElementById(id);
-            if (element) {
-                element.focus();
-            }
-        });
-    };
-});
-
-
-
-ngApp.controller('supportCenterCtrl', ['$scope', 'focus', '$http', '$sce', '$modal', 'scrollService', function ($scope, focus, $http, $sce, $modal, scrollService) {
+﻿ngApp.controller('supportCenterCtrl', ['$scope', '$http', '$sce', '$modal', 'scrollService', function ($scope, $http, $sce, $modal, scrollService) {
     $scope.isLoading = false;
     $scope.dropDown = false;
     $scope.selectedFaqIndex = null;
@@ -93,6 +76,7 @@ ngApp.controller('supportCenterCtrl', ['$scope', 'focus', '$http', '$sce', '$mod
         $scope.subcategories = subcategories;
         angular.forEach($scope.faqs, function (faq) {
             faq.faqAnswer = $sce.trustAsHtml(faq.faqAnswer);
+            faq.faqQuestion = $sce.trustAsHtml(faq.faqQuestion);
             faq.guid = faq.guid.replace("{", "");
             faq.guid = faq.guid.replace("}", "");
         });
@@ -227,7 +211,7 @@ ngApp.controller('supportCenterCtrl', ['$scope', 'focus', '$http', '$sce', '$mod
                     var faqIndex = -1;
                     var displayedFAQs = $scope.getDisplayedFAQs()
                     angular.forEach(displayedFAQs, function (faq, index) {
-                        if (faq.name === response[0].name) {
+                        if (faq.guid === response[0].guid) {
                             faqIndex = index;
                         }
                     });
@@ -484,6 +468,7 @@ ngApp.controller('supportCenterCtrl', ['$scope', 'focus', '$http', '$sce', '$mod
             $scope.selectFaq(popFaqIndex);
         }
         else {
+            $scope.isLoading = true;
             selectOutsideFAQ(relatedFaq);
         }
     };
