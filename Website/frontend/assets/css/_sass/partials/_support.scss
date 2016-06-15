@@ -120,13 +120,25 @@
                         }
                     }
 
-                    img.mag-glass {
+                    .mag-glass {
                         float: right;
                         width: 25px;
                         height: 24px;
                         position: relative;
                         top: 15px;
                         right: 15px;
+                        @include retina-background('mag-glass.png', 'icon');
+                    }
+
+                    .searchLoading {
+                        float: right;
+                        width: 25px;
+                        height: 24px;
+                        position: relative;
+                        top: 15px;
+                        right: 15px;
+                        background-size: 25px 24px;
+                        @include retina-background('loading.gif', 'icon');
                     }
 
                     .dropdown-menu {
@@ -161,6 +173,10 @@
                         li {
                             padding: 15px 10px;
                             border-bottom: 1px solid #dcdfdf;
+
+                            &:hover {
+                                cursor: pointer;
+                            }
 
                             &:first-child {
                                 padding-top: 0;
@@ -919,6 +935,7 @@
                                 > strong {
                                     font-weight: 600;
                                 }
+
                                 &.email {
                                     word-break: break-word;
                                 }

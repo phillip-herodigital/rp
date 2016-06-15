@@ -29,9 +29,9 @@
                        ng-model="searchData.text"
                        typeahead-loading="isSearchLoading"
                        typeahead="faq.faqQuestion as faq.faqQuestion for faq in getSearchFaqs($viewValue, true) | filter:$viewValue"
-                       typeahead-template-url="typeahead-results"/>
-                <img ng-hide="isSearchLoading" class="mag-glass" src="/frontend/assets/i/mag-glass.png" ng-click="search()" />
-                <img ng-show="isSearchLoading" class="mag-glass" src="~/frontend/assets/i/loading.gif" />
+                       typeahead-template-url="typeahead-results" />
+                <div ng-hide="isSearchLoading" class="mag-glass" ng-click="search()"></div>
+                <div ng-show="isSearchLoading" class="searchLoading"></div>
             </div>
             <div class="select clearfix" ng-click="dropDown=!dropDown">
                 <div class="selected-category" ng-show="searchData.category">
