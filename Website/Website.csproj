@@ -1099,6 +1099,8 @@
     <Compile Include="Conditions\CustomerAccountsCountCondition.cs" />
     <Compile Include="Conditions\HasUtilityEnrollmentCondition.cs" />
     <Compile Include="Conditions\HasMobileEnrollmentCondition.cs" />
+    <Compile Include="Conditions\GasAccountCondition.cs" />
+    <Compile Include="Conditions\ElectricityAccountConditioncs.cs" />
     <Compile Include="Conditions\MobileAccountCondition.cs" />
     <Compile Include="Conditions\CustomerDismissedModalCondition.cs" />
     <Compile Include="Conditions\CustomerAutoPayCondition.cs" />
@@ -1113,8 +1115,12 @@
     <Compile Include="Controllers\ApiControllers\LogViewerController.cs" />
     <Compile Include="Controllers\ApiControllers\MarketingController.cs" />
     <Compile Include="Controllers\ApiControllers\MobileActivationController.cs" />
+    <Compile Include="Controllers\ApiControllers\searchRequest.cs" />
     <Compile Include="Controllers\ApiControllers\SitecoreController.cs" />
     <Compile Include="Controllers\ApiControllers\MobileEnrollmentController.cs" />
+    <Compile Include="Controllers\ApiControllers\SupportCenterAPIController.cs" />
+    <Compile Include="Models\Marketing\Support\SupportFeedbackResponse.cs" />
+    <Compile Include="Models\Marketing\Support\SupportFeedback.cs" />
     <Compile Include="Controllers\ApiControllers\TempController.cs" />
     <Compile Include="Controllers\ApiControllers\AccountController.cs" />
     <Compile Include="Controllers\ApiControllers\AddressesController.cs" />
@@ -1127,6 +1133,7 @@
     <Compile Include="Controllers\DebuggingController.cs" />
     <Compile Include="Controllers\EnrollmentController.cs" />
     <Compile Include="Controllers\MobileEnrollmentController.cs" />
+    <Compile Include="Controllers\SupportCenterController.cs" />
     <Compile Include="Controllers\TempController.cs" />
     <Compile Include="Controllers\MarketingController.cs" />
     <Compile Include="Controllers\MapServerController.cs" />
@@ -1236,6 +1243,11 @@
     <Compile Include="Models\Authentication\VerifyUserChallengeQuestionsRequest.cs" />
     <Compile Include="Models\Authentication\SendResetPasswordEmailResponse.cs" />
     <Compile Include="Models\Authentication\VerifyUserChallengeQuestionsResponse.cs" />
+    <Compile Include="Models\Marketing\Support\FAQ.cs" />
+    <Compile Include="Models\Marketing\Support\FAQCategory.cs" />
+    <Compile Include="Models\Marketing\Support\FaqSearchFilter.cs" />
+    <Compile Include="Models\Marketing\Support\FAQState.cs" />
+    <Compile Include="Models\Marketing\Support\FaqSubcategory.cs" />
     <Compile Include="Models\Currents\Top10Leader.cs" />
     <Compile Include="Models\Currents\Top10LeaderList.cs" />
     <Compile Include="Models\ReturnForm.cs" />
@@ -1635,6 +1647,7 @@
     <Content Include="App_Config\Include\Sitecore.Xdb.config" />
     <Content Include="App_Config\Include\Z.EmailExperience\Sitecore.EmailExperience.ExperienceAnalytics.Client.config" />
     <Content Include="App_Config\Include\Z.SwitchMasterToWeb\SwitchMasterToWeb.config.example" />
+    <Content Include="frontend\assets\css\_sass\partials\_support.scss" />
     <None Include="Properties\PublishProfiles\PackageForUpgrade.pubxml" />
     <None Include="Properties\PublishProfiles\Package.pubxml" />
     <None Include="Scripts\_references.js" />
@@ -2081,6 +2094,12 @@
     <Content Include="sitecore\RegisterEmailOpened.ashx" />
     <Content Include="sitecore\SelectedDatabase.ashx" />
     <Content Include="sitecore\ContactLists.ashx" />
+    <Content Include="Views\Components\Support Center\Support.cshtml" />
+    <Content Include="Views\Components\Support Center\Category.cshtml" />
+    <Content Include="Views\Components\Support Center\Support Header.cshtml" />
+    <Content Include="Views\Components\Support Center\Container.cshtml" />
+    <Content Include="Views\Components\Support Center\Mobile Acronyms.cshtml" />
+    <Content Include="Views\Components\Account\Sidebar Widgets\FAQs.cshtml" />
     <Content Include="Views\Pages\Currents\10 in 2016.cshtml" />
     <None Include="Web.Azure-Production Sitecore.config">
       <DependentUpon>Web.config</DependentUpon>

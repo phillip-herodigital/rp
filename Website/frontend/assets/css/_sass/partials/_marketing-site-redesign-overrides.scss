@@ -732,78 +732,6 @@ article.service-links {
     }
 }
 
-article.service-tabs {
-    @include box-shadow(0px 0px 30px 0px rgba(0, 0, 0, .2));
-    background-color: #f7f8f9;
-    position: relative;
-    z-index: 100;
-    padding: 0;
-    > .wrapper {
-        padding: 20px 0 0 !important;
-        background: none;
-    }
-    .grid .col {
-        background: right center no-repeat;
-        text-align: center;
-        background-position: top center;
-        padding: 0;
-        h2 {
-            font-size: 24px;
-            font-weight: 400;
-            color: black;
-            letter-spacing: 0;
-            margin: 0;
-            padding: 75px 0 20px;
-        }
-        &.mobile {
-            background-image: image-url('marketing/redesign/Modules/HomeHeader/home_header_mobile_icon.png');
-        }
-        &.energy {
-            background-image: image-url('marketing/redesign/Modules/HomeHeader/home_header_energy_icon.png');
-            &:hover>.dropdown-menu {
-              display: block;
-            }
-        }
-        &.protect {
-            background-image: image-url('marketing/redesign/Modules/HomeHeader/home_header_protect_icon.png');
-        }
-        &.home {
-            background-image: image-url('marketing/redesign/Modules/HomeHeader/home_header_home_icon.png');
-        }
-    }
-    .dropdown-menu {
-        display: none;
-        border: 3px solid #f59a42;
-        border-top: none;
-        padding: 15px 0;
-        background-color: #ffffff;
-        @include box-shadow(inset 0 3px 6px rgba(0, 0, 0, .2), 0 3px 6px rgba(0, 0, 0, .2));
-        @include border-radius(0 0 10px 10px);
-        li {        
-            a {
-                font-size: 22px;
-                color: #010101;
-                padding: 5px 80px;
-                text-align: left;
-                &:hover {
-                    background-color: #e6e7e8;
-                }
-            }
-            }
-        @include breakpoint(small) {
-            // display: block;
-            position: relative;
-            width: 100%;
-            border-top: 3px solid #f59a42;
-            margin-bottom: 20px;
-            @include box-shadow(0 3px 6px rgba(0, 0, 0, .2));
-            @include border-radius(10px);
-        }
-    }
-    .open>.dropdown-menu {
-        display: block;
-    }
-}
 article.contact {
     .request {
         p {
@@ -3044,6 +2972,21 @@ article.mobile-pricing-plans {
 	a strong {
 		color: #0a97d6;
 	}
+	.local-wire-companies {
+		padding: 0px 0px 30px 40px;
+		p {
+			margin: .5em 0px 0px 0px;
+		}
+		.grid .col {
+			&.company {
+				width: 70%;
+			}
+			&.outage-info {
+				width: 30%;
+			}
+			margin-bottom: 20px;
+		}
+	}
 }
 
 .global-header {
@@ -3147,6 +3090,16 @@ article.mobile-pricing-plans {
 				}
 			}
 		}
+	}
+}
+
+.emergency-contacts-header {
+	background-image: url('../i/icon/protection.png');
+	background-position: 95% 50%;
+	background-repeat: no-repeat;
+	padding-right: 100px;
+	&.georgia {
+		padding: 20px 100px 20px 0px;
 	}
 }
 
