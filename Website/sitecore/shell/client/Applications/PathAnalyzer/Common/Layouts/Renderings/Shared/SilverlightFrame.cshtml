@@ -9,7 +9,6 @@
     var parseParameterServiceFactory = new ParseParameterServiceFactory();
     var type = userControl.GetString("ParseParameterType");
     var parseParameterService = parseParameterServiceFactory.Create(type);
-    //Assert.IsNotNull(parseParameterService, "Could not create ParseParametService from type:{0}", type);
 
     userControl.Requires.Script("business", "SilverlightFrame.js");
 
@@ -22,7 +21,6 @@
     }
 
     var source = parseParameterService.ParseParameter(Constants.ParameterName.Source, userControl.GetString(Constants.ParameterName.Source, Constants.ModelAttributeName.Source));
-    //Assert.IsNotNullOrEmpty("source", "Silverlight frame is missing required source parameter");
 
     var silverlightObjectId = parseParameterService.ParseParameter(Constants.ParameterName.SilverlightObjectId, userControl.GetString(Constants.ParameterName.SilverlightObjectId, Constants.ModelAttributeName.SilverlightObjectId, Constants.DefaultValues.SilverlightObjectId));
     var initParams = parseParameterService.ParseParameter(Constants.ParameterName.InitParams, userControl.GetString(Constants.ParameterName.InitParams, Constants.ModelAttributeName.InitParams, string.Empty));

@@ -7,7 +7,7 @@
                 Header="Change Recipient List Subscriptions"
                 Text="Select the recipients lists that the visitor should be subscribed to those that the visitor should be opted out of.">
 
-      <CodeBeside Type="Sitecore.Modules.EmailCampaign.UI.Dialogs.ActionDialogs.ChangeSubscriptions,Sitecore.EmailCampaign"/>
+      <CodeBeside Type="Sitecore.Modules.EmailCampaign.UI.Dialogs.ActionDialogs.ChangeSubscriptions,Sitecore.EmailCampaign.Cm.UI"/>
       <Stylesheet runat="server" Src="/sitecore modules/shell/EmailCampaign/UI/Dialogs/Action Dialogs/ChangeSubscriptions.css" Placeholder="Stylesheets" />
 
       <script type="text/javascript">

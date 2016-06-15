@@ -4,7 +4,6 @@
 <%@ Register TagPrefix="sc" Namespace="Sitecore.Web.UI.WebControls" Assembly="Sitecore.Kernel" %>
 <%@ Register TagPrefix="sc" Namespace="Sitecore.Web.UI.WebControls" Assembly="Sitecore.Analytics" %>
 <%@ OutputCache Location="None" VaryByParam="none" %>
-<sc:Placeholder Key="nl-target-item" runat="server" />
 <html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <sc:Placeholder Key="nl-html-title" runat="server" />
@@ -36,24 +35,24 @@
                 <tr>
                     <td colspan="8">
                         <img height="4" width="8" border="0" style="border-color: transparent; display: block;" alt=""
-                            src="~/media/Images/Newsletter/Common/Shadow/top_shadow_left.ashx" /></td>
+                            src="-/media/Images/Newsletter/Common/Shadow/top_shadow_left.ashx" /></td>
                     <td colspan="4">
                         <img height="4" width="600" border="0" style="border-color: transparent; display: block;" alt=""
-                            src="~/media/Images/Newsletter/Common/Shadow/top_shadow.ashx" /></td>
+                            src="-/media/Images/Newsletter/Common/Shadow/top_shadow.ashx" /></td>
                     <td colspan="8">
                         <img height="4" width="8" border="0" style="border-color: transparent; display: block;" alt=""
-                            src="~/media/Images/Newsletter/Common/Shadow/top_shadow_right.ashx" /></td>
+                            src="-/media/Images/Newsletter/Common/Shadow/top_shadow_right.ashx" /></td>
                 </tr>
                 <tr>
                     <td colspan="8">
                         <img height="108" width="8" border="0" style="border-color: transparent; display: block;" alt=""
-                            src="~/media/Images/Newsletter/Common/Shadow/header_shadow_left.ashx" /></td>
+                            src="-/media/Images/Newsletter/Common/Shadow/header_shadow_left.ashx" /></td>
                     <td colspan="4">
                         <sc:Placeholder Key="nl-top-image" runat="server" />
                     </td>
                     <td colspan="8">
                         <img height="108" width="8" border="0" style="border-color: transparent; display: block;" alt=""
-                            src="~/media/Images/Newsletter/Common/Shadow/header_shadow_right.ashx" /></td>
+                            src="-/media/Images/Newsletter/Common/Shadow/header_shadow_right.ashx" /></td>
                 </tr>
                 <tr valign="top">
                     <%--Left Shadow--%>
@@ -67,12 +66,12 @@
                     <td width="1" bgcolor="#E6E7ED" style="font-size: 1px;">&#32;</td>
                     <%--White Spase--%>
                     <td width="9">
-                        <img height="2" width="9" border="0" style="border-color: transparent; display:block;" alt="" src="~/media/Images/Newsletter/Common/bg_white.ashx" /></td>
+                        <img height="2" width="9" border="0" style="border-color: transparent; display:block;" alt="" src="-/media/Images/Newsletter/Common/bg_white.ashx" /></td>
                     <%--content--%>
                     <td width="392" style="font-size: 12px;">
                         <table cellspacing="0" cellpadding="0" border="0" width="100%" style="font-family: arial,helvetica,sans-serif; font-size: 11px;">
                             <tr>
-                                <td><img height="2" width="392" border="0" style="border-color: transparent; display: block;" alt="" src="~/media/Images/Newsletter/Common/white_line.ashx" /></td>
+                                <td><img height="2" width="392" border="0" style="border-color: transparent; display: block;" alt="" src="-/media/Images/Newsletter/Common/white_line.ashx" /></td>
                             </tr>
                             <tr>
                                 <td height="18"><div style="height: 18px;">&#32;</div></td>
@@ -82,12 +81,12 @@
                     </td>
                     <%--White Spase--%>
                     <td width="9">
-                        <img height="2" width="9" border="0" style="border-color: transparent; display: block;" alt="" src="~/media/Images/Newsletter/Common/bg_white.ashx" /></td>
+                        <img height="2" width="9" border="0" style="border-color: transparent; display: block;" alt="" src="-/media/Images/Newsletter/Common/bg_white.ashx" /></td>
                     <%--Sidebar--%>
                     <td bgcolor="#F0F3F7" width="190" style="font-size: 11px;">
                         <table cellspacing="0" cellpadding="0" border="0" width="100%" style="font-family: arial,helvetica,sans-serif; font-size: 11px;">
                             <tr>
-                                <td bgcolor="white"><img height="2" width="190" border="0" style="border-color: transparent; display: block;" alt="" src="~/media/Images/Newsletter/Common/white_line.ashx" /></td>
+                                <td bgcolor="white"><img height="2" width="190" border="0" style="border-color: transparent; display: block;" alt="" src="-/media/Images/Newsletter/Common/white_line.ashx" /></td>
                             </tr>
                             <tr>
                                 <td bgcolor="white" height="16"><div style="height: 16px;">&#32;</div></td>
@@ -108,7 +107,7 @@
                 <tr>
                 <td colspan="20">
                     <img height="26" width="616" border="0" style="border-color: transparent; display: block;" alt=""
-                        src="~/media/Images/Newsletter/Common/Shadow/bottom_shadow.ashx" /></td>
+                        src="-/media/Images/Newsletter/Common/Shadow/bottom_shadow.ashx" /></td>
                 </tr>
                 <tr>
                     <td colspan="8" style="font-size: 1px;">&#32;</td>

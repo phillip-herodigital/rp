@@ -1,0 +1,21 @@
+﻿@model Sitecore.Speak.Components.Models.Common.ContextSwitchers.ContextSwitcherRenderingModel
+@{
+  Model.Class.Append("sc-contextswitcher");
+  Model.DataBind.IsVisible().IsEnabled();
+  Model.Properties["Items"] = "[]";
+}
+<div @Model.HtmlAttributes>
+  <div class="sc-contextswitcher-tab">
+    <button class="btn sc-contextswitcher-togglebutton btn-default toggle" data-bind="attr: {title: Tooltip}, enable: IsEnabled, click: toggle, css: { 'up': IsOpen() }" type="button">
+      <span class="sc-togglebutton-text" data-bind="text: Text"></span>
+      <div class="sc-togglebutton-toggler">
+        <div class="sc-togglebutton-chevron" data-bind="css: { 'up': IsOpen() }">
+        </div>
+      </div>
+    </button>
+  </div>
+  <div class="sc-contextswitcher-panel" data-bind="style: {overflowY: Scrollable() ? 'scroll' : 'hidden'}, css: { 'isopen': IsOpen() } ">
+    <div class="sc-contextswitcher-table">
+    </div>
+  </div>
+</div>

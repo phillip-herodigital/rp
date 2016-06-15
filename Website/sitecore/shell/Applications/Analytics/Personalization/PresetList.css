@@ -58,6 +58,7 @@
 
   .presetList .RadListBox_Default .rlbTemplateContainer {
     border: 0;
+    height: 100%;
   }
 
   .ie .presetList .RadListBox_Default .rlbTemplateContainer {

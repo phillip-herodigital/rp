@@ -8,6 +8,7 @@
   <link id="Link1" rel="stylesheet" href="/sitecore/shell/Applications/Reports/Dashboard/Styles/Style.css" type="text/css" runat="server" />
   <script type="text/javascript" src="/sitecore/shell/Applications/Reports/Dashboard/Scripts/Silverlight.js"></script>
   <script type="text/javascript" src="/sitecore/shell/Applications/Reports/Dashboard/Scripts/Reports.js"></script>
+  <script type="text/javascript" src="/sitecore/shell/Applications/Dialogs/SilverlightNotification/silverlightNotification.js"></script>
 </head>
 <body>
   <form id="form1" runat="server" style="height: 100%;">

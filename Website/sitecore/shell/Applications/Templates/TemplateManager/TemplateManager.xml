@@ -4,6 +4,7 @@
     <FormPage Application="Templates/Template Manager">
       <Stylesheet Src="Content Manager.css" DeviceDependant="true"/>
       <Stylesheet Src="Ribbon.css" DeviceDependant="true"/>
+      <Script Src="/sitecore/shell/Controls/Lib/jQuery/jquery.noconflict.js" runat="server" />
       <Script Src="/sitecore/shell/controls/SitecoreObjects.js"/>
       <Script Src="/sitecore/shell/controls/SitecoreVSplitter.js"/>
       <Script Src="/sitecore/shell/controls/SitecoreKeyboard.js"/>

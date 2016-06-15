@@ -1,4 +1,5 @@
 ﻿@using Sitecore.Mvc
+@using Sitecore.PathAnalyzer.Client.Sitecore.Shell.Client.Applications.PathAnalyzer.Common.Layouts.Renderings.Shared
 @using Sitecore.PathAnalyzer.Localization
 @using Sitecore.Web.UI.Controls.Common.UserControls
 @model Sitecore.Mvc.Presentation.RenderingModel
@@ -10,17 +11,17 @@
 
     var htmlAttributes = userControl.HtmlAttributes;
 
-    var resourceManager = new ResourceManager();
+    var resourceHelper = new Helper();
 }
 <div @htmlAttributes>
     <div id="filterBar">
         <table>
             <tr>
                 <th>
-                    @resourceManager.Translate(PathAnalyzerTexts.Sort)
+                    @resourceHelper.GetTextValue(PathAnalyzerTexts.Sort)
                 </th>
                 <th>
-                    @resourceManager.Translate(PathAnalyzerTexts.Filter)
+                    @resourceHelper.GetTextValue(PathAnalyzerTexts.Order)
                 </th>
             </tr>
             <tr>
@@ -29,26 +30,26 @@
                         <div class="sc-filtercontrol-item">
                             <label>
                                 <input type="radio" class="sort" name="sortingRadios" id="sortVisits" value="visits" checked="checked">
-                                <span>@resourceManager.Translate(PathAnalyzerTexts.Visits)</span>
+                                <span>@resourceHelper.GetTextValue(PathAnalyzerTexts.Visits)</span>
                             </label>
                         </div>
                         <div class="sc-filtercontrol-item">
                             <label>
                                 <input type="radio" class="sort" name="sortingRadios" id="sortValue" value="value">
-                                <span>@resourceManager.Translate(PathAnalyzerTexts.Value)</span>
+                                <span>@resourceHelper.GetTextValue(PathAnalyzerTexts.Value)</span>
                             </label>
                         </div>
                         <div class="sc-filtercontrol-item">
                             <label>
                                 <input type="radio" class="sort" name="sortingRadios" id="sortEfficiency" value="efficiency">
-                                <span>@resourceManager.Translate(PathAnalyzerTexts.ValuePerVisit)</span>
+                                <span>@resourceHelper.GetTextValue(PathAnalyzerTexts.ValueVisit)</span>
                             </label>
                         </div>
                         <div class="sc-filtercontrol-item">
                             <label>
                                 <input type="radio" class="sort" name="sortingRadios" id="sortDepth" value="depth">
                                 <span>
-                                    @resourceManager.Translate(PathAnalyzerTexts.PathDepth)
+                                    @resourceHelper.GetTextValue(PathAnalyzerTexts.PathDepth)
                                 </span>
                             </label>
                         </div>
@@ -60,19 +61,13 @@
                         <div class="sc-filtercontrol-item">
                             <label>
                                 <input type="radio" class="filter" name="filterRadios" id="topFilter" data-desc="true" data-take="10" checked="checked">
-                                <span>@resourceManager.Translate(PathAnalyzerTexts.Top10)</span>
+                                <span>@resourceHelper.GetTextValue(PathAnalyzerTexts.Descending)</span>
                             </label>
                         </div>
                         <div class="sc-filtercontrol-item">
                             <label>
                                 <input type="radio" class="filter" name="filterRadios" id="lowFilter" data-desc="false" data-take="10">
-                                <span>@resourceManager.Translate(PathAnalyzerTexts.Low10)</span>
-                            </label>
-                        </div>
-                        <div class="sc-filtercontrol-item">
-                            <label>
-                                <input type="radio" class="filter" name="filterRadios" id="allFilter" value="all" data-desc="true" data-take="-1">
-                                <span>@resourceManager.Translate(PathAnalyzerTexts.All)</span>
+                                <span>@resourceHelper.GetTextValue(PathAnalyzerTexts.Ascending)</span>
                             </label>
                         </div>
                     </div>

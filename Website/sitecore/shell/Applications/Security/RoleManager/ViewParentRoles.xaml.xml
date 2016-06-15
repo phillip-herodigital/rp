@@ -43,6 +43,13 @@
           document.getElementById("UserName").value = value;
         }
         
+        setInterval(function () {
+          var searchBox = document.querySelector("[id$=searchBox]");
+          if (searchBox && searchBox.value.indexOf('\"') != -1) {
+            searchBox.value = searchBox.value.replace(/"/g, "");
+          };
+        }, 50);
+        
         ]]>
       </Script>
 

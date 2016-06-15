@@ -1,0 +1,24 @@
+﻿@model Sitecore.Speak.Components.Models.Containers.Sections.SectionRenderingModel
+@{
+  Model.Class.Append("sc-Section");
+}
+<section id="@Model.Id" @Model.HtmlAttributes>
+  @if (!string.IsNullOrEmpty(Model.Title))
+  {
+    <h2 class="sc-section-title">@Model.Title</h2>
+  }
+  @if (!string.IsNullOrEmpty(Model.SubTitle))
+  {
+    <h5 class="sc-section-subTitle">@Model.SubTitle</h5>
+  }
+  @if (!string.IsNullOrEmpty(Model.Content))
+  {
+    <p class="sc-section-content">
+      @Html.Raw(Model.Content)
+    </p>
+  }
+  else
+  {
+    @Html.Raw(Sitecore.ClientHost.Web.PlaceHolder(Model.Id + ".Content").ToHtmlString())
+  }
+</section>

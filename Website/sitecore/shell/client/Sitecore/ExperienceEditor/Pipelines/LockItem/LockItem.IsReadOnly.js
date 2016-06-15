@@ -1,3 +1,3 @@
-﻿define(["sitecore"], function (Sitecore) {
-    return Sitecore.ExperienceEditor.PipelinesUtil.generateRequestProcessor("ExperienceEditor.LockItem.IsReadOnly");
+﻿define(["sitecore", "/-/speak/v1/ExperienceEditor/ExperienceEditor.js"], function (Sitecore, ExperienceEditor) {
+    return ExperienceEditor.PipelinesUtil.generateRequestProcessor("ExperienceEditor.LockItem.IsReadOnly");
 });

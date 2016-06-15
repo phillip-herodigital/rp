@@ -1,66 +1,167 @@
 !function(e){if("object"==typeof exports&&"undefined"!=typeof module)module.exports=e();else if("function"==typeof define&&define.amd)define([],e);else{var f;"undefined"!=typeof window?f=window:"undefined"!=typeof global?f=global:"undefined"!=typeof self&&(f=self),f.SCBeacon=e()}}(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(_dereq_,module,exports){
-// shim for using process in browser
 
-var process = module.exports = {};
+/**
+ * Expose `Emitter`.
+ */
 
-process.nextTick = (function () {
-    var canSetImmediate = typeof window !== 'undefined'
-    && window.setImmediate;
-    var canPost = typeof window !== 'undefined'
-    && window.postMessage && window.addEventListener
-    ;
+module.exports = Emitter;
 
-    if (canSetImmediate) {
-        return function (f) { return window.setImmediate(f) };
-    }
+/**
+ * Initialize a new `Emitter`.
+ *
+ * @api public
+ */
 
-    if (canPost) {
-        var queue = [];
-        window.addEventListener('message', function (ev) {
-            var source = ev.source;
-            if ((source === window || source === null) && ev.data === 'process-tick') {
-                ev.stopPropagation();
-                if (queue.length > 0) {
-                    var fn = queue.shift();
-                    fn();
-                }
-            }
-        }, true);
+function Emitter(obj) {
+  if (obj) return mixin(obj);
+};
 
-        return function nextTick(fn) {
-            queue.push(fn);
-            window.postMessage('process-tick', '*');
-        };
-    }
+/**
+ * Mixin the emitter properties.
+ *
+ * @param {Object} obj
+ * @return {Object}
+ * @api private
+ */
 
-    return function nextTick(fn) {
-        setTimeout(fn, 0);
-    };
-})();
-
-process.title = 'browser';
-process.browser = true;
-process.env = {};
-process.argv = [];
-
-function noop() {}
-
-process.on = noop;
-process.addListener = noop;
-process.once = noop;
-process.off = noop;
-process.removeListener = noop;
-process.removeAllListeners = noop;
-process.emit = noop;
-
-process.binding = function (name) {
-    throw new Error('process.binding is not supported');
+function mixin(obj) {
+  for (var key in Emitter.prototype) {
+    obj[key] = Emitter.prototype[key];
+  }
+  return obj;
 }
 
-// TODO(shtylman)
-process.cwd = function () { return '/' };
-process.chdir = function (dir) {
-    throw new Error('process.chdir is not supported');
+/**
+ * Listen on the given `event` with `fn`.
+ *
+ * @param {String} event
+ * @param {Function} fn
+ * @return {Emitter}
+ * @api public
+ */
+
+Emitter.prototype.on =
+Emitter.prototype.addEventListener = function(event, fn){
+  this._callbacks = this._callbacks || {};
+  (this._callbacks[event] = this._callbacks[event] || [])
+    .push(fn);
+  return this;
+};
+
+/**
+ * Adds an `event` listener that will be invoked a single
+ * time then automatically removed.
+ *
+ * @param {String} event
+ * @param {Function} fn
+ * @return {Emitter}
+ * @api public
+ */
+
+Emitter.prototype.once = function(event, fn){
+  var self = this;
+  this._callbacks = this._callbacks || {};
+
+  function on() {
+    self.off(event, on);
+    fn.apply(this, arguments);
+  }
+
+  on.fn = fn;
+  this.on(event, on);
+  return this;
+};
+
+/**
+ * Remove the given callback for `event` or all
+ * registered callbacks.
+ *
+ * @param {String} event
+ * @param {Function} fn
+ * @return {Emitter}
+ * @api public
+ */
+
+Emitter.prototype.off =
+Emitter.prototype.removeListener =
+Emitter.prototype.removeAllListeners =
+Emitter.prototype.removeEventListener = function(event, fn){
+  this._callbacks = this._callbacks || {};
+
+  // all
+  if (0 == arguments.length) {
+    this._callbacks = {};
+    return this;
+  }
+
+  // specific event
+  var callbacks = this._callbacks[event];
+  if (!callbacks) return this;
+
+  // remove all handlers
+  if (1 == arguments.length) {
+    delete this._callbacks[event];
+    return this;
+  }
+
+  // remove specific handler
+  var cb;
+  for (var i = 0; i < callbacks.length; i++) {
+    cb = callbacks[i];
+    if (cb === fn || cb.fn === fn) {
+      callbacks.splice(i, 1);
+      break;
+    }
+  }
+  return this;
+};
+
+/**
+ * Emit `event` with the given args.
+ *
+ * @param {String} event
+ * @param {Mixed} ...
+ * @return {Emitter}
+ */
+
+Emitter.prototype.emit = function(event){
+  this._callbacks = this._callbacks || {};
+  var args = [].slice.call(arguments, 1)
+    , callbacks = this._callbacks[event];
+
+  if (callbacks) {
+    callbacks = callbacks.slice(0);
+    for (var i = 0, len = callbacks.length; i < len; ++i) {
+      callbacks[i].apply(this, args);
+    }
+  }
+
+  return this;
+};
+
+/**
+ * Return array of callbacks for `event`.
+ *
+ * @param {String} event
+ * @return {Array}
+ * @api public
+ */
+
+Emitter.prototype.listeners = function(event){
+  this._callbacks = this._callbacks || {};
+  return this._callbacks[event] || [];
+};
+
+/**
+ * Check if this emitter has `event` handlers.
+ *
+ * @param {String} event
+ * @return {Boolean}
+ * @api public
+ */
+
+Emitter.prototype.hasListeners = function(event){
+  return !! this.listeners(event).length;
 };
 
 },{}],2:[function(_dereq_,module,exports){
@@ -347,6 +448,71 @@ process.chdir = function (dir) {
 
 })(typeof module === 'object' && module && typeof module.exports === 'object' && module.exports);
 },{}],4:[function(_dereq_,module,exports){
+// shim for using process in browser
+
+var process = module.exports = {};
+
+process.nextTick = (function () {
+    var canSetImmediate = typeof window !== 'undefined'
+    && window.setImmediate;
+    var canPost = typeof window !== 'undefined'
+    && window.postMessage && window.addEventListener
+    ;
+
+    if (canSetImmediate) {
+        return function (f) { return window.setImmediate(f) };
+    }
+
+    if (canPost) {
+        var queue = [];
+        window.addEventListener('message', function (ev) {
+            var source = ev.source;
+            if ((source === window || source === null) && ev.data === 'process-tick') {
+                ev.stopPropagation();
+                if (queue.length > 0) {
+                    var fn = queue.shift();
+                    fn();
+                }
+            }
+        }, true);
+
+        return function nextTick(fn) {
+            queue.push(fn);
+            window.postMessage('process-tick', '*');
+        };
+    }
+
+    return function nextTick(fn) {
+        setTimeout(fn, 0);
+    };
+})();
+
+process.title = 'browser';
+process.browser = true;
+process.env = {};
+process.argv = [];
+
+function noop() {}
+
+process.on = noop;
+process.addListener = noop;
+process.once = noop;
+process.off = noop;
+process.removeListener = noop;
+process.removeAllListeners = noop;
+process.emit = noop;
+
+process.binding = function (name) {
+    throw new Error('process.binding is not supported');
+}
+
+// TODO(shtylman)
+process.cwd = function () { return '/' };
+process.chdir = function (dir) {
+    throw new Error('process.chdir is not supported');
+};
+
+},{}],5:[function(_dereq_,module,exports){
 (function (process){
 // vim:ts=4:sts=4:sw=4:
 /*!
@@ -405,8 +571,22 @@ process.chdir = function (dir) {
         }
 
     // <script>
-    } else if (typeof self !== "undefined") {
-        self.Q = definition();
+    } else if (typeof window !== "undefined" || typeof self !== "undefined") {
+        // Prefer window over self for add-on scripts. Use self for
+        // non-windowed contexts.
+        var global = typeof window !== "undefined" ? window : self;
+
+        // Get the `window` object, save the previous Q global
+        // and initialize Q as a global.
+        var previousQ = global.Q;
+        global.Q = definition();
+
+        // Add a noConflict function so Q can be removed from the
+        // global namespace.
+        global.Q.noConflict = function () {
+            global.Q = previousQ;
+            return this;
+        };
 
     } else {
         throw new Error("This environment was not anticipated by Q. Please file a bug.");
@@ -441,57 +621,67 @@ var nextTick =(function () {
     var flushing = false;
     var requestTick = void 0;
     var isNodeJS = false;
+    // queue for late tasks, used by unhandled rejection tracking
+    var laterQueue = [];
 
     function flush() {
         /* jshint loopfunc: true */
+        var task, domain;
 
         while (head.next) {
             head = head.next;
-            var task = head.task;
+            task = head.task;
             head.task = void 0;
-            var domain = head.domain;
+            domain = head.domain;
 
             if (domain) {
                 head.domain = void 0;
                 domain.enter();
             }
+            runSingle(task, domain);
 
-            try {
-                task();
+        }
+        while (laterQueue.length) {
+            task = laterQueue.pop();
+            runSingle(task);
+        }
+        flushing = false;
+    }
+    // runs a single function in the async queue
+    function runSingle(task, domain) {
+        try {
+            task();
 
-            } catch (e) {
-                if (isNodeJS) {
-                    // In node, uncaught exceptions are considered fatal errors.
-                    // Re-throw them synchronously to interrupt flushing!
+        } catch (e) {
+            if (isNodeJS) {
+                // In node, uncaught exceptions are considered fatal errors.
+                // Re-throw them synchronously to interrupt flushing!
 
-                    // Ensure continuation if the uncaught exception is suppressed
-                    // listening "uncaughtException" events (as domains does).
-                    // Continue in next event to avoid tick recursion.
-                    if (domain) {
-                        domain.exit();
-                    }
-                    setTimeout(flush, 0);
-                    if (domain) {
-                        domain.enter();
-                    }
-
-                    throw e;
-
-                } else {
-                    // In browsers, uncaught exceptions are not fatal.
-                    // Re-throw them asynchronously to avoid slow-downs.
-                    setTimeout(function() {
-                       throw e;
-                    }, 0);
+                // Ensure continuation if the uncaught exception is suppressed
+                // listening "uncaughtException" events (as domains does).
+                // Continue in next event to avoid tick recursion.
+                if (domain) {
+                    domain.exit();
                 }
-            }
+                setTimeout(flush, 0);
+                if (domain) {
+                    domain.enter();
+                }
 
-            if (domain) {
-                domain.exit();
+                throw e;
+
+            } else {
+                // In browsers, uncaught exceptions are not fatal.
+                // Re-throw them asynchronously to avoid slow-downs.
+                setTimeout(function () {
+                    throw e;
+                }, 0);
             }
         }
 
-        flushing = false;
+        if (domain) {
+            domain.exit();
+        }
     }
 
     nextTick = function (task) {
@@ -507,9 +697,16 @@ var nextTick =(function () {
         }
     };
 
-    if (typeof process !== "undefined" && process.nextTick) {
-        // Node.js before 0.9. Note that some fake-Node environments, like the
-        // Mocha test runner, introduce a `process` global without a `nextTick`.
+    if (typeof process === "object" &&
+        process.toString() === "[object process]" && process.nextTick) {
+        // Ensure Q is in a real Node environment, with a `process.nextTick`.
+        // To see through fake Node environments:
+        // * Mocha test runner - exposes a `process` global without a `nextTick`
+        // * Browserify - exposes a `process.nexTick` function that uses
+        //   `setTimeout`. In this case `setImmediate` is preferred because
+        //    it is faster. Browserify's `process.toString()` yields
+        //   "[object Object]", while in a real Node environment
+        //   `process.nextTick()` yields "[object process]".
         isNodeJS = true;
 
         requestTick = function () {
@@ -553,7 +750,16 @@ var nextTick =(function () {
             setTimeout(flush, 0);
         };
     }
-
+    // runs a task after all other tasks have been run
+    // this is useful for unhandled rejection tracking that needs to happen
+    // after all `then`d tasks have been run.
+    nextTick.runAfter = function (task) {
+        laterQueue.push(task);
+        if (!flushing) {
+            flushing = true;
+            requestTick();
+        }
+    };
     return nextTick;
 })();
 
@@ -1047,9 +1253,9 @@ Promise.prototype.join = function (that) {
  */
 Q.race = race;
 function race(answerPs) {
-    return promise(function(resolve, reject) {
+    return promise(function (resolve, reject) {
         // Switch to this once we can assume at least ES5
-        // answerPs.forEach(function(answerP) {
+        // answerPs.forEach(function (answerP) {
         //     Q(answerP).then(resolve, reject);
         // });
         // Use this in the meantime
@@ -1347,6 +1553,7 @@ Promise.prototype.isRejected = function () {
 // shimmed environments, this would naturally be a `Set`.
 var unhandledReasons = [];
 var unhandledRejections = [];
+var reportedUnhandledRejections = [];
 var trackUnhandledRejections = true;
 
 function resetUnhandledRejections() {
@@ -1361,6 +1568,14 @@ function resetUnhandledRejections() {
 function trackRejection(promise, reason) {
     if (!trackUnhandledRejections) {
         return;
+    }
+    if (typeof process === "object" && typeof process.emit === "function") {
+        Q.nextTick.runAfter(function () {
+            if (array_indexOf(unhandledRejections, promise) !== -1) {
+                process.emit("unhandledRejection", reason, promise);
+                reportedUnhandledRejections.push(promise);
+            }
+        });
     }
 
     unhandledRejections.push(promise);
@@ -1378,6 +1593,15 @@ function untrackRejection(promise) {
 
     var at = array_indexOf(unhandledRejections, promise);
     if (at !== -1) {
+        if (typeof process === "object" && typeof process.emit === "function") {
+            Q.nextTick.runAfter(function () {
+                var atReport = array_indexOf(reportedUnhandledRejections, promise);
+                if (atReport !== -1) {
+                    process.emit("rejectionHandled", unhandledReasons[at], promise);
+                    reportedUnhandledRejections.splice(atReport, 1);
+                }
+            });
+        }
         unhandledRejections.splice(at, 1);
         unhandledReasons.splice(at, 1);
     }
@@ -1905,7 +2129,7 @@ function any(promises) {
 
     var deferred = Q.defer();
     var pendingCount = 0;
-    array_reduce(promises, function(prev, current, index) {
+    array_reduce(promises, function (prev, current, index) {
         var promise = promises[index];
 
         pendingCount++;
@@ -1934,7 +2158,7 @@ function any(promises) {
     return deferred.promise;
 }
 
-Promise.prototype.any = function() {
+Promise.prototype.any = function () {
     return any(this);
 };
 
@@ -2328,6 +2552,10 @@ Promise.prototype.nodeify = function (nodeback) {
     }
 };
 
+Q.noConflict = function() {
+    throw new Error("Q.noConflict only works when Q is used as a global");
+};
+
 // All code before this point will be filtered from stack traces.
 var qEndingLine = captureLine();
 
@@ -2335,17 +2563,42 @@ return Q;
 
 });
 
-}).call(this,_dereq_("Zbi7gb"))
-},{"Zbi7gb":1}],5:[function(_dereq_,module,exports){
+}).call(this,_dereq_("v3go1D"))
+},{"v3go1D":4}],6:[function(_dereq_,module,exports){
+
+/**
+ * Reduce `arr` with `fn`.
+ *
+ * @param {Array} arr
+ * @param {Function} fn
+ * @param {Mixed} initial
+ *
+ * TODO: combatible error handling?
+ */
+
+module.exports = function(arr, fn, initial){  
+  var idx = 0;
+  var len = arr.length;
+  var curr = arguments.length == 3
+    ? initial
+    : arr[idx++];
+
+  while (idx < len) {
+    curr = fn.call(null, curr, arr[idx], ++idx, arr);
+  }
+  
+  return curr;
+};
+},{}],7:[function(_dereq_,module,exports){
 /*!
- * Sizzle CSS Selector Engine v2.1.1
+ * Sizzle CSS Selector Engine v2.2.1
  * http://sizzlejs.com/
  *
- * Copyright 2008, 2014 jQuery Foundation, Inc. and other contributors
+ * Copyright jQuery Foundation and other contributors
  * Released under the MIT license
  * http://jquery.org/license
  *
- * Date: 2014-12-15
+ * Date: 2015-10-17
  */
 (function( window ) {
 
@@ -2530,104 +2783,129 @@ try {
 }
 
 function Sizzle( selector, context, results, seed ) {
-	var match, elem, m, nodeType,
-		// QSA vars
-		i, groups, old, nid, newContext, newSelector;
+	var m, i, elem, nid, nidselect, match, groups, newSelector,
+		newContext = context && context.ownerDocument,
 
-	if ( ( context ? context.ownerDocument || context : preferredDoc ) !== document ) {
-		setDocument( context );
-	}
+		// nodeType defaults to 9, since context defaults to document
+		nodeType = context ? context.nodeType : 9;
 
-	context = context || document;
 	results = results || [];
 
-	if ( !selector || typeof selector !== "string" ) {
+	// Return early from calls with invalid selector or context
+	if ( typeof selector !== "string" || !selector ||
+		nodeType !== 1 && nodeType !== 9 && nodeType !== 11 ) {
+
 		return results;
 	}
 
-	if ( (nodeType = context.nodeType) !== 1 && nodeType !== 9 && nodeType !== 11 ) {
-		return [];
-	}
+	// Try to shortcut find operations (as opposed to filters) in HTML documents
+	if ( !seed ) {
 
-	if ( documentIsHTML && !seed ) {
+		if ( ( context ? context.ownerDocument || context : preferredDoc ) !== document ) {
+			setDocument( context );
+		}
+		context = context || document;
 
-		// Try to shortcut find operations when possible (e.g., not under DocumentFragment)
-		if ( nodeType !== 11 && (match = rquickExpr.exec( selector )) ) {
-			// Speed-up: Sizzle("#ID")
-			if ( (m = match[1]) ) {
-				if ( nodeType === 9 ) {
-					elem = context.getElementById( m );
-					// Check parentNode to catch when Blackberry 4.6 returns
-					// nodes that are no longer in the document (jQuery #6963)
-					if ( elem && elem.parentNode ) {
-						// Handle the case where IE, Opera, and Webkit return items
-						// by name instead of ID
-						if ( elem.id === m ) {
+		if ( documentIsHTML ) {
+
+			// If the selector is sufficiently simple, try using a "get*By*" DOM method
+			// (excepting DocumentFragment context, where the methods don't exist)
+			if ( nodeType !== 11 && (match = rquickExpr.exec( selector )) ) {
+
+				// ID selector
+				if ( (m = match[1]) ) {
+
+					// Document context
+					if ( nodeType === 9 ) {
+						if ( (elem = context.getElementById( m )) ) {
+
+							// Support: IE, Opera, Webkit
+							// TODO: identify versions
+							// getElementById can match elements by name instead of ID
+							if ( elem.id === m ) {
+								results.push( elem );
+								return results;
+							}
+						} else {
+							return results;
+						}
+
+					// Element context
+					} else {
+
+						// Support: IE, Opera, Webkit
+						// TODO: identify versions
+						// getElementById can match elements by name instead of ID
+						if ( newContext && (elem = newContext.getElementById( m )) &&
+							contains( context, elem ) &&
+							elem.id === m ) {
+
 							results.push( elem );
 							return results;
 						}
-					} else {
-						return results;
 					}
-				} else {
-					// Context is not a document
-					if ( context.ownerDocument && (elem = context.ownerDocument.getElementById( m )) &&
-						contains( context, elem ) && elem.id === m ) {
-						results.push( elem );
-						return results;
-					}
-				}
 
-			// Speed-up: Sizzle("TAG")
-			} else if ( match[2] ) {
-				push.apply( results, context.getElementsByTagName( selector ) );
-				return results;
-
-			// Speed-up: Sizzle(".CLASS")
-			} else if ( (m = match[3]) && support.getElementsByClassName ) {
-				push.apply( results, context.getElementsByClassName( m ) );
-				return results;
-			}
-		}
-
-		// QSA path
-		if ( support.qsa && (!rbuggyQSA || !rbuggyQSA.test( selector )) ) {
-			nid = old = expando;
-			newContext = context;
-			newSelector = nodeType !== 1 && selector;
-
-			// qSA works strangely on Element-rooted queries
-			// We can work around this by specifying an extra ID on the root
-			// and working up from there (Thanks to Andrew Dupont for the technique)
-			// IE 8 doesn't work on object elements
-			if ( nodeType === 1 && context.nodeName.toLowerCase() !== "object" ) {
-				groups = tokenize( selector );
-
-				if ( (old = context.getAttribute("id")) ) {
-					nid = old.replace( rescape, "\\$&" );
-				} else {
-					context.setAttribute( "id", nid );
-				}
-				nid = "[id='" + nid + "'] ";
-
-				i = groups.length;
-				while ( i-- ) {
-					groups[i] = nid + toSelector( groups[i] );
-				}
-				newContext = rsibling.test( selector ) && testContext( context.parentNode ) || context;
-				newSelector = groups.join(",");
-			}
-
-			if ( newSelector ) {
-				try {
-					push.apply( results,
-						newContext.querySelectorAll( newSelector )
-					);
+				// Type selector
+				} else if ( match[2] ) {
+					push.apply( results, context.getElementsByTagName( selector ) );
 					return results;
-				} catch(qsaError) {
-				} finally {
-					if ( !old ) {
-						context.removeAttribute("id");
+
+				// Class selector
+				} else if ( (m = match[3]) && support.getElementsByClassName &&
+					context.getElementsByClassName ) {
+
+					push.apply( results, context.getElementsByClassName( m ) );
+					return results;
+				}
+			}
+
+			// Take advantage of querySelectorAll
+			if ( support.qsa &&
+				!compilerCache[ selector + " " ] &&
+				(!rbuggyQSA || !rbuggyQSA.test( selector )) ) {
+
+				if ( nodeType !== 1 ) {
+					newContext = context;
+					newSelector = selector;
+
+				// qSA looks outside Element context, which is not what we want
+				// Thanks to Andrew Dupont for this workaround technique
+				// Support: IE <=8
+				// Exclude object elements
+				} else if ( context.nodeName.toLowerCase() !== "object" ) {
+
+					// Capture the context ID, setting it first if necessary
+					if ( (nid = context.getAttribute( "id" )) ) {
+						nid = nid.replace( rescape, "\\$&" );
+					} else {
+						context.setAttribute( "id", (nid = expando) );
+					}
+
+					// Prefix every selector in the list
+					groups = tokenize( selector );
+					i = groups.length;
+					nidselect = ridentifier.test( nid ) ? "#" + nid : "[id='" + nid + "']";
+					while ( i-- ) {
+						groups[i] = nidselect + " " + toSelector( groups[i] );
+					}
+					newSelector = groups.join( "," );
+
+					// Expand context for sibling selectors
+					newContext = rsibling.test( selector ) && testContext( context.parentNode ) ||
+						context;
+				}
+
+				if ( newSelector ) {
+					try {
+						push.apply( results,
+							newContext.querySelectorAll( newSelector )
+						);
+						return results;
+					} catch ( qsaError ) {
+					} finally {
+						if ( nid === expando ) {
+							context.removeAttribute( "id" );
+						}
 					}
 				}
 			}
@@ -2640,7 +2918,7 @@ function Sizzle( selector, context, results, seed ) {
 
 /**
  * Create key-value caches of limited size
- * @returns {Function(string, Object)} Returns the Object data after storing it on itself with
+ * @returns {function(string, object)} Returns the Object data after storing it on itself with
  *	property name the (space-suffixed) string and (if the cache is larger than Expr.cacheLength)
  *	deleting the oldest entry
  */
@@ -2695,7 +2973,7 @@ function assert( fn ) {
  */
 function addHandle( attrs, handler ) {
 	var arr = attrs.split("|"),
-		i = attrs.length;
+		i = arr.length;
 
 	while ( i-- ) {
 		Expr.attrHandle[ arr[i] ] = handler;
@@ -2808,32 +3086,28 @@ setDocument = Sizzle.setDocument = function( node ) {
 	var hasCompare, parent,
 		doc = node ? node.ownerDocument || node : preferredDoc;
 
-	// If no document and documentElement is available, return
+	// Return early if doc is invalid or already selected
 	if ( doc === document || doc.nodeType !== 9 || !doc.documentElement ) {
 		return document;
 	}
 
-	// Set our document
+	// Update global variables
 	document = doc;
-	docElem = doc.documentElement;
-	parent = doc.defaultView;
+	docElem = document.documentElement;
+	documentIsHTML = !isXML( document );
 
-	// Support: IE>8
-	// If iframe document is assigned to "document" variable and if iframe has been reloaded,
-	// IE will throw "permission denied" error when accessing "document" variable, see jQuery #13936
-	// IE6-8 do not support the defaultView property so parent will be undefined
-	if ( parent && parent !== parent.top ) {
-		// IE11 does not have attachEvent, so all must suffer
+	// Support: IE 9-11, Edge
+	// Accessing iframe documents after unload throws "permission denied" errors (jQuery #13936)
+	if ( (parent = document.defaultView) && parent.top !== parent ) {
+		// Support: IE 11
 		if ( parent.addEventListener ) {
 			parent.addEventListener( "unload", unloadHandler, false );
+
+		// Support: IE 9 - 10 only
 		} else if ( parent.attachEvent ) {
 			parent.attachEvent( "onunload", unloadHandler );
 		}
 	}
-
-	/* Support tests
-	---------------------------------------------------------------------- */
-	documentIsHTML = !isXML( doc );
 
 	/* Attributes
 	---------------------------------------------------------------------- */
@@ -2851,12 +3125,12 @@ setDocument = Sizzle.setDocument = function( node ) {
 
 	// Check if getElementsByTagName("*") returns only elements
 	support.getElementsByTagName = assert(function( div ) {
-		div.appendChild( doc.createComment("") );
+		div.appendChild( document.createComment("") );
 		return !div.getElementsByTagName("*").length;
 	});
 
 	// Support: IE<9
-	support.getElementsByClassName = rnative.test( doc.getElementsByClassName );
+	support.getElementsByClassName = rnative.test( document.getElementsByClassName );
 
 	// Support: IE<10
 	// Check if getElementById returns elements by name
@@ -2864,7 +3138,7 @@ setDocument = Sizzle.setDocument = function( node ) {
 	// so use a roundabout getElementsByName test
 	support.getById = assert(function( div ) {
 		docElem.appendChild( div ).id = expando;
-		return !doc.getElementsByName || !doc.getElementsByName( expando ).length;
+		return !document.getElementsByName || !document.getElementsByName( expando ).length;
 	});
 
 	// ID find and filter
@@ -2872,9 +3146,7 @@ setDocument = Sizzle.setDocument = function( node ) {
 		Expr.find["ID"] = function( id, context ) {
 			if ( typeof context.getElementById !== "undefined" && documentIsHTML ) {
 				var m = context.getElementById( id );
-				// Check parentNode to catch when Blackberry 4.6 returns
-				// nodes that are no longer in the document #6963
-				return m && m.parentNode ? [ m ] : [];
+				return m ? [ m ] : [];
 			}
 		};
 		Expr.filter["ID"] = function( id ) {
@@ -2891,7 +3163,8 @@ setDocument = Sizzle.setDocument = function( node ) {
 		Expr.filter["ID"] =  function( id ) {
 			var attrId = id.replace( runescape, funescape );
 			return function( elem ) {
-				var node = typeof elem.getAttributeNode !== "undefined" && elem.getAttributeNode("id");
+				var node = typeof elem.getAttributeNode !== "undefined" &&
+					elem.getAttributeNode("id");
 				return node && node.value === attrId;
 			};
 		};
@@ -2931,7 +3204,7 @@ setDocument = Sizzle.setDocument = function( node ) {
 
 	// Class
 	Expr.find["CLASS"] = support.getElementsByClassName && function( className, context ) {
-		if ( documentIsHTML ) {
+		if ( typeof context.getElementsByClassName !== "undefined" && documentIsHTML ) {
 			return context.getElementsByClassName( className );
 		}
 	};
@@ -2951,7 +3224,7 @@ setDocument = Sizzle.setDocument = function( node ) {
 	// See http://bugs.jquery.com/ticket/13378
 	rbuggyQSA = [];
 
-	if ( (support.qsa = rnative.test( doc.querySelectorAll )) ) {
+	if ( (support.qsa = rnative.test( document.querySelectorAll )) ) {
 		// Build QSA regex
 		// Regex strategy adopted from Diego Perini
 		assert(function( div ) {
@@ -2961,7 +3234,7 @@ setDocument = Sizzle.setDocument = function( node ) {
 			// since its presence should be enough
 			// http://bugs.jquery.com/ticket/12359
 			docElem.appendChild( div ).innerHTML = "<a id='" + expando + "'></a>" +
-				"<select id='" + expando + "-\f]' msallowcapture=''>" +
+				"<select id='" + expando + "-\r\\' msallowcapture=''>" +
 				"<option selected=''></option></select>";
 
 			// Support: IE8, Opera 11-12.16
@@ -2978,7 +3251,7 @@ setDocument = Sizzle.setDocument = function( node ) {
 				rbuggyQSA.push( "\\[" + whitespace + "*(?:value|" + booleans + ")" );
 			}
 
-			// Support: Chrome<29, Android<4.2+, Safari<7.0+, iOS<7.0+, PhantomJS<1.9.7+
+			// Support: Chrome<29, Android<4.4, Safari<7.0+, iOS<7.0+, PhantomJS<1.9.8+
 			if ( !div.querySelectorAll( "[id~=" + expando + "-]" ).length ) {
 				rbuggyQSA.push("~=");
 			}
@@ -3001,7 +3274,7 @@ setDocument = Sizzle.setDocument = function( node ) {
 		assert(function( div ) {
 			// Support: Windows 8 Native Apps
 			// The type and name attributes are restricted during .innerHTML assignment
-			var input = doc.createElement("input");
+			var input = document.createElement("input");
 			input.setAttribute( "type", "hidden" );
 			div.appendChild( input ).setAttribute( "name", "D" );
 
@@ -3049,7 +3322,7 @@ setDocument = Sizzle.setDocument = function( node ) {
 	hasCompare = rnative.test( docElem.compareDocumentPosition );
 
 	// Element contains another
-	// Purposefully does not implement inclusive descendent
+	// Purposefully self-exclusive
 	// As in, an element does not contain itself
 	contains = hasCompare || rnative.test( docElem.contains ) ?
 		function( a, b ) {
@@ -3103,10 +3376,10 @@ setDocument = Sizzle.setDocument = function( node ) {
 			(!support.sortDetached && b.compareDocumentPosition( a ) === compare) ) {
 
 			// Choose the first element that is related to our preferred document
-			if ( a === doc || a.ownerDocument === preferredDoc && contains(preferredDoc, a) ) {
+			if ( a === document || a.ownerDocument === preferredDoc && contains(preferredDoc, a) ) {
 				return -1;
 			}
-			if ( b === doc || b.ownerDocument === preferredDoc && contains(preferredDoc, b) ) {
+			if ( b === document || b.ownerDocument === preferredDoc && contains(preferredDoc, b) ) {
 				return 1;
 			}
 
@@ -3134,8 +3407,8 @@ setDocument = Sizzle.setDocument = function( node ) {
 
 		// Parentless nodes are either documents or disconnected
 		if ( !aup || !bup ) {
-			return a === doc ? -1 :
-				b === doc ? 1 :
+			return a === document ? -1 :
+				b === document ? 1 :
 				aup ? -1 :
 				bup ? 1 :
 				sortInput ?
@@ -3172,7 +3445,7 @@ setDocument = Sizzle.setDocument = function( node ) {
 			0;
 	};
 
-	return doc;
+	return document;
 };
 
 Sizzle.matches = function( expr, elements ) {
@@ -3189,6 +3462,7 @@ Sizzle.matchesSelector = function( elem, expr ) {
 	expr = expr.replace( rattributeQuotes, "='$1']" );
 
 	if ( support.matchesSelector && documentIsHTML &&
+		!compilerCache[ expr + " " ] &&
 		( !rbuggyMatches || !rbuggyMatches.test( expr ) ) &&
 		( !rbuggyQSA     || !rbuggyQSA.test( expr ) ) ) {
 
@@ -3462,11 +3736,12 @@ Expr = Sizzle.selectors = {
 				} :
 
 				function( elem, context, xml ) {
-					var cache, outerCache, node, diff, nodeIndex, start,
+					var cache, uniqueCache, outerCache, node, nodeIndex, start,
 						dir = simple !== forward ? "nextSibling" : "previousSibling",
 						parent = elem.parentNode,
 						name = ofType && elem.nodeName.toLowerCase(),
-						useCache = !xml && !ofType;
+						useCache = !xml && !ofType,
+						diff = false;
 
 					if ( parent ) {
 
@@ -3475,7 +3750,10 @@ Expr = Sizzle.selectors = {
 							while ( dir ) {
 								node = elem;
 								while ( (node = node[ dir ]) ) {
-									if ( ofType ? node.nodeName.toLowerCase() === name : node.nodeType === 1 ) {
+									if ( ofType ?
+										node.nodeName.toLowerCase() === name :
+										node.nodeType === 1 ) {
+
 										return false;
 									}
 								}
@@ -3489,11 +3767,21 @@ Expr = Sizzle.selectors = {
 
 						// non-xml :nth-child(...) stores cache data on `parent`
 						if ( forward && useCache ) {
+
 							// Seek `elem` from a previously-cached index
-							outerCache = parent[ expando ] || (parent[ expando ] = {});
-							cache = outerCache[ type ] || [];
-							nodeIndex = cache[0] === dirruns && cache[1];
-							diff = cache[0] === dirruns && cache[2];
+
+							// ...in a gzip-friendly way
+							node = parent;
+							outerCache = node[ expando ] || (node[ expando ] = {});
+
+							// Support: IE <9 only
+							// Defend against cloned attroperties (jQuery gh-1709)
+							uniqueCache = outerCache[ node.uniqueID ] ||
+								(outerCache[ node.uniqueID ] = {});
+
+							cache = uniqueCache[ type ] || [];
+							nodeIndex = cache[ 0 ] === dirruns && cache[ 1 ];
+							diff = nodeIndex && cache[ 2 ];
 							node = nodeIndex && parent.childNodes[ nodeIndex ];
 
 							while ( (node = ++nodeIndex && node && node[ dir ] ||
@@ -3503,29 +3791,55 @@ Expr = Sizzle.selectors = {
 
 								// When found, cache indexes on `parent` and break
 								if ( node.nodeType === 1 && ++diff && node === elem ) {
-									outerCache[ type ] = [ dirruns, nodeIndex, diff ];
+									uniqueCache[ type ] = [ dirruns, nodeIndex, diff ];
 									break;
 								}
 							}
 
-						// Use previously-cached element index if available
-						} else if ( useCache && (cache = (elem[ expando ] || (elem[ expando ] = {}))[ type ]) && cache[0] === dirruns ) {
-							diff = cache[1];
-
-						// xml :nth-child(...) or :nth-last-child(...) or :nth(-last)?-of-type(...)
 						} else {
-							// Use the same loop as above to seek `elem` from the start
-							while ( (node = ++nodeIndex && node && node[ dir ] ||
-								(diff = nodeIndex = 0) || start.pop()) ) {
+							// Use previously-cached element index if available
+							if ( useCache ) {
+								// ...in a gzip-friendly way
+								node = elem;
+								outerCache = node[ expando ] || (node[ expando ] = {});
 
-								if ( ( ofType ? node.nodeName.toLowerCase() === name : node.nodeType === 1 ) && ++diff ) {
-									// Cache the index of each encountered element
-									if ( useCache ) {
-										(node[ expando ] || (node[ expando ] = {}))[ type ] = [ dirruns, diff ];
-									}
+								// Support: IE <9 only
+								// Defend against cloned attroperties (jQuery gh-1709)
+								uniqueCache = outerCache[ node.uniqueID ] ||
+									(outerCache[ node.uniqueID ] = {});
 
-									if ( node === elem ) {
-										break;
+								cache = uniqueCache[ type ] || [];
+								nodeIndex = cache[ 0 ] === dirruns && cache[ 1 ];
+								diff = nodeIndex;
+							}
+
+							// xml :nth-child(...)
+							// or :nth-last-child(...) or :nth(-last)?-of-type(...)
+							if ( diff === false ) {
+								// Use the same loop as above to seek `elem` from the start
+								while ( (node = ++nodeIndex && node && node[ dir ] ||
+									(diff = nodeIndex = 0) || start.pop()) ) {
+
+									if ( ( ofType ?
+										node.nodeName.toLowerCase() === name :
+										node.nodeType === 1 ) &&
+										++diff ) {
+
+										// Cache the index of each encountered element
+										if ( useCache ) {
+											outerCache = node[ expando ] || (node[ expando ] = {});
+
+											// Support: IE <9 only
+											// Defend against cloned attroperties (jQuery gh-1709)
+											uniqueCache = outerCache[ node.uniqueID ] ||
+												(outerCache[ node.uniqueID ] = {});
+
+											uniqueCache[ type ] = [ dirruns, diff ];
+										}
+
+										if ( node === elem ) {
+											break;
+										}
 									}
 								}
 							}
@@ -3887,10 +4201,10 @@ function addCombinator( matcher, combinator, base ) {
 
 		// Check against all ancestor/preceding elements
 		function( elem, context, xml ) {
-			var oldCache, outerCache,
+			var oldCache, uniqueCache, outerCache,
 				newCache = [ dirruns, doneName ];
 
-			// We can't set arbitrary data on XML nodes, so they don't benefit from dir caching
+			// We can't set arbitrary data on XML nodes, so they don't benefit from combinator caching
 			if ( xml ) {
 				while ( (elem = elem[ dir ]) ) {
 					if ( elem.nodeType === 1 || checkNonElements ) {
@@ -3903,14 +4217,19 @@ function addCombinator( matcher, combinator, base ) {
 				while ( (elem = elem[ dir ]) ) {
 					if ( elem.nodeType === 1 || checkNonElements ) {
 						outerCache = elem[ expando ] || (elem[ expando ] = {});
-						if ( (oldCache = outerCache[ dir ]) &&
+
+						// Support: IE <9 only
+						// Defend against cloned attroperties (jQuery gh-1709)
+						uniqueCache = outerCache[ elem.uniqueID ] || (outerCache[ elem.uniqueID ] = {});
+
+						if ( (oldCache = uniqueCache[ dir ]) &&
 							oldCache[ 0 ] === dirruns && oldCache[ 1 ] === doneName ) {
 
 							// Assign to newCache so results back-propagate to previous elements
 							return (newCache[ 2 ] = oldCache[ 2 ]);
 						} else {
 							// Reuse newcache so results back-propagate to previous elements
-							outerCache[ dir ] = newCache;
+							uniqueCache[ dir ] = newCache;
 
 							// A match means we're done; a fail means we have to keep checking
 							if ( (newCache[ 2 ] = matcher( elem, context, xml )) ) {
@@ -4135,18 +4454,21 @@ function matcherFromGroupMatchers( elementMatchers, setMatchers ) {
 				len = elems.length;
 
 			if ( outermost ) {
-				outermostContext = context !== document && context;
+				outermostContext = context === document || context || outermost;
 			}
 
 			// Add elements passing elementMatchers directly to results
-			// Keep `i` a string if there are no elements so `matchedCount` will be "00" below
 			// Support: IE<9, Safari
 			// Tolerate NodeList properties (IE: "length"; Safari: <number>) matching elements by id
 			for ( ; i !== len && (elem = elems[i]) != null; i++ ) {
 				if ( byElement && elem ) {
 					j = 0;
+					if ( !context && elem.ownerDocument !== document ) {
+						setDocument( elem );
+						xml = !documentIsHTML;
+					}
 					while ( (matcher = elementMatchers[j++]) ) {
-						if ( matcher( elem, context, xml ) ) {
+						if ( matcher( elem, context || document, xml) ) {
 							results.push( elem );
 							break;
 						}
@@ -4170,8 +4492,17 @@ function matcherFromGroupMatchers( elementMatchers, setMatchers ) {
 				}
 			}
 
-			// Apply set filters to unmatched elements
+			// `i` is now the count of elements visited above, and adding it to `matchedCount`
+			// makes the latter nonnegative.
 			matchedCount += i;
+
+			// Apply set filters to unmatched elements
+			// NOTE: This can be skipped if there are no unmatched elements (i.e., `matchedCount`
+			// equals `i`), unless we didn't visit _any_ elements in the above loop because we have
+			// no element matchers and no seed.
+			// Incrementing an initially-string "0" `i` allows `i` to remain a string only in that
+			// case, which will result in a "00" `matchedCount` that differs from `i` but is also
+			// numerically zero.
 			if ( bySet && i !== matchedCount ) {
 				j = 0;
 				while ( (matcher = setMatchers[j++]) ) {
@@ -4263,10 +4594,11 @@ select = Sizzle.select = function( selector, context, results, seed ) {
 
 	results = results || [];
 
-	// Try to minimize operations if there is no seed and only one group
+	// Try to minimize operations if there is only one selector in the list and no seed
+	// (the latter of which guarantees us context)
 	if ( match.length === 1 ) {
 
-		// Take a shortcut and set the context if the root selector is an ID
+		// Reduce context if the leading compound selector is an ID
 		tokens = match[0] = match[0].slice( 0 );
 		if ( tokens.length > 2 && (token = tokens[0]).type === "ID" &&
 				support.getById && context.nodeType === 9 && documentIsHTML &&
@@ -4321,7 +4653,7 @@ select = Sizzle.select = function( selector, context, results, seed ) {
 		context,
 		!documentIsHTML,
 		results,
-		rsibling.test( selector ) && testContext( context.parentNode ) || context
+		!context || rsibling.test( selector ) && testContext( context.parentNode ) || context
 	);
 	return results;
 };
@@ -4402,7 +4734,7 @@ if ( typeof define === "function" && define.amd ) {
 
 })( window );
 
-},{}],6:[function(_dereq_,module,exports){
+},{}],8:[function(_dereq_,module,exports){
 /**
  * Module dependencies.
  */
@@ -5453,198 +5785,7 @@ request.put = function(url, data, fn){
 
 module.exports = request;
 
-},{"emitter":7,"reduce":8}],7:[function(_dereq_,module,exports){
-
-/**
- * Expose `Emitter`.
- */
-
-module.exports = Emitter;
-
-/**
- * Initialize a new `Emitter`.
- *
- * @api public
- */
-
-function Emitter(obj) {
-  if (obj) return mixin(obj);
-};
-
-/**
- * Mixin the emitter properties.
- *
- * @param {Object} obj
- * @return {Object}
- * @api private
- */
-
-function mixin(obj) {
-  for (var key in Emitter.prototype) {
-    obj[key] = Emitter.prototype[key];
-  }
-  return obj;
-}
-
-/**
- * Listen on the given `event` with `fn`.
- *
- * @param {String} event
- * @param {Function} fn
- * @return {Emitter}
- * @api public
- */
-
-Emitter.prototype.on =
-Emitter.prototype.addEventListener = function(event, fn){
-  this._callbacks = this._callbacks || {};
-  (this._callbacks[event] = this._callbacks[event] || [])
-    .push(fn);
-  return this;
-};
-
-/**
- * Adds an `event` listener that will be invoked a single
- * time then automatically removed.
- *
- * @param {String} event
- * @param {Function} fn
- * @return {Emitter}
- * @api public
- */
-
-Emitter.prototype.once = function(event, fn){
-  var self = this;
-  this._callbacks = this._callbacks || {};
-
-  function on() {
-    self.off(event, on);
-    fn.apply(this, arguments);
-  }
-
-  on.fn = fn;
-  this.on(event, on);
-  return this;
-};
-
-/**
- * Remove the given callback for `event` or all
- * registered callbacks.
- *
- * @param {String} event
- * @param {Function} fn
- * @return {Emitter}
- * @api public
- */
-
-Emitter.prototype.off =
-Emitter.prototype.removeListener =
-Emitter.prototype.removeAllListeners =
-Emitter.prototype.removeEventListener = function(event, fn){
-  this._callbacks = this._callbacks || {};
-
-  // all
-  if (0 == arguments.length) {
-    this._callbacks = {};
-    return this;
-  }
-
-  // specific event
-  var callbacks = this._callbacks[event];
-  if (!callbacks) return this;
-
-  // remove all handlers
-  if (1 == arguments.length) {
-    delete this._callbacks[event];
-    return this;
-  }
-
-  // remove specific handler
-  var cb;
-  for (var i = 0; i < callbacks.length; i++) {
-    cb = callbacks[i];
-    if (cb === fn || cb.fn === fn) {
-      callbacks.splice(i, 1);
-      break;
-    }
-  }
-  return this;
-};
-
-/**
- * Emit `event` with the given args.
- *
- * @param {String} event
- * @param {Mixed} ...
- * @return {Emitter}
- */
-
-Emitter.prototype.emit = function(event){
-  this._callbacks = this._callbacks || {};
-  var args = [].slice.call(arguments, 1)
-    , callbacks = this._callbacks[event];
-
-  if (callbacks) {
-    callbacks = callbacks.slice(0);
-    for (var i = 0, len = callbacks.length; i < len; ++i) {
-      callbacks[i].apply(this, args);
-    }
-  }
-
-  return this;
-};
-
-/**
- * Return array of callbacks for `event`.
- *
- * @param {String} event
- * @return {Array}
- * @api public
- */
-
-Emitter.prototype.listeners = function(event){
-  this._callbacks = this._callbacks || {};
-  return this._callbacks[event] || [];
-};
-
-/**
- * Check if this emitter has `event` handlers.
- *
- * @param {String} event
- * @return {Boolean}
- * @api public
- */
-
-Emitter.prototype.hasListeners = function(event){
-  return !! this.listeners(event).length;
-};
-
-},{}],8:[function(_dereq_,module,exports){
-
-/**
- * Reduce `arr` with `fn`.
- *
- * @param {Array} arr
- * @param {Function} fn
- * @param {Mixed} initial
- *
- * TODO: combatible error handling?
- */
-
-module.exports = function(arr, fn, initial){  
-  var idx = 0;
-  var len = arr.length;
-  var curr = arguments.length == 3
-    ? initial
-    : arr[idx++];
-
-  while (idx < len) {
-    curr = fn.call(null, curr, arr[idx], ++idx, arr);
-  }
-  
-  return curr;
-};
-},{}],9:[function(_dereq_,module,exports){
+},{"emitter":1,"reduce":6}],9:[function(_dereq_,module,exports){
 (function (global){
 ﻿var events = _dereq_('./components/events'),
     service = _dereq_('./components/service'),
@@ -5655,145 +5796,284 @@ module.exports = function(arr, fn, initial){
 
 var eventHandlers = [];
 if (global.SCBeacon && Object.prototype.toString.call(global.SCBeacon) === '[object Array]') {
-    eventHandlers = global.SCBeacon;
+  eventHandlers = global.SCBeacon;
 }
 
-var api = function(endpoint) {
+var api = function (endpoint) {
 
-    var status = 'loading';
-    
-    // onload grab any prepped functions and attach
-    if (global.beaconEvents) {
-        events.attachCollection(global.beaconEvents);
+  var status = 'loading';
+
+  // onload grab any prepped functions and attach
+  if (global.beaconEvents) {
+    events.attachCollection(global.beaconEvents);
+  }
+
+  var push = function (data) {
+    events.attach(data[0], data[1]);
+    if (status === data[0]) {
+      // immediately call back if matching status
+      data[1]();
     }
-    
-    var push = function(data) {
-        events.attach(data[0], data[1]);
-        if (status === data[0]) {
-            // immediately call back if matching status
-            data[1]();
+  }
+
+  utils.forEach(eventHandlers, push);
+
+  var internalService = service.build(endpoint);
+
+  var dispatchError = function () {
+    events.dispatch('error');
+    status = 'error';
+  }
+
+  var scripts = document.getElementsByTagName("script");
+  var src = scripts[scripts.length - 1].src;
+
+  var baseUrl = src.replace("bundle/beacon", "");
+  var currentUrl = window.location.origin + "/";
+
+  function assign(obj, prop, value) {
+    if (typeof prop === "string")
+      prop = prop.split(".");
+
+    if (prop.length > 1) {
+      var e = prop.shift();
+      assign(obj[e] =
+          Object.prototype.toString.call(obj[e]) === "[object Object]"
+          ? obj[e]
+          : {},
+          prop,
+          value);
+    } else
+      obj[prop[0]] = value;
+  }
+
+  var processHtml = function (html) {
+    try {
+      if (!html) {
+        return html;
+      }
+
+      var element = document.createElement("div");
+      element.innerHTML = html;
+
+      var tags = [
+          { tag: "img", prop: "src" },
+          { tag: "form", prop: "action" },
+          { tag: "script", prop: "src" },
+          { tag: "link", prop: "href" }
+      ];
+
+      for (var i = 0; i < tags.length; i++) {
+        var tag = tags[i];
+        var images = element.getElementsByTagName(tag.tag);
+        for (var j = 0; j < images.length; j++) {
+          var val = images[j][tag.prop].replace(currentUrl, baseUrl);
+          if (val[0] == "/" || val[0] == "-" || val[0] == "~") {
+            val = baseUrl + val;
+          }
+
+          //prevent from assign empty src property to script tag
+          if (tag.tag != "script" || tag.prop != "src" || val.length > 0) {
+            assign(images[j], tag.prop, val);
+          }
         }
+      }
+
+      html = element.outerHTML;
+      return html;
+    } catch (err) {
+      console.log(err);
+      return html;
+    }
+  };
+
+  var loadedScripts = [];
+  var addScript = function (scriptSrc, scriptType) {
+    if (loadedScripts.indexOf(scriptSrc) != -1) {
+      return;
     }
 
-    utils.forEach(eventHandlers, push);
-
-    var internalService = service.build(endpoint);
-
-    var dispatchError = function () {
-        events.dispatch('error');
-        status = 'error';
+    if (typeof (SCBeacon) == "object"
+      && scriptSrc == src) {
+      return;
     }
 
-    var visitSuccess = function(resp) {
+    loadedScripts.push(scriptSrc);
+    var script = document.createElement('script');
+    script.src = scriptSrc;
+    script.type = scriptType;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
 
-        if (!!resp.ElementMatches) {
-            var replaceStack = []; // special handle process for replacing content
-            var matchHandler = function (match) {
-                if (match.MatchType === "fragment") {
-                    var trigger = function () {
-                        var selector = match.Selector.replace(/#*(.*)/, "#$1");
-                        if (selector === global.location.hash) {
-                            internalService.triggerElementMatch(match.Id);
-                        }
-                    }
+  var insertBefore = function (element, newNode, existingNode) {
+    element.insertBefore(newNode, existingNode);
+    try {
+      var jsScripts = element.getElementsByTagName("script");
+      addScriptSync(jsScripts, 0);
+    } catch (err) {
+      console.error(err);
+    }
+  }
 
-                    // check immediately
-                    trigger();
+  //load scripts from jsScripts array synchronously one by one
+  var addScriptSync = function (jsScripts, index) {
+    if (index >= jsScripts.length) {
+      return;
+    }
 
-                    if ("onhashchange" in global) {
-                        utils.addListener(global, "hashchange", trigger);
-                    } else {
-                        // <IE7
-                        var previous = global.location.hash;
-                        var poller = global.setInterval(function() {
-                            if (previous !== global.location.hash) {
-                                trigger();
-                            }
-                        }, 100);
+    if (jsScripts[index].src.length > 0 && loadedScripts.indexOf(jsScripts[index].src) != -1) {
+      return;
+    }
 
-                        utils.addListener(global, "unload", function() {
-                            global.clearInterval(poller);
-                        });
-                    }
-                } else {
-                    var elements = Sizzle(match.Selector, document);
-                    switch (match.MatchType) {
-                        case 'event':
-                            utils.forEach(elements, function(e) {
-                                utils.addListener(e, match.Event, function() {
-                                    internalService.triggerElementMatch(match.Id);
-                                });
-                            });
-                            break;
-                        case "content":
-                            if (match.RenderedPosition === "{FDBF46B4-5B52-4C7A-A254-B588EC52944E}") { // handle replaces at the end
-                                replaceStack.push({match:match, elements:elements});
-                            }
-                            utils.forEach(elements, function(e) {
-                                var wrapper = document.createElement('div');
-                                wrapper.innerHTML = match.RenderedContent;
-                                switch (match.RenderedPosition) {
-                                    case '{B8F49EBF-2542-4CB0-B3BB-63858918CE8B}': // before
-                                        utils.forEach(wrapper.childNodes, function (node) {
-                                          if (node && e) {
-                                            e.parentNode.insertBefore(node, e);
-                                          }
-                                        });
-                                        break;
-                                    case '{18F0F47F-2214-4F23-B6FA-F2D86A0C9E5A}': // after
-                                        var children = wrapper.childNodes;
-                                        Array.prototype.reverse(children);
-                                        utils.forEach(children, function (node) {
-                                          if (node && e && e.nextSibling) {
-                                            e.parentNode.insertBefore(node, e.nextSibling);
-                                          }
-                                        });
-                                        break;
-                                }
-                            });
-                            break;
-                    }
-                }
-            };
+    if (typeof (SCBeacon) == "object"
+    && jsScripts[index].src == src) {
+      return;
+    }
 
-            if (!disabler.isDisabled()) {
-                utils.forEach(resp.ElementMatches, matchHandler);
-                // special handle process for replacing content
-                utils.forEach(replaceStack, function (entry) {
-                    utils.forEach(entry.elements, function (el) {
-                        el.style.display = 'none';
-                        var wrapper = document.createElement('div');
-                        wrapper.innerHTML = entry.match.RenderedContent;
+    loadedScripts.push(jsScripts[index].src);
 
-                        utils.forEach(wrapper.childNodes, function (node) {
-                            if (!!node) {
-                                el.parentNode.insertBefore(node, el);
-                            }
-                        });
-                    });
-                });
-            } else {
-                disabler.handleMatchers(resp.ElementMatches);
+    var script = document.createElement('script');
+    if (jsScripts[index].type.length > 0) {
+      script.type = jsScripts[index].type;
+    }
+
+    if (jsScripts[index].text.length > 0) {
+      //case when script inserted in tag
+      script.text = jsScripts[index].text;
+      jsScripts[index].parentElement.replaceChild(script, jsScripts[index]);
+      addScriptSync(jsScripts, index + 1);
+    } else {
+      //case when script should be loaded from file
+      script.src = jsScripts[index].src;
+
+      script.onload = function () {
+        //success load
+        addScriptSync(jsScripts, index + 1);
+      };
+      script.error = function () {
+        //error occured when script was loading 
+        console.err(script.src + " is not loaded");
+        //despite that was an error execute next script
+        addScriptSync(jsScripts, index + 1);
+      };
+
+      document.getElementsByTagName('head')[0].appendChild(script);
+    }
+  };
+
+  var visitSuccess = function (resp) {
+
+    if (!!resp.ElementMatches) {
+      var replaceStack = []; // special handle process for replacing content
+      var matchHandler = function (match) {
+        if (match.MatchType === "fragment") {
+          var trigger = function () {
+            var selector = match.Selector.replace(/#*(.*)/, "#$1");
+            if (selector === global.location.hash) {
+              internalService.triggerElementMatch(match.Id);
             }
+          }
+
+          // check immediately
+          trigger();
+
+          if ("onhashchange" in global) {
+            utils.addListener(global, "hashchange", trigger);
+          } else {
+            // <IE7
+            var previous = global.location.hash;
+            var poller = global.setInterval(function () {
+              if (previous !== global.location.hash) {
+                trigger();
+              }
+            }, 100);
+
+            utils.addListener(global, "unload", function () {
+              global.clearInterval(poller);
+            });
+          }
+        } else {
+          var elements = Sizzle(match.Selector, document);
+          switch (match.MatchType) {
+            case 'event':
+              utils.forEach(elements, function (e) {
+                utils.addListener(e, match.Event, function () {
+                  internalService.triggerElementMatch(match.Id);
+                });
+              });
+              break;
+            case "content":
+              if (match.RenderedPosition === "{FDBF46B4-5B52-4C7A-A254-B588EC52944E}") { // handle replaces at the end
+                replaceStack.push({ match: match, elements: elements });
+              }
+              utils.forEach(elements, function (e) {
+                var wrapper = document.createElement('div');
+                wrapper.innerHTML = processHtml(match.RenderedContent);
+                switch (match.RenderedPosition) {
+                  case '{B8F49EBF-2542-4CB0-B3BB-63858918CE8B}': // before
+                    utils.forEach(wrapper.childNodes, function (node) {
+                      if (node && e) {
+                        insertBefore(e.parentNode, node, e);
+                      }
+                    });
+                    break;
+                  case '{18F0F47F-2214-4F23-B6FA-F2D86A0C9E5A}': // after
+                    var children = wrapper.childNodes;
+                    Array.prototype.reverse(children);
+                    utils.forEach(children, function (node) {
+                      if (node && e && e.nextSibling) {
+                        insertBefore(e.parentNode, node, e.nextSibling);
+                      }
+                    });
+                    break;
+                }
+              });
+              break;
+          }
         }
+      };
 
-        events.dispatch('ready');
-        status = 'ready';
+      if (!disabler.isDisabled()) {
+        utils.forEach(resp.ElementMatches, matchHandler);
+        // special handle process for replacing content
+        utils.forEach(replaceStack, function (entry) {
+          utils.forEach(entry.elements, function (el) {
+            el.style.display = 'none';
+            var wrapper = document.createElement('div');
+            wrapper.innerHTML = processHtml(entry.match.RenderedContent);
+
+            utils.forEach(wrapper.childNodes, function (node) {
+              if (!!node) {
+                insertBefore(el.parentNode, node, el);
+              }
+            });
+          });
+        });
+      } else {
+        disabler.handleMatchers(resp.ElementMatches);
+      }
     }
 
-    internalService.trackPageVisit().then(visitSuccess).fail(dispatchError);
+    events.dispatch('ready');
+    status = 'ready';
+  }
 
-    return {
-        trackCampaign: internalService.trackCampaign,
-        trackGoal: internalService.trackGoal,
-        trackEvent: internalService.trackEvent,
-        push: push
-    }
+  internalService.trackPageVisit().then(visitSuccess).fail(dispatchError);
+
+  return {
+    trackCampaign: internalService.trackCampaign,
+    trackGoal: internalService.trackGoal,
+    trackOutcome: internalService.trackOutcome,
+    trackEvent: internalService.trackEvent,
+    src: src,
+    fxmHost: baseUrl,
+    push: push
+  }
 }
 
 module.exports = api;
 }).call(this,typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./components/disabler":12,"./components/events":14,"./components/service":15,"./components/utils":16,"sizzle":5}],10:[function(_dereq_,module,exports){
+},{"./components/disabler":12,"./components/events":14,"./components/service":15,"./components/utils":16,"sizzle":7}],10:[function(_dereq_,module,exports){
 var trim = function (val) {
     return val.replace(/^\s+|\s+$/g, '');
 }
@@ -5913,7 +6193,7 @@ var Disabler = function () {
 } 
 
 module.exports = new Disabler();
-},{"./utils":16,"sizzle":5}],13:[function(_dereq_,module,exports){
+},{"./utils":16,"sizzle":7}],13:[function(_dereq_,module,exports){
 var utils = _dereq_('./utils');
 
 var BeaconError = function (name, message) {
@@ -6071,7 +6351,7 @@ var service = function(endpoint) {
         return Q.Promise(function(resolve, reject) {
             var mergedOptions = getOptions(options);
             request
-                .get(endpoint + url)
+                .post(endpoint + url)
                 .use(legacyIESupport)
                 .accept('application/json')
                 .withCredentials()
@@ -6121,7 +6401,7 @@ var service = function(endpoint) {
     };
 
     // add delayed get track requests
-    var methods = ["trackCampaign", "trackGoal", "trackEvent", "triggerElementMatch"];
+    var methods = ["trackCampaign", "trackGoal", "trackOutcome", "trackEvent", "triggerElementMatch"];
     utils.forEach(methods, function(method) {
         resultObj[method] = function(id, options) {
             utils.assert.validString(id, "id must be a valid string.");
@@ -6134,7 +6414,7 @@ var service = function(endpoint) {
 
 module.exports = { build: service };
 }).call(this,typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"../vendor/superagent-legacyIESupport":17,"./disabler":12,"./error":13,"./utils":16,"cookie-component":2,"merge":3,"q":4,"superagent":6}],16:[function(_dereq_,module,exports){
+},{"../vendor/superagent-legacyIESupport":17,"./disabler":12,"./error":13,"./utils":16,"cookie-component":2,"merge":3,"q":5,"superagent":8}],16:[function(_dereq_,module,exports){
 var assert = _dereq_('./assert'),
     console = _dereq_('./console');
 

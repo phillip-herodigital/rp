@@ -5,9 +5,8 @@ if (window.location.host && window.location.host != '') { // launching when addr
 else { // launching of the code-coverage estemating
   require.config({
     paths: {
-      //itemCallMetricBaseDataSourcePath: contentTestingDir + "/Components/DataSource/ItemCallMetricBaseDataSourcePath"
       itemCallMetricBaseDataSourcePath: contentTestingDir + "/Components/DataSource/ItemCallMetricBaseDataSource"
-    },
+    }
   });
   itemCallMetricBaseDataSourcePath = "itemCallMetricBaseDataSourcePath";
 }

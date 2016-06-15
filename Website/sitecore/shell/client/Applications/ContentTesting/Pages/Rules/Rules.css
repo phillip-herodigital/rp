@@ -57,7 +57,14 @@ div[data-sc-id="DescriptionBorder"] {
   height: 100%;
   overflow-y: initial;
 }
+div[data-sc-id="DetailTitleRow"] {
+  margin-left: 0px !important;
+  margin-right: 0px !important;
+  padding-bottom: 9px !important;
+}
 div[data-sc-id="DetailPanelBorder"] {
+  border-top: 1px solid #e7e7e7;
+  border-width: 1px !important;
   overflow-y: auto;
   overflow-x: hidden;
 }
@@ -82,4 +89,34 @@ div[data-sc-id="ThumbnailPanel"] img {
 .col-md-4 {
   width: auto;
   min-width: 33%;
+}
+[data-sc-id="ReachBorder"] {
+  font-weight: bold;
+}
+[data-sc-id="ReachBorder"] [data-sc-id="ReachAllValue"] {
+  display: inline-block;
+  width: 14%;
+  position: relative;
+  vertical-align: top;
+  text-align: center;
+  font-size: 23px;
+}
+[data-sc-id="ReachBorder"] [data-sc-id="ReachProgressBar"] {
+  display: inline-block;
+  width: 85%;
+  position: relative;
+  top: 7px;
+}
+div[data-sc-id="NotPersonalizedArIndicator"] .sc-ArrowIndicator-Arrow,
+div[data-sc-id="TrailingValueArIndicator"] .sc-ArrowIndicator-Arrow {
+  display: none;
+}
+div[data-sc-id="ExperienceKPIRowPanel"] .col-md-4 {
+  text-align: center;
+}
+div[data-sc-id="ExperienceKPIRowPanel"] .col-md-4 .sc-ArrowIndicator-Row {
+  display: inline-block;
+}
+.scRule {
+  display: none;
 }

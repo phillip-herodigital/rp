@@ -334,6 +334,11 @@ function establishViews() {
                     });
                 });
             });
+			
+			if (CurrentView && CurrentView !== "list") {
+                $j("#views a").removeClass("active");
+                $j("#" + CurrentView).addClass("active");
+            }
         }
     });
 }

@@ -1,4 +1,4 @@
-﻿define(["sitecore"], function (Sitecore) {
+﻿define(["sitecore", "/-/speak/v1/ExperienceEditor/ExperienceEditor.js"], function (Sitecore, ExperienceEditor) {
   Sitecore.Factories.createBaseComponent({
     name: "LargeGalleryButton",
     base: "ButtonBase",
@@ -50,7 +50,7 @@
         return;
       }
 
-      Sitecore.ExperienceEditor.Common.showGallery(galleryUrl, sourceNode, dimensions);
+      ExperienceEditor.Common.showGallery(galleryUrl, sourceNode, dimensions);
     },
 
     formGalleryUrl: function() {

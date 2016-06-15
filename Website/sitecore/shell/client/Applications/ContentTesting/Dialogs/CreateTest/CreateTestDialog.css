@@ -99,12 +99,33 @@ div[data-sc-id="DetailsColumn"]::-webkit-scrollbar-thumb:hover {
   padding-left: 15px !important;
   padding-right: 15px !important;
 }
+.sc [data-sc-id="RadioBtnBorder"] .sc-border {
+  display: inline-block;
+  margin-right: 60px;
+}
+.sc [data-sc-id="RadioBtnBorder"] .sc-border:last-child {
+  margin-right: 0px;
+}
+.sc [data-sc-id="RadioBtnBorder"] .sc-ArrowIndicator-Arrow {
+  right: 2px;
+  position: relative;
+  margin-bottom: 4px;
+}
+.sc [data-sc-id="RadioBtnBorder"] .sc-ArrowIndicator-Value {
+  display: none;
+}
+.sc [data-sc-id="ConfidencePanel"] .sc-radiobutton {
+  margin-right: 150px;
+}
 .sc-accordion-header-actionbar .sc-icon-button {
   float: right;
 }
-[data-sc-id="TestWizardTabControl"] .tab-content {
-  height: 550px;
-}
+/*[data-sc-id="TestWizardTabControl"] {
+  > .tab-content {
+    height: 550px !important;
+  }
+}*/
+
 [data-sc-id="PreviewAccordion"] .sc-accordion-header-title {
   width: 150px;
 }
@@ -112,11 +133,20 @@ div[data-sc-id="DetailsColumn"]::-webkit-scrollbar-thumb:hover {
   width: 400px;
   right: 0px;
 }
+.sc .sc-cball {
+  display: none;
+}
 [data-sc-id="TestObjectiveDropDownButton"] .sc-dropdownbutton-contentpanel {
   width: 400px;
 }
 [data-sc-id="ExpectationSlider"] .slider .titleBar {
   z-index: 1;
+}
+[data-sc-id="TrafficAllocationSlider"] .slider.slider-horizontal {
+  margin-left: 0 !important;
+}
+[data-sc-id="TrafficAllocationSlider"] .slider.slider-horizontal .tooltip.top {
+  top: -51px !important;
 }
 .tooltip-inner {
   max-width: 400px;
@@ -142,4 +172,67 @@ html body.sc {
 .sc a.sc-smartpanel-close img {
   width: 9px;
   height: 18px;
+}
+.sc [data-sc-id="ContentTestingBorder"] {
+  height: 200px;
+}
+.sc [data-sc-id="BeforeBorder"],
+[data-sc-id="AfterBorder"] {
+  display: inline-block;
+  width: 50%;
+  height: 100%;
+}
+.sc [data-sc-id="BeforeBorder"] {
+  border-right: solid 1px #cdcdcd;
+  border-width: 1px;
+}
+.sc [data-sc-id="BeforeTopBorder"],
+.sc [data-sc-id="AfterTopBorder"] {
+  height: 18%;
+}
+.sc [data-sc-id="BeforeTopBorder"] img,
+.sc [data-sc-id="AfterTopBorder"] img {
+  height: 20px;
+  width: 20px;
+  float: right;
+  padding-right: 8px;
+  padding-top: 7px;
+  cursor: pointer;
+}
+.sc [data-sc-id="BeforeMiddleBorder"],
+.sc [data-sc-id="AfterMiddleBorder"] {
+  height: 70%;
+  text-align: center;
+  padding: 0 5%;
+}
+.sc [data-sc-id="BeforeMiddleBorder"] img,
+.sc [data-sc-id="AfterMiddleBorder"] img {
+  height: 100%;
+}
+.sc [data-sc-id="BeforeMiddleBorder"] img:hover,
+.sc [data-sc-id="AfterMiddleBorder"] img:hover {
+  cursor: pointer;
+}
+.sc [data-sc-id="BeforeBottomBorder"],
+[data-sc-id="AfterBottomBorder"] {
+  height: 12%;
+  text-align: center;
+}
+.sc [data-sc-id="BeforeTopText"],
+[data-sc-id="AfterTopText"] {
+  float: left;
+  padding-left: 20px;
+  position: relative;
+  top: 10px;
+  font: bold 20px arial;
+}
+.sc [data-sc-id="BeforeClickText"],
+.sc [data-sc-id="AfterClickText"] {
+  font: italic 14px arial;
+}
+.sc [data-sc-id="RadioBtnBorder"] .sc-ArrowIndicator-Arrow {
+  right: 2px;
+}
+.sc [data-sc-id="ThumbnailImageSrc"] {
+  width: 200px;
 }

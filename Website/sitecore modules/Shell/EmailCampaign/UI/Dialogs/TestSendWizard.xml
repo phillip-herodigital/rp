@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <control xmlns:def="Definition" xmlns="http://schemas.sitecore.net/Visual-Studio-Intellisense">
   <EmailCampaign.TestSendWizard>
-    <WizardForm CodeBeside="Sitecore.Modules.EmailCampaign.UI.Dialogs.TestSendWizard,Sitecore.EmailCampaign">
+    <WizardForm CodeBeside="Sitecore.Modules.EmailCampaign.UI.Dialogs.TestSendWizard,Sitecore.EmailCampaign.Cm.UI">
 
       <WizardFormFirstPage ID="FirstPage" Icon="Network/32x32/Mail.png">
         <Border Class="scWizardWelcomeTitle">

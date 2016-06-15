@@ -4,7 +4,6 @@
 <%@ Register TagPrefix="sc" Namespace="Sitecore.Web.UI.WebControls" Assembly="Sitecore.Analytics" %>
 <%@ OutputCache Location="None" VaryByParam="none" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<sc:Placeholder Key="msg-target-item" runat="server" />
 <html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <sc:Placeholder Key="msg-html-title" runat="server" />

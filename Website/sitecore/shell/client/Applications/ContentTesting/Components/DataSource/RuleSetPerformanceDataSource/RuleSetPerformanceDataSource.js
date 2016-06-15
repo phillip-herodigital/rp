@@ -1,9 +1,10 @@
 ﻿define([
     "sitecore",
     "/-/speak/v1/contenttesting/DataUtil.js",
-    "/-/speak/v1/contenttesting/RequestUtil.js"],
-  function (Sitecore, dataUtil, requestUtil) {
-  var actionUrl = "/sitecore/shell/api/ct/Rules/GetRuleSetPerformance";
+    "/-/speak/v1/contenttesting/RequestUtil.js",
+    "/-/speak/v1/ExperienceEditor/ExperienceEditorProxy.js"],
+  function (Sitecore, dataUtil, requestUtil, PageEditorProxy) {
+  var actionUrl = "/sitecore/shell/api/ct/Personalization/GetRuleSetPerformance";
 
   Sitecore.Factories.createBaseComponent({
     name: "RuleSetPerformanceDataSource",
@@ -39,7 +40,7 @@
 
         var ajaxOptions = {
           cache: false,
-          url: Sitecore.Helpers.url.addQueryParameters(actionUrl, { itemUri: uri, mode: (this.get("mode") || "all") }),
+          url: Sitecore.Helpers.url.addQueryParameters(actionUrl, { itemDataUri: uri, deviceId: PageEditorProxy.deviceId(), mode: (this.get("mode") || "all") }),
           context: this,
           success: function(data) {
             this.set("isBusy", false);

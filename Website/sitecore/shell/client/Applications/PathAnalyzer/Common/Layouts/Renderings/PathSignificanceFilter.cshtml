@@ -1,0 +1,56 @@
+﻿@using Sitecore.Data
+@using Sitecore.Data.Items
+@using Sitecore.Mvc
+@using Sitecore.PathAnalyzer.Client.Sitecore.Shell.Client.Applications.PathAnalyzer.Common.Layouts.Renderings.PathSignificanceFilter
+@using Sitecore.PathAnalyzer.Client.Sitecore.Shell.Client.Applications.PathAnalyzer.Common.Layouts.Renderings.Shared
+@using Sitecore.Web.UI.Controls.Common.Renderings
+@using Sitecore.Web.UI.Controls.Common.UserControls
+@using Constants = Sitecore.PathAnalyzer.Constants
+@model Sitecore.Mvc.Presentation.RenderingModel
+@{
+    var rendering = Html.Sitecore().Controls().GetUserControl(Model.Rendering);
+
+    rendering.Class = "sc-PathSignificanceFilter";
+    rendering.Requires.Script("pathanalyzer", "PathSignificanceFilter.js");
+    rendering.Attributes.Add("data-bind", "visible: isVisible");
+    rendering.HasNestedComponents = true;
+
+    var parametersHelper = new FilterHelper(Model.Rendering.Item);
+    var optionItems = parametersHelper.GetFilterOptionItems();
+    var selectedOptionId = parametersHelper.GetSelectedValueParameter();
+
+    rendering.Attributes.Add("data-sc-selectedvalue", selectedOptionId.ToString());
+}
+
+@EmbedFilter(rendering, optionItems, selectedOptionId)
+
+@helper EmbedFilter(Sitecore.Web.UI.Controls.Common.UserControls.UserControl rendering, IEnumerable<Item> optionItems, ID selectedOptionId)
+{
+    var renderingId = rendering.ControlId;
+    var helper = new RenderingHelper(Html, renderingId);
+
+    helper.MakeRow("ControlsRow", renderingId + "ContentWrapper", true, controlsRow =>
+    {
+        helper.CreateHtmlAt(controlsRow, "<div class=\"sc-filter-options-wrapper\">");
+
+        foreach (var optionItem in optionItems)
+        {
+            var optionValueRaw = optionItem[Constants.FieldIDs.PathSignificanceFilter.PathSignificanceFilterOption.Value];
+            double optionValue;
+            double.TryParse(optionValueRaw, out optionValue);
+
+            //radio button rendering
+            helper.CreateRenderingAt("{8BECEF35-1374-4D25-8A1A-4CDCC4218AA9}", "Option" + optionItem.ID, controlsRow, new { Text = optionItem[Constants.FieldIDs.PathSignificanceFilter.PathSignificanceFilterOption.Title], Value = optionItem.ID, GroupName = "PathSignificanceFilterOptions", IsChecked = selectedOptionId == optionItem.ID });
+        }
+
+        helper.CreateHtmlAt(controlsRow, "</div>");
+    });
+
+    // Rendering
+    <div @rendering.HtmlAttributes>
+        @Html.Sitecore().Controls().Rendering(Html, "{F6C9F461-FCAF-47DC-AA01-C8C64C2EFFB8}", renderingId + "ContentWrapper", "", new
+        {
+            UsePadding = false
+        })
+    </div>
+}

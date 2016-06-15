@@ -32,13 +32,19 @@
 
     extendModel: {
       setData: function (data) {
-        if (data != "" && data != undefined && data != null)
-        {
+        if (data && data.Average) {
           this.set({
             score: data.Average.Score,
             guess: data.Average.Guess,
             effect: data.Average.Effect,
             activity: data.Average.Activity
+          });
+        } else {
+          this.set({
+            score: 0,
+            guess: 0,
+            effect: 0,
+            activity: 0
           });
         }
       },

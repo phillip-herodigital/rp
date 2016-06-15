@@ -1,0 +1,14 @@
+﻿@using Sitecore
+
+@model Sitecore.EmailCampaign.Controls.ManagerRootSwitcher.ManagerRootSwitcherViewModel
+
+<div class="manager-root-list">
+  <ul>
+    @foreach (var rootItem in @Model.ManagerRootItems)
+    {
+      <li class="sc-actionMenu-item">
+        <a class="root-item" data-root-id="@rootItem.InnerItem.ID" tabindex="-1" href="#" title="@ClientHost.Globalization.Translate("Item path:") @rootItem.InnerItem.Paths.FullPath">@rootItem.InnerItem.DisplayName</a>
+      </li>
+    }
+  </ul>
+</div>

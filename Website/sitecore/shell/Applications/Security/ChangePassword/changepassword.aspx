@@ -5,6 +5,7 @@
 
 <asp:Content ContentPlaceHolderID="Head" runat="server">
 
+  <meta http-equiv="X-Frame-Options" content="SAMEORIGIN">
   <title>Sitecore</title>
  
   <style>

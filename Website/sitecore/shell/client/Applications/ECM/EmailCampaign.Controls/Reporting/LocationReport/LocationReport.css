@@ -1,0 +1,24 @@
+﻿@media (max-width: 992px) {
+  .sc-LocationReport .row[data-sc-id$="CountriesRowPanel"] > div.col-md-6 {
+    float: left;
+    width: 50%;
+  }
+}
+.sc-LocationReport span[data-sc-id$="TextValue"] {
+  font-weight: normal;
+}
+.sc-LocationReport .sc-border[data-sc-id*="TabContent"] {
+  padding-left: 15px !important;
+  padding-right: 15px !important;
+}
+.sc-LocationReport .sc-border[data-sc-id$="CountriesChartBorder"] {
+  padding: 5px 0;
+  margin-top: -5px;
+}
+.sc-LocationReport div[data-sc-id$="CountriesRowPanel"] {
+  margin: 0;
+}
+.sc-LocationReport div[data-sc-id$="CountriesRowPanel"] > div {
+  padding-top: 15px;
+  border-top: 1px solid #f0f0f0;
+}

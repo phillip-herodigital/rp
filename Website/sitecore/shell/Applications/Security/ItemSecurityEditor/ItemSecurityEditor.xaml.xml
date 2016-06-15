@@ -39,7 +39,8 @@
         </div>
 
         <Scrollbox ID="Permissions" class="scScrollbox scFlexContent" runat="server">
-           <Border ID="NoPermissions" Visible="false" runat="server" style="position: absolute; top: 20px; left:0; right:0; text-align:center; color: gray" />
+          <Border ID="PermissionsContent" Visible="false" runat="server"/>
+          <Border ID="NoPermissions" Visible="false" runat="server" style="position: absolute; top: 20px; left:0; right:0; text-align:center; color: gray" />
         </Scrollbox>
 
         <div class="scFieldLabel">

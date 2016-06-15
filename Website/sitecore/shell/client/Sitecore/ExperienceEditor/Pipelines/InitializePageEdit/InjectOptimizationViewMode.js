@@ -1,11 +1,17 @@
-﻿define(["sitecore"], function (Sitecore) {
+﻿require.config({
+  paths: {
+    activeTestState: "/sitecore/shell/client/Sitecore/ContentTesting/ActiveTestState"
+  }
+});
+
+define(["sitecore", "/-/speak/v1/ExperienceEditor/ExperienceEditor.js", "/-/speak/v1/ExperienceEditor/ExperienceEditorProxy.js", "activeTestState"], function (Sitecore, ExperienceEditor, PageEditorProxy, ActiveTestState) {
   return {
     priority: 1,
     execute: function (context) {
       var sc = window.top.Sitecore;
       
       // Inject styles
-      Sitecore.ExperienceEditor.Common.registerDocumentStyles(["/sitecore/shell/client/Sitecore/ExperienceEditor/Pipelines/InitializePageEdit/OptimizationViewMode.css"], window.top.document);
+      ExperienceEditor.Common.registerDocumentStyles(["/sitecore/shell/client/Sitecore/ExperienceEditor/Pipelines/InitializePageEdit/OptimizationViewMode.css"], window.top.document);
       
       if (typeof (sc.PageModes) === "undefined") sc.PageModes = {};
 
@@ -52,23 +58,17 @@
         };
       };
 
-      var activeTests = 0;
+      var hasTest = false;
+      if (ActiveTestState)
+        hasTest = ActiveTestState.hasActiveTest(context);
 
-      Sitecore.ExperienceEditor.PipelinesUtil.generateRequestProcessor(
-        "Optimization.ActiveItemTests.Count",
-        function (response) {
-          activeTests = response.responseValue.value;
-        },
-        context.currentContext
-      ).execute(context);
-      
       // Turn on Optimization View mode if there are active tests and Optimization View button is pressed.
-      if (activeTests > 0) {
-        Sitecore.ExperienceEditor.PipelinesUtil.generateRequestProcessor(
+      if (hasTest) {
+        ExperienceEditor.PipelinesUtil.generateRequestProcessor(
           "ExperienceEditor.ToggleRegistryKey.Get",
           function(response) {
             if (response.responseValue.value !== undefined && response.responseValue.value) {
-              Sitecore.ExperienceEditor.PageEditorProxy.changeShowOptimization(true);
+              PageEditorProxy.changeShowOptimization(true);
               response.context.button.set("isPressed", response.responseValue.value);
             }
           },

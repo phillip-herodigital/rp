@@ -1,0 +1,10 @@
+﻿.sc-applicationContent.top .sc-navigation-menu {
+  top: 0;
+}
+.sc-applicationContent.top .sc-applicationHeader {
+  padding-top: 0;
+}
+.sc-applicationContent.top .sc-applicationHeader-row1:after {
+  top: 0;
+}
+/*# sourceMappingURL=hideGlobalHeader.css.map */

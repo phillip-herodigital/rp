@@ -1,5 +1,7 @@
 ﻿@using Sitecore.Mvc.Presentation
 @using Sitecore.Mvc
+@using System.Collections.Generic
+@using Sitecore.ContentTesting.ViewModel
 
 @using Sitecore.Web.UI.Controls.Common.UserControls
 @model RenderingModel
@@ -11,7 +13,12 @@
     var legendItems = userControl.GetString("LegendItems", "LegendItems");
 
     //legendItems = @"[{ index: 0, color: '#FF0000' }, { index: 1, color: '#289928' }, { index: 2, color: '#289928' }, ];";
-    legendItems = @"[{ index: 1, color: '#dc291e', groupLegend: 'Conversion rate' }, { index: 0, color: '#CCCCCC', groupLegend: 'Engagement value' }, { index: 2, color: '#6ea244', groupLegend: 'Conversion rate' },  ];";
+    //legendItems = @"[{ index: 1, color: '#dc291e', groupLegend: 'Conversion rate' }, { index: 0, color: '#CCCCCC', groupLegend: 'Engagement value' }, { index: 2, color: '#6ea244', groupLegend: 'Conversion rate' },  ];";
+    JsonResult json = new JsonResult
+    {
+      Data = new List<LegendIndexChart>() { LegendIndexChart.RED, LegendIndexChart.GREEN, LegendIndexChart.GREY, LegendIndexChart.DARK_GREY },
+    };
+    legendItems = new System.Web.Script.Serialization.JavaScriptSerializer().Serialize(json.Data);
     userControl.SetAttribute("data-sc-legenditems", legendItems);
     
     var items = userControl.GetString("Items", "Items");

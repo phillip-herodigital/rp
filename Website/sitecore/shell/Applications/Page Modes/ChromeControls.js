@@ -213,12 +213,18 @@
         tag.click(function(e) {       
           Sitecore.PageModes.ChromeManager.setCommandSender(chrome);
           Sitecore.PageModes.ChromeManager.handleCommonCommands(chrome, click.message, click.params);
+          if (command.click.indexOf("chrome:rendering:sort") > -1) {
+            e.stop();
+          }
         });
       }
       else {
         tag.click(function(e) {       
           Sitecore.PageModes.ChromeManager.setCommandSender(chrome);
           chrome.handleMessage(click.message, click.params);
+          if (command.click.indexOf("chrome:rendering:sort") > -1) {
+            e.stop();
+          }
         });
       }
     }
@@ -329,7 +335,7 @@
     var displayName = this.chrome.displayName();
     
     var isReadOnly = this.chrome.isReadOnly();
-           
+
     var title = $sc("<span class='scChromeText'></span>")     
       .text($sc.truncate(displayName, this._maxDisplayNameLength))
       .appendTo(container);
@@ -556,7 +562,7 @@
 
   _maxToolbarCommands: 7,
 
-  _maxDisplayNameLength: 40,
+  _maxDisplayNameLength: 70,
 
   _hasMoreCommands: function() {
     return this.moreCommands.children().length > 0;

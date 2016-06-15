@@ -21,7 +21,7 @@
       </GridPanel>
 
       <script type="text/javascript">
-        var dialogArguments = scForm.getDialogArguments();
+        var dialogArguments = scForm.getDialogArgumentsForCurrentFrame();
         document.getElementById('scMessage').innerHTML = dialogArguments.message;
         if (dialogArguments.header) {
            document.querySelector('.DialogHeader').innerHTML = dialogArguments.header;

@@ -1,14 +1,14 @@
-﻿define(["sitecore"], function (Sitecore) {
+﻿define(["sitecore", "/-/speak/v1/ExperienceEditor/ExperienceEditor.js"], function (Sitecore, ExperienceEditor) {
   Sitecore.Commands.ToggleProfile =
   {
     canExecute: function (context) {
-      var pressed = Sitecore.ExperienceEditor.isDebugging() && Sitecore.ExperienceEditor.Web.getUrlQueryStringValue("sc_prof") == "1";
+      var pressed = ExperienceEditor.isDebugging() && ExperienceEditor.Web.getUrlQueryStringValue("sc_prof") == "1";
       context.button.set({ isPressed: pressed });
-      return Sitecore.ExperienceEditor.canToggleDebug();
+      return ExperienceEditor.canToggleDebug();
     },
     execute: function (context) {
       context.currentContext.value = encodeURIComponent(window.parent.location);
-      Sitecore.ExperienceEditor.PipelinesUtil.generateRequestProcessor("ExperienceEditor.ToggleDebugRequests.ExecuteToggleProfile", function (response) {
+      ExperienceEditor.PipelinesUtil.generateRequestProcessor("ExperienceEditor.ToggleDebugRequests.ExecuteToggleProfile", function (response) {
         window.parent.location = response.responseValue.value;
       }).execute(context);
     }

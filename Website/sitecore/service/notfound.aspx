@@ -5,6 +5,7 @@
 <html>
 <head>
   <title>Document Not Found</title>
+  <meta http-equiv="X-Frame-Options" content="SAMEORIGIN">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link href="/sitecore/shell/client/Speak/Assets/css/speak-default-theme.css" rel="stylesheet" />
   <style>

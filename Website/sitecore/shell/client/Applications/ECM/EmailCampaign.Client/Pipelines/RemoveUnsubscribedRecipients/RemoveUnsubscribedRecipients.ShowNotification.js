@@ -12,17 +12,21 @@
 
         switch (context.response[key]) {
           case "ok":
-            text = sitecore.Resources.Dictionary.translate("ECM.Pages.Recipients.RemoveUnsubscribedJobStarted").replaceAll("{0}", recipientList[0].name);
+            text = sitecore.Resources.Dictionary.translate("ECM.Pages.Recipients.RemoveUnsubscribedJobStarted")
+              .split("{0}").join(recipientList[0].name);
             break;
           case "remove-unsubscribed-recipients-job-already-active":
-            text = sitecore.Resources.Dictionary.translate("ECM.Pages.Recipients.RemoveUnsubscribedJobAlreadyRunning").replaceAll("{0}", recipientList[0].name);
+            text = sitecore.Resources.Dictionary.translate("ECM.Pages.Recipients.RemoveUnsubscribedJobAlreadyRunning")
+              .split("{0}").join(recipientList[0].name);
             break;
           case "other-job-already-active":
-            text = sitecore.Resources.Dictionary.translate("ECM.Pages.Recipients.OtherJobAlreadyRunning").replaceAll("{0}", recipientList[0].name);
+            text = sitecore.Resources.Dictionary.translate("ECM.Pages.Recipients.OtherJobAlreadyRunning")
+              .split("{0}").join(recipientList[0].name);
             type = "warning";
             break;
           case "referenced-by-message-in-progress":
-            text = sitecore.Resources.Dictionary.translate("ECM.Pages.Recipients.UsedByMessageInProgress").replaceAll("{0}", recipientList[0].name);
+            text = sitecore.Resources.Dictionary.translate("ECM.Pages.Recipients.UsedByMessageInProgress")
+              .split("{0}").join(recipientList[0].name);
             type = "warning";
             break;
         }

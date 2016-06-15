@@ -1,0 +1,37 @@
+﻿@using Newtonsoft.Json
+@using Sitecore.Speak.Components.Models.Common.MessageBars
+@using Sitecore.Mvc
+@model MessageBarRenderingModel
+@{ 
+ var resolver = Html.Sitecore().Controls().GetParametersResolver(Model.Rendering);
+
+  Model.BuildTranslations(resolver);  
+  Model.Class.Append("sc-messageBar");
+  Model.DataBind.IsVisible().Bind("attr", "{title: Tooltip() ? Tooltip : null }");
+  Model.Properties["Translations"] = JsonConvert.SerializeObject(Model.Translations);
+  Model.Properties["ErrorMessagesString"] = Model.ErrorMessages;
+  Model.Properties["WarningMessagesString"] = Model.WarningMessages;
+  Model.Properties["NotificationString"] = Model.Notifications;
+}
+<div @Model.HtmlAttributes>
+  <div class="sc-messageBar-head alert" data-bind="click: toggle, visible: TotalMessageCount() > 1, css: { 'alert-info': Severity() == 'notification', 'alert-error': Severity() == 'error' }" style="display: none">
+    <div class="alert-ico-background"><i class="alert-ico"></i></div>
+    <span class="sc-messageBar-messageText" data-bind="text: HeadText()"></span>
+    <span class="sc-messageBar-chevron-layout">
+      <a href="javascript:;" data-bind="text: IsOpen() ? '@Model.Translations.LessDetails' : '@Model.Translations.MoreDetails'">@Model.Translations.MoreDetails</a>
+      <i class="icon-chevron" data-bind="css:{'direction-up': IsOpen()}"></i>
+    </span>
+  </div> 
+  <div class="sc-messageBar-messages-wrap" data-bind="css:{'sc-messageBar-messages-nested-children':TotalMessageCount() > 1 }, visible:IsOpen() || (TotalMessageCount() == 1)" style="display: none">
+    <div data-bind="foreach: Items">
+      <div class="alert" data-bind="css: { 'alert-info': Type == 'notification', 'alert-error': Type == 'error' } ">
+        <div class="alert-ico-background"><i class="alert-ico"></i></div>
+        <span class="sc-messageBar-messageText" data-bind="text: Text"></span>
+        <span class="sc-messageBar-actionLink-layout" data-bind="foreach: Actions">
+          <a href="#" class="sc-messageBar-actionLink" data-bind="text: Text, attr: {'data-sc-click':Action}"></a>
+        </span>
+        <button data-dismiss="alert" class="close" type="button" data-bind="attr: {'index':Index}, visible: IsClosable">×</button>
+      </div>
+    </div>
+  </div>
+</div>

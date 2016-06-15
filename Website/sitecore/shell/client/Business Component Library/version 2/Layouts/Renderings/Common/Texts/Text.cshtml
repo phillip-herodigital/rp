@@ -1,0 +1,14 @@
+﻿@model Sitecore.Speak.Components.Models.Common.Texts.TextRenderingModel
+@{
+  Model.Class.Append("sc-text").AppendIf(Model.TextSize, "X-Small", "x-small")
+        .AppendIf(Model.TextSize, "Small", "small")
+        .AppendIf(Model.TextSize, "Medium", "medium")
+        .AppendIf(Model.TextSize, "Large", "large")
+        .AppendIf(Model.TextSize, "X-Large", "x-large")
+        .AppendIf(Model.TextSize, "XX-Large", "xx-large")
+        .AppendIf(Model.TextSize, "XXX-Large", "xxx-large")
+        .AppendIf(Model.TextWeight, "Bold", "bold")
+        .AppendIf(Model.TextStyle, "Italic", "italic");
+  Model.DataBind.IsVisible().Text().Bind("attr", "{title: Tooltip() ? Tooltip : null }");
+}
+<span @Model.HtmlAttributes>@Model.Text</span>
