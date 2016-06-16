@@ -28,7 +28,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         public List<FAQ> Search(searchRequest searchRequest) {
             FaqSearchFilter filter = new FaqSearchFilter();
 
-            var query = searchRequest.Query;
+            var query = HttpUtility.HtmlEncode(searchRequest.Query);
             var category = searchRequest.Category;
             var state = searchRequest.State;
             var subcategory = searchRequest.Subcategory;

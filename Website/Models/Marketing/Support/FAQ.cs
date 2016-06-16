@@ -38,10 +38,10 @@ namespace StreamEnergy.MyStream.Models.Marketing.Support
             Encoding utf8 = Encoding.UTF8;
             string Question1 = HttpUtility.HtmlEncode(getValue("FAQ Question"));
             string Question2 = utf8.GetString(iso.GetBytes(Question1));
-            FAQQuestion = HttpUtility.HtmlDecode(Question2); //to avoid weird copy/paste characters
+            FAQQuestion = Question2; //to avoid weird copy/paste characters
             string Answer1 = HttpUtility.HtmlEncode(getValue("FAQ Answer"));
             string Answer2 = utf8.GetString(iso.GetBytes(Answer1));
-            FAQAnswer = HttpUtility.HtmlDecode(Answer2);
+            FAQAnswer = Answer2;
             Description = getValue("Faq Description");
             FurtherSupportText = getValue("Further Support");
             Guid = SitecoreItem.ID.ToString();
