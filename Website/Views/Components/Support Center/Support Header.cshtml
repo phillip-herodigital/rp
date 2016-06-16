@@ -32,6 +32,11 @@
                        typeahead-template-url="typeahead-results" />
                 <div ng-hide="isSearchLoading" class="mag-glass" ng-click="search()"></div>
                 <div ng-show="isSearchLoading" class="searchLoading"></div>
+                <ul class="dropdown-menu" ng-show="noSearchResults">
+                    <li>
+                        <div class="typeaheadQuestion">@Html.Sitecore().Field("No Results Text")</div>
+                    </li>
+                </ul>
             </div>
             <div class="select clearfix" ng-click="dropDown=!dropDown">
                 <div class="selected-category" ng-show="searchData.category">

@@ -18,6 +18,7 @@
     }
     $scope.searchedData = {};
     $scope.searchResults = false;
+    $scope.noSearchResults = false;
     $scope.resultsPage = 0;
     $scope.resultsPerPage = {
         value: 15,
@@ -162,6 +163,7 @@
 
     $scope.getSearchFaqs = function (viewValue, limitResults) {
         var searchSubcategory = null;
+        $scope.noSearchResults = false;
 
         if ($scope.subcategory != "All") {
             searchSubcategory = $scope.subcategory;
@@ -194,6 +196,9 @@
                     }
                     else {
                         resolve(response.data.slice(0, 4));
+                        if (response.data.length == 0 && $scope.searchData.text) {
+                            $scope.noSearchResults = true;
+                        }
                     }
                 }
                 else {
