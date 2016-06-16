@@ -75,7 +75,12 @@
         $scope.faqs = categoryFaqs;
         $scope.subcategories = subcategories;
         angular.forEach($scope.faqs, function (faq) {
-            faq.faqAnswer = $sce.trustAsHtml(faq.faqAnswer);
+            var div = document.createElement('div');
+            div.innerHTML = faq.faqAnswer;
+            faq.faqAnswer = $sce.trustAsHtml(div.textContent);
+            var div2 = document.createElement('div');
+            div2.innerHTML = faq.faqQuestion;
+            faq.faqQuestion = div2.textContent;
         });
         angular.forEach($scope.subcategories, function (subcat) {
             if (subcat.name === subcategory) {
@@ -172,7 +177,12 @@
                 url: "/api/support/search",
             }).then(function successCallback(response) {
                 angular.forEach(response.data, function (faq) {
-                    faq.faqAnswer = $sce.trustAsHtml(faq.faqAnswer);
+                    var div = document.createElement('div');
+                    div.innerHTML = faq.faqAnswer;
+                    faq.faqAnswer = $sce.trustAsHtml(div.textContent);
+                    var div2 = document.createElement('div');
+                    div2.innerHTML = faq.faqQuestion;
+                    faq.faqQuestion = div2.textContent;
                 });
                 if (limitResults) {
                     if ($scope.isLoading) {
@@ -197,7 +207,7 @@
         $scope.isLoading = true;
         angular.copy($scope.searchData, $scope.searchedData);
         $scope.isSearchLoading = false;
-        var promise = $scope.getSearchFaqs($scope.searchData.text, false);
+        var promise = $scope.getSearchFaqs($scope.searchedData.text, false);
         promise.then(function (response) {
             $scope.isLoading = false;
             var categorySame = $scope.category.name === $scope.searchData.category;
@@ -485,9 +495,12 @@
     $scope.backToSupport = function (FAQs) {
         $scope.faqs = FAQs;
         angular.forEach($scope.faqs, function (faq) {
-            faq.faqAnswer = $sce.trustAsHtml(faq.faqAnswer);
-            faq.guid = faq.guid.replace("{", "");
-            faq.guid = faq.guid.replace("}", "");
+            var div = document.createElement('div');
+            div.innerHTML = faq.faqAnswer;
+            faq.faqAnswer = $sce.trustAsHtml(div.textContent);
+            var div2 = document.createElement('div');
+            div2.innerHTML = faq.faqQuestion;
+            faq.faqQuestion = div2.textContent;
         });
         $scope.searchResults = false;
         buildKeywords();
