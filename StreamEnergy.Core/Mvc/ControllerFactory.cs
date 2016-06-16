@@ -36,6 +36,10 @@ namespace StreamEnergy.Mvc
 
         protected override IController CreateControllerInstance(RequestContext requestContext, string controllerName)
         {
+            if (controllerName.Contains("StreamEnergy.MyStream.Controllers.Components.AuthenticationController"))
+            {
+                controllerName = controllerName.Replace("StreamEnergy.MyStream.Controllers.Components.AuthenticationController", "StreamEnergy.MyStream.Controllers.Components.StreamAuthenticationController");
+            }
             if ((global::Sitecore.Mvc.Helpers.TypeHelper.LooksLikeTypeName(controllerName)))
             {
                 return (IController)container.Resolve(Type.GetType(controllerName));

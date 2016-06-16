@@ -9,11 +9,11 @@ using StreamEnergy.MyStream.Models.Authentication;
 
 namespace StreamEnergy.MyStream.Controllers.Components
 {
-    public class AuthenticationController : Controller
+    public class StreamAuthenticationController : Controller
     {
         private readonly ResetPasswordTokenManager resetPasswordTokenManager;
 
-        public AuthenticationController(ResetPasswordTokenManager resetPasswordTokenManager)
+        public StreamAuthenticationController(ResetPasswordTokenManager resetPasswordTokenManager)
         {
             this.resetPasswordTokenManager = resetPasswordTokenManager;
         }
