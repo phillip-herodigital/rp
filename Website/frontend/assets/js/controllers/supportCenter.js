@@ -102,7 +102,7 @@
         }
         if (searchFAQ) {
             angular.forEach($scope.getDisplayedFAQs(), function (faq, index) {
-                if (faq.name === searchFAQ.name) {
+                if (faq.guid === searchFAQ.guid) {
                     scrollGuid = "id" + faq.guid;
                     $scope.selectFaq(index);
                 }
@@ -456,7 +456,7 @@
         var isFaqPopular = false;
         var popFaqIndex = -1;
         angular.forEach($scope.faqs, function (faq, index) {
-            if (faq.name === relatedFaq.display) {
+            if (relatedFaq.guid.includes(faq.guid)) {
                 isFaqPopular = true;
                 popFaqIndex = index;
             }
