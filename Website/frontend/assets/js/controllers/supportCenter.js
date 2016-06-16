@@ -39,8 +39,12 @@
         });
         $scope.faqs = popFaqs;
         angular.forEach($scope.faqs, function (faq) {
-            faq.faqAnswer = $sce.trustAsHtml(faq.faqAnswer);
-            angular.forEach(faq.relatedFAQs, function (relatedFAQ, index) {
+            var div = document.createElement('div');
+            div.innerHTML = faq.faqAnswer;
+            faq.faqAnswer = $sce.trustAsHtml(div.textContent);
+            var div2 = document.createElement('div');
+            div2.innerHTML = faq.faqQuestion;
+            faq.faqQuestion = div2.textContent; angular.forEach(faq.relatedFAQs, function (relatedFAQ, index) {
                 var split = relatedFAQ.split("||");
                 var categoryGuids = split[1].split("|");
                 var categories = [];
@@ -207,7 +211,7 @@
         $scope.isLoading = true;
         angular.copy($scope.searchData, $scope.searchedData);
         $scope.isSearchLoading = false;
-        var promise = $scope.getSearchFaqs($scope.searchedData.text, false);
+        var promise = $scope.getSearchFaqs($scope.searchData.text, false);
         promise.then(function (response) {
             $scope.isLoading = false;
             var categorySame = $scope.category.name === $scope.searchData.category;
