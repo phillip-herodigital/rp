@@ -1127,7 +1127,7 @@
     <Compile Include="Controllers\ApiControllers\AccountController.cs" />
     <Compile Include="Controllers\ApiControllers\AddressesController.cs" />
     <Compile Include="Controllers\Components\AccountController.cs" />
-    <Compile Include="Controllers\Components\AuthenticationController.cs" />
+    <Compile Include="Controllers\Components\StreamAuthenticationController.cs" />
     <Compile Include="Controllers\ApiControllers\EnrollmentController.cs" />
     <Compile Include="Controllers\Components\ComponentController.cs" />
     <Compile Include="Controllers\DataController.cs" />
