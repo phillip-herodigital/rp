@@ -39,8 +39,12 @@
         });
         $scope.faqs = popFaqs;
         angular.forEach($scope.faqs, function (faq) {
-            faq.faqAnswer = $sce.trustAsHtml(faq.faqAnswer);
-            angular.forEach(faq.relatedFAQs, function (relatedFAQ, index) {
+            var div = document.createElement('div');
+            div.innerHTML = faq.faqAnswer;
+            faq.faqAnswer = $sce.trustAsHtml(div.textContent);
+            var div2 = document.createElement('div');
+            div2.innerHTML = faq.faqQuestion;
+            faq.faqQuestion = div2.textContent; angular.forEach(faq.relatedFAQs, function (relatedFAQ, index) {
                 var split = relatedFAQ.split("||");
                 var categoryGuids = split[1].split("|");
                 var categories = [];
@@ -75,7 +79,12 @@
         $scope.faqs = categoryFaqs;
         $scope.subcategories = subcategories;
         angular.forEach($scope.faqs, function (faq) {
-            faq.faqAnswer = $sce.trustAsHtml(faq.faqAnswer);
+            var div = document.createElement('div');
+            div.innerHTML = faq.faqAnswer;
+            faq.faqAnswer = $sce.trustAsHtml(div.textContent);
+            var div2 = document.createElement('div');
+            div2.innerHTML = faq.faqQuestion;
+            faq.faqQuestion = div2.textContent;
         });
         angular.forEach($scope.subcategories, function (subcat) {
             if (subcat.name === subcategory) {
@@ -172,7 +181,12 @@
                 url: "/api/support/search",
             }).then(function successCallback(response) {
                 angular.forEach(response.data, function (faq) {
-                    faq.faqAnswer = $sce.trustAsHtml(faq.faqAnswer);
+                    var div = document.createElement('div');
+                    div.innerHTML = faq.faqAnswer;
+                    faq.faqAnswer = $sce.trustAsHtml(div.textContent);
+                    var div2 = document.createElement('div');
+                    div2.innerHTML = faq.faqQuestion;
+                    faq.faqQuestion = div2.textContent;
                 });
                 if (limitResults) {
                     if ($scope.isLoading) {
@@ -485,9 +499,12 @@
     $scope.backToSupport = function (FAQs) {
         $scope.faqs = FAQs;
         angular.forEach($scope.faqs, function (faq) {
-            faq.faqAnswer = $sce.trustAsHtml(faq.faqAnswer);
-            faq.guid = faq.guid.replace("{", "");
-            faq.guid = faq.guid.replace("}", "");
+            var div = document.createElement('div');
+            div.innerHTML = faq.faqAnswer;
+            faq.faqAnswer = $sce.trustAsHtml(div.textContent);
+            var div2 = document.createElement('div');
+            div2.innerHTML = faq.faqQuestion;
+            faq.faqQuestion = div2.textContent;
         });
         $scope.searchResults = false;
         buildKeywords();
