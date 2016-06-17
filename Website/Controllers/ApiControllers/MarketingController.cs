@@ -310,5 +310,67 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 parser.Close();
             }
         }
+
+        [HttpGet]
+        [Route("importenergyfaqdata")]
+        public void ImportEnergyFAQData(string path)
+        {
+            Item EnergyFAQFolder = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Components/Support/FAQs/Energy FAQs");
+            TemplateItem FAQTemplate = Sitecore.Context.Database.GetTemplate("User Defined/Components/Support/State FAQ");
+            Item EnergySubcategoryFolder = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Components/Support/Subcategories/Energy");
+            String EnergyCategoryGuid = "{D009C153-3D1F-4C58-A984-7C4AC60612B3}";
+            List<Item> EnergySubcategoryItems = new List<Item>();
+            Item FAQItem;
+
+            using (new Sitecore.SecurityModel.SecurityDisabler())
+            {
+                foreach (Item child in EnergyFAQFolder.Children)
+                {
+                    child.Delete();
+                }
+
+                foreach (Item child in EnergySubcategoryFolder.Children)
+                {
+                    EnergySubcategoryItems.Add(child);
+                }
+                TextFieldParser parser = new TextFieldParser(path);
+                parser.TextFieldType = Microsoft.VisualBasic.FileIO.FieldType.Delimited;
+                parser.SetDelimiters(",");
+
+                while (!parser.EndOfData)
+                {
+                    string[] fields = parser.ReadFields();
+                    string pattern = @"[^\w\s\-\$]"; // only allow \w, \s, -, and $ for Sitecore Item names
+                    Regex rgx = new Regex(pattern);
+                    string[] faqSubcategoryNames = fields[0].Split("|".ToCharArray());
+                    string faqSubcategory = "";
+
+                    foreach (string faqSubcategoryName in faqSubcategoryNames)
+                    {
+                        faqSubcategory += EnergySubcategoryItems.First(s => s.Fields["Name"].ToString() == faqSubcategoryName).ID.ToString();
+                    }
+                    faqSubcategory.Replace("}{", "}|{");
+                    int sortOrder = Convert.ToInt16(fields[1]);
+                    string faqQuestion = fields[2];
+                    string faqAnswer = fields[3];
+                    string faqQuestionItemName = rgx.Replace(faqQuestion, "");
+
+                    FAQItem = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Components/Support/FAQs/Energy FAQs/" + faqQuestionItemName);
+                    if (FAQItem == null)
+                    {
+                        FAQItem = EnergyFAQFolder.Add(faqQuestionItemName, FAQTemplate);
+                        FAQItem.Editing.BeginEdit();
+                        FAQItem.Fields["FAQ Question"].Value = faqQuestion;
+                        FAQItem.Fields["FAQ Answer"].Value = faqAnswer;
+                        FAQItem.Fields["FAQ Subcategories"].Value = faqSubcategory;
+                        FAQItem.Fields["FAQ Categories"].Value = EnergyCategoryGuid;
+                        FAQItem.Fields["FAQ States"].Value = "{C524C6E6-7BEE-402E-BC3F-ACC22E90A8CC}"; //texas
+                        FAQItem.Appearance.Sortorder = sortOrder;
+                        FAQItem.Editing.EndEdit();
+                    }
+                }
+                parser.Close();
+            }
+        }
     }
 }
