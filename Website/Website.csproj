@@ -1572,6 +1572,9 @@
     <Content Include="App_Config\Custom\Settings.production.config" />
     <Content Include="App_Config\Custom\Settings.production.sitecore.config" />
     <Content Include="sitecore\default.aspx" />
+    <Content Include="sitecore\shell\sitecore.version.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="_CMP\RazlService.asmx" />
     <Content Include="App_Config\Sitecore.config" />
     <Content Include="App_Config\Include\001.Sitecore.Speak.Important.config" />
@@ -1618,8 +1621,7 @@
     <Content Include="App_Config\Include\Sitecore.ContentSearch.Lucene.Index.Core.config.disabled" />
     <Content Include="App_Config\Include\Sitecore.ContentSearch.Lucene.Index.Master.config" />
     <Content Include="App_Config\Include\Sitecore.ContentSearch.Lucene.Index.Master.config.disabled" />
-    <Content Include="App_Config\Include\Sitecore.ContentSearch.Lucene.Index.Web.config" />
-    <Content Include="App_Config\Include\Sitecore.ContentSearch.Lucene.Index.Web.config.disabled" />
+    <None Include="App_Config\Include\Sitecore.ContentSearch.Lucene.Index.Web.config.disabled" />
     <Content Include="App_Config\Include\Sitecore.ContentSearch.Solr.Index.Analytics.config.example" />
     <Content Include="App_Config\Include\Sitecore.ContentSearch.Solr.Index.Core.config.example" />
     <Content Include="App_Config\Include\Sitecore.ContentSearch.Solr.Index.Master.config.example" />
