@@ -1035,7 +1035,7 @@ FROM [SwitchBack] WHERE ESIID=@esiId";
 
             await GenerateEndOfEnrollmentScreenshot(resultData);
             await SendAssociateNameEmail(resultData);
-
+            await SendMobileNextSteps(resultData);
             return resultData;
         }
 
@@ -1138,6 +1138,53 @@ FROM [SwitchBack] WHERE ESIID=@esiId";
                 stateMachine.InternalContext.AssociateEmailSent = true;
             }
         }
+
+        private async Task SendMobileNextSteps(Models.Enrollment.ClientData resultData)
+        {
+            bool isMobile = stateMachine.InternalContext.PlaceOrderResult.Any(o => o.Offer.OfferType == "Mobile");
+
+            if (isMobile && resultData.ExpectedState == Models.Enrollment.ExpectedState.OrderConfirmed && !resultData.MobileNextStepsEmailSent)
+            {
+                var acctNumbers = (from product in resultData.Cart
+                                   from offerInformation in product.OfferInformationByType
+                                   from selectedOffer in offerInformation.Value.OfferSelections
+                                   select selectedOffer.ConfirmationNumber).Distinct().ToArray();
+                if (!string.IsNullOrEmpty(resultData.AssociateName))
+                {
+                    var to = settings.GetSettingsValue("Enrollment Associate Name", "Email Address");
+
+                    var customerName = resultData.ContactInfo.Name.First + " " + resultData.ContactInfo.Name.Last;
+                    var customerPhone = "";
+
+                    foreach (var phone in resultData.ContactInfo.Phone)
+                    {
+                        customerPhone += customerPhone == "" ? "" : ", ";
+                        customerPhone += phone.Number;
+                    }
+                    customerPhone = customerPhone == "" ? "N/A" : customerPhone;
+
+                    await emailService.SendEmail(new Guid("{C874C035-AD39-4F33-8B51-AD142A6CCFDF}"), to, new NameValueCollection() {
+                        {"customerName", customerName},
+                        {"customerPhone", customerPhone},
+                        {"associateName", resultData.AssociateName},
+                        {"sessionId", HttpContext.Current.Session.SessionID},
+                        {"accountNumbers", string.Join(",", acctNumbers)},
+                    });
+                }
+                if (resultData.AssociateInformation == null && !resultData.IsRenewal && !resultData.IsSinglePage)
+                {
+                    await logger.Record(new LogEntry()
+                    {
+                        Data = {
+                            { "AssociateName", resultData.AssociateName },
+                            { "AccountNumbers", acctNumbers },
+                        },
+                    });
+                }
+                stateMachine.InternalContext.MobileNextStepsEmailSent = true;
+            }
+        }
+
 
         [HttpGet]
         [Caching.CacheControl(MaxAgeInMinutes = 0)]
