@@ -15,6 +15,7 @@ namespace StreamEnergy.MyStream.Models.Marketing.Support
         public string IconURL;
         public string EmergencyContactContent;
         public string ContactPageContent;
+        public string ContactContent;
 
         public FAQState() { }
 
@@ -41,6 +42,7 @@ namespace StreamEnergy.MyStream.Models.Marketing.Support
             }
             EmergencyContactContent = item.Fields["Emergency Contact Content"].Value;
             ContactPageContent = item.Fields["Contact Page Content"].Value;
+            ContactContent = item.Fields["Contact Contact"].Value;
         }
     }
 }

@@ -132,16 +132,19 @@
                 </div>
             </article>
             <aside class="bottom">
-                <div class="contact">
+                <div class="contact" ng-hide="category.states.length && !searchData.state">
                     <div class="headset">
                         <img src="@headsetIconURL" />
                         <h4>@categoryContent.Fields["Still having Issues"]</h4>
                         <p>@categoryContent.Fields["Please Contact"]</p>
                     </div>
-                    <div class="contact-info">
-                        @categoryContent.Fields["Contact Info"].Value.AsHtml()
-                        <p ng-show="category.states.length"><a href="" ng-click="showModal('emergency-contact')">@categoryContent.Fields["Emergency Contacts"]</a></p>
+                    <div class="contact-info" ng-hide="category.states.length">
+                        @categoryItem.ContactContent.AsHtml()
                         <p ng-show="category.name == 'Mobile'"><a href="" ng-click="mobileAcronyms = true">@categoryContent.Fields["Mobile Acronyms"]</a></p>
+                    </div>
+                    <div class="contact-info" ng-show="category.states.length">
+                        <div ng-bind-html="searchData.state.contactContent"></div>
+                        <p><a href="" ng-click="showModal('emergency-contact')">@categoryContent.Fields["Emergency Contacts"]</a></p>
                     </div>
                 </div>
             </aside>

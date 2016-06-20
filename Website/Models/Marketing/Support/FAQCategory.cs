@@ -19,6 +19,7 @@ namespace StreamEnergy.MyStream.Models.Marketing.Support
         public string ContactPageContent;
         public string EmergencyContactSubheading;
         public string EmergencyContactContent;
+        public string ContactContent;
         public string Link;
         public List<FAQState> States = new List<FAQState>();
         public string IconURL;
@@ -35,6 +36,7 @@ namespace StreamEnergy.MyStream.Models.Marketing.Support
             ContactPageContent = getValue("Contact Page Content");
             EmergencyContactSubheading = getValue("Emergency Contact Subheading");
             EmergencyContactContent = getValue("Emergency Contact Content");
+            ContactContent = getValue("Contact Content");
             Guid = SitecoreItem.ID.ToString();
             ImageField iconField = SitecoreItem.Fields["Icon"];
             if(iconField.MediaItem != null)
