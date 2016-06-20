@@ -1149,38 +1149,26 @@ FROM [SwitchBack] WHERE ESIID=@esiId";
                                    from offerInformation in product.OfferInformationByType
                                    from selectedOffer in offerInformation.Value.OfferSelections
                                    select selectedOffer.ConfirmationNumber).Distinct().ToArray();
-                if (!string.IsNullOrEmpty(resultData.AssociateName))
+
+                string to = resultData.ContactInfo.Email.ToString();
+
+                string customerName = resultData.ContactInfo.Name.First + " " + resultData.ContactInfo.Name.Last;
+                string customerPhone = "";
+
+                foreach (var phone in resultData.ContactInfo.Phone)
                 {
-                    var to = settings.GetSettingsValue("Enrollment Associate Name", "Email Address");
+                    customerPhone += customerPhone == "" ? "" : ", ";
+                    customerPhone += phone.Number;
+                }
 
-                    var customerName = resultData.ContactInfo.Name.First + " " + resultData.ContactInfo.Name.Last;
-                    var customerPhone = "";
-
-                    foreach (var phone in resultData.ContactInfo.Phone)
-                    {
-                        customerPhone += customerPhone == "" ? "" : ", ";
-                        customerPhone += phone.Number;
-                    }
-                    customerPhone = customerPhone == "" ? "N/A" : customerPhone;
-
-                    await emailService.SendEmail(new Guid("{C874C035-AD39-4F33-8B51-AD142A6CCFDF}"), to, new NameValueCollection() {
+                await emailService.SendEmail(new Guid("{C874C035-AD39-4F33-8B51-AD142A6CCFDF}"), to, new NameValueCollection() {
                         {"customerName", customerName},
                         {"customerPhone", customerPhone},
                         {"associateName", resultData.AssociateName},
                         {"sessionId", HttpContext.Current.Session.SessionID},
                         {"accountNumbers", string.Join(",", acctNumbers)},
                     });
-                }
-                if (resultData.AssociateInformation == null && !resultData.IsRenewal && !resultData.IsSinglePage)
-                {
-                    await logger.Record(new LogEntry()
-                    {
-                        Data = {
-                            { "AssociateName", resultData.AssociateName },
-                            { "AccountNumbers", acctNumbers },
-                        },
-                    });
-                }
+
                 stateMachine.InternalContext.MobileNextStepsEmailSent = true;
             }
         }
