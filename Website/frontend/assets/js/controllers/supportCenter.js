@@ -346,6 +346,7 @@
         if (!category.states.length > 0 || state) {
             if (state && typeof (state.emergencyContactContent) === "string") {
                 state.emergencyContactContent = $sce.trustAsHtml(state.emergencyContactContent);
+                state.contactContent = $sce.trustAsHtml(state.contactContent);
             }
             $scope.searchData.category = category.name;
             $scope.searchData.state = state;
