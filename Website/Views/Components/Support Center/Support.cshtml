@@ -26,34 +26,18 @@
                     <h1>@Html.Sitecore().Field("Categories Heading")</h1>
                     <h4>@Html.Sitecore().Field("Categories Subheading")</h4>
                     <div class="categories clearfix">
-                        <div class="category" ng-repeat="category in displayCategories" ng-if="$index < 4">
-                            <div ng-class="category.name" ng-style="{'background-image': 'URL(' + category.iconURL + ')'}" ng-if="!category.states.length">
+                        <div class="category" ng-repeat="category in categories" ng-if="$index < 4">
+                            <div ng-class="category.name" ng-style="{'background-image': 'URL(' + category.iconURL + ')'}" ng-click="goto(category.link)">
                                 <p class="service-name">{{category.name}}</p>
                                 <p>{{category.description}}</p>
-                                <p class="get-support">
-                                    <a href="{{category.link}}">@Html.Sitecore().Field("Get support")</a>
-                                </p>
-                            </div>
-                            <div ng-class="category.name" class="dropdown-toggle" dropdown-toggle ng-style="{'background-image': 'URL(' + category.iconURL + ')'}" ng-if="category.states.length">
-                                <p class="service-name">{{category.name}}</p>
-                                <p>{{category.description}}</p>
-                                <div class="get-support">
-                                    <a>@Html.Sitecore().Field("Get support")</a>
-                                    <ul class="dropdown-menu" role="menu" ng-if="category.states.length">
-                                        <li disabled>Select State</li>
-                                        <li class="icon" ng-repeat="state in category.states">
-                                            <div ng-style="{'background-image': 'URL(' + state.iconURL + ')'}" ng-click="selectCategory($parent.category, state); search();">{{state.abbreviation}}</div>
-                                        </li>
-                                    </ul>
-                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="secondary clearfix" ng-show="displayCategories.length > 4">
+                <div class="secondary clearfix" ng-show="categories.length > 4">
                     <h1>@Html.Sitecore().Field("Secondary Categories Heading")</h1>
                     <div class="categories clearfix">
-                        <div class="category " ng-repeat="category in displayCategories" ng-if="$index > 3">
+                        <div class="category " ng-repeat="category in categories" ng-if="$index > 3">
                             <div ng-class="category.name" ng-style="{'background-image': 'URL(' + category.iconURL + ')'}">
                                 <p class="service-name">{{category.name}}</p>
                                 <p>{{category.description}}</p>
