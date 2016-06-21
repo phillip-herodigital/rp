@@ -28,8 +28,8 @@
                     </div>
                     <ul class="dropdown-menu" role="menu" ng-if="category.states.length">
                         <li disabled>@Html.Sitecore().Field("Select State")</li>
-                        <li class="icon" ng-repeat="state in category.states">
-                            <div ng-style="{'background-image': 'URL(' + state.iconURL + ')'}" ng-click="selectPane(category, state)">{{state.abbreviation}}</div>
+                        <li class="icon" ng-repeat="state in category.states" ng-click="selectPane(category, state)">
+                            <div ng-style="{'background-image': 'URL(' + state.iconURL + ')'}">{{state.abbreviation}}</div>
                         </li>
                     </ul>
                 </div>
