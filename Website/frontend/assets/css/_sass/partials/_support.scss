@@ -1044,6 +1044,10 @@
                                     .response {
                                         border-top: 2px solid #fff;
 
+                                        p {
+                                            float: left;
+                                        }
+
                                         .button {
                                             margin: 15px 0;
                                             float: right;
