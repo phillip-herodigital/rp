@@ -31,11 +31,9 @@
     $scope.noKeywordSelected = true;
 
     $scope.init = function (categories, popFaqs) {
-        $scope.categories = categories;
-        $scope.displayCategories = [];
-        angular.forEach($scope.categories, function (category) {
+        angular.forEach(categories, function (category) {
             if (category.displayOnMainPage) {
-                $scope.displayCategories.push(category);
+                $scope.categories.push(category);
             }
         });
         $scope.faqs = popFaqs;
@@ -73,7 +71,11 @@
     }
 
     $scope.categoryInit = function (categories, category, categoryFaqs, subcategories, subcategory, keyword, searchFAQ, search) {
-        $scope.categories = categories;
+        angular.forEach(categories, function (category) {
+            if (category.displayOnMainPage) {
+                $scope.categories.push(category);
+            }
+        });
         $scope.searchData.category = category.name;
         $scope.searchPlaceholder = $scope.defaultSearchPlaceholder;
         $scope.category = category;
@@ -124,7 +126,11 @@
     }
 
     $scope.contactInit = function (categories) {
-        $scope.categories = categories;
+        angular.forEach(categories, function (category) {
+            if (category.displayOnContactPage) {
+                $scope.categories.push(category);
+            }
+        });
         $scope.pane = "";
         angular.forEach($scope.categories, function (category) {
             category.contactPageContent = $sce.trustAsHtml(category.contactPageContent);
@@ -292,6 +298,10 @@
         }
         window.location.href = "/support/" + $scope.searchData.category + "?search=" + state + text;
     };
+
+    $scope.goto = function (link) {
+        window.location.href = link;
+    }
 
     var paginate = function () {
         var displayFAQs = $scope.getDisplayedFAQs();
