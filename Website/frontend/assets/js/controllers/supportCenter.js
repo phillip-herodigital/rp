@@ -94,7 +94,9 @@
         angular.forEach($scope.subcategories, function (subcat) {
             if (subcat.name === subcategory) {
                 subcat.selected = true;
-                $scope.subcategory = subcategory;
+                if (subcategory != "All") {
+                    $scope.subcategory = subcat.guid;
+                }
             }
         });
         if (search) {
@@ -174,7 +176,11 @@
         $scope.noSearchResults = false;
 
         if ($scope.subcategory != "All") {
-            searchSubcategory = $scope.subcategory;
+            angular.forEach($scope.subcategories, function (cat) {
+                if (cat.guid == $scope.subcategory) {
+                    searchSubcategory = cat.name;
+                }
+            });
         }
         var request = {
             query: viewValue,
@@ -390,7 +396,8 @@
     }
 
     $scope.selectSubcategory = function (index) {
-        $scope.subcategory = $scope.subcategories[index].name;
+        $scope.subcategory = ($scope.subcategories[index].name == "All") ? "All" : $scope.subcategory = $scope.subcategories[index].guid;
+        
         angular.forEach($scope.subcategories, function (subcat) {
             subcat.selected = false;
         });
@@ -576,7 +583,7 @@
         if ($scope.subcategory != "All") {
             var filter = false;
             angular.forEach(faq.subCategories, function (subcat) {
-                if (subcat === $scope.subcategory.guid) {
+                if (subcat === $scope.subcategory) {
                     filter = true;
                 }
             });
