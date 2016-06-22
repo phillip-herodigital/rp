@@ -61,7 +61,7 @@ namespace StreamEnergy.MyStream.Models.Marketing.Support
             }
             if (!string.IsNullOrEmpty(getValue("Keywords")))
             {
-                Keywords = getValue("Keywords").Split(',');
+                Keywords = getValue("Keywords").Replace(" ", "").Split(',');
             }
 
             if (!string.IsNullOrEmpty(getValue("Related FAQs")))
