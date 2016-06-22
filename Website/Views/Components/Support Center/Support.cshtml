@@ -87,13 +87,18 @@
                                         </div>
                                     </aside>
                                     <div class="helpful">
-                                        <p>
+                                        <p ng-hide="faq.feedbackSent || faq.feedbackError">
                                             <label for="helpful">@Html.Sitecore().Field("Helpful")</label>
                                             <input type="radio" name="helpful" ng-model="isHelpful" ng-change="helpfulSelected = true" ng-value="true" />@Html.Sitecore().Field("Yes")
                                             <input type="radio" name="helpful" ng-model="isHelpful" ng-change="helpfulSelected = true" ng-value="false" />@Html.Sitecore().Field("No")
                                         </p>
                                         <div class="response" ng-show="faq.feedbackSent">
                                             <p>@Html.Sitecore().Field("Feedback Sent Text")</p>
+                                            <button class="button primary" ng-click="isHelpful = null; helpfulSelected = false; feedback = ''; faq.feedbackError = false; faq.feedbackSent = false">@categoryContent.Fields["Feedback Reset Text"]</button>
+                                        </div>
+                                        <div class="response" ng-show="faq.feedbackError">
+                                            <p>@Html.Sitecore().Field("Feedback Error Text")</p>
+                                            <button class="button primary" ng-click="isHelpful = null; helpfulSelected = false; feedback = ''; faq.feedbackError = false; faq.feedbackSent = false">@categoryContent.Fields["Feedback Reset Text"]</button>
                                         </div>
                                         <div class="response" ng-show="helpfulSelected && !faq.feedbackSent">
                                             <p>@Html.Sitecore().Field("Thanks for your feedback")</p>
