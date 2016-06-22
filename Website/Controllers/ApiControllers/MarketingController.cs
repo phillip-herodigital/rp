@@ -348,7 +348,6 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 TextFieldParser parser = new TextFieldParser(path);
                 parser.TextFieldType = Microsoft.VisualBasic.FileIO.FieldType.Delimited;
                 parser.SetDelimiters(",");
-                Sitecore.Globalization.Language Spanish = Sitecore.Globalization.Language.Parse("es");
 
                 while (!parser.EndOfData)
                 {
