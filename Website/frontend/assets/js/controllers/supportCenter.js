@@ -9,7 +9,13 @@
     $scope.categories = []; //list of categories
     $scope.subcategories = []; //list of subcategories for $scope.category
     $scope.subcategory = "All";
-    $scope.faqs = []; //popular faqs on /support page, category faqs on category pages
+    $scope.faqs = []; //popular faqs on /support page, category/subcategory faqs on category/subcategory pages
+
+    $scope.searchData = {
+        category: "",
+        state: null,
+        text: ""
+    }
     $scope.searchedData = {};
     $scope.searchResults = false;
     $scope.noSearchResults = false;
