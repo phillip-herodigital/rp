@@ -225,7 +225,7 @@ VALUES
             query = query.Trim().ToLower();
             foreach (Item item in AllSitecoreFAQS) {
                 var faq = new FAQ(item);
-                if (filter.Category != null && !faq.Categories.Contains(filter.Category.Guid))
+                if (filter.Category != null && !faq.Categories.Contains(filter.Category.DisplayTitle + "|" + filter.Category.Guid))
                 {
                     continue;
                 }

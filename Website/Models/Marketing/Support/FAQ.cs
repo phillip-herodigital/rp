@@ -52,7 +52,9 @@ namespace StreamEnergy.MyStream.Models.Marketing.Support
 
             if (!string.IsNullOrEmpty(getValue("FAQ Categories")))
             {
-                Categories = getValue("FAQ Categories").Split('|');
+                Categories = (from guid in getValue("FAQ Categories").Split('|')
+                              let category = Sitecore.Context.Database.GetItem(guid)
+                              select string.Format("{0}|{1}", getValueFromItem(category, "Display Title"), guid)).ToArray();
             }
 
             if (!string.IsNullOrEmpty(getValue("FAQ Subcategories")))
