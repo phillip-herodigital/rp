@@ -332,10 +332,10 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
             using (new Sitecore.SecurityModel.SecurityDisabler())
             {
-                //foreach (Item child in EnergyFAQFolder.Children)
-                //{
-                //    child.Delete();
-                //}
+                foreach (Item child in EnergyFAQFolder.Children)
+                {
+                    child.Delete();
+                }
 
                 foreach (Item child in EnergySubcategoryFolder.Children)
                 {
@@ -368,7 +368,13 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                     }
 
                     FAQItem = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Components/Support/FAQs/Energy FAQs/" + faqQuestionItemName);
-                    if (FAQItem == null)
+                    if (FAQItem != null && FAQItem.Fields["FAQ Question"].Value == faqQuestion && FAQItem.Fields["FAQ Answer"].Value == faqAnswer && FAQItem.Fields["FAQ Subcategories"].Value == faqSubcategory && FAQItem.Fields["FAQ Categories"].Value == EnergyCategoryGuid)
+                    {
+                        FAQItem.Editing.BeginEdit();
+                        FAQItem.Fields["FAQ States"].Value = FAQItem.Fields["FAQ States"].ToString() + "|" + NewYorkGuid;
+                        FAQItem.Editing.EndEdit();
+                    }
+                    else
                     {
                         FAQItem = EnergyFAQFolder.Add(faqQuestionItemName, FAQTemplate);
                         FAQItem.Editing.BeginEdit();
@@ -379,12 +385,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                         FAQItem.Fields["FAQ States"].Value = NewYorkGuid;
                         FAQItem.Appearance.Sortorder = sortOrder;
                         FAQItem.Editing.EndEdit();
-                    }
-                    else
-                    {
-                        FAQItem.Editing.BeginEdit();
-                        FAQItem.Fields["FAQ States"].Value = FAQItem.Fields["FAQ States"].ToString() + "|" + NewYorkGuid;
-                        FAQItem.Editing.EndEdit();
+
                     }
                 }
                 parser.Close();
