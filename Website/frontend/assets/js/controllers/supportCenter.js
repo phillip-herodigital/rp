@@ -45,6 +45,12 @@
             faq.faqAnswer = $sce.trustAsHtml(div.textContent);
             div.innerHTML = faq.faqQuestion;
             faq.faqQuestion = div.textContent;
+            angular.forEach(faq.categories, function (faqCat, index) {
+                faq.categories[index] = {
+                    name: faqCat.split("|")[0],
+                    guid: faqCat.split("|")[1]
+                };
+            });
             angular.forEach(faq.relatedFAQs, function (relatedFAQ, index) {
                 var split = relatedFAQ.split("||");
                 var categoryGuids = split[1].split("|");
@@ -69,6 +75,7 @@
 
     $scope.searchInit = function (selectSearchPlaceholder, defaultSearchPlaceholder) {
         $scope.searchPlaceholder = selectSearchPlaceholder;
+        $scope.selectSearchPlaceholder = selectSearchPlaceholder
         $scope.defaultSearchPlaceholder = defaultSearchPlaceholder;
     }
 
@@ -78,11 +85,15 @@
                 $scope.categories.push(category);
             }
         });
-        $scope.searchData.category = category.name;
-        $scope.searchPlaceholder = $scope.defaultSearchPlaceholder;
+
+        $scope.searchData.category = category;
         $scope.category = category;
         originalFaqs = $scope.faqs = categoryFaqs;
         $scope.subcategories = subcategories;
+
+        if (category.states.length == 0) {
+            $scope.searchPlaceholder = $scope.defaultSearchPlaceholder;
+        }
 
         var div = document.createElement('div');
         angular.forEach($scope.faqs, function (faq) {
@@ -90,7 +101,14 @@
             faq.faqAnswer = $sce.trustAsHtml(div.textContent);
             div.innerHTML = faq.faqQuestion;
             faq.faqQuestion = div.textContent;
+            angular.forEach(faq.categories, function (faqCat, index) {
+                faq.categories[index] = {
+                    name: faqCat.split("|")[0],
+                    guid: faqCat.split("|")[1]
+                };
+            });
         });
+
         angular.forEach($scope.subcategories, function (subcat) {
             if (subcat.name === subcategory) {
                 subcat.selected = true;
@@ -111,7 +129,7 @@
                 }
             });
             if (searchArray.length === 2) {
-                $scope.searchData.category = category.name;
+                $scope.searchData.category = category;
                 $scope.searchData.text = searchArray[1];
                 $scope.search();
             }
@@ -162,6 +180,12 @@
         }
     }
 
+    $scope.searchbarClick = function () {
+        if (!$scope.searchData.category || ($scope.searchData.category.states.length && !$scope.searchData.state)) {
+            $scope.dropDown = !$scope.dropDown;
+        }
+    }
+
     $scope.scroll = function () {
         if (!scrolled) {
             if (scrollGuid != "") {
@@ -177,7 +201,7 @@
         var request = {
             query: viewValue,
             state: $scope.searchData.state ? $scope.searchData.state.name : null,
-            category: $scope.searchData.category,
+            category: $scope.searchData.category.displayTitle,
             subcategory: null
         }
 
@@ -194,6 +218,12 @@
                     faq.faqAnswer = $sce.trustAsHtml(div.textContent);
                     div.innerHTML = faq.faqQuestion;
                     faq.faqQuestion = div.textContent;
+                    angular.forEach(faq.categories, function (faqCat, index) {
+                        faq.categories[index] = {
+                            name: faqCat.split("|")[0],
+                            guid: faqCat.split("|")[1]
+                        };
+                    });
                 });
                 if (limitResults) {
                     if ($scope.isLoading) {
@@ -225,29 +255,24 @@
         var promise = $scope.getSearchFaqs($scope.searchData.text, false);
         promise.then(function (response) {
             $scope.isLoading = false;
-            var categorySame = $scope.category.name === $scope.searchData.category;
+            var categorySame = $scope.category.name === $scope.searchData.category.displayTitle;
             if (categorySame) {
                 //same category
                 if (response.length == 1) {
                     //same category, one result
-                    if ($scope.category.name) { //category page
-                        var faqIndex = -1;
-                        var displayedFAQs = $scope.getDisplayedFAQs()
-                        angular.forEach(displayedFAQs, function (faq, index) {
-                            if (faq.guid === response[0].guid) {
-                                faqIndex = index;
-                            }
-                        });
-                        $scope.searchResults = false;
-                        scrolled = false;
-                        $scope.selectFaq(faqIndex);
-                        $scope.searchData.text = "";
-                        scrollGuid = "id" + displayedFAQs[faqIndex].guid;
-                        $scope.$apply();
-                    }
-                    else { //main page
-                        selectOutsideFAQ(response[0]);
-                    }
+                    var faqIndex = -1;
+                    var displayedFAQs = $scope.getDisplayedFAQs()
+                    angular.forEach(displayedFAQs, function (faq, index) {
+                        if (faq.guid === response[0].guid) {
+                            faqIndex = index;
+                        }
+                    });
+                    $scope.searchResults = false;
+                    scrolled = false;
+                    $scope.selectFaq(faqIndex);
+                    $scope.searchData.text = "";
+                    scrollGuid = "id" + displayedFAQs[faqIndex].guid;
+                    $scope.$apply();
                 }
                 else {
                     //same category, multiple results
@@ -279,12 +304,12 @@
     var selectOutsideFAQ = function (faq) {
         var category = "";
         if ($scope.searchData.category) {
-            category = $scope.searchData.category;
+            category = $scope.searchData.category.displayTitle;
         }
         else {
             var category = null;
             angular.forEach($scope.categories, function (cat) {
-                if (cat.guid === faq.categories[0])
+                if (cat.guid === faq.categories[0].guid)
                 {
                     category = cat.name;
                 }
@@ -307,7 +332,7 @@
         if ($scope.searchData.text) {
             text = "|" + $scope.searchData.text;
         }
-        window.location.href = "/support/" + $scope.searchData.category + "?search=" + state + text;
+        window.location.href = "/support/" + $scope.searchData.category.displayTitle + "?search=" + state + text;
     };
 
     $scope.goto = function (link) {
@@ -369,7 +394,7 @@
                 state.emergencyContactContent = $sce.trustAsHtml(state.emergencyContactContent);
                 state.contactContent = $sce.trustAsHtml(state.contactContent);
             }
-            $scope.searchData.category = category.name;
+            $scope.searchData.category = category;
             $scope.searchData.state = state;
             $scope.dropDown = false;
             $scope.searchPlaceholder = $scope.defaultSearchPlaceholder;
@@ -397,6 +422,7 @@
         $scope.mobileAcronyms = false;
         paginate();
         buildKeywords();
+        $scope.toggleKeyword();
         $scope.resultsPage = 0;
     }
 

@@ -77,6 +77,7 @@
                     border-right: 1px solid #999999;
                     background-color: #eff2f3;
                     border-radius: 5px 0 0 5px;
+                    cursor: pointer;
 
                     .selected-category {
                         font-size: 20px;
@@ -248,9 +249,11 @@
 
                         li:hover {
                             background-color: #28a5de;
+                            cursor: pointer;
 
                             &.noHover {
                                 background-color: initial;
+                                cursor: initial;
                             }
                         }
 
@@ -828,6 +831,7 @@
 
                             hr {
                                 border-top: 2px solid #efefef;
+                                clear: both;
                             }
                         }
 
@@ -1360,12 +1364,14 @@ article.contact {
 
                         &:hover {
                             background-color: #28a5de;
+                            cursor: pointer;
                         }
 
                         &[disabled] {
 
                             &:hover {
                                 background-color: initial;
+                                cursor: initial;
                             }
                         }
                     }
