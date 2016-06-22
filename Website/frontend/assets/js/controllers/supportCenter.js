@@ -1,4 +1,4 @@
-﻿ngApp.controller('supportCenterCtrl', ['$scope', '$http', '$sce', '$modal', 'scrollService', function ($scope, $http, $sce, $modal, scrollService) {
+﻿ngApp.controller('supportCenterCtrl', ['$scope', '$http', '$sce', '$modal', 'scrollService', 'orderByFilter', function ($scope, $http, $sce, $modal, scrollService, orderByFilter) {
     $scope.isLoading = false;
     $scope.dropDown = false;
     $scope.selectedFaqIndex = null;
@@ -94,7 +94,9 @@
         angular.forEach($scope.subcategories, function (subcat) {
             if (subcat.name === subcategory) {
                 subcat.selected = true;
-                $scope.subcategory = subcategory;
+                if (subcategory != "All") {
+                    $scope.subcategory = subcat.guid;
+                }
             }
         });
         if (search) {
@@ -170,17 +172,13 @@
     }
 
     $scope.getSearchFaqs = function (viewValue, limitResults) {
-        var searchSubcategory = null;
         $scope.noSearchResults = false;
 
-        if ($scope.subcategory != "All") {
-            searchSubcategory = $scope.subcategory;
-        }
         var request = {
             query: viewValue,
             state: $scope.searchData.state ? $scope.searchData.state.name : null,
             category: $scope.searchData.category,
-            subcategory: searchSubcategory
+            subcategory: null
         }
 
         var promise = new Promise(function (resolve, reject) {
@@ -390,7 +388,8 @@
     }
 
     $scope.selectSubcategory = function (index) {
-        $scope.subcategory = $scope.subcategories[index].name;
+        $scope.subcategory = ($scope.subcategories[index].name == "All") ? "All" : $scope.subcategory = $scope.subcategories[index].guid;
+        
         angular.forEach($scope.subcategories, function (subcat) {
             subcat.selected = false;
         });
@@ -438,7 +437,7 @@
                 angular.forEach(faq.keywords, function (keyword) {
                     var index = -1;
                     angular.forEach($scope.keywords, function (kword, kIndex) {
-                        if (keyword === kword.name) {
+                        if (keyword.toLowerCase() === kword.name.toLowerCase()) {
                             index = kIndex;
                         }
                     });
@@ -465,6 +464,7 @@
                 });
             }
         });
+        $scope.keywords = orderByFilter($scope.keywords, "name");
     }
 
     $scope.sendFeedback = function (faq, isHelpful, feedback) {
@@ -576,7 +576,7 @@
         if ($scope.subcategory != "All") {
             var filter = false;
             angular.forEach(faq.subCategories, function (subcat) {
-                if (subcat === $scope.subcategory.guid) {
+                if (subcat === $scope.subcategory) {
                     filter = true;
                 }
             });
@@ -596,7 +596,7 @@
             if (keyword.selected) {
                 filter = true;
                 angular.forEach(faq.keywords, function (faqKeyword) {
-                    if (keyword.name === faqKeyword) {
+                    if (keyword.name.toLowerCase() === faqKeyword.toLowerCase()) {
                         filter = false;
                     }
                 });
