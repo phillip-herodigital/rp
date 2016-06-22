@@ -7,12 +7,9 @@
     var categoryContent = Sitecore.Context.Database.GetItem("{E507A0DB-A122-406B-862E-6C163BCCA7E7}");
     ImageField categoryBackgroundField = categoryContent.Fields["Background"];
     string categoryBackgroundURL = Sitecore.Resources.Media.MediaManager.GetMediaUrl(categoryBackgroundField.MediaItem);
-
-    var defaultSearchPlaceholder = StreamEnergy.Json.Stringify(Html.Sitecore().CurrentItem.Fields["Search Placeholder"].Value);
-    var selectSearchPlaceholder = StreamEnergy.Json.Stringify("Select a Service");
 }
 <div class="support-search" ng-class="{'category-search': isCategorySupport}" ng-style="{'background-image': isCategorySupport ? 'URL(@categoryBackgroundURL)' : 'URL(@backgroundURL)'}" ng-cloak>
-    <div class="content clearfix" ng-init="searchInit(@selectSearchPlaceholder, @defaultSearchPlaceholder)">
+    <div class="content clearfix">
         <h1 ng-show="!subcategories.length && !searchResults && !mobileAcronyms">@Html.Sitecore().Field("Main Heading")</h1>
         <h1 ng-show="subcategories.length  && !searchResults && !mobileAcronyms">{{category.displayTitle}} @Html.Sitecore().Field("Support")</h1>
         <h1 ng-show="searchResults">@Html.Sitecore().Field("Search Results Heading")</h1>
@@ -21,11 +18,10 @@
         <form class="search" name="searchBar" ng-submit="search()" ng-hide="mobileAcronyms">
             <div class="input">
                 <input type="text" class="search-input" name="searchText" id="seachText"
-                       placeholder="{{searchPlaceholder}}"
+                       placeholder="@Html.Sitecore().Field("Search Placeholder")"
                        autocomplete="off"
                        typeahead-focus-first="false"
                        typeahead-on-select="search()"
-                       ng-disabled="!searchData.category || (searchData.category.states.length && !searchData.state)"
                        ng-model="searchData.text"
                        typeahead-loading="isSearchLoading"
                        typeahead="faq.faqQuestion as faq.faqQuestion for faq in getSearchFaqs($viewValue, true) | filter:$viewValue"
