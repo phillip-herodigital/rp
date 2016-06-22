@@ -319,10 +319,12 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             TemplateItem FAQTemplate = Sitecore.Context.Database.GetTemplate("User Defined/Components/Support/State FAQ");
             Item EnergySubcategoryFolder = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Components/Support/Subcategories/Energy");
             String EnergyCategoryGuid = "{D009C153-3D1F-4C58-A984-7C4AC60612B3}";
+            string StateGuid = "{CF5BAF5B-35B4-4AE0-8F3A-F9F10F332A55}";
+            bool updated = false;
             //string GeorgiaGuid = "{CF5BAF5B-35B4-4AE0-8F3A-F9F10F332A55}";
             //string MarylandGuid = "{62775FBA-8066-4D70-B575-8BA70A9E26D0}";
             //string NewJerseyGuid = "{AF7168F9-D030-4598-B5D2-7F5459DE3808}";
-            string NewYorkGuid = "{FD9206D6-844E-4476-AC18-FF833A36F99A}";
+            //string NewYorkGuid = "{FD9206D6-844E-4476-AC18-FF833A36F99A}";
             //string PennsylvaniaGuid = "{7224504C-1989-4410-B8E4-A3D536958E35}";
             //string TexasGuid = "{C524C6E6-7BEE-402E-BC3F-ACC22E90A8CC}";
             //string DCGuid = "{55CAD77F-9736-4D3B-94E6-502252A81D9A}";
@@ -347,6 +349,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
                 while (!parser.EndOfData)
                 {
+                    updated = false;
                     string[] fields = parser.ReadFields();
                     string pattern = @"[^\w\s\-\$]"; // only allow \w, \s, -, and $ for Sitecore Item names
                     Regex rgx = new Regex(pattern);
@@ -367,14 +370,20 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                         faqQuestionItemName = faqQuestionItemName.Substring(0, 99);
                     }
 
-                    FAQItem = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Components/Support/FAQs/Energy FAQs/" + faqQuestionItemName);
-                    if (FAQItem != null && FAQItem.Fields["FAQ Question"].Value == faqQuestion && FAQItem.Fields["FAQ Answer"].Value == faqAnswer && FAQItem.Fields["FAQ Subcategories"].Value == faqSubcategory && FAQItem.Fields["FAQ Categories"].Value == EnergyCategoryGuid)
+                    foreach (Item child in EnergyFAQFolder.Children)
                     {
-                        FAQItem.Editing.BeginEdit();
-                        FAQItem.Fields["FAQ States"].Value = FAQItem.Fields["FAQ States"].ToString() + "|" + NewYorkGuid;
-                        FAQItem.Editing.EndEdit();
+
+                        FAQItem = child;
+                        if (!updated && FAQItem.Fields["FAQ Question"].Value == faqQuestion && FAQItem.Fields["FAQ Answer"].Value == faqAnswer && FAQItem.Fields["FAQ Subcategories"].Value == faqSubcategory && FAQItem.Fields["FAQ Categories"].Value == EnergyCategoryGuid)
+                        {
+                            FAQItem.Editing.BeginEdit();
+                            FAQItem.Fields["FAQ States"].Value = FAQItem.Fields["FAQ States"].ToString() + "|" + StateGuid;
+                            FAQItem.Editing.EndEdit();
+                            updated = true;
+                        }
+                        
                     }
-                    else
+                    if (!updated)
                     {
                         FAQItem = EnergyFAQFolder.Add(faqQuestionItemName, FAQTemplate);
                         FAQItem.Editing.BeginEdit();
@@ -382,7 +391,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                         FAQItem.Fields["FAQ Answer"].Value = faqAnswer;
                         FAQItem.Fields["FAQ Subcategories"].Value = faqSubcategory;
                         FAQItem.Fields["FAQ Categories"].Value = EnergyCategoryGuid;
-                        FAQItem.Fields["FAQ States"].Value = NewYorkGuid;
+                        FAQItem.Fields["FAQ States"].Value = StateGuid;
                         FAQItem.Appearance.Sortorder = sortOrder;
                         FAQItem.Editing.EndEdit();
 
