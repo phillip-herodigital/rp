@@ -89,7 +89,7 @@ namespace StreamEnergy.Services.Clients.SmartyStreets
         {
             var client = container.Resolve<HttpClient>();
 
-            var response = await client.GetAsync("https://api.smartystreets.com/zipcode?auth-id=" + authId + "&auth-token=" + authToken + "&zipcode=" + postalCode5);
+            var response = await client.GetAsync("https://us-zipcode.api.smartystreets.com/lookup?auth-id=" + authId + "&auth-token=" + authToken + "&zipcode=" + postalCode5);
 
             if (response.IsSuccessStatusCode)
             {
