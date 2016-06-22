@@ -223,6 +223,7 @@
         $scope.isLoading = true;
         angular.copy($scope.searchData, $scope.searchedData);
         $scope.isSearchLoading = false;
+        $scope.toggleKeyword();
         var promise = $scope.getSearchFaqs($scope.searchData.text, false);
         promise.then(function (response) {
             $scope.isLoading = false;
@@ -231,19 +232,24 @@
                 //same category
                 if (response.length == 1) {
                     //same category, one result
-                    var faqIndex = -1;
-                    var displayedFAQs = $scope.getDisplayedFAQs()
-                    angular.forEach(displayedFAQs, function (faq, index) {
-                        if (faq.guid === response[0].guid) {
-                            faqIndex = index;
-                        }
-                    });
-                    $scope.searchResults = false;
-                    scrolled = false;
-                    $scope.selectFaq(faqIndex);
-                    $scope.searchData.text = "";
-                    scrollGuid = "id" + displayedFAQs[faqIndex].guid;
-                    $scope.$apply();
+                    if ($scope.category.name) { //category page
+                        var faqIndex = -1;
+                        var displayedFAQs = $scope.getDisplayedFAQs()
+                        angular.forEach(displayedFAQs, function (faq, index) {
+                            if (faq.guid === response[0].guid) {
+                                faqIndex = index;
+                            }
+                        });
+                        $scope.searchResults = false;
+                        scrolled = false;
+                        $scope.selectFaq(faqIndex);
+                        $scope.searchData.text = "";
+                        scrollGuid = "id" + displayedFAQs[faqIndex].guid;
+                        $scope.$apply();
+                    }
+                    else { //main page
+                        selectOutsideFAQ(response[0]);
+                    }
                 }
                 else {
                     //same category, multiple results
@@ -510,7 +516,7 @@
     $scope.setResultsPage = function (page) {
         if (page >= 0 && page < $scope.resultsPages) {
             $scope.resultsPage = page;
-            scrollService.scrollTo("category", 0, 500, null);
+            scrollService.scrollTo("pageScroll", 0, 500, null);
         }
     }
 
