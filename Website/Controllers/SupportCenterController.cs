@@ -217,103 +217,43 @@ VALUES
         }
 
         public List<FAQ> Search(string query, FaqSearchFilter filter) {
-            List<FAQ> results = new List<FAQ>();
-            List<FAQ> allFAQS = new List<FAQ>();
+            List<FAQ> matchingFAQS = new List<FAQ>();
 
-            query = query.Trim().ToLower(); 
+            var categories = GetAllCategories();
+            var subCategories = GetAllSubCategories();
+
+            query = query.Trim().ToLower();
             foreach (Item item in AllSitecoreFAQS) {
-                allFAQS.Add(new FAQ(item));
-            }
+                var faq = new FAQ(item);
+                if (filter.Category != null && !faq.Categories.Contains(filter.Category.Guid))
+                {
+                    continue;
+                }
+                if (filter.Subcategory != null && !faq.SubCategories.Contains(filter.Subcategory.Guid))
+                {
+                    continue;
+                }
+                if (filter.State != null && !faq.States.Contains(filter.State.Guid))
+                {
+                    continue;
+                }
+                if (
+                    faq.Name.ToLower().Contains(query) ||
+                    faq.Description.ToLower().Contains(query) ||
+                    faq.FAQQuestion.ToLower().Contains(query) ||
+                    faq.FAQAnswer.ToLower().Contains(query) ||
+                    categories.Any(c => faq.Categories.Contains(c.Guid) && c.DisplayTitle.ToLower().Contains(query)) ||
+                    subCategories.Any(s => faq.Categories.Contains(s.Guid) && s.DisplayTitle.ToLower().Contains(query)) ||
+                    faq.Keywords.Any(k => k.ToLower().Contains(query))
+                    )
+                {
 
-            //These calls can all be run asyncrhonisly and are being extracted out with that in mind
-            List<FAQ> faqNameSearch = FAQNameSearch(query, allFAQS);
-            List<FAQ> faqDetailsSearch = FAQDetailsSearch(query, allFAQS);
-            List<FAQ> catSearch = CategorySearch(query, allFAQS);
-            List<FAQ> subSearch = SubcategorySearch(query, allFAQS);
-            List<FAQ> keySearch = FAQKeywordSearch(query, allFAQS);
-
-            updateSearchResults(results, faqNameSearch);
-            updateSearchResults(results, faqDetailsSearch);
-            updateSearchResults(results, catSearch);
-            updateSearchResults(results, subSearch);
-            updateSearchResults(results, keySearch);
-
-
-            if (filter != null) {
-                results = filterSearchResults(results, filter);
-            }
-
-
-            return results;
-        }
-
-        #region Internal Search Methods
-
-        private List<FAQ> CategorySearch(string query, List<FAQ> list) {
-            return list.Where(a => a.Categories.Any(b => b.DisplayTitle.ToLower() == query)).ToList();
-
-        }
-
-        private List<FAQ> SubcategorySearch(string query, List<FAQ> list) {
-            return list.Where(a => a.SubCategories.Any(b => b.DisplayTitle.ToLower() == query)).ToList();
-        }
-
-        private List<FAQ> FAQNameSearch(string query, List<FAQ> list) {
-            return list.Where(a => a.Name.ToLower().Contains(query)).ToList();
-        }
-
-        private List<FAQ> FAQDetailsSearch(string query, List<FAQ> list) {
-            return list.Where(a => a.Description.ToLower().Contains(query) 
-                            || a.FAQQuestion.ToLower().Contains(query.ToLower())
-                            || a.FAQAnswer.ToLower().Contains(query)).ToList();
-        }
-
-        private List<FAQ> FAQKeywordSearch(string query, List<FAQ> list) {
-            return list.Where(a => a.Keywords.Any(b => b.ToLower() == query)).ToList();
-        }
-
-        private List<FAQ> filterSearchResults(List<FAQ> initialSet, FaqSearchFilter filter) {
-            if (filter == null || 
-                (filter.Category == null && filter.Subcategory == null && filter.State == null))
-            {
-                return initialSet;
-            }
-
-            List<FAQ> results = initialSet;
-
-            if(filter.Category != null)
-            {
-                results = results.Where(a => a.Categories.Any(b => b.Guid == filter.Category.Guid)).ToList();
-            }
-
-            if (filter.Subcategory != null) {
-                results = results.Where(a => a.SubCategories.Any(b => b.Guid == filter.Subcategory.Guid)).ToList();
-            }
-
-            if (filter.State != null) {
-                results = results.Where(a => a.States.Any(b => b.Abbreviation == filter.State.Abbreviation)).ToList();
-            }
-
-            return results;
-        }
-
-        private List<FAQ> updateSearchResults(List<FAQ> initialSet, List<FAQ> updatedResults)
-        {
-            if (updatedResults.Count() < 1) return initialSet;
-
-            List<FAQ> results = initialSet;
-
-            foreach (FAQ faq in updatedResults) {
-                if (!results.Any(a => a.Guid == faq.Guid)) {
-                    results.Add(faq);
+                    matchingFAQS.Add(new FAQ(item));
                 }
             }
 
-            return results;
-
+            return matchingFAQS;
         }
-
-        #endregion
 
     }
 }

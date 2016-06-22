@@ -8,11 +8,11 @@ namespace StreamEnergy.MyStream.Models.Marketing.Support
 {
     public class FAQ
     {
-        public List<FAQCategory> Categories = new List<FAQCategory>();
-        public List<FaqSubcategory> SubCategories = new List<FaqSubcategory>();
-        public List<string> Keywords = new List<string>();
-        public List<string> RelatedFAQs = new List<string>();
-        public List<FAQState> States = new List<FAQState>();
+        public IEnumerable<string> Categories = new string[] { };
+        public IEnumerable<string> SubCategories = new string[] { };
+        public IEnumerable<string> Keywords = new string[] { };
+        public IEnumerable<string> RelatedFAQs = new string[] { };
+        public IEnumerable<string> States = new string[] { };
 
         public string Name;
         public string FAQQuestion;
@@ -23,16 +23,19 @@ namespace StreamEnergy.MyStream.Models.Marketing.Support
 
         private Item SitecoreItem;
 
-        public FAQ(string SitecoreID) {
+        public FAQ(string SitecoreID)
+        {
             SitecoreItem = Sitecore.Context.Database.GetItem(SitecoreID);
             buildFAQ();
         }
 
-        public FAQ(Item SitecoreItem) {
+        public FAQ(Item SitecoreItem)
+        {
             this.SitecoreItem = SitecoreItem;
             buildFAQ();
         }
-        private void buildFAQ() {
+        private void buildFAQ()
+        {
             Name = getValue("FAQ Name");
             Encoding iso = Encoding.GetEncoding("ISO-8859-1");
             Encoding utf8 = Encoding.UTF8;
@@ -44,49 +47,33 @@ namespace StreamEnergy.MyStream.Models.Marketing.Support
             FAQAnswer = Answer2;
             Description = getValue("Faq Description");
             FurtherSupportText = getValue("Further Support");
-            Guid = SitecoreItem.ID.ToString();
-            Guid = Guid.Replace("{", "");
-            Guid = Guid.Replace("}", "");
 
-            if (!string.IsNullOrEmpty(getValue("FAQ Categories"))) {
-                var cats = getValue("FAQ Categories").Split("|".ToCharArray());
-                foreach (string c in cats) {
-                    Categories.Add(new FAQCategory(Sitecore.Context.Database.GetItem(c)));
-                }
+            Guid = SitecoreItem.ID.ToString().Replace("{", "").Replace("}", "");
+
+            if (!string.IsNullOrEmpty(getValue("FAQ Categories")))
+            {
+                Categories = getValue("FAQ Categories").Split('|');
             }
 
             if (!string.IsNullOrEmpty(getValue("FAQ Subcategories")))
             {
-                var subcats = getValue("FAQ Subcategories").Split("|".ToCharArray());
-                foreach (string s in subcats)
-                {
-                    SubCategories.Add(new FaqSubcategory(Sitecore.Context.Database.GetItem(s)));
-                }
+                SubCategories = getValue("FAQ Subcategories").Split('|');
             }
-            if (!string.IsNullOrEmpty(getValue("Keywords"))) {
-                var kwords = getValue("Keywords").Split(",".ToCharArray());
-
-                foreach (string keyword in kwords) {
-                    Keywords.Add(keyword.Trim().ToLower());
-                }
+            if (!string.IsNullOrEmpty(getValue("Keywords")))
+            {
+                Keywords = getValue("Keywords").Split(',');
             }
 
-            if (!string.IsNullOrEmpty(getValue("Related FAQs"))) {
-                var related = getValue("Related FAQs").Split("|".ToCharArray());
-
-                foreach (string guid in related) {
-                    Item r = Sitecore.Context.Database.GetItem(guid);
-                    RelatedFAQs.Add(string.Format("{0}||{1}||{2}", getValueFromItem(r, "FAQ Name"), getValueFromItem(r, "FAQ Categories") , guid));
-                }
+            if (!string.IsNullOrEmpty(getValue("Related FAQs")))
+            {
+                RelatedFAQs = (from guid in getValue("Related FAQs").Split('|')
+                               let r = Sitecore.Context.Database.GetItem(guid)
+                               select string.Format("{0}||{1}||{2}", getValueFromItem(r, "FAQ Name"), getValueFromItem(r, "FAQ Categories"), guid)).ToArray();
             }
 
             if (!string.IsNullOrEmpty(getValue("FAQ States")))
             {
-                var states = getValue("FAQ States").Split("|".ToCharArray()); ;
-                foreach (string state in states)
-                {
-                    States.Add(new FAQState(state));
-                }
+                States = getValue("FAQ States").Split('|');
             }
         }
 
