@@ -1,4 +1,4 @@
-﻿ngApp.controller('supportCenterCtrl', ['$scope', '$http', '$sce', '$modal', 'scrollService', function ($scope, $http, $sce, $modal, scrollService) {
+﻿ngApp.controller('supportCenterCtrl', ['$scope', '$http', '$sce', '$modal', 'scrollService', 'orderByFilter', function ($scope, $http, $sce, $modal, scrollService, orderByFilter) {
     $scope.isLoading = false;
     $scope.dropDown = false;
     $scope.selectedFaqIndex = null;
@@ -172,21 +172,13 @@
     }
 
     $scope.getSearchFaqs = function (viewValue, limitResults) {
-        var searchSubcategory = null;
         $scope.noSearchResults = false;
 
-        if ($scope.subcategory != "All") {
-            angular.forEach($scope.subcategories, function (cat) {
-                if (cat.guid == $scope.subcategory) {
-                    searchSubcategory = cat.name;
-                }
-            });
-        }
         var request = {
             query: viewValue,
             state: $scope.searchData.state ? $scope.searchData.state.name : null,
             category: $scope.searchData.category,
-            subcategory: searchSubcategory
+            subcategory: null
         }
 
         var promise = new Promise(function (resolve, reject) {
@@ -445,7 +437,7 @@
                 angular.forEach(faq.keywords, function (keyword) {
                     var index = -1;
                     angular.forEach($scope.keywords, function (kword, kIndex) {
-                        if (keyword === kword.name) {
+                        if (keyword.toLowerCase() === kword.name.toLowerCase()) {
                             index = kIndex;
                         }
                     });
@@ -472,6 +464,7 @@
                 });
             }
         });
+        $scope.keywords = orderByFilter($scope.keywords, "name");
     }
 
     $scope.sendFeedback = function (faq, isHelpful, feedback) {
@@ -603,7 +596,7 @@
             if (keyword.selected) {
                 filter = true;
                 angular.forEach(faq.keywords, function (faqKeyword) {
-                    if (keyword.name === faqKeyword) {
+                    if (keyword.name.toLowerCase() === faqKeyword.toLowerCase()) {
                         filter = false;
                     }
                 });
