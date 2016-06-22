@@ -322,7 +322,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             //string GeorgiaGuid = "{CF5BAF5B-35B4-4AE0-8F3A-F9F10F332A55}";
             //string MarylandGuid = "{62775FBA-8066-4D70-B575-8BA70A9E26D0}";
             //string NewJerseyGuid = "{AF7168F9-D030-4598-B5D2-7F5459DE3808}";
-            string NewYorkGuid = "{FD9206D6-844E-4476-AC18-FF833A36F99A}";
+            //string NewYorkGuid = "{FD9206D6-844E-4476-AC18-FF833A36F99A}";
             //string PennsylvaniaGuid = "{7224504C-1989-4410-B8E4-A3D536958E35}";
             //string TexasGuid = "{C524C6E6-7BEE-402E-BC3F-ACC22E90A8CC}";
             //string DCGuid = "{55CAD77F-9736-4D3B-94E6-502252A81D9A}";
@@ -346,7 +346,6 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 TextFieldParser parser = new TextFieldParser(path);
                 parser.TextFieldType = Microsoft.VisualBasic.FileIO.FieldType.Delimited;
                 parser.SetDelimiters(",");
-                Sitecore.Globalization.Language Spanish = Sitecore.Globalization.Language.Parse("es");
 
                 while (!parser.EndOfData)
                 {
