@@ -50,7 +50,7 @@
 <div class="support-container layout" ng-cloak>
     <div class="category clearfix" id="category" ng-init="categoryInit(@categories, @category, @categoryFaqs, @subcategories, @subcategory, @keyword, @searchFAQ, @search)">
         <div class="pagination-display clearfix" ng-show="searchResults">
-            <p><a href="" ng-click="backToSupport(@categoryFaqs)" ng-show="searchResults">@categoryContent.Fields["Back to Support"]</a></p>
+            <p><a href="" ng-click="backToSupport()" ng-show="searchResults">@categoryContent.Fields["Back to Support"]</a></p>
             <p>
                 <span>@categoryContent.Fields["Showing"] {{resultsPageRange[resultsPage].low + 1}} - {{resultsPageRange[resultsPage].high + 1}} @categoryContent.Fields["of"] {{displayedFAQCount}}</span>
                 <span> @categoryContent.Fields["results for"] “{{searchedData.text}}”</span>
