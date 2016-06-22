@@ -45,6 +45,12 @@
             faq.faqAnswer = $sce.trustAsHtml(div.textContent);
             div.innerHTML = faq.faqQuestion;
             faq.faqQuestion = div.textContent;
+            angular.forEach(faq.categories, function (faqCat, index) {
+                faq.categories[index] = {
+                    name: faqCat.split("|")[0],
+                    guid: faqCat.split("|")[1]
+                };
+            });
             angular.forEach(faq.relatedFAQs, function (relatedFAQ, index) {
                 var split = relatedFAQ.split("||");
                 var categoryGuids = split[1].split("|");
@@ -78,6 +84,7 @@
                 $scope.categories.push(category);
             }
         });
+
         $scope.searchData.category = category.name;
         $scope.searchPlaceholder = $scope.defaultSearchPlaceholder;
         $scope.category = category;
@@ -90,7 +97,14 @@
             faq.faqAnswer = $sce.trustAsHtml(div.textContent);
             div.innerHTML = faq.faqQuestion;
             faq.faqQuestion = div.textContent;
+            angular.forEach(faq.categories, function (faqCat, index) {
+                faq.categories[index] = {
+                    name: faqCat.split("|")[0],
+                    guid: faqCat.split("|")[1]
+                };
+            });
         });
+
         angular.forEach($scope.subcategories, function (subcat) {
             if (subcat.name === subcategory) {
                 subcat.selected = true;
@@ -194,6 +208,12 @@
                     faq.faqAnswer = $sce.trustAsHtml(div.textContent);
                     div.innerHTML = faq.faqQuestion;
                     faq.faqQuestion = div.textContent;
+                    angular.forEach(faq.categories, function (faqCat, index) {
+                        faq.categories[index] = {
+                            name: faqCat.split("|")[0],
+                            guid: faqCat.split("|")[1]
+                        };
+                    });
                 });
                 if (limitResults) {
                     if ($scope.isLoading) {
@@ -284,7 +304,7 @@
         else {
             var category = null;
             angular.forEach($scope.categories, function (cat) {
-                if (cat.guid === faq.categories[0])
+                if (cat.guid === faq.categories[0].guid)
                 {
                     category = cat.name;
                 }
@@ -397,6 +417,7 @@
         $scope.mobileAcronyms = false;
         paginate();
         buildKeywords();
+        $scope.toggleKeyword();
         $scope.resultsPage = 0;
     }
 
