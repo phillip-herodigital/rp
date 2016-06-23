@@ -54,7 +54,7 @@
             <p>
                 <span>@categoryContent.Fields["Showing"] {{resultsPageRange[resultsPage].low + 1}} - {{resultsPageRange[resultsPage].high + 1}} @categoryContent.Fields["of"] {{displayedFAQCount}}</span>
                 <span> @categoryContent.Fields["results for"] “{{searchedData.text}}”</span>
-                <span> @categoryContent.Fields["in"] {{searchedData.category}}</span>
+                <span> @categoryContent.Fields["in"] {{searchedData.category.displayTitle}}</span>
                 <span ng-show="searchedData.state.name"> - {{searchedData.state.abbreviation}}</span>
             </p>
         </div>
