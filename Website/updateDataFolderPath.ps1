@@ -11,7 +11,7 @@ If ($localStorageName -eq "")
 [void]([System.Reflection.Assembly]::LoadWithPartialName("Microsoft.WindowsAzure.ServiceRuntime"))
 $storageDir = ([Microsoft.WindowsAzure.ServiceRuntime.RoleEnvironment]::GetLocalResource($localStorageName)).RootPath.TrimEnd('\\')
 
-$webConfig = 'E:\sitesroot\0\Web.config'
+$webConfig = 'E:\sitesroot\0\App_Config\Sitecore.config'
 $doc = (Get-Content $webConfig) -as [Xml]
 $obj = $doc.configuration.sitecore['sc.variable'] | where {$_.Name -eq 'dataFolder'}
 $obj.value = $storageDir
