@@ -13,9 +13,9 @@ $storageDir = ([Microsoft.WindowsAzure.ServiceRuntime.RoleEnvironment]::GetLocal
 
 $webConfig = 'E:\sitesroot\0\App_Config\Sitecore.config'
 $doc = (Get-Content $webConfig) -as [Xml]
-$obj = $doc.configuration.sitecore['sc.variable'] | where {$_.Name -eq 'dataFolder'}
+$obj = $doc.sitecore.GetElementsByTagName('sc.variable') | where {$_.Name -eq 'dataFolder'}
 $obj.value = $storageDir
-$obj2 = $doc.configuration.sitecore['sc.variable'] | where {$_.Name -eq 'tempFolder'}
+$obj2 = $doc.sitecore.GetElementsByTagName('sc.variable') | where {$_.Name -eq 'tempFolder'}
 $obj2.value = $storageDir + '\temp'
 
 $doc.Save($webConfig)
