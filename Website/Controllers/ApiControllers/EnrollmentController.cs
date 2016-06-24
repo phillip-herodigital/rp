@@ -955,6 +955,7 @@ FROM [SwitchBack] WHERE ESIID=@esiId";
             var resultData = ClientData(typeof(DomainModels.Enrollments.PaymentInfoState));
             await GenerateEndOfEnrollmentScreenshot(resultData);
             await SendAssociateNameEmail(resultData);
+            await SendMobileNextSteps(resultData);
             return resultData;
         }
 
@@ -1141,37 +1142,40 @@ FROM [SwitchBack] WHERE ESIID=@esiId";
 
         private async Task SendMobileNextSteps(Models.Enrollment.ClientData resultData)
         {
-            bool isMobile = stateMachine.InternalContext.PlaceOrderResult.Any(o => o.Offer.OfferType == "Mobile");
-
-            if (isMobile && resultData.ExpectedState == Models.Enrollment.ExpectedState.OrderConfirmed && !resultData.MobileNextStepsEmailSent)
+            if (resultData.ExpectedState == Models.Enrollment.ExpectedState.OrderConfirmed && !resultData.MobileNextStepsEmailSent)
             {
                 var acctNumbers = (from product in resultData.Cart
                                    from offerInformation in product.OfferInformationByType
+                                   where offerInformation.Key == "Mobile"
                                    from selectedOffer in offerInformation.Value.OfferSelections
+                                   where !selectedOffer.ConfirmationSuccess
                                    select selectedOffer.ConfirmationNumber).Distinct().ToArray();
 
-                string to = resultData.ContactInfo.Email.ToString();
-
-                string customerName = resultData.ContactInfo.Name.First + " " + resultData.ContactInfo.Name.Last;
-                string customerPhone = "";
-
-                foreach (var phone in resultData.ContactInfo.Phone)
+                if (acctNumbers.Length != 0)
                 {
-                    customerPhone += customerPhone == "" ? "" : ", ";
-                    customerPhone += phone.Number;
-                }
+                    string to = resultData.ContactInfo.Email.Address.ToString();
 
-                await emailService.SendEmail(new Guid("{C874C035-AD39-4F33-8B51-AD142A6CCFDF}"), to, new NameValueCollection() {
+                    string customerName = resultData.ContactInfo.Name.First + " " + resultData.ContactInfo.Name.Last;
+                    string customerPhone = "";
+
+                    foreach (var phone in resultData.ContactInfo.Phone)
+                    {
+                        customerPhone += customerPhone == "" ? "" : ", ";
+                        customerPhone += phone.Number;
+                    }
+
+                    stateMachine.InternalContext.MobileNextStepsEmailSent =
+                        await emailService.SendEmail(new Guid("{C874C035-AD39-4F33-8B51-AD142A6CCFDF}"), to, new NameValueCollection() {
                         {"customerName", customerName},
                         {"customerPhone", customerPhone},
                         {"associateName", resultData.AssociateName},
                         {"sessionId", HttpContext.Current.Session.SessionID},
                         {"accountNumbers", string.Join(",", acctNumbers)},
                     });
-
-                stateMachine.InternalContext.MobileNextStepsEmailSent = true;
+                }
             }
         }
+
 
 
         [HttpGet]
