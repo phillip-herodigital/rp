@@ -329,7 +329,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             //string TexasGuid = "{C524C6E6-7BEE-402E-BC3F-ACC22E90A8CC}";
             //string DCGuid = "{55CAD77F-9736-4D3B-94E6-502252A81D9A}";
 
-            string stateGuid = "{55CAD77F-9736-4D3B-94E6-502252A81D9A}";
+            string stateGuid = "{C524C6E6-7BEE-402E-BC3F-ACC22E90A8CC}";
 
             List<Item> EnergySubcategoryItems = new List<Item>();
             Item FAQItem;
@@ -349,6 +349,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 parser.TextFieldType = Microsoft.VisualBasic.FileIO.FieldType.Delimited;
                 parser.SetDelimiters(",");
 
+                var Spanish = Sitecore.Globalization.Language.Parse("es");
                 while (!parser.EndOfData)
                 {
                     updated = false;
@@ -366,8 +367,13 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                     int sortOrder = Convert.ToInt16(fields[1]);
                     string faqQuestion = fields[2];
                     string faqAnswer = fields[3];
-                    string faqQuestionES = fields[4];
-                    string faqAnswerES = fields[5];
+                    string faqQuestionES = "";
+                    string faqAnswerES = "";
+                    if (fields.Length == 6)
+                    {
+                        faqQuestionES = fields[4];
+                        faqAnswerES = fields[5];
+                    }
                     string faqQuestionItemName = rgx.Replace(faqQuestion, "");
                     if (faqQuestionItemName.Length > 99)
                     {
@@ -376,12 +382,11 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
                     foreach (Item child in EnergyFAQFolder.Children)
                     {
-
-                        FAQItem = child;
-                        if (!updated && FAQItem.Fields["FAQ Question"].Value == faqQuestion && FAQItem.Fields["FAQ Answer"].Value == faqAnswer && FAQItem.Fields["FAQ Subcategories"].Value == faqSubcategory && FAQItem.Fields["FAQ Categories"].Value == EnergyCategoryGuid)
+                        if (!updated && child.Fields["FAQ Question"].Value == faqQuestion && child.Fields["FAQ Answer"].Value == faqAnswer && child.Fields["FAQ Subcategories"].Value == faqSubcategory && child.Fields["FAQ Categories"].Value == EnergyCategoryGuid)
                         {
+                            FAQItem = child;
                             FAQItem.Editing.BeginEdit();
-                            FAQItem.Fields["FAQ States"].Value = FAQItem.Fields["FAQ States"].ToString() + "|" + StateGuid;
+                            FAQItem.Fields["FAQ States"].Value = FAQItem.Fields["FAQ States"].ToString() + "|" + stateGuid;
                             FAQItem.Editing.EndEdit();
                             updated = true;
                         }
@@ -398,13 +403,21 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                         FAQItem.Fields["FAQ States"].Value = StateGuid;
                         FAQItem.Appearance.Sortorder = sortOrder;
                         FAQItem.Editing.EndEdit();
-                        //using (new Sitecore.Globalization.LanguageSwitcher("es"))
-                        //{
-                        //    FAQItem.Versions.AddVersion();
-                        //    FAQItem.Fields["FAQ Question"].Value = faqQuestionES;
-                        //    FAQItem.Fields["FAQ Answer"].Value = faqAnswerES;
-                        //    FAQItem.Editing.EndEdit();
-                        //}
+                        if (fields.Length == 6) //if spanish content
+                        {
+                            using (new Sitecore.Globalization.LanguageSwitcher("es"))
+                            {
+                                if (FAQItem.Versions.Count == 0)
+                                {
+                                    Item FAQItemES = Sitecore.Context.Database.GetItem(FAQItem.ID, Spanish);
+                                    FAQItemES.Editing.BeginEdit();
+                                    FAQItemES.Versions.AddVersion();
+                                    FAQItemES.Fields["FAQ Question"].Value = faqQuestionES;
+                                    FAQItemES.Fields["FAQ Answer"].Value = faqAnswerES;
+                                    FAQItemES.Editing.EndEdit();
+                                }
+                            }
+                        }
                     }
                 }
                 parser.Close();
