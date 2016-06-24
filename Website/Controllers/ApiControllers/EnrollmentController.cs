@@ -1154,25 +1154,13 @@ FROM [SwitchBack] WHERE ESIID=@esiId";
                 if (acctNumbers.Length != 0)
                 {
                     string to = resultData.ContactInfo.Email.Address.ToString();
-
                     string customerName = resultData.ContactInfo.Name.First + " " + resultData.ContactInfo.Name.Last;
-                    string customerPhone = "";
-
-                    foreach (var phone in resultData.ContactInfo.Phone)
-                    {
-                        customerPhone += customerPhone == "" ? "" : ", ";
-                        customerPhone += phone.Number;
-                    }
-
-                    stateMachine.InternalContext.MobileNextStepsEmailSent =
-                        await emailService.SendEmail(new Guid("{C874C035-AD39-4F33-8B51-AD142A6CCFDF}"), to, new NameValueCollection() {
+                    await emailService.SendEmail(new Guid("{C874C035-AD39-4F33-8B51-AD142A6CCFDF}"), to, new NameValueCollection() {
                         {"customerName", customerName},
-                        {"customerPhone", customerPhone},
-                        {"associateName", resultData.AssociateName},
-                        {"sessionId", HttpContext.Current.Session.SessionID},
                         {"accountNumbers", string.Join(",", acctNumbers)},
                     });
                 }
+                stateMachine.InternalContext.MobileNextStepsEmailSent = true;
             }
         }
 
