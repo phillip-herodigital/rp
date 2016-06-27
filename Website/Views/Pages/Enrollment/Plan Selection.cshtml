@@ -128,6 +128,9 @@
                         <div ng-if="plan.includesThermostat" class="includes-thermostat">
                             @Html.Sitecore().Field("Thermostat Text")
                         </div>
+                        <div ng-if="plan.includesSkydrop" class="includes-skydrop">
+                            @Html.Sitecore().Field("Skydrop Text")
+                        </div>
                         <a class="view-details" href="" ng-click="isOpen = !isOpen" ng-class="{'collapsed': !isOpen}">
                             <span ng-if="!isOpen">@Html.Sitecore().Field("Electricity View Details") <i class="icon-blue-arrow-down"></i></span>
                             <span ng-if="isOpen">@Html.Sitecore().Field("Electricity Hide Details") <i class="icon-blue-arrow-up"></i></span>
@@ -171,6 +174,7 @@
                     <td colspan="6">
                         <div slide-down-show="isOpen">
                             <div ng-if="plan.includesThermostat" class="thermostat-description" ng-bind-html="plan.thermostatDescription | html"></div>
+                            <div ng-if="plan.includesSkydrop" class="skydrop-description" ng-bind-html="plan.skydropDescription | html"></div>
                             <p ng-bind-html="plan.description | unsafe"></p>
                             <ul class="plan-selection-list clearfix">
                                 <li><a ng-href="{{plan.documents.electricityFactsLabel}}" target="_blank">@Html.Sitecore().Field("Electricity Facts Label Document")</a></li>
