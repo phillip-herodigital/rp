@@ -1,0 +1,73 @@
+﻿
+<script src="//maps.googleapis.com/maps/api/js?key=AIzaSyCKwR5gbRNgWMZ84ZxGFPh1Jpvm5nMRuRY&libraries=places"></script>
+<script src="https://cdn.rawgit.com/googlemaps/v3-utility-library/master/infobox/src/infobox.js"></script>
+
+<header class="paycenter-header">
+    <div class="wrapper clearfix">
+        <div class="logo-container">
+            <a href="/" class="logo"></a>
+        </div>
+        <h2>PayCenter Locator</h2>
+        <p><span class="hide-small">Can't find a location near you? </span><a href="/pay">Pay online</a></p>
+    </div>
+</header>
+<article class="clearfix marketing paycenter-locator" ng-controller="PaycenterCtrl" ng-init="init()">
+    <div class="wrapper">
+        <header>
+            <h1>Find a Convenient Location to Pay Your Bill!</h1>
+        </header>
+        <aside>
+            <div class="form">
+                <script type="text/ng-template" id="searchbox.tpl.html">
+                    <input type="text" id="gmap-search-input" placeholder="Enter Address or zip code" />
+                </script>
+                <div class="item">
+                    <label for="gmap-search-input">Enter Your Address or zip code</label>
+                    <div id="gmap-search"></div>
+                </div>
+            </div>
+            <div class="query">
+                <p>11 Results for 75227</p>
+            </div>
+            <div class="results">
+                <div class="result" ng-repeat="marker in markers">
+                    <p class="name">{{marker.locationInfo.name}}</p>
+                    <p class="address">{{marker.locationInfo.address.line1}}<br>{{marker.locationInfo.address.line2}}<br>{{marker.locationInfo.ad}}</p>
+                </div>
+            </div>
+        </aside>
+        <article class="coverage-map" ng-hide="isMobile">
+            <ui-gmap-google-map center="map.center" zoom="map.zoom" options="map.options" events="map.events">
+                <ui-gmap-search-box template="searchbox.template" events="searchbox.events" parentdiv="'gmap-search'"></ui-gmap-search-box>
+                <ui-gmap-markers models="markers" coords="'coords'" icon="'icon'" click="'onClicked'">
+                    <ui-gmap-windows show="showWindow" closeClick="closeClick" options="'options'" ng-cloak>
+                        <div class="grid">
+                            <div class="col">
+                                <div class="item">
+                                    <label>location</label>
+                                    <p ng-non-bindable>{{locationInfo.name}}</p>
+                                </div>
+                                <div class="item">
+                                    <label>address</label>
+                                    <p ng-non-bindable>{{locationInfo.address.line1}}</p>
+                                    <p ng-non-bindable>{{locationInfo.address.line2}}</p>
+                                    <p ng-non-bindable>{{locationInfo.phone}}</p>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="item">
+                                    <label>hours</label>
+                                    <p ng-non-bindable>{{locationInfo.name}}</p>
+                                </div>
+                                <div class="item">
+                                    <label>payment methods</label>
+                                    <p ng-non-bindable>{{locationInfo.phone}}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </ui-gmap-windows>
+                </ui-gmap-markers>
+            </ui-gmap-google-map>
+        </article>
+    </div>
+</article>
