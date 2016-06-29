@@ -11,7 +11,7 @@ namespace StreamEnergy.Extensions
     {
         public static IHtmlString Format(this IHtmlString pattern, object template)
         {
-            if (!Sitecore.Context.PageMode.IsPageEditor)
+            if (!Sitecore.Context.PageMode.IsExperienceEditor)
                 return new HtmlString(pattern.ToString().Format(template));
             return pattern;
         }

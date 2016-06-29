@@ -5,6 +5,7 @@
 <!DOCTYPE html>
 <html >
 <head runat="server">
+  <meta http-equiv="X-Frame-Options" content="SAMEORIGIN">
   <title>Sitecore</title>
   <sc:Head runat="server" />
   <sc:Script runat="server" Src="/sitecore/shell/Controls/Sitecore.Runtime.js"/>

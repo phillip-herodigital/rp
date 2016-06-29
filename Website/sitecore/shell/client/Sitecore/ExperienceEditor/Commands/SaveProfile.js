@@ -1,15 +1,15 @@
-﻿define(["sitecore"], function (Sitecore) {
+﻿define(["sitecore", "/-/speak/v1/ExperienceEditor/ExperienceEditor.js"], function (Sitecore, ExperienceEditor) {
   Sitecore.Commands.SaveProfile =
   {
     canExecute: function (context) {
-      var isProfiling = Sitecore.ExperienceEditor.isDebugging() && Sitecore.ExperienceEditor.Web.getUrlQueryStringValue("sc_prof") == "1";
-      return Sitecore.ExperienceEditor.canToggleDebug() && isProfiling;
+      var isProfiling = ExperienceEditor.isDebugging() && ExperienceEditor.Web.getUrlQueryStringValue("sc_prof") == "1";
+      return ExperienceEditor.canToggleDebug() && isProfiling;
     },
     execute: function (context) {
-      context.currentContext.value = Sitecore.ExperienceEditor.Web.getUrlQueryStringValue("sc_prf");
+      context.currentContext.value = ExperienceEditor.Web.getUrlQueryStringValue("sc_prf");
       context.app.disableButtonClickEvents();
-      Sitecore.ExperienceEditor.PipelinesUtil.executePipeline(context.app.SaveDebugProfile, function () {
-        Sitecore.ExperienceEditor.PipelinesUtil.executeProcessors(Sitecore.Pipelines.SaveDebugProfile, context);
+      ExperienceEditor.PipelinesUtil.executePipeline(context.app.SaveDebugProfile, function () {
+        ExperienceEditor.PipelinesUtil.executeProcessors(Sitecore.Pipelines.SaveDebugProfile, context);
       });
       context.app.enableButtonClickEvents();
     }

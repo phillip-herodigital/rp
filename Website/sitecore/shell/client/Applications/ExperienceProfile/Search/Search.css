@@ -165,3 +165,14 @@ div.sc-advancedExpander[data-sc-id=VisitorsAccordion] .sc-advancedExpander-body
   text-decoration: none;
 }
 
+.sc-listcontrol .sc-table tbody tr td a {
+  padding: 14px 15px;
+  width: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+

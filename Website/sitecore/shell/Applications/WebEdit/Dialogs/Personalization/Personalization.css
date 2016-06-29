@@ -61,7 +61,7 @@ table.scDialogContentContainer
 
 .right-column
 {
-  width: 230px;
+  width: 420px;
   background-color: #E9E9E9;
 }
 
@@ -80,6 +80,10 @@ table.scDialogContentContainer
 {
   float: right;
   margin-right: 0;
+}
+
+.rule-container {
+  margin-bottom: 15px;
 }
 
 .condition-container

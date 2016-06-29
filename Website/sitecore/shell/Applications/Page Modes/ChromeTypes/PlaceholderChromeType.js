@@ -53,7 +53,7 @@
       options.data.datasource = ds;
     }
 
-    options.success = function(serverData) {
+    options.success = function (serverData) {
       var data = Sitecore.PageModes.Utility.parsePalleteResponse(serverData);       
       var persistedLayout;
       if (data.layout) {
@@ -67,6 +67,9 @@
         this._loadRenderingFromUrl(data.url, function(callbackData) {
           if (callbackData.error == null) {                            
             data.html = $sc(callbackData.renderingElement.combined).outerHtml();
+            data.opening = callbackData.renderingElement.opening;
+            data.content = callbackData.renderingElement.content;
+            data.closing = callbackData.renderingElement.closing;
             Sitecore.PageModes.ChromeManager.select(null);
             this.insertRendering(data, openProperties);
           }
@@ -189,9 +192,20 @@
     Sitecore.PageModes.ChromeManager.select(this.chrome);     
   },
   
+  getOpenProperties: function (data, openProperties) {
+    return null;
+  },
+
+
   /* used when new controls are being inserted (or if they replace other controls) when returned from the server */
-  insertRendering: function(data, openProperties) {   
-    console.group("insertRendering"); 
+  insertRendering: function (data, openProperties) {
+    console.group("insertRendering");
+
+    var _openProperties = this.getOpenProperties(data, openProperties);
+    if (_openProperties != null) {
+      openProperties = _openProperties;
+    }
+
     var placeholder = this.chrome;          
     
     if (this.emptyLook()) {
@@ -210,9 +224,8 @@
     if (position == 0) {
       placeholder.prepend(newElement);
     }
-    else if (position < childRenderings.length) {
+    else if (childRenderings.length != 0 && position < childRenderings.length) {
       var rendering = childRenderings[position - 1];
-
       rendering.after(newElement);
     }
     else {
@@ -224,7 +237,30 @@
     var newRenderingUniqueId = newElement.attr("id").substring(2);
     var newRenderingChrome = this._getChildRenderingByUid(newRenderingUniqueId);
 
+    if (data.content) {
+      var containsChromeNodes = false;
+
+      $sc.each(data.content, function() {
+        if (this.nodeType == 1) {
+          containsChromeNodes = true;
+          return false;
+        }
+      });
+
+      if (!containsChromeNodes) {
+        this.handleEmptyRendering();
+        return;
+      }
+    }
+
+    Sitecore.PageModes.PageEditor.setModified(true);
+
     if (!newRenderingChrome) {
+      if (newRenderingUniqueId && newRenderingUniqueId != "" && !data.content) {
+        this.handleEmptyRendering();
+        return;
+      }
+
       console.error("Cannot find rendering chrome with unique id: " + newRenderingUniqueId);
       Sitecore.PageModes.ChromeHighlightManager.resume();
       return;
@@ -246,6 +282,11 @@
     }
 
     console.groupEnd("insertRendering");
+  },
+
+  handleEmptyRendering: function () {
+    console.log("Chrome rendering was added but can not be selected due to absence of editable elements.");
+    Sitecore.PageModes.PageEditor.setModified(true);
   },
 
   /* used by design manager while moving controls around on the page */
@@ -459,7 +500,7 @@
     chrome.element.remove();
   },
 
-  renderings: function() {
+  renderings: function () {
     return this.chrome.getChildChromes(function() { return this.key() == "rendering" });
   },
 
@@ -570,7 +611,7 @@
     this._loadingFrame[0].src = url + "&rnd=" + Math.random();       
   },
 
-  _frameLoaded: function() {
+  _frameLoaded: function () {
     if (this._loadingFrame == null) {
       console.error("cannot load data from frame. Frame isn't defined");
       return;    
@@ -590,9 +631,12 @@
       if (!start.is("code[type='text/sitecore'][chromeType='rendering'][kind='open']")) {
          throw "Loaded unexpected element while trying to get rendering html from server. Expected opening script marker.";
       }
+      
+      var middle = this._getRenderingContent(start, "code[type='text/sitecore'][chromeType='rendering'][kind='close']");
+      var end = middle.length > 0 ?
+        $sc(middle.last()[0].nextSibling) :
+        start.last().next();
 
-      var middle = start.nextUntil("code[type='text/sitecore'][chromeType='rendering'][kind='close']");
-      var end = middle.last().next();
       start = start.clone();
       middle = middle.clone();
       end = end.clone();     
@@ -622,6 +666,22 @@
       this._frameLoadedCallback(callbackData);
       this._frameLoadedCallback = null;
     }    
+  },
+
+  _getRenderingContent: function (openMarker, endSelector) {
+    var renderingElements = [];
+    var sibling = openMarker[0].nextSibling;
+    while (sibling) {
+      var element = $sc(sibling);
+      if (element.is(endSelector)) {
+        break;
+      }
+
+      renderingElements.push(sibling);
+      sibling = sibling.nextSibling;
+    }
+
+    return $sc(renderingElements);
   },
   
   _removeRendering: function(renderingChrome) {

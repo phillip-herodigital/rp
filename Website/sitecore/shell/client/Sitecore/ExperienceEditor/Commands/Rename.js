@@ -1,8 +1,8 @@
-﻿define(["sitecore"], function (Sitecore) {
+﻿define(["sitecore", "/-/speak/v1/ExperienceEditor/ExperienceEditor.js"], function (Sitecore, ExperienceEditor) {
   Sitecore.Commands.Rename =
   {
     canExecute: function (context) {
-      if (!Sitecore.ExperienceEditor.isInMode("edit")) {
+      if (!ExperienceEditor.isInMode("edit") || context.currentContext.isFallback) {
         return false;
       }
 
@@ -11,8 +11,8 @@
 
     execute: function (context) {
       context.app.disableButtonClickEvents();
-      Sitecore.ExperienceEditor.PipelinesUtil.executePipeline(context.app.RenamePipeline, function () {
-        Sitecore.ExperienceEditor.PipelinesUtil.executeProcessors(Sitecore.Pipelines.RenameItem, context);
+      ExperienceEditor.PipelinesUtil.executePipeline(context.app.RenamePipeline, function () {
+        ExperienceEditor.PipelinesUtil.executeProcessors(Sitecore.Pipelines.RenameItem, context);
       });
       context.app.enableButtonClickEvents();
     }

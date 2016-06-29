@@ -1,4 +1,4 @@
-﻿define(["sitecore"], function (_sc) {
+﻿define(["sitecore", "/-/speak/v1/ExperienceEditor/ExperienceEditor.js"], function (_sc, ExperienceEditor) {
     
     _sc.Commands.CreatePageMatcher =
     {
@@ -13,7 +13,7 @@
             var dialogPath = "/sitecore/client/Applications/FXM/ExperienceEditorExtension/Dialogs/CreatePageMatcher?itemId=" + itemId + "&url=" + selectedUrl;
             var dialogFeatures = "dialogHeight:650;dialogWidth:700;ignoreSpeakSizes:true";
 
-            _sc.ExperienceEditor.Dialogs.showModalDialog(dialogPath, '', dialogFeatures, null, function (result) {
+            ExperienceEditor.Dialogs.showModalDialog(dialogPath, '', dialogFeatures, null, function (result) {
                 if (result) {
                     window.top.location.reload();
                 }

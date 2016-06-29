@@ -20,7 +20,7 @@
         Icon="Software/32x32/graph_edge_directed.png">
 
       <x:register assembly="Sitecore.Shell.MarketingAutomation" namespace="Sitecore.Shell.Applications.MarketingAutomation.Controls"/>
-
+  
       <AjaxScriptManager runat="server" />
       <ContinuationManager runat="server" />
 
@@ -32,16 +32,16 @@
       
       <script type="text/javascript">
         function ConfigureView() {
-        var ControlName = document.getElementById("ctl00_ctl00_ctl00_ctl00_ctl04_SendToDropDownList");
+        var ControlName = document.getElementById("ctl00_ctl00_ctl00_ctl00_ctl05_SendToDropDownList");
 
         //it depends on which value Selection do u want to hide or show your textbox
         if(ControlName.value == "CurrentVisitorsEmailAddress") {
-        document.getElementById('ctl00_ctl00_ctl00_ctl00_ctl04_FixedEmailAddressTextBox').style.display = 'none';
+        document.getElementById('ctl00_ctl00_ctl00_ctl00_ctl05_FixedEmailAddressTextBox').style.display = 'none';
         document.getElementById('FixedEmailAddressLabel').style.display = 'none';
         document.getElementById('FixedEmailAddressHelpLabel').style.display = 'none';
         }
         else {
-        document.getElementById('ctl00_ctl00_ctl00_ctl00_ctl04_FixedEmailAddressTextBox').style.display = '';
+        document.getElementById('ctl00_ctl00_ctl00_ctl00_ctl05_FixedEmailAddressTextBox').style.display = '';
         document.getElementById('FixedEmailAddressLabel').style.display = '';
         document.getElementById('FixedEmailAddressHelpLabel').style.display = '';
         }

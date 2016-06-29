@@ -17,7 +17,7 @@
         this.findAccount = function() {
             $scope.isLoading = true;
             $scope.errorMessage = false;
-            $http.get("/api/authentication/lookUpAccount?accountNumber=" + ctrl.accountNumber).success(function(data) {
+            $http.get("/api/streamauthentication/lookUpAccount?accountNumber=" + ctrl.accountNumber).success(function(data) {
                     $scope.isLoading = false;
                     if (!data.hasAccess) {
                         ctrl.accessError = true;

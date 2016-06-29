@@ -3,8 +3,9 @@
     "/-/speak/v1/FXM/ExperienceEditorExtension/Legacy/LegacySitecore.js",
     "/-/speak/v1/FXM/ExperienceEditorExtension/Legacy/LegacyjQuery.js",
     "/-/speak/v1/FXM/ExperienceEditorExtension/Legacy/Fxm.js",
+    "/-/speak/v1/ExperienceEditor/TranslationUtil.js",
     "/-/speak/v1/FXM/ExperienceEditorExtension/Commands/CreateReplacer.js" // used through legacy selector 
-], function (_sc, _scl, $sc, _fxm) {
+], function (_sc, _scl, $sc, _fxm, TranslationUtil) {
 
     var translator = null;
 
@@ -20,19 +21,22 @@
 
         activate: function () {
             this.addTarget('top', this.placeholder, beforeKey, {
-                tooltip: translator.translate("Add a new placeholder before the element"),
-                header: translator.translate("Add before")
+              tooltip: TranslationUtil.translateTextByServer("Add a new placeholder before the element"),
+              header: TranslationUtil.translateTextByServer("Add before")
             });
             
             this.addTarget('middle', this.placeholder, replaceKey, {
-                tooltip: translator.translate("Add a new placeholder instead of the element"),
-                header: translator.translate("Replace")
+              tooltip: TranslationUtil.translateTextByServer("Add a new placeholder instead of the element"),
+              header: TranslationUtil.translateTextByServer("Replace")
             });
             
             this.addTarget('after', this.placeholder, afterKey, {
-                tooltip: translator.translate("Add a new placeholder after the element"),
-                header: translator.translate("Add after")
+              tooltip: TranslationUtil.translateTextByServer("Add a new placeholder after the element"),
+              header: TranslationUtil.translateTextByServer("Add after")
             });
+
+            // Fix markup
+            $sc(".scInsertionHandleCenter").css('height', 'auto');
         },
 
         addTarget: function(where, chrome, insertPosition, command) {

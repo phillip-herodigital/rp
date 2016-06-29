@@ -13,7 +13,7 @@
         window.setInterval(function() { node.expand(true); }, 50);
       });
 
-      this.currentItemId = window.top.ExperienceEditor.instance.currentContext.itemId;
+      this.currentItemId = window.top.ExperienceEditor.getContext().instance.currentContext.itemId;
 
 
       this.initializeStructure();

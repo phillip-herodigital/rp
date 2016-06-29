@@ -223,7 +223,7 @@
               <Name>Text1</Name>
               <Page isRef="3" />
               <Parent isRef="14" />
-              <Text>{Failures.Name == "Page Not Found" ? ExtractUrlParm("item", Failures.Url) : UrlDecode(Failures.Url)}</Text>
+              <Text>{Failures.Name.ToLowerInvariant() == "page not found" ? ExtractUrlParm("item", Failures.Url) : UrlDecode(Failures.Url)}</Text>
               <TextBrush>[54:95:145]</TextBrush>
               <Type>Expression</Type>
             </Text1>

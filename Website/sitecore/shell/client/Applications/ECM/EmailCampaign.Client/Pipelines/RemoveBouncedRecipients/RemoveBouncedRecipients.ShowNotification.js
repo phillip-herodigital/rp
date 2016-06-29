@@ -11,14 +11,17 @@
           text = sitecore.Resources.Dictionary.translate("ECM.Pages.Recipients.RemoveBrouncedJobStarted");
           break;
         case "remove-bounced-recipients-job-already-active":
-          text = sitecore.Resources.Dictionary.translate("ECM.Pages.Recipients.RemoveBrouncedJobAlreadyRunning").replaceAll("{0}", context.recipientList.name);
+          text = sitecore.Resources.Dictionary.translate("ECM.Pages.Recipients.RemoveBrouncedJobAlreadyRunning")
+            .split("{0}").join(context.recipientList.name);
           break;
         case "other-job-already-active":
-          text = sitecore.Resources.Dictionary.translate("ECM.Pages.Recipients.OtherJobAlreadyRunning").replaceAll("{0}", context.recipientList.name);
+          text = sitecore.Resources.Dictionary.translate("ECM.Pages.Recipients.OtherJobAlreadyRunning")
+            .split("{0}").join(context.recipientList.name);
           type = "warning";
           break;
         case "referenced-by-message-in-progress":
-          text = sitecore.Resources.Dictionary.translate("ECM.Pages.Recipients.UsedByMessageInProgress").replaceAll("{0}", context.recipientList.name);
+          text = sitecore.Resources.Dictionary.translate("ECM.Pages.Recipients.UsedByMessageInProgress")
+            .split("{0}").join(context.recipientList.name);
           type = "warning";
           break;
       }

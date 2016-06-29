@@ -1,7 +1,7 @@
-﻿define(["sitecore", "/-/speak/v1/ExperienceEditor/Sitecore.ExperienceEditor.js"], function (Sitecore) {
+﻿define(["sitecore", "/-/speak/v1/ExperienceEditor/ExperienceEditor.js"], function (Sitecore, ExperienceEditor) {
   var dialogFrame = window.top.document.getElementById("jqueryModalDialogsFrame");
-  var progressBar = Sitecore.ExperienceEditor.Common.getElementById("dialogProgressIndicator");
-  Sitecore.ExperienceEditor.Common.addOneTimeEvent(function () {
+  var progressBar = ExperienceEditor.Common.getElementById("dialogProgressIndicator");
+  ExperienceEditor.Common.addOneTimeEvent(function () {
     return window.frameElement.contentWindow.document.readyState === "complete";
   }, function () {
     resizeDialog();

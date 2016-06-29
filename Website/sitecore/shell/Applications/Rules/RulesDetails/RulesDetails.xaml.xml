@@ -19,7 +19,7 @@
 
       <script type="text/javascript" language="javascript">
         function scGetFrameValue() {
-          var ctl = scForm.browser.getControl("ctl00$ctl00$RuleSetValue");
+          var ctl = $$("[id$='RuleSetValue']");
 
           if (!ctl || ctl.value == "__#!$No value$!#__") {
             return null;

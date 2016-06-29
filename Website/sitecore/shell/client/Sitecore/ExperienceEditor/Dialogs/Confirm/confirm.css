@@ -1,6 +1,6 @@
 ﻿[data-sc-id="MessageIcon"] {
   position: absolute;
-  top: 57px;
+  top: 70px;
 }
 
 [data-sc-id="MessageBody"] {
@@ -9,7 +9,7 @@
   line-height: 1.42857143;
   margin-left: 71px !important;
   display: block;
-  max-height: 70px;
+  max-height: 100px;
   overflow: auto;
   max-width: 305px;
 }

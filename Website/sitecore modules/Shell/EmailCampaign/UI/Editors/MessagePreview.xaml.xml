@@ -10,7 +10,7 @@
   xmlns:html="http://www.sitecore.net/microsoft/htmlcontrols"
   xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
-  <Sitecore.Modules.EmailCampaign.UI.MessagePreview x:inherits="Sitecore.Modules.EmailCampaign.UI.MessagePreviewPage,Sitecore.EmailCampaign">
+  <Sitecore.Modules.EmailCampaign.UI.MessagePreview x:inherits="Sitecore.Modules.EmailCampaign.UI.MessagePreviewPage,Sitecore.EmailCampaign.Cm.UI">
 
     <Sitecore.Controls.HtmlPage runat="server">
       <AjaxScriptManager runat="server"/>

@@ -1,4 +1,8 @@
-﻿rect.innerBar {
+﻿text {
+    pointer-events: none;
+}
+
+rect.innerBar {
     fill: #D0EBF6;
 }
 
@@ -15,6 +19,7 @@ path.frame {
 .muted {
     stroke: #F7F7F7;
 }
+
 div.tooltip {
     position: absolute;
     text-align: left;
@@ -28,31 +33,26 @@ div.tooltip {
     pointer-events: none;
 }
 
-#breadcrumb {
-    padding-left: 30px;
-}
-
 #metricsWell {
     padding-left: 30px;
 }
 
 #filterBar {
     padding-left: 30px;
+    /*padding-left: 0 !important;*/
 }
 
 /*** METRICS START ***/
-.metricsLabel {
+.metrics-lbl {
     font: 16px arial;
     fill: #474747;
+    text-anchor: middle;
 }
 
-.metricsValue {
+.metrics-val {
     font: 20px arial;
     fill: #A6A6A6;
     font-weight: bold;
-}
-
-.metrics{
     text-anchor: middle;
 }
 
@@ -65,23 +65,18 @@ div.tooltip {
 
 /*** NODE NAME LABELS START ***/
 
-.nodeName {
-    font: 16px arial;
-    fill: #474747;
+.incomingLabel {
+  text-anchor: start;
 }
 
-.nodeLabel {
-    font-size: 12px !important;
-    fill: #3FAED9 !important;
-    pointer-events: none;
+.label-active {
+  fill: #3FAED9 !important;
 }
 
 .outgoingLabel {
-    text-anchor: start;
-}
-
-.incomingLabel {
-    text-anchor: start;
+  text-anchor: start;
+  /*font-size: 16px !important;*/
+  cursor: pointer;
 }
 
 #current-page-name {
@@ -91,17 +86,26 @@ div.tooltip {
     stroke: none;
 }
 
+.exitNodeName {
+    font-size: 12px !important;
+    fill: #3FAED9 !important;
+    transition: all .2s ease-in-out;
+    text-anchor: end;
+    transform: rotate(50deg);
+    transform: rotateY(10deg);
+}
+
 #current-page-name.selected{
     font-weight: bold;
 }
 
 /*** NODE NAME LABELS END ***/
 
-#paths path {
+.pathgroup path {
     cursor: pointer;
 }
 
-path.arrow {
+path.arrow, path.inPath, path.outPath {
     cursor: pointer;
 }
 
@@ -126,6 +130,31 @@ circle.node {
     cursor: pointer;
 }
 
+circle.current {
+    fill: url(#icon);
+    stroke: none !important;
+}
+
+    circle.current.dimmed {
+        fill: url(#icon-dimmed);
+        stroke-width: 0;
+    }
+
+    circle.current.selected {
+        fill: url(#icon);
+        stroke-width: 0;
+    }
+
+.back {
+    fill: url(#back);
+    stroke: none !important;
+}
+
+    .back:hover {
+        fill: url(#back-hover);
+        stroke: none !important;
+    }
+
 path.muted {
     cursor: initial !important;
 }
@@ -134,11 +163,68 @@ path.selected {
     cursor: initial !important;
 }
 
-.overlay {
+.landing-overlay {
     fill: none;
+    cursor: pointer;
     pointer-events: all;
 }
 
 .modal-scrollable{
     z-index: 3000 !important;
 }
+
+.knob{
+  stroke: #F7F7F7;
+  stroke-width: 2;
+  fill: #FFFFFF;
+}
+
+#metrics {
+    margin: 0px 0px 10px 15px;
+}
+
+#valueMetric,
+#visitsMetric,
+#efficiencyMetric {
+    display: inline-block;
+    margin: 0 30px 0 0;
+}
+
+#metrics h3 {
+    margin: 0;
+    font-size: 20px;
+    color: #A6A6A6;
+    font-weight: bold;
+}
+
+/* tooltip */
+
+div.tooltip {
+    min-width: 200px;
+    width: auto !important;
+    height: auto !important;
+    overflow: visible !important;
+    padding: 10px !important;
+    line-height: 220%;
+    background-color: #ffffff !important;
+    background-clip: padding-box !important;
+    border: 1px solid #cccccc !important;
+    border: 1px solid rgba(0, 0, 0, 0.2) !important;
+    border-radius: 3px !important;
+    -webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2) !important;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2) !important;
+    white-space: normal !important;
+    font-size: 12px !important;
+}
+
+    div.tooltip strong {
+        font-size: 14px !important;
+        display: block;
+    }
+
+    div.tooltip span {
+        display: block;
+        font-weight: bold;
+        margin-top: 5px;
+        white-space: nowrap;
+    }

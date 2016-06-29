@@ -7,6 +7,7 @@
         this._super();
 
         this.set("createMessageOptions", null);
+        this.set("itemNameValidation", "");
 
         this.set("managerRootId", "");
         this.set("request", "");
@@ -27,6 +28,7 @@
         }
 
         this.set("createMessageOptions", data.createMessageOptions);
+        this.set("itemNameValidation", data.itemNameValidation);
       },
 
       error: function (args) {
@@ -52,14 +54,14 @@
 
           $.ajax(options);
         }
-      },
+      }
     }
   );
 
   var view = sitecore.Definitions.Views.ComponentView.extend(
     {
       listen: window._.extend({}, sitecore.Definitions.Views.ComponentView.prototype.listen, {
-        "refresh:$this": "refresh",
+        "refresh:$this": "refresh"
       }),
 
       initialize: function () {

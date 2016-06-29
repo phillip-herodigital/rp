@@ -1,10 +1,11 @@
-﻿define(["sitecore"], function (Sitecore) {
-  return Sitecore.ExperienceEditor.PipelinesUtil.generateRequestProcessor("ExperienceEditor.Save.CallServerSavePipeline", function () {
-    Sitecore.ExperienceEditor.isModified = false;
-    if (!Sitecore.ExperienceEditor.instance.disableRedirection) {
+﻿define(["sitecore", "/-/speak/v1/ExperienceEditor/ExperienceEditor.js"], function (Sitecore, ExperienceEditor) {
+  return ExperienceEditor.PipelinesUtil.generateRequestProcessor("ExperienceEditor.Save.CallServerSavePipeline", function () {
+    ExperienceEditor.getContext().isModified = false;
+    ExperienceEditor.getContext().isContentSaved = true;
+    if (!ExperienceEditor.getContext().instance.disableRedirection) {
       window.parent.location.reload();
     }
 
-    Sitecore.ExperienceEditor.instance.disableRedirection = false;
+    ExperienceEditor.getContext().instance.disableRedirection = false;
   });
 });

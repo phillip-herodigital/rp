@@ -1,4 +1,4 @@
-﻿define(["sitecore"], function (Sitecore) {
+﻿define(["sitecore", "/-/speak/v1/ExperienceEditor/ExperienceEditor.js"], function (Sitecore, ExperienceEditor) {
   Sitecore.Factories.createBaseComponent({
     name: "LargeButton",
     base: "ButtonBase",
@@ -28,7 +28,7 @@
       }
     },
     togglePressed: function () {
-      Sitecore.ExperienceEditor.CommandsUtil.triggerControlStateByCommand(this, "isPressed");
+      ExperienceEditor.CommandsUtil.triggerControlStateByCommand(this, "isPressed");
     },
 
     updatePressed: function (modelValue) {

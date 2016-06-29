@@ -1,0 +1,172 @@
+﻿.sc-exm-Card .sc-advancedExpander-bodywrapper {
+  position: relative;
+  padding-bottom: 50px;
+  overflow: hidden;
+}
+.sc-exm-Card.nobottomlink .sc-advancedExpander-bodywrapper {
+  padding-bottom: 0;
+}
+.sc-exm-Card .sc-border[data-sc-id$="BottomLinkBorder"] {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  border-top: 1px solid #f0f0f0;
+  background: #fff;
+  z-index: 1;
+}
+.sc-exm-Card .sc-advancedExpander {
+  -webkit-box-shadow: 0 2px 4px 0 #c6c6c6;
+  -moz-box-shadow: 0 2px 4px 0 #c6c6c6;
+  box-shadow: 0 2px 4px 0 #c6c6c6;
+}
+.sc-exm-Card .sc-advancedExpander.open .sc-advancedExpander-header,
+.sc-exm-Card .sc-advancedExpander .sc-advancedExpander-header {
+  border-left: none;
+}
+.sc-exm-Card .sc-advancedExpander.open .sc-advancedExpander-header > table,
+.sc-exm-Card .sc-advancedExpander .sc-advancedExpander-header > table {
+  background: none;
+}
+.sc-exm-Card .sc-advancedExpander.open .sc-advancedExpander-header > table .sc-advancedExpander-header-actionbar,
+.sc-exm-Card .sc-advancedExpander .sc-advancedExpander-header > table .sc-advancedExpander-header-actionbar {
+  vertical-align: top;
+}
+.sc-exm-Card .sc-advancedExpander.open .sc-advancedExpander-header > table .sc-advancedExpander-header-actionbar .sc-advancedExpander-header-actionbar-container,
+.sc-exm-Card .sc-advancedExpander .sc-advancedExpander-header > table .sc-advancedExpander-header-actionbar .sc-advancedExpander-header-actionbar-container {
+  padding-right: 0;
+  margin-top: 0;
+}
+.sc-exm-Card .sc-advancedExpander .sc-advancedExpander-header {
+  cursor: default;
+  line-height: 100%;
+}
+.sc-exm-Card .sc-advancedExpander .sc-advancedExpander-header .btn.btn-default.mainButton {
+  background: url("/sitecore/shell/client/Applications/ECM/EmailCampaign.Client/Assets/Images/score-action-icon.gif") no-repeat 50% 50%;
+}
+.sc-exm-Card .sc-advancedExpander .sc-advancedExpander-header .sc-advancedExpander-header-title {
+  padding-left: 20px;
+}
+.sc-exm-Card .sc-advancedExpander .sc-advancedExpander-header .sc-advancedExpander-header-title .sc-advancedExpander-header-title-text {
+  color: #131313;
+  font-size: 16px;
+  line-height: 46px;
+  font-weight: 100;
+}
+.sc-exm-Card .sc-advancedExpander .sc-advancedExpander-body {
+  border: none;
+}
+.sc-exm-Card .sc-hyperlinkbutton,
+.sc-exm-Card .sc-listcontrol a {
+  color: #3e95c2 !important;
+}
+.sc-exm-Card .sc-hyperlinkbutton:hover,
+.sc-exm-Card .sc-listcontrol a:hover {
+  color: #3e95c2 !important;
+}
+.sc-exm-Card .sc-actionpanel ul.nav .sc-dropdownbutton-chevron {
+  display: none;
+}
+.sc-exm-Card .sc-actionpanel ul.nav .dropdown .mainButton,
+.sc-exm-Card .sc-actionpanel ul.nav > li > .icon-group .mainButton {
+  padding: 0 !important;
+  width: 48px;
+  height: 48px;
+  min-width: 48px;
+  margin-right: -1px;
+  border-radius: 0;
+  box-shadow: none;
+}
+.sc-exm-Card .sc-actionpanel ul.nav .dropdown .mainButton:hover,
+.sc-exm-Card .sc-actionpanel ul.nav > li > .icon-group .mainButton:hover {
+  background-color: #ebebeb !important;
+}
+.sc-exm-Card .sc-actionpanel ul.nav .dropdown .mainButton:active,
+.sc-exm-Card .sc-actionpanel ul.nav > li > .icon-group .mainButton:active {
+  background-color: #ebebeb !important;
+  -webkit-box-shadow: inset 0 0 1px 1px #9a9a9a;
+  -moz-box-shadow: inset 0 0 1px 1px #9a9a9a;
+  box-shadow: inset 0 0 1px 1px #9a9a9a;
+}
+.sc-exm-Card .sc-actionpanel ul.nav .dropdown .mainButton .dropdown-text,
+.sc-exm-Card .sc-actionpanel ul.nav > li > .icon-group .mainButton .dropdown-text {
+  display: none;
+}
+.sc-exm-Card .sc-actionpanel ul.nav > li > .icon-group .btn {
+  background: none !important;
+}
+.sc-exm-Card .sc-actionpanel ul.nav > li > .icon-group .btn .sc-icon {
+  margin: 15px 0 0 15px;
+}
+.sc-exm-Card .sc-tabcontrol > .nav-tabs {
+  border-bottom: 1px solid #d6d6d6;
+}
+.sc-exm-Card .sc-tabcontrol > .nav-tabs > li > a {
+  text-transform: none;
+  border: none !important;
+  height: 27px;
+  line-height: 27px;
+  margin-right: 0;
+  padding: 0 20px !important;
+}
+.sc-exm-Card .sc-tabcontrol > .nav-tabs > li > a:hover .sc-exm-Card .sc-tabcontrol > .nav-tabs > li > a:before,
+.sc-exm-Card .sc-tabcontrol > .nav-tabs > li > a:hover .sc-exm-Card .sc-tabcontrol > .nav-tabs > li > a:after,
+.sc-exm-Card .sc-tabcontrol > .nav-tabs > li > a:before,
+.sc-exm-Card .sc-tabcontrol > .nav-tabs > li > a:after {
+  display: none !important;
+}
+.sc-exm-Card .sc-tabcontrol > .nav-tabs > li > a:hover {
+  background: none !important;
+}
+.sc-exm-Card .sc-tabcontrol > .nav-tabs > li.active > a {
+  color: #3e95c2;
+  background: none;
+  border: none !important;
+  border-bottom: 3px solid #3e95c2 !important;
+}
+.sc-exm-Card .sc-listcontrol .sc-table thead th .sc-table-sortable {
+  border: none;
+  width: 12px;
+  height: 12px;
+  margin-top: -7px;
+}
+.sc-exm-Card .sc-listcontrol .sc-table thead th .sc-table-sortable:before {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  background: url("/sitecore/shell/client/Applications/ECM/EmailCampaign.Client/Assets/Images/sort-arrow.gif") no-repeat left top;
+  content: "";
+  left: 0;
+  top: 0;
+}
+.sc-exm-Card .sc-listcontrol .sc-table thead th .sc-table-sortable.noDirection:before {
+  opacity: .6;
+  background-position: left bottom;
+}
+.sc-exm-Card .sc-listcontrol .sc-table thead th .sc-table-sortable.up:before {
+  opacity: 1;
+  background-position: left bottom;
+}
+.sc-exm-Card .sc-listcontrol .table.sc-table-header {
+  border-bottom: 1px solid #d6d6d6;
+}
+.sc-exm-Card .sc-listcontrol .table tr {
+  border: none;
+}
+.sc-exm-Card .sc-listcontrol .table td,
+.sc-exm-Card .sc-listcontrol .table th {
+  padding: 11px 20px !important;
+  border: none;
+  text-indent: 0;
+}
+.sc-exm-Card .sc-listcontrol .table th {
+  background: none;
+  color: #4e4646;
+}
+.sc-exm-Card .sc-listcontrol .table th.sc-table-head:after {
+  top: 9px !important;
+}
+.sc-progressindicator[data-sc-id$="CardProgressIndicator"] {
+  background: white;
+  z-index: 0;
+}

@@ -5,6 +5,7 @@
 <html>
 <head runat="server">
     <title></title>    
+    <script type="text/javascript" src="/sitecore/shell/Controls/Lib/Modernizr/Modernizr.js"></script>
     <style type="text/css">
       body, iframe
       {
@@ -282,7 +283,7 @@
     </style>
     <link type="text/css" rel="stylesheet" href="/sitecore/shell/Controls/Lib/jQuery/jScrollPane/jquery.jscrollpane.css" />
     <script type="text/javascript" src="/sitecore/shell/controls/Lib/Prototype/prototype.js"></script>
-    <script type="text/javascript" src="/sitecore/shell/controls/lib/scriptaculous/slider.js" />                      
+    <script type="text/javascript" src="/sitecore/shell/controls/lib/scriptaculous/slider.js"></script>                      
 </head>
 <body>    
     <form id="form1" runat="server">
@@ -290,7 +291,6 @@
       <script type="text/javascript" src="/sitecore/shell/Controls/Lib/jQuery/jquery.mousewheel.js"></script>      
       <script type="text/javascript" src="/sitecore/shell/Controls/Lib/jQuery/jScrollPane/jquery.jscrollpane.js"></script>
       <script type="text/javascript" src="/sitecore/shell/Controls/Lib/Console/ConsoleStub.js"></script>
-      <script type="text/javascript" src="/sitecore/shell/Controls/Lib/Modernizr/Modernizr.js"></script>
       <script type="text/javascript" src="/sitecore/shell/Applications/Preview/SimulatedDevicePreview/Layouts/DeviceRotation.js"></script>                      
       <asp:HiddenField runat="server" ID="SimulatorId" />
       <asp:HiddenField runat="server" ID="Scale" />

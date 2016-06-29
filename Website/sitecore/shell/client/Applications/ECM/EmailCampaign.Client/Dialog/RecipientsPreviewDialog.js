@@ -1,26 +1,37 @@
-﻿define(["sitecore", "/-/speak/v1/ecm/MessageTokenService.js", "/-/speak/v1/ecm/ServerRequest.js"], function (sitecore, MessageTokenService) {
-  return sitecore.Definitions.App.extend({
-    initialized: function () {
-      sitecore.on("preview:recipients:dialog:show", this.showDialog, this);
-      this.on("add:attachment:dialog:close", this.hideDialog, this);
-      this.on("action:message:recipients:search", function () {
-        this.RecipientPreviewDataSource.set("search", this.RecipientPreviewSearchButtonTextBox.get("text"));
-      });
-      this.on("preview:recipients:dialog:ok", this.ok, this);
-      this.on("preview:recipients:dialog:cancel", this.cancel, this);
+﻿define([
+  "sitecore",
+  "/-/speak/v1/ecm/MessageTokenService.js",
+  "/-/speak/v1/ecm/DialogBase.js"
+], function (
+  sitecore,
+  MessageTokenService,
+  DialogBase
+  ) {
+  return DialogBase.extend({
+    attachHandlers: function () {
+      this._super();
+      this.on({
+        'add:attachment:dialog:close': this.hideDialog,
+        'action:message:recipients:search': this.onRecipientsSearch
+      }, this);
+    },
+
+    onRecipientsSearch: function () {
+      this.RecipientPreviewDataSource.set("search", this.RecipientPreviewSearchButtonTextBox.get("text"));
+    },
+
+    getPersonalizationContactId: function() {
+      var personalizationContactId = this.RecipientPreviewListControl.get("selectedItemId");
+      this.personalizationContactId = personalizationContactId !== "" ? personalizationContactId : null;
+      return this.personalizationContactId;
     },
 
     ok: function () {
-      var personalizationContactId = this.RecipientPreviewListControl.get("selectedItemId");
-      if (personalizationContactId === "") {
-        personalizationContactId = null;
-      }
+      var personalizationContactId = this.getPersonalizationContactId();
 
       sitecore.trigger("change:personalizationRecipientId", (personalizationContactId) ?
         ("xdb:" + personalizationContactId) :
         null);
-
-      this.personalizationContactId = personalizationContactId;
 
       sitecore.trigger("action:previewRecipientSelected", this.RecipientPreviewListControl.get("selectedItem"));
 
@@ -28,27 +39,14 @@
         managerRootId: sessionStorage.managerRootId,
         contactId: personalizationContactId
       });
-      this.hideDialog();
+      this._super();
     },
 
-    cancel: function () {
-      this.hideDialog();
-    },
-
-    showDialog: function (context) {
-      if (!context)
-        return;
-
-      this.context = context;
-      this.RecipientsPreviewDialog.show();
+    showDialog: function (options) {
+      this._super(options);
       this.RecipientPreviewDataSource.set("loadRecipients", true);
-      this.RecipientPreviewDataSource.set("messageId", context.messageContext.get("messageId"));
+      this.RecipientPreviewDataSource.set("messageId", options.data.messageContext.get("messageId"));
       this.RecipientPreviewDataSource.refreshRecipients();
-    },
-    hideDialog: function () {
-      var dialog = this;
-      //TODO: Make it hide
-      this.RecipientsPreviewDialog.hide();
     }
   });
 });

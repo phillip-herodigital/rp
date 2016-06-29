@@ -1,8 +1,8 @@
-﻿define(["sitecore"], function (Sitecore) {
+﻿define(["sitecore", "/-/speak/v1/ExperienceEditor/ExperienceEditor.js"], function (Sitecore, ExperienceEditor) {
     Sitecore.Commands.SetDeviceSimulator =
     {
         canExecute: function (context) {
-            return Sitecore.ExperienceEditor.isInMode("preview");
+            return ExperienceEditor.isInMode("preview");
         },
 
         execute: function (context) {

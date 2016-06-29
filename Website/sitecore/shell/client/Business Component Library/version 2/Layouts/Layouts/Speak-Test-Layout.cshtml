@@ -1,0 +1,40 @@
+﻿@using Sitecore.Mvc
+@model Sitecore.Mvc.Presentation.RenderingModel
+<!DOCTYPE html>
+<html data-sc-app>
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  @Html.Sitecore().Placeholder("Page.Stylesheets")
+  <link rel="stylesheet" type="text/css" href="/sitecore/shell/client/Business Component Library/version 2/Assets/css/test/jasmine.css">
+  <style>
+    #test-dom.offcanvas {
+      position: absolute;
+      left: -9999px;
+      top: -9999px;
+      width: 1600px;
+    }
+  </style>
+  <script src="/sitecore/shell/client/Business Component Library/version 2/Assets/lib/test/jasmine-2.0.2/jasmine.js"></script>
+    <script src="/sitecore/shell/client/Business Component Library/version 2/Assets/lib/test/jasmine-2.0.2/jasmine-html.js"></script>
+    <script src="/sitecore/shell/client/Business Component Library/version 2/Assets/lib/test/speakReporter.js"></script>
+  <script src="/sitecore/shell/client/Business Component Library/version 2/Assets/lib/test/jasmine-2.0.2/boot.js"></script>
+  
+  
+  @Html.Sitecore().Placeholder("Page.Code")
+</head>
+  <body class="sc">
+    @Html.Sitecore().InitializeSpeakLayout()    
+    @Html.Sitecore().Placeholder("Page.TestCode")
+    <div id="test-dom">
+      <div class="sc-list">
+        @this.Html.Sitecore().Placeholder("Page.Internal.BeforeGrid")
+        <div class="container-narrow">
+          @this.Html.Sitecore().Placeholder("Page.Body")
+        </div>
+        @this.Html.Sitecore().Placeholder("Page.Internal.AfterGrid")
+      </div>
+    </div>
+    @this.Html.Sitecore().Placeholder("Page.Test")
+  </body>
+</html>

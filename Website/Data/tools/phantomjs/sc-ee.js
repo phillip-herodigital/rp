@@ -85,7 +85,7 @@ exports.initHighlight = function () {
   }
 };
 
-exports.highlight = function (mvtids, condids) {
+exports.highlight = function (mvtids, condids, varids) {
   if(typeof(Sitecore) != 'undefined') {
         
     for(i in Sitecore.PageModes.ChromeManager.chromes()){
@@ -93,7 +93,7 @@ exports.highlight = function (mvtids, condids) {
       if(c && c.data && c.data.custom && c.data.custom.testVariations) {
         for(ii in c.data.custom.testVariations){
           var v = c.data.custom.testVariations[ii];
-          if(mvtids.indexOf(v.id) >= 0){
+          if (mvtids.indexOf(v.id) >= 0 || varids.indexOf(v.id) >= 0) {
             c.showHighlight(new Sitecore.PageModes.HighlightTestingFrame());
           }
         }
@@ -102,7 +102,7 @@ exports.highlight = function (mvtids, condids) {
       if(c && c.type && c.type instanceof Sitecore.PageModes.ChromeTypes.Rendering && c.type.getConditions){
         for(ii in c.type.getConditions()){
           var cond = c.type.getConditions()[ii];
-          if(condids.indexOf(cond.id) >= 0){
+          if (condids.indexOf(cond.id) >= 0 || varids.indexOf(cond.id) >= 0) {
             c.showHighlight(new Sitecore.PageModes.HighlightTestingFrame());
           }
         }
