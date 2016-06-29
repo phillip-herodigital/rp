@@ -152,7 +152,7 @@
                 <tr>
                     <th>@Html.Sitecore().Field("Plan Name Text")</th>
                     <th>@Html.Sitecore().Field("Service Address Text")</th>
-                    <th ng-show="utilityPlan.rate">@Html.Sitecore().Field("Rate Text")</th>
+                    <th ng-show="utilityPlan.rate && !hideCurrentRatePrice">@Html.Sitecore().Field("Rate Text")</th>
                     <th>@Html.Sitecore().Field("Term Text")</th>
                     <th ng-if="utilityPlan.fees">@Html.Sitecore().Field("Fees Text")</th>
                         <th ng-if="utilityPlansCount > 1 && utilityPlan.customerType != 'commercial' && renewal">@Html.Sitecore().Field("Action Text")</th>
@@ -174,7 +174,7 @@
                             {{ utilityPlan.serviceAddress.line1 }} {{ utilityPlan.serviceAddress.line2 }}<br>
                             <span>{{ utilityPlan.serviceAddress.city }}, {{ utilityPlan.serviceAddress.stateAbbreviation }} {{ utilityPlan.serviceAddress.postalCode5 }}</span>
                     </td>
-                        <td class="rate" ng-show="utilityPlan.rate">
+                        <td class="rate" ng-show="utilityPlan.rate && !hideCurrentRatePrice">
                             {{ utilityPlan.rate * 100 | number:2 }}&#162;
                             <span>@Html.Sitecore().Field("Per KwH Text")</span>
                     </td>

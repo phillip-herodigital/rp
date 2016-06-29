@@ -13,5 +13,7 @@ namespace StreamEnergy.MyStream.Models.Account
 
         public double DataUsageLimit { get; set; }
         public IEnumerable<MobileUsage> DeviceUsage { get; set; }
+
+        public int SubAccountCount { get; set; }
     }
 }

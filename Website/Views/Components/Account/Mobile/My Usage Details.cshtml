@@ -18,10 +18,10 @@
     </header>
     <div>
         <div stream-connect-errors="AcctUsageSummaryCtrl"></div>
-        <div class="noUsage" ng-show="noUsage">
+        <div class="noUsage" ng-show="noUsage && !hasNoSubAccounts">
             @Html.Sitecore().Field("No Usage Text")
         </div>
-        <table>
+        <table ng-show="!hasNoSubAccounts">
             <thead>
                 <tr class="noUsageOverlay" ng-show="noUsage">
                     <td></td>
