@@ -18,6 +18,8 @@
                 <Root>/sitecore</Root>
               </crawler>
             </locations>
+            <enableItemLanguageFallback>false</enableItemLanguageFallback>
+            <enableFieldLanguageFallback>false</enableFieldLanguageFallback>
           </index>
         </indexes>
       </configuration>

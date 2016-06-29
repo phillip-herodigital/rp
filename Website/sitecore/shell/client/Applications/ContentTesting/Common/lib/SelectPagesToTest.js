@@ -2,7 +2,7 @@
   baseUrl: '/sitecore/shell/client/Applications/ContentTesting/Common/lib'
 });
 
-define(["BindingUtil", "VersionInfo", "DataUtil", "IDUtil"], function (bindingUtil, versionInfo, dataUtil, idUtil) {
+define(["sitecore", "BindingUtil", "VersionInfo", "DataUtil", "IDUtil"], function (Sitecore, bindingUtil, versionInfo, dataUtil, idUtil) {
     var testItemsProperty = "testItemUris";
 
     var SelectPagesToTest = function (options) {
@@ -11,9 +11,7 @@ define(["BindingUtil", "VersionInfo", "DataUtil", "IDUtil"], function (bindingUt
         _itemInfo: options.testItemDataSource,
         _testItemUriProperty: options.testItemUriProperty,
         _testItemTemplateIdProperty: options.testItemTemplateProperty,
-        _selectedLanguageProperty: options.selectedLanguageProperty,
         _selectItemDialog: options.selectItemDialog,
-        _pageVersionTestAdded: false,
         _compareTemplates: options.compareTemplates,
         showThumbnails: options.hostPage.showThumbnails,
 
@@ -182,7 +180,7 @@ define(["BindingUtil", "VersionInfo", "DataUtil", "IDUtil"], function (bindingUt
           this._host.on("addNewPageVersionTestItem", this.addNewPageVersionTestItem, this);
           this._host.on("addPreviousPageVersionTestItem", this.addPreviousPageVersionTestItem, this);
           this._host.on("selectExistingItemTestItem", this.selectExistingItemTestItem, this);
-          this._host.on("addExistingItemTest", this.addExistingItemTest, this);
+          this._host.on("addExistingItemTest", this.addExistingItemTest, this);          
         },
 
         loadTest: function(options) {
@@ -193,7 +191,7 @@ define(["BindingUtil", "VersionInfo", "DataUtil", "IDUtil"], function (bindingUt
 
         createTestOptions: function (options) {
           options.PageUris = _.map(this._host.get(testItemsProperty), function (item) {
-            return item.toString()
+            return item.toString();
           });
         },
 
@@ -204,17 +202,13 @@ define(["BindingUtil", "VersionInfo", "DataUtil", "IDUtil"], function (bindingUt
             return;
           }
 
-          var self = this;
           var uri = new dataUtil.DataUri(itemUri);
-          versionInfo.getTestCandidateVersionNumber({
-            id: uri.id,
-            lang: uri.lang
-          }, function (id, version, revision, lang) {
-            if (self._addTestItem(id, lang, version, revision)) {
-              self._host.AddPageDialog.hide();
-              self._pageVersionTestAdded = true;
-            }
-          });
+          var previousVersionUri = _.clone(uri);
+          previousVersionUri.ver--;
+          
+          if (this._addTestItem(previousVersionUri.id, previousVersionUri.lang, previousVersionUri.ver, "a")) {
+            this._host.AddPageDialog.hide();    
+          }
         },
 
         addNewPageVersionTestItem: function () {
@@ -252,7 +246,43 @@ define(["BindingUtil", "VersionInfo", "DataUtil", "IDUtil"], function (bindingUt
 
           // Callback lives on the app; the host page
           this._selectItemDialog.setSelectButtonCallback("addExistingItemTest");
+          this._selectItemDialog.setSelectionValidationCallback(this.validateSelection, this);
           this._selectItemDialog.show();
+        },
+
+        validateSelection: function () {
+          if (this._compareTemplates) {
+            var templateId = this._host.get("selectedTemplateId");
+            var testItemTemplateId = this._host.get(this._testItemTemplateIdProperty);
+            if (!idUtil.areEqual(templateId, testItemTemplateId)) {
+              this._selectItemDialog.addWarning(this._host.Texts.get("The selected page has a different template. Please select another page"));
+            }
+          }
+
+          var itemId = this._host.get("selectedItemId");
+          if (itemId) {
+            var uri = this._host.get(this._testItemUriProperty);
+            if (uri) {
+              uri = new dataUtil.DataUri(uri);
+            }
+            var self = this;
+            versionInfo.getLatestVersionNumber({
+              id: itemId,
+              lang: uri.lang
+            }, function (id, version, revision, lang) {
+              var selectedUri = new dataUtil.DataUri();
+              selectedUri.id = id;
+              selectedUri.lang = lang;
+              selectedUri.ver = version;
+              selectedUri.rev = revision;
+
+              if (self._isItemInThisTest(selectedUri)) {
+                self._selectItemDialog.addWarning(self._host.Texts.get("The item has already been added"));
+              }
+            });
+          }
+
+          return null;
         },
 
         addExistingItemTest: function () {
@@ -262,7 +292,10 @@ define(["BindingUtil", "VersionInfo", "DataUtil", "IDUtil"], function (bindingUt
             return;
           }
 
-          var lang = this._host.get(this._selectedLanguageProperty);
+          var uri = this._host.get(this._testItemUriProperty);
+          if (uri) {
+            uri = new dataUtil.DataUri(uri);
+          }
           
           if (this._compareTemplates)
           {
@@ -273,11 +306,12 @@ define(["BindingUtil", "VersionInfo", "DataUtil", "IDUtil"], function (bindingUt
               alert(this._host.Texts.get("The selected page has a different template. Please select another page"));
               return;
             }
-          }
+          }          
 
           var self = this;
           versionInfo.getLatestVersionNumber({
-            id: itemId, lang: lang
+            id: itemId,
+            lang: uri.lang
           }, function (id, version, revision, lang) {
             if (self._addTestItem(id, lang, version, revision)) {
               self._selectItemDialog.hide();
@@ -294,14 +328,15 @@ define(["BindingUtil", "VersionInfo", "DataUtil", "IDUtil"], function (bindingUt
           var renderedApps = rep.get("renderedApps");
           renderedApps.each(function (app) {
             var appItemId = app.get("itemId");
+            var appItemLang = app.get("language");
             var appItemVer = app.get("version");
 
-            if (_.find(items, function (item) { return item.id == appItemId && item.ver == appItemVer; }) == undefined) {
+            if (_.find(items, function (item) { return item.id === appItemId && item.lang === appItemLang && item.ver === appItemVer; }) == undefined) {
               // don't change the collection while enumerating it
               appsToRemove.push(app);
               app.ScopedEl.remove();
             } else {
-              alreadyAdded.push({ id: appItemId, ver: appItemVer });
+              alreadyAdded.push({ id: appItemId, lang:appItemLang, ver: appItemVer });
             }
           });
 
@@ -311,8 +346,7 @@ define(["BindingUtil", "VersionInfo", "DataUtil", "IDUtil"], function (bindingUt
           });
 
           _.each(items, function (item) {
-            //if (alreadyAdded.indexOf(item.id) < 0) {
-            if (_.find(alreadyAdded, function (addedItem) { return item.id == addedItem.id && item.ver == addedItem.ver; }) == undefined) {
+            if (_.find(alreadyAdded, function (addedItem) { return item.equals(addedItem); }) == undefined) {
               rep.viewModel.addData([item]);
             }
           });
@@ -374,19 +408,19 @@ define(["BindingUtil", "VersionInfo", "DataUtil", "IDUtil"], function (bindingUt
 
           // clone the existing array so change events work properly
           var existing = _.clone(this._host.get(testItemsProperty));
-          var modified = _.reject(existing, function (item) { return item.id == appItemId && item.ver == appItemVer; });
-
-          var hostItemUri = new dataUtil.DataUri(this._host.get(this._testItemUriProperty));
-          if (hostItemUri.id == appItemId) {
-            this._pageVersionTestAdded = false;
-          }
+          var modified = _.reject(existing, function (item) { return item.id === appItemId && item.ver === appItemVer; });
 
           this._host.set(testItemsProperty, modified);
         },
 
         editEntry: function (subapp) {
-          var id = subapp.get("itemId");
-          var w = window.open("/?sc_mode=edit&sc_itemid=" + id, "_blank");
+          var url = Sitecore.Helpers.url.addQueryParameters("/?sc_mode=edit", {
+            sc_itemid: subapp.get("itemId"),
+            sc_version: subapp.get("version"),
+            sc_lang: subapp.get("language")
+          });
+
+          var w = window.open(url, "_blank");
 
           var refresh = function () {
             subapp.ItemInfoDataSource.refresh();
@@ -397,14 +431,33 @@ define(["BindingUtil", "VersionInfo", "DataUtil", "IDUtil"], function (bindingUt
         },
 
         _addTestItem: function (id, lang, ver, rev) {
-          // store this in the host app to make observation easier
+          if (!rev) {
+            alert(this._host.Texts.get("The item does not have a version in the current language"));
+            return false;
+          }
 
+          // store this in the host app to make observation easier
           var toAdd = new dataUtil.DataUri();
           toAdd.id = id;
           toAdd.lang = lang;
           toAdd.ver = ver;
           toAdd.rev = rev;
 
+          if (this._isItemInThisTest(toAdd)) {
+            alert(this._host.Texts.get("The item has already been added"));
+            return false;
+          }
+
+          // clone the existing array so change events work properly
+          var existing = _.clone(this._host.get(testItemsProperty));
+          var items = existing || [];
+          items.push(toAdd);
+          this._host.set(testItemsProperty, items);
+
+          return true;
+        },
+
+        _isItemInThisTest: function (dataUri) {
           var hostItemUri = new dataUtil.DataUri(this._host.get(this._testItemUriProperty));
 
           // clone the existing array so change events work properly
@@ -412,30 +465,33 @@ define(["BindingUtil", "VersionInfo", "DataUtil", "IDUtil"], function (bindingUt
           var items = existing || [];
           var compareItems = items.concat(hostItemUri);
 
-          var self = this;
-
           if (_.find(compareItems, function (item) {
-              return item.id == toAdd.id && item.lang == toAdd.lang && item.ver == toAdd.ver;
+            return dataUri.equals(item);
           }) != undefined) {
-            alert(self._host.Texts.get("The item has already been added"));
-            return false;
+            return true;
           }
 
-          items.push(toAdd);
-          this._host.set(testItemsProperty, items);
-
-          return true;
+          return false;
         },
 
         _setAddPageOptions: function () {
-          var self = this;
-
-          // only allow page version test if there's more than 1 verison of the host item and it hasn't already been added
           var hostItemUri = new dataUtil.DataUri(this._host.get(this._testItemUriProperty));
-          
-          versionInfo.getLatestVersionNumber(hostItemUri.id, function (id, version, revision) {
-            self._host.AddPreviousPageVersionLink.set("isEnabled", version > 1 && !self._pageVersionTestAdded);
-          });
+          var allowPreviousVersion = hostItemUri.ver > 1;
+
+          if (allowPreviousVersion) {
+            var prevHostItemUri = _.clone(hostItemUri);
+            prevHostItemUri.ver--;
+
+            var existing = this._host.get(testItemsProperty);
+            var items = existing || [];
+            items = items.concat(hostItemUri);
+
+            allowPreviousVersion = _.find(items, function (item) {
+              return prevHostItemUri.equals(item);
+            }) === undefined;
+          }
+
+          this._host.AddPreviousPageVersionLink.set("isEnabled", allowPreviousVersion);
 
           // todo Check security of the source item to see if author can create a new version
         }

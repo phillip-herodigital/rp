@@ -1,0 +1,38 @@
+﻿@using Sitecore
+@using Sitecore.Mvc
+@using Sitecore.Data
+@using Sitecore.Data.Items
+@using Sitecore.Mvc.Presentation
+@using System.Collections.Specialized
+@using Sitecore.Speak.Components.Models.Forms.FormPanels
+@using Sitecore.Speak.Components.Models.ListsAndGrids.Grids
+@model Sitecore.Speak.Components.Models.Containers.Forms.FormPanels.FormRenderingModel
+@{
+  Model.Class.Append("sc-form sc-grid row");
+  Model.DataBind.IsVisible().Bind("readonly", "FormData");
+  var index = 0;
+}
+<form @Model.HtmlAttributes>
+  @foreach (FormDressingItem child in Model.FormDressingItems)
+  {
+    string[] visibilities = child.IsLabelOnTop ? new string[] { String.Empty, "hidden" } : new string[] { "visible-xs", "hidden-xs" };
+    <div class="@Html.GetColumnsClass(Model.GridAttributes, Model.GridCellSizes, Model.PaddingClass, index)">
+      <div title="@child.FormLabel">
+        <div class="sc-formlabeltop @visibilities[0]">
+          <span>@child.FormLabel</span>
+        </div>
+        <div class="sc-formlabelleft @visibilities[1]">
+          <span>@child.FormLabel</span>
+        </div>
+      </div>
+      <div class="sc-formcomponent">
+        @Html.RenderView(child.ParentId.ToString(), new { Id = child.ItemName, ConfigurationItem = child.Id.ToString()})
+        <div class="sc-formhelptext" title="@child.HelpText">
+          <span>@child.HelpText</span>
+        </div>
+      </div>
+    </div>
+    @Html.RenderClearFix(Model.GridAttributes, index)
+    index++;
+    }
+  </form>

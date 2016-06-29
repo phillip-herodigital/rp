@@ -1,8 +1,9 @@
 ﻿define([
   "sitecore",
   "/-/speak/v1/contenttesting/DataUtil.js",
-  "/-/speak/v1/contenttesting/RequestUtil.js"
-], function (Sitecore, dataUtil, requestUtil) {
+  "/-/speak/v1/contenttesting/RequestUtil.js", 
+  "/-/speak/v1/ExperienceEditor/ExperienceEditorProxy.js"
+], function (Sitecore, dataUtil, requestUtil, PageEditorProxy) {
   var model = Sitecore.Definitions.Models.ControlModel.extend({
     initialize: function (options) {
       this._super();
@@ -12,11 +13,11 @@
     },
     
     getRules: function () {
-      var deviceId = window.top.ExperienceEditor.PageEditorProxy.deviceId();
+      var deviceId = PageEditorProxy.deviceId();
       var uri = dataUtil.composeUri(this);
       var ajaxOptions = {
         cache: false,
-        url: "/sitecore/shell/api/ct/Rules/GetRules?itemuri=" + encodeURIComponent(uri) + "&deviceId=" + deviceId,
+        url: "/sitecore/shell/api/ct/Personalization/GetRules?itemDataUri=" + encodeURIComponent(uri) + "&deviceId=" + deviceId,
         context: this,
         success: function(data) {
           this.set({ "items": data.Items, "RulesCount": data.RulesCount, "ComponentCount": data.ComponentCount });

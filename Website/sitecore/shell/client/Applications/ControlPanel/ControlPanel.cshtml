@@ -8,6 +8,7 @@
 @using Sitecore.Web.UI
 @using Sitecore.Web.UI.Controls.Common.UserControls
 @using Sitecore.Configuration;
+@using Sitecore.Xdb.Configuration
 @model RenderingModel
 
 @{
@@ -21,8 +22,9 @@
   var untranslatedfieldsViewerItem = Sitecore.Context.Database.GetItem("{211B10C7-F5BD-4219-8715-15EA0CAD2D80}");
   resetMySettingsMessage = resetMySettingsMessage.Replace("\r\n", "<br />").Replace("\n", "<br />").Replace("\r", "<br />");
   var untranslatedfieldsViewerHeader = untranslatedfieldsViewerItem["Display name"];
-  var isAnalyticsEnabled = Settings.GetBoolSetting("Analytics.Enabled", false);
+  var isAnalyticsEnabled = XdbSettings.Enabled;
   var isBucketsEnabled = Settings.GetBoolSetting("BucketConfiguration.ItemBucketsEnabled", false);
+  
 }
 <script type="text/javascript">
 

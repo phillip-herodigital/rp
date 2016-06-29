@@ -38,8 +38,9 @@
     },
 
     keyupPressed: function (e) {
-      if (e.keyCode == 13) {
-        this.buttonClicked(e);
+        if (e.keyCode === 13) {
+            this.$el.find("input").blur().focus();
+            this.buttonClicked(e);
       }
     },
 

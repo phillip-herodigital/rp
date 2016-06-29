@@ -1,8 +1,8 @@
-﻿define(["sitecore"], function (Sitecore) {
+﻿define(["sitecore", "/-/speak/v1/ExperienceEditor/ExperienceEditor.js"], function (Sitecore, ExperienceEditor) {
   Sitecore.Commands.InsertPage =
   {
     canExecute: function (context) {
-      if (!Sitecore.ExperienceEditor.isInMode("edit")) {
+      if (!ExperienceEditor.isInMode("edit")) {
         return false;
       }
 
@@ -10,8 +10,8 @@
     },
     execute: function (context) {
       context.app.disableButtonClickEvents();
-      Sitecore.ExperienceEditor.PipelinesUtil.executePipeline(context.app.InsertItemPipeline, function () {
-        Sitecore.ExperienceEditor.PipelinesUtil.executeProcessors(Sitecore.Pipelines.InsertItem, context);
+      ExperienceEditor.PipelinesUtil.executePipeline(context.app.InsertItemPipeline, function () {
+        ExperienceEditor.PipelinesUtil.executeProcessors(Sitecore.Pipelines.InsertItem, context);
       });
       context.app.enableButtonClickEvents();
     }

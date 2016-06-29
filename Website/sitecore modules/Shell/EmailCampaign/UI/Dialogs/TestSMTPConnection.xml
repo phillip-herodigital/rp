@@ -2,7 +2,7 @@
 <control xmlns:def="Definition" xmlns="http://schemas.sitecore.net/Visual-Studio-Intellisense">
   <EmailCampaign.TestSMTPConnection>
     <FormDialog Icon="Network/32x32/server_connection.png" Header="Test Email Connection" Text="Verify the connection to the email server.">
-      <CodeBeside Type="Sitecore.Modules.EmailCampaign.UI.Dialogs.TestSMTPConnectionPage,Sitecore.EmailCampaign"/>
+      <CodeBeside Type="Sitecore.Modules.EmailCampaign.UI.Dialogs.TestSMTPConnectionPage,Sitecore.EmailCampaign.Cm.UI"/>
 
       <style type="text/css">
         blockquote

@@ -1,14 +1,15 @@
-﻿define(["sitecore"], function(Sitecore) {
-    return {
-        priority: 1,
-        execute: function(context) {
-            $.each(context.commands, function() {
-                if (this.command === undefined)
-                    return;
-                context.button = this.initiator;
-                var enabled = this.command.canExecute(context, this);
-                this.initiator.set({ isEnabled: enabled });
-            });
+﻿define(["sitecore", "/-/speak/v1/ExperienceEditor/ExperienceEditor.js"], function (Sitecore, ExperienceEditor) {
+  return {
+    priority: 1,
+    execute: function (context) {
+      ExperienceEditor.CommandsUtil.runCommandsCollectionCanExecute(context.commands, function (stripId) {
+        var cookieValue = ExperienceEditor.Common.getCookieValue("sitecore_webedit_activestrip");
+        if (cookieValue === "") {
+          return false;
         }
-    };
+
+        return stripId && stripId + "_ribbon_tab" !== cookieValue;
+      }, false);
+    }
+  };
 });

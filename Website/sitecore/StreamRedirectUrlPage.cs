@@ -3,16 +3,17 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Collections.Specialized;
 
 namespace StreamEnergy.MyStream.sitecore
 {
-    public class StreamRedirectUrlPage : Sitecore.Modules.EmailCampaign.UI.RedirectUrlPage
+    public class StreamRedirectUrlPage : Sitecore.EmailCampaign.Cd.sitecore.RedirectUrlPage
     {
-        protected override void HandleMessageEvent(ID messageId, ID contactId)
+        protected override void HandleMessageEvent(NameValueCollection queryString)
         {
             try
             {
-                base.HandleMessageEvent(messageId, contactId);
+                base.HandleMessageEvent(queryString);
             }
             catch
             {

@@ -35,14 +35,14 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         private readonly Sitecore.Security.Domains.Domain domain;
         private readonly Sitecore.Data.Database database;
         private readonly IValidationService validation;
-        private readonly StreamEnergy.MyStream.Controllers.ApiControllers.AuthenticationController authentication;
+        private readonly StreamEnergy.MyStream.Controllers.ApiControllers.StreamAuthenticationController authentication;
         private readonly ICurrentUser currentUser;
         private readonly EnrollmentController enrollmentController;
         private readonly IEnrollmentService enrollmentService;
         private readonly IDatabase redis;
         private const string redisPrefix = "AddNewAccount_FindAccount_";
 
-        public AccountController(IUnityContainer container, HttpSessionStateBase session, DomainModels.Accounts.IAccountService accountService, DomainModels.Payments.IPaymentService paymentService, IValidationService validation, StreamEnergy.MyStream.Controllers.ApiControllers.AuthenticationController authentication, ICurrentUser currentUser, EnrollmentController enrollmentController, IDatabase redis, IEnrollmentService enrollmentService)
+        public AccountController(IUnityContainer container, HttpSessionStateBase session, DomainModels.Accounts.IAccountService accountService, DomainModels.Payments.IPaymentService paymentService, IValidationService validation, StreamEnergy.MyStream.Controllers.ApiControllers.StreamAuthenticationController authentication, ICurrentUser currentUser, EnrollmentController enrollmentController, IDatabase redis, IEnrollmentService enrollmentService)
         {
             this.container = container;
             this.accountService = accountService;

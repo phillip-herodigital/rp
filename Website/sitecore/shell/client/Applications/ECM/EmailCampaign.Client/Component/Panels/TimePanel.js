@@ -83,14 +83,6 @@
           changeDeliveryModeRecurring();
         });
 
-        panelApp.ScheduleRecurringEndAfterRadioButton.on("change:isChecked", function () {
-          setEndModeControls();
-        });
-
-        panelApp.ScheduleRecurringEndByRadioButton.on("change:isChecked", function () {
-          setEndModeControls();
-        });
-
         panelApp.ScheduleRecurringEndAfterAmountTextBox.viewModel.$el.keydown(validation.validate);
 
         context.on("change:isBusy", function () {

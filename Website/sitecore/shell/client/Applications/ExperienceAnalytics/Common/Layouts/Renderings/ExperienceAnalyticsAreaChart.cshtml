@@ -1,8 +1,7 @@
 ﻿@using System.Web.Mvc.Html
 @using Sitecore.ExperienceAnalytics.Client
-@using Sitecore.ExperienceAnalytics.Client
 @using Sitecore.ExperienceAnalytics.Client.Mvc
-
+@using UserControl = Sitecore.Web.UI.Controls.Common.UserControls.UserControl
 @model Sitecore.ExperienceAnalytics.Client.Mvc.Presentation.ExperienceAnalyticsAreaChartViewModel
 
 @EmbedChart(Model.Control)
@@ -10,7 +9,7 @@
 @Html.Partial("/sitecore/shell/client/Applications/ExperienceAnalytics/Common/Layouts/Renderings/Shared/_DvcWrapper.cshtml", Model)
 
 
-@helper EmbedChart(Sitecore.Web.UI.Controls.Common.UserControls.UserControl rendering)
+@helper EmbedChart(UserControl rendering)
 {
   var renderingControlId = rendering.ControlId;
   var helper = new RenderingHelper(Html.HtmlHelper(), renderingControlId);

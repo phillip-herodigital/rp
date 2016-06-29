@@ -4,6 +4,7 @@
     clientContext: null,
 
     initialized: function () {
+      var that = this;
       this.clientContext = window.top.ExperienceEditor;
       if (!this.clientContext) {
         return;
@@ -13,7 +14,7 @@
         var selectedItem = this.getSelectedItem(event.sender.el);
         var selectedItemId = selectedItem.get("itemId");
 
-        this.clientContext.instance.executeCommand("SetDeviceSimulator", selectedItemId);
+        that.clientContext.getContext().instance.executeCommand("SetDeviceSimulator", selectedItemId);
       }, this);
 
       this.setSelectedItem();

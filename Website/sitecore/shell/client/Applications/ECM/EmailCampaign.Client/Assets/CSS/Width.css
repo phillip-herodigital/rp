@@ -1,35 +1,57 @@
-﻿/*TODO: current css require re-factoring*/
-.sc-breadcrumb.ecm > ul > li a {
-  color: white;
+﻿@media (min-width: 979px) {
+  .modal.message-creation-dialog {
+    width: 90% !important;
+    max-width: 1200px !important;
+  }
 }
-
-.sc-breadcrumb.ecm > ul > li:last-child:after {
-  margin-left: 0;
+.message-creation-dialog .sc-dialogWindow-body {
+  height: auto !important;
 }
-
-.sc-breadcrumb.ecm > ul > li:last-child {
+.message-creation-dialog .sc-border[data-sc-id="ContentBorder"] .sc-label[data-sc-id="NameLabel"],
+.message-creation-dialog .sc-border[data-sc-id="ContentBorder"] .sc-label[data-sc-id="ImportNameLabel"],
+.message-creation-dialog .sc-border[data-sc-id="ContentBorder"] .sc-label[data-sc-id="BrowseNameLabel"] {
+  line-height: 36px;
+}
+/* Responsive behaviour of the Creation Dialog */
+@media (max-width: 979px) {
+  .message-creation-dialog .sc-border[data-sc-id="ContentBorder"].sc-border.sc-show-paddingBottom {
+    padding-bottom: 10px;
+  }
+  .message-creation-dialog .sc-border[data-sc-id="ContentBorder"] .sc-label[data-sc-id="NameLabel"],
+  .message-creation-dialog .sc-border[data-sc-id="ContentBorder"] .sc-label[data-sc-id="ImportNameLabel"],
+  .message-creation-dialog .sc-border[data-sc-id="ContentBorder"] .sc-label[data-sc-id="BrowseNameLabel"] {
+    line-height: 30px;
+  }
+  .message-creation-dialog .sc-show-paddingBottom[data-sc-id="DialogBorder"] {
+    padding-bottom: 0;
+  }
+  .message-creation-dialog .sc-uploader-content {
+    padding: 10px 15px;
+  }
+}
+.sc-applicationHeader-breadCrumb .sc-breadcrumb.ecm {
+  display: inline-block;
+}
+.sc-applicationHeader-breadCrumb .sc-breadcrumb.ecm > ul > li:last-child {
   padding-right: 2px;
 }
-
-.sc-breadcrumb.ecm {
-  display: inline-block;
+.sc-applicationHeader-breadCrumb .sc-breadcrumb.ecm > ul > li:last-child:after {
+  margin-left: 0;
 }
-
-span[data-sc-id="BreadCrumbMessageName"] {
-  display: inline-block;
+.sc-applicationHeader-breadCrumb .sc-breadcrumb.ecm > ul > li a {
   color: white;
-  position: absolute;
-  background: url("/sitecore/shell/client/Speak/Assets/img/Speak/Common/16x16/white/separator.png");
-  background-repeat: no-repeat;
-  background-position: 0 5px;
-  padding-left: 15px;
 }
-
-.sc-breadcrumb.ecm > ul > li a:hover {
+.sc-applicationHeader-breadCrumb .sc-breadcrumb.ecm > ul > li a:hover {
   color: white !important;
   text-decoration: underline;
 }
-
+.sc-applicationHeader-breadCrumb span[data-sc-id="BreadCrumbMessageName"] {
+  display: inline-block;
+  color: white;
+  position: absolute;
+  background: url("/sitecore/shell/client/Speak/Assets/img/Speak/Common/16x16/white/separator.png") no-repeat 0 5px;
+  padding-left: 15px;
+}
 .sc-textbox[data-sc-id="SearchTextBox"],
 .sc-textbox[data-sc-id="IncludedRecipientsSearchTextBox"],
 .sc-textbox[data-sc-id="ExcludedRecipientsSearchTextBox"],
@@ -37,49 +59,99 @@ span[data-sc-id="BreadCrumbMessageName"] {
   width: 530px;
   float: left;
 }
-
 .sc-textbox[data-sc-id="IncludedRecipientsSearchTextBox"],
 .sc-textbox[data-sc-id="ExcludedRecipientsSearchTextBox"] {
   width: 510px;
 }
-
 .sc-textbox[data-sc-id="ListsSearchTextBox"] {
   width: 580px;
 }
-
+.sc-textbox[data-sc-id="NotificationEmailValueTextBox"] {
+  width: 100%;
+}
+span.sc-text[data-sc-id="HeaderTitle"] {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  display: block;
+  overflow: hidden;
+  padding-bottom: 2px;
+  min-height: 36px;
+}
+span.sc-text[data-sc-id="ABVariantsHeaderText"] {
+  line-height: 56px;
+}
+span.sc-text[data-sc-id="NotificationEmailHintText"],
+span.sc-text[data-sc-id="UsePreferredLanguageHintText1"],
+span.sc-text[data-sc-id="UsePreferredLanguageHintText2"],
+span.sc-text[data-sc-id="UsePreferredLanguageHintTextDefaultLanguage"] {
+  font-style: italic;
+  display: block;
+  padding-left: 18px;
+  line-height: normal;
+}
+span.sc-text[data-sc-id="UsePreferredLanguageHintTextDefaultLanguage"] {
+  display: inline;
+}
+span.sc-text[data-sc-id="UsePreferredLanguageHintTextContextLanguage"] {
+  display: inline;
+  font-style: italic;
+  line-height: normal;
+}
+span.sc-text[data-sc-id="NotificationEmailHintText"],
+span.sc-text[data-sc-id="UsePreferredLanguageHintText1"] {
+  padding-top: 8px;
+}
+span.sc-text[data-sc-id="WhouldYouLikeText"],
+span.sc-text[data-sc-id="PreferredMessageWillBeSentText"],
+span.sc-text[data-sc-id="PreferredAsYouHaveSelectedText"],
+span.sc-text[data-sc-id="PreferredEachReciepientText"] {
+  display: block;
+}
+span.sc-text[data-sc-id="TestIdText"],
+span.sc-text[data-sc-id="TestIdValue"] {
+  float: left;
+  display: inline-block;
+  margin-right: 5px;
+  font-size: 0.9em;
+}
+span.sc-text[data-sc-id="TestIdText"] {
+  font-weight: bold;
+}
 .sc-search.row .sc-search-searches {
   padding-bottom: 10px;
 }
-
+/* START: delete after removing StartPage */
 .sc-navigation-content .sc-applicationHeader .sc-applicationHeader-contextSwitcher {
   float: right;
 }
-
-.sc-applicationContent .sc-applicationHeader .sc-applicationHeader-row2 .sc-applicationHeader-actions div[data-sc-id="EmailManagerRoot"] {
-  margin-right: 10px;
+.sc-navigation-content .sc-applicationHeader .sc-applicationHeader-contextSwitcher div[data-sc-id=EmailManagerRoot],
+.sc-navigation-content .sc-applicationHeader .sc-applicationHeader-contextSwitcher button[data-sc-id=DefaultSettingsButton] {
+  float: right;
 }
-
+.sc-navigation-content .sc-applicationHeader .sc-applicationHeader-contextSwitcher button[data-sc-id=DefaultSettingsButton] {
+  margin-left: 10px;
+}
+/* END: delete after removing StartPage */
 .sc-applicationContent .sc-applicationHeader .sc-applicationHeader-row2 .sc-applicationHeader-actions > div {
   float: right;
 }
-
+.sc-applicationContent .sc-applicationHeader .sc-applicationHeader-row2 .sc-applicationHeader-actions div[data-sc-id="EmailManagerRoot"] {
+  margin-right: 10px;
+}
 .sc-applicationContent .sc-applicationHeader .sc-applicationHeader-row2 .sc-applicationHeader-actions button.btn.sc-button.btn-primary {
   float: right;
   margin-left: 10px;
 }
-
 .sc .sc-hyperlinkbuttonsgroup li {
   margin: 2px 2px 0 0;
   padding-top: 2px;
 }
-
-  .sc .sc-hyperlinkbuttonsgroup li[sc-selected] {
-    background-color: #5e5e5e !important;
-  }
-
-  .sc .sc-hyperlinkbuttonsgroup li.selected {
-    background-image: url("/sitecore/shell/client/Speak/Assets/img/Speak/Menu/menu_selectedarrow.png");
-  }
+.sc .sc-hyperlinkbuttonsgroup li[sc-selected] {
+  background-color: #5e5e5e !important;
+}
+.sc .sc-hyperlinkbuttonsgroup li.selected {
+  background-image: url("/sitecore/shell/client/Speak/Assets/img/Speak/Menu/menu_selectedarrow.png");
+}
 div[data-sc-id="PageProgressIndicator"] {
   z-index: 5000;
 }
@@ -92,39 +164,31 @@ div[data-sc-id="PageProgressIndicator"] {
   padding-top: 15px;
   padding-bottom: 15px;
 }
-
-  .sc-applicationContent-info .sc-MessageInfo h3,
-  .sc-applicationContent-info .sc-MessageOverview h3,
-  .sc-applicationContent-info .sc-MessagePreview h3 {
-    text-transform: uppercase;
-    font-family: Arial, sans-serif;
-    font-size: 15px;
-    font-weight: bold;
-    margin: 0 0 15px 0;
-  }
-
+.sc-applicationContent-info .sc-MessageInfo h3,
+.sc-applicationContent-info .sc-MessageOverview h3,
+.sc-applicationContent-info .sc-MessagePreview h3 {
+  font-family: Arial, sans-serif;
+  font-size: 15px;
+  font-weight: bold;
+  margin: 0 0 15px 0;
+}
 .sc .sc-message-progress {
   width: 100%;
 }
-
 .sc .sc-message-progress-table {
   width: 100%;
   background-color: white;
   table-layout: fixed;
 }
-
-.sc .sc-message-progress-table tr {
-  border-bottom: solid 2px rgb(240, 240, 240);
+.sc .sc-message-progress-table td {
+  padding-left: 15px;
+  padding-right: 15px;
+  height: 41px;
+  border-bottom: solid 1px #f0f0f0;
 }
-
-.sc .sc-message-progress-table tr td {
-  padding: 7px 10px;
-}
-
 .sc .sc-message-progress-table tr td:last-child {
   font-weight: bold;
 }
-
 .sc .sc-message-progress-table tr td:last-child a {
   cursor: pointer;
   white-space: nowrap;
@@ -133,8 +197,7 @@ div[data-sc-id="PageProgressIndicator"] {
   text-overflow: ellipsis;
   display: block;
 }
-
-.sc .sc-message-progress-value {
+.sc .sc-message-progress-table .sc-message-progress-value {
   text-align: right;
   width: 50%;
 }
@@ -143,149 +206,78 @@ div[data-sc-id="PageProgressIndicator"] {
   top: 10px !important;
   left: 8px !important;
 }
-
-.sc .sc-messageBar {
-  /*margin: 15px 0;*/
+.sc .sc-messageBar .alert .close {
+  margin-top: -8px !important;
 }
-
-  .sc .sc-messageBar .alert .close {
-    margin-top: -8px !important;
-  }
-
-div[data-sc-id="MainBorder"] > div[data-sc-id="UploaderRowPanel"] {
-  margin-left: 0;
-}
-
-.sc-load-on-demand-panel .tab-content, div[data-sc-id="TabControl"] .tab-content {
+.sc .sc-load-on-demand-panel .tab-content {
   margin-top: 30px;
 }
-
-.sc .sc-tabcontrol.subTab > ul.nav-tabs {
-  margin-top: -30px;
-}
-
 .sc .sc-load-on-demand-panel .row {
   margin-left: 0;
   margin-right: 0;
 }
-
-.sc .row div[data-sc-id="MainBorder"] {
-  padding: 0 15px 15px 15px;
-}
-
-.sc .row div[data-sc-id="BodyRightColumnPanel"] {
-  padding-left: 0;
-}
-
 .sc .sc-load-on-demand-panel .sc-border.sc-show-padding {
   padding: 8px 0;
 }
-
+.sc .sc-tabcontrol.subTab > ul.nav-tabs {
+  margin-top: -30px;
+}
+.sc .row div[data-sc-id="MainBorder"] {
+  padding: 0 15px 15px 15px;
+}
+.sc .row div[data-sc-id="MainBorder"] > div[data-sc-id="UploaderRowPanel"] {
+  margin-left: 0;
+}
+.sc .row div[data-sc-id="BodyRightColumnPanel"] {
+  padding-left: 0;
+}
 .sc .row.sc-show-padding {
   padding: 8px 5px !important;
 }
-
-.sc .sc-advancedExpander {
-  margin-bottom: 30px;
-}
-
 .sc .sc-dropdownbutton-contentpanel .sc-advancedExpander {
   margin-bottom: 0;
 }
-
-.sc-advancedExpander + button.btn.sc-button.btn-default {
-  margin-top: -15px;
-  margin-bottom: 15px;
+.sc .sc-advancedExpander {
+  margin-bottom: 30px;
 }
-
-.sc-textarea[data-sc-id="DescriptionArea"] {
-  margin-bottom: 0;
-  resize: none;
+.sc .sc-advancedExpander[data-sc-id="MessageVariantAccordion"] div.sc-advancedExpander-body {
+  padding: 5px 15px;
 }
-
-textarea[readonly] {
-  resize: none;
-}
-
-span.sc-text[data-sc-id="HeaderTitle"] {
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  display: block;
-  overflow: hidden;
-  padding-bottom: 2px;
-  min-height: 36px;
-}
-
-div.sc-advancedExpander-footer-more,
-div.sc-advancedExpander-footer-less {
-  padding: 0px 20px 10px;
+.sc .sc-advancedExpander div.sc-advancedExpander-footer-more,
+.sc .sc-advancedExpander div.sc-advancedExpander-footer-less {
+  padding: 0 20px 10px;
   text-align: right;
 }
-
 .sc .sc-border.sc-show-padding[data-sc-id="AccordionBorder"],
 .sc .sc-border.sc-show-padding[data-sc-id="IncludedRecipientsAccordionBorder"],
 .sc .sc-border.sc-show-padding[data-sc-id="ExcludedRecipientsAccordionBorder"] {
   padding: 10px 10px 0 10px !important;
 }
-
-div[data-sc-id="MessageVariantAccordion"] div.sc-advancedExpander-body {
-  padding: 5px 15px;
+.sc .sc-border.sc-show-padding[data-sc-id="GeneralMessageInfoAccordionBorder"],
+.sc .sc-border.sc-show-padding[data-sc-id="SenderAccordionBorder"] {
+  padding-bottom: 8px;
 }
-
-div.sc-border.sc-show-border.sc-show-padding[data-sc-id="TopRowBorder"],
-div.sc-border.sc-show-border[data-sc-id="AddListButtonsBorder"] {
+.sc .sc-border.sc-show-border[data-sc-id="TopRowBorder"],
+.sc .sc-border.sc-show-border[data-sc-id="AddListButtonsBorder"] {
   padding: 5px 20px !important;
   margin: 0;
 }
-
-div.sc-border.sc-show-border[data-sc-id="AddListButtonsBorder"] {
+.sc .sc-border.sc-show-border[data-sc-id="AddListButtonsBorder"] {
   padding-left: 16px !important;
 }
-
-div[data-sc-id="AddRecipientsListTitleColumnPanel"] {
-  padding: 8px 0;
+.sc div[data-sc-id="SaveAsSubscriptionDialog"] .row.sc-show-padding {
+  padding: 8px 0 !important;
 }
-
-div[data-sc-id="AddRecipientsListOrColumnPanel"] {
-  padding: 8px;
-}
-
-div.sc-border.sc-align-right.sc-show-padding[data-sc-id="BehaviorLinkBorder"] {
-  padding: 0 20px 12px !important;
-}
-
 .sc div[data-sc-id="SaveAsSubscriptionDialog"] .row.sc-show-padding span {
   font-weight: bold;
   cursor: default;
 }
-
-.sc div[data-sc-id="SaveAsSubscriptionDialog"] .row.sc-show-padding {
-  padding: 8px 0 !important;
-}
-
-div.sc-border.sc-show-padding[data-sc-id="GeneralMessageInfoAccordionBorder"],
-div.sc-border.sc-show-padding[data-sc-id="SenderAccordionBorder"] {
-  padding-bottom: 8px;
-}
-
 .sc div.sc-accordion {
   margin: 15px 0 0 0;
 }
-
 .sc .sc-label {
   padding-top: 4px;
 }
-
-img[data-sc-id="TemplateImage"], img[data-sc-id="TemplateThumbnailImage"] {
-  position: relative;
-  left: -10px;
-}
-
-.sc .sc-border.sc-show-padding[data-sc-id="MessagePerformanceBorder"],
-.sc div[data-sc-id="SaveAsSubscriptionDialog"] div[data-sc-id="DialogBorderContentBorder"] {
-  padding: 0 !important;
-}
-
 .sc .row-fluid.sc-show-padding[data-sc-id="SubjectTextBoxRowPanel"],
 .sc .row-fluid.sc-show-padding[data-sc-id="BodyRowPanel"],
 .sc .row-fluid.sc-show-padding[data-sc-id="AlternativeRowPanel"] {
@@ -294,7 +286,42 @@ img[data-sc-id="TemplateImage"], img[data-sc-id="TemplateThumbnailImage"] {
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
 }
-
+div[data-sc-id="TabControl"] .tab-content {
+  margin-top: 30px;
+}
+.sc-advancedExpander + button.btn.sc-button.btn-default {
+  margin-top: -15px;
+  margin-bottom: 15px;
+}
+.sc-textarea[data-sc-id="DescriptionArea"] {
+  margin-bottom: 0;
+  resize: none;
+}
+.sc-textarea[readonly] {
+  resize: none;
+}
+div.sc-advancedExpander-body,
+div.sc-border.sc-show-border {
+  background: #fff !important;
+}
+div[data-sc-id="AddRecipientsListTitleColumnPanel"] {
+  padding: 8px 0;
+}
+div[data-sc-id="AddRecipientsListOrColumnPanel"] {
+  padding: 8px;
+}
+div.sc-border.sc-align-right.sc-show-padding[data-sc-id="BehaviorLinkBorder"] {
+  padding: 0 20px 12px !important;
+}
+img[data-sc-id="TemplateImage"],
+img[data-sc-id="TemplateThumbnailImage"] {
+  position: relative;
+  left: -10px;
+}
+.sc .sc-border.sc-show-padding[data-sc-id="MessagePerformanceBorder"],
+.sc div[data-sc-id="SaveAsSubscriptionDialog"] div[data-sc-id="DialogBorderContentBorder"] {
+  padding: 0 !important;
+}
 .abn-letter {
   text-decoration: none;
   color: #4b4b4b;
@@ -304,193 +331,180 @@ img[data-sc-id="TemplateImage"], img[data-sc-id="TemplateThumbnailImage"] {
   border: 1px solid #c03417;
   padding: 0 4px;
 }
-
 /*dispatch tab start*/
-div[data-sc-id="DispatchAccordionBorder"] {
-  padding: 8px 20px !important;
+div.sc-border[data-sc-id="ABVariantsBorder"] {
+  padding: 0 15px 10px 15px;
 }
-
-  div.sc-border[data-sc-id="DispatchAccordionBorder"] .sc-label {
-    padding-top: 8px;
-    font-weight: normal;
-  }
-
+div.sc-border[data-sc-id="ABWinnerAutomaticRadioBorder"],
+div.sc-border[data-sc-id="ABWinnerManualRadioBorder"] {
+  margin-left: -5px;
+}
+div.sc-border[data-sc-id="ButtonsBorder"] {
+  padding: 0 15px 15px 15px !important;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-top: none;
+}
+div.sc-advancedExpander[data-sc-id="DispatchAccordion"] {
+  margin-bottom: 0;
+}
+div.sc-advancedExpander[data-sc-id="DispatchAccordion"] .sc-advancedExpander-body {
+  border-bottom: none;
+}
+div.sc-advancedExpander[data-sc-id="DispatchAccordion"] .sc-advancedExpander-footer {
+  padding-bottom: 0;
+  padding-right: 0;
+}
+div[data-sc-id="ScheduleRecurringEndSettingsColumnPanel"] {
+  padding-top: 6px;
+}
+div[data-sc-id="ABVariantsSizeLabelColumnPanel"],
+div[data-sc-id="ABVariantsChooseLeftColumnPanel"],
+div[data-sc-id="ABWinnerLeftColumnPanel"],
+div[data-sc-id="ScheduleRecurringEndByColumnPanel"],
+div[data-sc-id="ScheduleRecurringEndAfterColumnPanel"] {
+  padding-left: 0 !important;
+}
 .sc-combobox[data-sc-id="ScheduledTimeComboBox"],
 .sc-combobox[data-sc-id="ScheduleRecurringTimeComboBox"],
 .sc-combobox[data-sc-id="ScheduledEndTimeComboBox"] {
   width: 100px;
 }
-
 .sc-combobox[data-sc-id="ScheduleTimezoneComboBox"] {
   width: 550px;
 }
-
-.sc-textbox[data-sc-id="NotificationEmailValueTextBox"] {
-  width: 100%;
+.sc-combobox[data-sc-id="ABVariantsSizeComboBox"] {
+  width: 80px;
 }
-
+.sc-combobox[data-sc-id="AutomaticIntervalComboBox"] {
+  width: 80px;
+}
+div.sc-border[data-sc-id="DispatchAccordionBorder"] .sc-radiobutton,
+.sc-radiobutton[data-sc-id="ABWinnerManualRadioButton"],
+.sc-radiobutton[data-sc-id="ABWinnerAutomaticRadioButton"] {
+  margin: 5px 0;
+}
+div[data-sc-id="ScheduleRecurringBorderRowPanel"],
+div[data-sc-id="ScheduleRecurringBodyRowPanel"],
+div.sc-border[data-sc-id="ScheduledMessageDataBorder"] {
+  margin-left: 2px !important;
+}
+div[data-sc-id="UsePreferredLanguageHintBorder"],
+div[data-sc-id="NotificationEmailHintBorder"] {
+  color: #999;
+}
+.sc-border[data-sc-id="ABWinnerBorder"] {
+  padding: 0 15px 15px 15px !important;
+}
+.sc-border[data-sc-id="NotificationEmailBorder"],
+.sc-border[data-sc-id="EmulationModeHeaderBorder"],
+.sc-border[data-sc-id="ABVariantsInstructionsBorder"],
+.sc-border[data-sc-id="ABWinnerInstructionsBorder"],
+.sc-border[data-sc-id="ScheduleRecurringRadioBorder"] {
+  margin-bottom: 4px;
+}
 .sc-border[data-sc-id="NotificationEmailValueBorder"] {
   margin-left: 22px;
   margin-right: 20px;
 }
-
-.sc-border[data-sc-id="ScheduledMessageDataBorder"],
-.sc-border[data-sc-id="ScheduleRecurringBorder"],
-.row[data-sc-id="ABVariantsSizeRowPanel"] {
+.sc-border[data-sc-id="ScheduledMessageDataBorder"] {
   margin-top: 6px;
-  margin-left: 34px;
+  margin-left: -10px;
 }
-
-div.sc-border[data-sc-id="DispatchAccordionBorder"] .sc-radiobutton {
-  margin: 5px 0;
+.sc-border[data-sc-id="DispatchAccordionBorder"] {
+  padding: 20px 0 !important;
 }
-
-div[data-sc-id="MonthlyFirstRowPanel"],
-div[data-sc-id="MonthlySecondRowPanel"],
-div[data-sc-id="YearlyFirstRowPanel"],
-div[data-sc-id="YearlySecondRowPanel"],
-div[data-sc-id="YearlyThirdRowPanel"],
-div[data-sc-id="ScheduleRecurringDailyRowPanel"],
-div[data-sc-id="ScheduleRecurringEndAfterRowPanel"],
-div[data-sc-id="ScheduleRecurringEndByRowPanel"],
-div[data-sc-id="ScheduledMessagesDateTimeRowPanel"],
-div[data-sc-id="ScheduleRecurringBorderRowPanel"],
-div[data-sc-id="ScheduleRecurringDateTimeRowPanel"],
-div[data-sc-id="ScheduleRecurringTimezoneRowPanel"],
-div[data-sc-id="ScheduledMessagesEndDateTimeRowPanel"] {
-  padding-bottom: 6px;
-}
-
-div[data-sc-id="MonthlyFirstRowFirstColumnPanel"],
-div[data-sc-id="MonthlySecondRowFirstColumnPanel"],
-div[data-sc-id="YearlyFirstRowFirstColumnPanel"],
-div[data-sc-id="YearlySecondRowFirstColumnPanel"],
-div[data-sc-id="YearlyThirdRowFirstColumnPanel"],
-div[data-sc-id="ScheduleRecurringEndNoEndDateColumnPanel"],
-div[data-sc-id="ScheduleRecurringEndAfterColumnPanel"],
-div[data-sc-id="ScheduleRecurringEndByColumnPanel"] {
-  padding-left: 0;
-}
-
-div[data-sc-id="ScheduleRecurringEndNoEndDateRowPanel"] {
-  padding-bottom: 9px;
-}
-
-.sc-text[data-sc-id="NotificationEmailHintText"],
-.sc-text[data-sc-id="UsePreferredLanguageHintText1"],
-.sc-text[data-sc-id="UsePreferredLanguageHintText2"],
-.sc-text[data-sc-id="UsePreferredLanguageHintTextDefaultLanguage"] {
-  font-style: italic;
-  display: block;
-  padding-left: 18px;
-  line-height: normal;
-}
-
-.sc-text[data-sc-id="UsePreferredLanguageHintTextDefaultLanguage"] {
-  display: inline;
-}
-
-.sc-text[data-sc-id="UsePreferredLanguageHintTextContextLanguage"] {
-  display: inline;
-  font-style: italic;
-  line-height: normal;
-}
-
-.sc-text[data-sc-id="NotificationEmailHintText"],
-.sc-text[data-sc-id="UsePreferredLanguageHintText1"] {
+.sc-border[data-sc-id="DispatchAccordionBorder"] .sc-label {
   padding-top: 8px;
+  font-weight: normal;
 }
-
-.sc-border[data-sc-id="NotificationHeaderBorder"],
-.sc-border[data-sc-id="MultiLanguageHeaderBorder"],
-.sc-border[data-sc-id="NotificationEmailBorder"],
-.sc-border[data-sc-id="EmulationModeHeaderBorder"],
-.sc-border[data-sc-id="ABVariantsInstructionsBorder"],
-.sc-border[data-sc-id="ABVariantsSelectorBorder"],
-.sc-border[data-sc-id="ABWinnerInstructionsBorder"] {
-  margin-bottom: 4px;
-}
-
-.sc-border[data-sc-id="DeliverySpacerBorder"],
-.sc-border[data-sc-id="ABVariantsSizeBorder"] {
-  margin-top: 5px;
-}
-
-.sc-border[data-sc-id="ButtonsBorder"] {
-  margin-bottom: 15px;
-}
-
-.sc-tabcontrol div[data-sc-id="AutomaticIntervalValueColumnPanel"] {
-  width: 100px;
-}
-
-.sc-border[data-sc-id="ScheduleRecurringSpaceBorder"],
-.sc-border[data-sc-id="ABWinnerBorder"],
-.sc-border[data-sc-id="DeliveryHeaderBorder"] {
-  margin-top: 15px;
-}
-
-.sc-combobox[data-sc-id="ABVariantsSizeComboBox"] {
-  width: 80px;
-}
-
-div.row[data-sc-id="AutomaticRowPanel"] input.sc-textbox[data-sc-id="AutomaticTimeTextBox"] {
-  text-align: center;
-}
-
-div[data-sc-id="AutomationUsingLabelColumnPanel"] {
-  text-align: right;
-  margin-right: 10px;
-  max-width: 50px;
-}
-
-div.sc-border[data-sc-id="DispatchAccordionBorder"] div[data-sc-id="AutomationOptionsColumnPanel"] label.sc-radiobutton {
+.sc-border[data-sc-id="DispatchAccordionBorder"] div[data-sc-id="AutomationOptionsColumnPanel"] label.sc-radiobutton {
   margin: 0 0 5px 0;
 }
-
-div.sc-border[data-sc-id="DispatchAccordionBorder"] div[data-sc-id="AutomationOptionsColumnPanel"] div.row div.sc-border {
+.sc-border[data-sc-id="DispatchAccordionBorder"] div[data-sc-id="AutomationOptionsColumnPanel"] div.row div.sc-border {
   margin-top: -2px;
 }
-
-div.sc-border[data-sc-id="DispatchAccordionBorder"] button.manualWinnerSelectButton {
+.sc-border[data-sc-id="DispatchAccordionBorder"] button.manualWinnerSelectButton {
   height: 30px;
   padding-top: 5px;
 }
-
-div.sc-border[data-sc-id="DispatchAccordionBorder"] div[data-sc-id="VariantsList"] table tr td.ventilate:last-child {
+.sc-border[data-sc-id="DispatchAccordionBorder"] div[data-sc-id="VariantsList"] table tr td.ventilate:last-child {
   padding-top: 8px;
   padding-bottom: 8px;
 }
-
-div.sc-border[data-sc-id="DispatchAccordionBorder"] .sc-tabcontrol.progressive > .nav-tabs > li > a:before {
-  background: url("/sitecore/shell/client/Speak/Assets/img/Speak/TabControl/arrow_black_whitetoblack.png");
+.sc-border[data-sc-id="DispatchAccordionBorder"] .sc-datepicker.form-control[readonly]:enabled {
+  opacity: 1;
 }
-
-div.sc-border[data-sc-id="DispatchAccordionBorder"] .sc-tabcontrol.progressive > .nav-tabs > li:first-child > a:before {
-  background: url("/sitecore/shell/client/Speak/Assets/img/Speak/TabControl/arrow_black_blacktoblack.png");
+.row[data-sc-id="ScheduleRecurringBorderRowPanel"],
+.row[data-sc-id="ScheduleRecurringDailyRowPanel"],
+.row[data-sc-id="ScheduleRecurringDateTimeRowPanel"] > div,
+.row[data-sc-id="ScheduleRecurringTimezoneRowPanel"],
+.row[data-sc-id="ScheduledMessagesDateTimeRowPanel"],
+.row[data-sc-id="ScheduledTimezoneRowPanel"],
+.row[data-sc-id="ScheduleRecurringEndAfterRowPanel"],
+.row div[data-sc-id="MonthlyFirstRowPanel"],
+.row div[data-sc-id="MonthlySecondRowPanel"] > div,
+.row div[data-sc-id="YearlyFirstRowPanel"],
+.row div[data-sc-id="YearlySecondRowPanel"] > div,
+.row div[data-sc-id="YearlyThirdRowPanel"] > div {
+  padding-bottom: 6px;
 }
-
-div.sc-border[data-sc-id="DispatchAccordionBorder"] .sc-tabcontrol.progressive > .nav-tabs > li.active > a:before {
-  background: url("/sitecore/shell/client/Speak/Assets/img/Speak/TabControl/arrow_white_blacktowhite.png");
+.row[data-sc-id="ScheduleRecurringEndNoEndDateRowPanel"] {
+  padding-bottom: 9px;
 }
-
+div[data-sc-id="MonthlySecondColumnPanel"] > div > div,
+div[data-sc-id="ScheduleRecurringEndAfterAmountColumnPanel"],
+div[data-sc-id="ScheduleRecurringEndByDateColumnPanel"],
+div[data-sc-id="YearlyFirstRowPanel"] > div,
+div[data-sc-id="YearlySecondRowPanel"] > div,
+div[data-sc-id="YearlyThirdRowPanel"] > div {
+  padding-left: 0;
+}
+.sc-border[data-sc-id="DeliverySpacerBorder"],
+.sc-border[data-sc-id="AutomaticRowPanel"] {
+  margin-top: 5px;
+}
+.sc-border[data-sc-id="AutomaticRowPanel"] {
+  overflow: hidden;
+}
+.sc-tabcontrol div[data-sc-id="AutomaticIntervalValueColumnPanel"] {
+  width: 100px;
+}
+.sc-border[data-sc-id="ScheduleRecurringSpaceBorder"],
+.sc-border[data-sc-id="DeliveryHeaderBorder"] {
+  margin-top: 15px;
+}
+.sc-listcontrol[data-sc-id="VariantsList"] {
+  margin-top: 10px;
+}
+div[data-sc-id="AutomaticRowPanel"] > div {
+  float: left;
+}
+div[data-sc-id="AutomationUsingLabelColumnPanel"] {
+  margin-right: 10px;
+  height: 36px;
+}
+div[data-sc-id="AutomationOptionsColumnPanel"] {
+  width: 200px;
+}
+div[data-sc-id="ABWinnerRightColumnPanel"],
+div[data-sc-id="ABVariantsChooseRightColumnPanel"],
+div[data-sc-id="ABVariantsSizeValueColumnPanel"] {
+  padding-left: 13px !important;
+}
+div.row[data-sc-id="AutomaticRowPanel"] input.sc-textbox[data-sc-id="AutomaticTimeTextBox"] {
+  text-align: center;
+}
 div[data-sc-id="AutomaticTimeValueColumnPanel"] {
   margin-right: 10px;
 }
-
-.sc-combobox[data-sc-id="AutomaticIntervalComboBox"] {
-  width: 80px;
-}
-
 .manual-variant-abn-letter {
   margin: 0;
   margin-right: 3px;
 }
-
 .sc-tabcontrol[data-sc-id="ABWinnerTabControl"] .sc-tabcontrol-header {
   width: 120px;
 }
-
 .sc-tabcontrol[data-sc-id="ABWinnerTabControl"] .nav-tabs li.active a:after {
   content: "";
   left: 50%;
@@ -506,38 +520,20 @@ div[data-sc-id="AutomaticTimeValueColumnPanel"] {
   margin-left: -9px;
   background: none;
 }
-
 .sc-border[data-sc-id="WinnerResumeMessageBorder"] {
   margin: 0 130px;
 }
-
-.sc-border[data-sc-id="ScheduleMessageBorder"],
-.sc-border[data-sc-id="DeactivateMessageBorder"] {
-  margin: auto;
-  display: table;
-}
-
-.sc-text[data-sc-id="WhouldYouLikeText"],
-.sc-text[data-sc-id="PreferredMessageWillBeSentText"],
-.sc-text[data-sc-id="PreferredAsYouHaveSelectedText"],
-.sc-text[data-sc-id="PreferredEachReciepientText"] {
-  display: block;
-}
-/*confirmation dialog end*/ 
-
+/*confirmation dialog end*/
 /*dispath tab end*/
-
 /*create popover begin*/
 .sc-popover[data-sc-id="CreatePopover"] .sc-text {
   color: grey;
   font-style: italic;
 }
-
 .sc-popover[data-sc-id="CreatePopover"] .sc-text-largetitle {
   color: inherit;
   font-style: inherit;
 }
-
 .sc-popover[data-sc-id="CreatePopover"] div[data-sc-id="CreateMessageBorder"] > div,
 .sc-popover[data-sc-id="CreatePopover"] div[data-sc-id="CreateListBorder"] > div {
   margin-bottom: 10px;
@@ -547,9 +543,8 @@ div[data-sc-id="AutomaticTimeValueColumnPanel"] {
 .sc-popover[data-sc-id="CreatePopover"] div[data-sc-id="CreateListBorder"] > div:hover {
   background-color: #D6D6D6;
 }
-
-.sc-popover[data-sc-id="CreatePopover"] div[data-sc-id="CreateMessageBorder"]  div[class^="col-"],
-.sc-popover[data-sc-id="CreatePopover"] div[data-sc-id="CreateListBorder"]  div[class^="col-"] {
+.sc-popover[data-sc-id="CreatePopover"] div[data-sc-id="CreateMessageBorder"] div[class^="col-"],
+.sc-popover[data-sc-id="CreatePopover"] div[data-sc-id="CreateListBorder"] div[class^="col-"] {
   padding-left: 0;
   padding-right: 0;
 }
@@ -558,31 +553,11 @@ div[data-sc-id="AutomaticTimeValueColumnPanel"] {
   color: #131313;
   text-decoration: none;
 }
-
 /* Patch to align the mail icon to the top in Create panel*/
 .sc div[data-sc-id="OneTimeIconColumnPanel"] > img {
-  margin-top: -5px;  
+  margin-top: -5px;
 }
 /*create popover end*/
-
-/* white backgrounds in accordians and borders */
-div.sc-advancedExpander-body, div.sc-border.sc-show-border {
-  background: #fff !important;
-}
-
-/* Funnel.css */
-#sc-ecm-funnelContainer {
-  background-color: White;
-  border: 0px solid #CCC;
-  padding: 20px;
-  position: relative;
-  color: #606060;
-}
-
-.sc-ecm-funnelContainer {
-  padding-top: 20px;
-}
-
 .sc-ecm-funnel {
   background-image: url("/sitecore/shell/client/Applications/ECM/EmailCampaign.Client/Assets/Images/funnelGradient.png");
   background-repeat: no-repeat;
@@ -591,88 +566,80 @@ div.sc-advancedExpander-body, div.sc-border.sc-show-border {
   width: 350px;
   margin: auto;
 }
-
-.sc-smartpanel .sc-ecm-funnel {
-  margin-left: 65px;
-  margin-top: 10px;
+.sc-ecm-funnel .sc-ecm-funnelLabelText {
+  font-size: 12px;
+  font-weight: normal;
 }
-
-#sc-scm-funnelFooter {
-  margin: auto;
-  text-align: left;
-  width: 400px;
-}
-
 .sc-ecm-funnel div {
   padding: 9px 0;
   display: block;
   height: 31px;
 }
-
-.sc-ecm-funnelLabelText {
-  font-size: 12px;
-  font-weight: normal;
+.sc-smartpanel .sc-ecm-funnel {
+  margin-left: 65px;
+  margin-top: 10px;
 }
-
-#sc-ecm-funnelSeparator {
-  border-bottom: 1px solid #EAEAEA;
-  margin: 20px 0;
-}
-
-.sc-ecm-funnelLabelValue {
-  text-align: right;
-  font-weight: bold;
-}
-
 /* ReviewTab.css */
 .sc-border[data-sc-id="EmailPreviewSelectedVariantsBorder"],
 .sc-border[data-sc-id="SpamCheckSelectedVariantsBorder"] {
   margin-top: 15px;
 }
-
 .sc-border[data-sc-id="SendQuickTestVariantsTextBorder"],
 .sc-border[data-sc-id="EmailPreviewVariantsTextBorder"],
 .sc-border[data-sc-id="SpamCheckVariantsTextBorder"] {
   margin-bottom: 15px;
 }
-
 div[data-sc-id="EmailPreviewReportListControl"] .sc-listcontrol-body table tr td,
 div[data-sc-id="SpamCheckReportListControl"] .sc-listcontrol-body table tr td {
   cursor: pointer;
 }
-
 div.sc-variants-selector .variant-button button.btn.sc-togglebutton {
   min-width: 0;
-  border: solid 1px rgb(189, 189, 189);
-  background-color: transparent;
+  border: solid 1px #ccc;
+  background: white;
   box-shadow: none;
-  width: 31px;
-  height: 30px;
-  margin-right: 1px;
-  margin-bottom: 1px;
+  width: 56px;
+  height: 56px;
+  margin-right: 15px;
+  margin-bottom: 15px;
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
 }
-
-  div.sc-variants-selector .variant-button button.btn.sc-togglebutton.up {
-    background-image: none;
-    background-color: #969696;
-    border: solid 1px #636363;
-  }
-
+div.sc-variants-selector .variant-button button.btn.sc-togglebutton:hover {
+  background-color: #E3E3E3;
+}
+div.sc-variants-selector .variant-button button.btn.sc-togglebutton.up,
+div.sc-variants-selector .variant-button button.btn.sc-togglebutton.up:hover {
+  background-image: none;
+  background-color: #AADBEE;
+  border: solid 1px #636363;
+}
+div.sc-variants-selector .variant-button button.btn.sc-togglebutton .sc-togglebutton-text {
+  width: 24px;
+  height: 24px;
+  line-height: 24px;
+  display: inline-block;
+}
 div[data-sc-id="EmailPreviewVariantsColumn"],
 div[data-sc-id="SpamCheckVariantsColumn"] {
-  border-right: solid 1px rgb(204, 204, 204);
+  border-right: solid 1px #cccccc;
 }
-
-div[data-sc-id="SendQuickTestTextColumn"], div[data-sc-id="SendQuickTestTextBoxColumn"] {
+div[data-sc-id="SendQuickTestTextColumn"],
+div[data-sc-id="SendQuickTestTextBoxColumn"] {
   padding-left: 0;
 }
-
 div[data-sc-id="SendQuickTestVariantsPresenter"] {
   margin-top: 10px;
 }
-
+.sc-applicationContent-navigation.sc-navigation-menu .sc-text.sc-text-divider {
+  font-size: 15px;
+}
+.sc-applicationContent-navigation.sc-navigation-menu a[data-sc-id="DashboardHyperlinkButton"]:hover {
+  color: #ffffff;
+  text-decoration: underline;
+}
 .sc-applicationContent-navigation.sc-navigation-menu a[data-sc-id="DashboardHyperlinkButton"] {
-
   height: 42px;
   color: #ffffff;
   text-decoration: none;
@@ -682,54 +649,36 @@ div[data-sc-id="SendQuickTestVariantsPresenter"] {
   padding-top: 11px;
   background: transparent;
 }
-
-.sc-applicationContent-navigation.sc-navigation-menu .sc-text.sc-text-divider {
-    font-size: 15px;
-}
-
-.sc-applicationContent-navigation.sc-navigation-menu a[data-sc-id="DashboardHyperlinkButton"]:hover {
-  color: #ffffff;
-}
-
-.sc-applicationContent-navigation.sc-navigation-menu a[data-sc-id="DashboardHyperlinkButton"]:hover {
-  color: #ffffff;
-  text-decoration: underline;
-}
-
 .sc-applicationContent-navigation.sc-navigation-menu a.selected[data-sc-id="DashboardHyperlinkButton"] {
   background: #dc271e;
 }
-
-[data-sc-id="ConfirmText"] {
+[data-sc-id=DialogWindow] [data-sc-id="Text"] {
   font-size: 1.167em;
   color: #131313;
   line-height: 1.42857143;
+  padding-right: 20px;
 }
-
-[data-sc-id="ConfirmText"]:hover,
+[data-sc-id=DialogWindow] [data-sc-id="Text"]:hover,
 .sc-dialogWindow-header-title:hover,
 .sc-border[data-sc-id="DispatchConfirmationMessageBorder"]:hover,
 .sc-border[data-sc-id="ManualWinnerMessageBorder"]:hover,
 .sc-border[data-sc-id="ActivateMessageBorder"]:hover {
   cursor: default;
 }
-
-img[data-sc-id="MessageIcon"] {
+[data-sc-id=DialogWindow] [data-sc-id="Icon"],
+[data-sc-id="MessageIcon"] {
   float: left;
   margin: 3px 11px 0 0;
 }
-
 img[data-sc-id="MessageIconSmall"] {
   margin: 23px 11px 0 0;
 }
-
 .sc-border[data-sc-id="DispatchConfirmationMessageBorder"],
 .sc-border[data-sc-id="ManualWinnerMessageBorder"],
 .sc-border[data-sc-id="ActivateMessageBorder"] {
   margin-left: 75px;
 }
-
-[data-sc-id="ConfirmText"],
+[data-sc-id=DialogWindow] [data-sc-id="Text"],
 [data-sc-id="DispatchConfirmationMessageBorder"],
 .sc-border[data-sc-id="ManualWinnerMessageBorder"],
 .sc-border[data-sc-id="ActivateMessageBorder"] {
@@ -737,67 +686,48 @@ img[data-sc-id="MessageIconSmall"] {
   top: 50%;
   transform: translate(0, -50%);
 }
-
-.sc-border[data-sc-id="CreateBorder"]{
+.sc-border[data-sc-id="CreateBorder"] {
   max-width: 650px;
 }
-
 /* Experience Analytics Charts */
-
 .sc-ChartComposites .sc-advancedExpander-header .sc-actioncontrol {
   display: none;
 }
-
 .sc-ChartComposites .sc-advancedExpander-body {
   padding-top: 18px;
 }
-
 .sc-ChartComposites .sc-advancedExpander-bodywrapper {
   padding: 0 8%;
 }
-
 [data-sc-id=Search] .sc-search-searches [data-sc-id=ListsSearchBorder],
 [data-sc-id=Search] .sc-search-searches [data-sc-id=SearchTextBox] {
-  float: right;    
+  float: right;
 }
 [data-sc-id=Search] .sc-search-searches [data-sc-id=SearchTextBox] {
-  margin-right: 10px;
+  margin-right: 6px;
 }
-
 /* Apply paddings according to #38201 */
 [data-sc-id=CreatePopover] .row.sc-show-padding {
   padding: 8px 15px !important;
-}
-[data-sc-id=CreateMessageColumnPanel] .row.sc-show-padding div:last-child,
-[data-sc-id=CreateListColumnPanel] .row.sc-show-padding div:last-child {
-  padding-left: 10px !important;
 }
 [data-sc-id=CreatePopover] [data-sc-id=CreateMessageHeadingText],
 [data-sc-id=CreatePopover] [data-sc-id=CreateListHeadingText] {
   display: block;
   margin-bottom: 15px;
 }
-
+[data-sc-id=CreateMessageColumnPanel] .row.sc-show-padding div:last-child,
+[data-sc-id=CreateListColumnPanel] .row.sc-show-padding div:last-child {
+  padding-left: 10px !important;
+}
 /*Save a subscription message template according to #35872*/
 [data-sc-id=SaveAsSubscriptionDialog] [data-sc-id=InfoText] {
   margin-bottom: 30px;
   display: block;
 }
-
 /*According to PBI 44565 - align search textbox with content*/
 [data-sc-id=RecipientsPreviewDialog] [data-sc-id=RecipientPreviewSearchBorder].sc-border.sc-show-padding {
   padding: 15px 0;
 }
-
-.sc-applicationHeader-contextSwitcher [data-sc-id=EmailManagerRoot], 
-.sc-applicationHeader-contextSwitcher [data-sc-id=DefaultSettingsButton] {
-  float: right;
-}
-
-.sc-applicationHeader-contextSwitcher [data-sc-id=DefaultSettingsButton] {
-  margin-left: 10px;
-}
-
 /*
  * #57371: No scroll applied to Create message dialog
  * If border height is defined, then SPEAK set overflow:hidden, but in current situation it is needed to set overflow:auto
@@ -807,7 +737,6 @@ img[data-sc-id="MessageIconSmall"] {
 [data-sc-id=SubscriptionMessageDialog] [data-sc-id=DialogBorder] {
   overflow: auto !important;
 }
-
 [data-sc-id=OneTimeMessageDialog] div[data-sc-id=DialogBorder].sc-border {
   padding: 0;
 }
@@ -817,4 +746,25 @@ form.sc-listmanagementuploader {
   text-align: center;
   margin: 0;
   position: relative;
+}
+/*Uploader validation error, when file is required*/
+.has-error .sc-uploader .sc-button {
+  border-color: #a94442;
+}
+img.sc-emailpreview[data-sc-id="MessagePreviewImage"] {
+  cursor: pointer;
+  width: 200px;
+}
+div[data-sc-id="EmailPreviewBorder"] img[data-sc-id="EmailPreviewImage"] {
+  width: 100%;
+}
+.sc .sc-ecm-managerroot .sc-dropdownbutton .sc-dropdownbutton-contentpanel {
+  z-index: 3;
+}
+.sc .sc-repeater .sc-advancedExpander[data-sc-id="ReportVariantAccordion"] .row.sc-show-padding {
+  padding: 15px !important;
+}
+.sc-dialogWindow[data-sc-id="SelectContactListsDialog"] .sc-dialogWindow-body {
+  height: auto !important;
+  min-height: 484px;
 }

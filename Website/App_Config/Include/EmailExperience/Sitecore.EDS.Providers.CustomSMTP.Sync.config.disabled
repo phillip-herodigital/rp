@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!--
+
+Purpose: This include file configures Email delivery service API.
+
+-->
+<configuration xmlns:patch="http://www.sitecore.net/xmlconfig/">
+  <sitecore>
+    <exm>
+      <eds>
+        <!-- POP3 SETTINGS
+             A list of pop3 settings for different pop3 clients.
+        -->
+        <pop3Settings>
+          <pop3Setting type="Sitecore.EDS.Core.Net.Pop3.Pop3Settings, Sitecore.EDS.Core" singleInstance="true">
+            <server>localhost</server>
+            <port>110</port>
+            <userName></userName>
+            <password></password>
+            <useSsl>false</useSsl>
+            <startTls>false</startTls>
+            <proxySettings ref="exm/eds/proxySettings"/>
+          </pop3Setting>
+        </pop3Settings>
+
+        <!-- BOUNCE INSPECTOR
+             Verifies the message mime is a bounce and determines the type of the bounce.
+        -->
+        <bounceInspector type="Sitecore.EDS.Core.Reporting.ChilkatBounceInspector, Sitecore.EDS.Core" singleInstance="true" />
+
+        <!-- POP3 RECEIVERS COLLECTION
+             Defines the POP3 bounce receivers collection
+        -->
+        <receiversCollection type="Sitecore.EDS.Providers.CustomSmtp.Reporting.Pop3ReceiversCollection, Sitecore.EDS.Providers.CustomSmtp" singleInstance="true" >
+          <settings hint="list:AddSettings">
+            <setting ref="exm/eds/pop3Settings/pop3Setting"/>
+          </settings>
+          <param ref="exm/eds/bounceInspector"/>
+          <param ref="exm/eds/environmentIdentifier" />
+        </receiversCollection>
+      </eds>
+    </exm>
+    
+    <!-- PULL POP3 BOUNCES AGENT
+         Handles the reported bounced messages.
+    -->
+    <scheduling>
+      <agent type="Sitecore.EDS.Providers.CustomSmtp.Tasks.PullPop3BouncesAgent, Sitecore.EDS.Providers.CustomSmtp" method="Run" interval="01:00:00">
+        <param ref="exm/eds/receiversCollection" />
+      </agent>
+    </scheduling>
+  </sitecore>
+</configuration>

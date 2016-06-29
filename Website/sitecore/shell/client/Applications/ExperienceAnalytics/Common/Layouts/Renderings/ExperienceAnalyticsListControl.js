@@ -5,7 +5,7 @@
   }
 });
 
-define(["sitecore", "experienceAnalytics", "experienceAnalyticsDvcBase"], function (Sitecore, ExperienceAnalytics) {
+define(["sitecore", "experienceAnalytics", "experienceAnalyticsDvcBase"], function (Sitecore, ExperienceAnalytics, bbb) {
   Sitecore.Factories.createBaseComponent({
     name: "ExperienceAnalyticsListControl",
     base: "ExperienceAnalyticsDvcBase",
@@ -22,7 +22,8 @@ define(["sitecore", "experienceAnalytics", "experienceAnalyticsDvcBase"], functi
       { name: "segments", value: "$el.data:sc-segments" },
       { name: "keyGrouping", value: "$el.data:sc-keygrouping" },
       { name: "componentType", value: "$el.data:sc-componenttype" },
-      { name: "columnFields", value: "$el.data:sc-columnfields" }
+      { name: "columnFields", value: "$el.data:sc-columnfields" },
+      { name: "title", value: "$el.data:sc-title" }
     ]),
 
     dataProvider: null,
@@ -34,7 +35,8 @@ define(["sitecore", "experienceAnalytics", "experienceAnalyticsDvcBase"], functi
     lastRequestHash: "",
 
     initialize: function () {
-      this._super();
+        this._super();
+        this.rawKeys = {};
     },
 
     afterRender: function () {
@@ -116,39 +118,59 @@ define(["sitecore", "experienceAnalytics", "experienceAnalyticsDvcBase"], functi
       this.listControl.set("items", limitedData);
     },
 
+    doNumberScaleValueHasOnlyLeastUnits: function (listOfValues, value) {
+       
+        if (typeof listOfValues === "undefined" || typeof value === "undefined") return false;
+       
+        var hasOnlyLeastUnits = false;
+
+        if (listOfValues.length > 1) {
+            hasOnlyLeastUnits = (value < (listOfValues[0] * listOfValues[1]));
+        } else {
+            hasOnlyLeastUnits = (value < (listOfValues[0]));
+        }
+       
+        return hasOnlyLeastUnits;
+    },
+
     getNumberScaleString: function (field, value) {
-      var listOfUnits = field.ScaleUnit.split(","),
-        listOfValues = field.ScaleValue.split(","),
-        scaleRecursively = !!field.ScaleRecursively,
-        numOfValues = listOfValues.length,
-        outputArray = [],
-        remainingValue = value,
-        isPercentage = (listOfUnits.length === 1 && listOfUnits[0] === "%");
+        var listOfUnits = field.ScaleUnit.split(","),
+            listOfValues = field.ScaleValue.split(","),
+            scaleRecursively = !!field.ScaleRecursively,
+            numOfValues = listOfValues.length,
+            outputArray = [],
+            remainingValue = value,
+            isPercentage = (listOfUnits.length === 1 && listOfUnits[0] === "%");
 
-      for (var i = numOfValues; i > 0; i--) {
-        var totalValue = _.reduce(listOfValues, function (memo, num) { return memo * num; }),
-          arrIndex = i - 1,
-          currentUnitValue = scaleRecursively || isPercentage ? remainingValue / totalValue : Math.floor(remainingValue / totalValue);
-
-        if (currentUnitValue >= 1 || isPercentage || value == 0) {
-          if (isPercentage) {
-            currentUnitValue = Math.round(currentUnitValue * 100) / 100;
-          }
-
-          remainingValue = remainingValue - (currentUnitValue * totalValue);
-          if (isPercentage) {
-            currentUnitValue = currentUnitValue.toFixed(2);
-          }
-          outputArray.push(currentUnitValue + listOfUnits[arrIndex]);
-
-          if (scaleRecursively || value == 0)
-            break;
+        if (!isPercentage && this.doNumberScaleValueHasOnlyLeastUnits(listOfValues, value)) {
+            outputArray.push(Math.round(value) + listOfUnits[0]);
+            return outputArray.join(" ");
         }
 
-        listOfValues.pop();
-      }
+        for (var i = numOfValues; i > 0; i--) {
+            var totalValue = _.reduce(listOfValues, function (memo, num) { return memo * num; }),
+              arrIndex = i - 1,
+              currentUnitValue = scaleRecursively || isPercentage ? remainingValue / totalValue : Math.floor(remainingValue / totalValue);
 
-      return outputArray.join(" ");
+            if (currentUnitValue >= 1 || isPercentage || value == 0) {
+                if (isPercentage) {
+                    currentUnitValue = Math.round(currentUnitValue * 100) / 100;
+                }
+
+                remainingValue = remainingValue - (currentUnitValue * totalValue);
+                if (isPercentage) {
+                    currentUnitValue = currentUnitValue.toFixed(2);
+                }
+                outputArray.push(currentUnitValue + listOfUnits[arrIndex]);
+
+                if (scaleRecursively || value == 0)
+                    break;
+            }
+
+            listOfValues.pop();
+        }
+
+        return outputArray.join(" ");
     },
 
     getTranslations: function (rawData) {
@@ -178,7 +200,6 @@ define(["sitecore", "experienceAnalytics", "experienceAnalyticsDvcBase"], functi
 
       return data;
     },
-
 
     getData: function () {
       var dateRange = ExperienceAnalytics.getDateRange(),

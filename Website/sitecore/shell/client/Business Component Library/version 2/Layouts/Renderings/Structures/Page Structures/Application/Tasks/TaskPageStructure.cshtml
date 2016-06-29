@@ -1,0 +1,19 @@
+﻿@using Sitecore.Mvc
+@model Sitecore.Speak.Components.Models.Structures.Page_Structures.Application.Tasks.TaskRenderingModel
+@if (!Model.IsHeaderHidden)
+{
+    <header class="sc-globalHeader">
+        @Html.Sitecore().Placeholder("GlobalHeader")
+    </header>
+}
+  
+<section class="sc-applicationContent @Model.IsTopClass()">
+    @Html.Sitecore().Placeholder("ApplicationContent")
+</section>
+
+@if (Model.ShowFooter)
+{
+  <footer class="sc-globalFooter">
+    @Html.Sitecore().Placeholder("GlobalFooter")
+  </footer>
+}

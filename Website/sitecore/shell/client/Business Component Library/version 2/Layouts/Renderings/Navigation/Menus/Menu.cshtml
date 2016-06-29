@@ -1,0 +1,93 @@
+﻿@using Sitecore.Speak.Components.Models.Navigation.Menus
+@using Sitecore.Web.UI.Controls.Navigation.Menus
+@model Sitecore.Speak.Components.Models.Navigation.Menus.MenuRenderingModel
+@{
+  Model.Class.Append("sc-menu");
+  Model.DataBind.IsVisible().Bind("attr", "{title: Tooltip() ? Tooltip : null }");
+}
+@if (Model.RootMenuItem != null)
+{
+  <div @Model.HtmlAttributes>
+    <div class="menuroot" sc-guid="menuroot">
+      <div sc-guid='@Model.RootMenuItem.Id'>
+        @RenderHtml(Model.RootMenuItem, 0, Model.IsRootHidden)
+      </div>
+    </div>
+    <div class="disableMask"></div>
+  </div>
+}
+
+@helper RenderItemHtml(MenuItem item, int depth, bool isRootHidden)
+{
+  switch (depth)
+  {
+    case 0:
+      <div class="header rootItem @item.GetSelectedClass()">
+        <a href="@item.Url" @item.GetClick() @item.GetTarget()>
+          <img class="menuicon" src="@item.GetIcon()" />
+          <span class="toplevel">@item.Name</span>
+        </a>
+        <img class="menuchevron" style="visibility:hidden" />
+      </div>
+      break;
+    case 1:
+    @Html.Raw("<div>")
+    <div class="header menuItem @item.GetOpenClass() @item.GetHighLightedClass()">
+      <a href="#">
+        <img class="menuicon" src="@item.GetIcon()" />
+        <span class="toplevel">@item.Name</span>
+      </a>
+      <img class="menuchevron @item.GetOpenClass()" src="/sitecore/shell/client/Speak/Assets/img/Speak/Common/16x16/white/navigate_down.png" />
+    </div>
+    @Html.Raw("<div class=\"toplevelcontainer itemsContainer\" sc-guid=\"" + item.Id + "\"" + " style=\"display:" + item.GetDisplayType() + "\">")
+      break;
+    default:
+    @Html.Raw("<div>")
+<div class="itemRow menuItem @item.GetDepthClass(depth)  @item.GetSelectedClass() @item.GetHighLightedClass() @item.GetOpenClass()">
+  <div class="leftcolumn">
+    @if (item.Children.Any())
+    {
+      <a href='#'><div class="arrowcontainer @item.GetOpenClass()"><img src="/sitecore/shell/client/Speak/Assets/img/Speak/Menu/arr1.png" /></div></a>
+    }
+    else
+    {
+      @Html.Raw("&nbsp;")
+    }
+  </div>
+  <div class="rightcolumn">
+    <a href="@item.Url" @item.GetClick() @item.GetTarget() data-sc-menuitemid="@item.Id"><span class="rcpad">@item.Name</span></a>
+  </div>
+</div>
+    @Html.Raw("<div class=\"sublevelcontainer itemsContainer depth" + depth + "\" sc-guid=\"" + item.Id + "\"" + " style=\"display:" + item.GetDisplayType() + "\">")
+        break;
+  }
+}
+
+@helper RenderHtml(MenuItem item, int depth, bool isRootHidden)
+{
+  if (depth > 0 || (depth==0 && !isRootHidden))
+  {
+    @RenderItemHtml(item, depth, isRootHidden)
+  }
+
+  if (item.Children.Any())
+  {
+    depth++;
+    foreach (var child in item.Children)
+    {
+      @RenderHtml(child, depth, isRootHidden)
+    }
+
+    if (depth > 1)
+    {
+      @Html.Raw("</div></div>")
+    }
+
+    return;
+  }
+
+  if (depth >= 1)
+  {
+    @Html.Raw("</div></div>")
+  }
+}

@@ -1,43 +1,33 @@
-﻿define(["sitecore", "/-/speak/v1/ecm/ServerRequest.js", "/-/speak/v1/ecm/Validation.js"], function (sitecore) {
-  return sitecore.Definitions.App.extend({
-    initialized: function () {
-      sitecore.on("dispatch:confirmation:dialog:show", this.showDialog, this);
-      this.on("dispatch:confirmation:dialog:no", this.hideDialog, this);
-      this.on("dispatch:confirmation:dialog:yes", this.dispatch, this);
-    },
-    dialogParameters: null,
-    showDialog: function (languageName, confirmationDialogParameters) {
-      
-      // TODO remake for a dynamic height
-      var modalBodyArray = this.DispatchConfirmationDialog.viewModel.$el.find(".sc-dialogWindow-body");
-      Array.prototype.filter.call(modalBodyArray, function (modalBodyElement) {
-        $(modalBodyElement).css('overflow-y', 'auto');
-        $(modalBodyElement).css('max-height', '160px');
-      });
-
-      this.MessageLanguageName.set("text", languageName);
-      window.dialogParameters = confirmationDialogParameters;
-      if (confirmationDialogParameters.dispatchDetails.usePreferredLanguage) {
+﻿define([
+  "sitecore",
+  "/-/speak/v1/ecm/DialogBase.js",
+  "/-/speak/v1/ecm/ManagerRootService.js"
+], function (
+  sitecore,
+  DialogBase,
+  ManagerRootService
+  ) {
+  return DialogBase.extend({
+    showDialog: function (options) {
+      this._super(options);
+      this.MessageLanguageName.set("text", options.languageName);
+      window.dialogParameters = options;
+      if (options.dispatchDetails.usePreferredLanguage) {
         this.PreferredLanguageBorder.set("isVisible", true);
       } else {
         this.PreferredLanguageBorder.set("isVisible", false);
       }
-
-      this.DispatchConfirmationDialog.show();
     },
     hideDialog: function () {
-      var rootList = sitecore.Definitions.Views.ManagerRootSwitcher.prototype.getRootsList();
-      if (rootList.length == 0) {
-        this.DispatchConfirmationDialog.hide();
+      this._super();
+      var rootList = ManagerRootService.getManagerRootList();
+      if (!rootList.length) {
         location.reload();
-      } else {
-        this.DispatchConfirmationDialog.hide();
       }
     },
-    dispatch: function () {
-      sitecore.Pipelines.DispatchMessage.execute({ app: dialogParameters.app, currentContext: dialogParameters.currentContext });
-
-      this.hideDialog();
+    ok: function () {
+      sitecore.Pipelines.DispatchMessage.execute({ app: this.options.app, currentContext: this.options.currentContext });
+      this._super();
     }
   });
 });

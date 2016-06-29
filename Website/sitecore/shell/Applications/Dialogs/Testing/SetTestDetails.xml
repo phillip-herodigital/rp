@@ -2,7 +2,7 @@
 <control xmlns:def="Definition" xmlns="http://schemas.sitecore.net/Visual-Studio-Intellisense">
   <Sitecore.Shell.Applications.Dialogs.SetTestDetails>
     <FormDialog ID="Dialog" Icon="Software/32x32/breakpoints.png" Header="Test the Component" Text="Define the variations that you want to use in the multivariate test." >
-      <CodeBeside Type="Sitecore.Shell.Applications.Dialogs.Testing.SetTestDetailsForm, Sitecore.Client"/>
+      <CodeBeside Type="Sitecore.ContentTesting.Shell.Applications.Dialogs.SetTestDetailsForm, Sitecore.ContentTesting"/>
       <Script Src="/sitecore/shell/Controls/Lib/jQuery/jQuery.noconflict.js"></Script>
       <Script Src="/sitecore/shell/Controls/CollapsiblePanel/CollapsiblePanel.js"></Script>
       <Script Src="/sitecore/shell/Applications/Dialogs/Testing/SetTestDetails.js"></Script>

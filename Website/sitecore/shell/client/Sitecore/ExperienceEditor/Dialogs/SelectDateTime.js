@@ -1,4 +1,4 @@
-﻿define(["sitecore", "/-/speak/v1/ExperienceEditor/Sitecore.ExperienceEditor.js"], function (Sitecore) {
+﻿define(["sitecore", "/-/speak/v1/ExperienceEditor/ExperienceEditor.js"], function (Sitecore, ExperienceEditor) {
   var insertPagePageCode = Sitecore.Definitions.App.extend({
     translationContext: null,
     templateId: null,
@@ -10,7 +10,7 @@
       this.setDateTime();
     },
     setDateTime: function () {
-      var scDate = Sitecore.ExperienceEditor.Web.getUrlQueryStringValue("sc_date");
+      var scDate = ExperienceEditor.Web.getUrlQueryStringValue("sc_date");
       if (!scDate) {
         this.SelectedDate.viewModel.setDate(Date.now());
         this.SelectedTime.set('time', this.SelectedTime.viewModel.convertFormattedTimeToTime(new Date()));
@@ -18,12 +18,11 @@
       }
 
       this.SelectedDate.set('date', scDate);
-      this.SelectedTime.set('time', scDate);
+      this.SelectedTime.set('time', scDate.substring(scDate.indexOf('T')));
     },
     setOkButtonClick: function () {
       this.on("button:ok", function () {
-        var selectedDate = this.SelectedDate.get("date");
-        this.closeDialog(selectedDate.replace("T000000", this.SelectedTime.get("time")));
+        this.closeDialog(this.SelectedDate.get("date"));
       }, this);
     },
     setCancelButtonClick: function () {

@@ -1,8 +1,8 @@
-﻿define(["sitecore", "/-/speak/v1/ExperienceEditor/Sitecore.ExperienceEditor.js"], function (Sitecore) {
+﻿define(["sitecore", "/-/speak/v1/ExperienceEditor/ExperienceEditor.js"], function (Sitecore, ExperienceEditor) {
   var promptDialog = Sitecore.Definitions.App.extend({
     initialized: function () {
-      $(this.MessageBody.viewModel.$el[0]).text(Sitecore.ExperienceEditor.Web.getUrlQueryStringValue("message"));
-      this.InputTextBox.viewModel.$el[0].value = Sitecore.ExperienceEditor.Web.getUrlQueryStringValue("defaultValue");
+      $(this.MessageBody.viewModel.$el[0]).text(ExperienceEditor.Web.getUrlQueryStringValue("message"));
+      this.InputTextBox.viewModel.$el[0].value = ExperienceEditor.Web.getUrlQueryStringValue("defaultValue");
       this.setOkButtonClick();
       this.setCancelButtonClick();
     },

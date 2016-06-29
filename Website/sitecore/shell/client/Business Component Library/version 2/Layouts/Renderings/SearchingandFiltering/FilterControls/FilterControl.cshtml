@@ -1,0 +1,29 @@
+﻿@model Sitecore.Speak.Components.Models.SearchingandFiltering.FilterControls.FilterControlRenderingModel
+@{
+  Model.DataBind.IsVisible();
+  Model.Class.Append("sc-filtercontrol");
+  Model.Properties["Facets"] = "[]";
+  Model.Properties["SelectedFacets"] = "[]";
+ }
+<div @Model.HtmlAttributes>
+  <div>
+    <table>
+      <tr data-bind="foreach: FacetList">
+        <th data-bind="text: name">
+        </th>
+      </tr>
+      <tr data-bind="foreach: FacetList">
+        <td>
+          <div data-bind="foreach: $data.values" class="sc-filterControl-panel">
+            <div class="sc-filtercontrol-item">
+              <label>
+                <input type="checkbox" data-bind="disable: count() == 0, checked: checked, attr: { 'data-sc-value': value }" />
+                <span data-bind="text: displayText + ' (' + count() + ')'"></span>
+              </label>
+            </div>
+          </div>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>

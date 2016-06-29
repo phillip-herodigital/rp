@@ -17,9 +17,9 @@
 
       <div style="padding:4px 0px 0px 0px">
         <asp:CheckBox ID="LocallyManagedDomain" runat="server" />
-        <label for="ctl00_ctl00_ctl00_ctl00_LocallyManagedDomain">
+        <asp:Label runat="server" AssociatedControlID="LocallyManagedDomain">
           <Literal Text="Locally Managed Domain" runat="server"/>
-        </label>
+        </asp:Label>
       </div>
 
     </Sitecore.Controls.DialogPage>

@@ -5,13 +5,16 @@
 Sitecore.PageModes.Chrome = Base.extend({
   constructor: function(domElement, type) {
     this._originalDOMElement = domElement;
-    
+
     this.type = type;
     type.chrome = this;
-    this._parseElements();    
+    this._parseElements();
     this._level = -1;
     var dataNode = this.type.dataNode(domElement);
     this.setData(dataNode);
+    this.data.errors = [];
+    this.data.hasFieldErrors = false;
+    this.data.currentChromeErrorClass = "";
     // force init display name. Chrome data may change(i.e. when changing variations or conditions), but the name 
     // of the chrome should be the same during all the lifetime.
     this.displayName();
@@ -46,6 +49,10 @@ Sitecore.PageModes.Chrome = Base.extend({
       }
 
       if (e.target.tagName != "FONT") {
+        return;
+      }
+
+      if (Sitecore.PageModes.Utility.isIE) {
         return;
       }
 
@@ -117,6 +124,50 @@ Sitecore.PageModes.Chrome = Base.extend({
     return result;
   },
 
+  setValidStatus: function (isValid, error) {
+    this.data.hasFieldErrors = isValid;
+    if (error) {
+      this.data.errors.push(error);
+    }
+
+    if (this.data.currentChromeErrorClass != "") {
+      this.element.removeClass(this.data.currentChromeErrorClass);
+    }
+
+    var notValidChromeClassName = "chromeWithErrors";
+    if (isValid) {
+      this.element.removeClass(notValidChromeClassName);
+      this.data.errors = [];
+    } else {
+      this.element.addClass(notValidChromeClassName);
+      var maxErrorPriority = this.getMaxErrorPriority();
+      var priorityClassName = "warningChromeError";
+      if (maxErrorPriority < 3) {
+        priorityClassName = "notificationChromeError";
+      }
+
+      if (maxErrorPriority == 3) {
+        priorityClassName = "warningChromeError";
+      }
+
+      if (maxErrorPriority > 3) {
+        priorityClassName = "errorChromeError";
+      }
+
+      this.data.currentChromeErrorClass = priorityClassName;
+      this.element.addClass(priorityClassName);
+    }
+  },
+
+  getMaxErrorPriority: function () {
+    var priorities = [];
+    for (var e = 0; e < this.data.errors.length; e++) {
+      priorities.push(this.data.errors[e].Priority);
+    }
+
+    return Math.max.apply(null, priorities);
+  },
+
   attachEvents: function() {
     this.element.click(this._clickHandler);
     this.element.mouseenter(this._mouseEnterHandler);
@@ -153,7 +204,7 @@ Sitecore.PageModes.Chrome = Base.extend({
     return this._closingMarker;
   },
 
-  commands: function() {
+  commands: function () {
     return this.data.commands ? this.data.commands : new Array();
   },
 
@@ -575,14 +626,15 @@ Sitecore.PageModes.Chrome = Base.extend({
       return;
     }
 
-    var chromes = $sc(target).data("scChromes");
+    var chromes = $sc(target).data("scChromes") || $sc(target).parent().data("scChromes") || $sc(target).parent().parent().data("scChromes");
     if (!chromes || chromes.length < 1) {
       console.log(target);
       throw "DOM element is expected to have a non-empty chromes collection.";
     }
 
     var enabledChrome = $sc.last(chromes, function() { return this.isEnabled(); });
-    Sitecore.PageModes.ChromeManager.select(enabledChrome? enabledChrome : this);
+    Sitecore.PageModes.ChromeManager.select(enabledChrome ? enabledChrome : this);
+    var chr = enabledChrome ? enabledChrome : this;
   },
 
   _mouseEnterHandler: function(e) { 
@@ -641,7 +693,7 @@ Sitecore.PageModes.Chrome = Base.extend({
     });
   },
 
-  _parseElements: function() {
+  _parseElements: function () {
     /* if this is an orphan chrome that is being deleted, not do anything */
     if (!this._originalDOMElement || this._originalDOMElement.parent().length == 0) {
       return;

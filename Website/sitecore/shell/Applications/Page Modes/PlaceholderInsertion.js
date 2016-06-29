@@ -13,11 +13,15 @@
     }
   },
 
-  activate: function() {
+  activate: function () {
+    var placeholderName = this.placeholder._displayName;
     var inserter = this;
     var position = 0;
 
-    var renderings = this.placeholder.type.renderings();
+    var renderings = $sc.grep(this.placeholder.type.renderings(),
+      function(rendering) {
+        return rendering.type.getPlaceholder && rendering.type.getPlaceholder()._displayName == placeholderName;
+    });
 
     inserter.addTarget('top', this.placeholder, position);
 

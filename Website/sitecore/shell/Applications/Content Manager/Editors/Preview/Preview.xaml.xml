@@ -29,7 +29,8 @@
       
       <div id="ContentEditor" style="width:100%; height:100%;">
         <Border runat="server" ID="DisabledNotice" Visible="false">
-          <Literal runat="server" Text="Preview is enabled for content items only." />
+          <br />
+          <Literal ID="AlertMessage" runat="server" />
         </Border>
 
         <div id="Page" style="width:100%; height:100%">

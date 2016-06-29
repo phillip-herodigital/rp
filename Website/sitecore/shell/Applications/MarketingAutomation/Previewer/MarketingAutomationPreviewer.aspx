@@ -20,7 +20,8 @@ Inherits="Sitecore.Shell.MarketingAutomation.Web.Previewer.MarketingAutomationPr
     function OpenSupervisor() {
       window.scForm.postEvent("", "", "OpenSupervisor");
     }  
-    </script>  
+    </script>
+    <script type="text/javascript" src="/sitecore/shell/Applications/Dialogs/SilverlightNotification/silverlightNotification.js"></script>  
   </head>
 <body>
 <form id="form1" runat="server" style="height:100%;">

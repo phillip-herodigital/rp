@@ -15,7 +15,9 @@
             </strategies>
             <commitPolicyExecutor type="Sitecore.ContentSearch.CommitPolicyExecutor, Sitecore.ContentSearch">
               <policies hint="list:AddCommitPolicy">
-                <policy type="Sitecore.ContentSearch.TimeIntervalCommitPolicy, Sitecore.ContentSearch" />
+                <policy type="Sitecore.ContentSearch.ModificationCountCommitPolicy, Sitecore.ContentSearch">
+                  <Limit>300</Limit>
+                </policy>
               </policies>
             </commitPolicyExecutor>
             <locations hint="list:AddCrawler">
@@ -24,6 +26,8 @@
                 <Root>/sitecore</Root>
               </crawler>
             </locations>
+            <enableItemLanguageFallback>false</enableItemLanguageFallback>
+            <enableFieldLanguageFallback>false</enableFieldLanguageFallback>
             <!--
             <shardingStrategy type="Sitecore.ContentSearch.LuceneProvider.Sharding.LucenePartitionShardingStrategy, Sitecore.ContentSearch.LuceneProvider">
               <param desc="shardDistribution">4</param>

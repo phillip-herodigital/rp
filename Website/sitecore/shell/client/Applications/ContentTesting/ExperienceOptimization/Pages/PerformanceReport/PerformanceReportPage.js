@@ -16,6 +16,10 @@ define(["sitecore", "moment"], function (sc) {
       this.initializeUI();
       this.initializeListeners();
       this.initializeTestOutcomesDataSources();
+      
+      if (this.UserComboBox) {
+        this.UserComboBox.viewModel.setTestingOptions({ texts: this.Texts });
+      }
     },
 
     initializeMode: function () {

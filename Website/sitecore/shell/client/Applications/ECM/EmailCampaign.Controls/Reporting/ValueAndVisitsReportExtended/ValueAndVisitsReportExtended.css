@@ -1,0 +1,86 @@
+﻿@media (max-width: 992px) {
+  .sc-ValueAndVisitsReport .row[data-sc-id$="ValueAndVisitsRowPanel"] > div.col-md-6,
+  .sc-ValueAndVisitsReportExtended .row[data-sc-id$="ValueAndVisitsRowPanel"] > div.col-md-6 {
+    float: left;
+    width: 50%;
+  }
+}
+.sc-ValueAndVisitsReport .sc-d3-columnchart,
+.sc-ValueAndVisitsReport .sc-d3-barchart,
+.sc-ValueAndVisitsReportExtended .sc-d3-columnchart,
+.sc-ValueAndVisitsReportExtended .sc-d3-barchart {
+  padding-right: 20px;
+}
+.sc-ValueAndVisitsReport .sc-d3-columnchart .nv-x.nv-axis.nvd3-svg text,
+.sc-ValueAndVisitsReport .sc-d3-barchart .nv-x.nv-axis.nvd3-svg text,
+.sc-ValueAndVisitsReport .sc-d3-columnchart .nv-y.nv-axis.nvd3-svg text,
+.sc-ValueAndVisitsReport .sc-d3-barchart .nv-y.nv-axis.nvd3-svg text,
+.sc-ValueAndVisitsReportExtended .sc-d3-columnchart .nv-x.nv-axis.nvd3-svg text,
+.sc-ValueAndVisitsReportExtended .sc-d3-barchart .nv-x.nv-axis.nvd3-svg text,
+.sc-ValueAndVisitsReportExtended .sc-d3-columnchart .nv-y.nv-axis.nvd3-svg text,
+.sc-ValueAndVisitsReportExtended .sc-d3-barchart .nv-y.nv-axis.nvd3-svg text {
+  fill: #9c9c9c;
+}
+.sc-ValueAndVisitsReport .sc-d3-barchart,
+.sc-ValueAndVisitsReportExtended .sc-d3-barchart {
+  padding: 0 0 0 20px;
+}
+.sc-ValueAndVisitsReport div[data-sc-id$="ValuesColumnPanel"],
+.sc-ValueAndVisitsReportExtended div[data-sc-id$="ValuesColumnPanel"] {
+  padding-top: 5px;
+}
+.sc-ValueAndVisitsReport div[data-sc-id$="ValuesColumnPanel"] .sc-ScoreCard,
+.sc-ValueAndVisitsReportExtended div[data-sc-id$="ValuesColumnPanel"] .sc-ScoreCard {
+  padding: 7px 0;
+}
+html .sc-ValueAndVisitsReport .sc-d3-combinationchart .sc-d3-chart-yaxis-labels .left-axis-group,
+html .sc-ValueAndVisitsReportExtended .sc-d3-combinationchart .sc-d3-chart-yaxis-labels .left-axis-group {
+  -webkit-transform: translate(15px, 0px);
+  -moz-transform: translate(15px, 0px);
+  -ms-transform: translate(15px, 0px);
+  -o-transform: translate(15px, 0px);
+  transform: translate(15px, 0px);
+}
+html .sc-ValueAndVisitsReport .sc-d3-combinationchart .sc-d3-chart-yaxis-labels .right-axis-group,
+html .sc-ValueAndVisitsReportExtended .sc-d3-combinationchart .sc-d3-chart-yaxis-labels .right-axis-group {
+  -webkit-transform: translate(-15px, 0px);
+  -moz-transform: translate(-15px, 0px);
+  -ms-transform: translate(-15px, 0px);
+  -o-transform: translate(-15px, 0px);
+  transform: translate(-15px, 0px);
+}
+@media (max-width: 992px) {
+  .sc-ValueAndVisitsReportExtended .sc-exm-Card .sc-advancedExpander-bodywrapper {
+    height: auto !important;
+  }
+  .sc-ValueAndVisitsReportExtended .row[data-sc-id$="ValueAndVisitsRowPanel"] > div.col-md-6 {
+    width: 100%;
+  }
+  .sc-ValueAndVisitsReportExtended .row[data-sc-id$="ValueAndVisitsRowPanel"] > div.col-md-6 .row[data-sc-id$="ValuesRowPanel"] {
+    padding-bottom: 15px;
+  }
+  .sc-ValueAndVisitsReportExtended .row[data-sc-id$="ValueAndVisitsRowPanel"] > div.col-md-6 .row[data-sc-id$="ValuesRowPanel"] > div.col-md-6 {
+    width: 50%;
+    float: left;
+  }
+  .sc-ValueAndVisitsReportExtended .row[data-sc-id$="ValueAndVisitsRowPanel"] div[data-sc-id$="LeftValuesRowPanel"],
+  .sc-ValueAndVisitsReportExtended .row[data-sc-id$="ValueAndVisitsRowPanel"] div[data-sc-id$="RightValuesRowPanel"] {
+    margin: 0 15px;
+  }
+}
+.sc-ValueAndVisitsReportExtended .sc-exm-Card .sc-tabcontrol > .nav-tabs {
+  border: none;
+}
+.sc-ValueAndVisitsReportExtended .sc-d3-barchart {
+  padding: 0 20px 0 0;
+}
+.sc-ValueAndVisitsReportExtended div[data-sc-id$="LeftColumnPanel"] .row[data-sc-id$="ValuesRowPanel"],
+.sc-ValueAndVisitsReportExtended div[data-sc-id$="RightColumnPanel"] .row[data-sc-id$="ValuesRowPanel"] {
+  border-top: 1px solid #f0f0f0;
+}
+.sc-ValueAndVisitsReportExtended div[data-sc-id$="LeftValuesRowPanel"] {
+  margin: 0 7px 0 15px;
+}
+.sc-ValueAndVisitsReportExtended div[data-sc-id$="RightValuesRowPanel"] {
+  margin-right: 15px;
+}

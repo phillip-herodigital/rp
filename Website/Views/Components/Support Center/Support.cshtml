@@ -1,0 +1,125 @@
+﻿@using StreamEnergy.MyStream.Controllers
+@using StreamEnergy.MyStream.Models.Marketing.Support
+@using Sitecore.Data.Fields
+@{
+    SupportCenterController controller = new SupportCenterController();
+    var categoryContent = Sitecore.Context.Database.GetItem("{E507A0DB-A122-406B-862E-6C163BCCA7E7}");
+    var categories = StreamEnergy.Json.Stringify(controller.GetAllCategories());
+    List<FAQ> popularFAQS = new List<FAQ>();
+    ImageField headsetIconField = Html.Sitecore().CurrentItem.Fields["Headset Icon"];
+    var headsetIconURL = Sitecore.Resources.Media.MediaManager.GetMediaUrl(headsetIconField.MediaItem);
+    if (!string.IsNullOrEmpty(Sitecore.Context.Item.Fields["Popular FAQs"].Value))
+    {
+        var guids = Sitecore.Context.Item.Fields["Popular FAQs"].Value.Split("|".ToCharArray());
+
+        foreach (string guid in guids)
+        {
+            popularFAQS.Add(new FAQ(guid));
+        }
+    }
+    var popFaqs = StreamEnergy.Json.Stringify(popularFAQS);
+}
+<div class="support-container layout" ng-cloak>
+    <div class="main" ng-init="init(@categories, @popFaqs)">
+        <div class="wrapper">
+            <article class="faq-categories marketing">
+                <div class="primary">
+                    <h1>@Html.Sitecore().Field("Categories Heading")</h1>
+                    <h4>@Html.Sitecore().Field("Categories Subheading")</h4>
+                    <div class="categories clearfix">
+                        <div class="category" ng-repeat="category in categories" ng-if="$index < 4">
+                            <div ng-class="category.name" ng-style="{'background-image': 'URL(' + category.iconURL + ')'}" ng-click="goto(category.link)">
+                                <p class="service-name">{{category.name}}</p>
+                                <p>{{category.description}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="secondary clearfix" ng-show="categories.length > 4">
+                    <h1>@Html.Sitecore().Field("Secondary Categories Heading")</h1>
+                    <div class="categories clearfix">
+                        <div class="category " ng-repeat="category in categories" ng-if="$index > 3">
+                            <div ng-class="category.name" ng-style="{'background-image': 'URL(' + category.iconURL + ')'}">
+                                <p class="service-name">{{category.name}}</p>
+                                <p>{{category.description}}</p>
+                                <p class="get-support"><a href="{{category.link}}">@Html.Sitecore().Field("Get support")</a></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </article>
+            <article class="faqs marketing">
+                <div class="wrapper">
+                    <header ng-hide="searchResults">
+                        <h1>@Html.Sitecore().Field("Pop FAQs Heading")</h1>
+                    </header>
+                    <div class="content">
+                        <div class="faq" ng-repeat="faq in getDisplayedFAQs() track by $index" ng-show="splitFaqFilter($index)" ng-init="isHelpful = ''; helpfulSelected = false; feedback = ''">
+                            <div class="question clearfix" ng-click="selectFaq($index)">
+                                <div class="plus-minus">
+                                    <div class="plus" ng-class="{minus: faq.selected}"></div>
+                                </div>
+                                <a href="">{{faq.faqQuestion}}</a>
+                                <p class="faq-category" ng-repeat="category in faq.categories">{{category.name}}</p>
+                            </div>
+                            <div class="answer-container">
+                                <div class="triangle-up"></div>
+                                <div class="answer clearfix" ng-class="{reveal: faq.selected}">
+                                    <div class="answer-content" ng-bind-html="faq.faqAnswer"></div>
+                                    <aside>
+                                        <h4 ng-show="faq.relatedFAQs.length">@Html.Sitecore().Field("Related Questions")</h4>
+                                        <div ng-repeat="relatedFAQ in faq.relatedFAQs">
+                                            <p><a href="" ng-click="selectRelated(relatedFAQ)">{{relatedFAQ.display}}</a></p>
+                                        </div>
+                                        <div class="contact clearfix">
+                                            <img src="@headsetIconURL" />
+                                            <div>
+                                                <h4>@Html.Sitecore().Field("Still having issues")</h4>
+                                                <p>@Html.Sitecore().Field("Please contact us")</p>
+                                            </div>
+                                        </div>
+                                    </aside>
+                                    <div class="helpful">
+                                        <p ng-hide="faq.feedbackSent || faq.feedbackError">
+                                            <label for="helpful">@Html.Sitecore().Field("Helpful")</label>
+                                            <input type="radio" name="helpful" ng-model="isHelpful" ng-change="helpfulSelected = true" ng-value="true" />@Html.Sitecore().Field("Yes")
+                                            <input type="radio" name="helpful" ng-model="isHelpful" ng-change="helpfulSelected = true" ng-value="false" />@Html.Sitecore().Field("No")
+                                        </p>
+                                        <div class="response" ng-show="faq.feedbackSent">
+                                            <p>@Html.Sitecore().Field("Feedback Sent Text")</p>
+                                            <button class="button primary" ng-click="isHelpful = null; helpfulSelected = false; feedback = ''; faq.feedbackError = false; faq.feedbackSent = false">@categoryContent.Fields["Feedback Reset Text"]</button>
+                                        </div>
+                                        <div class="response" ng-show="faq.feedbackError">
+                                            <p>@Html.Sitecore().Field("Feedback Error Text")</p>
+                                            <button class="button primary" ng-click="isHelpful = null; helpfulSelected = false; feedback = ''; faq.feedbackError = false; faq.feedbackSent = false">@categoryContent.Fields["Feedback Reset Text"]</button>
+                                        </div>
+                                        <div class="response" ng-show="helpfulSelected && !faq.feedbackSent">
+                                            <p>@Html.Sitecore().Field("Thanks for your feedback")</p>
+                                            <textarea placeholder="@Html.Sitecore().Field("Helpful Placeholder")" ng-model="feedback"></textarea>
+                                            <button class="button primary" ng-click="sendFeedback(faq, isHelpful, feedback)">@Html.Sitecore().Field("Submit")</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="contact small">
+                    <div class="headset">
+                        <img src="@headsetIconURL" />
+                        <h4>@Html.Sitecore().Field("Still having issues")</h4>
+                        <p>@Html.Sitecore().Field("Please contact us")</p>
+                    </div>
+                    <div class="contact-info">
+                        @Html.Sitecore().Field("Customer Service")
+                    </div>
+                </div>
+            </article>
+        </div>
+        <div class="secondary-footer">
+            <div class="content">
+                <p>@Html.Sitecore().Field("Drop a line")</p>
+            </div>
+        </div>
+    </div>
+</div>
