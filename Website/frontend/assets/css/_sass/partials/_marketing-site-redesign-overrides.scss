@@ -4191,5 +4191,14 @@ article.protective-module {
 		@include breakpoint(small) {
 			background-image: none;
 		}
+		a.button {
+                background-image: none;
+                background-color: #f87c00;
+                border-radius: 5px;
+            }
+
+            a.button:hover {
+                background-color: #f79431;
+            }
 	}
 }
