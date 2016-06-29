@@ -4174,4 +4174,22 @@ article.protective-module {
 	&.faqs-heading .heading {
 		color: #78bb2f;
 	}
+	&.skydrop-promo {
+		background-image: image-url('marketing/redesign/Modules/skydrop-module.png');
+		background-repeat: no-repeat;
+		background-position: 80% 20px;
+		.promo-paragraph {
+			width: 25%;
+			@include breakpoint(small) {
+				width: 80%;
+			}
+		}
+		@include breakpoint(medium) {
+			background-size: 60%;
+			background-position: 80% 100%;
+		}
+		@include breakpoint(small) {
+			background-image: none;
+		}
+	}
 }
