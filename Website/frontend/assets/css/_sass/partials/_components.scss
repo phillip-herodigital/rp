@@ -170,6 +170,12 @@
                 font-size: 40px;
                 font-weight: 300;
                 width: 100%;
+
+                &.backToResults {
+                    cursor: pointer;
+                    padding-left: 15px;
+                    background: url("../i/icon/left-arrow.png") no-repeat center left;
+                }
             }
 
             @include breakpoint(small-medium) {
@@ -200,14 +206,24 @@
                         font-size: 18px;
                     }
 
+                    .locate {
+                        background-image: url("/frontend/assets/i/icon/address-icon.png");
+                        background-repeat: no-repeat;
+                        background-position: 10px center;
+                        height: 45px;
+                        width: 45px;
+                        border: 1px solid #cccccc;
+                        border-radius: 5px;
+                        box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15);
+                        float: left;
+                        margin-right: 15px;
+                        cursor: pointer;
+                    }
+
                     #gmap-search {
                         input[type="text"] {
-                            width: 100%;
+                            width: calc(100% - 60px);
                             height: 45px;
-                            background-image: url("/frontend/assets/i/icon/address-icon.png");
-                            background-repeat: no-repeat;
-                            background-position: 10px center;
-                            padding-left: 40px;
 
                             &::-webkit-input-placeholder { /* Chrome/Opera/Safari */
                                 font-size: 18px;
@@ -239,6 +255,8 @@
 
                 p {
                     font-size: 18px;
+                    font-weight: 600;
+                    color: #333333;
                     margin: 10px 25px;
                 }
             }
@@ -247,29 +265,67 @@
                 border: solid #e2e1e2;
                 border-width: 0 1px 1px 1px;
                 border-radius: 0 0 5px 5px;
-                height: 688px;
+                max-height: 688px;
                 overflow: auto;
 
                 .result {
                     border-bottom: 1px solid #e2e1e2;
-                    padding: 20px 20px 20px 65px;
-                    background: url("../i/icon/pin.png");
-                    background-repeat: no-repeat;
-                    background-position: 20px 20px;
+                    padding: 20px 10px 20px 20px;
                     line-height: 1;
+                    height: 106px;
 
-                    .name {
-                        margin: 0;
-                        font-weight: 600;
+                    .grid {
+
+                        .col-1 {
+                            background: url("../i/icon/pin.png");
+                            background-repeat: no-repeat;
+                            background-position: top left;
+                            padding-top: 50px;
+                            width: 75px;
+                            float: left;
+
+                            .item {
+                                .distance {
+                                    margin: 0;
+                                    font-weight: 600;
+                                }
+                            }
+                        }
+
+                        .col-2 {
+                            width: calc(100% - 75px);
+                            float: right;
+
+                            .item {
+                                display: inline-block;
+
+                                .name {
+                                    margin: 0;
+                                    font-weight: 600;
+                                }
+
+                                .address {
+                                    margin: 0;
+                                }
+
+                                &.arrow {
+                                    background: url("../i/icon/right-arrow.png") no-repeat center right;
+                                    width: 12px;
+                                    height: 66px;
+                                    float: right;
+                                    cursor: pointer;
+                                }
+                            }
+                        }
                     }
 
-                    .address {
-                        margin: 0;
+                    &.selected {
+                        background-color: rgba(0,55,84,.2);
                     }
                 }
             }
 
-            @include breakpoint(small-medium) {
+            @include breakpoint(small) {
                 width: 100%;
             }
         }
@@ -285,23 +341,83 @@
                 margin: 0;
 
                 .marker-window {
-                    border: 5px solid grey;
+                    box-shadow: 0px 0px 0px 10px rgba(0,55,84,.1);
                     background-color: #fff;
+                    position: relative;
 
                     .grid {
                         margin: 0;
                         width: auto;
 
-                        + div {
-                            display: none;
+                        .col {
+                            .item {
+                                label {
+                                    font-size: 14px;
+                                    font-weight: 500;
+                                    color: #919191;
+                                }
+
+                                a > p {
+                                    color: #1f8fce;
+                                }
+
+                                p {
+                                    font-size: 16px;
+                                    font-weight: 500;
+                                    color: #000000;
+                                    margin: 0;
+
+                                    &:first-of-type {
+                                        margin-top: 5px;
+                                    }
+
+                                    &:last-of-type {
+                                        margin-bottom: 5px;
+                                    }
+                                }
+                            }
+
+                            .item:last-of-type {
+                                p:last-of-type {
+                                    margin-bottom: 0;
+                                }
+                            }
+
+                            &:last-of-type {
+                                padding-left: 20px;
+                            }
+                        }
+                    }
+
+                    .close {
+                        width: 40px;
+                        height: 40px;
+                        border-radius: 20px;
+                        position: absolute;
+                        top: -20px;
+                        right: -20px;
+                        background: #ffffff;
+                        transform: rotate(45deg);
+
+                        a {
+                            font-size: 40px;
+                            font-weight: 300;
+                            color: #919191;
+                            position: absolute;
+                            top: -8px;
+                            right: 8px;
                         }
                     }
                 }
             }
+
+            @include breakpoint(small) {
+                width: 100%;
+            }
         }
     }
 
-    @include breakpoint(small-medium) {
+    @include breakpoint(small) {
         .page-content {
             padding: 0;
         }

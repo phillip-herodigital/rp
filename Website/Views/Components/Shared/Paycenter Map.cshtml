@@ -11,10 +11,11 @@
         <p><span class="hide-small">Can't find a location near you? </span><a href="/pay">Pay online</a></p>
     </div>
 </header>
-<article class="clearfix marketing paycenter-locator" ng-controller="PaycenterCtrl" ng-init="init()">
+<article class="clearfix marketing paycenter-locator" ng-controller="PaycenterCtrl" ng-init="init() isLoading">
     <div class="wrapper">
         <header>
-            <h1>Find a Convenient Location to Pay Your Bill!</h1>
+            <h1 ng-hide="showMap">Find a Convenient Location to Pay Your Bill!</h1>
+            <h1 class="backToResults" ng-show="isMobile() && showMap" ng-click="showMap = false">Back to results</h1>
         </header>
         <aside>
             <div class="form">
@@ -22,51 +23,72 @@
                     <input type="text" id="gmap-search-input" placeholder="Enter Address or zip code" />
                 </script>
                 <div class="item">
-                    <label for="gmap-search-input">Enter Your Address or zip code</label>
+                    <label for="gmap-search-input" ng-if="!isMobile()">Enter Your Address or zip code</label>
+                    <div class="locate" ng-click="geolocate()"></div>
                     <div id="gmap-search"></div>
                 </div>
             </div>
-            <div class="query">
-                <p>11 Results for 75227</p>
+            <div class="query" ng-hide="showMap && isMobile()">
+                <p ng-show="search">{{sortedMarkers().length}} Results for <span bind-html-unsafe="search"></span></p>
             </div>
-            <div class="results">
-                <div class="result" ng-repeat="marker in markers">
-                    <p class="name">{{marker.locationInfo.name}}</p>
-                    <p class="address">{{marker.locationInfo.address.line1}}<br>{{marker.locationInfo.address.line2}}<br>{{marker.locationInfo.ad}}</p>
-                </div>
+            <div class="results" ng-hide="showMap && isMobile()">
+                <div class="result" ng-repeat="marker in sortedMarkers()" ng-class="{selected: marker.selected}" ng-click="openWindow(marker.id)">
+                    <div class="grid clearfix">
+                        <div class="col-1">
+                            <div class="item">
+                                <p class="distance">{{marker.distance}} mi</p>
+                            </div>
+                        </div>
+                        <div class="col-2">
+                            <div class="item">
+                                <p class="name">{{marker.locationInfo.name}}</p>
+                                <p class="address">{{marker.locationInfo.address.line1}}<br>{{marker.locationInfo.address.line2}}<br>{{marker.locationInfo.address.phone}}</p>
+                            </div>
+                            <div class="item arrow" ng-show="isMobile()">
+                            </div>
+                        </div>
+                    </div>
+                 </div>
             </div>
         </aside>
-        <article class="coverage-map" ng-hide="isMobile">
+        <article class="coverage-map" ng-hide="!showMap && isMobile()">
             <ui-gmap-google-map center="map.center" zoom="map.zoom" options="map.options" events="map.events">
                 <ui-gmap-search-box template="searchbox.template" events="searchbox.events" parentdiv="'gmap-search'"></ui-gmap-search-box>
                 <ui-gmap-markers models="markers" coords="'coords'" icon="'icon'" click="'onClicked'">
-                    <ui-gmap-windows show="showWindow" closeClick="closeClick" options="'options'" ng-cloak>
+                </ui-gmap-markers>
+                <ui-gmap-marker idKey="searchMarker.id" coords="searchMarker.coords" options="searchMarker.options"></ui-gmap-marker>
+                <ui-gmap-window show="window.show" coords="window.coords" options="window.options" control="window.control" ng-cloak>
+                    <div>
                         <div class="grid">
                             <div class="col">
                                 <div class="item">
                                     <label>location</label>
-                                    <p ng-non-bindable>{{locationInfo.name}}</p>
+                                    <p>{{locationInfo.name}}</p>
                                 </div>
                                 <div class="item">
                                     <label>address</label>
-                                    <p ng-non-bindable>{{locationInfo.address.line1}}</p>
-                                    <p ng-non-bindable>{{locationInfo.address.line2}}</p>
-                                    <p ng-non-bindable>{{locationInfo.phone}}</p>
+                                    <a href="" ng-click="$parent.getDirections()">
+                                        <p>{{locationInfo.address.line1}}</p>
+                                        <p>{{locationInfo.address.line2}}</p>
+                                    </a>
+                                    <p>{{locationInfo.address.phone}}</p>
                                 </div>
                             </div>
                             <div class="col">
                                 <div class="item">
                                     <label>hours</label>
-                                    <p ng-non-bindable>{{locationInfo.name}}</p>
+                                    <p>{{locationInfo.hours}}</p>
                                 </div>
                                 <div class="item">
                                     <label>payment methods</label>
-                                    <p ng-non-bindable>{{locationInfo.phone}}</p>
+                                    <p>{{locationInfo.paymentMethods}}</p>
+                                    <p ng-repeat="payment in locationInfo.paymentMethods">{{payment}}</p>
                                 </div>
                             </div>
                         </div>
-                    </ui-gmap-windows>
-                </ui-gmap-markers>
+                        <div class="close"><a href="" ng-click="$parent.closeWindow($index)">+</a></div>
+                    </div>
+                </ui-gmap-window>
             </ui-gmap-google-map>
         </article>
     </div>
