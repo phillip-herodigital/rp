@@ -6,7 +6,6 @@
   var rendering = Html.Sitecore().Controls().GetUserControl(Model.Rendering);
   rendering.Requires.Script("contenttesting", "TestSummary.js");
   rendering.Attributes["data-sc-testid"] = rendering.GetString("TestId", "testId");
-  rendering.Attributes["data-sc-maximum-suggestions"] = rendering.GetString("MaximumSuggestions", "maximumSuggestions");
 
   var htmlAttributes = rendering.HtmlAttributes;
 }      

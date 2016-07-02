@@ -1,29 +1,16 @@
-﻿define([
-    "sitecore",
-    "/-/speak/v1/ecm/ServerRequest.js",
-    "/-/speak/v1/ecm/constants.js"
-], function(
-    sitecore,
-    ServerRequest,
-    Constants
-) {
-    return {
-        priority: 1,
-        execute: function(context) {
-            ServerRequest(Constants.ServerRequests.VALIDATE_PAGE_PATH, {
-                data: { databaseName: context.currentContext.databaseName, existingMessagePath: context.currentContext.existingMessagePath },
-                success: function(response) {
-                    if (response.error) {
-                        if (context.onError) {
-                            context.onError(response);
-                        }
-                        context.currentContext.errorCount = 1;
-                        context.aborted = true;
-                        return;
-                    }
-                },
-                async: false
-            });
+﻿define(["sitecore", "/-/speak/v1/ecm/ServerRequest.js"], function (sitecore) {
+  return {
+    priority: 1,
+    execute: function (context) {
+      postServerRequest("EXM/ValidatePagePath", { databaseName: context.currentContext.databaseName, existingMessagePath: context.currentContext.existingMessagePath }, function (response) {
+        context.currentContext.messageBar.removeMessage(function (error) { return error === response.errorMessage; });
+        if (response.error) {
+          context.currentContext.messageBar.addMessage("error", response.errorMessage);
+          context.currentContext.errorCount = 1;
+          context.aborted = true;
+          return;
         }
-    };
+      }, false);
+    }
+  };
 });

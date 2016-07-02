@@ -85,10 +85,8 @@
     },
 
     updateBodyFrame: function () {
-      var frameHtml = this.children.BodyHTML.viewModel.$el,
-          bodyFrameHeight = frameHtml.contents().find("body").outerHeight(true);
       this.children.BodyHTML.set("width", "98%");
-      this.children.BodyHTML.set("height", bodyFrameHeight ? bodyFrameHeight : frameHtml.outerHeight(true));
+      this.children.BodyHTML.set("height", this.children.BodyHTML.viewModel.$el.contents().find("body").outerHeight(true));
     },
 
     updateBodyUrl: function () {
@@ -165,6 +163,7 @@
     refresh: function () {
       this.detachHandlers();
       var data = this.model.get("data");
+      this.initialData = _.clone(data);
       this.children.SubjectValue.set("text", data.subject);
       if (data.isPlainTextMessage) {
         this.children.BodyPlainTextBorder.set("isVisible", true);
@@ -184,5 +183,5 @@
     }
   });
 
-  return sitecore.Factories.createComponent("MessageVariant", model, view, ".sc-MessageVariant");
+  sitecore.Factories.createComponent("MessageVariant", model, view, ".sc-MessageVariant");
 });

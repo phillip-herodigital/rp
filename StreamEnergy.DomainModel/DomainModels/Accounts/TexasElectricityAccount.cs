@@ -40,7 +40,6 @@ namespace StreamEnergy.DomainModels.Accounts
 
         public string EarlyTerminationFee { get; set; }
         public bool IncludesThermostat { get; set; }
-        public bool IncludesSkydrop { get; set; }
         void ISanitizable.Sanitize()
         {
             if (ServiceAddress != null)

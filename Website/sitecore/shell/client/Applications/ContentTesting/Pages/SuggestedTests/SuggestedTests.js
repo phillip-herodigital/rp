@@ -8,6 +8,7 @@ define(["sitecore", "suggestedTestsListMod"], function (_sc, suggestedTestsListM
   var SuggestedTests = _sc.Definitions.App.extend({
     initialized: function () {
       this.suggestedTestsList = new suggestedTestsListMod.SuggestedTestsList({ host: this });
+      this.TestsDataSource.set("pageSize", 10);
     },
       
     close: function() {

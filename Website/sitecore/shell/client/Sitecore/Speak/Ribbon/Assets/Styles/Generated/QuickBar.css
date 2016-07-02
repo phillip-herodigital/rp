@@ -41,8 +41,7 @@
   background: #fafafa;
   height: 33px;
 }
-[data-sc-id="QuickRibbon"].sc-quickbar-button,
-[data-sc-id="QuickRibbon"].sc-quickbar-button:hover {
+[data-sc-id="QuickRibbon"].sc-quickbar-button {
   background: transparent;
 }
 .sc-quickbar-button:hover {

@@ -1,0 +1,47 @@
+﻿.scTraceableCombobox
+{
+	border: 1px solid #A5ACB2;
+}
+
+.scTraceableCombobox input
+{
+	padding-left: 2px;
+}
+
+.scTraceableComboboxPopup
+{
+	width: 100%;
+	background: window;
+	border: solid 1px #A5ACB2;
+	overflow: auto;
+	padding: 0;
+	margin: 0;
+	list-style-type: none;
+}
+
+.scTraceableComboboxPopup a
+{
+	height: 16px;
+	padding: 1px 1px 1px 3px;
+	width: 100%;
+	text-align: left;
+	display: block;
+}
+
+.ff .scTraceableComboboxPopup li
+{
+	width: 100%;
+}
+
+.ff .scTraceableComboboxPopup a
+{
+	width: auto;
+}
+
+.scTraceableComboboxPopup a:hover
+{
+	background: #e8f5fd url(/sitecore/shell/themes/standard/Images/Tree/TreeNodeNormalBackground.png) repeat-x;
+	border: 1px solid #d8f0fa;
+	padding: 0px 0px 0px 2px;
+	text-decoration: none;
+}

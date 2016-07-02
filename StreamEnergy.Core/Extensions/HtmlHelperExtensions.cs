@@ -127,7 +127,7 @@ namespace StreamEnergy.Extensions
             item = item ?? htmlHelper.Sitecore().CurrentItem;
 
             decimal value;
-            if (item.Fields[fieldName] != null && !Sitecore.Context.PageMode.IsExperienceEditor && decimal.TryParse(item.Fields[fieldName].Value, out value))
+            if (item.Fields[fieldName] != null && !Sitecore.Context.PageMode.IsPageEditorEditing && decimal.TryParse(item.Fields[fieldName].Value, out value))
             {
                 return htmlHelper.Raw(value.ToString("C" + decimalPlaces));
             }
@@ -142,7 +142,7 @@ namespace StreamEnergy.Extensions
             {
                 return domains[domain];
             }
-            else if (!Sitecore.Context.PageMode.IsExperienceEditor && !string.IsNullOrEmpty(domain))
+            else if (!Sitecore.Context.PageMode.IsPageEditor && !string.IsNullOrEmpty(domain))
             {
                 foreach (var domainTranslation in Settings.GetDomainTranslations())
                 {

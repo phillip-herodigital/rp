@@ -1,10 +1,9 @@
 ﻿define(
   [
     "sitecore",
-    "/-/speak/v1/ExperienceEditor/RibbonPageCode.js",
-    "/-/speak/v1/ExperienceEditor/ExperienceEditor.js"
+    "/-/speak/v1/ExperienceEditor/RibbonPageCode.js"
   ],
-function (Sitecore, RibbonPageCode, ExperienceEditor) {
+function (Sitecore) {
   Sitecore.Factories.createBaseComponent({
     name: "RibbonBreadcrumb",
     base: "ControlBase",
@@ -28,23 +27,18 @@ function (Sitecore, RibbonPageCode, ExperienceEditor) {
       document.breadcrumbContext = this;
       window.parent.document.breadcrumbContext = this;
 
-      var mode = ExperienceEditor.Web.getUrlQueryStringValue("mode");
+      var mode = Sitecore.ExperienceEditor.Web.getUrlQueryStringValue("mode");
       this.isPreview = mode != null && mode.toLowerCase() == "preview";
 
       this.goText = this.$el[0].attributes["data-sc-dic-go"].value;
       this.editText = this.$el[0].attributes["data-sc-dic-edit"].value;
       this.editTooltip = this.$el[0].attributes["data-sc-dic-edit-tooltip"].value;
       this.treeViewTooltip = this.$el[0].attributes["data-sc-dic-treeview-tooltip"].value;
-      this.model.on("change:isVisible", this.renderNavigationBar, this);
-      ExperienceEditor.Common.registerDocumentStyles(["/-/speak/v1/ribbon/Breadcrumb.css"], window.parent.document);
+      this.renderNavigationBar(this.$el[0].attributes["data-sc-itemid"].value);
+      Sitecore.ExperienceEditor.Common.registerDocumentStyles(["/-/speak/v1/ribbon/Breadcrumb.css"], window.parent.document);
     },
 
     renderNavigationBar: function (itemId) {
-      if (!itemId
-        || typeof (itemId) == "object") {
-        itemId = this.$el[0].attributes["data-sc-itemid"].value;
-      }
-
       this.selectedItem = itemId;
       this.requestBreadcrumpStructure(itemId, this);
 
@@ -75,18 +69,18 @@ function (Sitecore, RibbonPageCode, ExperienceEditor) {
       }
 
       htmlSource += "</div>";
-      var breadcrumbContent = ExperienceEditor.ribbonDocument().getElementById("breadcrumbContent" + this.$el[0].attributes["data-sc-itemid"].value);
+      var breadcrumbContent = Sitecore.ExperienceEditor.ribbonDocument().getElementById("breadcrumbContent" + this.$el[0].attributes["data-sc-itemid"].value);
       breadcrumbContent.innerHTML = htmlSource;
 
       this.hideMenu();
     },
 
     navigateToItem: function (itemId) {
-      ExperienceEditor.navigateToItem(itemId);
+      Sitecore.ExperienceEditor.navigateToItem(itemId);
     },
 
     editItemInCE: function (itemId) {
-      ExperienceEditor.navigateToItemInCE(itemId);
+      Sitecore.ExperienceEditor.navigateToItemInCE(itemId);
     },
 
     generateNavigationBarButtonHtml: function (enabled, text, functionSource, buttonStyle, tooltip) {
@@ -130,9 +124,9 @@ function (Sitecore, RibbonPageCode, ExperienceEditor) {
     },
 
     requestBreadcrumpStructure: function (itemId, appContext) {
-      var context = ExperienceEditor.generateDefaultContext();
+      var context = Sitecore.ExperienceEditor.generateDefaultContext();
       context.currentContext.itemId = itemId;
-      ExperienceEditor.PipelinesUtil.generateRequestProcessor("ExperienceEditor.Breadcrumb.GetStructure", function (response) {
+      Sitecore.ExperienceEditor.PipelinesUtil.generateRequestProcessor("ExperienceEditor.Breadcrumb.GetStructure", function (response) {
         appContext.breadcrumpStructure = response.responseValue.value;
       }).execute(context);
     },
@@ -146,15 +140,15 @@ function (Sitecore, RibbonPageCode, ExperienceEditor) {
         window.parent.document.breadcrumbContext.hideMenu();
       }, false);
 
-      var context = ExperienceEditor.generateDefaultContext();
+      var context = Sitecore.ExperienceEditor.generateDefaultContext();
       context.currentControl = this;
       context.currentContext.itemId = id;
-      ExperienceEditor.PipelinesUtil.generateRequestProcessor("ExperienceEditor.Breadcrumb.GetChildItems", function (response) {
+      Sitecore.ExperienceEditor.PipelinesUtil.generateRequestProcessor("ExperienceEditor.Breadcrumb.GetChildItems", function (response) {
         var control = document.getElementById("breadcrumbMenuSubcontrol" + id);
         var position = control.getBoundingClientRect();
-        var positionStyle = "top:" + (position.top + 35) + "px;" + "left:" + (position.left + 0 + ExperienceEditor.ribbonFrame().offsetLeft) + "px;";
+        var positionStyle = "top:" + (position.top + 35) + "px;" + "left:" + (position.left + 0 + Sitecore.ExperienceEditor.ribbonFrame().offsetLeft) + "px;";
         var menuControlId = "breadcrumbMenuSubcontrol_context_menu";
-        var menuSource = "<nav id='" + menuControlId + "' style='position:fixed;z-index:10000;" + positionStyle + "' class=''>" + response.context.currentControl.generateContextMenuHtmlSource(response.responseValue.value) + "</nav>";
+        var menuSource = "<nav id='" + menuControlId + "' style='position:absolute;z-index:10000;" + positionStyle + "' class=''>" + response.context.currentControl.generateContextMenuHtmlSource(response.responseValue.value) + "</nav>";
         var element = window.parent.document.getElementById(menuControlId);
         if (!element) {
           var iDiv = window.parent.document.createElement('nav');
@@ -174,14 +168,14 @@ function (Sitecore, RibbonPageCode, ExperienceEditor) {
         return;
       }
 
-      var lang = ExperienceEditor.getContext().instance.currentContext.language;
+      var lang = Sitecore.ExperienceEditor.instance.currentContext.language;
 
       var treeViewUrl = "/sitecore/client/Applications/ExperienceEditor/Pages/NavigationTreeView.aspx?lang=" + lang;
       var dimensions = {
         width: "300px",
         height: "320px"
       };
-      ExperienceEditor.Common.showGallery(treeViewUrl, element, dimensions);
+      Sitecore.ExperienceEditor.Common.showGallery(treeViewUrl, element, dimensions);
     },
 
     hideMenu: function () {

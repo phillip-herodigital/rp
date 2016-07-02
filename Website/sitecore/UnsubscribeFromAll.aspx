@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="UnsubscribeFromAll.aspx.cs" Inherits="Sitecore.EmailCampaign.Cd.Sitecore.UnsubscribeFromAll" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="UnsubscribeFromAll.aspx.cs" Inherits="Sitecore.Modules.EmailCampaign.UI.UnsubscribeFromAll" %>
 <%@ Register TagPrefix="sc" Namespace="Sitecore.Web.UI.WebControls" Assembly="Sitecore.Analytics" %>
 <%@ OutputCache Location="None" VaryByParam="none" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">

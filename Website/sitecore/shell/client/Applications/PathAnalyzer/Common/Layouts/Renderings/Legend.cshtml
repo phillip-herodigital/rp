@@ -1,5 +1,4 @@
 ﻿@using Sitecore.Mvc
-@using Sitecore.PathAnalyzer.Client.Sitecore.Shell.Client.Applications.PathAnalyzer.Common.Layouts.Renderings.Shared
 @using Sitecore.PathAnalyzer.Localization
 @using Sitecore.Web.UI.Controls.Common.UserControls
 @model Sitecore.Mvc.Presentation.RenderingModel
@@ -11,23 +10,23 @@
 
     var htmlAttributes = userControl.HtmlAttributes;
 
-    var resourceHelper = new Helper();
+    var resourceManager = new ResourceManager();
 }
 <div @htmlAttributes>
     <div id="legend" class="legendWrapper">
-        <h3>@resourceHelper.GetTextValue(PathAnalyzerTexts.LegendValueHeader)</h3>
-        <p>@resourceHelper.GetTextValue(PathAnalyzerTexts.LegendValueDescription)</p>
+        <h3>@resourceManager.Translate(PathAnalyzerTexts.LegendValueHeader)</h3>
+        <p>@resourceManager.Translate(PathAnalyzerTexts.LegendValueDescription)</p>
         <span class="circle circleSize8"></span><span class="circle circleSize16"></span><span class="circle circleSize24"></span>
         <hr />
-        <h3>@resourceHelper.GetTextValue(PathAnalyzerTexts.LegendVisitsHeader)</h3>
-        <p>@resourceHelper.GetTextValue(PathAnalyzerTexts.LegendVisitsDescription)</p>
+        <h3>@resourceManager.Translate(PathAnalyzerTexts.LegendVisitsHeader)</h3>
+        <p>@resourceManager.Translate(PathAnalyzerTexts.LegendVisitsDescription)</p>
         <span class="line lineSize4"></span><span class="line lineSize8"></span><span class="line lineSize16"></span>
         <hr />
-        <h3>@resourceHelper.GetTextValue(PathAnalyzerTexts.LegendValuePerVisitHeader)</h3>
-        <p>@resourceHelper.GetTextValue(PathAnalyzerTexts.LegendValuePerVisitDescription1)</p>
-        <p>@resourceHelper.GetTextValue(PathAnalyzerTexts.LegendValuePerVisitDescription2)</p>
-        <p><span class="square sq11"></span>@resourceHelper.GetTextValue(PathAnalyzerTexts.LegendGreen)</p>
-        <p><span class="square sq1"></span>@resourceHelper.GetTextValue(PathAnalyzerTexts.LegendRed)</p>
+        <h3>@resourceManager.Translate(PathAnalyzerTexts.LegendValuePerVisitHeader)</h3>
+        <p>@resourceManager.Translate(PathAnalyzerTexts.LegendValuePerVisitDescription1)</p>
+        <p>@resourceManager.Translate(PathAnalyzerTexts.LegendValuePerVisitDescription2)</p>
+        <p><span class="square sq11"></span>@resourceManager.Translate(PathAnalyzerTexts.LegendGreen)</p>
+        <p><span class="square sq1"></span>@resourceManager.Translate(PathAnalyzerTexts.LegendRed)</p>
         <div class="legendColors">
             <span class="square sq1"></span>
             <span class="square sq2"></span>
@@ -41,6 +40,6 @@
             <span class="square sq10"></span>
             <span class="square sq11"></span>
         </div>
-        <div class="legendLabels"><span>@resourceHelper.GetTextValue(PathAnalyzerTexts.LegendLow)</span><span>@resourceHelper.GetTextValue(PathAnalyzerTexts.LegendAverage)</span><span>@resourceHelper.GetTextValue(PathAnalyzerTexts.LegendHigh)</span></div>
+        <div class="legendLabels"><span>@resourceManager.Translate(PathAnalyzerTexts.LegendLow)</span><span>@resourceManager.Translate(PathAnalyzerTexts.LegendAverage)</span><span>@resourceManager.Translate(PathAnalyzerTexts.LegendHigh)</span></div>
     </div>
 </div>

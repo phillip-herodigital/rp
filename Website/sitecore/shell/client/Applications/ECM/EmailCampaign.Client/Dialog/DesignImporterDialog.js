@@ -1,11 +1,4 @@
-﻿define([
-  "sitecore",
-  "/-/speak/v1/ecm/MessageCreationService.js",
-  "/-/speak/v1/ecm/ServerRequest.js"
-], function (
-  sitecore,
-  MessageCreationService
-  ) {
+﻿define(["sitecore", "/-/speak/v1/ecm/Messages.js", "/-/speak/v1/ecm/ServerRequest.js"], function (sitecore) {
   return sitecore.Definitions.App.extend({
     initialized: function () {
       var contextApp = this;
@@ -39,8 +32,8 @@
         managerRootId: contextApp.managerRootId,
         messageTypeTemplateId: contextApp.messageTypeTemplateId
       };
-      var context = _.clone(contextApp.currentContext);
-      var result = MessageCreationService.create('importedDesign', context);
+      var context = clone(contextApp.currentContext);
+      var result = createNewTemplatesFromImportedDesign(context, contextApp.MessageBar, contextApp, sitecore);
       if (result) {
         contextApp.designImporterItemTextBox.set("text", context.itemPath);
         sessionStorage.newMessageTemplateId = context.messageTemplateId;

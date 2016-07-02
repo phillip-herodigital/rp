@@ -15,33 +15,34 @@ define(["DataUtil"], function (dataUtil) {
   }
 
   return {
-    xOppAppPath: "/sitecore/client/Applications/ContentTesting/ExperienceOptimization",
+    openPageEditor: function (id, language) {
+      var uri = new dataUtil.DataUri();
+      uri.id = id;
+      uri.lang = language;
 
-    openExperienceEditor: function (uri, device) {
+      this.openPageEditor(uri);
+    },
+
+    openPageEditor: function (uri) {
       var url = "/?sc_mode=edit";
       var parsedUri = new dataUtil.DataUri(uri);
 
       url = _sc.Helpers.url.addQueryParameters(url, {
         sc_itemid: parsedUri.id,
         sc_lang: parsedUri.lang,
-        sc_version: parsedUri.ver,
-        sc_device: device
+        sc_version: parsedUri.ver
       });
-	  this.setExperienceEditorDeviceCookie(target, device);
       target.location.href = url;
     },
-	
-	setExperienceEditorDeviceCookie: function(wnd, deviceId)
-	{
-		var cookie = wnd.document.cookie;
-		var newValue = "experienceeditor_deviceId="+deviceId+";";
-		var startindex = cookie.indexOf("experienceeditor_deviceId");
-		if (startindex > 0)
-		{
-			wnd.document.cookie = newValue;
-		}
-	}, 
-	
+
+    openPageTestPage: function (id, showReport, load, language) {
+      var uri = new dataUtil.DataUri();
+      uri.id = id;
+      uri.lang = language;
+
+      this.openPageTestPage(uri, showReport, load);
+    },
+
     openPageTestPage: function (uri, showReport, load) {
       if (!showReport) {
         showReport = false;
@@ -55,7 +56,7 @@ define(["DataUtil"], function (dataUtil) {
         uri = new dataUtil.DataUri(uri);
       }
 
-      var url = this.xOppAppPath + "/Dashboard/PageTest";
+      var url = "/sitecore/client/Applications/ContentTesting/ExperienceOptimization/Dashboard/PageTest";
 
       url = _sc.Helpers.url.addQueryParameters(url, {
         hostUri: uri.toString(),

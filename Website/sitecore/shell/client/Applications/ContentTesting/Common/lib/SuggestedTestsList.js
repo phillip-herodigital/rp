@@ -10,10 +10,6 @@ define(["sitecore", "BindingUtil", "EditUtil", "DataUtil"], function (_sc, bindi
 
         init: function () {
           this._host.TestsList.on("change:selectedItemId", this.selectionChanged, this);
-
-                    if (this._host.Settings && this._host.Settings.get("ContentTesting.SuggestedTests.Maximum")) {
-                        this._host.TestsDataSource.set("pageSize", this._host.Settings.get("ContentTesting.SuggestedTests.Maximum"));
-                    }
         },
 
         selectionChanged: function () {
@@ -24,7 +20,7 @@ define(["sitecore", "BindingUtil", "EditUtil", "DataUtil"], function (_sc, bindi
             return;
           }
 
-          editUtil.openExperienceEditor(hostUri);
+          editUtil.openPageEditor(hostUri);
         }
       }
 

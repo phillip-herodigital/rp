@@ -145,10 +145,3 @@ transition: all .3s ease;
   .grayBlur > div {
     filter: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg'><filter id='blur' x='0' y='0'><feGaussianBlur stdDeviation='10'/></filter></svg>#blur");
   }
-
-.buckets-field {
-   white-space:nowrap;
-   text-overflow:ellipsis;
-   overflow:hidden;
-   padding:0 10px 0 0;
-}

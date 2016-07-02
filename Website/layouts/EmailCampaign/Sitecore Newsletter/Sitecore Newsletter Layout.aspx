@@ -45,17 +45,17 @@
                 <tr valign="top">
                     <!--content-->
                     <td width="405" style="font-size: 12px;">
-                        <img height="12" width="1" border="0" style="border-color: transparent;" alt="" src="-/media/Images/EC%20Newsletter%20Example/whitespace.ashx" /><br />
+                        <img height="12" width="1" border="0" style="border-color: transparent;" alt="" src="~/media/Images/EC%20Newsletter%20Example/whitespace.ashx" /><br />
                         <sc:Placeholder Key="content" runat="server" />
                     </td>
                     <!--separator-->
                     <td width="6">
-                        <img height="1" width="6" border="0" style="border-color: transparent;" alt="" src="-/media/Images/EC%20Newsletter%20Example/whitespace.ashx" /><br />
+                        <img height="1" width="6" border="0" style="border-color: transparent;" alt="" src="~/media/Images/EC%20Newsletter%20Example/whitespace.ashx" /><br />
                     </td>
                     <!--Sidebar-->
                     <td bgcolor="#F1F1F1" width="189" style="font-size: 11px;">
                         <img height="12" width="189" border="0" style="border-color: transparent;" alt=""
-                            src="-/media/Images/EC%20Newsletter%20Example/dgrayspace.ashx?w=189&as=1" /><br />
+                            src="~/media/Images/EC%20Newsletter%20Example/dgrayspace.ashx?w=189&as=1" /><br />
                         <sc:Placeholder Key="Sidebar" runat="server" />
                         <div style="height: 12px; font-size: 1px; overflow: hidden;">
                             &#xA0;

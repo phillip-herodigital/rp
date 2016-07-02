@@ -6,12 +6,12 @@
 @using Sitecore.Web
 @using Sitecore.Web.UI
 @using Sitecore.Web.UI.Controls.Common.UserControls
-@using Sitecore.LaunchPad
 @model Sitecore.Mvc.Presentation.RenderingModel
 @{
   var rendering = Html.Sitecore().Controls().GetUserControl(Model.Rendering);
   rendering.Class = "sc-launchpad";
   
+  var groups = new List<List<Item>>();
   var database = Factory.GetDatabase("core");
   if (database == null)
   {
@@ -24,7 +24,13 @@
     return;
   }
 
-  var groups = LaunchPad.GetControlGroups(root);
+  foreach (var item in root.Children.Where(i => i != null))
+  {
+    var group = new List<Item>();
+    groups.Add(group);
+
+    group.AddRange(item.Children);
+  }
 
   var grids = new List<List<List<Item>>>();
   
@@ -89,9 +95,9 @@
               @foreach (var item in row)
               {
                 var icon = Images.GetThemedImageSource(item["Icon"], ImageDimension.id48x48);
-                <a href="@(item["OpenIframe"] == "1" ?  Html.Raw(WebUtil.AddQueryString(externalAppLink, "id", item.ID.ToString())) : Html.Raw(Html.Encode(item["Link"])))" class="sc-launchpad-item" @(item["OpenNewTab"] == "1" ? "target=_blank" : "") title="@item["Text"]">
+                <a href="@(item["OpenIframe"] == "1" ?  Html.Raw(WebUtil.AddQueryString(externalAppLink, "id", item.ID.ToString())) : Html.Raw(item["Link"]))" class="sc-launchpad-item" @(item["OpenNewTab"] == "1" ? "target=_blank" : "") title="@item["Text"]">
                   <span class="icon">
-                    <img src="@icon" width="48" height="48" alt="@item["Text"]" />
+                    <img src="@Html.Raw(icon)" width="48" height="48" alt="@Html.Raw(item["Text"])" />
                   </span>
                   <span class="sc-launchpad-text">
                     @item["Text"]

@@ -128,13 +128,6 @@
         
         Event.observe(window, "load", update);
         
-        setInterval(function () {
-         var searchBox = document.querySelector("[id$=searchBox]");
-         if (searchBox && searchBox.value.indexOf('\"') != -1) {
-           searchBox.value = searchBox.value.replace(/"/g, "");
-         };
-        }, 50);
-        
         var timer = setInterval(adjustHeight, 10);
         
         function adjustHeight() {

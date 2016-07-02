@@ -1,4 +1,4 @@
-﻿/*! normalize.css v3.0.1 | MIT License | git.io/normalize */
+/*! normalize.css v3.0.1 | MIT License | git.io/normalize */
 html {
   font-family: sans-serif;
   -ms-text-size-adjust: 100%;
@@ -7965,7 +7965,6 @@ button.close {
   background: url("/sitecore/shell/client/Speak/Assets/img/Speak/Layouts/menu-bg.png") bottom center;
   background-repeat: no-repeat;
   background-color: #474747;
-  z-index: 100;
 }
 .sc-applicationContent-main {
   color: #131313;
@@ -13029,7 +13028,7 @@ form.sc-uploader {
 .mCSB_scrollTools .mCSB_buttonDown,
 .mCSB_scrollTools .mCSB_buttonLeft,
 .mCSB_scrollTools .mCSB_buttonRight {
-  background-image: url("/sitecore/shell/client/Speak/Assets/img/Speak/Common/mCustomScrollBar/mCSB_buttons.png");
+  background-image: url(mCSB_buttons.png);
   background-repeat: no-repeat;
   opacity: 0.4;
   filter: "alpha(opacity=40)";

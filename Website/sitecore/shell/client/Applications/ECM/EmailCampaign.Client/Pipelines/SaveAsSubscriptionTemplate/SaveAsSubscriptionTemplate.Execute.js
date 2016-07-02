@@ -1,34 +1,31 @@
-﻿define(["sitecore", "/-/speak/v1/ecm/ServerRequest.js"], function (sitecore, ServerRequest) {
+﻿define(["sitecore", "/-/speak/v1/ecm/ServerRequest.js", "/-/speak/v1/ecm/String.js"], function (sitecore) {
   return {
     priority: 1,
-    execute: function (params) {
-      params.errorPopupResult = 0;
-      var requestName = "EXM/SaveAsSubscriptionTemplate";
-      var errorMessageId = "error." + requestName;
-      ServerRequest(requestName, {
-        data: { sourceMessageId: params.messageId, messageName: _.escape(params.messageName) },
-        success: function (response) {
-          params.messageBarMain.removeMessage(function (error) { return error.id === errorMessageId; });
-          params.messageBar.removeMessage(function (error) { return error.id === errorMessageId; });
-          if (response.errorMessage.length > 0) {
-            var messagetoAdd = { id: errorMessageId, text: response.errorMessage, actions: [], closable: true };
-            if (response.error) {
-              if (response.value === "popup") {
-                params.messageBar.addMessage("error", messagetoAdd);
-                params.errorPopupResult = 1;
-              } else {
-                params.messageBarMain.addMessage("error", messagetoAdd);
-              }
-              params.aborted = true;
-              return;
+    execute: function (context) {
+      var currentContext = context.app.currentContext;
+      currentContext.errorPopupResult = 0;
+      var reqestName = "EXM/SaveAsSubscriptionTemplate";
+      var errorMessageId = "error." + reqestName;
+      postServerRequest(reqestName, { sourceMessageId: currentContext.messageId, messageName: currentContext.messageName.escapeAmpersand() }, function (response) {
+        currentContext.messageBarMain.removeMessage(function (error) { return error.id === errorMessageId; });
+        currentContext.messageBar.removeMessage(function (error) { return error.id === errorMessageId; });
+        if (response.errorMessage.length > 0) {
+          var messagetoAdd = { id: errorMessageId, text: response.errorMessage, actions: [], closable: true };
+          if (response.error) {
+            if (response.value == "popup") {
+              currentContext.messageBar.addMessage("error", messagetoAdd);
+              currentContext.errorPopupResult = 1;
             } else {
-              params.aborted = false;
-              params.messageBarMain.addMessage("notification", messagetoAdd);
+              currentContext.messageBarMain.addMessage("error", messagetoAdd);
             }
+            context.app.aborted = true;
+            return;
+          } else {
+            context.app.aborted = false;
+            currentContext.messageBarMain.addMessage("notification", messagetoAdd);
           }
-        },
-        async: false
-      });
+        }
+      }, false);
     }
   };
 });

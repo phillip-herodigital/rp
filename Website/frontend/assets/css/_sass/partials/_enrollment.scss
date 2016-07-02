@@ -1090,7 +1090,7 @@
                         padding: 5px 12px 5px 30px;
                         border-top: 1px solid #eaeaea;
                     }
-                    div.thermostat-description, div.skydrop-description {
+                    div.thermostat-description {
                         border-top: none;
                         padding: 1em 0 0;
                         font-size: 18px;
@@ -1202,10 +1202,9 @@
             display: block;
             font-weight: normal;
             margin-top: 15px;
-            font-size: 12px;
-        }
+            font-size: 12px;}
         .rate, .term, .fees {
-            width: 100px;
+            width: 120px;
             font-size: 18px;
             font-style: italic;
             font-weight: 600;
@@ -1348,7 +1347,7 @@
             }
         }
     }
-    .includes-thermostat, .includes-skydrop {
+    .includes-thermostat {
         background-color: #f4f8f9;
         margin: 5px -12px 0 -19px;
         padding: 10px 5px 5px;
@@ -1366,12 +1365,6 @@
         }
         @include breakpoint(medium) {
             min-width: 0;
-        }
-    }
-    .includes-skydrop {
-        span  {
-            width: 110px;
-            padding-bottom: 10px;
         }
     }
 }
@@ -2325,7 +2318,7 @@
                 padding-left: 0;
             }
 
-            .included-thermostat, .included-skydrop {
+            .included-thermostat {
                 background-color: #f4f8f9;
                 margin: 5px 0 0 0;
                 padding: 10px 10px 5px;
@@ -2342,7 +2335,6 @@
                     font-size: 16px;
                     margin-left: 12px;
                     padding-top: 6px;
-                    padding-bottom: 6px;
                 }
             }
         }

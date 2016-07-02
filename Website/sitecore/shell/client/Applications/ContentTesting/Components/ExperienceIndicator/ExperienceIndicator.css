@@ -204,19 +204,3 @@ div[data-sc-id="DetailsColumn"]::-webkit-scrollbar-thumb:hover {
 .scExp-dvIndicator div {
   height: 100%;
 }
-.scExp-dvIndicator.negative {
-  width: 27%;
-  left: 31%;
-}
-.scExp-dvIndicator.negative div {
-  float: right;
-}
-.scExp-dvIndicator.positive {
-  width: 27%;
-  left: 58%;
-}
-.scExp-dvIndicator.neutral {
-  width: 10px;
-  margin-left: -4px;
-  left: 58%;
-}

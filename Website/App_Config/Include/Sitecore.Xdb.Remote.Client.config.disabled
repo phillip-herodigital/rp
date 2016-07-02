@@ -28,21 +28,20 @@ reporting server.
         <paths>
           <Reporting>/~/v75/reporting/remotedatasourceproxy/</Reporting>
           <DefinitionDeployment>/~/v75/reporting/masterdata/datadefinitionservice/</DefinitionDeployment>
-          <ReportingStorageManager>/~/v81/reporting/reportingstoragemanager/</ReportingStorageManager>
         </paths>
       </remote>
     </reporting>
 
     <marketingDefinitions>
-      <deploymentManagerTargetRepository>remote</deploymentManagerTargetRepository>
-      <sc.variable name="marketingDefinitions.deploymentManager.targetRepository">
-        <patch:attribute name="value">remote</patch:attribute>
-      </sc.variable>
+      
+      <deploymentManager>
+        <param desc="targetRepository">remote</param>
+      </deploymentManager>
 
       <!--Enable remote definition repositories-->
       <campaign>
         <repositories>
-          <remote type="Sitecore.Analytics.Reporting.DefinitionData.Marketing.Remote.CampaignRemoteDefinitionRepository, Sitecore.Analytics" singleInstance="true">
+          <remote type="Sitecore.Marketing.Definitions.Campaigns.Data.Remote.CampaignRemoteDefinitionRepository, Sitecore.Marketing" singleInstance="true">
             <param desc="httpTransport" ref="httpTransportFactory" />
             <param desc="handler">/~/v80/marketingdefinitions/remote/campaign/</param>
           </remote>
@@ -51,7 +50,7 @@ reporting server.
 
       <goal>
         <repositories>
-          <remote type="Sitecore.Analytics.Reporting.DefinitionData.Marketing.Remote.GoalRemoteDefinitionRepository, Sitecore.Analytics" singleInstance="true">
+          <remote type="Sitecore.Marketing.Definitions.Goals.Data.Remote.GoalRemoteDefinitionRepository, Sitecore.Marketing" singleInstance="true">
             <param desc="httpTransport" ref="httpTransportFactory" />
             <param desc="handler">/~/v80/marketingdefinitions/remote/goal/</param>
           </remote>
@@ -60,7 +59,7 @@ reporting server.
 
       <outcome>
         <repositories>
-          <remote type="Sitecore.Analytics.Reporting.DefinitionData.Marketing.Remote.OutcomeRemoteDefinitionRepository, Sitecore.Analytics" singleInstance="true">
+          <remote type="Sitecore.Marketing.Definitions.Outcomes.Data.Remote.OutcomeRemoteDefinitionRepository, Sitecore.Marketing" singleInstance="true">
             <param desc="httpTransport" ref="httpTransportFactory" />
             <param desc="handler">/~/v80/marketingdefinitions/remote/outcome/</param>
           </remote>
@@ -75,7 +74,7 @@ reporting server.
         <patch:delete />
       </deployHandler>
 
-      <deployHandler type="Sitecore.Analytics.Reporting.DefinitionData.Taxonomy.Deployment.HttpDeployHandler, Sitecore.Analytics" singleInstance="true">
+      <deployHandler type="Sitecore.Marketing.Taxonomy.Deploy.HttpDeployHandler, Sitecore.Marketing.Taxonomy" singleInstance="true">
         <param desc="httpTransport" ref="httpTransportFactory"/>
         <param desc="publishPath">/~/v80/publish/taxonomy/</param>
       </deployHandler>

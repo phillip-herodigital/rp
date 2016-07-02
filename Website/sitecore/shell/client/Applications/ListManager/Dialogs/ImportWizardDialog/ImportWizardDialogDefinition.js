@@ -7,15 +7,14 @@
         summaryTabId = "{87C0ECCD-8FAB-43B0-BBF2-2B6170314E4C}",
         selectedTabProperty = "selectedTab",
         importContactsMode = "ImportContacts",
-        importContactsFromMediaLibraryAndCreateListUrl = "/sitecore/api/ssc/ListManagement/Import/{id}/ImportContactsFromMediaLibraryAndCreateList",
-        importContactsFromMediaLibraryUrl = "/sitecore/api/ssc/ListManagement/Import/{id}/ImportContactsFromMediaLibrary",
+        importContactsFromMediaLibraryAndCreateListUrl = "/sitecore/api/ListManagement/Import/ImportContactsFromMediaLibraryAndCreateList",
+        importContactsFromMediaLibraryUrl = "/sitecore/api/ListManagement/Import/ImportContactsFromMediaLibrary",
         contactListPagePattern = "/sitecore/client/Applications/List Manager/Taskpages/Contact list?id=",
         notificationKey = "The import process may take a while. You can close this dialog and continue your work in Sitecore. You will not lose your work. You will be able to access your contacts when the import is complete.",
         theFileTypeIsInvalid = "The file type is invalid. Please select another file and try again.",
         onlyOneFileAtATime = "You can upload only one file at a time. Please remove all other files and try again.",
         notificationTimeout = 10000,
         importWarningKey = "Your contacts have been imported. However please note that they will only become available to view in the database after they have been indexed. This process may take some time.",
-        yourImportWillNotBeSaved = "Your import will not be saved. Do you want to continue?",
         self;
 
     return {
@@ -28,8 +27,6 @@
         self.UploadedFileInfo = [];
         self.ImportControllerUrl = self.ImportDataSource.get("url");
         self.ButtonNext.viewModel.$el.parent('.pull-right').css({ 'position': 'absolute', 'clear': 'left', 'right': '11px', 'top': '35px' });
-        self.nextTimeout = null;
-        self.nextTimeoutDelay = 1500;
 
         /*local triggers*/
         self.on("import:wizard:dialog:button:previous:clicked", function() { self.buttonPreviousClick(); }, self);
@@ -48,19 +45,8 @@
 
         var el = $("a.sc-dialogWindow-close");
         if (el.length > 0) {
-          el.click(function (e) {
-            var selectedTab = self.ImportWizardTabControl.get(selectedTabProperty);
-            if (selectedTab === summaryTabId) {
-              self.buttonFinishClick();
-              return e;
-            }
-            var confirmationMessage = self.StringDictionary.get(yourImportWillNotBeSaved);
-            if (confirm(confirmationMessage)) {
-              self.cleanUp();
-              return e;
-            } else {
-              return false;
-            }
+          el.click(function () {
+            self.cleanUp();
           });
         }
         
@@ -85,7 +71,7 @@
           self.Spinner.set("isBusy", false);
         }
         if (typeof self.UploadedFileInfo.ItemId !== "undefined" && self.UploadedFileInfo.ItemId !== null) {
-          var removeMediaUrl = self.ImportControllerUrl + "/" + encodeURI(self.UploadedFileInfo.ItemId) + "/RemoveMedia";
+          var removeMediaUrl = self.ImportControllerUrl + "/RemoveMedia?mediaItemId=" + self.UploadedFileInfo.ItemId;
           $.post(removeMediaUrl);
         }
       },
@@ -107,10 +93,6 @@
         var current = self;
         if (typeof current === "undefined" || current === null) {
           current = this;
-        }
-        if (current.nextTimeout !== null) {
-          clearTimeout(current.nextTimeout);
-          current.nextTimeout = null;
         }
         switch (current.ImportWizardTabControl.get(selectedTabProperty)) {
         case uploadTabId:
@@ -176,7 +158,7 @@
           actionUrl = importContactsFromMediaLibraryUrl;
         }
 
-        actionUrl = actionUrl.replace("{id}", encodeURI(current.UploadedFileInfo.ItemId));
+        actionUrl = actionUrl + '?' + $.param({ mediaItemId: current.UploadedFileInfo.ItemId });
 
         for (var index = 0; index < mapping.length; ++index) {
           if (mapping[index].key != "") {
@@ -276,10 +258,6 @@
           current.ImportDataSource.set("url", current.ImportControllerUrl);
           current.enableTab(mapTabId);
 
-          current.nextTimeout = setTimeout(function () {
-            current.buttonNextClick();
-          }, current.nextTimeoutDelay);
-
           current.updateButtonStatus();
         }
       },
@@ -289,7 +267,7 @@
           current = this;
         }
         current.UploadedFileInfo = current.Uploader.viewModel.getUploadedFileItems()[0];
-        var getFileHeaderUrl = current.ImportControllerUrl + "/" + encodeURI(current.UploadedFileInfo.ItemId) + "/GetContactFileHeaders";
+        var getFileHeaderUrl = current.ImportControllerUrl + "/GetContactFileHeaders?mediaItemId=" + current.UploadedFileInfo.ItemId;
         current.ImportDataSource.set("url", getFileHeaderUrl);
         current.ImportDataSource.refresh();
       },
@@ -308,6 +286,9 @@
         current.Uploader.set("totalFiles", 0);
         current.Uploader.set("totalSize", "0 bytes");
         current.Uploader.set("uploadedFileItems", []);
+        current.Uploader.viewModel.showDataPanel(false);
+        current.Uploader.viewModel.showProgressBar(false);
+        current.Uploader.viewModel.showUploadingDataPanel(false);
         current.Uploader.viewModel.reset();
         current.UploaderInfo.viewModel.$el.find(".remove").trigger("click");
         current.UploaderInfo.viewModel.$el.find(".sc-uploaderInfo-row").remove();

@@ -24,10 +24,7 @@
               })[0];
               current.updateListOfLists(realbaseStructure);
             }, current);
-            baseStructure.dataSource.on("change:isBusy", function (dataSource, isBusy) {
-              current.initializeListOfLists(dataSource, isBusy, dataBindCallback);
-              current.DialogListProgressIndicator.set("isBusy", isBusy);
-            }, current);
+            baseStructure.dataSource.on("change:isBusy", function (dataSource, isBusy) { current.initializeListOfLists(dataSource, isBusy, dataBindCallback); }, current);
           }
           current.isFirstInit = false;
           current.reloadListOfLists(baseStructure);
@@ -188,7 +185,6 @@
         var current = commonPagesDefinition.defaultIfValueIsUndefinedOrNull(self, this);
 
         current.CallBackFunction = null;
-        current.CancelCallBackFunction = null;
         current.CurrentListId = null;
         current.SelectedId = null;
         current.SelectedItem = null;
@@ -196,16 +192,12 @@
         current.Filter = "";
 
         var callback = dialogParams.callback;
-        var cancelCallback = dialogParams.cancelCallback;
         var excludelists = dialogParams.excludelists;
         var currentListId = dialogParams.currentListId;
         var filter = dialogParams.filter;
 
         if (typeof callback !== "undefined" && callback !== null && typeof callback === "function") {
           current.CallBackFunction = callback;
-        }
-        if (typeof cancelCallback !== "undefined" && cancelCallback !== null && typeof cancelCallback === "function") {
-          current.CancelCallBackFunction = cancelCallback;
         }
         if (typeof excludelists !== "undefined" && excludelists !== null && Object.prototype.toString.call(excludelists) === "[object Array]") {
           current.ExcludeLists = excludelists;
@@ -238,9 +230,6 @@
       buttonCancel: function () {
         var current = commonPagesDefinition.defaultIfValueIsUndefinedOrNull(self, this);
         current.hideDialog();
-        if (current.CancelCallBackFunction) {
-          current.CancelCallBackFunction();
-        }
       },
       hideDialog: function () {
         var current = commonPagesDefinition.defaultIfValueIsUndefinedOrNull(self, this);

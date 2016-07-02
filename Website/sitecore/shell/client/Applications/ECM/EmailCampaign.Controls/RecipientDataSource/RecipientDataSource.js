@@ -57,7 +57,7 @@
       }
 
       this.set("totalRecipients", data.totalRecipientsCount);
-      this.processRecipientLists(data.recipientLists);
+
       if (this.get("pagingMode") == "appending" && this.lastPage > 0) {
         this.set("recipientLists", this.get("recipientLists").concat(data.recipientLists));
       } else {
@@ -77,17 +77,6 @@
         this.set("isBusy", false);
         this.pendingRequests = 0;
       }
-    },
-
-    // Since SPEAK doesn't provide possibility to create custom columns formatting, 
-    //   we are forced to implement workarounds to show boolean value as text.
-    processRecipientLists: function (recipientLists) {
-      recipientLists = recipientLists || this.get("recipientLists");
-      _.each(recipientLists, function(list) {
-        list.defaultText = list.default ?
-          sitecore.Resources.Dictionary.translate("ECM.Pages.Recipients.Yes") :
-          '';
-      });
     },
 
     successRecipients: function (data) {

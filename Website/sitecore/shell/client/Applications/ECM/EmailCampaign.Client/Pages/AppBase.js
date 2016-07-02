@@ -2,27 +2,16 @@
   window.exm = window.exm && window.exm.Definitions ? window.exm : { Definitions: {} };
 
   exm.Definitions.AppBase = sitecore.Definitions.App.extend({
-    
-    setControlsProperties: function () {
-      var args = Array.prototype.slice.call(arguments),
-        controlNames;
+    _super: function () {
+      var fn = backbone.Controller.prototype._super.caller, funcName;
 
-      _.each(args, _.bind(function (arg, index) {
-        if ($.type(arg) === 'string' && !(index % 2)) {
-          controlNames = [arg];
-        } else if ($.type(arg) === 'array' && !(index % 2)) {
-          controlNames = arg;
-        } else if ($.type(arg) === 'object' && controlNames) {
-          _.each(controlNames, _.bind(function (controlName) {
-            if (this[controlName]) {
-              _.each(arg, _.bind(function (value, key) {
-                this[controlName].set(key, value);
-              }, this));
-            }
-          }, this));
-          controlNames = null;
+      $.each(this, function (propName, prop) {
+        if (prop == fn) {
+          funcName = propName;
         }
-      }, this));
+      });
+
+      return this.constructor.__super__[funcName].apply(this, _.rest(arguments));
     }
   });
   return exm.Definitions.AppBase;

@@ -20,7 +20,7 @@
       </GridPanel>
  
       <script type="text/javascript">
-        document.getElementById('ConfirmMessage').innerHTML = scForm.getDialogArgumentsForCurrentFrame().message;
+        document.getElementById('ConfirmMessage').innerHTML = scForm.getDialogArguments().message;
       </script>
     </FormDialog>
   </Confirm>

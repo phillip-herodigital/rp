@@ -8,7 +8,6 @@ Inherits="Sitecore.Shell.Applications.MarketingAutomation.Designer.MarketingAuto
   <script type="text/javascript" src="/sitecore/shell/Applications/MarketingAutomation/Scripts/Silverlight.js"></script>
   <script type="text/javascript" src="/sitecore/shell/Applications/MarketingAutomation/Scripts/MarketingAutomation.js"></script>
   <script type="text/javascript" src="/sitecore/shell/Applications/MarketingAutomation/Scripts/Designer.js"></script>
-  <script type="text/javascript" src="/sitecore/shell/Applications/Dialogs/SilverlightNotification/silverlightNotification.js"></script>
 </head>
 <body>
 <form id="form1" runat="server" style="height:100%;">

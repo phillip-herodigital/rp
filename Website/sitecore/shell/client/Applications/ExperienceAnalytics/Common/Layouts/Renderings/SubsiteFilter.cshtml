@@ -1,11 +1,15 @@
-﻿@using Newtonsoft.Json
+﻿@using System.Linq
+@using Newtonsoft.Json
 @using Sitecore.ExperienceAnalytics.Client
+@using Sitecore.ExperienceAnalytics.Client
+@using Sitecore.ExperienceAnalytics.Core
 @using Sitecore.Mvc
+@using Sitecore.Mvc.Presentation
 @using Sitecore.Web.UI.Controls.Common.Renderings
 @using Sitecore.Web.UI.Controls.Common.Texts
 @using Sitecore.Web.UI.Controls.Common.UserControls
-@using UserControl = Sitecore.Web.UI.Controls.Common.UserControls.UserControl
-@model Sitecore.Mvc.Presentation.RenderingModel
+
+@model RenderingModel
 @{
   var rendering = Html.Sitecore().Controls().GetUserControl(Model.Rendering);
 
@@ -24,44 +28,35 @@
 
 @EmbedSubsiteFilter(rendering)
 
-@helper EmbedSubsiteFilter(UserControl rendering)
+@helper EmbedSubsiteFilter(Sitecore.Web.UI.Controls.Common.UserControls.UserControl rendering)
 {
-    var renderingId = rendering.ControlId;
-    var helper = new RenderingHelper(Html, renderingId);
-    List<ComboBoxItem> sites = null;
-    try
-    {       
-        sites = ClientContainer.Repositories.GetSiteDefinitionService().GetSites().Select(siteInfo => new ComboBoxItem
-                                                                                                          {
-                                                                                                              DisplayName = siteInfo.DisplayName,
-                                                                                                              ItemId = siteInfo.ItemId
-                                                                                                          }).ToList();
-    }
-    catch (Exception exception)
-    {
-        ClientContainer.GetLogger().Error("An error occured while rendering sites filter. Exception: " + exception.ToString(), this);
-    }
+  var renderingId = rendering.ControlId;
+  var helper = new RenderingHelper(Html, renderingId);
 
-    helper.MakeBorder("ContentWrapper", renderingId + "DropDownWrapper", contentWrapper =>
-    {
-        helper.MakeRow("TextBorder", contentWrapper, true, textBorder => helper.MakeText("Text", textBorder, Globals.System.Texts.DefineCustomFilter, TextType.Title));
+  
+  var sites = ClientContainer.Repositories.GetSiteDefinitionService().GetSites().Select(siteInfo => new ComboBoxItem
+  {
+    DisplayName = siteInfo.DisplayName,
+    ItemId = siteInfo.ItemId
+  }).ToList();
 
-        helper.MakeRow("ControlsRow", contentWrapper, true, controlsRow =>
-        {
-            helper.MakeComboBox("SubsiteComboBox", controlsRow, sites ?? new List<ComboBoxItem>()
-                                   {
-                                       new ComboBoxItem()
-                                   });
-            helper.MakeButton("SubmitButton", controlsRow, Globals.System.Texts.Apply.Guid.ToString(), "Primary");
-            helper.MakeButton("ResetButton", controlsRow, Globals.System.Texts.RevertFiltersToStandard.Guid.ToString());
-        });
-    }); 
-    
-    // Rendering
-    <div @rendering.HtmlAttributes>
-        @Html.Sitecore().Controls().Rendering(Html, Globals.Bcl.Renderings.Containers.Border, renderingId + "DropDownWrapper", "", new
-                                                {
-                                                    UsePadding = true
-                                                })
-    </div>
+  helper.MakeBorder("ContentWrapper", renderingId + "DropDownWrapper", contentWrapper =>
+  {
+    helper.MakeRow("TextBorder", contentWrapper, true, textBorder => helper.MakeText("Text", textBorder, Globals.System.Texts.DefineCustomFilter, TextType.Title));
+
+    helper.MakeRow("ControlsRow", contentWrapper, true, controlsRow =>
+    {
+      helper.MakeComboBox("SubsiteComboBox", controlsRow, sites);
+      helper.MakeButton("SubmitButton", controlsRow, Globals.System.Texts.Apply.Guid.ToString(), "Primary");
+      helper.MakeButton("ResetButton", controlsRow, Globals.System.Texts.RevertFiltersToStandard.Guid.ToString());
+    });
+  });
+
+  // Rendering
+  <div @rendering.HtmlAttributes>
+      @Html.Sitecore().Controls().Rendering(Html, Globals.Bcl.Renderings.Containers.Border, renderingId + "DropDownWrapper", "", new
+      {
+          UsePadding = true
+      })
+  </div>
 }

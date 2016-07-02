@@ -26,6 +26,7 @@ define(["sitecore", "/-/speak/v1/experienceprofile/CintelUtl.js", "./SocialUtil.
         cintelUtil.setText(that.FacebookCompaniesValue, facebookData.Companies, false);
         cintelUtil.setText(that.FacebookPoliticalValue, facebookData.Political, false);
         cintelUtil.setText(that.FacebookReligionValue, facebookData.Religion, false);
+        cintelUtil.setText(that.FacebookInterestsValue, facebookData.Interests, false);
         cintelUtil.setText(that.FacebookLikesValue, facebookData.Likes, false);
 
       }).fail(function (error) {

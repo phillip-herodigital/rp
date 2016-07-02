@@ -241,8 +241,6 @@ div.container-narrow .sc-globalHeader {
   width: 7em;
   text-align: center;
   margin-top: 0px;
-  padding-top: 10px;
-  font-weight: bold;
 }
 .sc-ribbon .sc-chunk-datepanel .sc-chunk-datepanel-monthyear span {
   float: none;
@@ -317,6 +315,6 @@ div.container-narrow .sc-globalHeader {
   margin-left: 10px;
 }
 
-.sc-simpleCommand, .sc-commandDependency {
+.sc-simpleCommand {
   display: none;
 }

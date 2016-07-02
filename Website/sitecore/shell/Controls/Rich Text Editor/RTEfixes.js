@@ -101,7 +101,7 @@ function fixImageParameters(image, mediaPrefixes) {
     if (!isMediaLink) { return; };
 
     _toQueryParams = function (href) {
-        var result = {};        
+        var result = {};
 
         var search = href.split("?")[1];
 
@@ -116,12 +116,9 @@ function fixImageParameters(image, mediaPrefixes) {
         return result;
     };
 
-    // This code corrects inconsistencies between image sizes set in style attribute, width and height attributes, w and h image parameters.    
+    // This code corrects inconsistencies between image sizes set in style attribute, width and height attributes, w and h image parameters.
     var src = image.getAttribute("src");
-        
-    src = convertToRelativeUrl(src);
-    
-    
+
     var params = _toQueryParams(src);
 
     var n = src.indexOf("?");
@@ -236,22 +233,6 @@ function getRelativeUrl() {
     return result;
 }
 
-function convertToRelativeUrl(url) {
-    if (!url) {
-        return url;
-    }
-    url = decodeURIComponent(url);
-    var index = url.indexOf('~/');
-    var anotherIndex = url.indexOf('-/');
-    if (index > 0) {
-        return url.substring(index);
-    }
-    else if (anotherIndex > 0) {
-        return url.substring(anotherIndex);
-    }
-    return url;
-}
-
 function fixIeObjectTagBug() {
     var objects = Element.select($('Editor_contentIframe').contentWindow.document, 'object');
     var i;
@@ -276,59 +257,67 @@ function fixFirefoxPaste() {
 function removeInlineScriptsInRTE(scRichText) {
     var editor = scRichText.getEditor();
 
-    var content = editor.get_html(true);
-    var html = $sc.parseHTML(content);
+    var content = editor.get_html();
+    var result = content;
+    var parser = new DOMParser();
+    var doc = parser.parseFromString(result, "text/html");
 
-    validateScripts(html);
-    editor.set_html($sc("<p>").append($sc(html).clone()).html());
+    validateScripts(doc.body);
+    result = doc.body.innerHTML;
+    editor.set_html(result);
 }
 
 function validateScripts(el) {
-  if (el) {
-    $sc(el).each(function() {
-      $sc(this).removeAttr('srcdoc');
-      $sc(this).removeAttr('allowscriptaccess');
+    if (el) {
+        el.removeAttribute('srcdoc');
+        el.removeAttribute('allowscriptaccess');
 
-      var elem = $sc(this)[0];
-      if (elem.attributes) {
-        for (var i = 0; i < elem.attributes.length; i++) {
-          var attr = elem.attributes[i];
-          if (attr.name.startsWith('on')
-            || (attr.value.indexOf("javascript") > -1)
-            || (attr.value.indexOf("base64") > -1)) {
-            elem.removeAttribute(attr.name);
-          }
+        for (var i = 0; i < el.attributes.length; i++) {
+            if (el.attributes[i].name.startsWith('on') || (el.attributes[i].value.indexOf("javascript") > -1) || (el.attributes[i].value.indexOf("base64") > -1)) {
+                el.removeAttribute(el.attributes[i].name);
+            }
         }
-      }
 
-      if (elem.childNodes && elem.childNodes.length > 0) {
-        for (var child in elem.childNodes) {
-          /* nodeType == 1 is filter element nodes only */
-          if (elem.childNodes[child].nodeType == 1)
-            validateScripts(elem.childNodes[child]);
+        if (el.childNodes.length > 0) {
+            for (var child in el.childNodes) {
+                /* nodeType == 1 is filter element nodes only */
+                if (el.childNodes[child].nodeType == 1)
+                    validateScripts(el.childNodes[child]);
+            }
         }
-      }
-    });
-  }
-}
-(function () {
-  if (!window.Telerik) return;
-  var $T = Telerik.Web.UI;
-  var Editor = $T.Editor;
-  Editor.UnlinkCommand = function (editor, options) {
-    var settings = {
-      tag: "a",
-      altTags: []
-    };
-    Editor.UnlinkCommand.initializeBase(this, [editor, settings, options]);
-  };
-  Editor.UnlinkCommand.prototype = {
-    getState: function (wnd, editor, range) {
-      var states = Editor.CommandStates;
-      var result = Editor.UnlinkCommand.callBaseMethod(this, "getState", [wnd, editor, range]);
-      return result === states.Off ? states.Disabled : states.Off;
     }
-  };
-  Editor.UnlinkCommand.registerClass("Telerik.Web.UI.Editor.UnlinkCommand", Editor.InlineCommand);
-  Editor.UpdateCommandsArray.Unlink = new Editor.UnlinkCommand();
-})();
+}
+
+function removeInlineScriptsInRTE(scRichText) {
+    var editor = scRichText.getEditor();
+
+    var content = editor.get_html();
+    var result = content;
+    var parser = new DOMParser();
+    var doc = parser.parseFromString(result, "text/html");
+
+    validateScripts(doc.body);
+    result = doc.body.innerHTML;
+    editor.set_html(result);
+}
+
+function validateScripts(el) {
+    if (el) {
+        el.removeAttribute('srcdoc');
+        el.removeAttribute('allowscriptaccess');
+
+        for (var i = 0; i < el.attributes.length; i++) {
+            if (el.attributes[i].name.startsWith('on') || (el.attributes[i].value.indexOf("javascript") > -1) || (el.attributes[i].value.indexOf("base64") > -1)) {
+                el.removeAttribute(el.attributes[i].name);
+            }
+        }
+
+        if (el.childNodes.length > 0) {
+            for (var child in el.childNodes) {
+                /* nodeType == 1 is filter element nodes only */
+                if (el.childNodes[child].nodeType == 1)
+                    validateScripts(el.childNodes[child]);
+            }
+        }
+    }
+}

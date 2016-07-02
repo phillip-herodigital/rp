@@ -34,7 +34,7 @@ protected void descriptionLiteral_PreRender(object sender, EventArgs e)
 <html>
 
 <head>
-    <meta http-equiv="X-Frame-Options" content="SAMEORIGIN">
+
     <title>Unlock Administrator Page</title>
     <link rel="shortcut icon" href="/sitecore/images/favicon.ico" />
     <style type="text/css">

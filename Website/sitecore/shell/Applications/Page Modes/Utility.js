@@ -2,9 +2,7 @@
 if (typeof(Sitecore.PageModes) == "undefined") Sitecore.PageModes = new Object();
 
 Sitecore.PageModes.Utility = new function() {
-  this.isIE = $sc.browser.msie;
-  if (!this.isIE)
-    this.isIE = !!navigator.userAgent.match(/Trident\/7\./); //patch for 420043
+  this.isIE =  $sc.browser.msie;
 
   this.elements = function(object) {
     if (object instanceof $sc) {

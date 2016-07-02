@@ -10,126 +10,123 @@
 
 @media (max-height: 700px) {
   .sc-PathAnalyzerApp .sc-silverlightframe {
-    height: 400px;
+    height: 460px;
   }
 }
 
 @media (min-height: 700px) and (max-height: 725px) {
   .sc-PathAnalyzerApp .sc-silverlightframe {
-    height: 425px;
+    height: 485px;
   }
 }
 
 @media (min-height: 725px) and (max-height: 750px) {
   .sc-PathAnalyzerApp .sc-silverlightframe {
-    height: 450px;
+    height: 510px;
   }
 }
 
 @media (min-height: 750px) and (max-height: 775px) {
   .sc-PathAnalyzerApp .sc-silverlightframe {
-    height: 475px;
+    height: 525px;
   }
 }
 
 @media (min-height: 775px) and (max-height: 800px) {
   .sc-PathAnalyzerApp .sc-silverlightframe {
-    height: 500px;
+    height: 550px;
   }
 }
 
 @media (min-height: 800px) and (max-height: 825px) {
   .sc-PathAnalyzerApp .sc-silverlightframe {
-    height: 525px;
+    height: 575px;
   }
 }
 
 @media (min-height: 825px) and (max-height: 850px) {
   .sc-PathAnalyzerApp .sc-silverlightframe {
-    height: 550px;
+    height: 600px;
   }
 }
 
 @media (min-height: 850px) and (max-height: 875px) {
   .sc-PathAnalyzerApp .sc-silverlightframe {
-    height: 575px;
+    height: 625px;
   }
 }
 
 @media (min-height: 875px) and (max-height: 900px) {
   .sc-PathAnalyzerApp .sc-silverlightframe {
-    height: 600px;
+    height: 650px;
   }
 }
 
 @media (min-height: 900px) and (max-height: 925px) {
   .sc-PathAnalyzerApp .sc-silverlightframe {
-    height: 625px;
+    height: 675px;
   }
 }
 
 @media (min-height: 925px) and (max-height: 950px) {
   .sc-PathAnalyzerApp .sc-silverlightframe {
-    height: 650px;
+    height: 700px;
   }
 }
 
 @media (min-height: 950px) and (max-height: 975px){
   .sc-PathAnalyzerApp .sc-silverlightframe {
-    height: 675px;
+    height: 725px;
   }
 }
 
 @media (min-height: 975px) and (max-height: 1000px){
   .sc-PathAnalyzerApp .sc-silverlightframe {
-    height: 700px;
+    height: 750px;
   }
 }
 
 @media (min-height: 1000px) and (max-height: 1025px){
   .sc-PathAnalyzerApp .sc-silverlightframe {
-    height: 725px;
+    height: 775px;
   }
 }
 
 @media (min-height: 1025px) and (max-height: 1050px){
   .sc-PathAnalyzerApp .sc-silverlightframe {
-    height: 750px;
+    height: 800px;
   }
 }
 
 @media (min-height: 1050px) and (max-height: 1075px){
   .sc-PathAnalyzerApp .sc-silverlightframe {
-    height: 775px;
+    height: 825px;
   }
 }
 
 @media (min-height: 1075px) and (max-height: 1100px){
   .sc-PathAnalyzerApp .sc-silverlightframe {
-    height: 800px;
+    height: 850px;
   }
 }
 
 @media (min-height: 1075px) {
   .sc-PathAnalyzerApp .sc-silverlightframe {
-    height: 825px;
+    height: 875px;
   }
-}
-
-.sc div[data-sc-id="MessageBarBorder"] {
-    padding-top: 3px;
-    padding-bottom: 3px;
 }
 
 .sc div[data-sc-id="AnalyzeItemWindow"] .modal-body.sc-dialogWindow-body {
   padding: 0;
   overflow: hidden !important;
   height: 734px !important;
+  ;
 }
 
   .sc div[data-sc-id="AnalyzeItemWindow"] .modal-body.sc-dialogWindow-body .sc-dialogWindow-buttons {
     display: none;
   }
+
 
 /* MapSelector */
 .sc .sc-MapSelector .sc-border[data-sc-id="MapSelectorFieldsWrapper"] {
@@ -162,35 +159,6 @@
   float: left;
 }
 
-.sc-MapSelector .sc-NodeGroupingOptions {
-  width: 50%;
-  float: right;
-}
-
-  .sc-MapSelector .sc-NodeGroupingOptions .sc-text {
-    display: block;
-    padding-bottom: 15px;
-  }
-
-.sc-MapSelector .sc-PathSignificanceFilter {
-  width: 50%;
-  float: right;
-}
-
-  .sc-MapSelector .sc-PathSignificanceFilter .sc-text-title {
-    display: block;
-    padding-bottom: 15px;
-  }
-
-  .sc-MapSelector .sc-PathSignificanceFilter .sc-filter-options-wrapper {
-
-  }
-
-  .sc-MapSelector .sc-PathSignificanceFilter .sc-radiobutton {
-    display: block;
-    margin-bottom: 5px;
-  }
-
 .sc-MapSelector > .data-sc-registered:last-child {
   clear: both;
 }
@@ -199,6 +167,7 @@
   display: inline-block;
   width: 100%;
   box-sizing: border-box;
+  padding-bottom: 10px;
 }
 
   .sc-MapSelector .sc-radiobutton {
@@ -213,10 +182,6 @@
 
 .sc .sc-filtercontrol .sc-filterControl-panel {
   overflow-y: visible;
-}
-
-/* MessageBar */
-.sc-messageBar .sc-messageBar-messages-wrap .alert:last-child {
 }
 
 div.tooltip,
@@ -421,3 +386,5 @@ div.tooltip,
 .sq11 {
   background-color: #698e57;
 }
+
+

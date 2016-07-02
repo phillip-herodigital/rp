@@ -11,7 +11,7 @@ ngApp.controller('AuthChangePasswordCtrl', ['$scope', '$rootScope', '$http', '$w
 	$scope.changePassword = function() {
 		$http({
 			method  : 'POST',
-			url     : '/api/streamauthentication/changePassword',
+			url     : '/api/authentication/changePassword',
 			data    : $scope.formData,
 			headers : { 'Content-Type': 'application/JSON' } 
 		})

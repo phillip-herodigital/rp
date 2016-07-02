@@ -51,20 +51,14 @@
       this._super();
       this.model.on({
         "change:variants": this.refresh,
-        "change:selectedVariant": this.updateVariant,
-        "change:multivariate": this.onChangeMultivariate
+        "change:selectedVariant": this.updateVariant
       }, this);
 
       this.children.Tabs.on("change:selectedTab", this.onSelectTab, this);
       this.children.MessageVariant.on("modified", function () {
+        this.updateTabs();
         this.model.trigger("modified");
       }, this);
-    },
-
-    onChangeMultivariate: function() {
-      this.children.Tabs.set("isVisible", this.model.get("multivariate"));
-      this.children.AddButton.set("isVisible", this.model.get("multivariate"));
-      this.children.AddButton.set("isEnabled", this.model.get("multivariate"));
     },
 
     onSelectTab: function () {

@@ -4,7 +4,6 @@
 
 <html>
 <head runat="server">
-    <meta http-equiv="X-Frame-Options" content="SAMEORIGIN">
     <title></title>
 </head>
 <body>

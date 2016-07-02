@@ -1,12 +1,12 @@
-﻿define(["sitecore", "/-/speak/v1/ExperienceEditor/ExperienceEditor.js"], function (Sitecore, ExperienceEditor) {
+﻿define(["sitecore"], function (Sitecore) {
   Sitecore.Commands.Screenshots =
   {
     canExecute: function (context) {
       return true;
     },
     execute: function (context) {
-      ExperienceEditor.PipelinesUtil.generateRequestProcessor("ExperienceEditor.GetScreenShotUrl", function (response) {
-        ExperienceEditor.Dialogs.showModalDialog(response.responseValue.value);
+      Sitecore.ExperienceEditor.PipelinesUtil.generateRequestProcessor("ExperienceEditor.GetScreenShotUrl", function (response) {
+        Sitecore.ExperienceEditor.Dialogs.showModalDialog(response.responseValue.value);
       }).execute(context);
     }
   };

@@ -21,7 +21,7 @@ ngApp.controller('AuthResetPasswordCtrl', ['$scope', '$rootScope', '$http', '$wi
         $scope.getUserError = false;
         $http({
             method  : 'POST',
-            url     : '/api/streamauthentication/getUserChallengeQuestions',
+            url     : '/api/authentication/getUserChallengeQuestions',
             data    : $scope.formData,
             headers : { 'Content-Type': 'application/JSON' } 
         })
@@ -47,7 +47,7 @@ ngApp.controller('AuthResetPasswordCtrl', ['$scope', '$rootScope', '$http', '$wi
         $scope.sendResetError = false;
         $http({
             method  : 'POST',
-            url     : '/api/streamauthentication/verifyUserChallengeQuestions',
+            url     : '/api/authentication/verifyUserChallengeQuestions',
             data    : $scope.formData,
             headers : { 'Content-Type': 'application/JSON' } 
         })
@@ -70,7 +70,7 @@ ngApp.controller('AuthResetPasswordCtrl', ['$scope', '$rootScope', '$http', '$wi
         $scope.isLoading = true;
         $http({
             method: 'POST',
-            url: '/api/streamauthentication/sendResetPasswordEmail',
+            url: '/api/authentication/sendResetPasswordEmail',
             headers: { 'Content-Type': 'application/JSON' }
         })
             .success(function (data, status, headers, config) {
@@ -91,7 +91,7 @@ ngApp.controller('AuthResetPasswordCtrl', ['$scope', '$rootScope', '$http', '$wi
         $scope.isLoading = true;
         $http({
             method  : 'POST',
-            url     : '/api/streamauthentication/changePassword',
+            url     : '/api/authentication/changePassword',
             data    : $scope.formData,
             headers : { 'Content-Type': 'application/JSON' } 
         })

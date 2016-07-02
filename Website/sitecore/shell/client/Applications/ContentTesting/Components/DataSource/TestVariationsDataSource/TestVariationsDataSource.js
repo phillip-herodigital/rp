@@ -1,35 +1,19 @@
 ﻿define([
     "sitecore",
-    "/-/speak/v1/contenttesting/RequestUtil.js",
-    "/-/speak/v1/ExperienceEditor/ExperienceEditorProxy.js"
-], function (Sitecore, requestUtil, PageEditorProxy) {
-  var actionUrl = "/sitecore/shell/api/ct/TestVariables/GetTestVariableVariations";
-
+    "/-/speak/v1/contenttesting/RequestUtil.js"],
+  function (Sitecore, requestUtil) {
   var model = Sitecore.Definitions.Models.ControlModel.extend({
-    initialize: function () {
+    initialize: function (options) {
       this._super();
 
-      var params = Sitecore.Helpers.url.getQueryParameters(window.location.href);
-      var uri = params.uri;
-
-      this.set({
-        itemuri: uri,
-        items: []
-      });
-
+      var uri = this.getQueryVariable("uri");
+      this.set("itemuri", uri);
       this.on("change:testid", this.getTestVariations, this);
     },
 
     getTestVariations: function () {
-      var deviceId = PageEditorProxy.deviceId() || "";
-      var url = Sitecore.Helpers.url.addQueryParameters(actionUrl, {
-        itemUri: this.get("itemuri"),
-        deviceId: deviceId,
-        testid: this.get("testid")
-      });
-
       var ajaxOptions = {
-        url: url,
+        url: "/sitecore/shell/api/ct/TestVariables/GetTestVariableVariations?itemuri=" + this.get("itemuri") + "&testid=" + this.get("testid"),
         context: this,
         cache: false,
         success: function(data) {
@@ -38,11 +22,26 @@
       };
 
       requestUtil.performRequest(ajaxOptions);
+    },
+
+    getQueryVariable: function (variable) {
+      var query = window.location.search.substring(1);
+      var vars = query.split('&');
+
+      for (var i = 0; i < vars.length; i++) {
+        var pair = vars[i].split('=');
+
+        if (decodeURIComponent(pair[0]) === variable) {
+          return pair[1];
+        }
+      }
+
+      return null;
     }
   });
 
   var view = Sitecore.Definitions.Views.ControlView.extend({
-    initialize: function () {
+    initialize: function (options) {
       this._super();
     }
   });

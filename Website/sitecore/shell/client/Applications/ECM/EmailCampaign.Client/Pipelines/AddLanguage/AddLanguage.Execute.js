@@ -1,13 +1,14 @@
-﻿define(["sitecore", "/-/speak/v1/ecm/ServerRequest.js"], function (sitecore, ServerRequest) {
+﻿define(["sitecore", "/-/speak/v1/ecm/ServerRequest.js", "/-/speak/v1/ecm/String.js"], function (sitecore) {
   return {
     priority: 1,
     execute: function (context) {
       var requestName = "EXM/AddLanguage";
-      
-      ServerRequest(requestName, {
-        data: { messageId: context.currentContext.messageId, language: context.currentContext.language, newLanguage: context.currentContext.newLanguage },
-        success: function (response) {
+      postServerRequest(requestName, { messageId: context.currentContext.messageId, language: context.currentContext.language, newLanguage: context.currentContext.newLanguage },
+        function (response) {
+          context.currentContext.messageBar.removeMessage(function (error) { return error.id === "error." + requestName; });
           if (response.error) {
+            var messagetoAddError = { id: "error." + requestName, text: response.errorMessage, actions: [], closable: true };
+            context.currentContext.messageBar.addMessage("error", messagetoAddError);
             context.aborted = true;
             return;
           }
@@ -27,10 +28,7 @@
             context.currentContext.messageBar.addMessage("notification", messagetoAdd);
           });
           context.currentContext.languageAdded = true;
-        },
-        async: false
-      });
-
+        }, false);
     }
   };
 });

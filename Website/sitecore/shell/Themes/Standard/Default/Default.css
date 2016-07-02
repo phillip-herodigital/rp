@@ -1917,15 +1917,6 @@ a.scHyperlinkButton {
   right: 0;
 }
 
-.scStretchAbsolute .scTreeviewContainerLayout {
-	position: relative;
-}
-
-.scStretchAbsolute .scTreeviewContainerLayout .scTreeviewInnerLayout {
-	position: absolute;
-	width: 100%;
-}
-
 .scMarginAbsolute {
     top: 15px;
     right: 15px;
@@ -2695,32 +2686,26 @@ input[type="text"][readonly].scComboboxEdit {
 
 .scContentControlLayoutDevice {
   margin: 10px 0;
-  white-space: nowrap;
 }
 
 .scContentControlLayoutDevice_Active {
   background: #e9e9e9;
-  white-space: nowrap;
 }
 
 .scContentControlLayoutDeviceName {
-  padding: 5px 0px;
+  padding: 5px;
+  width: 40px;
   white-space: normal;
-  overflow: hidden;
-  text-align: center;
   text-overflow: ellipsis;
-  display:inline-block;
-  width:15%;
-  min-width:65px;
-  vertical-align: top;
+  overflow: hidden;
+}
+
+.scContentControlLayoutDeviceName span {
+    white-space: nowrap;
 }
 
 .scContentControlLayoutDeviceRenderings {
   padding: 5px 10px;
-  display:inline-block;
-  width:85%;
-  min-width: 330px;
-  box-sizing: border-box;
 }
 
 .scTabstripContainer {
@@ -3558,7 +3543,6 @@ form[lang|='ja'] *,
 
   .scListControl > thead img {
       margin-left: 5px;
-      vertical-align: middle;
   }
 
   .scListControl > tbody > tr:nth-child(odd) {
@@ -3576,7 +3560,6 @@ form[lang|='ja'] *,
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
-    text-align: left;
   }
 
   .scListControl > thead th,

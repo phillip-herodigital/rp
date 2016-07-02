@@ -41,17 +41,17 @@
                      { "AccountName", newAccountName }
                    });
             
+               // to get AccessToken without expiration
+               accountDataRequest.Permissions.Add("offline_access", string.Empty);
+            
                // to grant publish on the wall
                accountDataRequest.Permissions.Add("publish_actions", string.Empty);
             
                // to retrieve user pages accessTokens
                accountDataRequest.Permissions.Add("manage_pages", string.Empty);
-             
-               // to grant publish on the Pages
-               accountDataRequest.Permissions.Add("publish_pages", string.Empty);
             
                // to get message statistics
-               accountDataRequest.Permissions.Add("user_posts", string.Empty);
+               accountDataRequest.Permissions.Add("read_stream", string.Empty);
             
                accountClientManager.BeginGetAccountCredentials(accountDataRequest);
              }

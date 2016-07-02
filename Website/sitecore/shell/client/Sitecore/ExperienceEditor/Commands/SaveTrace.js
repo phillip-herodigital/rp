@@ -1,15 +1,15 @@
-﻿define(["sitecore", "/-/speak/v1/ExperienceEditor/ExperienceEditor.js"], function (Sitecore, ExperienceEditor) {
+﻿define(["sitecore"], function (Sitecore) {
   Sitecore.Commands.SaveTrace =
   {
     canExecute: function (context) {
-      var isTracing = ExperienceEditor.isDebugging() && ExperienceEditor.Web.getUrlQueryStringValue("sc_trace") == "1";
-      return ExperienceEditor.canToggleDebug() && isTracing;
+      var isTracing = Sitecore.ExperienceEditor.isDebugging() && Sitecore.ExperienceEditor.Web.getUrlQueryStringValue("sc_trace") == "1";
+      return Sitecore.ExperienceEditor.canToggleDebug() && isTracing;
     },
     execute: function (context) {
-      context.currentContext.value = ExperienceEditor.Web.getUrlQueryStringValue("sc_trf");
+      context.currentContext.value = Sitecore.ExperienceEditor.Web.getUrlQueryStringValue("sc_trf");
       context.app.disableButtonClickEvents();
-      ExperienceEditor.PipelinesUtil.executePipeline(context.app.SaveDebugTrace, function () {
-        ExperienceEditor.PipelinesUtil.executeProcessors(Sitecore.Pipelines.SaveDebugTrace, context);
+      Sitecore.ExperienceEditor.PipelinesUtil.executePipeline(context.app.SaveDebugTrace, function () {
+        Sitecore.ExperienceEditor.PipelinesUtil.executeProcessors(Sitecore.Pipelines.SaveDebugTrace, context);
       });
       context.app.enableButtonClickEvents();
     }

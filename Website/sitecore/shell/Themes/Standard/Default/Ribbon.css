@@ -69,7 +69,6 @@ bottom: 0px;
 background-image:url(/sitecore/shell/themes/standard/images/ribbon_collapser.png);
 background-repeat:no-repeat;
 background-position:center;
-z-index: 99999;
 }
 
 
@@ -900,8 +899,7 @@ a:hover .scRibbonToolbarSmallButtonPrefix {
   overflow: hidden;
   display: inline-block;
   white-space:nowrap;
-  min-height: 15px; 
-  width: 155px;
+  min-height: 15px;
 }
 
 /* Japanese language support */
@@ -1048,9 +1046,3 @@ a.scRibbonToolbarSmallButtonDown,
         background-color: #E3E3E3;
         color: #131313;
     }
-
-.scRibbonToolbarSmallButtonWrapper {
-    width: 120px;
-    overflow: hidden;
-}
-

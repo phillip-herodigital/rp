@@ -12,7 +12,6 @@
   xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
   <Sitecore.Shell.Applications.Archives.RecycleBin x:inherits="Sitecore.Shell.Applications.Archives.RecycleBin.RecycleBinPage,Sitecore.Client">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <Favicon Src="/sitecore/images/favicon.ico" runat="server" />
     <Sitecore.Controls.HtmlPage runat="server" Title="Recycle Bin">
       <x:register assembly="ComponentArt.Web.UI" namespace="ComponentArt.Web.UI"/>

@@ -20,6 +20,8 @@ function OnClientLoad(editor) {
   scOldValue = editor.get_html(true);
   scReady = true;
 
+  scFitEditor();
+
   if (isIE7()) {
     scFixToolbars(editor);
   }

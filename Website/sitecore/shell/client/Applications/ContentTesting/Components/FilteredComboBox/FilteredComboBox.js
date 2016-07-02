@@ -1,4 +1,25 @@
-﻿
+﻿//var host = "../../";
+
+//require.config({
+//  paths: {
+
+//    jquery: host + "/Speak/Assets/lib/core/1.1/deps/jQuery/jquery-2.1.1",
+//    jqueryui: host + "/Speak/Assets/lib/ui/1.1/deps/jQueryUI/jquery-ui-1.10.1.custom",
+//    underscore: host + "/Speak/Assets/lib/core/1.1/deps/underscore/underscore.1.4.4",
+//    knockout: host + "//Speak/Assets/lib/core/1.1/deps/ko/knockout-2.2.1",
+//    backbone: host + "//Speak/Assets/lib/core/1.1/deps/backbone/backbone.1.0.0",
+//    sitecore: host + "//Speak/Assets/lib/core/1.1/sitecore-1.0.2",
+//  },
+//  shim: {
+//    'jquery': { exports: 'jQuery' },
+//    'jqueryui': { deps: ['jquery'] },
+//    'underscore': { exports: '_' },
+//    'knockout': { deps: ['underscore'], exports: 'ko' },
+//    'backbone': { deps: ['jquery', 'underscore'], exports: 'Backbone' },
+//    'sitecore': { deps: ['backbone', 'knockout'], exports: 'Sitecore.Speak' },
+//  },
+//});
+
 define(["sitecore"], function (_sc) {
 
   // model
@@ -63,8 +84,6 @@ define(["sitecore"], function (_sc) {
       'ESC': 27
     },
 
-    localizationKeys: null,
-
     // timer 
     timer: -1,
 
@@ -104,7 +123,11 @@ define(["sitecore"], function (_sc) {
       
       var searchButton = this.$el.find(".scFiltList-dvSearch");
       searchButton.click(function(){
-        self.model.set({ "searchTerm": self.filteredText, "page": 1 });
+        var term = self.$el.find(".scFiltList-inputSearch").val().toLowerCase();
+        if (term !== hintText.toLowerCase())
+        {
+          self.model.set({"searchTerm": term, "page":1});
+        }
       });
       
 
@@ -190,15 +213,8 @@ define(["sitecore"], function (_sc) {
 
     // testing options for unit-tests
     setTestingOptions: function (options) {
-      if (!options)
-        return;
-
-      if(options.$el)
-        this.$el = options.$el;
-      if(options.model)
-        this.model = options.model;
-      if(options.texts)
-        this.localizationKeys = options.texts;
+      this.$el = options.$el;
+      this.model = options.model;
     },
 
     // isEnabled
@@ -224,14 +240,14 @@ define(["sitecore"], function (_sc) {
       this.itemsSortDesc.sort(this.sortDesc);
 
       // launching timer: for filtering and sorting
-      if (this.timer > 0)
+      /*if (this.timer > 0)
         clearInterval(this.timer);
-      var intervalPeriod = 400;
+      var intervalPeriod = 200;
       if (this.items.length > 1000)
         intervalPeriod = 1000;
       this.timer = setInterval(function () {
         self.timerHandle();
-      }, intervalPeriod);
+      }, intervalPeriod);*/
 
       // renreding
       this.renderComponent();
@@ -246,9 +262,7 @@ define(["sitecore"], function (_sc) {
 
       if (newFilteredText !== self.filteredText && newFilteredText !== hint.toLowerCase()) {
         self.filteredText = newFilteredText;
-        //self.renderComponent();
-
-        self.model.set({ "searchTerm": self.filteredText, "page": 1 });
+        self.renderComponent();
       }
       else if (self.isSortChanged) {
         self.isSortChanged = false;
@@ -361,17 +375,7 @@ define(["sitecore"], function (_sc) {
         totalPages = 1;
       }
       var page = this.model.get("page");
-      var stPage;
-      if(this.localizationKeys)
-        stPage = this.localizationKeys.get("Page");
-      if (!stPage || stPage === "")
-        stPage = "Page";
-      var stOf;
-      if(this.localizationKeys)
-        stOf = this.localizationKeys.get("of");
-      if (!stOf || stOf === "")
-        stOf = "of";
-      var result = stPage + " " + page + " " + stOf + " " + totalPages;
+      var result = "page " + page + " of " + totalPages;
       var resultDiv = $("<div class='scFiltList-dvPageCount'></div>");
       resultDiv.append(result);
       container.append(resultDiv);

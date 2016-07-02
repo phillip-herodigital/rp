@@ -1,6 +1,6 @@
 ﻿@using Sitecore
 @using Sitecore.Mvc
-@using Sitecore.PathAnalyzer.Client.Sitecore.Shell.Client.Applications.PathAnalyzer.Common.Layouts.Renderings.MapSelector
+@using Sitecore.PathAnalyzer.Client.Sitecore.Shell.Client.Applications.PathAnalyzer
 @using Sitecore.PathAnalyzer.Localization
 @using Sitecore.PathAnalyzer.Client.Sitecore.Shell.Client.Applications.PathAnalyzer.Common.Layouts.Renderings.Shared
 @using Sitecore.Web.UI.Controls.Common.Renderings
@@ -22,14 +22,10 @@
     var renderingId = rendering.ControlId;
     var helper = new RenderingHelper(Html, renderingId);
 
-    var parametersHelper = new MapSelectorHelper(Model.Rendering.Item);
-
-    var dates = parametersHelper.GetSelectedDateRange();
+    var dates = rendering.GetDateRangeParameters();
     var initialStartDate = DateUtil.ToIsoDate(dates.Item1);
-    var initialEndDate = DateUtil.ToIsoDate(dates.Item2);
-    var datePreset = parametersHelper.GetSelectedDatePreset();
-    var selectedTreeDefinitionId = parametersHelper.GetSelectedTreeDefinitionId();
-    var mapRootId = parametersHelper.GetMapRootId();
+    var initialEndDate =  DateUtil.ToIsoDate(dates.Item2);
+    var datePreset = rendering.GetString("Default Date Preset");
 
     helper.MakeBorder("ContentWrapper", renderingId + "BarWrapper", contentWrapper =>
         helper.MakeRow("RowPanel", contentWrapper, false, rowPanel =>
@@ -38,11 +34,9 @@
                 {
                     helper.MakeBorder("FieldsWrapper", filterToggleButton, fieldsWrapper =>
                     {
-                        helper.MakeTreeDefinition("TreeDefinitionFilter", fieldsWrapper, selectedTreeDefinitionId.ToString(), mapRootId.ToString());
+                        helper.MakeTreeDefintion("TreeDefinitionFilter", fieldsWrapper, rendering.GetString("Default Tree Definition"), rendering.GetString("Default Map Root"));
 
                         helper.MakeDateRange("DateRangeFilter", fieldsWrapper, true, initialStartDate, initialEndDate, datePreset);
-
-                        helper.MakeBorder("NodeGroupingOptionsWrapper", fieldsWrapper, s => {});
                     });
 
                     helper.MakeBorder("ButtonWrapper", filterToggleButton, buttonWrapper =>

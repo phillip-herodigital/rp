@@ -76,10 +76,10 @@
   color: #ca241c;
 }
 
-  height: 100%;
 .scItemSecurityEditorAccounts {
+  overflow: hidden;
 }
 
 #Inheritance {
-  height: 70px;
+  height: 40px;
 }

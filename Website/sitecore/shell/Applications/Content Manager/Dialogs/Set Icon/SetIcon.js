@@ -29,12 +29,9 @@ function scClick(element, evt) {
     src = src.substr(32);
   }
   
-  n = src.indexOf(scForm.Settings.Icons.CacheFolder);
+  n = src.indexOf("/temp/IconCache/");
   if (n >= 0) {
-    src = src.substr(n + scForm.Settings.Icons.CacheFolder.length);
-    if (src[0] === '/') {
-      src = src.substring(1);
-    }
+    src = src.substr(n + 16);
   }
   
   if (src.substr(src.length - 5, 5) == ".aspx") {

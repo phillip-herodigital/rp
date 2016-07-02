@@ -71,12 +71,6 @@
 .sc-ExperienceAnalyticsFilters .sc-DateRangeFilter [data-sc-id$="FromDatePickerLeftColumn"],
 .sc-ExperienceAnalyticsFilters .sc-DateRangeFilter [data-sc-id$="ToDatePickerLeftColumn"] {
   line-height: 28px;
-  white-space: nowrap;
-}
-
-.sc-ExperienceAnalyticsFilters .sc-DateRangeFilter [data-sc-id$="ExperienceAnalyticsFiltersDateRangeFilterFromDatePickerRightColumn"],
-.sc-ExperienceAnalyticsFilters .sc-DateRangeFilter [data-sc-id$="ExperienceAnalyticsFiltersDateRangeFilterToDatePickerRightColumn"] {
-  padding-left: 25px;
 }
 
 .sc-ExperienceAnalyticsFilters .sc-DateRangeFilter [data-sc-id$="FromDatePickerRow"] {
@@ -162,39 +156,24 @@
   margin-bottom: 18px;
 }
 
-.sc-ExperienceAnalyticsListControl .sc-advancedExpander-header {
-  border-bottom: 1px solid #f0f0f0;
-}
-
-
-.sc-ChartComposites .sc-advancedExpander .sc-advancedExpander-header > table .sc-advancedExpander-header-title,
-.sc-ExperienceAnalyticsListControl .sc-advancedExpander .sc-advancedExpander-header > table .sc-advancedExpander-header-title {
+.sc-ChartComposites .sc-advancedExpander .sc-advancedExpander-header > table .sc-advancedExpander-header-title {
   color: #474747;
   padding-left: 15px;
   font-size: 1.5em;
   font-weight: normal;
 }
 
-.sc-ExperienceAnalyticsListControl.noTitle .sc-advancedExpander .sc-advancedExpander-header {
-  display: none;
-}
-
 .sc-ChartComposites .sc-advancedExpander.open .sc-advancedExpander-header,
-.sc-ChartComposites .sc-advancedExpander .sc-advancedExpander-header,
-.sc-ExperienceAnalyticsListControl .sc-advancedExpander.open .sc-advancedExpander-header,
-.sc-ExperienceAnalyticsListControl .sc-advancedExpander .sc-advancedExpander-header {
+.sc-ChartComposites .sc-advancedExpander .sc-advancedExpander-header {
   border-left: none;
 }
 
 .sc-ChartComposites .sc-advancedExpander.open .sc-advancedExpander-header > table,
-.sc-ChartComposites .sc-advancedExpander .sc-advancedExpander-header > table,
-.sc-ExperienceAnalyticsListControl .sc-advancedExpander.open .sc-advancedExpander-header > table,
-.sc-ExperienceAnalyticsListControl .sc-advancedExpander .sc-advancedExpander-header > table {
+.sc-ChartComposites .sc-advancedExpander .sc-advancedExpander-header > table {
   background: #FFF;
 }
 
-.sc-ChartComposites .sc-advancedExpander-body,
-.sc-ExperienceAnalyticsListControl .sc-advancedExpander-body {
+.sc-ChartComposites .sc-advancedExpander-body {
   border: none;
   background: #FFF;
 }
@@ -210,9 +189,4 @@
 /* List control specific */
 .sc-ExperienceAnalyticsListControl[data-sc-targetpageurl] tbody tr {
   cursor: pointer;
-}
-
-.sc-ExperienceAnalyticsListControl .sc-advancedExpander, 
-.sc-ExperienceAnalyticsListControl .sc-advancedExpander .sc-advancedExpander-body {
-  background: none;
 }

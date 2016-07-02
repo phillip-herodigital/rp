@@ -3,27 +3,21 @@
   "/-/speak/v1/contenttesting/DataUtil.js",
   "/-/speak/v1/contenttesting/RequestUtil.js"
 ], function (Sitecore, dataUtil, requestUtil) {
-  var actionUrl = "/sitecore/shell/api/ct/TestResults/GetExperiencesPerformance";
-
   var model = Sitecore.Definitions.Models.ControlModel.extend({
-    initialize: function () {
+    initialize: function (options) {
       this._super();
 
-      var params = Sitecore.Helpers.url.getQueryParameters(window.location.href);
-      var device = params.deviceId == undefined ? '' : params.deviceId;
+      this.set("actionUrl", "/sitecore/shell/api/ct/TestResults/GetExperiencesPerformance");
 
-      this.set({
-        itemId: null,
-        languageName: "",
-        version: 0,
-        device: device,
-        pageSize: 50,
-        isBusy: false,
-        hasMore: false,
-        items: []
-      });
+      this.set("itemId", null);
+      this.set("languageName", "");
+      this.set("version", 0);
+      this.set("pageSize", 50);
+      this.set("isBusy", false);
+      this.set("hasMore", false);
+      this.set("items", []);
 
-      this.on("change:itemId change:languageName change:version change:pageSize change:device", this.refresh, this);
+      this.on("change:itemId change:languageName change:version change:pageSize", this.refresh, this);
     },
 
     refresh: function () {
@@ -31,6 +25,7 @@
       if (this.get("isBusy"))
         return;
 
+      this.set("items", []);
       this.fetch();
     },
 
@@ -56,11 +51,7 @@
 
       this.set("isBusy", true);
 
-      var url = Sitecore.Helpers.url.addQueryParameters(actionUrl, {
-        itemdatauri: uri,
-        count: count,
-        deviceId: this.get("device")
-      });
+      var url = this.get("actionUrl") + "?itemuri=" + encodeURIComponent(uri) + "&count=" + count;
 
       var ajaxOptions = {
         cache: false,

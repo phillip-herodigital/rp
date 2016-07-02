@@ -78,14 +78,22 @@
   {
     display: none;
     position: absolute;
-    right: 0;
-    top: -22px;
-    background: #e3e3e3;
-    padding: 3px 15px 0 0;
-    border: solid rgb(205, 205, 205) 1px;
-    border-right: none;
-    border-bottom: none;
+    float: none !important;
+    right: 4px;
+    top: 9px;
   }
+
+    .scLine div p
+    {
+        margin: 0;
+        padding: 0;
+        width: 65px;
+        display: inline-block;
+        background: linear-gradient(to right, rgba(255, 0, 0, 0), #e3e3e3);
+        filter: progid:DXImageTransform.Microsoft.gradient(startColorStr=#00e3e3e3, endColorStr=#e3e3e3, GradientType=1);
+        height: 14px;
+        vertical-align: top;
+    }
 
 .ie .scLine div
 {
@@ -106,19 +114,7 @@
 {
   color: #666666;
   background: #e3e3e3;
-  padding-left: 15px;
-}
-
-.scLineButton img 
-{
-  height:16px;
-  width:16px;
-}
-
-.scLineButton:hover 
-{
-  -ms-opacity: 0.6;
-  opacity: 0.6;
+  padding-left: 7px;
 }
 
 .scAction

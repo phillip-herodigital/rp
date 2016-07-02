@@ -1,11 +1,9 @@
 ﻿require.config({
-  baseUrl: "/sitecore/shell/client/Applications/ContentTesting/Common/lib",
-  ExpectedChangeCtrl: "/-/speak/v1/contenttesting/ExpectedChangeCtrl.js",
-  ConfidenceLevelCtrl: "/-/speak/v1/contenttesting/ConfidenceLevelCtrl.js",
+  baseUrl: '/sitecore/shell/client/Applications/ContentTesting/Common/lib'
 });
 
-define(["sitecore", "BindingUtil", "DataUtil", "RequestUtil", "ExpectedChangeCtrl", "ConfidenceLevelCtrl"], function (_sc, bindingUtil, dataUtil, requestUtil, expectedChangeCtrl, confidenceLevelCtrl) {
-  var trailingValueVisitGUID = "{00000000-0000-0000-0000-000000000000}";
+define(["sitecore", "BindingUtil", "DataUtil", "RequestUtil"], function (_sc, bindingUtil, dataUtil, requestUtil) {
+  var trailingValueVisitGUID = '{00000000-0000-0000-0000-000000000000}';
 
   return {
     ReviewTest: function (options) {
@@ -21,21 +19,7 @@ define(["sitecore", "BindingUtil", "DataUtil", "RequestUtil", "ExpectedChangeCtr
           this._host.on("change:" + this._testItemsProperty, this.validateTest, this);
           this._host.on("change:" + this._testItemUriProperty, this.updateCarouselItems, this);
 
-          // Expectation
-          if (expectedChangeCtrl) {
-            this.expectedChangeCtrl = expectedChangeCtrl;
-            this._host.expectedChangeCtrl = expectedChangeCtrl;
-            expectedChangeCtrl.initElements(this._host);
-          }            
-
-          // Confidence level
-          if (confidenceLevelCtrl) {
-            this.confidenceLevelCtrl = confidenceLevelCtrl;
-            this._host.confidenceLevelCtrl = confidenceLevelCtrl;
-            confidenceLevelCtrl.initElements(this._host);
-          }            
-
-
+          this._host.ExpectationSlider.set("selectedValue", 0);
           this._host.CarouselImage.set("imageDescriptionHandler", this.createThumbnailDescription);
           this.validateTest();
 
@@ -56,74 +40,109 @@ define(["sitecore", "BindingUtil", "DataUtil", "RequestUtil", "ExpectedChangeCtr
 
             this._host.TestDurationDataSource.on("change:experienceCount change:viewsPerDay change:expectedDays change:requiredVisits", this.updateMessageBar, this);
 
-            // Set default values for the controls
-            dataUtil.setDefaultsParameters(this._host);
+            if (this._host.ConfidenceLevelSelect) {
+              this._host.ConfidenceLevelSelect.on("change:selectedValue", bindingUtil.propagateChange, {
+                source: this._host.ConfidenceLevelSelect,
+                sourceProp: "selectedValue",
+                target: this._host.TestDurationDataSource,
+                targetProp: "confidence"
+              });
+            } else {
+              this._host.TestDurationDataSource.set("confidence", this._host.StatisticsSettingsDictionary.get("ContentTesting.DefaultConfidenceLevel"));
+            }
+            
+            if (this._host.TrafficAllocationSlider) {
+              this._host.TrafficAllocationSlider.on("change:selectedValue", bindingUtil.propagateChange, {
+                source: this._host.TrafficAllocationSlider,
+                sourceProp: "selectedValue",
+                target: this._host.TestDurationDataSource,
+                targetProp: "trafficAllocation"
+              });
+            } else {
+              this._host.TestDurationDataSource.set("trafficAllocation", 100);
+            }
           }
 
           // Close preview accordion until test pages are added
           this._host.PreviewAccordion.set("isOpen", false);
 
-          // loadOptions
-          if (this._loadOptions) {
-            // Confidence level
-            var value = this._loadOptions.ConfidenceLevel.toString();
-            if (confidenceLevelCtrl)
-              confidenceLevelCtrl.setConfidenceLevel(value);
-
-            // MaxDuration
-            value = this._loadOptions.MaxDuration;
-            this._host.MaximumSelect.set("selectedValue", value);
-
-            // MinDuration
-            value = this._loadOptions.MinDuration;
-            this._host.MinimumSelect.set("selectedValue", value);
-
-            // SelectWinnerStrategy
-            if (this._loadOptions.SelectWinnerStrategy) {
-              var winnerStrategy = this._loadOptions.SelectWinnerStrategy.toLowerCase();
-              if (winnerStrategy[0] !== "{") {
-                winnerStrategy = "{" + winnerStrategy + "}";
+          // Set default droplist values but wait until they are loaded. Only set if value hasn't already been set due to loading of test
+          // Composite may be missing due to security
+          if (this._host.ConfidenceLevelSelect) {
+            this._host.ConfidenceLevelSelect.on("change:items", function () {
+              var value = this._host.StatisticsSettingsDictionary.get("ContentTesting.DefaultConfidenceLevel");
+              if (this._loadOptions) {
+                value = this._loadOptions.ConfidenceLevel.toString();
               }
-
-              if (winnerStrategy === this._host.WinnerAutoSelect.get("value").toLowerCase()) {
-                this._host.WinnerAutoSelect.check();
-              }
-
-              if (winnerStrategy === this._host.WinnerAutoSelectUnless.get("value").toLowerCase()) {
-                this._host.WinnerAutoSelectUnless.check();
-              }
-
-              if (winnerStrategy === this._host.WinnerManualSelect.get("value").toLowerCase()) {
-                this._host.WinnerManualSelect.check();
-              }
-            }
+              this._host.ConfidenceLevelSelect.set("selectedValue", value);
+            }, this);
           }
 
-          // ObjectiveList
+          // Composite may be missing due to security
+          if (this._host.MaximumSelect) {
+            this._host.MaximumSelect.on("change:items", function () {
+              var value = this._host.SchedulingSettingsDictionary.get("ContentTesting.MaximumContentTestDuration");
+              if (this._loadOptions) {
+                value = this._loadOptions.MaxDuration;
+              }
+              this._host.MaximumSelect.set("selectedValue", value);
+            }, this);
+          }
+
+          // Composite may be missing due to security
+          if (this._host.MinimumSelect) {
+            this._host.MinimumSelect.on("change:items", function () {
+              var value = this._host.SchedulingSettingsDictionary.get("ContentTesting.MinimumDuration");
+              if (this._loadOptions) {
+                value = this._loadOptions.MinDuration;
+              }
+              this._host.MinimumSelect.set("selectedValue", value);
+            }, this);
+          }
+
           if (this._host.ObjectiveList) {
             this._host.ObjectiveList.on("change:items", function () {
               // set default
               this._host.ObjectiveList.set("selectedGuid", trailingValueVisitGUID);
               if (this._loadOptions && this._loadOptions.GoalId) {
                 var value = this._loadOptions.GoalId;
-                if (value[0] !== "{") {
+                if (value[0] != "{") {
                   value = "{" + value + "}";
                 }
                 // need the previous 'set' call so we change the value and the change event is fired
                 this._host.ObjectiveList.set("selectedGuid", value);
               }
             }, this);
+          }
 
-            this._host.ObjectiveList.on("change:selectedItem", this.updateTestObjectiveUI, this);
+          if (this._host.TrafficAllocationSlider) {
+            this._host.TrafficAllocationSlider.set("selectedValue", 100);            
+          }
+
+          if (this._loadOptions && this._loadOptions.SelectWinnerStrategy) {
+            var winnerStrategy = this._loadOptions.SelectWinnerStrategy.toLowerCase();
+            if (winnerStrategy[0] != "{") {
+              winnerStrategy = "{" + winnerStrategy + "}";
+            }
+
+            if (winnerStrategy == this._host.WinnerAutoSelect.get("value").toLowerCase()) {
+              this._host.WinnerAutoSelect.check();
+            }
+
+            if (winnerStrategy == this._host.WinnerAutoSelectUnless.get("value").toLowerCase()) {
+              this._host.WinnerAutoSelectUnless.check();
+            }
+
+            if (winnerStrategy == this._host.WinnerManualSelect.get("value").toLowerCase()) {
+              this._host.WinnerManualSelect.check();
+            }
           }
         },
 
         loadTest: function (options) {
           // Load may occur before items populate, so store the options so defaults can be set when items are populated into controls.
           this._loadOptions = options;
-          var expectation = parseInt(options.Expectation);
-          if(expectedChangeCtrl)
-            expectedChangeCtrl.setExpectation(expectation);
+          this._host.ExpectationSlider.set("selectedValue", options.Expectation);
 
           if (this._host.TrafficAllocationSlider) {
             this._host.TrafficAllocationSlider.set("selectedValue", options.TrafficAllocation);
@@ -132,32 +151,32 @@ define(["sitecore", "BindingUtil", "DataUtil", "RequestUtil", "ExpectedChangeCtr
           // Winner strategy
           if (options.SelectWinnerStrategy && this._host.WinnerAutoSelect) {
             var winnerStrategy = options.SelectWinnerStrategy.toLowerCase();
-            if (winnerStrategy[0] !== "{") {
+            if (winnerStrategy[0] != "{") {
               winnerStrategy = "{" + winnerStrategy + "}";
             }
 
-            if (winnerStrategy === this._host.WinnerAutoSelect.get("value").toLowerCase()) {
+            if (winnerStrategy == this._host.WinnerAutoSelect.get("value").toLowerCase()) {
               this._host.WinnerAutoSelect.check();
             }
 
-            if (winnerStrategy === this._host.WinnerAutoSelectUnless.get("value").toLowerCase()) {
+            if (winnerStrategy == this._host.WinnerAutoSelectUnless.get("value").toLowerCase()) {
               this._host.WinnerAutoSelectUnless.check();
             }
 
-            if (winnerStrategy === this._host.WinnerManualSelect.get("value").toLowerCase()) {
+            if (winnerStrategy == this._host.WinnerManualSelect.get("value").toLowerCase()) {
               this._host.WinnerManualSelect.check();
             }
           }
 
           // Other components
-          if (confidenceLevelCtrl) {
-            confidenceLevelCtrl.setConfidenceLevel(options.ConfidenceLevel.toString());
+          if (this._host.ConfidenceLevelSelect) {
+            this._host.ConfidenceLevelSelect.set("selectedValue", options.ConfidenceLevel.toString());
           }
 
           if (this._host.ObjectiveList) {
             var goal = options.GoalId;
             if (goal) {
-              if (goal[0] !== "{") {
+              if (goal[0] != "{") {
                 goal = "{" + goal + "}";
               }
               this._host.ObjectiveList.set("selectedGuid", goal);
@@ -174,9 +193,54 @@ define(["sitecore", "BindingUtil", "DataUtil", "RequestUtil", "ExpectedChangeCtr
         },
 
         createTestOptions: function(options) {
-          options = dataUtil.getTestOptionsEmpty(options);
+          options.SelectWinnerStrategy = null;
+          options.TrackWithEngagementValue = true;
+          options.TrafficAllocation = 100; // todo: read form settings
+          var expectedItem = this._host.ExpectationSlider.get("selectedItem");
+          if (expectedItem) {
+            var iVal = 0;
+            try {
+              iVal = parseInt(expectedItem.Value);
+              if (iVal < 0) {
+                expectedItem.Value = "0";
+              }                
+            }
+            catch (e) { };
+              
+          }
+          options.Expectation = expectedItem != null ? expectedItem.Value : 0;
+          
+          if (this._host.TrafficAllocationSlider) {
+            options.TrafficAllocation = this._host.TrafficAllocationSlider.get("selectedValue");
+          }
 
-          return dataUtil.getTestOptions(options, this._host);
+          if (this._host.ObjectiveList != undefined) {
+            var goal = this._host.ObjectiveList.get("selectedItem");
+            if (goal) {
+              options.TrackWithEngagementValue = goal.guid == '{00000000-0000-0000-0000-000000000000}';
+
+              if (goal.guid) {
+                options.GoalId = goal.guid;
+              }
+            }
+          }
+
+          if (this._host.get("groupTestObjective") != undefined) {
+            var groupValue = this._host.get("groupTestObjective");
+            options.SelectWinnerStrategy = groupValue;
+          }
+
+          if (this._host.ConfidenceLevelSelect) {
+            options.ConfidenceLevel = this._host.ConfidenceLevelSelect.get("selectedValue");
+          }
+
+          if (this._host.MaximumSelect) {
+            options.MaxDuration = this._host.MaximumSelect.get("selectedValue");
+          }
+
+          if (this._host.MinimumSelect) {
+            options.MinDuration = this._host.MinimumSelect.get("selectedValue");
+          }
         },
 
         updateCarouselItems: function () {
@@ -185,7 +249,7 @@ define(["sitecore", "BindingUtil", "DataUtil", "RequestUtil", "ExpectedChangeCtr
             testItems.push(item);
           });
 
-          this._host.PreviewAccordion.set("isOpen", testItems.length !== 0);
+          this._host.PreviewAccordion.set("isOpen", testItems.length != 0);
 
           var carouselItems = [];
           for (var i in testItems) {
@@ -197,7 +261,7 @@ define(["sitecore", "BindingUtil", "DataUtil", "RequestUtil", "ExpectedChangeCtr
                 version: testItems[i].ver,
                 revision: testItems[i].rev,
                 language: testItems[i].lang,
-                original: i === 0
+                original: i == 0
               }
             });
           }
@@ -215,21 +279,23 @@ define(["sitecore", "BindingUtil", "DataUtil", "RequestUtil", "ExpectedChangeCtr
           uri.rev = item.attrs.revision;
           uri.lang = item.attrs.language;
 
-          var url = "/sitecore/shell/api/ct/ItemInfo/GetByUri?datauri=" + encodeURIComponent(uri);
+          var url = "/sitecore/shell/api/ct/ItemInfo/GetByUri?uri=" + encodeURIComponent(uri);
 
           var ajaxOptions = {
             cache: false,
             url: url,
             context: this,
             success: function(data) {
+              var desc = ob._host.Texts.get("Item:");
+              desc += " " + data.Path;
+              desc += "<br/>"
+              desc += ob._host.Texts.get("Version:");
+              desc += " " + (item.attrs.ver || data.Version) + "-" + data.Language;
+              desc += "<br/>"
+              desc += ob._host.Texts.get("Created:");
+              desc += " " + data.CreatedDate + " " + ob._host.Texts.get("by") + " " + data.CreatedBy;
 
-              var infoObj = {};
-              infoObj[ob._host.Texts.get("Item:")] = data.Path;
-              infoObj[ob._host.Texts.get("Version:")] = (item.attrs.ver || data.Version) + "-" + data.Language;
-              infoObj[ob._host.Texts.get("Created:")] = data.CreatedDate + " " + ob._host.Texts.get("by") + " " + data.CreatedBy;
-
-              var html = dataUtil.getVariationInfoHTML(infoObj);
-              $target.html(html);
+              $target.html(desc);
             }
           };
 
@@ -279,38 +345,6 @@ define(["sitecore", "BindingUtil", "DataUtil", "RequestUtil", "ExpectedChangeCtr
           if (this._host.BottomStartButton) {
             this._host.BottomStartButton.set("isEnabled", valid);
           }
-        },
-
-        updateTestObjectiveUI: function (sender, selectedTestObjective) {
-          if (!selectedTestObjective) {
-            return;
-          }
-
-          var measureByValue = selectedTestObjective.guid === trailingValueVisitGUID;
-
-          if (this._host.WinnerAutoSelect) {
-            this._host.WinnerAutoSelect.set("isEnabled", true);
-
-            if (measureByValue) {
-              this._host.WinnerAutoSelect.check();
-            }
-          }
-
-          if (this._host.WinnerAutoSelectUnless) {
-            this._host.WinnerAutoSelectUnless.set("isEnabled", !measureByValue);
-
-            if (!measureByValue) {
-              this._host.WinnerAutoSelectUnless.check();
-            }
-          }
-
-          if (this._host.WinnerManualSelect) {
-            this._host.WinnerManualSelect.set("isEnabled", true);
-          }
-
-          if (this._host.TestDurationDataSource) {
-            this._host.TestDurationDataSource.set("measureByGoal", !measureByValue);
-          }   
         }
       };
 

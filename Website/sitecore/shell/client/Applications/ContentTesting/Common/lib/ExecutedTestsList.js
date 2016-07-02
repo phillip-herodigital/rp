@@ -6,8 +6,8 @@ define(["sitecore", "BindingUtil", "EditUtil", "DataUtil"], function (_sc, bindi
   return {
     ExecutedTestsList: function (options) {
       var mod = {
-          _host: options.host,
-          _enableClickEvent: options.enableClickEvent === undefined ? true : options.enableClickEvent,
+        _host: options.host,
+
         init: function () {
           this._host.TestsList.on("change:selectedItemId change:selectedLanguage", this.selectionChanged, this);
         },
@@ -16,17 +16,15 @@ define(["sitecore", "BindingUtil", "EditUtil", "DataUtil"], function (_sc, bindi
           var selected = this._host.TestsList.get("selectedItem");
 
           var hostUri = selected.get("HostPageUri");
-          if (!hostUri || !mod._enableClickEvent) {
-              $("[data-sc-id='TestsList']").find('tr').removeClass("active");
+          if (!hostUri) {
             return;
           }
 
-          // Check if the URL starts with the xOptimization app URL
-          if (window.location.pathname.indexOf(editUtil.xOppAppPath) === 0 && selected.get("TestType") == "Page") {
+          if (selected.get("ContentOnly") && selected.get("TestType") != "Personalization") {
             editUtil.openPageTestPage(hostUri, false, true);
           }
           else {
-            editUtil.openExperienceEditor(hostUri, selected.get("DeviceId"));
+            editUtil.openPageEditor(hostUri);
           }
         }
       };

@@ -1,4 +1,4 @@
-﻿define(["sitecore", "/-/speak/v1/ExperienceEditor/ExperienceEditor.js"], function (Sitecore, ExperienceEditor) {
+﻿define(["sitecore"], function (Sitecore) {
   Sitecore.Commands.PublishRestrictions =
   {
     canExecute: function (context) {
@@ -6,7 +6,7 @@
     },
 
     execute: function (context) {
-      ExperienceEditor.handleIsModified();
+      Sitecore.ExperienceEditor.handleIsModified();
 
       var dialogFeatures = "dialogHeight: 760px;dialogWidth: 850px;";
       var dialogUrl = "/sitecore/shell/default.aspx?xmlcontrol=SetPublishing";
@@ -19,7 +19,7 @@
         dialogUrl += "&ro=1";
       }
 
-      ExperienceEditor.Dialogs.showModalDialog(dialogUrl, "", dialogFeatures, null, function (result) {
+      Sitecore.ExperienceEditor.Dialogs.showModalDialog(dialogUrl, "", dialogFeatures, null, function (result) {
         if (!result) {
           return;
         }

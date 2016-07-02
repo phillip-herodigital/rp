@@ -38,7 +38,7 @@ namespace StreamEnergy.Mvc
         {
             DefaultRouteMapper.MapRoutes(config);
              
-            GlobalConfiguration.Configure(x => x.MapHttpAttributeRoutes());
+            GlobalConfiguration.Configuration.MapHttpAttributeRoutes();
         }
          
         public void MapRoutes(RouteCollection routes)

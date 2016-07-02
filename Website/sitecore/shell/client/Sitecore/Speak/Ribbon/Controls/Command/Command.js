@@ -1,4 +1,4 @@
-﻿define(["sitecore", "/-/speak/v1/ExperienceEditor/ExperienceEditor.js"], function (Sitecore, ExperienceEditor) {
+﻿define(["sitecore"], function (Sitecore) {
   Sitecore.Factories.createBaseComponent({
     name: "Command",
 
@@ -29,7 +29,7 @@
         return;
       }
 
-      ExperienceEditor.CommandsUtil.addDropDownMenuItemCommand(itemId, command);
+      Sitecore.ExperienceEditor.CommandsUtil.addDropDownMenuItemCommand(itemId, command);
     }
   });
 });

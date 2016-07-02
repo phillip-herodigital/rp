@@ -1,6 +1,22 @@
-﻿define(["sitecore", "/-/speak/v1/ExperienceEditor/ExperienceEditor.js"], function (Sitecore, ExperienceEditor) {
+﻿define(["sitecore"], function (Sitecore) {
   function displayTab(tabControl) {
-    ExperienceEditor.Common.displayTab(tabControl);
+    if (!tabControl) {
+      var tabs = jQuery(".sc-quickbar-tab");
+      tabs.first().addClass("sc-quickbar-tab-selected");
+      return;
+    }
+
+    var clickedTab = jQuery(tabControl);
+    var selectedClassName = "sc-quickbar-tab-selected";
+    var tabs = jQuery(".sc-quickbar-tab");
+    var strips = jQuery(".sc-strip");
+
+    tabs.removeClass(selectedClassName);
+    clickedTab.addClass(selectedClassName);
+
+    var tabIndex = tabs.index(clickedTab);
+    strips.hide().eq(tabIndex).show();
+    document.cookie = "sitecore_webedit_activestrip" + "=" + escape(tabControl.id);
   }
   
   Sitecore.Factories.createBaseComponent({
@@ -13,7 +29,7 @@
       this.rendernTab(this);
       var previewTabId = "VersionStrip_ribbon_tab";
       var currentTab = this.getCookie("sitecore_webedit_activestrip");
-      if (ExperienceEditor.Web.getUrlQueryStringValue("mode") == "preview"
+      if (Sitecore.ExperienceEditor.Web.getUrlQueryStringValue("mode") == "preview"
         && document.getElementById(previewTabId) != null) {
         currentTab = previewTabId;
       }

@@ -68,55 +68,6 @@ Sitecore.PageModes.ChromeManager = new function() {
     return this._chromes;
   };
 
-  this.getChromeByFieldId = function (fieldId) {
-    var chrome;
-    $sc.each(this.chromes(), function () {
-      var identifier = this.fieldIdentifier;
-      if (identifier) {
-        if (identifier.toLowerCase() == fieldId.toLowerCase()) {
-          chrome = this;
-        }
-      }
-    });
-
-    return chrome;
-  },
-
-  this.getChromesByFieldIdAndDataSource = function(fieldId, dataSourceId) {
-    var result = [];
-    var chromesList = this.chromes();
-    for (var c = 0; c < chromesList.length; c++) {
-      var chrome = chromesList[c];
-
-      var controlId = null;
-      if (chrome.controlId) {
-        controlId = chrome.controlId();
-      }
-
-      if (!controlId || controlId == "") {
-        controlId = chrome.element.attr("id");
-      }
-
-      if (!controlId) {
-        continue;
-      }
-
-      var idParts = controlId.split('_');
-      if (idParts.length < 3) {
-        continue;
-      }
-
-      var fieldIdentifier = idParts[2];
-      var dataSourceIdentifier = idParts[1];
-
-      if ($sc.toShortId(fieldId.toLowerCase()) === fieldIdentifier.toLowerCase() && $sc.toShortId(dataSourceId.toLowerCase()) === dataSourceIdentifier.toLowerCase()) {
-        result.push(chrome);
-      }
-    }
-
-    return result;
-  },
-
   // Updates current chromes position in array according to DOM changes
   this.rearrangeChromes = function() {
     var l = this._chromes ? this._chromes.length : 0;

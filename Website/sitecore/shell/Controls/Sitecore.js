@@ -74,27 +74,9 @@ scSitecore.prototype.getTopModalDialog = function () {
   return top._scDialogs[0] && top._scDialogs[0].contentIframe[0].contentWindow;
 };
 
-/**
- * @deprecated It fails for multiple dialogs, Please use getDialogArgumentsForCurrentFrame() instead
- */
 scSitecore.prototype.getDialogArguments = function () {
-    return top._scDialogs[0] && top._scDialogs[0].dialogArguments;
+  return top._scDialogs[0] && top._scDialogs[0].dialogArguments;
 }
-
-scSitecore.prototype.getDialogArgumentsForCurrentFrame = function () {
-    return this.getDialogArgumentsByFrameId(window.frameElement.id);
-}
-
-scSitecore.prototype.getDialogArgumentsByFrameId = function (frameId) {
-    for (var i = 0; i < top._scDialogs.length; i++) {
-        if (frameId == top._scDialogs[i].contentIframe[0].id)
-            return top._scDialogs[i] && top._scDialogs[i].dialogArguments;
-    }
-
-    return top._scDialogs[0] && top._scDialogs[0].dialogArguments;
-}
-
-
 
 scSitecore.prototype.autoIncreaseModalDialogHeight = function (element, contextWindow, extraCalling) {
   contextWindow = contextWindow || window;
@@ -955,21 +937,14 @@ scSitecore.prototype.process = function (request, command, name) {
           switch (r) {
             case "yes":
               form.setModified(false);
-              var parameter;
-              if (command.disableNotifications == "1") {
-                  parameter = "item:save(disableNotifications=true, postaction=pipeline:resume(pipelineId=" + request.pipeline + "))";
-              }
-              else {
-                  parameter = "item:save(postaction=pipeline:resume(pipelineId=" + request.pipeline + "))";
-              }
-              var saved = form.postRequest("", "", "", parameter);
+              var saved = form.postRequest("", "", "", command.disableNotifications == "1" ? "item:save(disableNotifications=true)" : "item:save");
 
               if (saved == "failed") {
                 form.setModified(true);
                 request.abort = true;
                 r = "cancel";
               }
-              return;
+              break;
             case "no":
               form.setModified(false);
               form.disableRequests = false;
@@ -1008,7 +983,7 @@ scSitecore.prototype.process = function (request, command, name) {
       if (request.dialogResult == "__!!NoDialogResult!!__") {
         this.browser.closePopups("ShowModalWindowCommand");
 
-        this.showModalDialog(command.url, { message: command.value }, "dialogWidth:500px;dialogHeight:190px;help:no;scroll:no;resizable:no;maximizable:no;status:no;center:yes;autoIncreaseHeight:yes", request, request.onCloseModalDialogCallback);
+        this.showModalDialog(command.url, { message: command.value }, "dialogWidth:400px;dialogHeight:190px;help:no;scroll:no;resizable:no;maximizable:no;status:no;center:yes;autoIncreaseHeight:yes", request, request.onCloseModalDialogCallback);
         request.onCloseModalDialogCallback = null;
       }
 
@@ -1195,11 +1170,17 @@ scSitecore.prototype.process = function (request, command, name) {
 
           ctl.innerHTML = value;
           
-          var doc = new DOMParser().parseFromString(value, "text/html");
-          var scriptElements = doc.getElementsByTagName("script");
+          var match;
+          var srcScriptRegex = /(src[\s]*=[\s]*"[^"]*)<script\b[\s\S]*?>([\s\S]*?)<\//ig;
           
-          for (var i = 0; i < scriptElements.length; i++) {
-            eval(scriptElements[i].innerHTML);
+          while (match = srcScriptRegex.exec(value)) {
+            value = value.replace(match[2], "");
+          }
+
+          re = /<script\b[\s\S]*?>([\s\S]*?)<\//ig;
+          
+          while (match = re.exec(value)) {
+            eval(match[1]);
           }
 
           if (scrollTop != null) {
@@ -1328,7 +1309,7 @@ scSitecore.prototype.encodeAttribute = function (attr) {
   return attr.name + "=\"" + attrValue + "\"";
 }
 
-scSitecore.prototype.getAbsoluteUrl = function(relativeOrAbsoluteUrl) {
+scSitecore.prototype.getAbsoluteUrl = function (relativeOrAbsoluteUrl) {
   // Handle absolute URLs (with protocol-relative prefix)
   // Example: //domain.com/file.png
   if (relativeOrAbsoluteUrl.search(/^\/\//) != -1) {
@@ -1915,7 +1896,6 @@ scRequest.prototype.send = function () {
     this.httpRequest = scForm.browser.createHttpRequest();
 
     this.httpRequest.open("POST", url, this.async);
-    this.httpRequest.responseURL = url;
 
     this.httpRequest.setRequestHeader("lastCached", new Date().toUTCString());
     this.httpRequest.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
@@ -2068,7 +2048,7 @@ var scFlashDetection = function () {
 
         version = "WIN 6,0,21,0";
 
-        axo.AllowScriptAccess = "sameDomain";
+        axo.AllowScriptAccess = "always";
 
         version = axo.GetVariable("$version");
 
@@ -2324,4 +2304,15 @@ Treeview.prototype.FixLayout = function()
 */
 function isSilverlightApplicationLoaded(element) {
   return (element != null && (element.id == "scSilverlightEngagementPlan" || element.id == "scSilverlightExecutiveDashboard"));
+}
+
+if (window.Flexie) {
+  window.onerror = function (msg, url) {
+    if (url.indexOf("flexie.min.js") != -1) {
+      console.log(msg);
+      return true;
+    }
+
+    return false;
+  };
 }

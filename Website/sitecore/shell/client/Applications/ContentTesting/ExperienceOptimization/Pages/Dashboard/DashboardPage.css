@@ -8,6 +8,7 @@ button[data-sc-id="NextButton"] {
   border-top-left-radius: 0;
   margin-left: -1px;
 }
+
 .sc div div[data-sc-id="EntryPanel"] {
   margin-top: 1px;
   margin-bottom: 1px;
@@ -135,12 +136,6 @@ div[data-sc-id="IndividualKPIRow"] {
   margin-left: 0;
   margin-right: 0;
   margin-bottom: 15px;
-}
-div[data-sc-id="OverallKPIRow"] div[data-sc-id="ScoreBuffer"],
-div[data-sc-id="IndividualKPIRow"] div[data-sc-id="ScoreBuffer"],
-div[data-sc-id="OverallKPIRow"] div[data-sc-id="TestsStartedContent"],
-div[data-sc-id="IndividualKPIRow"] div[data-sc-id="TestsStartedContent"] {
-  text-align: left;
 }
 .rank-1.metric div[data-sc-id="RankColumn"] {
   background: url("/sitecore/shell/client/Applications/ContentTesting/Assets/goblet-silver.png") no-repeat top center;

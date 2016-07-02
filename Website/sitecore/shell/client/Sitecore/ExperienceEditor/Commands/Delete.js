@@ -1,16 +1,16 @@
-﻿define(["sitecore", "/-/speak/v1/ExperienceEditor/ExperienceEditor.js"], function (Sitecore, ExperienceEditor) {
+﻿define(["sitecore"], function (Sitecore) {
   Sitecore.Commands.Delete =
   {
     canExecute: function (context) {
-      if (context.currentContext.isHome || !ExperienceEditor.isInMode("edit") || context.currentContext.isFallback) {
+      if (context.currentContext.isHome | !Sitecore.ExperienceEditor.isInMode("edit")) {
         return false;
       }
       return context.app.canExecute("ExperienceEditor.Delete.CanDelete", context.currentContext);
     },
     execute: function (context) {
       context.app.disableButtonClickEvents();
-      ExperienceEditor.PipelinesUtil.executePipeline(context.app.DeleteItemPipeline, function () {
-        ExperienceEditor.PipelinesUtil.executeProcessors(Sitecore.Pipelines.DeleteItem, context);
+      Sitecore.ExperienceEditor.PipelinesUtil.executePipeline(context.app.DeleteItemPipeline, function () {
+        Sitecore.ExperienceEditor.PipelinesUtil.executeProcessors(Sitecore.Pipelines.DeleteItem, context);
       });
       context.app.enableButtonClickEvents();
     }

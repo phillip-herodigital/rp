@@ -81,11 +81,8 @@
       this.updateUrl(hashObject);
     },
 
-    setDateRange: function (from, to, persist) {
-      if (persist) {
-        this.updateDateRangeInSession(from, to);
-      }
-
+    setDateRange: function(from, to) {
+      this.updateDateRangeInSession(from, to);
       this.updateDateRangeInUrl(from, to);
 
       this.set("dateRange", {

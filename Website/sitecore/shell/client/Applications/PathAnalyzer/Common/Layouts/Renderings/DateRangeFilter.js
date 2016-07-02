@@ -23,70 +23,52 @@
 
             this.model.on("change:fromDate", this.updateFromDatePicker, this);
             this.model.on("change:toDate", this.updateToDatePicker, this);
-            this.getFromDatePicker().on("change:formattedDate", this.updateToDatePickerLimit, this);
-            this.getToDatePicker().on("change:formattedDate", this.updateFromDatePickerLimit, this);
+            this.getFromDatePicker().on("change:formattedDate", this.updateFromDateAndToDatePickerLimit, this);
+            this.getToDatePicker().on("change:formattedDate", this.updateToDateAndFromDatePickerLimit, this);
 
-            this.setupDefaultDates();
+            this.setGlobalDateRange();
         },
 
         setupDefaultDates: function () {
             var dateRange;
 
-          try {
-            dateRange = pathAnalyzer.getDateRange() || {};
-          } catch (e) {
-            pathAnalyzer.showMessage(this.app.DashboardMessageBar, "notification", { text: this.$el.data("sc-errormessages").InvalidDate, id: "" });
-               dateRange = {};
+            try {
+                dateRange = pathAnalyzer.getDateRange() || {};
+            } catch (e) {
+                pathAnalyzer.showMessage(this.app.DashboardMessageBar, "notification", this.$el.data("sc-errormessages").InvalidDate);
+                dateRange = {};
             }
 
-            if (dateRange.dateFrom != null)
-              this.setFromDatePickerDate(dateRange.dateFrom);
-
-            if(dateRange.dateTo != null)
-              this.setToDatePickerDate(dateRange.dateTo);
-
-            this.updateRadioButtons();
-
-            this.setGlobalDateRange(dateRange.dateFrom, dateRange.dateTo);
+            this.resetDates(dateRange.dateFrom, dateRange.dateTo);
         },
 
         createPresets: function () {
-            var picker = $('<div />').datepicker(),
-              presets = this.dates.presets,
-              dateFormat = "yymmddT000000",
-              now = new Date();
+            var fromPicker = this.getFromDatePicker(),
+                presets = this.dates.presets,
+                originalDate = fromPicker.viewModel.getDate();
 
-            picker.datepicker("setDate", now);
-            //if we don't explicitly format the date, the datepicker will always return a time component, which we don't want.
-            presets.today = $.datepicker.formatDate(dateFormat, picker.datepicker("getDate"));
+            fromPicker.viewModel.setDate(new Date());
+            presets.today = fromPicker.viewModel.getDate();
 
-            picker.datepicker("setDate", now);
-            picker.datepicker("setDate", "+1d");
-            presets.tomorrow = $.datepicker.formatDate(dateFormat, picker.datepicker("getDate"));
+            fromPicker.viewModel.setDate("-1d");
+            presets.yesterday = fromPicker.viewModel.getDate();
 
-            picker.datepicker("setDate", now);
-            picker.datepicker("setDate", "-1d");
-            presets.yesterday = $.datepicker.formatDate(dateFormat, picker.datepicker("getDate"));
+            fromPicker.viewModel.setDate("-1d-1w");
+            presets.lastWeek = fromPicker.viewModel.getDate();
 
-            picker.datepicker("setDate", now);
-            picker.datepicker("setDate", "-1d-1w");
-            presets.lastWeek = $.datepicker.formatDate(dateFormat, picker.datepicker("getDate"));
+            fromPicker.viewModel.setDate("-1d-1m");
+            presets.lastMonth = fromPicker.viewModel.getDate();
 
-            picker.datepicker("setDate", now);
-            picker.datepicker("setDate", "-1d-1m");
-            presets.lastMonth = $.datepicker.formatDate(dateFormat, picker.datepicker("getDate"));
+            fromPicker.viewModel.setDate("-1d-3m");
+            presets.lastQuarter = fromPicker.viewModel.getDate();
 
-            picker.datepicker("setDate", now);
-            picker.datepicker("setDate", "-1d-3m");
-            presets.lastQuarter = $.datepicker.formatDate(dateFormat, picker.datepicker("getDate"));
+            fromPicker.viewModel.setDate("-1d-6m");
+            presets.lastTwoQuarter = fromPicker.viewModel.getDate();
 
-            picker.datepicker("setDate", now);
-            picker.datepicker("setDate", "-1d-6m");
-            presets.lastTwoQuarter = $.datepicker.formatDate(dateFormat, picker.datepicker("getDate"));
+            fromPicker.viewModel.setDate("-1d-1y");
+            presets.lastYear = fromPicker.viewModel.getDate();
 
-            picker.datepicker("setDate", now);
-            picker.datepicker("setDate", "-1d-1y");
-            presets.lastYear = $.datepicker.formatDate(dateFormat, picker.datepicker("getDate"));
+            fromPicker.viewModel.setDate(originalDate);
         },
 
         dates: {
@@ -110,7 +92,6 @@
             },
 
             presets: {
-                tomorrow: null,
                 today: null,
                 yesterday: null,
                 lastWeek: null,
@@ -118,21 +99,6 @@
                 lastQuarter: null,
                 lastTwoQuarter: null,
                 lastYear: null
-            },
-
-            removeTimeComponent: function (date) {
-              if (date.indexOf('T') !== -1) {
-                return date.substring(0, date.indexOf('T'));
-              }
-              return date;
-            },
-
-            resetTimeComponent: function(date) {
-              if (date.indexOf('T') !== -1) {
-                date = this.removeTimeComponent(date);
-                return date + 'T000000';
-              }
-              return date;
             }
         },
 
@@ -152,11 +118,7 @@
             this.setToDatePickerDate(presets.today);
 
             switch (value) {
-                case "today":
-                    this.setFromDatePickerDate(presets.today);
-                    this.setToDatePickerDate(presets.tomorrow);
-                    break;
-                case "yesterday":
+                case "day":
                     this.setFromDatePickerDate(presets.yesterday);
                     break;
                 case "week":
@@ -180,63 +142,56 @@
         },
 
         setFromDatePickerDate: function (date) {
-            this.getFromDatePicker().set("date", date);
+            this.getFromDatePicker().viewModel.setDate(date);
         },
 
         setToDatePickerDate: function (date) {
-            this.getToDatePicker().set("date", date);
+            this.getToDatePicker().viewModel.setDate(date);
         },
 
         updateFromDatePicker: function (model, value) {
-          this.setFromDatePickerDate(value);
+            this.setFromDatePickerDate(value);
         },
 
         updateToDatePicker: function (model, value) {
-          this.setToDatePickerDate(value);
+            this.setToDatePickerDate(value);
         },
 
-        updateToDatePickerLimit: function (model, value) {
+        updateFromDateAndToDatePickerLimit: function (model, value) {
             this.getToDatePicker().viewModel.$el.datepicker("option", "minDate", value);
             this.updateRadioButtons();
+            this.model.set("fromDate", value);
         },
 
-        updateFromDatePickerLimit: function (model, value) {
+        updateToDateAndFromDatePickerLimit: function (model, value) {
             this.getFromDatePicker().viewModel.$el.datepicker("option", "maxDate", value);
             this.updateRadioButtons();
+            this.model.set("toDate", value);
         },
 
         updateRadioButtons: function () {
-            var toDate = this.getToDatePicker().get("date"),
-                fromDate = this.getFromDatePicker().get("date");
+            var toDate = this.getToDatePicker().viewModel.getDate(),
+              fromDate = this.getFromDatePicker().viewModel.getDate();
 
-            if (toDate == null || fromDate == null) {
+            if (toDate === null || fromDate === null) {
                 return;
             }
 
-            //preset dates have a time component of 'T000000'
-            //dates from the datepickers will include a specific time, e.g. 'T123000'
-            //need to reset the time component from the date picker date so that the comparison to preset dates is accurate
-            toDate = this.dates.resetTimeComponent(toDate);
-            fromDate = this.dates.resetTimeComponent(fromDate);
-
-            var isToToday = this.dates.presets.today === toDate,
-              isToTomorrow = this.dates.presets.tomorrow === toDate,
-              isFromToday = this.dates.presets.today === fromDate,
-              isFromYesterday = this.dates.presets.yesterday === fromDate,
-              isLastWeek = this.dates.presets.lastWeek === fromDate,
-              isLastMonth = this.dates.presets.lastMonth === fromDate,
-              isLastQuarter = this.dates.presets.lastQuarter === fromDate,
-              isLastTwoQuarter = this.dates.presets.lastTwoQuarter === fromDate,
-              isLastYear = this.dates.presets.lastYear === fromDate;
+            var isToToday = this.dates.compare(this.dates.presets.today, toDate) === 0,
+              isFromYesterday = this.dates.compare(this.dates.presets.yesterday, fromDate) === 0,
+              isLastWeek = this.dates.compare(this.dates.presets.lastWeek, fromDate) === 0,
+              isLastMonth = this.dates.compare(this.dates.presets.lastMonth, fromDate) === 0,
+              isLastQuarter = this.dates.compare(this.dates.presets.lastQuarter, fromDate) === 0,
+              isLastTwoQuarter = this.dates.compare(this.dates.presets.lastTwoQuarter, fromDate) === 0,
+              isLastYear = this.dates.compare(this.dates.presets.lastYear, fromDate) === 0;
 
             this.$el.find(".sc-radiobutton-input:checked").prop("checked", false);
 
-            if (isToToday || isFromToday) {
+            if (isToToday) {
                 var inputValue = "";
-                if (isFromToday && isToTomorrow) {
-                  inputValue = "today";
-                } else if (isFromYesterday) {
-                    inputValue = "yesterday";
+
+                if (isFromYesterday) {
+                    inputValue = "day";
                 } else if (isLastWeek) {
                     inputValue = "week";
                 } else if (isLastMonth) {
@@ -253,17 +208,17 @@
             }
         },
 
-        setGlobalDateRange: function (fromDate, toDate) {
-            if (fromDate == null) {
-              var fromDatePicker = this.getFromDatePicker();
-              fromDate = fromDatePicker.get("date");
-            }
-            if (toDate == null) {
-              var toDatePicker = this.getToDatePicker();
-              toDate = toDatePicker.get("date");
-            }
+        setGlobalDateRange: function () {
+            var fromDate = this.getFromDatePicker().get("formattedDate"), //.model.get("fromDate"),
+                toDate = this.getToDatePicker().get("formattedDate");//this.model.get("toDate");
 
             pathAnalyzer.setDateRange(fromDate, toDate);
+        },
+
+        resetDates: function (from, to) {
+            this.setToDatePickerDate(to || this.dates.presets.today);
+            this.setFromDatePickerDate(from || this.dates.presets.yesterday);
+            this.setGlobalDateRange();
         },
 
         getFromDatePicker: function () {

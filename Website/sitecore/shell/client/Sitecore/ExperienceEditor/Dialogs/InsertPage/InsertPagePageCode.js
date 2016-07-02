@@ -1,4 +1,4 @@
-﻿define(["sitecore", "/-/speak/v1/ExperienceEditor/ExperienceEditor.js"], function (Sitecore, ExperienceEditor) {
+﻿define(["sitecore", "/-/speak/v1/ExperienceEditor/Sitecore.ExperienceEditor.js"], function (Sitecore) {
   var insertPagePageCode = Sitecore.Definitions.App.extend({
     initialized: function () {
       this.setInsertButtonClick();
@@ -39,7 +39,8 @@
           templateItemId: this.templateId,
           app: this,
         };
-        ExperienceEditor.PipelinesUtil.generateRequestProcessor("ExperienceEditor.Insert.ValidateNewName", function (response) {
+
+        Sitecore.ExperienceEditor.PipelinesUtil.generateRequestProcessor("ExperienceEditor.Insert.ValidateNewName", function (response) {
           response.context.app.closeDialog(response.context.templateItemId + ',' + response.context.value);
         }, this.context).execute(this.context, this.context);
       }, this);

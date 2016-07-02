@@ -78,10 +78,10 @@ define(["sitecore", "experienceAnalytics", "experienceAnalyticsBase"], function 
         if (dateRange === undefined) {
           this.showMessage("notification", this.model.get("errorTexts").InvalidDate);
         }
-
+        
         dateRange = {
-          dateFrom: this.dates.presets.defaultFromDate,
-          dateTo: this.dates.presets.defaultToDate
+          dateFrom: this.dates.presets.lastMonth,
+          dateTo: this.dates.presets.today
         };
       }
 
@@ -122,18 +122,6 @@ define(["sitecore", "experienceAnalytics", "experienceAnalyticsBase"], function 
 
       fromPicker.viewModel.setDate(deltaServerDate + "d-1y");
       presets.lastYear = fromPicker.viewModel.getDate();
-
-      var fromOffset = this.$el.attr("data-sc-defaultdaterangeoffset-from");
-      var toOffset = this.$el.attr("data-sc-defaultdaterangeoffset-to");
-
-      if (!fromOffset) fromOffset = "-90";
-      if (!toOffset) toOffset = "-1";
-      
-      fromPicker.viewModel.setDate(deltaServerDate + "d" + fromOffset + "d");
-      presets.defaultFromDate = fromPicker.viewModel.getDate();
-
-      fromPicker.viewModel.setDate(deltaServerDate + "d" + toOffset + "d");
-      presets.defaultToDate = fromPicker.viewModel.getDate();
       
       // Reset the date to an invalid date on after render to be sure a change event is fired. See bug #10040.
       fromPicker.viewModel.setDate(new Date());
@@ -285,13 +273,13 @@ define(["sitecore", "experienceAnalytics", "experienceAnalyticsBase"], function 
       var fromDate = this.model.get("fromDate"),
         toDate = this.model.get("toDate");
 
-      ExperienceAnalytics.setDateRange(fromDate, toDate, true);
+      ExperienceAnalytics.setDateRange(fromDate, toDate);
       this.closeToggleButtons();
     },
 
     resetDates: function (from, to) {
-      this.setToDatePickerDate(to || this.dates.presets.defaultToDate);
-      this.setFromDatePickerDate(from || this.dates.presets.defaultFromDate);
+      this.setToDatePickerDate(to || this.dates.presets.today);
+      this.setFromDatePickerDate(from || this.dates.presets.lastMonth);
       this.setGlobalDateRange();
     },
 

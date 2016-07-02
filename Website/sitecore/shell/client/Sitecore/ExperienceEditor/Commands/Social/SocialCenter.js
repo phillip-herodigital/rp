@@ -1,4 +1,4 @@
-﻿define(["sitecore", "/-/speak/v1/ExperienceEditor/ExperienceEditor.js"], function (Sitecore, ExperienceEditor) {
+﻿define(["sitecore"], function (Sitecore) {
   Sitecore.Commands.SocialCenter =
   {
     canExecute: function (context) {
@@ -30,8 +30,8 @@
 
     execute: function (context) {
       context.app.disableButtonClickEvents();
-      ExperienceEditor.PipelinesUtil.executePipeline(context.app.SocialCenterPipeline, function () {
-        ExperienceEditor.PipelinesUtil.executeProcessors(Sitecore.Pipelines.SocialCenter, context);
+      Sitecore.ExperienceEditor.PipelinesUtil.executePipeline(context.app.SocialCenterPipeline, function () {
+        Sitecore.ExperienceEditor.PipelinesUtil.executeProcessors(Sitecore.Pipelines.SocialCenter, context);
       });
       context.app.enableButtonClickEvents();
     }

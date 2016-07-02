@@ -3,7 +3,6 @@
 <!DOCTYPE html>
 <html>
 <head runat="server">
-  <meta http-equiv="X-Frame-Options" content="SAMEORIGIN">
   <title>Sitecore - Media Player</title>
   <style type="text/css">
   html {

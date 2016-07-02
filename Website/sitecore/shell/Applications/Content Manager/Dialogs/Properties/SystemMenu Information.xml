@@ -23,10 +23,8 @@
           <Literal GridPanel.Class="scValue" def:ID="Master" />
 
           <Literal GridPanel.Class="scKey" Text="Template:"/>
-          <Border def:ID="Template" />
 
-          <Literal GridPanel.Class="scKey" Text="Created:"/>
-          <Literal GridPanel.Class="scValue" def:ID="Created" />
+          <Border def:ID="Template" />
 
         </GridPanel>
       </GridPanel>

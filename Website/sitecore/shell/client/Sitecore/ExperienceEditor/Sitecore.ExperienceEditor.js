@@ -1,14 +1,4 @@
-﻿console.warn("Sitecore.ExperienceEditor.js is obsolete and will be removed in the next product version.");
-
-var basePath = "/-/speak/v1/ExperienceEditor/";
-define(
-    [
-        basePath + "PageEditorProxy.js",
-        basePath + "Sitecore.ExperienceEditor.TranslationsUtils.js"
-    ]
-);
-
-if (!Sitecore) {
+﻿if (!Sitecore) {
   var Sitecore = {};
 }
 
@@ -425,13 +415,9 @@ Sitecore.ExperienceEditor.Web = {
   },
 
   postServerRequest: function (requestType, commandContext, handler, async) {
-    var token = $('input[name="__RequestVerificationToken"]').val();
     jQuery.ajax({
       url: "/-/speak/request/v1/expeditor/" + requestType,
-      data: {
-        __RequestVerificationToken: token,
-        data: decodeURIComponent(decodeURIComponent(JSON.stringify(commandContext)))
-      },
+      data: "data=" + JSON.stringify(commandContext),
       success: handler,
       type: "POST",
       async: async != undefined ? async : false
@@ -684,3 +670,5 @@ if (Sitecore.Speak) {
     for (var k in experienceEditor) Sitecore.Speak.ExperienceEditor[k] = experienceEditor[k];
   }
 }
+
+window.parent.onbeforeunload = Sitecore.ExperienceEditor.handleIsModified;

@@ -1,0 +1,84 @@
+﻿@using Sitecore.EmailCampaign.Server.Model
+@using Sitecore.EmailCampaign.Server.Services
+@using Sitecore.Modules.EmailCampaign
+@using Sitecore.Modules.EmailCampaign.Core
+@using Sitecore.Modules.EmailCampaign.Messages
+@using Sitecore.Mvc
+@using Sitecore.Mvc.Presentation
+@using Sitecore.Web
+@using Sitecore.Web.UI.Controls.Common.UserControls
+
+@model RenderingModel
+@{
+  var userControl = Html.Sitecore().Controls().GetUserControl(Model.Rendering);
+  userControl.Requires.Script("client", "MessageOverview.js");
+  userControl.Requires.Css("ecm", "MessageOverview.css");
+  userControl.Class = "sc-MessageOverview";
+  userControl.Attributes["data-bind"] = "visible: isVisible";
+
+  string messageId = WebUtil.GetQueryString("id");
+  MessageStatisticsService messageStatisticsService = new MessageStatisticsService();
+  MessageStatistics messageStatistics = null;
+  MessageStateInfo messageStateInfo = null;
+
+  var language = "en";
+  if (HttpContext.Current.Request.Cookies.AllKeys.Contains("messageLanguage"))
+  {
+      var httpCookie = HttpContext.Current.Request.Cookies["messageLanguage"];
+      if (httpCookie != null)
+      {
+          language = httpCookie.Value;
+      }
+  }
+  
+  if (!string.IsNullOrEmpty(messageId))
+  {
+    messageStatistics = messageStatisticsService.GetMessageStatistics(new Guid(messageId), null);
+    messageStateInfo = Factory.Instance.GetMessageStateInfo(messageId, language);
+  }
+}
+@if (messageStatistics != null && messageStateInfo != null && messageStateInfo.MessageState != MessageState.Drafts)
+{
+  <div @userControl.HtmlAttributes>
+    <h3>
+      @EcmTexts.Localize(EcmTexts.MessageOverview)
+    </h3>
+
+    <table class="sc-message-progress-table">
+      <tbody>
+        <tr>
+          <td>@EcmTexts.Localize(EcmTexts.TotalRecipients)</td>
+          <td class="sc-message-progress-value">@messageStatistics.Sent</td>
+        </tr>
+        <tr>
+          <td>@EcmTexts.Localize(EcmTexts.ActualRecipients)</td>
+          <td class="sc-message-progress-value">@messageStatistics.ActualRecipients</td>
+        </tr>
+        <tr>
+          <td>@EcmTexts.Localize(EcmTexts.Opened)</td>
+          <td class="sc-message-progress-value">@messageStatistics.Opened</td>
+        </tr>
+        <tr>
+          <td>@EcmTexts.Localize(EcmTexts.Clicked)</td>
+          <td class="sc-message-progress-value">@messageStatistics.Clicked</td>
+        </tr>
+        <tr>
+          <td>@EcmTexts.Localize(EcmTexts.Browsed)</td>
+          <td class="sc-message-progress-value">@messageStatistics.Browsed</td>
+        </tr>
+        <tr>
+          <td>@EcmTexts.Localize(EcmTexts.Productive)</td>
+          <td class="sc-message-progress-value">@messageStatistics.Productive</td>
+        </tr>
+        <tr>
+          <td>@EcmTexts.Localize(EcmTexts.ValuePerVisit)</td>
+          <td class="sc-message-progress-value">@Math.Round(messageStatistics.ValuePerVisit, 2).ToString(Sitecore.Context.Culture)</td>
+        </tr>
+        <tr>
+          <td>@EcmTexts.Localize(EcmTexts.Value)</td>
+          <td class="sc-message-progress-value">@messageStatistics.Value.ToString("N0", Sitecore.Context.Culture)</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+}

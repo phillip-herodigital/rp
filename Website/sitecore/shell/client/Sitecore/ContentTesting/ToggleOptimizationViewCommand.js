@@ -1,23 +1,19 @@
-require.config({
-  paths: {
-    activeTestState: "/sitecore/shell/client/Sitecore/ContentTesting/ActiveTestState"
-  }
-});
-
-define(["sitecore", "/-/speak/v1/ExperienceEditor/ExperienceEditor.js", "activeTestState"], function (Sitecore, ExperienceEditor, ActiveTestState) {
+define(["sitecore"],
+  function (Sitecore) {
   Sitecore.Commands.ToggleOptimizationView =
   {
     registryKey: "/Current_User/Page Editor/Show/Optimization",
 
     canExecute: function (context, sourceControl) {
       var button = context.button;
-      var hasTest = ActiveTestState && ActiveTestState.hasActiveTest(context);
+      var testCount = context.app.canExecute("Optimization.ActiveItemTests.Count", context.currentContext);
+      var canExecute = testCount > 0;
       var self = this;
       
-      ExperienceEditor.PipelinesUtil.generateRequestProcessor(
+      Sitecore.ExperienceEditor.PipelinesUtil.generateRequestProcessor(
         "ExperienceEditor.ToggleRegistryKey.Get",
         function (response) {
-          if (hasTest) {
+          if (canExecute) {
             if (response.responseValue.value !== undefined && response.responseValue.value) {
               button.set("isPressed", true);
             }
@@ -29,12 +25,12 @@ define(["sitecore", "/-/speak/v1/ExperienceEditor/ExperienceEditor.js", "activeT
         { value: this.registryKey }).execute(context);
         
       
-      return hasTest;
+      return canExecute;
     },
 
     execute: function (context) {
       var isTurnOn = false;
-      ExperienceEditor.PipelinesUtil.generateRequestProcessor(
+      Sitecore.ExperienceEditor.PipelinesUtil.generateRequestProcessor(
         "ExperienceEditor.ToggleRegistryKey.Toggle",
         function (response) {
           response.context.button.set("isPressed", response.responseValue.value);
@@ -45,7 +41,7 @@ define(["sitecore", "/-/speak/v1/ExperienceEditor/ExperienceEditor.js", "activeT
 
       context.currentContext.value = isTurnOn + "|" + encodeURIComponent(window.top.location.href);
       
-      ExperienceEditor.PipelinesUtil.generateRequestProcessor(
+      Sitecore.ExperienceEditor.PipelinesUtil.generateRequestProcessor(
         "OptimizationView.Toogle.GetUrl",
         function (response) {
           window.top.location.href = response.responseValue.value;

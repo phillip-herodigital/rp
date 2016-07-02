@@ -11,7 +11,7 @@
   xmlns:html="http://www.sitecore.net/microsoft/htmlcontrols"
   xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
-  <EmailCampaign.SelectDomain x:inherits="Sitecore.Modules.EmailCampaign.UI.Dialogs.SelectDomainPage,Sitecore.EmailCampaign.Cm.UI">
+  <EmailCampaign.SelectDomain x:inherits="Sitecore.Modules.EmailCampaign.UI.Dialogs.SelectDomainPage,Sitecore.EmailCampaign">
     <Sitecore.Controls.DialogPage Header="Domain" Text="Select a domain." Icon="People/16x16/users4.png" runat="server">
       <x:register assembly="ComponentArt.Web.UI" namespace="ComponentArt.Web.UI"/>
 

@@ -1,19 +1,13 @@
-﻿require.config({
-    paths: {
-        spiderApp: '/-/speak/v1/pathanalyzer/spider'
-    }
-});
-
-define(["sitecore",
+﻿define([
+        "sitecore",
+        "/-/speak/v1/pathanalyzer/libs/d3.min.js",
         "jquery",
-        "/-/speak/v1/pathanalyzer/PathAnalyzer.js",
-        "spiderApp",
+        "/-/speak/v1/pathanalyzer/spider.js",
         "/sitecore/shell/client/Speak/Assets/lib/ui/1.1/userProfile.js",
         "css!/-/speak/v1/pathanalyzer/spider.css",
-        "css!/-/speak/v1/pathanalyzer/pageAnalyzer.css"],
-    function (Sitecore, $, pa, spiderApp, userProfile) {
-        var dispatch = pa.getDispatch();
-
+        "css!/-/speak/v1/pathanalyzer/pageAnalyzer.css"
+],
+    function (Sitecore, d3, $, spider, userProfile) {
         Sitecore.Factories.createBaseComponent({
             name: "PageAnalyzerApp",
             base: "ControlBase",
@@ -22,8 +16,6 @@ define(["sitecore",
                 { name: "treeId", defaultValue: null, value: "$el.data:sc-treeid" },
                 { name: "startDate", defaultValue: null, value: "$el.data:sc-initialstartdate" },
                 { name: "endDate", defaultValue: null, value: "$el.data:sc-initialenddate" },
-                { name: "nodeGroupingOption", defaultValue: null, value: "$el.data:sc-nodegroupingoption" },
-                { name: "pathSignificanceFilterValue", defaultValue: null, value: "$el.data:sc-pathsignificancefiltervalue" },
                 { name: "userProfileKey", defaultValue: null }
             ],
 
@@ -40,8 +32,13 @@ define(["sitecore",
                     this.app.NeverShowLegendAgainCheckbox.set("isChecked", hideLegend);
                 }, { stateDataAttributeName: "sc-appstate" });
 
-                new spiderApp.Application(900, 600, dispatch, true, this.app.StringDictionaryDomain).init();
-                dispatch.contextchanged(this.getParams());
+
+                var mapId = this.model.get("treeId");
+                var startDate = this.model.get("startDate");
+                var endDate = this.model.get("endDate");
+                var stringDictionary = this.app.StringDictionaryDomain;
+                var uriResolver = new ServiceUriResolver("/sitecore/api/PathAnalyzer/Paths", mapId, startDate, endDate);
+                new Application(500, 900, uriResolver, stringDictionary).initialize();
 
                 var pageName = this.getParameterByName('n');
 
@@ -51,22 +48,21 @@ define(["sitecore",
                 }
 
                 var self = this;
-                dispatch.on("dataloaded.host", function () {
-                    self.app.MessageBar.removeMessages();
-                    var treeId = self.model.get("treeId");
-                    self.displayMapBuildStatus(treeId);
-                    self.app.ProgressIndicator.set("isBusy", 0);
+                Bus.instance().subscribe("click", function (path) {
+                    if (path) {
+                        self.showContacts(path.id);
+                    }
                 });
 
-                dispatch.on("pathclick.host", function (path) {
-                    self.showContacts(path.pid);
+                Bus.instance().subscribe("reset", function () {
+                    self.app.ContactsSmartPanel.set("isOpen", 0);
                 });
 
-                dispatch.on("reset.host", function (path) {
-                    self.hideContacts();
+                Bus.instance().subscribe("query:changed", function () {
+                    self.app.ProgressIndicator.set("isBusy", 1);
                 });
 
-                dispatch.on("baddata.host", function (error) {
+                Bus.instance().subscribe("data:error", function (error) {
                     if (error) {
                         var type = "notification";
                         if (error.status !== 404) {
@@ -95,17 +91,24 @@ define(["sitecore",
                     self.app.ProgressIndicator.set("isBusy", 0);
                 });
 
-                dispatch.on("nodata.host", function () {
+                Bus.instance().subscribe("data:empty", function () {
                     var messageText = self.app.StringDictionaryDomain.get("NoData");
                     self.app.MessageBar.addMessage("notification", { text: messageText, actions: [], closable: true });
+                    self.app.ProgressIndicator.set("isBusy", 0);
+                });
+
+                Bus.instance().subscribe("data:loaded", function () {
+                    self.app.MessageBar.removeMessages();
+                    self.app.ProgressIndicator.set("isBusy", 0);
+                });
+
+                Bus.instance().subscribe("data:updated", function () {
+                    self.app.MessageBar.removeMessages();
                     self.app.ProgressIndicator.set("isBusy", 0);
                 });
             },
 
             attachEvents: function () {
-
-                pa.on("contextchanged", this.reload, this);
-
                 this.app.ContactsDataRepeater.on("subAppLoaded", this.setContactData, this);
 
                 this.app.ContactsDataProvider.on("change:data", function () {
@@ -124,9 +127,6 @@ define(["sitecore",
                 this.app.ContactsSmartPanel.set("isOpen", 1);
                 this.findContacts(pathId);
             },
-            hideContacts: function () {
-                this.app.ContactsSmartPanel.set("isOpen", 0);
-            },
             getParameterByName: function (name) {
                 var search = window.location;
                 name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
@@ -138,9 +138,12 @@ define(["sitecore",
                 if (!pathId) {
                     return;
                 }
-                var params = this.getParams();
-                params += "&path=" + pathId;
-                var uri = "/sitecore/api/PathAnalyzer/ContactsByPath" + params;
+
+                var treeId = this.model.get("treeId");
+                var startDate = this.model.get("startDate");
+                var endDate = this.model.get("endDate");
+                var path = pathId;
+                var uri = "/sitecore/api/PathAnalyzer/ContactsByPath?treedefinitionid=" + treeId + "&start=" + startDate + "&end=" + endDate + "&path=" + path;
 
                 var requestOptions = {
                     parameters: null,
@@ -148,22 +151,6 @@ define(["sitecore",
                 };
 
                 this.app.ContactsDataProvider.viewModel.getData(requestOptions);
-            },
-            reload: function (context) {
-                this.app.ProgressIndicator.set("isBusy", 1);
-                this.updateContext(context);
-                dispatch.contextchanged(this.getParams());
-            },
-            updateContext: function (context) {
-                this.model.set("treeId", context.treeDefinitionId);
-                this.model.set("startDate", context.startDate);
-                this.model.set("endDate", context.endDate);
-                this.model.set("nodeGroupingOption", context.group);
-                this.model.set("pathSignificanceFilterValue", context.pathfilter);
-            },
-            getParams: function () {
-                var itemId = this.getParameterByName('id');
-                return '?treedefinitionid=' + this.model.get("treeId") + '&itemid=' + itemId + '&start=' + this.model.get("startDate") + '&end=' + this.model.get("endDate") + '&group=' + this.model.get("nodeGroupingOption") + '&pathfilter=' + this.model.get("pathSignificanceFilterValue");
             },
             setContactData: function (args) {
                 var subapp = args.app;
@@ -193,77 +180,6 @@ define(["sitecore",
                 subapp.ContactEmail.set("text", data.Email);
                 subapp.VisitsLabel.set("value", data.Visits);
                 subapp.ValueLabel.set("value", data.Value);
-            },
-
-            displayFilterMessage: function (data) {
-                var messageId = "DisplayingFilteredMapData";
-
-                this.app.MessageBar.removeMessage(function (msg) { return msg.id === messageId; });
-
-                if (!data || isNaN(data.postConversionNodeCount) || isNaN(data.originalNodeCount)) {
-                    return;
-                }
-
-                if (data.originalNodeCount !== data.postConversionNodeCount) {
-                    var messageObj = {
-                        text: this.app.StringDictionaryDomain.get(messageId),
-                        actions: [],
-                        closable: true,
-                        id: messageId
-                    };
-
-                    this.app.MessageBar.addMessage("notification", messageObj);
-                }
-            },
-
-            displayMapBuildStatus: function (mapId) {
-                var token = $('input[name=__RequestVerificationToken]').val();
-
-                var messageId = "MapStatus";
-                var messageBar = this.app.MessageBar;
-                //remove existing status message, otherwise new notifications are just appended to the notification list.
-                //this also clears the message each time the data are updated.
-                messageBar.removeMessage(function (msg) { return msg.id === messageId; });
-
-                var stringDictionary = this.app.StringDictionaryDomain;
-
-                $.ajax({
-                    url: "/sitecore/api/PathAnalyzer/TreeDefinition/GetStatus",
-                    method: "GET",
-                    data: { "treedefinitionid": mapId, "ignorecache": true },
-                    dataType: "json",
-                    headers: { "X-RequestVerificationToken": token }
-                })
-                .done(function (data) {
-                    if (!data) {
-                        return;
-                    }
-                    for (var i = 0; i < data.length; i++) {
-                        var message = data[i];
-                        if (message) {
-                            var messageObj = {
-                                text: message.Text,
-                                actions: [],
-                                closable: true,
-                                id: messageId
-                            };
-                            messageBar.addMessage(message.Type, messageObj);
-                        }
-                    }
-                })
-                .fail(function (data) {
-                    var message = stringDictionary.get("ErrorRetrievingMapBuildStatus");
-                    var messageObj = {
-                        text: message,
-                        actions: [],
-                        closable: true,
-                        id: messageId
-                    };
-                    messageBar.addMessage("error", messageObj);
-                })
-                .always(function (data) {
-
-                });
             }
         });
     });

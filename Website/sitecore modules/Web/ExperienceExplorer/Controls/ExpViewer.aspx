@@ -451,7 +451,7 @@
                       </td>
                     </tr>
                 <tr>
-                  <td><strong>{{:itemData.Longitude}}</strong></td>
+                  <td><strong>{{:itemData.Longtitude}}</strong></td>
                   <td>{{:itemData.Source.Longitude}}
                             <input type="hidden" id="GeoLongitude" value="{{:itemData.Source.Longitude}}" />
                   </td>

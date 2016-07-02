@@ -18,7 +18,3 @@ span[data-sc-id='ScriptHelpText'] {
     font-style: italic;
     color: grey;
 }
-
-div[data-sc-id='SummaryDomainUrlRow'] {
-  word-wrap: break-word;
-}

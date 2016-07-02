@@ -20,11 +20,24 @@
       -->
       <setting name="Analytics.CampaignQueryStringKey" value="sc_camp" />
 
+      <!--  ANALYTICS DISABLE DATABASE
+            Disables the database so that no reading or writing to the database occurs.
+            Default: false
+      -->
+      <setting name="Analytics.DisableDatabase" value="false" />
+
       <!--  ANALYTICS EMAIL FROM ADDRESS
             Specifies the From address in emails that contain reports.
             Default: <none>
       -->
       <setting name="Analytics.EMailFromAddress" value="" />
+
+      <!--  ANALYTICS ENABLED
+            Determines whether analytics is enabled or not.
+            Default: true
+      -->
+      <setting name="Analytics.Enabled" value="true" />
+
 
       <!--  ANALYTICS EVENT QUERY STRING KEY
             Specifies the key for triggering events on the query string.

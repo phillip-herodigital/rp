@@ -39,7 +39,7 @@ Sitecore.LayoutDefinition.remove = function(uid) {
 Sitecore.LayoutDefinition.removeRendering = function(device, uid) {
   for (n = 0; n < device.r.length; n++) {
     if (this.getShortID(device.r[n]["@uid"]) == uid) {
-      var r = device.r[n];
+      r = device.r[n];
       device.r.splice(n, 1);
       return r;
     }
@@ -47,23 +47,21 @@ Sitecore.LayoutDefinition.removeRendering = function(device, uid) {
   return null;
 };
 
-Sitecore.LayoutDefinition.moveToPosition = function (uid, placeholderKey, position) {
+Sitecore.LayoutDefinition.moveToPosition = function(uid, placeholderKey, position) {
   var layoutDefinition = this.getLayoutDefinition();
   var device = this.getDevice(layoutDefinition);
-  var originalPosition = this._getRenderingPositionInPlaceholder(device, placeholderKey, uid, placeholderKey);
+  var originalPosition = this._getRenderingPositionInPlaceholder(device, placeholderKey, uid);
   var r = this.removeRendering(device, uid);
   if (r == null) {
     return;
   }
-
-  Sitecore.LayoutDefinition.handleRelatedRenderings(placeholderKey, r, device.r);
-
+  
   r["@ph"] = placeholderKey;
 
   if (position == 0) {
-    device.r.splice(0, 0, r);
-    this.setLayoutDefinition(layoutDefinition);
-    return;
+     device.r.splice(0, 0, r);
+     this.setLayoutDefinition(layoutDefinition);
+     return;
   }
   // Rendering is moving down inside the same placeholder. Decrement the real position, because rendering itself is removed 
   // from his original position. 
@@ -72,16 +70,11 @@ Sitecore.LayoutDefinition.moveToPosition = function (uid, placeholderKey, positi
   }
 
   var placeholderWiseCount = 0;
-  for (var totalCount = 0; totalCount < device.r.length; totalCount++) {
-    var rendering = device.r[totalCount];
-    if (rendering["@ph"] == '') {
-      //if @ph value is empty(e.g. when placehoder was set on rendereng but not in ther layout definition)
-      //then get placeholder key from DOM
-      var identifier = "#r_" + rendering["@uid"].replace(/[{}-]/g, '');
-      rendering["@ph"] = $sc(identifier).parent().children().first().attr("key");
-    }
-
-    if (Sitecore.PageModes.Utility.areEqualPlaceholders(rendering["@ph"], placeholderKey)) {
+  for (var totalCount = 0; totalCount < device.r.length; totalCount++)
+  {
+    var rendering = device.r[totalCount];       
+    if (Sitecore.PageModes.Utility.areEqualPlaceholders(rendering["@ph"], placeholderKey))
+    {
       placeholderWiseCount++;
     }
 
@@ -91,72 +84,8 @@ Sitecore.LayoutDefinition.moveToPosition = function (uid, placeholderKey, positi
       break;
     }
   }
-
+    
   this.setLayoutDefinition(layoutDefinition);
-};
-
-Sitecore.LayoutDefinition.handleRelatedRenderings = function (newPlaceholder, renderingToMove, renderings) {
-  if (!renderingToMove) {
-    return;
-  }
-
-  if (!renderings || renderings.length == 0) {
-    return;
-  }
-
-  if (newPlaceholder == "") {
-    return;
-  }
-
-  var chrome = $sc.first(Sitecore.PageModes.ChromeManager.chromes(), function () {
-    if (!this.type || typeof this.type.uniqueId != 'function') {
-      return false;
-    }
-
-    return this.type.uniqueId() === $sc.toShortId(renderingToMove["@uid"]);
-  });
-
-  if (!chrome) {
-    return;
-  }
-
-  var relatedRenderings = Sitecore.LayoutDefinition.getRelatedRenderingsUID(chrome);
-
-  for (var i = 0; i < renderings.length; i++) {
-    var r = renderings[i];
-    if (relatedRenderings.indexOf($sc.toShortId(r["@uid"])) == -1) {
-      continue;
-    }
-
-    var renderingPlaceholder = Sitecore.LayoutDefinition.checkPlaceholderPath(r["@ph"]);
-    var movedRenderingPlaceholder = Sitecore.LayoutDefinition.checkPlaceholderPath(renderingToMove["@ph"]);
-
-    if (renderingPlaceholder.match("^" + movedRenderingPlaceholder)) {
-      r["@ph"] = r["@ph"].replace(movedRenderingPlaceholder, Sitecore.LayoutDefinition.checkPlaceholderPath(newPlaceholder))
-    }
-  }
-};
-
-Sitecore.LayoutDefinition.checkPlaceholderPath = function (placeholder) {
-  if (placeholder.indexOf('/') != 0) {
-    return '/' + placeholder;
-  }
-
-  return placeholder;
-};
-
-Sitecore.LayoutDefinition.getRelatedRenderingsUID = function (chrome) {
-  var renderingsUid = [];
-  var childChromes = chrome.getChildChromes(function () {
-    return this.type && typeof this.type.uniqueId == 'function';
-  }, true);
-
-  $sc.each(childChromes, function () {
-    renderingsUid.push(this.type.uniqueId().toString());
-    renderingsUid = renderingsUid.concat(Sitecore.LayoutDefinition.getRelatedRenderingsUID(this));
-  });
-
-  return renderingsUid;
 };
 
 Sitecore.LayoutDefinition.getRenderingConditions = function(renderingUid) {
@@ -298,15 +227,10 @@ Sitecore.LayoutDefinition.readLayoutFromRibbon = function() {
   return false;
 };
 
-Sitecore.LayoutDefinition._getRenderingPositionInPlaceholder = function(device, placeholderKey, uid, defaultPlaceholderKey) {
+Sitecore.LayoutDefinition._getRenderingPositionInPlaceholder = function(device, placeholderKey, uid) {
   var counter = 0;
   for (var i = 0; i < device.r.length; i++) {
-    var devicePlaceholder = device.r[i]["@ph"];
-    if (devicePlaceholder == '' && defaultPlaceholderKey) {
-      devicePlaceholder = defaultPlaceholderKey;
-    }
-
-    if (device.r[i]["@ph"] == "" || Sitecore.PageModes.Utility.areEqualPlaceholders(devicePlaceholder, placeholderKey)) {
+    if (Sitecore.PageModes.Utility.areEqualPlaceholders(device.r[i]["@ph"],placeholderKey)) {
       if (this.getShortID(device.r[i]["@uid"]) == uid) {
         return counter;
       }

@@ -10,7 +10,6 @@
 
 <html>
 <head runat="server">
-  <meta http-equiv="X-Frame-Options" content="SAMEORIGIN">
   <meta http-equiv="X-UA-Compatible" content="IE=edge"> 
   <title><sc:Literal runat="server" Text="User Manager"></sc:Literal></title>
   <link rel="shortcut icon" href="/sitecore/images/favicon.ico" />
@@ -18,24 +17,10 @@
   <sc:Stylesheet Src="Ribbon.css" DeviceDependant="true" runat="server" />
   <sc:Stylesheet Src="Grid.css" DeviceDependant="true" runat="server" />
   <sc:Script Src="/sitecore/shell/Controls/SitecoreObjects.js" runat="server" />
-  <sc:Script Src="/sitecore/shell/Controls/Lib/jQuery/jquery.noconflict.js" runat="server" />
   <sc:Script Src="/sitecore/shell/Applications/Content Manager/Content Editor.js" runat="server" />
   <style type="text/css">
     html body {
       overflow: hidden;
-    }
-    .scRibbonClose{
-          top: auto;
-          bottom: 0px;
-    }
-    .scRibbonOpen {
-          top: 0px;
-          bottom: auto;
-    }
-    #RibbonPanel {
-        position: relative;
-        border-bottom: 1px solid #e3e3e3;
-        background-color: #f7f7f7;
     }
   </style>
 
@@ -62,12 +47,6 @@
 
     window.onresize = OnResize;
 
-    setInterval(function () {
-      var searchBox = document.querySelector("[id$=searchBox]");
-      if(searchBox && searchBox.value.indexOf('\"') != -1) {
-        searchBox.value = searchBox.value.replace(/"/g, "");
-      };
-    }, 50);
 
   </script>
 
@@ -78,7 +57,7 @@
     <sc:ContinuationManager runat="server" />
     <uc:GlobalHeader runat="server" />
     <div class="scFlexColumnContainer scHeight100">
-     <div id="RibbonPanel">
+      <div>
         <sc:Ribbon runat="server" ID="Ribbon" />
       </div>
       <div id="GridCell" class="scFlexContent">
@@ -110,7 +89,7 @@
             RenderSearchEngineStamp="True"
             ShowSearchBox="true"
             SearchTextCssClass="GridHeaderText scTextAlignRight "
-            SearchBoxCssClass="SearchBox scIgnoreModified"
+            SearchBoxCssClass="SearchBox"
             SliderHeight="20"
             SliderWidth="150"
             SliderGripWidth="24"

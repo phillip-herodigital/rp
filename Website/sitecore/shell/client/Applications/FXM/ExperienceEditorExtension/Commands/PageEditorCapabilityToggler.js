@@ -2,64 +2,58 @@
     "sitecore",
     "/-/speak/v1/FXM/ExperienceEditorExtension/Legacy/LegacySitecore.js",
     "/-/speak/v1/FXM/ExperienceEditorExtension/Legacy/LegacyjQuery.js",
-    "/-/speak/v1/FXM/ExperienceEditorExtension/Utils/ControlDisabler.js",
-    "/-/speak/v1/ExperienceEditor/ExperienceEditor.js"
-], function (_sc, _legacy, $sc, ctrlDisabler, ExperienceEditor) {
+    "/-/speak/v1/FXM/ExperienceEditorExtension/Utils/ControlDisabler.js"
+], function (_sc, _legacy, $sc, ctrlDisabler) {
 
-  return function (commandName, registryKey, capabilityKey, childCapabilities, callback) {
+    return function (commandName, registryKey, capabilityKey, childCapabilities, callback) {
+        
+        var disabler;
+        var registryData = { value: registryKey };
+        
+        var handler = function (state, app, button) {
 
-    var disabler;
-    var registryData = { value: registryKey };
+            if (!disabler) {
+                disabler = new ctrlDisabler(app);
+            }
 
-    var handler = function (state, app, button) {
+            button.viewModel.isPressed(state);
 
-      if (!disabler) {
-        disabler = new ctrlDisabler(app);
-      }
+            _legacy.PageModes.PageEditor.changeCapability(capabilityKey, state);
 
-      button.viewModel.isPressed(state);
+            _.each(childCapabilities, function (c) {
+                _legacy.PageModes.PageEditor.changeCapability(c, state);
+            });
 
-      _legacy.PageModes.PageEditor.changeCapability(capabilityKey, state);
+            if (callback) {
+                callback(state);
+            }
 
-      _.each(childCapabilities, function (c) {
-        _legacy.PageModes.PageEditor.changeCapability(c, state);
-      });
+            disabler.enable([button.viewModel.name()], !state);
+        }
 
-      if (callback) {
-        callback(state);
-      }
+        _sc.Commands[commandName] =
+        {
+            initialize: function(app, button) {
+                var $initCapbilities = $sc('#scCapabilities').val().split('|');
+                if (_.contains($initCapbilities, capabilityKey)) {
+                    handler({ value: true }, app, button);
+                }
+            },
+            canExecute: function (context) {
 
-      var toggleButton = jQuery('[data-sc-click="trigger:button:toggleshow"]');
-      if (toggleButton.length == 1) {
-        disabler.enable([button.viewModel.name(), toggleButton.attr('data-sc-id')], !state);
-      } else {
-        disabler.enable([button.viewModel.name()], !state);
-      }
+                if (!_sc.ExperienceEditor.isInMode("edit")) {
+                    return false;
+                }
+
+                // Check is enabled allowed through pipeline?
+                return true;
+            },
+            execute: function (context) {
+                
+                _sc.ExperienceEditor.PipelinesUtil.generateRequestProcessor("ExperienceEditor.ToggleRegistryKey.Toggle", function(resp) {
+                    handler(resp.responseValue.value, context.app, context.button);
+                }, registryData).execute(context);
+            }
+        };
     }
-
-    _sc.Commands[commandName] =
-    {
-      initialize: function (app, button) {
-        var $initCapbilities = $sc('#scCapabilities').val().split('|');
-        if (_.contains($initCapbilities, capabilityKey)) {
-          handler({ value: true }, app, button);
-        }
-      },
-      canExecute: function (context) {
-
-        if (!ExperienceEditor.isInMode("edit")) {
-          return false;
-        }
-
-        // Check is enabled allowed through pipeline?
-        return true;
-      },
-      execute: function (context) {
-
-        ExperienceEditor.PipelinesUtil.generateRequestProcessor("ExperienceEditor.FXM.ToggleRegistryKey.Toggle", function (resp) {
-          handler(resp.responseValue.value, context.app, context.button);
-        }, registryData).execute(context);
-      }
-    };
-  }
 });

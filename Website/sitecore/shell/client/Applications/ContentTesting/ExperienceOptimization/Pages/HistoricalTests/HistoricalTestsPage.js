@@ -8,7 +8,7 @@
 define(["sitecore", "executedTestsListMod", "loadingImage"], function (_sc, executedTestsListMod, loadingImage) {
   var HistoricalTests = _sc.Definitions.App.extend({
     initialized: function () {
-        this.historicalTestsList = new executedTestsListMod.ExecutedTestsList({ host: this, enableClickEvent: false});
+      this.historicalTestsList = new executedTestsListMod.ExecutedTestsList({ host: this });
 
       this.TestsDataSource.set("currentPage", this);
 

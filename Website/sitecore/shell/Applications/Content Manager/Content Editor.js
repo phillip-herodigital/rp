@@ -311,7 +311,6 @@ scContentEditor.prototype.setActiveStrip = function (id) {
                         strip.innerHTML = html.substring(0, html.length - endComment.length);
                     }
                 }
-
                 nav.className = nav.className.replace(/Normal/gi, "Active");
                 this.isContextualTab = nav.className.indexOf("Contextual") >= 0;
 
@@ -752,7 +751,7 @@ scContentEditor.prototype.initializeTree = function () {
     var ctl = scForm.browser.getControl("ContentTreePanel");
 
     if (ctl != null) {
-        var visible = (scForm.getCookie("scContentEditorFolders") != "0") && (window.location.href.indexOf("mo=mini") < 0) && (window.location.href.indexOf("mo=popup") < 0) || (window.location.href.indexOf("mo=template") >= 0);
+        var visible = (scForm.getCookie("scContentEditorFolders") != "0") && (window.location.href.indexOf("mo=preview") < 0) && (window.location.href.indexOf("mo=mini") < 0) && (window.location.href.indexOf("mo=popup") < 0) || (window.location.href.indexOf("mo=template") >= 0);
 
         ctl.style.display = visible ? "" : "none";
     }
@@ -939,33 +938,17 @@ scContentEditor.prototype.toggleFolders = function () {
         scForm.setCookie("scContentEditorFolders", visible ? "1" : "0");
 
         var button = scForm.browser.getControl("RibbonToggleFolders");
+
         button.childNodes[0].checked = visible;
 
-        if (jQuery(".splitter-bar").toggle(visible).length){
-          jQuery('.scContentEditorSplitter').trigger("resize", [ visible? (scForm.getCookie("scContentEditorFoldersWidth") || 200) : 0 ]);
-        } else{
-          this.turnOnSplitter();
-        }
+        ctl = scForm.browser.getControl("ContentTreeSplitter");
+        ctl.style.display = visible ? "" : "none";
     }
 
     if (typeof (scGeckoRelayout) != "undefined") {
         scForm.browser.initializeFixsizeElements();
     }
 };
-
-// ------------------------------------------------------------------
-// Splitter
-// ------------------------------------------------------------------
-
-scContentEditor.prototype.turnOnSplitter = function () {
-    jQuery('.scContentEditorSplitter').splitter( {
-        resizeTo: document.getElementById('MainPanel'),
-        sizeLeft: scForm.getCookie("scContentEditorFoldersWidth") || 200,
-        onEndSplitMouse: function (pos) {
-            scForm.setCookie("scContentEditorFoldersWidth", pos);
-        }
-    });
-}
 
 // ------------------------------------------------------------------
 // Item Buckets Fullscreen
@@ -1572,7 +1555,7 @@ scContentEditor.prototype.onEditorTabClick = function (sender, evt, id) {
         var scEditorTabs = scForm.browser.getControl("scEditorTabs");
         var tabs = scEditorTabs.value.split("|");
         for (var n = 0; n < allBucketTabs.length; n++) {
-            if (allBucketTabs[n].src.indexOf("applications/16x16/view.png") != -1) {
+            if (allBucketTabs[n].src.indexOf("/temp/IconCache/applications/16x16/view.png") != -1) {
                 var currentId = allBucketTabs[n].parentElement.parentElement;
                 active = scForm.browser.getControl(currentId.id);
             }
@@ -1594,7 +1577,7 @@ scContentEditor.prototype.onEditorTabClick = function (sender, evt, id) {
           var scEditorTabs = scForm.browser.getControl("scEditorTabs");
           var tabs = scEditorTabs.value.split("|");
           for (var n = 0; n < allBucketTabs.length; n++) {
-              if (allBucketTabs[n].src.indexOf("applications/16x16/view.png") != -1) {
+              if (allBucketTabs[n].src.indexOf("/temp/IconCache/applications/16x16/view.png") != -1) {
                   var currentId = allBucketTabs[n].parentElement.parentElement;
                   frame = scForm.browser.getControl("F" + currentId.id.substr(1, currentId.id.length));
               }
@@ -1713,7 +1696,7 @@ scContentEditor.prototype.closeAllEditorTab = function () {
     var scEditorTabs = scForm.browser.getControl("scEditorTabs");
     var tabs = scEditorTabs.value.split("|");
     for (var n = 0; n < allBucketTabs.length; n++) {
-        if (allBucketTabs[n].src.indexOf("Applications/16x16/text_view.png") != -1) {
+        if (allBucketTabs[n].src.indexOf("/temp/IconCache/Applications/16x16/text_view.png") != -1) {
 
             var currentId = allBucketTabs[n].parentElement.parentElement;
             this.closeEditorTab(currentId.id.substr(1, currentId.id.length));
@@ -1754,7 +1737,7 @@ scContentEditor.prototype.closeEditorTab = function (id) {
     }
 
     var setSearchAsTheActiveTab = false;
-    if (active.innerHTML.indexOf("Applications/16x16/text_view.png") != -1) {
+    if (active.innerHTML.indexOf("/temp/IconCache/Applications/16x16/text_view.png") != -1) {
 
         setSearchAsTheActiveTab = true;
     }
@@ -1824,7 +1807,7 @@ scContentEditor.prototype.closeAllButActiveEditorTab = function () {
     var scEditorTabs = scForm.browser.getControl("scEditorTabs");
     var tabs = scEditorTabs.value.split("|");
     for (var n = 0; n < allBucketTabs.length; n++) {
-        if (allBucketTabs[n].src.indexOf("Applications/16x16/text_view.png") != -1) {
+        if (allBucketTabs[n].src.indexOf("/temp/IconCache/Applications/16x16/text_view.png") != -1) {
 
             if (allBucketTabs[n].parentElement.parentElement.className.indexOf("Active") != -1) {
                 var currentId = allBucketTabs[n].parentElement.parentElement;
@@ -1841,7 +1824,7 @@ scContentEditor.prototype.closeAllToRightEditorTab = function () {
     var scEditorTabs = scForm.browser.getControl("scEditorTabs");
     var tabs = scEditorTabs.value.split("|");
     for (var n = 0; n < allBucketTabs.length; n++) {
-        if (allBucketTabs[n].src.indexOf("Applications/16x16/text_view.png") != -1) {
+        if (allBucketTabs[n].src.indexOf("/temp/IconCache/Applications/16x16/text_view.png") != -1) {
 
             if (allBucketTabs[n].parentElement.parentElement.className.indexOf("Active") != -1) {
                 var currentId = allBucketTabs[n].parentElement.parentElement;
@@ -2070,7 +2053,7 @@ function StartSpellCheck(elements, language) {
 
     radSpell.set_textSource(new MultipleTextSource(sources));
 
-    radSpell.set_dictionaryLanguage(language);
+    radSpell.set_dictionaryLanguage = language;
 
     radSpell.startSpellCheck();
 

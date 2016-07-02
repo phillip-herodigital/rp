@@ -29,19 +29,12 @@
 
         function CorrectGridSize()
         {
-          var gridRows = $$("[id$='Domains_dom']");
+          var gridRows = $("ctl00_ctl00_ctl00_ctl00_Domains_dom");
           if (gridRows != null)
             gridRows.style.height = '100%';
         }
 
         window.onresize = CorrectGridSize;
-        setInterval(function () {
-          var searchBox = document.querySelector("[id$=searchBox]");
-          if (searchBox && searchBox.value.indexOf('\"') != -1) {
-            searchBox.value = searchBox.value.replace(/"/g, "");
-          };
-        }, 50);
-        
         var timer = setInterval(adjustHeight, 10);
 
         function adjustHeight() {

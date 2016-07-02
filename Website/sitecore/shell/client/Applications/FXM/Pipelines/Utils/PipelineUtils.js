@@ -4,14 +4,10 @@
     "/-/speak/v1/FXM/Utils/ClassicDialogUtil.js"
 ], function (_sc, Q, _dialogUtil) {
 
-  var handler = function (url, data, success, fail) {
-        var token = $('input[name="__RequestVerificationToken"]').val();
+    var handler = function(url, data, success, fail) {
         jQuery.ajax({
             url: url,
-            data: {
-              data: decodeURIComponent(decodeURIComponent(JSON.stringify(data))),
-              __RequestVerificationToken: token
-            },
+            data: "data=" + JSON.stringify(data),
             type: "POST",
             success: function(resp) {
                 if (resp.error) {

@@ -51,12 +51,12 @@ function scNavigate(href) {
 }
 
 function scSetHtmlValue(controlid, preserveInnerContent, clearIfEmpty) {
-  var ctl = $.noConflict ? window.parent.document.getElementById("scHtmlValue") : $("scHtmlValue");
+  var ctl = $("scHtmlValue");
   if (ctl == null) {
     return;
   }
   
-  var plainValueControl = $.noConflict ? window.parent.document.getElementById("scPlainValue") : $("scPlainValue");
+  var plainValueControl = $("scPlainValue");
   if (plainValueControl == null) {
     return;
   }
@@ -80,8 +80,9 @@ function scSetHtmlValue(controlid, preserveInnerContent, clearIfEmpty) {
 }
 
 function scSetSaveButtonState(isEnabled) {
-  var saveButtonState = window.parent.document.getElementById("__SAVEBUTTONSTATE");
-  if (document.querySelector('[data-sc-id="QuickSave"]') != null
+  var saveButtonState = $("__SAVEBUTTONSTATE");
+  if (Sitecore.PageModes != null 
+    && Sitecore.PageModes.PageEditor.ribbon().contentWindow.document.querySelector('[data-sc-id="QuickSave"]') != null
     && saveButtonState) {
     saveButtonState.value = 1;
     saveButtonState.onchange();
@@ -165,16 +166,6 @@ function scOnLoad() {
   });
 
   prepareHeaderButtons();
-
-  if (window.parent.NotifcationMessages != undefined) {
-    window.parent.NotifcationMessages.forEach(function (entry) {
-      console.log(entry);
-      var notificaton = new window.parent.Sitecore.PageModes.Notification("pageeditorchrome" + entry.text, entry.text, {
-        type: entry.type
-      });
-      Sitecore.PageEditorProxy.showNotification(notificaton);
-    });
-  }
 }
 
 function prepareHeaderButtons() {
@@ -215,18 +206,9 @@ function scAdjustSize() {
   frame.style.height = "" + height + "px";
 }
 
-if (typeof (scSitecore) != 'undefined') {
-  scBrowser.prototype.getControlEx = scBrowser.prototype.getControl;
-  scBrowser.prototype.getControl = function (id, doc) {
-    var control = this.getControlEx(id, doc);
-    if (control == null) {
-      control = this.getControlEx(id, window.parent.document);
-    }
-
-    return control;
-  };
-
+if (typeof(scSitecore) != 'undefined') { 
   scSitecore.prototype.setModifiedEx = scSitecore.prototype.setModified;
+
   scSitecore.prototype.setModified = function (value) {
     scSetSaveButtonState(value);
     this.setModifiedEx(value);
@@ -249,12 +231,11 @@ if (typeof (scSitecore) != 'undefined') {
       return url;
     }
 
-    var frame = document.getElementById("scWebEditRibbon") || window.parent.document.getElementById("scWebEditRibbon");
+    var frame = document.getElementById("scWebEditRibbon");
     var frameUrl = frame.src.replace("&sc_lang=", "&la=");
     frameUrl = frameUrl.replace("&itemId=", "&id=");
     frameUrl = frameUrl.replace("&deviceId=", "&dev=");
     frameUrl = frameUrl.replace("&database=", "&db=");
-    frameUrl = frameUrl.replace("&lang=", "&la=");
     frameUrl = frameUrl.replace("&sc_content=core", "&sc_content=master");
     frameUrl = frameUrl.replace("?sc_content=core", "?sc_content=master");
     frameUrl += "&sc_speakribbon=1";
@@ -293,24 +274,22 @@ scRequest.prototype.buildFields = function (doc) {
   this.buildFieldsEx();
 }
 
-if (typeof (scContentEditor) != "undefined") {
-  scContentEditor.prototype.setActiveStripEx = scContentEditor.prototype.setActiveStrip;
+scContentEditor.prototype.setActiveStripEx = scContentEditor.prototype.setActiveStrip;
 
-  scContentEditor.prototype.setActiveStrip = function(id, toggleRibbon) {
-    scContentEditor.prototype.setActiveStripEx(id, toggleRibbon);
-
-    var ctl = scForm.browser.getControl("scActiveRibbonStrip");
-
-    if (ctl != null) {
-      scForm.setCookie("sitecore_webedit_activestrip", ctl.value);
-    }
-
-    scFixIeMinMaxWidth();
+scContentEditor.prototype.setActiveStrip = function(id, toggleRibbon) {
+  scContentEditor.prototype.setActiveStripEx(id, toggleRibbon);
+  
+  var ctl = scForm.browser.getControl("scActiveRibbonStrip");
+  
+  if (ctl != null) {
+    scForm.setCookie("sitecore_webedit_activestrip", ctl.value);
   }
 
-  scContentEditor.prototype.showGallery = function(sender, evt, id, src, parameters, width, height, where) {
-    this.showOutOfFrameGallery(sender, evt, src, { width: width, height: height }, parameters);
-  }
+  scFixIeMinMaxWidth();
+}
+
+scContentEditor.prototype.showGallery = function(sender, evt, id, src, parameters, width, height, where) {
+  this.showOutOfFrameGallery(sender, evt, src, {width:  width, height: height },  parameters);
 }
 
 function scSetDesigning(enabled) {
@@ -422,8 +401,7 @@ function scAdjustPositioning() {
     ribbonNavigators[0].setStyle({ marginLeft: commands.length * commandWidth + deviders.length * deviderWidth + 12 + "px" });
   }
   // There's no ribbon tabs. Add the margin to the toolbar to avoid overlaping with commands
-  else if (buttonsContainer.childElements
-    && buttonsContainer.childElements().length > 0) {
+  else if (buttonsContainer.childElements().length > 0) {
     var ribbonPanel = $("RibbonPanel");
     if (ribbonPanel) {
       var marginValue = buttonsContainer.measure("border-box-height");

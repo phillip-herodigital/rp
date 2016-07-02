@@ -486,22 +486,6 @@
               <c>true</c> if analytics is enabled; otherwise, <c>false</c>.
             </value>
         </member>
-        <member name="P:Sitecore.Social.Configuration.Model.AnalyticsSettingsConfiguration.XdbSettingsEnabled">
-            <summary>
-            Gets or sets a value indicating whether analytics is enabled.
-            </summary>
-            <value>
-              <c>true</c> if analytics is enabled; otherwise, <c>false</c>.
-            </value>
-        </member>
-        <member name="P:Sitecore.Social.Configuration.Model.AnalyticsSettingsConfiguration.XdbSettingsTrackingEnabled">
-            <summary>
-            Gets or sets a value indicating whether analytics tracking is enabled.
-            </summary>
-            <value>
-              <c>true</c> if analytics tracking is enabled; otherwise, <c>false</c>.
-            </value>
-        </member>
         <member name="T:Sitecore.Social.Configuration.Model.ApiConfiguration">
             <summary>
             The social api configuration.
@@ -1719,14 +1703,6 @@
             </summary>
             <value>
             The content management tasks execution instance.
-            </value>
-        </member>
-        <member name="P:Sitecore.Social.Configuration.Model.ScalabilitySettingsConfiguration.ContentManagementInstanceExecutionManager">
-            <summary>
-            Gets or sets the content management instance execution manager.
-            </summary>
-            <value>
-            The content management instance execution manager.
             </value>
         </member>
         <member name="T:Sitecore.Social.Configuration.Model.SettingsConfiguration">

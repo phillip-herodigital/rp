@@ -39,11 +39,8 @@ div[data-sc-id="AddPageBorder"] a[data-sc-id="AddPage"]:hover {
   background-color: gainsboro;
 }
 div[data-sc-id="AddPageBorder"] div[data-sc-id="Entry"] {
-  height: 150px;
+  max-height: 150px;
 }
 div[data-sc-id="AddPageBorder"] div[data-sc-id="Entry"] .sc-border {
   display: block;
-}
-div[data-sc-id="AddPageBorder"] div[data-sc-id="Entry"] div[data-sc-id="PageThumbnail"] {
-  height: 116px;
 }

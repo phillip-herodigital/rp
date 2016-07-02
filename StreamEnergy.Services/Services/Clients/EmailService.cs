@@ -92,8 +92,7 @@ namespace StreamEnergy.Services.Clients
             Contact contact = null;
             if (root != null && Util.IsValidEmail(email))
             {
-                //string commonDomain = root.Settings.CommonDomain;
-                string commonDomain = "Emailcampaign"; //Hard coding as this field has been made private.  We might want to update this!
+                string commonDomain = root.Settings.CommonDomain;
                 var membershipUserCollection = Membership.FindUsersByEmail(email);
                 foreach (MembershipUser membershipUser in membershipUserCollection)
                 {
@@ -120,8 +119,7 @@ namespace StreamEnergy.Services.Clients
             EmailContact contact = null;
             if (root != null && !string.IsNullOrEmpty(localName))
             {
-                //string commonDomain = root.Settings.CommonDomain;
-                string commonDomain = "Emailcampaign"; //Hard coding as this field has been made private.  We might want to update this!
+                string commonDomain = root.Settings.CommonDomain;
                 string text = commonDomain + "\\" + Util.AddressToUserName(localName);
                 while (Sitecore.Security.Accounts.User.Exists(text))
                 {

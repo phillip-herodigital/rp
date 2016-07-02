@@ -4,12 +4,9 @@
     <Favicon Src="/sitecore/images/favicon.ico" />
     <FormPage Application="Security/Security Editor" Title="Security Editor">
       <Stylesheet Src="Content Manager.css" DeviceDependant="true"/>
-      <Stylesheet Src="SecurityEditor.css" DeviceDependant="true" />
       <Stylesheet Src="Ribbon.css" DeviceDependant="true"/>
-      <Stylesheet Src="SecurityEditor.css" DeviceDependant="true" />
       <Stylesheet Src="/sitecore/shell/Applications/Security/SecurityEditor/SecurityEditor.css" DeviceDependant="true"/>
 
-      <Script Src="/sitecore/shell/Controls/Lib/jQuery/jquery.noconflict.js" runat="server" />
       <Script Src="/sitecore/shell/Controls/SitecoreObjects.js"/>
       <Script Src="/sitecore/shell/Applications/Content Manager/Content Editor.js"/>
       <Script Src="/sitecore/shell/Applications/Security/SecurityEditor/SecurityEditor.js"/>

@@ -3,11 +3,11 @@
   <Gallery.Subitems>
     <Gallery>
       <CodeBeside Type="Sitecore.Shell.Applications.ContentManager.Galleries.Subitems.GallerySubitemsForm,Sitecore.Client"/>
-      <Scrollbox Border="none" Padding="0px">
-        <Menu ID="Subitems" Border="none">
-          <MenuHeader Header="Subitems"/>
-        </Menu>
-      </Scrollbox>
+
+      <Menu ID="Subitems" Border="none">
+        <MenuHeader Header="Subitems"/>
+      </Menu>
+
     </Gallery>
   </Gallery.Subitems>
 </control>

@@ -1,10 +1,8 @@
 ﻿define([
     "sitecore",
     "/-/speak/v1/FXM/ExperienceEditorExtension/Legacy/LegacySitecore.js",
-    "/-/speak/v1/FXM/ExperienceEditorExtension/Legacy/LegacyjQuery.js",
-    "/-/speak/v1/ExperienceEditor/ExperienceEditor.js",
-    "/-/speak/v1/ExperienceEditor/TranslationUtil.js"
-], function (_sc, _legacy, $sc, ExperienceEditor, TranslationUtil) {
+    "/-/speak/v1/FXM/ExperienceEditorExtension/Legacy/LegacyjQuery.js"
+], function (_sc, _legacy, $sc) {
     var pagePath = "/sitecore/client/Applications/FXM/ExperienceEditorExtension/Dialogs/CreateElementReplacer";
     _sc.Commands.CreateReplacer =
     {
@@ -24,19 +22,19 @@
             var dialogPath = _sc.Helpers.url.addQueryParameters(pagePath, data);
             var dialogFeatures = "dialogHeight:500;dialogWidth:700;ignoreSpeakSizes:true";
 
-            ExperienceEditor.Dialogs.showModalDialog(dialogPath, null, dialogFeatures, null, function (data) {
+            _sc.ExperienceEditor.Dialogs.showModalDialog(dialogPath, null, dialogFeatures, null, function (data) {
                 if (context.callback) {
                     context.callback(data);
 
                     if (data != null) {
                         _legacy.PageModes.PageEditor.setModified(true);
-                        ExperienceEditor.getContext().isModified = true;
+                        _sc.ExperienceEditor.isModified = true;
 
-                        var message = TranslationUtil.translateTextByServer("The FXM function you have placed on this page has been saved.");
+                        var message = _sc.ExperienceEditor.instance.TranslationDictionary.translate("The FXM function you have placed on this page has been saved.");
                         var actionMessage = "";
                         var actionClick = "";
 
-                        _sc.ExperienceEditor.Context.instance.NotificationBar.addMessage("notification", {
+                        _sc.ExperienceEditor.instance.NotificationBar.addMessage("notification", {
                             text: message,
                             closable: false,
                             actions: [{
@@ -45,7 +43,7 @@
                             }]
                         });
 
-                        _sc.ExperienceEditor.Context.instance.setHeight();
+                        _sc.ExperienceEditor.instance.setHeight();
                     }
                 }
             });

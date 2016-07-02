@@ -7,7 +7,7 @@
             <ul>
                 @if (Sitecore.Context.IsLoggedIn)
                 {
-                    <li><a href="/api/streamauthentication/callcenterlogout">@Html.Sitecore().Field("Sign Out text", accountDataSourceItem)</a></li>
+                    <li><a href="/api/authentication/callcenterlogout">@Html.Sitecore().Field("Sign Out text", accountDataSourceItem)</a></li>
                 }
             </ul>
         </nav>
@@ -20,7 +20,7 @@
                 <text>Welcome,</text>
                 @Sitecore.Context.User.LocalName
                 <ul>
-                    <li><a href="/api/streamauthentication/callcenterlogout">@Html.Sitecore().Field("Sign Out text", accountDataSourceItem)</a></li>
+                    <li><a href="/api/authentication/callcenterlogout">@Html.Sitecore().Field("Sign Out text", accountDataSourceItem)</a></li>
                 </ul>
             }
         </div>

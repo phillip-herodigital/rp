@@ -804,7 +804,6 @@ article.service-tabs {
         display: block;
     }
 }
-
 article.contact {
     .request {
         p {
@@ -3045,21 +3044,6 @@ article.mobile-pricing-plans {
 	a strong {
 		color: #0a97d6;
 	}
-	.local-wire-companies {
-		padding: 0px 0px 30px 40px;
-		p {
-			margin: .5em 0px 0px 0px;
-		}
-		.grid .col {
-			&.company {
-				width: 70%;
-			}
-			&.outage-info {
-				width: 30%;
-			}
-			margin-bottom: 20px;
-		}
-	}
 }
 
 .global-header {
@@ -3163,16 +3147,6 @@ article.mobile-pricing-plans {
 				}
 			}
 		}
-	}
-}
-
-.emergency-contacts-header {
-	background-image: url('../i/icon/protection.png');
-	background-position: 95% 50%;
-	background-repeat: no-repeat;
-	padding-right: 100px;
-	&.georgia {
-		padding: 20px 100px 20px 0px;
 	}
 }
 

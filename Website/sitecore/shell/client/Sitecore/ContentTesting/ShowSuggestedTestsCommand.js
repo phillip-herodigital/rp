@@ -4,7 +4,7 @@
   }
 });
 
-define(["sitecore", "loadingImage", "/-/speak/v1/ExperienceEditor/ExperienceEditor.js"], function (Sitecore, loadingImage, ExperienceEditor) {
+define(["sitecore", "loadingImage"], function (Sitecore, loadingImage) {
   Sitecore.Commands.SuggestedTests =
   {
     canExecute: function (context) {
@@ -26,7 +26,7 @@ define(["sitecore", "loadingImage", "/-/speak/v1/ExperienceEditor/ExperienceEdit
     execute: function (context) {
       var dialogPath = "/sitecore/client/Applications/ContentTesting/Pages/SuggestedTests";
       var dialogFeatures = "dialogHeight: 600px;dialogWidth: 500px;";
-      ExperienceEditor.Dialogs.showModalDialog(dialogPath, '', dialogFeatures, null, function (result) {
+      Sitecore.ExperienceEditor.Dialogs.showModalDialog(dialogPath, '', dialogFeatures, null, function (result) {
         if (!result) {
           return;
         }

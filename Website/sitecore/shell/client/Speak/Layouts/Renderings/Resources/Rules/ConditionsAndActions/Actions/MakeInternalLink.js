@@ -7,7 +7,6 @@
       targetAltTextID = context.app[args.targetAltTextID],
       targetStyleID = context.app[args.targetStyleID],
       targetWindowID = context.app[args.targetWindowID],
-      customUrlID = context.app[args.customUrlID],
       targetControlID = context.app[args.targetControlID],
       selectedItemsPropertyName = "selectedItem",
       template = '<link text="<%=displayText%>" linktype="internal" class="<%=styleClass%>" title="<%=alternateText%>" <%=target%> querystring="<%=queryString%>" id="<%=itemId%>" />',
@@ -27,23 +26,7 @@
     if (!targetWindowValue || targetWindowValue.itemId === emptyOptionID) {
       targetWindowValue = "";
     } else {
-      var targetWindow = targetWindowValue.$displayName.trim();
-
-      switch (targetWindow) {
-        case 'Active Browser':
-          targetWindow = "";
-          break;
-        case 'New Browser':
-          targetWindow = "_blank";
-          break;
-        case "Custom":
-          targetWindow = customUrlID.get("text");
-          break;
-        default:
-          targetWindow = "";
-      }
-
-      targetWindowValue = "target=\"" + targetWindow + "\"";
+      targetWindowValue = "target='" + targetWindowValue.$displayName.trim() + "'";
     }
 
     if (targetPathID.get(selectedItemsPropertyName) &&
@@ -58,7 +41,7 @@
       displayText: htmlEncode(targetDisplayTextID.get("text")),
       alternateText: htmlEncode(targetAltTextID.get("text")),
       itemId: targetControlID.get("selectedItemId"),
-      queryString: htmlEncode(targetQueryID.get("text")),
+      queryString: encodeURIComponent(targetQueryID.get("text")),
       target: targetWindowValue,
       styleClass: targetStyleID.get("text"),
       path: path

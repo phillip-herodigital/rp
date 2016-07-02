@@ -14,7 +14,14 @@
         scForm.invoke("ShowError");
         }
         }
-     </Script>
+
+        Event.observe(window, 'load', function(){
+          if(window.scForm) {
+            scForm.autoIncreaseModalDialogHeight()
+          };
+        })
+
+      </Script>
 
       <CodeBeside Type="Sitecore.Shell.Applications.Media.UploadMedia.UploadMediaForm,Sitecore.Client"/>
 

@@ -1,6 +1,6 @@
-﻿define(["/-/speak/v1/ExperienceEditor/RibbonPageCode.js"],
+﻿define( ["/-/speak/v1/ExperienceEditor/RibbonPageCode.js"],
   function (ribbonPageCode) {
-    var instance = window.scSitecore;
+    var instance = parent.scSitecore;
     instance.prototype._postRequestUrlRewriter = instance.prototype.postRequestUrlRewriter;
     instance.prototype.postRequestUrlRewriter = function (url) {
       var frameUrl = instance.prototype._postRequestUrlRewriter(url);

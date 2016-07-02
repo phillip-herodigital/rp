@@ -23,8 +23,8 @@
   <xsl:variable name="categorySectionTid" select="'{45FEE688-EB4E-4F42-92B3-374062DE5F3E}'"/>
   <xsl:variable name="twoColumnSectionTid" select="'{6D150B82-2E53-45CB-A63F-CD97E55CF9FC}'"/>
 
-  <xsl:variable name="bg" select="'-/media/Images/Newsletter/Common/bg_white.ashx'" />
-  <xsl:variable name="bgRed" select="'-/media/Images/Newsletter/Common/bg_red.ashx'" />
+  <xsl:variable name="bg" select="'~/media/Images/Newsletter/Common/bg_white.ashx'" />
+  <xsl:variable name="bgRed" select="'~/media/Images/Newsletter/Common/bg_red.ashx'" />
   
   <xsl:variable name="colorRed" select="'#CC0000'" />
   
@@ -36,11 +36,11 @@
   <xsl:template name="showAutoOverview">
     <table cellspacing="0" cellpadding="0" border="0" width="100%" style="font-family: {$fontFamily}; font-size: {$fontSize};">
       <tr valign="top">
-        <td width="3"><img height="3" width="3" border="0" style="border-color: transparent; display: block;" alt="" src="-/media/Images/Newsletter/Common/red_left.ashx" /></td>
+        <td width="3"><img height="3" width="3" border="0" style="border-color: transparent; display: block;" alt="" src="~/media/Images/Newsletter/Common/red_left.ashx" /></td>
         <td width="7" bgcolor="{$colorRed}"><img height="2" width="7" border="0" style="border-color: transparent; display: block;" alt="" src="{$bgRed}" /></td>
         <td bgcolor="{$colorRed}" style="font-size: 1px;">&#32;</td>
         <td width="7" bgcolor="{$colorRed}"><img height="2" width="7" border="0" style="border-color: transparent; display: block;" alt="" src="{$bgRed}" /></td>
-        <td width="3"><img height="3" width="3" border="0" style="border-color: transparent; display: block;" alt="" src="-/media/Images/Newsletter/Common/red_right.ashx" /></td>
+        <td width="3"><img height="3" width="3" border="0" style="border-color: transparent; display: block;" alt="" src="~/media/Images/Newsletter/Common/red_right.ashx" /></td>
       </tr>
       <tr>
         <td colspan="5" bgcolor="{$colorRed}" height="10">
@@ -61,7 +61,7 @@
       </tr>
       <tr>
         <td colspan="5" align="right">
-          <img height="12" width="33" border="0" style="border-color: transparent; display: block;" alt="" src="-/media/Images/Newsletter/Common/top_content.ashx" />
+          <img height="12" width="33" border="0" style="border-color: transparent; display: block;" alt="" src="~/media/Images/Newsletter/Common/top_content.ashx" />
         </td>
       </tr>
       <tr>
@@ -111,7 +111,7 @@
   <xsl:template name="showTopicLink">
     <tr valign="top">
       <td width="10" nowrap="nowrap">
-        <img height="5" width="5" border="0" style="border-color: transparent;" alt="" src="-/media/Images/Newsletter/Common/bullet_red.ashx" />
+        <img height="5" width="5" border="0" style="border-color: transparent;" alt="" src="~/media/Images/Newsletter/Common/bullet_red.ashx" />
         <img height="9" width="2" border="0" style="border-color: transparent;" alt="" src="{$bg}" />
       </td>
       <td width="372">

@@ -1,4 +1,4 @@
-﻿define(["jquery", "sitecore"], function ($, sitecore) {
+﻿define(["jquery", "sitecore", "/-/speak/v1/ecm/Messages.js"], function ($, sitecore) {
   "use strict";
 
   var model = sitecore.Definitions.Models.ComponentModel.extend(
@@ -37,11 +37,8 @@
 
         if (data.error) {
           console.log(data);
-          this.afterResponse();
           return;
         }
-
-        this.processMessages(data.messages);
 
         if (this.get("pagingMode") == "appending" && this.lastPage > 0 && !this.isRefreshLoaded) {
           this.set("messages", this.get("messages") ?
@@ -62,20 +59,14 @@
 
         this.pendingRequests--;
         if (this.pendingRequests <= 0) {
-          this.afterResponse();
+          this.set("isBusy", false);
+          this.pendingRequests = 0;
         }
       },
 
-      processMessages: function (messages) {
-          messages = messages || this.get("messages");
-          _.each(messages, function (message) {
-              message.abTestText = message.hasAbn ?
-                sitecore.Resources.Dictionary.translate("ECM.Pages.Recipients.Yes") :
-                "";
-          });
-      },
-
       error: function (args) {
+        console.log("ERROR");
+
         if (args && args.status === 403) {
           console.error("Not logged in, will reload page");
           window.top.location.reload(true);
@@ -87,13 +78,9 @@
 
         this.pendingRequests--;
         if (this.pendingRequests <= 0) {
-          this.afterResponse();
+          this.set("isBusy", false);
+          this.pendingRequests = 0;
         }
-      },
-
-      afterResponse: function() {
-        this.set("isBusy", false);
-        this.pendingRequests = 0;
       },
 
       refresh: function () {

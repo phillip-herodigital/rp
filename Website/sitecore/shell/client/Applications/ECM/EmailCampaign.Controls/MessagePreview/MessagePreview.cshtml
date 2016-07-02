@@ -16,6 +16,8 @@
   var htmlAttributes = rendering.HtmlAttributes;
 }
 
+@RenderMessagePreview(rendering)
+
 @helper RenderMessagePreview(UserControl rendering)
 {
   RenderingHelper helper = new RenderingHelper(this.Html, rendering.ControlId);
@@ -30,8 +32,6 @@
    "ImageText",
    rendering.ControlId + "Border");
 }
-
-@RenderMessagePreview(rendering)
 
 <div @htmlAttributes data-sc-hasnested="true">
   <h3>@(this.Html.Sitecore().Controls().Rendering(this.Html, Bcl.Text, rendering.ControlId + "Title", MessagePreviewDataSource.Title))</h3>

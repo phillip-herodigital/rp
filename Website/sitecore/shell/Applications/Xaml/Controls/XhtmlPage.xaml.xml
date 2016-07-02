@@ -6,7 +6,6 @@
 <html>
   <html:Head runat="server">
     <html:Title runat="server"><Literal runat="server" Text="{Title}" /></html:Title>
-    <meta http-equiv="X-Frame-Options" content="SAMEORIGIN" />
     <meta name="GENERATOR" content="Sitecore" />
     <meta http-equiv="imagetoolbar" content="no" />           
     <meta http-equiv="imagetoolbar" content="false" />

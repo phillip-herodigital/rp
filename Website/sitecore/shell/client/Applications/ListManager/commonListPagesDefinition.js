@@ -132,7 +132,7 @@
             var selectedItem = targetControl.get("selectedItem");
             var selectedItemType = selectedItem.get("Type");
             if (selectedItemType.toString().toLowerCase() === current.segmentedListType) {
-              current.callController(parameters, "/" + selectedItemId + "/ConvertList/", current.onConvertSuccess,
+              current.callController(parameters, "/ConvertList/" + selectedItemId, current.onConvertSuccess,
                 function (status, statusText) {
                   current.showDefaultError(status, statusText, current.StringDictionary.get("List is not converted."), current.ListMessageBar);
                 });
@@ -185,7 +185,7 @@
             var selectedItemType = selectedItem.get("Type");
             if (types.indexOf(selectedItemType.toString().toLowerCase()) != -1) {
               if (text === "" || confirm(current.StringDictionary.get(text))) {
-                current.callController(parameters, "/" + selectedItemId + "/" + methodName,
+                current.callController(parameters, "/" + methodName + selectedItemId,
                   function () {
                     current.onActionSuccess(onFinishMessage, targetControl);
                   },
@@ -216,7 +216,7 @@
             var selectedItemId = selectedItem.get("Id");
             if (selectedItemId !== "") {
               var actionData = current.extractActionData(parameters);
-              var fileUrl = actionData.url + "/" + selectedItemId + "/ExportContacts";
+              var fileUrl = actionData.url + "/ExportContacts/" + selectedItemId;
               current.downloadFile(fileUrl, current.onExportError);
             }
           }

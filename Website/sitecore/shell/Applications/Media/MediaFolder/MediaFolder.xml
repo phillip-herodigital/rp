@@ -18,20 +18,18 @@
         <Scrollbox ID="FileList" Background="Transparent" Border="none" Padding="0px" ContextMenu="FileList_ContextMenu" />
       </div>
 
-      <div id="UploadPanel" class="scStretchAbsolute" style="display:none; background: white;">
+      <div id="UploadPanel" style="display:none; background: white;">
 
         <div class="scFormDialogHeader">
           <div class="ui-widget-header" style="color:#474747">.</div>
-          <div class="DialogHeader">
-            <Literal runat="server" Text="Upload File" />
-          </div>
+          <div class="DialogHeader">Upload Files</div>
           <div class="DialogHeaderDescription" style="color:#474747">.</div>
         </div>  
         
-        <div id="UploadUI" style="padding:15px; height: calc(100% - 160px); min-height: 100px;">
+        <div id="UploadUI" style="padding:15px;">
           <Literal Text="These files are ready for uploading:" style="display: none; padding: 0px 0px 15px 0; font-size:14px" ID="Header" runat="server" />
 
-          <Scrollbox ID="Scrollbox" Style="border:none; padding:0; height: calc(100% - 32px)">
+          <Scrollbox ID="Scrollbox" Style="border:none; padding:0">
             <table style="display:none;" id="queue" cellpadding="0" cellspacing="0">
               <thead>
                 <tr>
@@ -53,7 +51,7 @@
         </div>
 
         <GridPanel id="AdvancedOptions" class="options" runat="server" Columns="1" Style="display:none;">
-          <Checkbox Header="Unpack ZIP archives" runat="server" ID="Unpack" />
+          <Checkbox Header="Unpack ZIP achives" runat="server" ID="Unpack" />
           <Checkbox Header="Make uploaded media items versionable" runat="server" ID="Versioned" />
 
           <Checkbox Header="Overwrite existing media items" runat="server" ID="Overwrite" />

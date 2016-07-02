@@ -1,13 +1,13 @@
-﻿define(["sitecore", "/-/speak/v1/ExperienceEditor/ExperienceEditor.js"], function (Sitecore, ExperienceEditor) {
+﻿define(["sitecore"], function (Sitecore) {
   Sitecore.Commands.ProfileCards =
   {
     canExecute: function (context) {
       return true;
     },
     execute: function (context) {
-      ExperienceEditor.PipelinesUtil.generateRequestProcessor("ExperienceEditor.ProfileCardsDialog.Url", function (response) {
+      Sitecore.ExperienceEditor.PipelinesUtil.generateRequestProcessor("ExperienceEditor.ProfileCardsDialog.Url", function (response) {
         var dialogFeatures = "dialogHeight: 900px;dialogWidth: 900px;";
-        ExperienceEditor.Dialogs.showModalDialog(response.responseValue.value, "", dialogFeatures, null, function (result) {
+        Sitecore.ExperienceEditor.Dialogs.showModalDialog(response.responseValue.value, "", dialogFeatures, null, function (result) {
           window.setTimeout(function() {
             response.context.app.refreshOnItem(response.context.currentContext);
           }, 20);

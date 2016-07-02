@@ -1,9 +1,9 @@
-﻿define(["sitecore", "/-/speak/v1/ExperienceEditor/ExperienceEditor.js"], function (Sitecore, ExperienceEditor) {
+﻿define(["sitecore"], function (Sitecore) {
   return {
     priority: 1,
     execute: function (context) {
       try {
-        ExperienceEditor.Web.updateHtml5Cache();
+        Sitecore.ExperienceEditor.Web.updateHtml5Cache();
       } catch (err) {}
     }
   };

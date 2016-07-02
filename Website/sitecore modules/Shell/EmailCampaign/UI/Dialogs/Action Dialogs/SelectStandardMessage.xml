@@ -2,9 +2,9 @@
 <control xmlns:def="Definition" xmlns="http://schemas.sitecore.net/Visual-Studio-Intellisense">
   <EmailCampaign.SelectStandardMessage>
 
-    <FormDialog ID="Dialog" Header="Automated email campaign" Text="Select an automated email campaign." Icon="Network/32x32/mail2.png">
+    <FormDialog ID="Dialog" Header="Triggered Message" Text="Select a triggered message." Icon="Network/32x32/mail2.png">
 
-      <CodeBeside Type="Sitecore.Modules.EmailCampaign.UI.Dialogs.ActionDialogs.SelectStandardMessage,Sitecore.EmailCampaign.Cm.UI"/>
+      <CodeBeside Type="Sitecore.Modules.EmailCampaign.UI.Dialogs.ActionDialogs.SelectStandardMessage,Sitecore.EmailCampaign"/>
 
       <style type="text/css">
         #MessageTree ul

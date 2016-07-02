@@ -4,7 +4,6 @@
 <!DOCTYPE html>
 <html style="width:100%;height:100%;margin:0px;padding:0px;overflow:hidden">
   <head>
-    <meta http-equiv="X-Frame-Options" content="SAMEORIGIN">
     <title>Sitecore</title>
     
     <style type="text/css">
@@ -37,7 +36,7 @@
       }
       
       function scGetMode() {
-        return '<%=Sitecore.Web.WebUtil.GetSafeQueryString("mo")%>';
+        return '<%=Sitecore.Web.WebUtil.GetQueryString("mo")%>';
       }
 
       function HideToolbars(editor) {
@@ -45,8 +44,41 @@
         holder.style.display = "none";
         OnClientLoad(editor);
       }
-    </script>
+      
+      function scFitEditor() {
+        var editor = scGetEditor();
+        if (!editor) {
+          alert("no editor");
+          return;
+        }
+        
+        var container = $("mainForm");
+        
+        editor.setSize(container.getWidth(), container.getHeight());
 
+        var designIframe = document.getElementById('Editor_contentIframe');
+        var designMode = designIframe.style.height != '0px'; 
+        if (designMode) {
+          designIframe.style.height = "0";
+        }
+
+        var htmlIframe = document.querySelector('#Editor_contentIframe + iframe');
+        htmlIframe && (htmlIframe.style.height = "0");
+        setTimeout(function () {
+          var clientHeight = document.getElementById('EditorCenter').clientHeight  + 'px';
+
+          if (designMode) {
+            designIframe.style.height = clientHeight;
+          }
+
+          htmlIframe && (htmlIframe.style.height = clientHeight);
+
+        }, 0);
+      }
+      
+      Event.observe(window, "resize", scFitEditor);
+    </script>
+    
     <script type="text/javascript" language="javascript" src="/sitecore/shell/Controls/Rich Text Editor/RichText.js"></script>
     <script type="text/javascript" language="javascript" src="/sitecore/shell/Controls/Rich Text Editor/RTEfixes.js"></script>
   </head>

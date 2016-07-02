@@ -1,14 +1,15 @@
-﻿define([
-  "sitecore",
-  "/-/speak/v1/ecm/ListPageBase.js"
-], function (
-  sitecore,
-  ListPageBase
-  ) {
-  var messagesPage = ListPageBase.extend({
+﻿define(["sitecore", "/-/speak/v1/ecm/PrimaryNavigation.js", "/-/speak/v1/ecm/Messages.js"], function (sitecore, primaryNavigation) {
+  var messagesPage = sitecore.Definitions.App.extend({
     initialized: function () {
-      this._super();
+      //set up default navigation dialogs
+      primaryNavigation.initializePrimaryNavigation(this);
+
       var contextApp = this;
+
+      messages_InitializeDefaultSettingsDialog(contextApp, sitecore, sessionStorage.managerRootId);
+      messages_InitializeAlertDialog(contextApp, sitecore);
+      messages_InitializePromptDialog(contextApp, sitecore);
+      messages_InitializeConfirmDialog(contextApp, sitecore);
 
       contextApp.SearchTextBox.viewModel.$el.on("keypress", function (event) {
         var text = contextApp.SearchTextBox.viewModel.$el.find("input").val();
@@ -31,17 +32,38 @@
         ReloadDashboard();
       }, contextApp);
 
-      this.on("action:deletemessage", function () {
-        this.deleteMessage(this.MessageList.get("selectedItem"), _.bind(function () {
-          this.MessageListDataSource.refreshLoaded();
-        }, this));
-      }, this);
+      contextApp.on("action:deletemessage", function () {
+        deleteSelectedMessage(this.MessageListDataSource, this.MessageList.get("selectedItem"), this, sitecore);
+      }, contextApp);
 
       contextApp.on("action:SearchItems", function () {
         var text = contextApp.SearchTextBox.viewModel.$el.find("input").val();
         contextApp.MessageListDataSource.set("search", text);
       }, contextApp);
       
+      // TODO: Implement action:export
+      contextApp.on("action:export", function (event) {
+        if (contextApp.MessageList && sitecore.Pipelines.ExportToCSV && contextApp.MessageBar && contextApp.ProgressIndicator) {
+          var selectedItem = contextApp.MessageList.get("selectedItem");
+          var messageId = selectedItem.get("itemId"),
+              messageName = selectedItem.get("name"),
+              token = new Date().getTime();
+
+          sitecore.Pipelines.ExportToCSV.execute(
+            {
+              app: contextApp,
+              currentContext: {
+                token: token,
+                messageId: messageId,
+                dataSourceItemId: "allrecipients",
+                messageName: messageName,
+                language: "0"
+              },
+              spinner: contextApp.ProgressIndicator,
+              action: event.sender.model.viewModel
+            });
+        }
+      }, contextApp);
 
       // TODO: Implement action:import
       contextApp.on("action:import", function () {
@@ -87,10 +109,11 @@
         }
       };
 
-      this.on("action:open", function () {
-        this.openMessage(this.MessageList.get('selectedItem'));
-      }, this);
+      contextApp.on("action:open", function () {
+        openSelectedMessage(this.MessageList);
+      }, contextApp);
 
+      messages_setTimezoneCookie();
       setSelectedNavigation();
       resizeSearchTextBox();
       listenToResizeWindow();
@@ -115,7 +138,7 @@
           }
         }
       }
-    }
+    },
 
   });
 

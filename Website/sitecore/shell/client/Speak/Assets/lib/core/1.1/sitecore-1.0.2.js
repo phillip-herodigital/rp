@@ -705,7 +705,7 @@ Speak.Definitions.App = Backbone.Model.extend({
       ajaxOptions = options["ajax"]|| {},
       defaultOptions = {
         database: "core",
-        path: "/sitecore/shell/api/sitecore/Layout/RenderItem"
+        path: "/api/sitecore/Layout/RenderItem"
       },
       cb = callback,
       jqxhr,

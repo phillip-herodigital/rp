@@ -6,7 +6,6 @@
 
 <html>
 <head runat="server">
-    <meta http-equiv="X-Frame-Options" content="SAMEORIGIN">
     <title></title>
     <link rel="Stylesheet" type="text/css" href="screenshots.css" />
     <link rel="Stylesheet" type="text/css" href="/sitecore/shell/Controls/Lib/Chosen/chosen.css" />

@@ -1,4 +1,4 @@
-﻿define(["sitecore", "/-/speak/v1/ExperienceEditor/ExperienceEditor.js"], function (Sitecore, ExperienceEditor) {
+﻿define(["sitecore"], function (Sitecore) {
     Sitecore.Commands.ManageFunctions =
     {
         canExecute: function (context) {
@@ -9,7 +9,7 @@
             var dialogPath = "/sitecore/client/Applications/FXM/ExperienceEditorExtension/Dialogs/ManageFunctions";
             var dialogFeatures = "dialogHeight:450;dialogWidth:700;ignoreSpeakSizes:true";
 
-            ExperienceEditor.Dialogs.showModalDialog(dialogPath, '', dialogFeatures, null, function(result) {
+            Sitecore.ExperienceEditor.Dialogs.showModalDialog(dialogPath, '', dialogFeatures, null, function(result) {
                 if (result) {
                     window.top.location.reload();
                 }

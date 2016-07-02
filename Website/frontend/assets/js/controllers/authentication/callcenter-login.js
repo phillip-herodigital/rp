@@ -32,7 +32,7 @@ ngApp.controller('AuthCallcenterLoginCtrl', ['$scope', '$rootScope', '$http', '$
 		$scope.formData.uri = document.URL;
 		$http({
 			method  : 'POST',
-			url     : '/api/streamauthentication/callcenterLogin',
+			url     : '/api/authentication/callcenterLogin',
 			data    : $scope.formData,
 			headers : { 'Content-Type': 'application/JSON' } 
 		})

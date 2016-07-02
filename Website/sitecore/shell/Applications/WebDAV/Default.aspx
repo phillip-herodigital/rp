@@ -6,7 +6,6 @@
 <html>
 <head runat="server">
   <title>www.sitecore.net</title>
-  <meta http-equiv="X-Frame-Options" content="SAMEORIGIN">
   <meta content="Microsoft Visual Studio 7.0" name="GENERATOR">
   <meta content="C#" name="CODE_LANGUAGE">
   <meta content="JavaScript" name="vs_defaultClientScript">

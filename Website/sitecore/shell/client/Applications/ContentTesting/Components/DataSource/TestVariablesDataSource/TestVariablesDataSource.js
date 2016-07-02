@@ -21,7 +21,7 @@
 
     getTestVariables: function () {
       var url = Sitecore.Helpers.url.addQueryParameters(actionUrl, {
-        itemdatauri: this.get("itemuri"),
+        itemuri: this.get("itemuri"),
         deviceId: this.get("device")
       });
 

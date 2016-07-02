@@ -1,5 +1,5 @@
-﻿define(["sitecore", "/-/speak/v1/ExperienceEditor/ExperienceEditor.js"], function (Sitecore, ExperienceEditor) {
-    return ExperienceEditor.PipelinesUtil.generateDialogCallProcessor({
+﻿define(["sitecore"], function(Sitecore) {
+    return Sitecore.ExperienceEditor.PipelinesUtil.generateDialogCallProcessor({
       url: function(context) { return "/sitecore/client/Applications/ExperienceEditor/Dialogs/InsertPage/?itemId=" + context.currentContext.itemId; },
       features: "dialogHeight: 600px;dialogWidth: 800px; ignoreSpeakSizes: true;",
       onSuccess: function (context, dialogResponse) {

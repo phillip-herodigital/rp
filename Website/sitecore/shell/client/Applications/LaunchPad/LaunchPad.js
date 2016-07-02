@@ -35,20 +35,17 @@ define(["sitecore", "experienceAnalytics", "jquery", "underscore"], function (Si
         formattedEndDate;
       
       if (this.chartsLoaded === 2) {
-        if (typeof campApp !== "undefined" && campApp !== null) {
-          campApp.TopFiveCampaignsByVisitsLineChartProgressIndicator.set("targetControl", "FallbackMessageWrap");
-          campApp.TopFiveCampaignsByVisitsDataProvider.on("change:data", function() {
-            Sitecore.trigger("chartData:loaded", { chartName: "campaigns", data: campApp.TopFiveCampaignsByVisitsDataProvider.get("data") });
-          }, this);
-        }
-
-        if (typeof interApp !== "undefined" && interApp !== null) {
-          interApp.InteractionsByVisitsAndValuePerVisitsLineChartProgressIndicator.set("targetControl", "FallbackMessageWrap");
-          interApp.InteractionsByVisitsAndValuePerVisitsDataProvider.on("change:data", function() {
-            var data = interApp.InteractionsByVisitsAndValuePerVisitsDataProvider.get("data");
-            Sitecore.trigger("chartData:loaded", { chartName: "interactions", data: data });
-          });
-        }
+        
+        campApp.TopFiveCampaignsByVisitsLineChartProgressIndicator.set("targetControl", "FallbackMessageWrap");
+        campApp.TopFiveCampaignsByVisitsDataProvider.on("change:data", function () {
+          Sitecore.trigger("chartData:loaded", { chartName: "campaigns", data: campApp.TopFiveCampaignsByVisitsDataProvider.get("data") });
+        }, this);
+        
+        interApp.InteractionsByVisitsAndValuePerVisitsLineChartProgressIndicator.set("targetControl", "FallbackMessageWrap");
+        interApp.InteractionsByVisitsAndValuePerVisitsDataProvider.on("change:data", function () {
+          var data = interApp.InteractionsByVisitsAndValuePerVisitsDataProvider.get("data");
+          Sitecore.trigger("chartData:loaded", { chartName: "interactions", data: data });
+        });
 
         startDate.setMonth(startDate.getMonth() - 3);
 

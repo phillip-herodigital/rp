@@ -8,7 +8,6 @@
 <html>
 <head runat="server">
   <title>Welcome to Sitecore</title>
-  <meta http-equiv="X-Frame-Options" content="SAMEORIGIN">
   <link rel="shortcut icon" href="/sitecore/images/favicon.ico" />
   <meta name="robots" content="noindex, nofollow" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge"> 
@@ -107,12 +106,10 @@
                   </label>
                 </div>
               </asp:PlaceHolder>
-                  
+                
               <asp:PlaceHolder ID="PlaceHolder1" runat="server" Visible="<%# !Settings.Login.DisablePasswordRecovery %>">
                 <div class="forgot-pass-link-wrap">
-                  <asp:PlaceHolder ID="PlaceHolder4" runat="server" Visible="<%# !Settings.Login.DisableRememberMe %>">
-                    <span class="forgot-pass-separator"></span>
-                  </asp:PlaceHolder>
+                  <span class="forgot-pass-separator"></span>
                   <a href="#" class="show-recovery">Forgot your password?</a>
                 </div>
               </asp:PlaceHolder>

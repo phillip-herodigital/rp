@@ -6,7 +6,6 @@
 
 <html>
 <head id="Head1" runat="server">
-    <meta http-equiv="X-Frame-Options" content="SAMEORIGIN">
     <asp:PlaceHolder ID="BrowserTitle" runat="server" />
     <sc:Stylesheet ID="Stylesheet1" runat="server" Src="Content Manager.css" DeviceDependant="true" />
     <asp:PlaceHolder ID="Stylesheets" runat="server" />

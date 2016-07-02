@@ -3,7 +3,6 @@
 <!DOCTYPE html>
 <html>
 <head id="Head1" runat="server">
-<meta http-equiv="X-Frame-Options" content="SAMEORIGIN">
 <title>Sitecore</title>
   <script src="/sitecore/shell/controls/lib/prototype/prototype.js" type="text/javascript"></script>
   <script type="text/javascript">

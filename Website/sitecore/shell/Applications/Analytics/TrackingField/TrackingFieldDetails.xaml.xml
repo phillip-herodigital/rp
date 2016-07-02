@@ -18,7 +18,7 @@
 
       <script type="text/javascript" language="javascript">
         function scGetFrameValue() {
-        var ctl = $$("[id$='TrackingValue']");
+        var ctl = scForm.browser.getControl("ctl00$ctl00$TrackingValue");
 
         if (!ctl || ctl.value == "__#!$No value$!#__") {
         return null;
@@ -31,8 +31,9 @@
       <input id="TrackingValue" type="hidden" runat="server"/>
 
       <Scrollbox ID="Tracking" Height="100%" Class="scScrollbox scFixSize" Border="none" runat="server" Padding="0px" />
-
+      
     </Sitecore.Controls.HtmlPage>
   </Sitecore.Shell.Applications.Analytics.TrackingFieldDetails>
 
 </xamlControls>
+                           

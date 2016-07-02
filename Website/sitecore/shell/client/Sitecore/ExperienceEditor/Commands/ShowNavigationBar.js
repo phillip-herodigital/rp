@@ -1,4 +1,4 @@
-﻿define(["sitecore", "/-/speak/v1/ExperienceEditor/ExperienceEditor.js"], function (Sitecore, ExperienceEditor) {
+﻿define(["sitecore"], function (Sitecore) {
   Sitecore.Commands.ShowNavigationBar =
   {
     canExecute: function (context) {
@@ -7,7 +7,7 @@
       return true;
     },
     execute: function (context) {
-      ExperienceEditor.PipelinesUtil.generateRequestProcessor("ExperienceEditor.ToggleRegistryKey.Toggle", function (response) {
+      Sitecore.ExperienceEditor.PipelinesUtil.generateRequestProcessor("ExperienceEditor.ToggleRegistryKey.Toggle", function (response) {
         response.context.button.set("isChecked", response.responseValue.value ? "1" : "0");
         response.context.app.RibbonBreadcrumb.set("isVisible", response.responseValue.value);
         response.context.app.setHeight();

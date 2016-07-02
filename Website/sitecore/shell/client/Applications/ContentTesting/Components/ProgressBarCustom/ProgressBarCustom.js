@@ -102,7 +102,7 @@ define(["sitecore"], function (_sc) {
       }
       else {
         dvHeaderElem.removeClass("scPrBar-dvHeaderEmpty");
-        spHeaderElem.css("display", "block"); 
+        spHeaderElem.css("display", "block");
         dvContentElem.removeClass("scPrBar-dvContentHeaderEmpty");
         this.$el.removeClass("progressbarcustomHeaderEmpty");
 
@@ -137,9 +137,9 @@ define(["sitecore"], function (_sc) {
       // #22441 - styles modifying(quick fix!!!)
       //-----------------------------//
       var reachProgressElem = this.$el;
-      //var headerElem = reachProgressElem.find(".scPrBar-spHeader");
-      //var footerTitle1Elem = reachProgressElem.find(".scPrBar-spFooterTitle1");
-      //headerElem.html("<b>" + headerElem.html() + " - " + footerTitle1Elem.html() + "</b>");
+      var headerElem = reachProgressElem.find(".scPrBar-spHeader");
+      var footerTitle1Elem = reachProgressElem.find(".scPrBar-spFooterTitle1");
+      headerElem.html("<b>" + headerElem.html() + " - " + footerTitle1Elem.html() + "</b>");
 
       var dvFieldElem = reachProgressElem.find(".scPrBar-dvField");
       var spValueElem = reachProgressElem.find(".scPrBar-spValue");

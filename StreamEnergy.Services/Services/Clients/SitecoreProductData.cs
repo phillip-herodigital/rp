@@ -38,8 +38,6 @@ namespace StreamEnergy.Services.Clients
                             {
                                 { "Includes Thermostat", item["Includes Thermostat"]},
                                 { "Thermostat Description", item["Thermostat Description"]},
-                                { "Includes Skydrop", item["Includes Skydrop"]},
-                                { "Skydrop Description", item["Skydrop Description"]},
                                 { "Is Disabled", item["Is Disabled"]},
                                 { "Name", item["Product Name"] },
                                 { "Description", LoadProductDescription(providerName, item) },

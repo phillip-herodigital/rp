@@ -40,7 +40,7 @@
 
     var topLevelNavigation = SiteMap.RootNode.ChildNodes.Cast<ItemSiteMapNode>().Select((n, i) => new { Value = n, Number = i + 1 }).ToArray();
     var selectedNavItem = topLevelNavigation.Where(node => selectedNode != null && (node.Value.Key == selectedNode.Key || selectedNode.IsDescendantOf(node.Value))).Select(node => node.Number).FirstOrDefault();
-
+    
     var blogDataSourceItem = Sitecore.Context.Database.GetItem("{9EF9914F-714A-4515-BC67-5548D2BBDEB0}");
     var dataSourceItem = Sitecore.Context.Item;
     var settingsItem = XBlogHelper.General.DataManager.GetBlogSettingsItem(blogDataSourceItem != null ? blogDataSourceItem : Sitecore.Context.Item);
@@ -48,14 +48,13 @@
 
     var navItem1 = ((Sitecore.Data.Fields.LinkField)blogDataSourceItem.Fields["Navigation Link 1"]);
     var navItem2 = ((Sitecore.Data.Fields.LinkField)blogDataSourceItem.Fields["Navigation Link 2"]);
-    var navItem3 = ((Sitecore.Data.Fields.LinkField)blogDataSourceItem.Fields["Navigation Link 3"]);
-    var navItem4 = ((Sitecore.Data.Fields.LinkField)blogDataSourceItem.Fields["Navigation Link 4"]);
+    var navItem3 = ((Sitecore.Data.Fields.LinkField)blogDataSourceItem.Fields["Navigation Link 3"]); 
 
-    if (Sitecore.Context.Item.TemplateName == "Blog Post")
+    if (Sitecore.Context.Item.TemplateName == "Blog Post") 
     {
         BlogPost blogPost = Sitecore.Context.Item.CreateAs<BlogPost>();
         category = blogPost.Categories.Any() ? blogPost.Categories.FirstOrDefault().Name.ToLower() : "";
-    }
+    } 
     else if (Sitecore.Context.Item.TemplateName == "Blog Category")
     {
         var categoryID = Sitecore.Context.Item.Fields["Category"].Value.ToString();
@@ -77,7 +76,6 @@
                 <li>@Html.Sitecore().Field("Navigation Link 1", blogDataSourceItem)</li>
                 <li>@Html.Sitecore().Field("Navigation Link 2", blogDataSourceItem)</li>
                 <li>@Html.Sitecore().Field("Navigation Link 3", blogDataSourceItem)</li>
-                <li>@Html.Sitecore().Field("Navigation Link 4", blogDataSourceItem)</li>
                 @if (alternateLanguageItem != null && alternateLanguageItem.Versions.Count > 0)
                 {
                     <li><a href="@languageLinkUrl" hreflang="@languageLinkUrlLanguage" lang="@languageLinkUrlLanguage" translate="no">@languageLinkText</a></li>
@@ -102,7 +100,6 @@
                 <li class="nav-events" ng-class="{ current: '@category' == 'events' }"><a href="@Sitecore.Links.LinkManager.GetItemUrl(navItem1.TargetItem)"><span class="color-block"></span>@navItem1.Text</a></li>
                 <li class="nav-promotions" ng-class="{ current: '@category' == 'promotions' }"><a href="@Sitecore.Links.LinkManager.GetItemUrl(navItem2.TargetItem)"><span class="color-block"></span>@navItem2.Text</a></li>
                 <li class="nav-recognition" ng-class="{ current: '@category' == 'recognition' }"><a href="@Sitecore.Links.LinkManager.GetItemUrl(navItem3.TargetItem)"><span class="color-block"></span>@navItem3.Text</a></li>
-                <li class="nav-training" ng-class="{ current: '@category' == 'training' }"><a href="@Sitecore.Links.LinkManager.GetItemUrl(navItem4.TargetItem)"><span class="color-block"></span>@navItem4.Text</a></li>
             </ul>
         </nav>
         <div class="right-nav">

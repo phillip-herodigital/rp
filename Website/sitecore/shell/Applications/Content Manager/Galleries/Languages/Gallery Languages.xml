@@ -40,28 +40,22 @@
         div#Languages img {
         display: none;
         }
-
-        #Languages{
-        height: auto !important;
-        }
       </Stylesheet>
 
-      <div class="scStretch">
       <Border Width="100%" Height="100%">
-        <div class="scGalleryContent13">
-        <GalleryMenu ID="Options" Class="scStretch">
+
+        <GalleryMenu ID="Options" Class="scLanguagesGalleryMenu">
 
           <MenuPanel Height="100%">
-            <Scrollbox ID="Languages"  Class="scScrollbox" style="padding-top:0 !important; overflow: hidden !important"/>
-           
+            <Scrollbox ID="Languages" Class="scScrollbox scFixSize scFixWidthInsideGallery" style="padding-top:0 !important;" Height="100%" Width="100%" />
           </MenuPanel>
 
         </GalleryMenu>
-        </div>
+
         <Gallery.Grip />
 
       </Border>
-      </div>
+
     </Gallery>
   </Gallery.Languages>
 </control>

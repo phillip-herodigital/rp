@@ -3,7 +3,6 @@
 @using Sitecore.Data
 @using Sitecore.Data.Items
 @using Sitecore.Mvc
-@using Sitecore.PathAnalyzer
 @using Sitecore.PathAnalyzer.Localization
 @using Sitecore.PathAnalyzer.Client.Sitecore.Shell.Client.Applications.PathAnalyzer.Common.Layouts.Renderings.Shared
 @using Sitecore.Web.UI.Controls.Common.Renderings
@@ -16,32 +15,35 @@
     rendering.Class = "sc-TreeDefinitionFilter";
     rendering.Requires.Script("pathanalyzer", "TreeDefinitionFilter.js");
     rendering.Attributes.Add("data-bind", "visible: isVisible");
-    rendering.HasNestedComponents = true;
 
-    var initialItemId = rendering.GetString("DefaultTreeDefinition");
-
+    var initialItemId = Helper.GetTreeDefinitionCookieValue();
+    if (string.IsNullOrWhiteSpace(initialItemId))
+    {
+        initialItemId = rendering.GetString("DefaultTreeDefinition");
+    }
     Item initialItem = null;
     if (!string.IsNullOrWhiteSpace(initialItemId))
     {
-        var helper = new Helper();
-        initialItem = helper.Configuration.ContentDatabase.GetItem(initialItemId);
+        initialItem = ClientHost.Databases.ContentDatabase.GetItem(initialItemId);
         if (initialItem != null)
         {
             rendering.Attributes.Add("data-sc-initialitem", initialItem.DisplayName + "," + initialItem.Database.Name + "," + initialItem.ID);
         }
     }
 
+    rendering.HasNestedComponents = true;
+    var errorMessages = new
+    {
+        InvalidTreeDefinition = Helper.GetTextValue(PathAnalyzerTexts.MapFilterInvalidMap)
+    };
+
     Guid rootItemId;
     var defaultMapRoot = rendering.GetString("DefaultMapRoot");
     if (string.IsNullOrEmpty(defaultMapRoot) || !Guid.TryParse(defaultMapRoot, out rootItemId))
     {
-        rootItemId = Sitecore.PathAnalyzer.Constants.ItemIDs.MapsRoot.Guid;
+        rootItemId = Sitecore.PathAnalyzer.Constants.ItemIDs.TreeDefinitionsRoot.Guid;
     }
-
-    var errorMessages = new
-    {
-        InvalidTreeDefinition = new Helper().GetTextValue(PathAnalyzerTexts.MapFilterInvalidMap)
-    };
+    
     rendering.Attributes.Add("data-sc-errormessages", JsonConvert.SerializeObject(errorMessages));
 }
 
@@ -50,15 +52,13 @@
 @helper EmbedTreeDefinitionFilter(Sitecore.Web.UI.Controls.Common.UserControls.UserControl rendering, Item initialItem, ID rootItemId)
 {
     var renderingId = rendering.ControlId;
-    var renderingHelper = new RenderingHelper(Html, renderingId);
+    var helper = new RenderingHelper(Html, renderingId);
 
-    renderingHelper.MakeRow("ControlsRow", renderingId + "ContentWrapper", true, controlsRow =>
+    helper.MakeRow("ControlsRow", renderingId + "ContentWrapper", true, controlsRow =>
     {
-        renderingHelper.MakeText("TreeDefinitionText", controlsRow, new Helper().GetTextValue(PathAnalyzerTexts.MapFilterTitle), TextType.Title);
-
+        helper.MakeText("TreeDefinitionText", controlsRow, PathAnalyzerTexts.MapFilterTitle, TextType.Title);
         var preloadPath = initialItem != null ? rootItemId + initialItem.Paths.GetPath(rootItemId.ToString(), "/", ItemPathType.ItemID) : string.Empty;
-        var dbName = initialItem != null ? initialItem.Database.Name : ClientHost.Databases.ContentDatabase.Name;
-        renderingHelper.MakeTreeView("TreeDefinitionTreeView", controlsRow, rootItemId, preloadPath, 1, false, dbName);
+        helper.MakeTreeView("TreeDefinitionTreeView", controlsRow, rootItemId, preloadPath, 1, false);
     });
 
     // Rendering

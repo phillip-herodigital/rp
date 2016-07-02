@@ -1,9 +1,9 @@
-﻿define(["sitecore", "/-/speak/v1/ExperienceEditor/ExperienceEditor.js", "/-/speak/v1/ExperienceEditor/ExperienceEditorProxy.js"], function (Sitecore , ExperienceEditor, ExperienceEditorProxy) {
+﻿define(["sitecore"], function (Sitecore) {
   Sitecore.Commands.AddComponent =
   {
     canExecute: function (context, parent) {
       $(window.parent.document).find(".scInsertionHandle").hide();
-      if (!ExperienceEditor.isInMode("edit") || context.currentContext.isFallback) {
+      if (!Sitecore.ExperienceEditor.isInMode("edit")) {
         if (parent.initiator.componentName == 'QuickbarButton') {
           parent.initiator.set({ isVisible: false });
         } else {
@@ -17,7 +17,7 @@
     },
 
     execute: function (context) {
-      ExperienceEditorProxy.showRenderingTargets();
+      Sitecore.ExperienceEditor.PageEditorProxy.showRenderingTargets();
     }
   };
 });

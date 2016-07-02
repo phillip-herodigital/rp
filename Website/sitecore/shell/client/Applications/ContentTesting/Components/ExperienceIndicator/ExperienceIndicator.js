@@ -102,19 +102,12 @@ define(["sitecore", "jqueryui"], function (_sc) {
 
         var parentElem;
         // if "GroupName" is defined - find it's html-elem(parent for items)
-        if (selectedItem.GroupId && selectedItem.GroupId != null && selectedItem.GroupId != '') {
-          parentElem = this.$el.find("[id='" + selectedItem.GroupId + "']");
+        if (selectedItem.GroupName && selectedItem.GroupName != null && selectedItem.GroupName != '') {
+          parentElem = this.$el.find("[id='" + selectedItem.GroupName + "']");
           if (parentElem.length == 0) {
             parentElem = this.$el;
           }
-        }
-        else if (selectedItem.GroupName && selectedItem.GroupName != null && selectedItem.GroupName != '') {
-          parentElem = this.$el.find("[groupName='" + selectedItem.GroupName + "']");
-          if (parentElem.length == 0) {
-            parentElem = this.$el;
-          }
-        }
-        else {
+        } else {
           parentElem = this.$el;
         }        
 
@@ -248,6 +241,33 @@ define(["sitecore", "jqueryui"], function (_sc) {
       this.$el.addClass("scExp-noData");
     },
 
+    //definePercentValue: function (items) {
+    //  // percentage for value
+    //  var maxValueItem = _.max(items, function (item) { return item.value; });
+    //  maxValueItem.percValue = 100;
+
+    //  _.each(items, function (item) {
+    //    if (item != maxValueItem) {
+    //      item.percValue = (item.value / maxValueItem.value) * 100;
+    //    }
+
+    //    item.percValue = (item.value / maxValueItem.value) * 100;
+    //    //item.percValue = item.valuePerc; //(item.value / maxValueItem.value) * 100;
+    //    //item.percValue2 = item.valuePerc2;
+    //  });
+
+    //  // percentage for value2
+    //  maxValueItem = _.max(items, function (item) { return item.value2; });
+    //  maxValueItem.percValue2 = 100;
+
+    //  _.each(items, function (item) {
+    //    if (item != maxValueItem) {
+    //      item.percValue2 = (item.value2 / maxValueItem.value2) * 100;
+    //    }
+    //  });
+
+    //},
+
     renderGroup: function (parentElem, group, isFirstGroup) {
       var html = "";
 
@@ -261,7 +281,7 @@ define(["sitecore", "jqueryui"], function (_sc) {
       
       html +=
 
-          '<div id="' + group.Guid + '" groupName="' + group.name + '" class="dvGroup">' +
+          '<div id="' + group.name + '" class="dvGroup">' +
             '<div class="scExp-dvGroupTitle" >' +
               '<span class="spGroupInfo" style="visibility: ' + visibility + '; ">' + group.name + '</span>';
 
@@ -275,6 +295,7 @@ define(["sitecore", "jqueryui"], function (_sc) {
       parentElem.append(html);
       var groupElem = parentElem.children().last();
       if (group.items && group.items.length > 0) {
+        //this.definePercentValue(group.items);
         for (var i = 0; i < group.items.length; i++) {
           var item = group.items[i];
           this.renderItem(groupElem, item, (isFirstGroup && i === 0), i + 1);
@@ -296,65 +317,66 @@ define(["sitecore", "jqueryui"], function (_sc) {
 
       // 
       html +=
-          "<div " + idItem + " class='scExp-dvExperience scExp-dvExperienceWhite'>" +
-              "<table>" +
-                "<tr class='scExp-trRow'>";
-
-
-      // First Column
-      html +=                   
-          "<td class='scExp-tdColumnMain scExp-tdFirstColumn'>" +
-            "<table>" +
-              "<tr>" +
-                "<td class='tdFirstSubColumn'>" +
-                  "<span class='spFirstSubColumn'>" + index + "</span>" +
-                "</td>" +
-                "<td class='tdSecondSubColumn'>" +
-                  "<span class='spSecondSubColumn'>" + item.title + "</span>" +
-                  "<div class='scExp-dvColumnBorder'></div>" +
-                "</td>" +
-              "</tr>" +
-            "</table>" +
-          "</td>" +
-          "<td class='scExp-tdColumnMain' >";      
+          '<div ' + idItem + ' class="scExp-dvExperience scExp-dvExperienceWhite">' +
+              '<table>' +
+                '<tr class="scExp-trRow">' +
+                  // First Column
+                  '<td class="scExp-tdColumnMain scExp-tdFirstColumn">' +
+                    '<table>' +
+                      '<tr>' +
+                        '<td class="tdFirstSubColumn">' +
+                          '<span class="spFirstSubColumn">' + index + '</span>' +
+                        '</td>' +
+                        '<td class="tdSecondSubColumn">' +
+                          '<span class="spSecondSubColumn">' + item.title + '</span>' +
+                          '<div class="scExp-dvColumnBorder"></div>' +
+                        '</td>' +
+                      '</tr>' +
+                    '</table>' +
+                  '</td>' +
+                  '<td class="scExp-tdColumnMain" >';
 
       // minimumScaleValue
       if (isFirstItem) {
-        html += "<span class='scExp-spScale scExp-spScaleMininum'>" + this.minimumScaleValue + "</span>";
+        html += '<span class="scExp-spScale scExp-spScaleMininum">' + this.minimumScaleValue + '</span>';
       }
-
-      // Second Column
-      html += "</td><td class='scExp-tdColumnMain'></td>";
-
-      // Third Column
-      html += "<td class='scExp-tdColumnMain'>";
-      
+      html +=
+                  '</td>' +
+                  // Second Column
+                  '<td class="scExp-tdColumnMain">' +
+                  '</td>' +
+                  // Third Column
+                  '<td class="scExp-tdColumnMain">';
       // middleScaleValue
       if (isFirstItem) {
-        html += "<span class='scExp-spScale scExp-spScaleMiddle'>" + this.middleScaleValue + "</span>";
+        html += '<span class="scExp-spScale scExp-spScaleMiddle">' + this.middleScaleValue + '</span>';
       }
+      html +=
 
-      // Fourth Column
-      html += "</td><td class='scExp-tdColumnMain'>";
+                  '</td>' +
+                  // Fourth Column
+                  '<td class="scExp-tdColumnMain">';
 
-      // Fifth Column
-      html += "</td><td class='scExp-tdColumnMain scExp-tdLastColumn'>";
+      html +=
+                  '</td>' +
+                  // Fifth Column
+                  '<td class="scExp-tdColumnMain scExp-tdLastColumn">';
 
       // maximumScaleValue
       if (isFirstItem) {
-        html += "<span class='scExp-spScale scExp-spScaleMaximum'>" + this.maximumScaleValue + "</span>";
+        html += '<span class="scExp-spScale scExp-spScaleMaximum">' + this.maximumScaleValue + '</span>';
       }
 
       // winner Icon
       if (item.isWinner) {
-        html += "<div class='scExp-dvWinner'>" +
-                  "<img src='" + this.starImgSrc + "' />" +
-                "</div>";
+        html += '<div class="scExp-dvWinner">' +
+                  '<img src="' + this.starImgSrc + '" />' +
+                '</div>';
       }
 
-      html += "</td>" +
-                "</tr>" +
-              "</table>";
+      html += '</td>' +
+                '</tr>' +
+              '</table>';
 
       //
       // Rendering of value indicators
@@ -364,21 +386,21 @@ define(["sitecore", "jqueryui"], function (_sc) {
       if (item.NoData)
       {
         var noDataText = this.model.get("NoDataText");
-        if (noDataText == undefined || noDataText == "") {
+        if (noDataText == undefined || noDataText == '') {
           noDataText = "NO DATA";
         }
         
-        html += "<div class='scExp-dvIndicator'>" +
-                    "<span>"+ noDataText + "</span>" +
-                "</div>";
+        html += '<div class="scExp-dvIndicator">' +
+                    '<span>'+ noDataText + '</span>' +
+                '</div>';
       }
       else
       {
         html = this.renderIndicators(item, html);
       }
    
-      html += "</div>" +
-              "</div>";
+      html += '</div>' +
+              '</div>';
 
       // appending of the elem
       parentElem.append(html);
@@ -412,25 +434,13 @@ define(["sitecore", "jqueryui"], function (_sc) {
         self.selectedItemElem = event.currentTarget;
         $(event.currentTarget).removeClass("scExp-dvExperienceHover").addClass("scExp-dvExperienceSelected");
 
-        var groupName, groupGuid;
+        var groupName;
         var parElem = $(self.selectedItemElem).parent();
-        if (parElem.length > 0) {
-          if (parElem[0].id && parElem[0].id != '') {
-            groupGuid = parElem[0].id;
-          }
-          else if ($(parElem[0]).attr("groupName") && $(parElem[0]).attr("groupName") != '') {
-            groupName = $(parElem[0]).attr("groupName");
-          }
-        }
-          
-        var findItem;
-        if (groupGuid)
-          findItem = self.findItemById(self.selectedItemElem.id, groupGuid);
-        else
-          findItem = self.findItemById(self.selectedItemElem.id, null, groupName);
+        if (parElem.length > 0 && parElem[0].id && parElem[0].id != '')
+          groupName = parElem[0].id;
+        var findItem = self.findItemById(self.selectedItemElem.id, groupName);
         if (findItem)
           self.model.set("selectedItem", findItem);
-          self.model.trigger("click:entry");
       });
 
       return itemElem;
@@ -442,7 +452,6 @@ define(["sitecore", "jqueryui"], function (_sc) {
       var indTop2;
       var legendColor = this.getColorByLegendIndex(item.legendIndex);
       var legendColor2;
-
       // 3 indicators
       if (item.valuePerc && item.valuePerc2 && item.valuePerc3) {
         indTop = 8;
@@ -451,21 +460,17 @@ define(["sitecore", "jqueryui"], function (_sc) {
 
         var legendColor3 = this.getColorByLegendIndex(item.legendIndex3);
         legendColor2 = this.getColorByLegendIndex(item.legendIndex2);
-        //html += '<div class="scExp-dvIndicator" style="top:' + indTop + 'px;">' +
-        //          '<div style="width: ' + item.valuePerc + '%; background-color:' + legendColor + '" ></div>' +
-        //        '</div>';
+        html += '<div class="scExp-dvIndicator" style="top:' + indTop + 'px;">' +
+                  '<div style="width: ' + item.valuePerc + '%; background-color:' + legendColor + '" ></div>' +
+                '</div>';
 
-        //html += '<div class="scExp-dvIndicator" style="top:' + indTop2 + 'px;">' +
-        //          '<div style="width: ' + item.valuePerc2 + '%; background-color:' + legendColor2 + '" ></div>' +
-        //        '</div>';
+        html += '<div class="scExp-dvIndicator" style="top:' + indTop2 + 'px;">' +
+                  '<div style="width: ' + item.valuePerc2 + '%; background-color:' + legendColor2 + '" ></div>' +
+                '</div>';
 
-        //html += '<div class="scExp-dvIndicator" style="top:' + indTop3 + 'px;">' +
-        //          '<div style="width: ' + item.valuePerc3 + '%; background-color:' + legendColor3 + '" ></div>' +
-        //        '</div>';
-
-        html += this.renderIndicator(item.valuePerc, indTop, legendColor);
-        html += this.renderIndicator(item.valuePerc2, indTop2, legendColor2);
-        html += this.renderIndicator(item.valuePerc3, indTop3, legendColor3);
+        html += '<div class="scExp-dvIndicator" style="top:' + indTop3 + 'px;">' +
+                  '<div style="width: ' + item.valuePerc3 + '%; background-color:' + legendColor3 + '" ></div>' +
+                '</div>';
       }
       // 2 indicators
       else if (item.valuePerc && item.valuePerc2) {
@@ -473,62 +478,26 @@ define(["sitecore", "jqueryui"], function (_sc) {
         indTop2 = indTop + 10;
 
         legendColor2 = this.getColorByLegendIndex(item.legendIndex2);
-        //html += '<div class="scExp-dvIndicator" style="top:' + indTop + 'px;">' +
-        //          '<div style="width: ' + item.valuePerc + '%; background-color:' + legendColor + '" ></div>' +
-        //        '</div>';
+        html += '<div class="scExp-dvIndicator" style="top:' + indTop + 'px;">' +
+                  '<div style="width: ' + item.valuePerc + '%; background-color:' + legendColor + '" ></div>' +
+                '</div>';
 
-        //html += '<div class="scExp-dvIndicator" style="top:' + indTop2 + 'px;">' +
-        //          '<div style="width: ' + item.valuePerc2 + '%; background-color:' + legendColor2 + '" ></div>' +
-        //        '</div>';
-
-        html += this.renderIndicator(item.valuePerc, indTop, legendColor);
-        html += this.renderIndicator(item.valuePerc2, indTop2, legendColor2);
+        html += '<div class="scExp-dvIndicator" style="top:' + indTop2 + 'px;">' +
+                  '<div style="width: ' + item.valuePerc2 + '%; background-color:' + legendColor2 + '" ></div>' +
+                '</div>';
       }
       // 1 indicator
       else if (item.valuePerc) {
-
-        //html += '<div class="' + className + '" style="top:' + indTop + 'px;">' +
-        //          '<div style="width: ' + item.valuePerc + '%; background-color:' + legendColor + '" ></div>' +
-        //        '</div>';
-        html += this.renderIndicator(item.valuePerc, indTop, legendColor);
+        html += '<div class="scExp-dvIndicator" style="top:' + indTop + 'px;">' +
+                  '<div style="width: ' + item.valuePerc + '%; background-color:' + legendColor + '" ></div>' +
+                '</div>';
       }
       
       return html;
     },
 
-    renderIndicator: function (valuePerc, indTop, legendColor) {
-
-      var valuePerc = parseInt(valuePerc);
-      var className = "scExp-dvIndicator";
-      if (this.minimumScaleValue < 0) {
-        if (valuePerc < 0) {
-          className += " negative";
-        }
-        else if (valuePerc > 0)
-          className += " positive";
-        else {
-          className += " neutral";
-          valuePerc = 100;
-        }
-      }
-
-      if (valuePerc < 0)
-        valuePerc = Math.abs(valuePerc);
-      else if (valuePerc == 0)
-        valuePerc = 0.2;
-
-      if (valuePerc > 100)
-        valuePerc = 100;
-
-      var indHtml = '<div class="' + className + '" style="top:' + indTop + 'px;">' +
-                '<div style="width: ' + valuePerc + '%; background-color:' + legendColor + '" ></div>' +
-              '</div>';
-
-      return indHtml;
-    },
-
     // finding item by id
-    findItemById: function (id, groupId, groupName) {
+    findItemById: function (id, groupName) {
       var groups = this.model.get("items");
 
       var findItem = null;
@@ -537,10 +506,8 @@ define(["sitecore", "jqueryui"], function (_sc) {
         
         if (groups.length > 1)
         {
-          if (groupId && group.Guid && groupId != '' && group.Guid != '' && groupId != group.Guid) {
-            continue;
-          }
-          else if (groupName && groupName != '' && group.name != '' && groupName != group.name) {
+          if (groupName && groupName != '' && group.name != '' && groupName != group.name)
+          {
             continue;
           }
         }

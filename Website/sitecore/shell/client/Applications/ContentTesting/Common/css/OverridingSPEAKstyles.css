@@ -99,21 +99,3 @@ div[data-sc-id="DetailsColumn"]::-webkit-scrollbar-thumb:hover {
   padding-left: 15px !important;
   padding-right: 15px !important;
 }
-.sc [data-sc-id="RadioBtnBorder"] .sc-border {
-  display: inline-block;
-  margin-right: 60px;
-}
-.sc [data-sc-id="RadioBtnBorder"] .sc-border:last-child {
-  margin-right: 0px;
-}
-.sc [data-sc-id="RadioBtnBorder"] .sc-ArrowIndicator-Arrow {
-  right: 2px;
-  position: relative;
-  margin-bottom: 4px;
-}
-.sc [data-sc-id="RadioBtnBorder"] .sc-ArrowIndicator-Value {
-  display: none;
-}
-.sc [data-sc-id="ConfidencePanel"] .sc-radiobutton {
-  margin-right: 150px;
-}

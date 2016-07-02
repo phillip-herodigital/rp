@@ -1,4 +1,4 @@
-﻿define(["sitecore", "/-/speak/v1/ExperienceEditor/ExperienceEditor.js"], function (Sitecore, ExperienceEditor) {
+﻿define(["sitecore"], function (Sitecore) {
   Sitecore.Commands.SelectMode =
   {
     canExecute: function (context, parent) {
@@ -6,7 +6,7 @@
         return context.app.canExecute("ExperienceEditor.Mode.CanSelectMode", context.currentContext);
       }
 
-      if (!ExperienceEditor.isInMode("edit")) {
+      if (!Sitecore.ExperienceEditor.isInMode("edit")) {
         context.button.set({ isPressed : true });
       }
 
@@ -15,7 +15,7 @@
 
     execute: function (context) {
       context.currentContext.value = encodeURIComponent(context.currentContext.argument + "|" + window.parent.location);
-      ExperienceEditor.PipelinesUtil.generateRequestProcessor("ExperienceEditor.Mode.SelectModeRequest", function (response) {
+      Sitecore.ExperienceEditor.PipelinesUtil.generateRequestProcessor("ExperienceEditor.Mode.SelectModeRequest", function (response) {
         window.parent.location = response.responseValue.value;
       }).execute(context);
     }

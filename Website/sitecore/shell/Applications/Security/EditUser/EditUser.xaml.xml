@@ -136,7 +136,7 @@
 
                   <input id="StartWebEdit" runat="server" name="StartUrlSelector" type="radio" value="/sitecore/shell/applications/webedit.aspx" />
                   <label for="StartWebEdit">
-                    <Literal Text="Experience Editor"  runat="server"/>
+                    <Literal Text="Page Editor"  runat="server"/>
                   </label>
                   <br/>
 

@@ -1,11 +1,7 @@
-﻿define(["sitecore", "/-/speak/v1/contenttesting/DataUtil.js"], function (_sc, dataUtil) {
+﻿define(["sitecore"], function (_sc) {
   var TestResults = _sc.Definitions.App.extend({
     initialized: function () {
       this.resolveVariableId();
-
-      var arrowIndicators = [{ component: this.TrailingValueArrowIndicator, treatNull: false }, { component: this.ExperienceEffectArrowIndicator, treatNull: false }, ];
-      dataUtil.arrowIndicatorEventAssign(arrowIndicators);
-
       this.VariablesDataSource.set("variableId", this.get("variableId"));
       this.ComponentPerformanceIndicator.on("change:selectedItem", this.updateWithSelectedValue, this);
       this.VariablesDataSource.on("change:items", this.variationsPopulated, this);

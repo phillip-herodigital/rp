@@ -49,15 +49,14 @@
             actionUrl = this.get("actionUrl");
         }
 
-        var url = Sitecore.Helpers.url.addQueryParameters("", {
-          start: this.get("start").toJSON ? this.get("start").toJSON() : this.get("start"),
-          end: this.get("end").toJSON ? this.get("end").toJSON() : this.get("end"),
-          username: this.get("user"),
-          maxCount: this.get("maxCount"),
-          normalize: this.get("normalizeData"),
-          includeAverage: this.get("includeAverage"),
-          separateAverage: this.get("separateAverage")
-        });
+        var url =
+          "?start=" + (this.get("start").toJSON ? this.get("start").toJSON() : this.get("start")) +
+          "&end=" + (this.get("end").toJSON ? this.get("end").toJSON() : this.get("end")) +
+          "&username=" + this.get("user") +
+          "&maxCount=" + this.get("maxCount") +
+          "&normalize=" + this.get("normalizeData") +
+          "&includeAverage=" + this.get("includeAverage") +
+          "&separateAverage=" + this.get("separateAverage");
 
         if (this.get("compareStart") && this.get("compareEnd")) {
           actionUrl = this.get("actionUrlForCompare");
@@ -76,10 +75,9 @@
               actionUrl = this.get("actionUrlForCompare");
           }
 
-          url = Sitecore.Helpers.url.addQueryParameters(url, {
-            compareStart: this.get("compareStart").toJSON ? this.get("compareStart").toJSON() : this.get("compareStart"),
-            compareEnd: this.get("compareEnd").toJSON ? this.get("compareEnd").toJSON() : this.get("compareEnd")
-          });
+          url = url +
+            "&compareStart=" + (this.get("compareStart").toJSON ? this.get("compareStart").toJSON() : this.get("compareStart")) +
+            "&compareEnd=" + (this.get("compareEnd").toJSON ? this.get("compareEnd").toJSON() : this.get("compareEnd"));
         }
 
         return actionUrl + url;

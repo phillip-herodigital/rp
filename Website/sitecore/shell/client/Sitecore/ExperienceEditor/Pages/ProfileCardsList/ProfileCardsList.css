@@ -1,7 +1,7 @@
 ﻿#profileCardsList {
     overflow-y: auto;
     width: 100%;
-    padding-left: 5px;
+    margin-left: 5px;
     max-height: 88px;
 }
 
@@ -10,3 +10,4 @@
     bottom: 5px;
     right: 5px;
 }
+

@@ -183,9 +183,6 @@
                     <div class="included-thermostat" ng-if="selectedOffer.offer.includesThermostat">
                         @Html.Sitecore().Field("Thermostat Text")
                     </div>
-                    <div class="included-skydrop" ng-if="selectedOffer.offer.includesSkydrop">
-                        @Html.Sitecore().Field("Skydrop Text")
-                    </div>
                     <div class="line-item clearfix" ng-if="!isRenewal && selectedOffer.offerOption.connectionFee != null">
                         <div class="description sub-charge">
                             <strong>@Html.Sitecore().Field("Installation Fee")  ({{selectedOffer.offerOption.connectDate | date:'M/d/yyyy'}})</strong>

@@ -194,10 +194,3 @@ function cleanupVersions() {
     $$('#versionsGrid tbody tr').each(function (e) { e.remove(); });
   }
 }
-
-setInterval(function () {
-  var searchBox = document.querySelector("[id$=searchBox]");
-  if (searchBox && searchBox.value.indexOf('\"') != -1) {
-    searchBox.value = searchBox.value.replace(/"/g, "");
-  };
-}, 50);

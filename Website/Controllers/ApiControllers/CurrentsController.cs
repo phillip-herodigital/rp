@@ -233,10 +233,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 var category = currentsEvent.Fields["Event Type"].Value.ToLower();
                 var stateField = (Sitecore.Data.Fields.MultilistField)currentsEvent.Fields["Event State"];
                 bool recurringEvent = !string.IsNullOrEmpty(currentsEvent.Fields["Recurring Event"].Value);
-
-                int repeatWeeks = 0;
-                Int32.TryParse(currentsEvent.Fields["Repeat Every X Weeks"].Value, out repeatWeeks);
-
+                int repeatWeeks = currentsEvent.Fields["Repeat Every X Weeks"].Value.ToInt();
                 bool repeatSunday = !string.IsNullOrEmpty(currentsEvent.Fields["Sunday"].Value);
                 bool repeatMonday = !string.IsNullOrEmpty(currentsEvent.Fields["Monday"].Value);
                 bool repeatTuesday = !string.IsNullOrEmpty(currentsEvent.Fields["Tuesday"].Value);
@@ -430,9 +427,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 var category = currentsEvent.Fields["Event Type"].Value;
                 var stateField = (Sitecore.Data.Fields.MultilistField)currentsEvent.Fields["Event State"];
                 bool recurringEvent = !string.IsNullOrEmpty(currentsEvent.Fields["Recurring Event"].Value);
-                int repeatWeeks = 0;
-                Int32.TryParse(currentsEvent.Fields["Repeat Every X Weeks"].Value, out repeatWeeks);
-                
+                int repeatWeeks = currentsEvent.Fields["Repeat Every X Weeks"].Value.ToInt();
                 bool repeatSunday = !string.IsNullOrEmpty(currentsEvent.Fields["Sunday"].Value);
                 bool repeatMonday = !string.IsNullOrEmpty(currentsEvent.Fields["Monday"].Value);
                 bool repeatTuesday = !string.IsNullOrEmpty(currentsEvent.Fields["Tuesday"].Value);

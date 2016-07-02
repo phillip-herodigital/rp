@@ -112,6 +112,10 @@ Sitecore.PageModes.Personalization.ConditionStateStorage = new function() {
   * @description Saves the storage to cookie
   */
   this.save = function() {
+    if (!Sitecore.PageModes.PageEditor.isAnalyticsEnabled()) {
+      return;
+    }
+
     var cookieName = this.getCookieName();
     var value = this.serialize(true/*Default condition shouldn't be saved in a cookie*/);       
     if (value) {

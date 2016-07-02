@@ -371,7 +371,6 @@
     <xsd:attribute name="GroupHeadersAreVisible" type="xsd:boolean" />
     <xsd:attribute name="PreserveActiveStrip" type="xsd:boolean" />
     <xsd:attribute name="ShowContextualTabs" type="xsd:boolean" />
-    <xsd:attribute name="ShowToggleButton" type="xsd:boolean" />
   </xsd:attributeGroup>
   <xsd:element name="Ribbon">
     <xsd:complexType mixed="true">
@@ -1146,7 +1145,6 @@
     <xsd:attribute name="Radiogroup" />
     <xsd:attribute name="Submenu" />
     <xsd:attribute name="Type" type="MenuItemTypeEnumeration" />
-    <xsd:attribute name="TranslateHeader" type="xsd:boolean" />
   </xsd:attributeGroup>
   <xsd:simpleType name="MenuItemTypeEnumeration">
     <xsd:restriction base="xsd:string">
@@ -1336,7 +1334,6 @@
     <xsd:attribute name="DisableWebEditing" type="xsd:boolean" />
     <xsd:attribute name="EnclosingTag" />
     <xsd:attribute name="FieldName" />
-    <xsd:attribute name="Format" />
   </xsd:attributeGroup>
   <xsd:element name="FieldRenderer">
     <xsd:complexType mixed="true">

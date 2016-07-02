@@ -23,8 +23,8 @@
   <xsl:variable name="rightColumnTid" select="'{BF8B7B37-1E90-401A-A360-58119C0780B5}'"/>
   <xsl:variable name="linkTid" select="'{4DF80BE6-AE83-40E4-81B4-480F7B60AE15}'"/>
 
-  <xsl:variable name="bg" select="'-/media/Images/Newsletter/Common/bg_white.ashx'" />
-  <xsl:variable name="bgSection" select="'-/media/Images/Newsletter/Common/bg_section.ashx'" />
+  <xsl:variable name="bg" select="'~/media/Images/Newsletter/Common/bg_white.ashx'" />
+  <xsl:variable name="bgSection" select="'~/media/Images/Newsletter/Common/bg_section.ashx'" />
   
   <xsl:variable name="colorGrey" select="'#99A3B7'" />
   <xsl:variable name="colorSilver" select="'#ECEFF4'" />
@@ -67,7 +67,7 @@
             <img height="2" width="7" border="0" style="border-color: transparent;" alt="" src="{$bg}" />
           </td>
           <td bgcolor="white">
-            <img height="2" width="170" border="0" style="border-color: transparent; display: block;" alt="" src="-/media/Images/Newsletter/Common/white_line.ashx" />
+            <img height="2" width="170" border="0" style="border-color: transparent; display: block;" alt="" src="~/media/Images/Newsletter/Common/white_line.ashx" />
           </td>
           <td width="7" bgcolor="white">
             <img height="2" width="7" border="0" style="border-color: transparent;" alt="" src="{$bg}" />
@@ -131,9 +131,9 @@
 
   <xsl:template name="showSectionHeader">
     <tr valign="top">
-      <td width="3"><img height="3" width="3" border="0" style="border-color: transparent; display: block;" alt="" src="-/media/Images/Newsletter/Common/grey_left.ashx" /></td>
+      <td width="3"><img height="3" width="3" border="0" style="border-color: transparent; display: block;" alt="" src="~/media/Images/Newsletter/Common/grey_left.ashx" /></td>
       <td colspan="3" bgcolor="{$colorGrey}" style="font-size: 1px;">&#32;</td>
-      <td width="3"><img height="3" width="3" border="0" style="border-color: transparent; display: block;" alt="" src="-/media/Images/Newsletter/Common/grey_right.ashx" /></td>
+      <td width="3"><img height="3" width="3" border="0" style="border-color: transparent; display: block;" alt="" src="~/media/Images/Newsletter/Common/grey_right.ashx" /></td>
     </tr>
     <tr>
       <td colspan="5" bgcolor="{$colorGrey}" height="10"><div style="height: 10px; font-size: 1px;">&#32;</div></td>

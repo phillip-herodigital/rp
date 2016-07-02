@@ -22,8 +22,6 @@
   var useCDNMode = "{84F1BE3E-02A3-42F8-AEB2-E73768790E45}";
   var useBundled = "{5A598A7A-CBE9-470F-AD2B-4FD7E0561307}";
   var contextLanguage = ClientHost.Context.Language.Name;
-  var contentDatabaseName = Sitecore.Context.ContentDatabase.Name;
-  var dataBaseName = Sitecore.Context.Database.Name;
   
   if (isSpeak1_1)
   {
@@ -51,12 +49,12 @@
     }
     else if (useCDNMode == assetsLoadingMode)
     {
-      mainFile = "/-/speak/v1/assets/main-2.0.cdn.min.js";
+      mainFile = "/-/speak/v1/assets/main-1.2.cdn.min.js";
       bindingFile = SpeakSettings.Html.BindingPluginFileMinified;
     }
     else if (useBundled == assetsLoadingMode)
     {
-      mainFile = "/-/speak/v1/assets/main-2.0.bundled.min.js";
+      mainFile = "/-/speak/v1/assets/main-1.2.bundled.min.js";
       bindingFile = SpeakSettings.Html.BindingPluginFileMinified;
     }
   }
@@ -104,12 +102,10 @@
     }
   }
 }
-<meta data-sc-name="sitecoreLanguage" data-sc-content="@contextLanguage"/>
-<meta data-sc-name="sitecoreContentDatabase" data-sc-content="@contentDatabaseName"/>
-<meta data-sc-name="sitecoreDatabase" data-sc-content="@dataBaseName" />
+<meta data-sc-name="sitecoreLanguage" data-sc-content="@contextLanguage" />
 <title>@title</title>
 <link rel="shortcut icon" href="/sitecore/images/favicon.ico" />
-@Html.Sitecore().PageStylesheets(isSpeak1_1 ? "1" : "2")
+@this.Html.Sitecore().PageStylesheets()
 
 @if (debug)
 {
@@ -128,7 +124,7 @@
   }
   else
   {
-    <script src="~/sitecore/shell/client/Speak/Assets/lib/core/2.0/sitecore.packed.js"></script>
+    <script src="~/sitecore/shell/client/Speak/Assets/lib/core/1.2/sitecore.packed.js"></script>
   }
 }
 
@@ -150,7 +146,7 @@
   <script type='text/x-sitecore-pluginscript' data-sc-pluginid="bindingjsPlugin" data-sc-require="@bindingFile"></script>
 }
 
-<script src="/sitecore/shell/client/Speak/Assets/lib/core/2.0/deps/require.js" data-main="@mainFile" type="text/javascript"></script>
+<script src="/sitecore/shell/client/Speak/Assets/lib/core/1.2/deps/require.js" data-main="@mainFile" type="text/javascript"></script>
 <script type="text/javascript">require.config({ waitSeconds: @waitSeconds });</script>
 @this.Html.Sitecore().PageScripts()
 @this.Html.Sitecore().Overlays()

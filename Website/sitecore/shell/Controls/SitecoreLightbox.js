@@ -43,17 +43,7 @@
       }
     }
     
-    this.lightbox.setStyle({
-        left: "0px",
-        right: "0px",
-        margin: "0 auto",
-        top: "15px",
-        bottom: "15px",
-        height: height + 16,
-        width: "800px",
-        overflow: "auto"
-    });
-
+    this.lightbox.setStyle({ left: "0px", right: "0px", margin: "0 auto", top: "100px", height: height + 16, width: "800px" });
     this.height = height;
     
     if (Prototype.Browser.Gecko) {

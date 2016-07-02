@@ -5,12 +5,11 @@
 
 <html>
 <head runat="server">
-    <meta http-equiv="X-Frame-Options" content="SAMEORIGIN">
     <title>Sitecore</title>
     <script src="/sitecore/shell/controls/lib/prototype/prototype.js" type="text/javascript"></script>
     <asp:PlaceHolder id="Stylesheets" runat="server" />
     <style type="text/css">
-      body { height:100%; width:100%; padding: 0; margin: 0; display: inline-block; vertical-align: top;position: absolute; }
+      body { height:100%; width:100%; padding: 0;margin: 0;display: inline-block;vertical-align: top;}
       form { height:100%; width:100% }
       #ContentWrapper {margin-left: 4px;}
     </style>
@@ -128,7 +127,7 @@
       function scGetImageSource(text) {
         var sourceStart = text.indexOf("src=\"");
         var sourceEnd;
-        var source = '';
+        var source;
 
         if (sourceStart > -1) {
           sourceStart += "src=\"".length;

@@ -3,7 +3,6 @@
 <html>
   <head>
     <title>error</title>
-    <meta http-equiv="X-Frame-Options" content="SAMEORIGIN">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="GENERATOR" Content="Microsoft Visual Studio 7.0">
     <meta name="CODE_LANGUAGE" Content="C#">

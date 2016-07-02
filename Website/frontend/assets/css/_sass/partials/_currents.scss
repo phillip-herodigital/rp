@@ -4,7 +4,6 @@
 $events-color: #00a3e0;
 $promotions-color: #97c93d;
 $recognition-color: #f99d25;
-$training-color: #083D5C; 
 $radio-color: #ffc600;
 $default-color: #d2d3d3;
 $corporate-events-color: #0071b9;
@@ -53,9 +52,6 @@ $local-meeting-color: #00a8e1;
         }
         &.recognition, &.recognition h1 {
             color: $recognition-color;
-        }
-        &.training, &.training h1 {
-            color: $training-color;
         }
     }
     &.calendar-layout {
@@ -114,20 +110,19 @@ $local-meeting-color: #00a8e1;
         margin: 2px 0 0 40px !important;
         ul { 
             display: table;
-            width: 110% !important;
         }
         li {
-            
-            max-height: 86px !important;
+            margin-right: 15px;
+            height: 86px !important;
             display: table-cell !important;
             vertical-align: bottom !important;
-            padding: 0 2% 0 33px !important;
+            padding: 0 35px !important;
             background-repeat: no-repeat;
             background-position: 0 88%;
             a {
                 color: #2a2a2a !important;
                 background-color: #fff;
-                font-size: 15px !important;
+                font-size: 16px !important;
                 font-weight: 500 !important;
                 padding: 0 0 4px !important;
                 .color-block {
@@ -205,28 +200,6 @@ $local-meeting-color: #00a8e1;
                     }
                 } 
             }
-            &.nav-training {
-                @include retina-background('currents-training.png', 'icon');
-                a {
-                    .color-block {
-                        border-bottom: 5px solid $training-color;
-                    }
-                    &:hover {
-                        color: $training-color !important;
-                        .color-block {
-                            background-color: $training-color;
-                        }
-                    } 
-                }
-                &.current {
-                    a {
-                        color: $training-color !important;
-                    }
-                    .color-block {
-                        background-color: $training-color;
-                    }
-                } 
-            }
         }
     }
     .right-nav {
@@ -237,7 +210,6 @@ $local-meeting-color: #00a8e1;
         font-weight: 300;
         text-transform: uppercase;
         text-align: right;
-
         a {
             color: inherit;
         }

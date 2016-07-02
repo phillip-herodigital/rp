@@ -18,12 +18,13 @@
                 </Border>
                 <Border ID="RepublishPane">
                   <Radiobutton ID="Republish" Name="PublishMode" Header="Republish - publish everything." Value="Republish"/>
-                </Border>
+              
                 <Border ID="PublishChildrenPane">
                   <br /><Checkbox ID="PublishChildren" Header="Publish subitems"/>
                   <br />
                   <Checkbox ID="PublishRelatedItems" Header="Publish related items"/>
                 </Border>
+              </Border>
             </Groupbox>
 
             <Groupbox ID="LanguagesPanel" Header="Publishing language" Margin="0px 0px 16px 0px">

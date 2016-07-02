@@ -44,7 +44,7 @@
                 url: this.get("url"),
                 type: this.get("requestMethod"),
                 headers: {
-                    "X-RequestVerificationToken": jQuery('[name=__RequestVerificationToken]').val(),
+                    "X-RequestVerificationToken": $('[name=__RequestVerificationToken]').val(),
                     "X-Requested-With": "XMLHttpRequest"
                 }
             }).fail(function (data) {

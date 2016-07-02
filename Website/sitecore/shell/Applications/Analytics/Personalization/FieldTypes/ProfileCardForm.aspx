@@ -7,7 +7,6 @@
 <!DOCTYPE html>
 <html>
 <head runat="server">
-  <meta http-equiv="X-Frame-Options" content="SAMEORIGIN">
   <title>Profile Card Values</title>
   <script type="text/javascript" src="/sitecore/shell/Controls/lib/prototype/prototype.js"></script>
   <script type="text/javascript">

@@ -18,8 +18,6 @@ Sitecore.InitBucketList = function (id, clientId, pageNumber, searchHandlerUrl, 
 
     self.doneTypingInterval = 2000; //time in ms, 2 second for example
 
-    self.contentLanguage = $('scLanguage').value;
-
     var typingTimer;
 
     self.format = function (template) {
@@ -29,11 +27,10 @@ Sitecore.InitBucketList = function (id, clientId, pageNumber, searchHandlerUrl, 
 
     // Sends 'GET' request to url specified by parameter
     // and apply success handler to multilist element
-    self.sendRequest = function (url, data, multilist) {
+    self.sendRequest = function (url, multilist) {
         new Ajax.Request(url,
             {
-                method: 'POST',
-                parameters: data,
+                method: 'GET',
                 onSuccess: new self.SuccessHandler(multilist)
             });
     };
@@ -45,33 +42,18 @@ Sitecore.InitBucketList = function (id, clientId, pageNumber, searchHandlerUrl, 
             multilist.options.length = 0;
             multilist.removeClassName('loadingItems');
 
-            var itemIdsHash = {};
-            var reducedItems = [];
-            var i;
-            var item;
-            for (i = 0; i < response.items.length; i++) {
-                item = response.items[i];
-
-                if (!itemIdsHash[item.ItemId]) {
-                    itemIdsHash[item.ItemId] = true;
-                    reducedItems[reducedItems.length] = item;
-                }
-            }
-
-            for (i = 0; i < reducedItems.length; i++) {
-                item = reducedItems[i];
-                multilist.options[multilist.options.length] = new Option((item.DisplayName || item.Name) + ' (' + item.TemplateName + (item.Bucket && (' - ' + item.Bucket)) + ')', item.ItemId);
+            for (var i = 0; i < response.items.length; i++) {
+                multilist.options[multilist.options.length] = new Option(response.items[i].Name + ' (' + response.items[i].TemplateName + ' - ' + response.items[i].Bucket + ')', response.items[i].ItemId);
             }
 
             self.pageNumber = response.PageNumbers;
-            self.currentPage = response.CurrentPage;
             $('pageNumber' + self.clientId).innerHTML = self.format(self.of, self.currentPage, self.pageNumber);
         };
     };
 
     // Return id of selected item
-    self.getSelectedItemId = function (controlSuffix) {
-        var all = scForm.browser.getControl(self.id + controlSuffix);
+    self.getSelectedItemId = function () {
+        var all = scForm.browser.getControl(self.id + '_unselected');
 
         for (var n = 0; n < all.options.length; n++) {
             var option = all.options[n];
@@ -100,16 +82,39 @@ Sitecore.InitBucketList = function (id, clientId, pageNumber, searchHandlerUrl, 
         filterBox.removeClassName('active').addClassName('inactive');
     };
 
+    self.multilistValuesMoveRight = function (allOptions) {
+        var all = scForm.browser.getControl(self.id + '_unselected');
+        var multilistValues = document.getElementById('multilistValues' + self.id);
+        for (var n = 0; n < all.options.length; n++) {
+            var option = all.options[n];
+            if (option.selected || allOptions) {
+                var opt = option.innerHTML + ',' + option.value + ',';
+                multilistValues.value = multilistValues.value.replace(opt, '');
+            }
+        }
+    };
+
+    self.multilistValuesMoveLeft = function (allOptions) {
+        var selected = scForm.browser.getControl(self.id + '_selected');
+        var multilistValues = document.getElementById('multilistValues' + self.id);
+        for (var n = 0; n < selected.options.length; n++) {
+            var option = selected.options[n];
+            if (option.selected || allOptions) {
+                var opt = option.innerHTML + ',' + option.value + ',';
+                multilistValues.value += opt;
+            }
+        }
+    };
+
     self.moveToCurrentPage = function () {
         var filterBox = document.getElementById('filterBox' + self.clientId);
         var filterValue = (filterBox.value && filterBox.value != self.typeToSearchString) ? filterBox.value : '*';
 
         var multilist = $(self.clientId + '_unselected').addClassName('loadingItems');
-        var savedStr = encodeURIComponent(filterValue);
-        var filterString = self.enableSetStartLocation ? self.getOverrideString('%2Blocation=') : self.filter;
-        var selectedIdsFilter = self.getSelectedIdsFilter();
+        var savedStr = encodeURI(filterValue);
+        var filterString = self.enableSetStartLocation ? self.getOverrideString('&location=') : self.filter;
 
-        self.sendRequest(self.searchHandlerUrl, 'fromBucketListField=' + savedStr + "&" + filterString.replace(/\+/g, "%2B") + selectedIdsFilter + '&pageNumber=' + self.currentPage + self.databaseUrlParameter + '&scLanguage=' + self.contentLanguage, multilist);
+        self.sendRequest(self.searchHandlerUrl + '?fromBucketListField=' + savedStr + filterString + '&pageNumber=' + self.currentPage + self.databaseUrlParameter, multilist);
     };
 
     // Replaces overrideKey value in filter by value from ovverrideInput
@@ -135,12 +140,6 @@ Sitecore.InitBucketList = function (id, clientId, pageNumber, searchHandlerUrl, 
         var stringToReplace = self.filter.substring(replaceStartIndex, replaceEndIndex);
 
         return self.filter.replace(stringToReplace, overrideKey + overrideInput.value);
-    };
-
-    self.getSelectedIdsFilter = function() {
-        return [].slice.call($(self.clientId + '_selected').options, 0)
-            .map(function(option) { return "&-id=" + option.value })
-            .join('');
     };
 
     self.initEventHandlers = function () {
@@ -175,27 +174,31 @@ Sitecore.InitBucketList = function (id, clientId, pageNumber, searchHandlerUrl, 
         });
 
         $(self.id + '_unselected').observe('dblclick', function () {
-            scContent.multilistMoveRight(self.id);
+            self.multilistValuesMoveRight();
+            javascript: scContent.multilistMoveRight(self.id);
         });
 
         $(self.id + '_selected').observe('dblclick', function () {
-            scContent.multilistMoveLeft(self.id);
+            self.multilistValuesMoveLeft();
+            javascript: scContent.multilistMoveLeft(self.id);
         });
 
         $(self.id + '_unselected').observe('click', function () {
-            self.selectedId = self.getSelectedItemId('_unselected');
+            self.selectedId = self.getSelectedItemId();
         });
 
         $(self.id + '_selected').observe('click', function () {
-            self.selectedId = self.getSelectedItemId('_selected');
+            self.selectedId = self.getSelectedItemId();
         });
 
         $('btnRight' + self.id).observe('click', function () {
-            scContent.multilistMoveRight(self.id);
+            self.multilistValuesMoveRight();
+            javascript: scContent.multilistMoveRight(self.id);
         });
 
         $('btnLeft' + self.id).observe('click', function () {
-            scContent.multilistMoveLeft(self.id);
+            self.multilistValuesMoveLeft();
+            javascript: scContent.multilistMoveLeft(self.id);
         });
 
         $('refresh' + self.clientId).observe('click', function () {
@@ -204,15 +207,11 @@ Sitecore.InitBucketList = function (id, clientId, pageNumber, searchHandlerUrl, 
         });
 
         $('goto' + self.clientId).observe('click', function () {
-            scForm.postRequest('', '', '', 'contenteditor:launchtab(url=' + self.selectedId + ', la=' + self.contentLanguage + ')');
+            scForm.postRequest('', '', '', 'contenteditor:launchtab(url=' + self.selectedId + ')');
             return false;
         });
     };
 
-    var pageNumberElement = $('pageNumber' + self.clientId);
-    if (pageNumberElement) {
-        pageNumberElement.innerHTML = self.format(self.of, self.currentPage, self.pageNumber);
-        self.initEventHandlers();
-        self.moveToCurrentPage();
-    }
+    $('pageNumber' + self.clientId).innerHTML = self.format(self.of, self.currentPage, self.pageNumber);
+    self.initEventHandlers();
 };

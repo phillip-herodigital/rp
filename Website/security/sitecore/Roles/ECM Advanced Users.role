@@ -1,9 +1,0 @@
-----role----
-name: sitecore\ECM Advanced Users
-
-----role-in-role----
-rolename: sitecore\Analytics Maintaining
-
-----role-in-role----
-rolename: sitecore\Analytics Reporting
-

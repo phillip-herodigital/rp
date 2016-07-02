@@ -1,6 +1,6 @@
 /* This file is shared between older developer center rich text editor and the new EditorPage, that is used exclusively by Content Editor */
 
-Telerik.Web.UI.Editor.CommandList["Save"] = function(commandName, editor, tool) {
+RadEditorCommandList["Save"] = function(commandName, editor, tool) {
   var form = scGetForm();
 
   if (form != null) {
@@ -12,7 +12,7 @@ var scEditor = null;
 var scTool = null;
 var scDatabase;
 
-Telerik.Web.UI.Editor.CommandList["InsertSitecoreLink"] = function(commandName, editor, args) {
+RadEditorCommandList["InsertSitecoreLink"] = function(commandName, editor, args) {
   var d = Telerik.Web.UI.Editor.CommandList._getLinkArgument(editor);
   Telerik.Web.UI.Editor.CommandList._getDialogArguments(d, "A", editor, "DocumentManager");
 
@@ -25,7 +25,7 @@ Telerik.Web.UI.Editor.CommandList["InsertSitecoreLink"] = function(commandName, 
     id = GetMediaID(html);
   }
 
-  // link to media in form of <a href="-/media/CC2393E7CA004EADB4A155BE4761086B.ashx">...</a>
+  // link to media in form of <a href="~/media/CC2393E7CA004EADB4A155BE4761086B.ashx">...</a>
   if (!id) {
     var regex = /~\/media\/([\w\d]+)\.ashx/;
     var match = regex.exec(html);
@@ -37,8 +37,6 @@ Telerik.Web.UI.Editor.CommandList["InsertSitecoreLink"] = function(commandName, 
   if (!id) {
     id = scItemID;
   }
-
-  id = scFormatId(id);
 
   scEditor = editor;
 
@@ -57,14 +55,7 @@ Telerik.Web.UI.Editor.CommandList["InsertSitecoreLink"] = function(commandName, 
   );
 };
 
-function scFormatId(id){
-  if (decodeURIComponent(id) === id){
-    return encodeURI(id);
-  }
-  return id;
-}
-
-Telerik.Web.UI.Editor.CommandList["SetImageProperties"] = function (commandName, editor, args) {
+RadEditorCommandList["SetImageProperties"] = function (commandName, editor, args) {
   var currentImage = editor.getSelectedElement();
 
   if (currentImage.getAttribute("_languageInserted")) {
@@ -104,7 +95,7 @@ Telerik.Web.UI.Editor.CommandList["SetImageProperties"] = function (commandName,
   editor.showDialog("ImageProperties", new window.Telerik.Web.UI.EditorCommandEventArgs("SetImageProperties", null, currentImage), callbackFunction);
 };
 
-Telerik.Web.UI.Editor.CommandList["ImageMapDialog"] = function (commandName, editor, args) {
+RadEditorCommandList["ImageMapDialog"] = function (commandName, editor, args) {
   var argument = window.Telerik.Web.UI.Editor.CommandList._getImageMapDialogArgument(editor);
   var currentImage = editor.getSelectedElement();
 
@@ -166,11 +157,11 @@ function scInsertSitecoreLink(sender, returnValue) {
   scEditor.pasteHtml("<a href=\"" + returnValue.url + "\">" + text + "</a>", "DocumentManager");
 }
 
-Telerik.Web.UI.Editor.CommandList["InsertSitecoreMedia"] = function(commandName, editor, args) {
+RadEditorCommandList["InsertSitecoreMedia"] = function(commandName, editor, args) {
   var html = editor.getSelectionHtml();
   var id;
 
-  // inserted media in form of <img src="-/media/CC2393E7CA004EADB4A155BE4761086B.ashx" />
+  // inserted media in form of <img src="~/media/CC2393E7CA004EADB4A155BE4761086B.ashx" />
   if (!id) {
     id = GetMediaID(html);
   }
@@ -416,7 +407,7 @@ ImageSourceFilter.registerClass('ImageSourceFilter', Telerik.Web.UI.Editor.Filte
 function scGetImageSource(text) {
   var sourceStart = text.indexOf("src=\"");
   var sourceEnd;
-  var source = '';
+  var source;
 
   if (sourceStart > -1) {
     sourceStart += "src=\"".length;
@@ -434,7 +425,7 @@ function scAddLanguageToImageSource(src, language) {
     var prefs = window.prefixes.split("|");
     if (!prefs) {
       prefs = new Array();
-      prefs[0] = "-/media/";
+      prefs[0] = "~/media/";
     }
     for (var j = 0; j < prefs.length; ++j) {
       if (prefs[j] == "") continue;
@@ -463,9 +454,23 @@ function scAddLanguageToImageSource(src, language) {
 }
 
 function scRemoveLanguageFromImageSource(src, language) {
-  var regex = new RegExp("la=" + language + "&?");
-  src = src.replace(regex, "").replace(/\?$/, "");
+  var lang = src.indexOf("la=" + language);
   
+  if (lang > -1) {
+    src = src.substr(0, lang) + src.substr(lang + ("la=" + language).length);
+  }
+
+   var qs = src.indexOf("?&");
+   if (qs > -1) {
+     src = src.substr(0, qs + 1) + src.substr(qs + 2);
+   }
+
+  qs = src.indexOf("?");
+  
+  if (qs == src.length - 1) {
+    src = src.substr(0, qs);
+  }
+
   return src;
 }
 

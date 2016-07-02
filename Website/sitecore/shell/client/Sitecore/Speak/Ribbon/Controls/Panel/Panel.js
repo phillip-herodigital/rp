@@ -1,8 +1,4 @@
-﻿define(
-  [
-    "sitecore",
-    "/-/speak/v1/ExperienceEditor/ExperienceEditor.js",
-    "/-/speak/v1/ExperienceEditor/ExperienceEditor.Context.js"], function (Sitecore, ExperienceEditor, ExperienceEditorContext) {
+﻿define(["sitecore"], function (Sitecore) {
   Sitecore.Factories.createBaseComponent({
     name: "Panel",
 
@@ -20,7 +16,7 @@
 
     initialize: function () {
       var self = this;
-      var panel = ExperienceEditor.Common.getElementById(this.model.get("ID"));
+      var panel = Sitecore.ExperienceEditor.Common.getElementById(this.model.get("ID"));
       var context = this;
       if (panel) {
         var hasFullContent = context.model.get("HasFullContent");
@@ -32,7 +28,7 @@
               width: context.model.get("FullContentWidth"), height: context.model.get("FullContentHeight")
             };
 
-            ExperienceEditor.Common.showGallery(url, panel, dimensions);
+            Sitecore.ExperienceEditor.Common.showGallery(url, panel, dimensions);
           };
         }
 
@@ -50,10 +46,10 @@
     },
 
     getContextQueryString: function () {
-      return "itemId=" +ExperienceEditorContext.instance.currentContext.itemId + "&" +
-        "deviceId=" + ExperienceEditorContext.instance.currentContext.deviceId + "&" +
-        "database=" + ExperienceEditorContext.instance.currentContext.database + "&" +
-        "sc_lang=" + ExperienceEditor.Common.getCookieValue("shell#lang");
+      return "itemId=" + Sitecore.ExperienceEditor.instance.currentContext.itemId + "&" +
+        "deviceId=" + Sitecore.ExperienceEditor.instance.currentContext.deviceId + "&" +
+        "database=" + Sitecore.ExperienceEditor.instance.currentContext.database + "&" +
+        "sc_lang=" + Sitecore.ExperienceEditor.Common.getCookieValue("shell#lang");
     }
   });
 });
