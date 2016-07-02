@@ -132,11 +132,10 @@
                             @Html.Sitecore().Field("Skydrop Text")
                         </div>
                         <a class="view-details" href="" ng-click="isOpen = !isOpen" ng-class="{'collapsed': !isOpen}">
-                            <a class="view-details" href="" ng-click="isOpen = !isOpen" ng-class="{'collapsed': !isOpen}">
-                                <span ng-if="!isOpen">@Html.Sitecore().Field("Electricity View Details") <i class="icon-blue-arrow-down"></i></span>
-                                <span ng-if="isOpen">@Html.Sitecore().Field("Electricity Hide Details") <i class="icon-blue-arrow-up"></i></span>
-                            </a>
-</td>
+                            <span ng-if="!isOpen">@Html.Sitecore().Field("Electricity View Details") <i class="icon-blue-arrow-down"></i></span>
+                            <span ng-if="isOpen">@Html.Sitecore().Field("Electricity Hide Details") <i class="icon-blue-arrow-up"></i></span>
+                        </a>
+                    </td>
                     <td class="rate">
                         {{ plan.rate | number:1 }}&cent;<sup>{{plan.calculatedFootnotes.indices['Rate Footnote']}}</sup> <span>@Html.Sitecore().Field("Electricity Per kWh")</span>
                     </td>
