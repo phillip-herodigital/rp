@@ -11,11 +11,14 @@
         <p><span class="hide-small">Can't find a location near you? </span><a href="/pay">Pay online</a></p>
     </div>
 </header>
-<article class="clearfix marketing paycenter-locator" ng-controller="PaycenterCtrl" ng-init="init() isLoading">
+<div ng-if="isLoading" class="enrollment__loadingMessage">
+    <span class="inner"><img class="loading" src="/frontend/assets/i/loading_screen.gif" width="44" height="44" /><br />@Html.Sitecore().Field("Processing")</span>
+</div>
+<article class="clearfix marketing paycenter-locator" ng-controller="PaycenterCtrl" ng-init="init()">
     <div class="wrapper">
         <header>
             <h1 ng-hide="showMap">Find a Convenient Location to Pay Your Bill!</h1>
-            <h1 class="backToResults" ng-show="isMobile() && showMap" ng-click="showMap = false">Back to results</h1>
+            <h1 class="backToResults" ng-show="isMobile() && showMap && search" ng-click="backToResults()">Back to results</h1>
         </header>
         <aside>
             <div class="form">
@@ -29,10 +32,10 @@
                 </div>
             </div>
             <div class="query" ng-hide="showMap && isMobile()">
-                <p ng-show="search">{{sortedMarkers().length}} Results for <span bind-html-unsafe="search"></span></p>
+                <p ng-show="search">{{markers.length}} Results for <span bind-html-unsafe="search"></span></p>
             </div>
             <div class="results" ng-hide="showMap && isMobile()">
-                <div class="result" ng-repeat="marker in sortedMarkers()" ng-class="{selected: marker.selected}" ng-click="openWindow(marker.id)">
+                <div class="result" ng-repeat="marker in markers" ng-class="{selected: marker.selected && !isMobile()}" ng-click="openWindow($index)">
                     <div class="grid clearfix">
                         <div class="col-1">
                             <div class="item">
@@ -51,13 +54,13 @@
                  </div>
             </div>
         </aside>
-        <article class="coverage-map" ng-hide="!showMap && isMobile()">
+        <article class="coverage-map" ng-class="{zeroHeight: !showMap && isMobile()}">
             <ui-gmap-google-map center="map.center" zoom="map.zoom" options="map.options" events="map.events">
                 <ui-gmap-search-box template="searchbox.template" events="searchbox.events" parentdiv="'gmap-search'"></ui-gmap-search-box>
                 <ui-gmap-markers models="markers" coords="'coords'" icon="'icon'" click="'onClicked'">
                 </ui-gmap-markers>
                 <ui-gmap-marker idKey="searchMarker.id" coords="searchMarker.coords" options="searchMarker.options"></ui-gmap-marker>
-                <ui-gmap-window show="window.show" coords="window.coords" options="window.options" control="window.control" ng-cloak>
+                <ui-gmap-window show="window.show" coords="window.coords" options="window.options" control="window.control" ng-style="{'width': isMobile() ? '100%' : ''}" ng-cloak>
                     <div>
                         <div class="grid">
                             <div class="col">
