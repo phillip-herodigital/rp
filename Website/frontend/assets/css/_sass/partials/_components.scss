@@ -173,7 +173,8 @@
 
                 &.backToResults {
                     cursor: pointer;
-                    padding-left: 15px;
+                    padding-left: 25px;
+                    text-align: left;
                     background: url("../i/icon/left-arrow.png") no-repeat center left;
                 }
             }
@@ -336,18 +337,30 @@
             width: calc(100% - 325px);
             float: right;
 
+            &.zeroHeight {
+                visibility: hidden;
+                height: 0;
+            }
+
             .angular-google-map .angular-google-map-container {
                 height: 730px;
                 margin: 0;
 
+                @include breakpoint(small) {
+                    height: 350px;
+                }
+
                 .marker-window {
-                    box-shadow: 0px 0px 0px 10px rgba(0,55,84,.1);
-                    background-color: #fff;
+                    background-color: rgba(0,55,84,.1);
                     position: relative;
+                    padding: 10px;
+                    margin: 20px 20px 0 0;
 
                     .grid {
                         margin: 0;
+                        background-color: #fff;
                         width: auto;
+                        min-width: 240px;
 
                         .col {
                             .item {
