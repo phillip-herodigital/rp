@@ -1,6 +1,12 @@
 ﻿
-<div ng-app ng-controller="AcctUsageSummaryCtrl">
-    <div ng-show="hasNoSubAccounts" stream-connect-errors="AcctUsageSummaryCtrl"></div>
+<div class="notice error" ng-controller="AcctUsageSummaryCtrl">
+    <div ng-show="hasNoSubAccounts">
+
+        @Html.Sitecore().Field("No Subaccount Text")
+    </div>
+
+
+
     <article class="grey-box mobile usage-details" ng-hide="hideComponent || hasNoSubAccounts" loading-indicator ng-cloak>
        
 
