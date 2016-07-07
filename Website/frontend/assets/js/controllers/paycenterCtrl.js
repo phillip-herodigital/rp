@@ -3,6 +3,7 @@
  */
 ngApp.controller('PaycenterCtrl', ['$scope', '$http', '$window', '$location', 'orderByFilter', 'uiGmapGoogleMapApi', function ($scope, $http, $window, $location, orderBy, uiGmapGoogleMapApi) {
     $scope.isLoading = true;
+    $scope.inTexas = true;
     $scope.showMap = true;
     $scope.map = {
         center: { latitude: 31.37, longitude: -99.23 },
@@ -18,6 +19,7 @@ ngApp.controller('PaycenterCtrl', ['$scope', '$http', '$window', '$location', 'o
             styles: [{ "featureType": "administrative", "elementType": "labels.text.fill", "stylers": [{ "color": "#444444" }] }, { "featureType": "landscape", "elementType": "all", "stylers": [{ "color": "#f2f2f2" }] }, { "featureType": "poi", "elementType": "all", "stylers": [{ "visibility": "off" }] }, { "featureType": "road", "elementType": "all", "stylers": [{ "saturation": -100 }] }, { "featureType": "road.highway", "elementType": "all", "stylers": [{ "visibility": "simplified" }] }, { "featureType": "road.arterial", "elementType": "labels.icon", "stylers": [{ "visibility": "off" }] }, { "featureType": "transit", "elementType": "all", "stylers": [{ "visibility": "off" }] }, { "featureType": "water", "elementType": "all", "stylers": [{ "color": "#00A9E2" }, { "visibility": "on" }] }],
             mapTypeId: google.maps.MapTypeId.ROADMAP
         },
+        refresh: false,
         events: {
             tilesloaded: function (map) {
                 $scope.$apply(function () {
@@ -27,18 +29,16 @@ ngApp.controller('PaycenterCtrl', ['$scope', '$http', '$window', '$location', 'o
             },
             dragend: function (map) {
                 if (updateMap) {
-                    var promise = $scope.getMarkers({
-                        location: map.center,
-                        viewport: map.getBounds()
-                    });
-                    promise.then(function (value) {
-                    },function (reason) {
-                        console.log(reason);
-                    });
+                    $scope.mapMoved = true;
                 }
             },
             zoom_changed: function (map) {
                 if (updateMap) {
+                    $scope.mapMoved = true;
+                }
+            },
+            idle: function (map) {
+                if (updateMap && !$scope.isLoading) {
                     var promise = $scope.getMarkers({
                         location: map.center,
                         viewport: map.getBounds()
@@ -63,38 +63,68 @@ ngApp.controller('PaycenterCtrl', ['$scope', '$http', '$window', '$location', 'o
             places_changed: function (searchBox) {
                 $scope.bounds = new google.maps.LatLngBounds();
                 var getPlaces = searchBox.getPlaces()[0];
-                $scope.searchMarker.options.visible = true;
-                $scope.searchMarker.coords = {
-                    latitude: getPlaces.geometry.location.lat(),
-                    longitude: getPlaces.geometry.location.lng()
-                };
-                if (getPlaces.adr_address) {
-                    $scope.search = getPlaces.adr_address;
-                    $scope.searchType = "address";
+                $scope.inTexas = false;
+                if (getPlaces.address_components) {
+                    angular.forEach(getPlaces.address_components, function (component) {
+                        if (component.short_name == "TX") {
+                            $scope.inTexas = true;
+                        }
+                    });
                 }
                 else {
-                    $scope.search = getPlaces.name;
-                    $scope.searchType = "zipcode";
+                    if (getPlaces.formatted_address.includes(" TX ")) {
+                        $scope.inTexas = true;
+                    }
                 }
-                fromAddress = getPlaces.formatted_address;
-                var promise = $scope.getMarkers(getPlaces.geometry);
-                promise.then(function (value) {
-                    $scope.showMap = false;
-                    updateMap = false;
-                    //$scope.mapInstance.setCenter(getPlaces.geometry.location);
-                    $scope.bounds.extend(getPlaces.geometry.location);
-                    $scope.bounds.extend(new google.maps.LatLng(
-                        $scope.markers[0].coords.latitude,
-                        $scope.markers[0].coords.longitude));
-                    $scope.mapInstance.fitBounds($scope.bounds);
-                    updateMap = true;
-                }).catch(function (reason) {
-                    updateMap = false;
-                    $scope.mapInstance.fitBounds(getPlaces.geometry.viewport);
-                    updateMap = true;
-                    $scope.mapInstance.setZoom($scope.mapInstance.getZoom() - 2);
-                    console.log(reason);
-                });
+                if ($scope.inTexas) {
+                    $scope.searchMarker.options.visible = true;
+                    $scope.searchMarker.coords = {
+                        latitude: getPlaces.geometry.location.lat(),
+                        longitude: getPlaces.geometry.location.lng()
+                    };
+                    if (getPlaces.adr_address) {
+                        $scope.search = getPlaces.adr_address;
+                        $scope.searchType = "address";
+                    }
+                    else {
+                        $scope.search = getPlaces.formatted_address;
+                        $scope.searchType = "zipcode";
+                    }
+                    fromAddress = getPlaces.formatted_address;
+                    if (!getPlaces.geometry.viewport) {
+                        updateMap = false;
+                        $scope.mapInstance.setCenter(getPlaces.geometry.location);
+                        $scope.mapInstance.setZoom(16);
+                        getPlaces.geometry.viewport = $scope.mapInstance.getBounds();
+                        updateMap = true;
+                    }
+                    var promise = $scope.getMarkers(getPlaces.geometry);
+                    promise.then(function (value) {
+                        $scope.showMap = false;
+                        updateMap = false;
+                        $scope.bounds.extend(new google.maps.LatLng(
+                            getPlaces.geometry.viewport.f.b,
+                            getPlaces.geometry.viewport.b.f));
+                        $scope.bounds.extend(new google.maps.LatLng(
+                            getPlaces.geometry.viewport.f.f,
+                            getPlaces.geometry.viewport.b.b));
+                        if ($scope.markers.length) {
+                            $scope.bounds.extend(new google.maps.LatLng(
+                                $scope.markers[0].coords.latitude,
+                                $scope.markers[0].coords.longitude));
+                        }
+                        else {
+                            if ($scope.isMobile()) {
+                                $scope.showMap = true;
+                            }
+                        }
+                        $scope.mapInstance.fitBounds($scope.bounds);
+                        updateMap = true;
+                        $scope.mapMoved = false;
+                    }, function (reason) {
+                        console.log(reason);
+                    });
+                }
             }
         }
     };
@@ -179,7 +209,7 @@ ngApp.controller('PaycenterCtrl', ['$scope', '$http', '$window', '$location', 'o
                 }
                 else {
                     $scope.noneFound = true;
-                    reject(new Error("No Results Found"));
+                    resolve("No Results Found");
                 }
             }, function errorCallback(response) {
                 reject(new Error(response.status));
@@ -188,11 +218,13 @@ ngApp.controller('PaycenterCtrl', ['$scope', '$http', '$window', '$location', 'o
         return promise;
     }
 
+    var ogCoords = {};
     $scope.openWindow = function (i) {
         if (windowMarkerIndex == i) {
             $scope.closeWindow();
         }
         else {
+            ogCoords = $scope.mapInstance.getCenter();
             $scope.window.coords = $scope.markers[i].coords;
             $scope.locationInfo = $scope.markers[i].locationInfo;
             if (windowMarkerIndex != -1) {
@@ -225,6 +257,7 @@ ngApp.controller('PaycenterCtrl', ['$scope', '$http', '$window', '$location', 'o
         if (windowMarkerIndex != -1) {
             $scope.markers[windowMarkerIndex].selected = false;
             windowMarkerIndex = -1;
+            $scope.mapInstance.panTo(ogCoords);
         }
     }
 
@@ -238,7 +271,8 @@ ngApp.controller('PaycenterCtrl', ['$scope', '$http', '$window', '$location', 'o
     }
 
     $scope.zoomOut = function () {
-        $scope.mapInstance.setZoom($scope.mapInstance.getZoom() - 1);
+        var newZoom = $scope.mapInstance.getZoom() - 1;
+        $scope.mapInstance.setZoom(newZoom);
     }
 
     $scope.getDirections = function () {

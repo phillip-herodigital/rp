@@ -18,7 +18,8 @@
     <div class="wrapper">
         <header>
             <h1 ng-hide="isMobile() && showMap && search">Find a Convenient Location to Pay Your Bill!</h1>
-            <h1 class="backToResults" ng-show="isMobile() && showMap && search" ng-click="backToResults()">Back to results</h1>
+            <h1 class="backToResults" ng-show="isMobile() && showMap && markers.length" ng-click="backToResults()">Back to results</h1>
+            <h1 ng-show="isMobile() && showMap && !markers.length && search">We're sorry, but that search returned zero results</h1>
         </header>
         <aside>
             <div class="form">
@@ -31,36 +32,46 @@
                     <div id="gmap-search"></div>
                 </div>
             </div>
-            <div class="query" ng-hide="showMap && isMobile()">
-                <p ng-show="markers.length">{{markers.length}} Results for 
-                <span ng-show="search" bind-html-unsafe="search"></span>
-                <span ng-hide="search">Map Search</span></p>
-            </div>
-            <div class="query" ng-show="noneFound">
-                <p>We're sorry, but that search returned zero results</p>
-                <p>Try <a href="" ng-click="zoomOut()">zooming out</a></p>
-            </div>
-            <div class="results" ng-hide="showMap && isMobile() || markers.length==0">
-                <div class="result" ng-repeat="marker in markers" ng-class="{selected: marker.selected && !isMobile()}" ng-click="openWindow($index)">
-                    <div class="grid clearfix">
-                        <div class="col-1">
-                            <div class="item">
-                                <p class="distance">{{marker.distance}} mi</p>
+            <div class="query-and-results" ng-hide="showMap && isMobile()">
+                <div class="query" ng-show="search && !noneFound && !mapMoved">
+                    <p ng-show="markers.length">
+                        {{markers.length}} Results for
+                        <span ng-show="search" bind-html-unsafe="search"></span>
+                        <span ng-show="mapMoved">Map Search</span>
+                    </p>
+                </div>
+                <div class="query" ng-show="mapMoved && !noneFound">
+                    <p ng-show="markers.length">{{markers.length}} Results for Map Search</p>
+                </div>
+                <div class="query" ng-show="noneFound">
+                    <p>We're sorry, but that search returned zero results</p>
+                    <p>Try <a href="" ng-click="zoomOut()">zooming out</a></p>
+                </div>
+                <div class="query" ng-hide="inTexas">
+                    <p>We're sorry, but this tool is currently limited to the state of Texas</p>
+                </div>
+                <div class="results" ng-show="markers.length">
+                    <div class="result" ng-repeat="marker in markers" ng-class="{selected: marker.selected && !isMobile()}" ng-click="openWindow($index)">
+                        <div class="grid clearfix">
+                            <div class="col-1">
+                                <div class="item">
+                                    <p class="distance">{{marker.distance}} mi</p>
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-2">
-                            <div class="item">
-                                <p class="name">{{marker.locationInfo.name}}</p>
-                                <p class="address">{{marker.locationInfo.address.line1}}<br></p>
-                                <p class="address" ng-if="marker.locationInfo.address.line2">{{marker.locationInfo.address.line2}}<br></p>
-                                <p class="address">
-                                    <span>{{marker.locationInfo.address.city}} </span>
-                                    <span>{{marker.locationInfo.address.state}}, </span>
-                                    <span>{{marker.locationInfo.address.postCode}}</span>
-                                </p>
-                                <p class="address">{{marker.locationInfo.address.phone}}</p>
-                            </div>
-                            <div class="item arrow" ng-show="isMobile()">
+                            <div class="col-2">
+                                <div class="item">
+                                    <p class="name">{{marker.locationInfo.name}}</p>
+                                    <p class="address">{{marker.locationInfo.address.line1}}<br></p>
+                                    <p class="address" ng-if="marker.locationInfo.address.line2">{{marker.locationInfo.address.line2}}<br></p>
+                                    <p class="address">
+                                        <span>{{marker.locationInfo.address.city}} </span>
+                                        <span>{{marker.locationInfo.address.state}}, </span>
+                                        <span>{{marker.locationInfo.address.postCode}}</span>
+                                    </p>
+                                    <p class="address">{{marker.locationInfo.address.phone}}</p>
+                                </div>
+                                <div class="item arrow" ng-show="isMobile()">
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -68,10 +79,10 @@
             </div>
         </aside>
         <article class="coverage-map" ng-class="{zeroHeight: !showMap && isMobile()}">
-            <ui-gmap-google-map center="map.center" zoom="map.zoom" options="map.options" events="map.events">
+            <ui-gmap-google-map center="map.center" zoom="map.zoom" options="map.options" events="map.events" refresh="map.refresh">
                 <ui-gmap-search-box template="searchbox.template" events="searchbox.events" parentdiv="'gmap-search'"></ui-gmap-search-box>
                 <ui-gmap-markers models="markers" coords="'coords'" icon="'icon'" click="'onClicked'"></ui-gmap-markers>
-                <ui-gmap-marker idKey="searchMarker.id" coords="searchMarker.coords" options="searchMarker.options"></ui-gmap-marker>
+                @*<ui-gmap-marker idKey="searchMarker.id" coords="searchMarker.coords" options="searchMarker.options"></ui-gmap-marker>*@
                 <ui-gmap-window show="window.show" coords="window.coords" options="window.options" ng-style="{'width': isMobile() ? '100%' : ''}" ng-cloak>
                     <div>
                         <div class="grid clearfix" ng-controller="PaycenterCtrl">
