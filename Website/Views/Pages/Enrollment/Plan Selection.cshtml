@@ -137,7 +137,7 @@
                         </a>
                     </td>
                     <td class="rate">
-                        {{ plan.rate | number:1 }}&cent;<sup>{{plan.calculatedFootnotes.indices['Rate Footnote']}}</sup> <span>@Html.Sitecore().Field("Electricity Per kWh")</span>
+                        {{ plan.rate | number:1 }}&cent;<sup ng-bind-html="plan.calculatedFootnotes.indices['Rate Footnote'] | html"></sup> <span>@Html.Sitecore().Field("Electricity Per kWh")</span>
                     </td>
                     <td class="term" ng-if="plan.termMonths != '1'">
                         @Html.Sitecore().Field("Electricity Term Months").Format(new { Count = "{{plan.termMonths}}", Sup = "{{plan.calculatedFootnotes.indices['Term Footnote']}}" })
@@ -254,7 +254,7 @@
                         </a>
                     </td>
                     <td class="rate">
-                        ${{ plan.rate | number:3 }}<sup>{{plan.calculatedFootnotes.indices['Rate Footnote']}}</sup> <span>@Html.Sitecore().Field("Gas Per Therm")</span>
+                        ${{ plan.rate | number:3 }}<sup ng-bind-html="plan.calculatedFootnotes.indices['Rate Footnote'] | html"></sup> <span>@Html.Sitecore().Field("Gas Per Therm")</span>
                     </td>
                     <td class="term" ng-if="plan.termMonths != '1'">
                         @Html.Sitecore().Field("Gas Term Months").Format(new { Count = "{{plan.termMonths}}", Sup = "{{plan.calculatedFootnotes.indices['Term Footnote']}}" })
