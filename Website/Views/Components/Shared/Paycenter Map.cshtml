@@ -17,7 +17,7 @@
 <article class="clearfix marketing paycenter-locator" ng-controller="PaycenterCtrl" ng-init="init()">
     <div class="wrapper">
         <header>
-            <h1 ng-hide="showMap">Find a Convenient Location to Pay Your Bill!</h1>
+            <h1 ng-hide="isMobile() && showMap && search">Find a Convenient Location to Pay Your Bill!</h1>
             <h1 class="backToResults" ng-show="isMobile() && showMap && search" ng-click="backToResults()">Back to results</h1>
         </header>
         <aside>
@@ -32,9 +32,15 @@
                 </div>
             </div>
             <div class="query" ng-hide="showMap && isMobile()">
-                <p ng-show="search">{{markers.length}} Results for <span bind-html-unsafe="search"></span></p>
+                <p ng-show="markers.length">{{markers.length}} Results for 
+                <span ng-show="search" bind-html-unsafe="search"></span>
+                <span ng-hide="search">Map Search</span></p>
             </div>
-            <div class="results" ng-hide="showMap && isMobile()">
+            <div class="query" ng-show="noneFound">
+                <p>We're sorry, but that search returned zero results</p>
+                <p>Try <a href="" ng-click="zoomOut()">zooming out</a></p>
+            </div>
+            <div class="results" ng-hide="showMap && isMobile() || markers.length==0">
                 <div class="result" ng-repeat="marker in markers" ng-class="{selected: marker.selected && !isMobile()}" ng-click="openWindow($index)">
                     <div class="grid clearfix">
                         <div class="col-1">
@@ -45,25 +51,31 @@
                         <div class="col-2">
                             <div class="item">
                                 <p class="name">{{marker.locationInfo.name}}</p>
-                                <p class="address">{{marker.locationInfo.address.line1}}<br>{{marker.locationInfo.address.line2}}<br>{{marker.locationInfo.address.phone}}</p>
+                                <p class="address">{{marker.locationInfo.address.line1}}<br></p>
+                                <p class="address" ng-if="marker.locationInfo.address.line2">{{marker.locationInfo.address.line2}}<br></p>
+                                <p class="address">
+                                    <span>{{marker.locationInfo.address.city}} </span>
+                                    <span>{{marker.locationInfo.address.state}}, </span>
+                                    <span>{{marker.locationInfo.address.postCode}}</span>
+                                </p>
+                                <p class="address">{{marker.locationInfo.address.phone}}</p>
                             </div>
                             <div class="item arrow" ng-show="isMobile()">
                             </div>
                         </div>
                     </div>
-                 </div>
+                </div>
             </div>
         </aside>
         <article class="coverage-map" ng-class="{zeroHeight: !showMap && isMobile()}">
             <ui-gmap-google-map center="map.center" zoom="map.zoom" options="map.options" events="map.events">
                 <ui-gmap-search-box template="searchbox.template" events="searchbox.events" parentdiv="'gmap-search'"></ui-gmap-search-box>
-                <ui-gmap-markers models="markers" coords="'coords'" icon="'icon'" click="'onClicked'">
-                </ui-gmap-markers>
+                <ui-gmap-markers models="markers" coords="'coords'" icon="'icon'" click="'onClicked'"></ui-gmap-markers>
                 <ui-gmap-marker idKey="searchMarker.id" coords="searchMarker.coords" options="searchMarker.options"></ui-gmap-marker>
-                <ui-gmap-window show="window.show" coords="window.coords" options="window.options" control="window.control" ng-style="{'width': isMobile() ? '100%' : ''}" ng-cloak>
+                <ui-gmap-window show="window.show" coords="window.coords" options="window.options" ng-style="{'width': isMobile() ? '100%' : ''}" ng-cloak>
                     <div>
-                        <div class="grid">
-                            <div class="col">
+                        <div class="grid clearfix" ng-controller="PaycenterCtrl">
+                            <div class="column">
                                 <div class="item">
                                     <label>location</label>
                                     <p>{{locationInfo.name}}</p>
@@ -73,19 +85,30 @@
                                     <a href="" ng-click="$parent.getDirections()">
                                         <p>{{locationInfo.address.line1}}</p>
                                         <p>{{locationInfo.address.line2}}</p>
+                                        <p>
+                                            <span>{{locationInfo.address.city}}, </span>
+                                            <span>{{locationInfo.address.state}} </span>
+                                            <span>{{locationInfo.address.postCode}}</span>
+                                        </p>
                                     </a>
                                     <p>{{locationInfo.address.phone}}</p>
                                 </div>
                             </div>
-                            <div class="col">
+                            <div class="column">
                                 <div class="item">
                                     <label>hours</label>
                                     <p>{{locationInfo.hours}}</p>
                                 </div>
                                 <div class="item">
                                     <label>payment methods</label>
-                                    <p>{{locationInfo.paymentMethods}}</p>
-                                    <p ng-repeat="payment in locationInfo.paymentMethods">{{payment}}</p>
+                                    @*ng-repeat doesn't work in this window*@
+                                    <p ng-if="locationInfo.paymentMethods[0] != 'undefined'">{{locationInfo.paymentMethods[0]}}</p>
+                                    <p ng-if="locationInfo.paymentMethods[1] != 'undefined'">{{locationInfo.paymentMethods[1]}}</p>
+                                    <p ng-if="locationInfo.paymentMethods[2] != 'undefined'">{{locationInfo.paymentMethods[2]}}</p>
+                                    <p ng-if="locationInfo.paymentMethods[3] != 'undefined'">{{locationInfo.paymentMethods[3]}}</p>
+                                    <p ng-if="locationInfo.paymentMethods[4] != 'undefined'">{{locationInfo.paymentMethods[4]}}</p>
+                                    <p ng-if="locationInfo.paymentMethods[5] != 'undefined'">{{locationInfo.paymentMethods[5]}}</p>
+                                    <p ng-if="locationInfo.paymentMethods[6] != 'undefined'">{{locationInfo.paymentMethods[6]}}</p>
                                 </div>
                             </div>
                         </div>
