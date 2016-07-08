@@ -811,7 +811,6 @@
     <Compile Include="Controllers\ApiControllers\LogViewerController.cs" />
     <Compile Include="Controllers\ApiControllers\MarketingController.cs" />
     <Compile Include="Controllers\ApiControllers\MobileActivationController.cs" />
-    <Compile Include="Controllers\ApiControllers\PaymentLocationController.cs" />
     <Compile Include="Controllers\ApiControllers\SitecoreController.cs" />
     <Compile Include="Controllers\ApiControllers\MobileEnrollmentController.cs" />
     <Compile Include="Controllers\ApiControllers\TempController.cs" />

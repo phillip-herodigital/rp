@@ -397,7 +397,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 results = results.Take(maxResults).ToList();
             }
 
-            if (results != null && results.Count() > 0)
+            if (bool.Parse(useCache) && results != null && results.Count() > 0)
             {
                 try
                 {

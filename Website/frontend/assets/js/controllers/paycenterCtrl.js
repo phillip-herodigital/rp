@@ -31,13 +31,11 @@ ngApp.controller('PaycenterCtrl', ['$scope', '$http', '$window', '$location', 'o
             dragend: function (map) {
                 if (updateMap) {
                     $scope.mapMoved = true;
-                    $scope.isLoading = true;
                 }
             },
             zoom_changed: function (map) {
                 if (updateMap) {
                     $scope.mapMoved = true;
-                    $scope.isLoading = true;
                 }
             },
             idle: function (map) {
@@ -175,7 +173,7 @@ ngApp.controller('PaycenterCtrl', ['$scope', '$http', '$window', '$location', 'o
             var leftLng = getPlaces.geometry.viewport.b.f;
             var rightLng = getPlaces.geometry.viewport.b.b;
             var maxResults = 50;
-            var useCache = 'true';
+            var useCache = !$scope.mapMoved;
             $scope.isLoading = true;
             $scope.inTexas = false;
             if (getPlaces.address_components) {
