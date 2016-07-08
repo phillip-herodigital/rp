@@ -29,23 +29,26 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             this.redis = redis;
         }
 
-        private string formatPhoneNumber(string phoneNumber) {
+        private string formatPhoneNumber(string phoneNumber)
+        {
             phoneNumber = phoneNumber.Replace("-", "").Replace("(", "").Replace(")", "").Trim();
-           
+
             return String.Format("{0:(###) ###-####}", phoneNumber);
         }
 
-        private double getDistance(GeoCoordinate A, GeoCoordinate B) {
+        private double getDistance(GeoCoordinate A, GeoCoordinate B)
+        {
             return A.GetDistanceTo(B) / 1609.344; //Convert meters to miles
         }
 
         [HttpGet]
         [Route("{lat}/{lng}/{maxLat}/{maxLon}/{minLat}/{minLon}/{maxResults}/{useCache}")]
-        public List<PaymentLocation> Get(string lat, string lng, string maxLat, 
-            string maxLon, string minLat, string minLon, int maxResults, string useCache) {
+        public List<PaymentLocation> Get(string lat, string lng, string maxLat,
+            string maxLon, string minLat, string minLon, int maxResults, string useCache)
+        {
 
             List<PaymentLocation> results = new List<PaymentLocation>();
-            string key = string.Format("{0}|{1}|{2}", lat+lng, maxLat+maxLon+minLat+minLon, 
+            string key = string.Format("{0}|{1}|{2}", lat + lng, maxLat + maxLon + minLat + minLon,
                 maxResults.ToString());
 
             if (Connection == null || !Connection.IsConnected)
@@ -59,7 +62,8 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             bool cacheExists = false;
 
 
-            if (bool.Parse(useCache)) {
+            if (bool.Parse(useCache))
+            {
                 results = getCachedResults(key, out cacheExists);
 
                 if (cacheExists)
@@ -67,9 +71,9 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                     return results;
                 }
             }
-           
+
             GeoCoordinate centerLoc = new GeoCoordinate(double.Parse(lat), double.Parse(lng));
-            
+
             string connectionString = Sitecore.Configuration.Settings.GetConnectionString("core");
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -99,7 +103,8 @@ Select * from [paymentLocations]
                     {
                         var userContext = new DomainModels.Enrollments.UserContext();
 
-                        if (reader.HasRows) {
+                        if (reader.HasRows)
+                        {
                             while (reader.Read())
                             {
                                 string ed = (string)reader["stop_date"];
@@ -141,18 +146,21 @@ Select * from [paymentLocations]
             //Sort by distance
             results.Sort((a, b) => a.Distance.CompareTo(b.Distance));
 
-            if (results.Count() > maxResults) {
+            if (results.Count() > maxResults)
+            {
                 results = results.Take(maxResults).ToList();
             }
 
-            if (results != null && results.Count() > 0) {
+            if (results != null && results.Count() > 0)
+            {
                 setLocationCache(results, key);
             }
 
             return results;
         }
 
-        private List<PaymentLocation> getCachedResults(string key, out bool cacheExisted) {
+        private List<PaymentLocation> getCachedResults(string key, out bool cacheExisted)
+        {
             List<PaymentLocation> results = new List<PaymentLocation>();
 
             string result = cache.StringGet(key);

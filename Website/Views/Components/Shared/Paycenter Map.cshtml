@@ -47,7 +47,7 @@
                     <p>@Html.Sitecore().Field("Zero Results Label")</p>
                     <p>@Html.Sitecore().Field("Try Zoom Out")</p>
                 </div>
-                <div class="query" ng-hide="inTexas">
+                <div class="query" ng-hide="inTexas || markers.length">
                     <p>@Html.Sitecore().Field("Texas Only")</p>
                 </div>
                 <div class="results" ng-show="markers.length">
@@ -68,7 +68,7 @@
                                         <span>{{marker.locationInfo.address.state}}, </span>
                                         <span>{{marker.locationInfo.address.postCode}}</span>
                                     </p>
-                                    <p class="address">{{marker.locationInfo.address.phone}}</p>
+                                    <p class="address">{{marker.locationInfo.address.phone | phone}}</p>
                                 </div>
                                 <div class="item arrow" ng-show="isMobile()">
                                 </div>
@@ -83,9 +83,9 @@
                 <ui-gmap-search-box template="searchbox.template" events="searchbox.events" parentdiv="'gmap-search'"></ui-gmap-search-box>
                 <ui-gmap-markers models="markers" coords="'coords'" icon="'icon'" click="'onClicked'"></ui-gmap-markers>
                 @*<ui-gmap-marker idKey="searchMarker.id" coords="searchMarker.coords" options="searchMarker.options"></ui-gmap-marker>*@
-                <ui-gmap-window show="window.show" coords="window.coords" options="window.options" ng-style="{'width': isMobile() ? '100%' : ''}" ng-cloak>
+                <ui-gmap-window show="window.show" coords="window.coords" options="window.options" templateParameter="locationInfo" ng-style="{'width': isMobile() ? '100%' : ''}" ng-cloak>
                     <div>
-                        <div class="grid clearfix" ng-controller="PaycenterCtrl">
+                        <div class="grid clearfix">
                             <div class="column">
                                 <div class="item">
                                     <label>@Html.Sitecore().Field("Location")</label>
@@ -93,7 +93,7 @@
                                 </div>
                                 <div class="item">
                                     <label>@Html.Sitecore().Field("Address")</label>
-                                    <a href="" ng-click="getDirections()">
+                                    <a href="" ng-click="$parent.getDirections()">
                                         <p>{{locationInfo.address.line1}}</p>
                                         <p>{{locationInfo.address.line2}}</p>
                                         <p>
@@ -102,7 +102,7 @@
                                             <span>{{locationInfo.address.postCode}}</span>
                                         </p>
                                     </a>
-                                    <p>{{locationInfo.address.phone}}</p>
+                                    <p>{{locationInfo.address.phone | phone}}</p>
                                 </div>
                             </div>
                             <div class="column">

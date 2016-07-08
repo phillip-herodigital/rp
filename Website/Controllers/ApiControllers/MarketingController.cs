@@ -315,58 +315,33 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             }
         }
 
-
-
         [HttpGet]
         [Route("paymentlocations/{lat}/{lng}/{maxLat}/{maxLon}/{minLat}/{minLon}/{maxResults}/{useCache}")]
         public List<PaymentLocation> Get(string lat, string lng, string maxLat,
             string maxLon, string minLat, string minLon, int maxResults, string useCache)
         {
-            ConnectionMultiplexer Connection;
-            IDatabase cache;
-
-            List<PaymentLocation> results = new List<PaymentLocation>();
             string key = string.Format("{0}|{1}|{2}", lat + lng, maxLat + maxLon + minLat + minLon,
                 maxResults.ToString());
-
-            Connection = ConnectionMultiplexer.Connect(ConfigurationManager.ConnectionStrings["redisCache"].ConnectionString);
-            cache = Connection.GetDatabase();
-
-            //Add request logic here
-
-            bool cacheExists = false;
-
             if (bool.Parse(useCache))
             {
-                results = getCachedResults(key, cache, out cacheExists);
-
-                if (cacheExists)
+                string cacheResult = redisDatabase.StringGet(key);
+                if (!string.IsNullOrEmpty(cacheResult))
                 {
-                    return results;
+                    return JsonConvert.DeserializeObject<List<PaymentLocation>>(cacheResult);
                 }
             }
-
+            List<PaymentLocation> results = new List<PaymentLocation>();
             GeoCoordinate centerLoc = new GeoCoordinate(double.Parse(lat), double.Parse(lng));
-
             string connectionString = Sitecore.Configuration.Settings.GetConnectionString("core");
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
                 using (SqlCommand command = connection.CreateCommand())
                 {
-                    /*command.CommandText = @"
-Select * from [paymentLocations] 
-where 
-lat=@lat and lon =@lon
-";*/
-
                     command.CommandText = @"
-Select * from [paymentLocations] 
-        Where Lat Between @minLat And @maxLat
-          And Lon Between @minLon And @maxLon
-";
-                    /*command.Parameters.AddWithValue("@lat", lat);
-                    command.Parameters.AddWithValue("@lon", lng);*/
+                        Select * from [paymentLocations] 
+                        Where Lat Between @minLat And @maxLat
+                        And Lon Between @minLon And @maxLon";
 
                     command.Parameters.AddWithValue("@minLat", minLat);
                     command.Parameters.AddWithValue("@minLon", minLon);
@@ -375,8 +350,6 @@ Select * from [paymentLocations]
 
                     using (var reader = command.ExecuteReader())
                     {
-                        var userContext = new DomainModels.Enrollments.UserContext();
-
                         if (reader.HasRows)
                         {
                             while (reader.Read())
@@ -395,7 +368,7 @@ Select * from [paymentLocations]
                                     StateAbbreviation = (string)reader["state"],
                                     PostalCode5 = (string)reader["zip"],
                                     PostalCodePlus4 = (string)reader["zip4"],
-                                    PhoneNumber = String.Format("{0:(###) ###-####}", ((string)reader["phone"]).Replace("-", "").Replace("(", "").Replace(")", "").Trim()),
+                                    PhoneNumber = (string)reader["phone"],
                                     ContactName = (string)reader["contact_name"],
                                     Hours = (string)reader["hours"],
                                     Fee = ((double)reader["fee"]) > 0,
@@ -406,7 +379,7 @@ Select * from [paymentLocations]
                                     Lat = (double)reader["lat"],
                                     Lon = (double)reader["lon"],
                                     Rank = (double)reader["rank"],
-                                    Distance = centerLoc.GetDistanceTo(new GeoCoordinate((double)reader["lat"], (double)reader["lon"]))
+                                    Distance = centerLoc.GetDistanceTo(new GeoCoordinate((double)reader["lat"], (double)reader["lon"]))/1609.34
                                 };
 
                                 results.Add(location);
@@ -426,45 +399,18 @@ Select * from [paymentLocations]
 
             if (results != null && results.Count() > 0)
             {
-                setLocationCache(results, cache, key);
+                try
+                {
+                    redisDatabase.StringSet(key, JsonConvert.SerializeObject(results), TimeSpan.FromDays(7));
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("cache write exception:");
+                    Console.WriteLine(e.Message);
+                }
             }
 
             return results;
         }
-
-        private List<PaymentLocation> getCachedResults(string key, IDatabase cache, out bool cacheExisted)
-        {
-            List<PaymentLocation> results = new List<PaymentLocation>();
-
-            string result = cache.StringGet(key);
-            cacheExisted = !string.IsNullOrEmpty(result);
-
-            if (string.IsNullOrEmpty(result))
-            {
-                return new List<PaymentLocation>();
-            }
-
-            results = JsonConvert.DeserializeObject<List<PaymentLocation>>(result);
-
-            return results;
-        }
-
-        private bool setLocationCache(List<PaymentLocation> locations, IDatabase cache, string key)
-        {
-            try
-            {
-                cache.StringSet(key, JsonConvert.SerializeObject(locations), TimeSpan.FromDays(7));
-            }
-            catch (Exception)
-            {
-                //Add logging here
-                return false;
-            }
-            return true;
-        }
-
-
-
-
     }
 }

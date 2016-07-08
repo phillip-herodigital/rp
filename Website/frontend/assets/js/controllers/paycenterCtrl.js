@@ -192,7 +192,7 @@ ngApp.controller('PaycenterCtrl', ['$scope', '$http', '$window', '$location', 'o
             }
             $http({
                 method: 'GET',
-                url: '/api/paymentlocations/' + lat + '/' + lng + '/' + topLat + '/' + leftLng + '/' + bottomLat + '/' + rightLng + '/' + maxResults + '/' + useCache
+                url: '/api/marketing/paymentlocations/' + lat + '/' + lng + '/' + topLat + '/' + leftLng + '/' + bottomLat + '/' + rightLng + '/' + maxResults + '/' + useCache
             }).then(function successCallback(response) {
                 $scope.markers = [];
                 $scope.isLoading = false;
