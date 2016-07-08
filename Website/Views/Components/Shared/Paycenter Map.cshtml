@@ -7,55 +7,55 @@
         <div class="logo-container">
             <a href="/" class="logo"></a>
         </div>
-        <h2>PayCenter Locator</h2>
-        <p><span class="hide-small">Can't find a location near you? </span><a href="/pay">Pay online</a></p>
+        <h2>@Html.Sitecore().Field("Main Heading")</h2>
+        <p>@Html.Sitecore().Field("Main subheading")</p>
     </div>
 </header>
 <div ng-if="isLoading" class="enrollment__loadingMessage">
     <span class="inner"><img class="loading" src="/frontend/assets/i/loading_screen.gif" width="44" height="44" /><br />@Html.Sitecore().Field("Processing")</span>
 </div>
-<article class="clearfix marketing paycenter-locator" ng-controller="PaycenterCtrl" ng-init="init()">
+<article class="clearfix marketing paycenter-locator" ng-controller="PaycenterCtrl">
     <div class="wrapper">
-        <header>
-            <h1 ng-hide="isMobile() && showMap && search">Find a Convenient Location to Pay Your Bill!</h1>
-            <h1 class="backToResults" ng-show="isMobile() && showMap && markers.length" ng-click="backToResults()">Back to results</h1>
-            <h1 ng-show="isMobile() && showMap && !markers.length && search">We're sorry, but that search returned zero results</h1>
+        <header ng-show="isMobile() && showMap">
+            <h1 ng-hide="search">@Html.Sitecore().Field("Mobile Heading")</h1>
+            <h1 class="backToResults" ng-show="search && markers.length" ng-click="backToResults()">@Html.Sitecore().Field("Back to Results")</h1>
+            <h1 ng-show="!markers.length && search">@Html.Sitecore().Field("Zero Results Heading")</h1>
+            <h1 ng-hide="inTexas || markers.length">@Html.Sitecore().Field("Texas Only")</h1>
         </header>
         <aside>
             <div class="form">
                 <script type="text/ng-template" id="searchbox.tpl.html">
-                    <input type="text" id="gmap-search-input" placeholder="Enter Address or zip code" />
+                    <input type="text" id="gmap-search-input" placeholder="@Html.Sitecore().Field("Map Search Placeholder")" />
                 </script>
                 <div class="item">
-                    <label for="gmap-search-input" ng-if="!isMobile()">Enter Your Address or zip code</label>
+                    <label for="gmap-search-input" ng-if="!isMobile()">@Html.Sitecore().Field("Map Search Label")</label>
                     <div class="locate" ng-click="geolocate()"></div>
                     <div id="gmap-search"></div>
                 </div>
             </div>
-            <div class="query-and-results" ng-hide="showMap && isMobile()">
+            <div class="query-and-results" ng-hide="showMap && isMobile() || isLoading">
                 <div class="query" ng-show="search && !noneFound && !mapMoved">
-                    <p ng-show="markers.length">
-                        {{markers.length}} Results for
+                    <p>
+                        @Html.Sitecore().Field("Search Result Label")
                         <span ng-show="search" bind-html-unsafe="search"></span>
-                        <span ng-show="mapMoved">Map Search</span>
                     </p>
                 </div>
-                <div class="query" ng-show="mapMoved && !noneFound">
-                    <p ng-show="markers.length">{{markers.length}} Results for Map Search</p>
+                <div class="query" ng-show="!noneFound && mapMoved">
+                    <p>{{markers.length}} Result<span ng-show="markers.length > 1">s</span> for Map Search</p>
                 </div>
-                <div class="query" ng-show="noneFound">
-                    <p>We're sorry, but that search returned zero results</p>
-                    <p>Try <a href="" ng-click="zoomOut()">zooming out</a></p>
+                <div class="query" ng-show="noneFound && inTexas">
+                    <p>@Html.Sitecore().Field("Zero Results Label")</p>
+                    <p>@Html.Sitecore().Field("Try Zoom Out")</p>
                 </div>
                 <div class="query" ng-hide="inTexas">
-                    <p>We're sorry, but this tool is currently limited to the state of Texas</p>
+                    <p>@Html.Sitecore().Field("Texas Only")</p>
                 </div>
                 <div class="results" ng-show="markers.length">
                     <div class="result" ng-repeat="marker in markers" ng-class="{selected: marker.selected && !isMobile()}" ng-click="openWindow($index)">
                         <div class="grid clearfix">
                             <div class="col-1">
                                 <div class="item">
-                                    <p class="distance">{{marker.distance}} mi</p>
+                                    <p class="distance">{{marker.distance}} @Html.Sitecore().Field("Mile")</p>
                                 </div>
                             </div>
                             <div class="col-2">
@@ -88,12 +88,12 @@
                         <div class="grid clearfix" ng-controller="PaycenterCtrl">
                             <div class="column">
                                 <div class="item">
-                                    <label>location</label>
+                                    <label>@Html.Sitecore().Field("Location")</label>
                                     <p>{{locationInfo.name}}</p>
                                 </div>
                                 <div class="item">
-                                    <label>address</label>
-                                    <a href="" ng-click="$parent.getDirections()">
+                                    <label>@Html.Sitecore().Field("Address")</label>
+                                    <a href="" ng-click="getDirections()">
                                         <p>{{locationInfo.address.line1}}</p>
                                         <p>{{locationInfo.address.line2}}</p>
                                         <p>
@@ -107,12 +107,12 @@
                             </div>
                             <div class="column">
                                 <div class="item">
-                                    <label>hours</label>
+                                    <label>@Html.Sitecore().Field("Hours")</label>
                                     <p>{{locationInfo.hours}}</p>
                                 </div>
                                 <div class="item">
-                                    <label>payment methods</label>
-                                    @*ng-repeat doesn't work in this window*@
+                                    <label>@Html.Sitecore().Field("Payment Methods")</label>
+                                    @*ng-repeat doesn't work in this ui-gmap-window*@
                                     <p ng-if="locationInfo.paymentMethods[0] != 'undefined'">{{locationInfo.paymentMethods[0]}}</p>
                                     <p ng-if="locationInfo.paymentMethods[1] != 'undefined'">{{locationInfo.paymentMethods[1]}}</p>
                                     <p ng-if="locationInfo.paymentMethods[2] != 'undefined'">{{locationInfo.paymentMethods[2]}}</p>
@@ -123,7 +123,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="close"><a href="" ng-click="$parent.closeWindow($index)">+</a></div>
+                        <div class="close"><a href="" ng-click="$parent.closeWindow($index)">@Html.Sitecore().Field("Plus Sign")</a></div>
                     </div>
                 </ui-gmap-window>
             </ui-gmap-google-map>

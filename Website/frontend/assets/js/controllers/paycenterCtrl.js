@@ -5,6 +5,7 @@ ngApp.controller('PaycenterCtrl', ['$scope', '$http', '$window', '$location', 'o
     $scope.isLoading = true;
     $scope.inTexas = true;
     $scope.showMap = true;
+    $scope.mapMoved = false;
     $scope.map = {
         center: { latitude: 31.37, longitude: -99.23 },
         zoom: 7,
@@ -30,22 +31,42 @@ ngApp.controller('PaycenterCtrl', ['$scope', '$http', '$window', '$location', 'o
             dragend: function (map) {
                 if (updateMap) {
                     $scope.mapMoved = true;
+                    $scope.isLoading = true;
                 }
             },
             zoom_changed: function (map) {
                 if (updateMap) {
                     $scope.mapMoved = true;
+                    $scope.isLoading = true;
                 }
             },
             idle: function (map) {
-                if (updateMap && !$scope.isLoading) {
-                    var promise = $scope.getMarkers({
-                        location: map.center,
-                        viewport: map.getBounds()
-                    });
-                    promise.then(function (value) {
-                    }, function (reason) {
-                        console.log(reason);
+                if (updateMap && $scope.mapMoved) {
+                    var getMarkers = function (getPlaces) {
+                        var promise = $scope.getMarkers(getPlaces);
+                        promise.then(function (value) {
+                            console.log(value);
+                        }, function (reason) {
+                            console.log(reason);
+                        });
+                    };
+                    var getPlaces = {
+                        geometry: {
+                            location: map.center,
+                            viewport: map.getBounds()
+                            }
+                    };
+                    var lat = map.center.lat();
+                    var lng = map.center.lng();
+                    var uri = 'https://maps.googleapis.com/maps/api/geocode/json?latlng=' + lat + ',' + lng + '&key=AIzaSyCKwR5gbRNgWMZ84ZxGFPh1Jpvm5nMRuRY';
+
+                    $http.get(uri)
+                    .then(function successCallback(response) {
+                        getPlaces.address_components = response.data.results[0].address_components;
+                        getMarkers(getPlaces);
+                    },
+                    function errorCallback(response) {
+                        getMarkers(getPlaces);
                     });
                 }
             }
@@ -63,20 +84,6 @@ ngApp.controller('PaycenterCtrl', ['$scope', '$http', '$window', '$location', 'o
             places_changed: function (searchBox) {
                 $scope.bounds = new google.maps.LatLngBounds();
                 var getPlaces = searchBox.getPlaces()[0];
-                $scope.inTexas = false;
-                if (getPlaces.address_components) {
-                    angular.forEach(getPlaces.address_components, function (component) {
-                        if (component.short_name == "TX") {
-                            $scope.inTexas = true;
-                        }
-                    });
-                }
-                else {
-                    if (getPlaces.formatted_address.includes(" TX ")) {
-                        $scope.inTexas = true;
-                    }
-                }
-                if ($scope.inTexas) {
                     $scope.searchMarker.options.visible = true;
                     $scope.searchMarker.coords = {
                         latitude: getPlaces.geometry.location.lat(),
@@ -98,10 +105,11 @@ ngApp.controller('PaycenterCtrl', ['$scope', '$http', '$window', '$location', 'o
                         getPlaces.geometry.viewport = $scope.mapInstance.getBounds();
                         updateMap = true;
                     }
-                    var promise = $scope.getMarkers(getPlaces.geometry);
+                    var promise = $scope.getMarkers(getPlaces);
                     promise.then(function (value) {
                         $scope.showMap = false;
                         updateMap = false;
+                        $scope.mapMoved = false;
                         $scope.bounds.extend(new google.maps.LatLng(
                             getPlaces.geometry.viewport.f.b,
                             getPlaces.geometry.viewport.b.f));
@@ -120,12 +128,10 @@ ngApp.controller('PaycenterCtrl', ['$scope', '$http', '$window', '$location', 'o
                         }
                         $scope.mapInstance.fitBounds($scope.bounds);
                         updateMap = true;
-                        $scope.mapMoved = false;
                     }, function (reason) {
                         console.log(reason);
                     });
                 }
-            }
         }
     };
 
@@ -160,20 +166,36 @@ ngApp.controller('PaycenterCtrl', ['$scope', '$http', '$window', '$location', 'o
 
     $scope.markers = [];
 
-    $scope.getMarkers = function (data) {
+    $scope.getMarkers = function (getPlaces) {
         var promise = new Promise(function (resolve, reject) {
-            var lat = data.location.lat();
-            var lng = data.location.lng();
-            var topLat = data.viewport.f.b;
-            var bottomLat = data.viewport.f.f;
-            var leftLng = data.viewport.b.f;
-            var rightLng = data.viewport.b.b;
+            var lat = getPlaces.geometry.location.lat();
+            var lng = getPlaces.geometry.location.lng();
+            var topLat = getPlaces.geometry.viewport.f.b;
+            var bottomLat = getPlaces.geometry.viewport.f.f;
+            var leftLng = getPlaces.geometry.viewport.b.f;
+            var rightLng = getPlaces.geometry.viewport.b.b;
+            var maxResults = 50;
+            var useCache = 'true';
             $scope.isLoading = true;
+            $scope.inTexas = false;
+            if (getPlaces.address_components) {
+                angular.forEach(getPlaces.address_components, function (component) {
+                    if (component.short_name == "TX") {
+                        $scope.inTexas = true;
+                    }
+                });
+            }
+            else {
+                if (getPlaces.formatted_address.includes(" TX ")) {
+                    $scope.inTexas = true;
+                }
+            }
             $http({
                 method: 'GET',
-                url: '/api/paymentlocations/' + lat + '/' + lng + '/' + topLat + '/' + leftLng + '/' + bottomLat + '/' + rightLng + '/100/true'
+                url: '/api/paymentlocations/' + lat + '/' + lng + '/' + topLat + '/' + leftLng + '/' + bottomLat + '/' + rightLng + '/' + maxResults + '/' + useCache
             }).then(function successCallback(response) {
                 $scope.markers = [];
+                $scope.isLoading = false;
                 angular.forEach(response.data, function (place, index) {
                     $scope.markers.push({
                         id: index + 1,
@@ -202,7 +224,6 @@ ngApp.controller('PaycenterCtrl', ['$scope', '$http', '$window', '$location', 'o
                         selected: false
                     })
                 });
-                $scope.isLoading = false;
                 if (response.data.length) {
                     $scope.noneFound = false;
                     resolve(response.status);
@@ -218,13 +239,16 @@ ngApp.controller('PaycenterCtrl', ['$scope', '$http', '$window', '$location', 'o
         return promise;
     }
 
-    var ogCoords = {};
+    var ogCoords = null;
     $scope.openWindow = function (i) {
         if (windowMarkerIndex == i) {
             $scope.closeWindow();
         }
         else {
-            ogCoords = $scope.mapInstance.getCenter();
+            if (ogCoords === null) {
+                ogCoords = $scope.mapInstance.getCenter();
+            }
+            updateMap = false;
             $scope.window.coords = $scope.markers[i].coords;
             $scope.locationInfo = $scope.markers[i].locationInfo;
             if (windowMarkerIndex != -1) {
@@ -258,6 +282,8 @@ ngApp.controller('PaycenterCtrl', ['$scope', '$http', '$window', '$location', 'o
             $scope.markers[windowMarkerIndex].selected = false;
             windowMarkerIndex = -1;
             $scope.mapInstance.panTo(ogCoords);
+            ogCoords = null;
+            updateMap = true;
         }
     }
 
