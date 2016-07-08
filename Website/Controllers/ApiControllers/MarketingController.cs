@@ -317,11 +317,9 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
         [HttpGet]
         [Route("paymentlocations/{lat}/{lng}/{maxLat}/{maxLon}/{minLat}/{minLon}/{maxResults}/{useCache}")]
-        public List<PaymentLocation> Get(string lat, string lng, string maxLat,
-            string maxLon, string minLat, string minLon, int maxResults, string useCache)
+        public List<PaymentLocation> Get(string lat, string lng, string maxLat, string maxLon, string minLat, string minLon, int maxResults, string useCache)
         {
-            string key = string.Format("{0}|{1}|{2}", lat + lng, maxLat + maxLon + minLat + minLon,
-                maxResults.ToString());
+            string key = string.Format("{0}|{1}|{2}", lat + lng, maxLat + maxLon + minLat + minLon, maxResults.ToString());
             if (bool.Parse(useCache))
             {
                 string cacheResult = redisDatabase.StringGet(key);
