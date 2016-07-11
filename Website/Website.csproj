@@ -807,12 +807,14 @@
     <Compile Include="Conditions\EnrollmentTrafficCopCondition.cs" />
     <Compile Include="Conditions\HasThermostatPlanCondition.cs" />
     <Compile Include="Conditions\MaintenanceModeCondition.cs" />
+    <Compile Include="Models\Marketing\Support\SearchResponse.cs" />
+    <Compile Include="Models\Marketing\Support\CategoryFAQRequest.cs" />
     <Compile Include="Controllers\ApiControllers\CurrentsController.cs" />
     <Compile Include="Controllers\ApiControllers\LogRecorderController.cs" />
     <Compile Include="Controllers\ApiControllers\LogViewerController.cs" />
     <Compile Include="Controllers\ApiControllers\MarketingController.cs" />
     <Compile Include="Controllers\ApiControllers\MobileActivationController.cs" />
-    <Compile Include="Controllers\ApiControllers\searchRequest.cs" />
+    <Compile Include="Models\Marketing\Support\SearchRequest.cs" />
     <Compile Include="Controllers\ApiControllers\SitecoreController.cs" />
     <Compile Include="Controllers\ApiControllers\MobileEnrollmentController.cs" />
     <Compile Include="Controllers\ApiControllers\SupportCenterAPIController.cs" />

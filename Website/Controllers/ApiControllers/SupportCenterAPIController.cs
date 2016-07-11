@@ -23,9 +23,30 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 return _controller;
             }
         }
+
+        [HttpGet]
+        [Route("getAllCategories")]
+        public List<FAQCategory> GetAllCategories() {
+            return controller.GetAllCategories();
+        }
+
+        [HttpGet]
+        [Route("getAllSubCategoriesForCategory/{categoryGuid}")]
+        public List<FaqSubcategory> GetAllSubCategoriesForCategory(string categoryGuid)
+        {
+            return controller.GetAllSubCategoriesForCategory(categoryGuid);
+        }
+
+        [HttpPost]
+        [Route("getAllFaqsForCategory")]
+        public SearchResponse GetAllFaqsForCategory(CategoryFAQRequest request)
+        {
+            return controller.GetAllFaqsForCategory(request.CategoryGuid, request.StartRowIndex, request.MaximumRows);
+        }
+
         [HttpPost]
         [Route("search")]
-        public List<FAQ> Search(searchRequest searchRequest) {
+        public SearchResponse Search(SearchRequest searchRequest) {
             FaqSearchFilter filter = new FaqSearchFilter();
 
             var query = HttpUtility.HtmlEncode(searchRequest.Query);

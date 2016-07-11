@@ -9,19 +9,11 @@
     var headsetIconURL = Sitecore.Resources.Media.MediaManager.GetMediaUrl(headsetIconField.MediaItem);
     ImageField mailIconField = categoryContent.Fields["Mail Icon"];
     var mailIconURL = Sitecore.Resources.Media.MediaManager.GetMediaUrl(mailIconField.MediaItem);
-    Sitecore.Data.Items.Item mobileAcronymContent = Sitecore.Context.Database.GetItem("{9D6656D5-695F-4FC2-9EFE-AC0E6B42B7B4}");
 
-    SupportCenterController controller = new SupportCenterController();
-    var categories = StreamEnergy.Json.Stringify(controller.GetAllCategories());
     string categoryGuid = Sitecore.Context.Item.Fields["Category"].Value;
+    categoryGuid = categoryGuid.Replace("{", "").Replace("}", "");
     FAQCategory categoryItem = new FAQCategory(Sitecore.Context.Database.GetItem(categoryGuid));
-
-    var rawCategoryFAQs = controller.GetAllFaqsForCategory(categoryItem, 0, 10);
-    var categoryFaqs = StreamEnergy.Json.Stringify(rawCategoryFAQs);
     string category = StreamEnergy.Json.Stringify(categoryItem);
-
-    var rawSubcats = controller.GetAllSubCategoriesForCategory(categoryItem);
-    var subcategories = StreamEnergy.Json.Stringify(rawSubcats);
 
     string subcategory = StreamEnergy.Json.Stringify("All");
     if (!string.IsNullOrEmpty(Request.QueryString["subcat"]))
@@ -48,7 +40,7 @@
     }
 }
 <div class="support-container layout" ng-cloak>
-    <div class="category clearfix" id="pageScroll" ng-init="categoryInit(@categories, @category, @categoryFaqs, @subcategories, @subcategory, @keyword, @searchFAQ, @search)">
+    <div class="category clearfix" id="pageScroll" ng-init="categoryInit(@category, @subcategory, @keyword, @searchFAQ, @search)">
         <div class="pagination-display clearfix" ng-show="searchResults">
             <p><a href="" ng-click="backToSupport()" ng-show="searchResults">@categoryContent.Fields["Back to Support"]</a></p>
             <p>
@@ -112,7 +104,7 @@
                     </div>
                 </div>
                 <div class="pagination-container">
-                    <div class="pagination clearfix" ng-show="getDisplayedFAQs().length > resultsPerPage.value">
+                    <div class="pagination clearfix" ng-show="getDisplayedFAQs().length > resultsPerPage">
                         <div class="back">
                             <div ng-click="setResultsPage(0)"><a href="" ng-class="{disabled: resultsPage == 0}">@categoryContent.Fields["First"]</a></div>
                             <div ng-click="setResultsPage(resultsPage - 1)"><a href="" ng-class="{disabled: resultsPage == 0}">@categoryContent.Fields["Previous"]</a></div>

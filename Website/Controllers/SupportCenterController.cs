@@ -112,21 +112,20 @@ namespace StreamEnergy.MyStream.Controllers
                 using (SqlCommand command = connection.CreateCommand())
                 {
                     command.CommandText = @"
-INSERT INTO dbo.Helpful_FAQs
-    (
-        FaqGuid,
-        Helpful,
-        Comment,
-        Timestamp
-    ) 
-VALUES
-    (
-        @FaqGuid,
-        @WasHelpful,
-        @FaqComment,
-        @Timestamp
-    )";
-
+                        INSERT INTO dbo.Helpful_FAQs
+                            (
+                                FaqGuid,
+                                Helpful,
+                                Comment,
+                                Timestamp
+                            ) 
+                        VALUES
+                            (
+                                @FaqGuid,
+                                @WasHelpful,
+                                @FaqComment,
+                                @Timestamp
+                            )";
 
                     SqlParameter parameter = new SqlParameter("@FaqGuid", SqlDbType.VarChar);
                     parameter.Value = guid;
@@ -167,10 +166,9 @@ VALUES
             return subcategories;
         }
         
-        public List<FaqSubcategory> GetAllSubCategoriesForCategory(FAQCategory category) {
+        public List<FaqSubcategory> GetAllSubCategoriesForCategory(string categoryGuid) {
             List<FaqSubcategory> subcategories = GetAllSubCategories()
-                .Where(a => a.Categories.Any(b => b == category.Guid)).ToList();
-
+                .Where(a => a.Categories.Any(b => b == categoryGuid)).ToList();
             return subcategories;
         }
 
@@ -185,23 +183,24 @@ VALUES
             return states;
         }
 
-        public List<FAQ> GetAllFaqsForCategory(FAQCategory category, int startRowIndex, int maximumRows) {
+        public SearchResponse GetAllFaqsForCategory(string categoryGuid, int startRowIndex, int maximumRows) {
+
+            FAQCategory category = new FAQCategory(Sitecore.Context.Database.GetItem(categoryGuid));
             var filter = new FaqSearchFilter {
                 Category = category,
                 StartRowIndex = startRowIndex,
                 MaximumRows = maximumRows
             };
 
-            return Search(null, filter);
+            return Search("", filter);
         }
 
-        public List<FAQ> Search(string query) {
+        public SearchResponse Search(string query) {
             return Search(query, null);
         }
 
-        public List<FAQ> Search(string query, FaqSearchFilter filter) {
+        public SearchResponse Search(string query, FaqSearchFilter filter) {
             List<FAQ> matchingFAQS = new List<FAQ>();
-
             var categories = GetAllCategories();
             var subCategories = GetAllSubCategories();
 
@@ -234,8 +233,13 @@ VALUES
                     matchingFAQS.Add(new FAQ(item));
                 }
             }
-
-            return matchingFAQS.Take(filter.MaximumRows).Skip(filter.StartRowIndex).ToList();
+            return new SearchResponse {
+                FAQs = matchingFAQS.Take(filter.MaximumRows).Skip(filter.StartRowIndex).ToList(),
+                FAQCount = matchingFAQS.Count(),
+                Keywords = (from faq in matchingFAQS
+                            from keyword in faq.Keywords
+                            select keyword).Distinct().ToArray()
+            };
         }
 
     }
