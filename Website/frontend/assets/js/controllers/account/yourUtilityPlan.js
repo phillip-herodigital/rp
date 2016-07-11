@@ -81,6 +81,7 @@ ngApp.controller('AcctYourUtilityPlanCtrl', ['$scope', '$rootScope', '$http', '$
     $scope.$watch('selectedAccount.accountNumber', function (newVal) {
         if (newVal && !$scope.isLoading) {
             $scope.isLoading = true;
+            $scope.hideCurrentRatePrice = false;
             $http({
                 method: 'POST',
                 url: '/api/account/getUtilityPlan',
@@ -126,8 +127,6 @@ ngApp.controller('AcctYourUtilityPlanCtrl', ['$scope', '$rootScope', '$http', '$
             if (data.isRenewal) {
                 $scope.showPlanSelector = true;
                 enrollmentService.setClientData(data);
-
-                $scope.hideCurrentRatePrice = false;
 
                 var allisMore = true;
                 for (var i = 0; i < data.cart.length;i++){
