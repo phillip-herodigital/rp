@@ -1145,22 +1145,47 @@ FROM [SwitchBack] WHERE ESIID=@esiId";
             if (resultData.ExpectedState == Models.Enrollment.ExpectedState.OrderConfirmed && !resultData.MobileNextStepsEmailSent)
             {
                 var acctNumbers = (from product in resultData.Cart
-                                   from offerInformation in product.OfferInformationByType
-                                   where offerInformation.Key == "Mobile"
-                                   from selectedOffer in offerInformation.Value.OfferSelections
-                                   where !selectedOffer.ConfirmationSuccess
-                                   select selectedOffer.ConfirmationNumber).Distinct().ToArray();
+                                       from offerInformation in product.OfferInformationByType
+                                           where offerInformation.Key == "Mobile"
+                                           from selectedOffer in offerInformation.Value.OfferSelections
+                                               where !selectedOffer.ConfirmationSuccess
+                                               select selectedOffer.ConfirmationNumber).Distinct().ToArray();
 
                 if (acctNumbers.Length != 0)
                 {
+                    string emailType = "pending";  //or "pending review or "submitted"
                     string to = resultData.ContactInfo.Email.Address.ToString();
                     string customerName = resultData.ContactInfo.Name.First + " " + resultData.ContactInfo.Name.Last;
-                    await emailService.SendEmail(new Guid("{C874C035-AD39-4F33-8B51-AD142A6CCFDF}"), to, new NameValueCollection() {
-                        {"customerName", customerName},
-                        {"accountNumbers", string.Join(",", acctNumbers)},
-                    });
+
+                    if (emailType == "pending")
+                    {
+                        await emailService.SendEmail(new Guid("{4310884E-4EA2-4D17-9ABA-5553C4D18E57}"), to, new NameValueCollection() {
+                            {"customerName", customerName},
+                            {"accountNumbers", string.Join(", ", acctNumbers)},
+                        });
+                        stateMachine.InternalContext.MobileNextStepsEmailSent = true;
+                    }
+                    else if (emailType == "pending review")
+                    {
+                        await emailService.SendEmail(new Guid("{0594853C-1217-43D6-B866-F8BA0C57F488}"), to, new NameValueCollection() {
+                            {"customerName", customerName},
+                            {"accountNumbers", string.Join(", ", acctNumbers)},
+                        });
+                        stateMachine.InternalContext.MobileNextStepsEmailSent = true;
+                    }
+                    else if (emailType == "submitted")
+                    {
+                        await emailService.SendEmail(new Guid("{C874C035-AD39-4F33-8B51-AD142A6CCFDF}"), to, new NameValueCollection() {
+                            {"customerName", customerName},
+                            {"accountNumbers", string.Join(", ", acctNumbers)},
+                        });
+                        stateMachine.InternalContext.MobileNextStepsEmailSent = true;
+                    }
+                    else
+                    {
+                        stateMachine.InternalContext.MobileNextStepsEmailSent = false;
+                    }
                 }
-                stateMachine.InternalContext.MobileNextStepsEmailSent = true;
             }
         }
 
