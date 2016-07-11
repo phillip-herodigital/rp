@@ -169,7 +169,7 @@ VALUES
         
         public List<FaqSubcategory> GetAllSubCategoriesForCategory(FAQCategory category) {
             List<FaqSubcategory> subcategories = GetAllSubCategories()
-                .Where(a => a.Categories.Any(b => b.Guid == category.Guid)).ToList();
+                .Where(a => a.Categories.Any(b => b == category.Guid)).ToList();
 
             return subcategories;
         }
@@ -185,33 +185,16 @@ VALUES
             return states;
         }
 
-        public List<FAQ> GetAllFaqsForCategory(FAQCategory category) {
-            List<FAQ> faqs = new List<FAQ>();
-            
-            var rawFaqs = AllSitecoreFAQS.Where(a => a.Fields["FAQ Categories"] != null && a.Fields["FAQ Categories"].Value.Contains(category.Guid)).ToList();
+        public List<FAQ> GetAllFaqsForCategory(FAQCategory category, int startRowIndex, int maximumRows) {
+            var filter = new FaqSearchFilter {
+                Category = category,
+                StartRowIndex = startRowIndex,
+                MaximumRows = maximumRows
+            };
 
-            foreach(var f in rawFaqs) {
-                faqs.Add(new FAQ(f));
-            }
-
-            return faqs;
+            return Search(null, filter);
         }
 
-        //public List<FAQ> GetAllFaqsForSubcategory(FaqSubcategory subcategory, FAQCategory category) {
-        //    //A FAQ must have both the category and subcategory to be returned from this call.  One alone does not suffice.
-
-        //    List<FAQ> faqs = new List<FAQ>();
-
-        //    var rawFaqs = AllSitecoreFAQS.Where(a => a.Fields["FAQ Categories"] != null && a.Fields["FAQ Categories"].Value.Contains(category.Guid)
-        //            && a.Fields["FAQ Subcategories"]  != null && a.Fields["FAQ Subcategories"].Value.Contains(subcategory.Guid)).ToList();
-
-        //    foreach (var f in rawFaqs)
-        //    {
-        //        faqs.Add(new FAQ(f));
-        //    }
-
-        //    return faqs;
-        //}
         public List<FAQ> Search(string query) {
             return Search(query, null);
         }
@@ -252,7 +235,7 @@ VALUES
                 }
             }
 
-            return matchingFAQS;
+            return matchingFAQS.Take(filter.MaximumRows).Skip(filter.StartRowIndex).ToList();
         }
 
     }

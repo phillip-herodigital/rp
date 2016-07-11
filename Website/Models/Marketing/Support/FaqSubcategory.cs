@@ -7,7 +7,7 @@ namespace StreamEnergy.MyStream.Models.Marketing.Support
 {
     public class FaqSubcategory
     {
-        public List<FAQCategory> Categories = new List<FAQCategory>();
+        public List<string> Categories = new List<string>();
         public string Guid;
         public string DisplayTitle;
         public string Name;
@@ -34,7 +34,7 @@ namespace StreamEnergy.MyStream.Models.Marketing.Support
                 var cats = SitecoreItem.Fields["Categories"].Value.Split("|".ToCharArray());
                 foreach (string c in cats)
                 {
-                    Categories.Add(new FAQCategory(Sitecore.Context.Database.GetItem(c)));
+                    Categories.Add(Sitecore.Context.Database.GetItem(c).ID.ToString());
                 }
             }
         }

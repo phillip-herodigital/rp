@@ -7,17 +7,11 @@ namespace StreamEnergy.MyStream.Models.Marketing.Support
 {
     public class FaqSearchFilter
     {
-        public FAQCategory Category;
-        public FaqSubcategory Subcategory;
-        public FAQState State;
+        public FAQCategory Category { get; set; }
+        public FaqSubcategory Subcategory { get; set; }
+        public FAQState State { get; set; }
+        public int StartRowIndex { get; set; }
+        public int MaximumRows { get; set; }
 
-        public FaqSearchFilter() {
-        }
-
-        public FaqSearchFilter(FAQCategory Category, FaqSubcategory Subcategory, FAQState State) {
-            this.Category = Category;
-            this.Subcategory = Subcategory;
-            this.State = State;
-        }
     }
 }

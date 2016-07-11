@@ -16,7 +16,7 @@
     string categoryGuid = Sitecore.Context.Item.Fields["Category"].Value;
     FAQCategory categoryItem = new FAQCategory(Sitecore.Context.Database.GetItem(categoryGuid));
 
-    var rawCategoryFAQs = controller.GetAllFaqsForCategory(categoryItem);
+    var rawCategoryFAQs = controller.GetAllFaqsForCategory(categoryItem, 0, 10);
     var categoryFaqs = StreamEnergy.Json.Stringify(rawCategoryFAQs);
     string category = StreamEnergy.Json.Stringify(categoryItem);
 
