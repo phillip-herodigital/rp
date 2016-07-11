@@ -1700,7 +1700,7 @@
     <Content Include="Views\Pages\Marketing\Services\Voice International.cshtml" />
     <Content Include="Views\Pages\Marketing\Return\Return Form.cshtml" />
     <Content Include="Views\Pages\Currents\10 in 2016.cshtml" />
-    <Content Include="Views\Components\Shared\Paycenter Map.cshtml" />
+    <Content Include="Views\Pages\Paycenter Locator.cshtml" />
     <None Include="Web.Azure-Production Sitecore.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>
