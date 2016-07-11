@@ -111,10 +111,11 @@ ngApp.controller('EnrollmentCompleteOrderCtrl', ['$scope', 'enrollmentService', 
                         $scope.validations = [{
                             "memberName": "PaymentAccount.CreditCardNumber"
                         }];
+                        enrollmentService.isLoading = false;
                     }
                 },
                 function() {
-                    $scope.isLoading = false;
+                    enrollmentService.isLoading = false;
                     $scope.streamConnectError = true;                     
                 }
             );
