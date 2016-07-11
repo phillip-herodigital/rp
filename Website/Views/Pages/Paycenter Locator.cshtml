@@ -29,7 +29,7 @@
                 </script>
                 <div class="item">
                     <label for="gmap-search-input" ng-if="!isMobile()">@Html.Sitecore().Field("Map Search Label")</label>
-                    <div class="locate" ng-click="geolocate()"></div>
+                    <div class="locate" ng-click="geolocate()" ng-if="false"></div>
                     <div id="gmap-search"></div>
                 </div>
             </div>
