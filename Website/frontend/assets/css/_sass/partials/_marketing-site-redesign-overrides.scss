@@ -4061,6 +4061,13 @@ article.protective-module {
 }
 
 .skydrop {
+	&.banner {
+		min-height: 202px;
+		.inner .wrapper h1 {
+			font-size: 40px;
+			color: #424242;
+		}
+	}
 	&.save-blue {
 		h1 {
 			margin-top: 0px;
@@ -4071,9 +4078,18 @@ article.protective-module {
 				font-size: 20px;
 				text-align: left;
 			}
+			u a {
+				color: #6b6b6b;
+			}
 		}
 		img {
 			width: auto;
+		}
+		ul {
+			margin: 40px 0 40px 200px;
+			li {
+				list-style-image: url("../i/marketing/redesign/dark-blue-check.png");
+			}
 		}
 	}
 	&.smart {
@@ -4099,12 +4115,12 @@ article.protective-module {
 	}
 	.footer {
 		text-align: center;
-		h3 {
-			margin: 2em 0 .5em 0;
+		margin-top: 3em;
+		p {
 			color: #f98e00;
-		}
-		a {
-			color: #f98e00;
+			a {
+				color: #f98e00;
+			}
 		}
 	}
 	.grid {
@@ -4133,7 +4149,7 @@ article.protective-module {
 			padding-bottom: 0px;
 			padding-top: 10px;
 		}
-		background-color: #78bb2f;
+		background-color: #0071b9;
 		.image {
 			float: left;
 			padding-left: 100px;
@@ -4154,14 +4170,14 @@ article.protective-module {
 				margin-top: 80px;
 			}
 			float: left;
-			width: 570px;
-			color: #000;
+			width: 500px;
+			color: #fff;
 			padding-left: 100px;
 			ul {
 				padding-left: 20px;
 				margin-bottom: 50px;
 				li {
-					list-style-image: url("../i/marketing/redesign/check.png");
+					list-style-image: url("../i/marketing/redesign/white-check.png");
 					padding-bottom: 10px;
 				}
 			}
@@ -4172,7 +4188,7 @@ article.protective-module {
 		}
 	}
 	&.faqs-heading .heading {
-		color: #78bb2f;
+		color: #f98e00;
 	}
 	&.skydrop-promo {
 		background-image: image-url('marketing/redesign/Modules/skydrop-module.png');
