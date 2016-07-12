@@ -25,6 +25,7 @@
     var scrollGuid = "";
     var scrolled = false;
     $scope.keywords = []; //list of keywords for current faq list
+    var selectedKeyword = "";
     $scope.noKeywordSelected = true;
 
     var originalFaqs = null;
@@ -106,7 +107,6 @@
                     }
                 }
             });
-            paginate();
         }, function errorCallback(response) {
             console.log(response);
         });
@@ -135,10 +135,13 @@
                     };
                 });
             });
-            $scope.resultsPages = response.data.faQCount / $scope.resultsPerPage;
-            $scope.keywords = response.data.keywords;
-            buildKeywords(keyword);
-            paginate();
+            $scope.resultsPages = response.data.faqCount / $scope.resultsPerPage;
+            angular.forEach(response.data.keywords, function (name) {
+                $scope.keywords.push({
+                    name: name,
+                    selected: false
+                });
+            });
         }, function errorCallback(response) {
             console.log(response);
         });
@@ -309,7 +312,7 @@
                     $scope.faqs = response;
                     paginate();
                     $scope.searchResults = true;
-                    buildKeywords();
+                    //buildKeywords();
                     $scope.$apply();
                 }
             }
@@ -370,7 +373,6 @@
     }
 
     var paginate = function () {
-        var displayFAQs = $scope.getDisplayedFAQs();
         displayLength = $scope.displayedFAQCount;
         $scope.resultsPages = Math.ceil(displayLength / $scope.resultsPerPage);
         $scope.resultsPageRange = [];
@@ -430,7 +432,7 @@
             $scope.searchPlaceholder = $scope.defaultSearchPlaceholder;
             $scope.searchData.text = "";
             paginate();
-            buildKeywords();
+            //buildKeywords();
             $scope.resultsPage = 0;
             if (state) $scope.selectedStateName = $scope.searchData.state.name;
         }
@@ -451,7 +453,7 @@
         $scope.subcategories[index].selected = true;
         $scope.mobileAcronyms = false;
         paginate();
-        buildKeywords();
+        //buildKeywords();
         $scope.toggleKeyword();
         $scope.resultsPage = 0;
     }
@@ -484,43 +486,6 @@
             }
         }
 
-    }
-
-    var buildKeywords = function (queryKeyword) {
-        $scope.keywords = [];
-        angular.forEach($scope.faqs, function (faq) {
-            if (searchStateFilter(faq) && subcategoryFilter(faq)) {
-                angular.forEach(faq.keywords, function (keyword) {
-                    var index = -1;
-                    angular.forEach($scope.keywords, function (kword, kIndex) {
-                        if (keyword.toLowerCase() === kword.name.toLowerCase()) {
-                            index = kIndex;
-                        }
-                    });
-                    if (index === -1) {
-                        if (keyword === queryKeyword) {
-                            $scope.noKeywordSelected = false;
-                            $scope.keywords.push({
-                                name: keyword,
-                                selected: true,
-                                count: 1
-                            });
-                        }
-                        else {
-                            $scope.keywords.push({
-                                name: keyword,
-                                selected: false,
-                                count: 1
-                            });
-                        }
-                    }
-                    else {
-                        $scope.keywords[index].count++;
-                    }
-                });
-            }
-        });
-        $scope.keywords = orderByFilter($scope.keywords, "name");
     }
 
     $scope.sendFeedback = function (faq, isHelpful, feedback) {
@@ -587,7 +552,6 @@
             faq.selected = false;
         });
         $scope.searchResults = false;
-        buildKeywords();
         $scope.searchData.text = "";
         $scope.resultsPage = 0;
         paginate();
@@ -669,8 +633,19 @@
     };
 
     $scope.toggleKeyword = function (keywordToToggle) {
-
-        if (keywordToToggle === undefined) {
+        var request = {
+            query: "",
+            category: $scope.category.name,
+            state: $scope.searchData.state,
+            subcategory: null,
+            keyword: null,
+            StartRowIndex: $scope.resultsPage * $scope.resultsPerPage,
+            maximumRows: $scope.resultsPerPage
+        };
+        if ($scope.subcategory != "All") {
+            request.subcategory = $scope.subcategory;
+        }
+        if (keywordToToggle === undefined) { //keyword "all" selected
             angular.forEach($scope.keywords, function (keyword) {
                 keyword.selected = false;
             });
@@ -684,14 +659,37 @@
             });
             keywordToToggle.selected = !keywordToToggle.selected;
             $scope.resultsPage = 0;
-            $scope.noKeywordSelected = true;
-            angular.forEach($scope.keywords, function (keyword) {
-                if (keyword.selected) {
-                    $scope.noKeywordSelected = false;
-                }
-            });
+            if (keywordToToggle.selected) {
+                request.keyword = keywordToToggle.name;
+            }
+            $scope.noKeywordSelected = !keywordToToggle.selected;
         }
-        paginate();
+
+        $http({
+            method: 'Post',
+            data: request,
+            headers: { 'Content-Type': 'application/JSON' },
+            url: "/api/support/search",
+        }).then(function successCallback(response) {
+            $scope.faqs = response.data.faQs;
+            var div = document.createElement('div');
+            angular.forEach($scope.faqs, function (faq) {
+                div.innerHTML = faq.faqAnswer;
+                faq.faqAnswer = $sce.trustAsHtml(div.textContent);
+                div.innerHTML = faq.faqQuestion;
+                faq.faqQuestion = div.textContent;
+                angular.forEach(faq.categories, function (faqCat, index) {
+                    faq.categories[index] = {
+                        name: faqCat.split("|")[0],
+                        guid: faqCat.split("|")[1]
+                    };
+                });
+            });
+            $scope.resultsPage = 0;
+            $scope.resultsPages = response.data.faqCount / $scope.resultsPerPage;
+        }, function errorCallback(response) {
+            console.log(response);
+        });
     };
     $scope.showModal = function (templateUrl, size) {
         $modal.open({

@@ -219,6 +219,10 @@ namespace StreamEnergy.MyStream.Controllers
                 {
                     continue;
                 }
+                if (filter.Keyword != null && !faq.Keywords.Contains(filter.Keyword))
+                {
+                    continue;
+                }
                 if (
                     faq.Name.ToLower().Contains(query) ||
                     faq.Description.ToLower().Contains(query) ||

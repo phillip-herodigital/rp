@@ -47,14 +47,20 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         [HttpPost]
         [Route("search")]
         public SearchResponse Search(SearchRequest searchRequest) {
-            FaqSearchFilter filter = new FaqSearchFilter();
+            FaqSearchFilter filter = new FaqSearchFilter
+            {
+                StartRowIndex = searchRequest.StartRowIndex,
+                MaximumRows = searchRequest.MaximumRows
+            };
 
             var query = HttpUtility.HtmlEncode(searchRequest.Query);
             var category = searchRequest.Category;
             var state = searchRequest.State;
             var subcategory = searchRequest.Subcategory;
+            var keyword = searchRequest.Keyword;
 
-            if (!string.IsNullOrEmpty(category)) {
+            if (!string.IsNullOrEmpty(category))
+            {
                 try {
                     var cats = controller.GetAllCategories();
 
@@ -64,7 +70,8 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 catch { }
             }
 
-            if (!string.IsNullOrEmpty(state)) {
+            if (!string.IsNullOrEmpty(state))
+            {
                 try {
                     var states = controller.GetAllStates();
                     state = state.ToLower().Trim();
@@ -74,12 +81,18 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 catch { }
             }
 
-            if (!string.IsNullOrEmpty(subcategory)) {
+            if (!string.IsNullOrEmpty(subcategory))
+            {
                 try {
                     var subcats = controller.GetAllSubCategories();
                     filter.Subcategory = subcats.FirstOrDefault(a => a.Name == subcategory || a.DisplayTitle == subcategory || a.Guid == subcategory);
                 }
                 catch { }
+            }
+
+            if (!string.IsNullOrEmpty(keyword))
+            {
+                filter.Keyword = keyword;
             }
 
             return controller.Search(query, filter);
