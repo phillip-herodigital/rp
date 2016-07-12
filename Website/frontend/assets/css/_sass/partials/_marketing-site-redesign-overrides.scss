@@ -4191,23 +4191,22 @@ article.protective-module {
 		color: #f98e00;
 	}
 	&.skydrop-promo {
-		background-image: image-url('marketing/redesign/Modules/skydrop-module.png');
+		background-image: image-url('marketing/redesign/Modules/skydrop-promo.png');
 		background-repeat: no-repeat;
-		background-position: 80% 20px;
-		.promo-paragraph {
-			width: 25%;
-			@include breakpoint(small) {
-				width: 80%;
+		background-position: 60% 115px;
+		.wrapper {
+			padding: 50px 0px 0px 0px;
+		}
+		.content {
+			width: 70%;
+			float: left;
+			.promo-paragraph {
+				width: 37%;
+				@include breakpoint(small) {
+					width: 80%;
+				}
 			}
-		}
-		@include breakpoint(medium) {
-			background-size: 60%;
-			background-position: 80% 100%;
-		}
-		@include breakpoint(small) {
-			background-image: none;
-		}
-		a.button {
+			a.button {
                 background-image: none;
                 background-color: #f87c00;
                 border-radius: 5px;
@@ -4216,5 +4215,24 @@ article.protective-module {
             a.button:hover {
                 background-color: #f79431;
             }
+			@include breakpoint(small) {
+				width: 100%;
+				float: none;
+			}
+		}
+		.image {
+			float: right;
+			margin-bottom: -6px;
+			@include breakpoint(small) {
+				float: none;
+			}
+		}
+		@include breakpoint(medium) {
+			background-size: 60%;
+			background-position: 60% 100%;
+		}
+		@include breakpoint(small) {
+			background-image: none;
+		}
 	}
 }
