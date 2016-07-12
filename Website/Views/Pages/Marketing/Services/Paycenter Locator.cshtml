@@ -2,15 +2,8 @@
 <script src="//maps.googleapis.com/maps/api/js?key=AIzaSyCKwR5gbRNgWMZ84ZxGFPh1Jpvm5nMRuRY&libraries=places"></script>
 <script src="https://cdn.rawgit.com/googlemaps/v3-utility-library/master/infobox/src/infobox.js"></script>
 
-<header class="paycenter-header">
-    <div class="wrapper clearfix">
-        <div class="logo-container">
-            <a href="/" class="logo"></a>
-        </div>
-        <h2>@Html.Sitecore().Field("Main Heading")</h2>
-        <p>@Html.Sitecore().Field("Main subheading")</p>
-    </div>
-</header>
+@Html.Sitecore().Field("Main Heading")
+
 <div ng-if="isLoading" class="enrollment__loadingMessage">
     <span class="inner"><img class="loading" src="/frontend/assets/i/loading_screen.gif" width="44" height="44" /><br />@Html.Sitecore().Field("Processing")</span>
 </div>
