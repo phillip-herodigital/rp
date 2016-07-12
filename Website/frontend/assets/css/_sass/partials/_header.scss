@@ -336,7 +336,7 @@
 
                 &.selected {
                     color: #1991cf !important;
-                    background: image-url('marketing/redesign/nav-first-level-selected-indicator.png') bottom center no-repeat;
+                    background: image-url('marketing/redesign/nav-selector.png') bottom center no-repeat;
                     height: 48px;
                 }
             }
@@ -350,16 +350,32 @@
     nav.sub-nav {
         background-color: #f1f1f1;
         min-height: 50px;
+		position: relative;
+
+		.nav-items {
+			margin: auto;
+			background-color: #fff;
+			box-shadow: 3px 3px 10px -5px #ccc;
+			margin-top: 15px;
+			position: absolute;
+			z-index: 200;
+			left: 25%;
+			&.grid {
+				width: 60%;
+			}
+		}
 
         ul {
-            @include inline-block-list();
-            display: inline;
-            margin: 0 auto;
+            /*@include inline-block-list();*/
+            display: inline-block;
+            margin: 20 auto;
             font-size: $font-size-small;
+			padding: 0px 20px;
 
             li {
+				padding-bottom: 5px;
                 a {
-                    display: inline-block;
+                    /*display: inline-block;*/
                     color: $nav-sub-color;
                     padding: $nav-sub-padding;
                 }
@@ -370,6 +386,24 @@
                         //   text-decoration: underline;
                     }
                 }
+				&.category {
+					font-weight: 600;
+					font-size: 16px;
+					text-transform: uppercase;
+					padding-bottom: 10px;
+					&.energy {
+						color: #f99d25;
+					}
+					&.mobile {
+						color: #00a8e1;
+					}
+					&.protective {
+						color: #40ae49;
+					}
+					&.home {
+						color: #8e4b9d;
+					}
+				}
             }
         }
 
