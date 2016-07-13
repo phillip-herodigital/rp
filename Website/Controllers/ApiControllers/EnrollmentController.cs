@@ -626,6 +626,7 @@ FROM [SwitchBack] WHERE ESIID=@esiId";
                                                                                     || renewalConfirmations.IsSuccess,
                                                                                ConfirmationNumber = confirmations.Where(entry => entry.Location == service.Location && entry.Offer.Id == selectedOffer.Offer.Id).Select(entry => entry.Details.ConfirmationNumber).FirstOrDefault()
                                                                                     ?? renewalConfirmations.ConfirmationNumber,
+                                                                               ConfirmationStatus = confirmations.Where(entry => entry.Location == service.Location && entry.Offer.Id == selectedOffer.Offer.Id).Select(entry => entry.Details.ConfirmationStatus).FirstOrDefault() ?? "",
                                                                                DepositType = GetDepositType(selectedOffer),
                                                                                ConfirmationDetails = confirmations.Where(entry => entry.Location == service.Location && entry.Offer.Id == selectedOffer.Offer.Id && entry.Details is PlaceMobileOrderResult).Select(entry => ((PlaceMobileOrderResult)entry.Details).PhoneNumber).FirstOrDefault(),
                                                                                RenewalConfirmation = renewalConfirmations
@@ -1153,7 +1154,12 @@ FROM [SwitchBack] WHERE ESIID=@esiId";
 
                 if (acctNumbers.Length != 0)
                 {
-                    string emailType = "pending";  //or "pending review or "submitted"
+                    string emailType = (from product in resultData.Cart
+                                        from offerInformation in product.OfferInformationByType
+                                        where offerInformation.Key == "Mobile"
+                                        from selectedOffer in offerInformation.Value.OfferSelections
+                                        select selectedOffer.ConfirmationStatus).FirstOrDefault().ToLower();
+
                     string to = resultData.ContactInfo.Email.Address.ToString();
                     string customerName = resultData.ContactInfo.Name.First + " " + resultData.ContactInfo.Name.Last;
 
@@ -1163,7 +1169,6 @@ FROM [SwitchBack] WHERE ESIID=@esiId";
                             {"customerName", customerName},
                             {"accountNumbers", string.Join(", ", acctNumbers)},
                         });
-                        stateMachine.InternalContext.MobileNextStepsEmailSent = true;
                     }
                     else if (emailType == "pending review")
                     {
@@ -1171,7 +1176,6 @@ FROM [SwitchBack] WHERE ESIID=@esiId";
                             {"customerName", customerName},
                             {"accountNumbers", string.Join(", ", acctNumbers)},
                         });
-                        stateMachine.InternalContext.MobileNextStepsEmailSent = true;
                     }
                     else if (emailType == "submitted")
                     {
@@ -1179,13 +1183,9 @@ FROM [SwitchBack] WHERE ESIID=@esiId";
                             {"customerName", customerName},
                             {"accountNumbers", string.Join(", ", acctNumbers)},
                         });
-                        stateMachine.InternalContext.MobileNextStepsEmailSent = true;
-                    }
-                    else
-                    {
-                        stateMachine.InternalContext.MobileNextStepsEmailSent = false;
                     }
                 }
+                stateMachine.InternalContext.MobileNextStepsEmailSent = true;
             }
         }
 
