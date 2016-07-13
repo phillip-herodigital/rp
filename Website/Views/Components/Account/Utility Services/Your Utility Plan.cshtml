@@ -275,13 +275,19 @@
                                         <span ng-show="plan.rateType == 'fixed'" class="fixed">@planSelectionItem["Electricity Fixed"]</span>
                                         <span class="variable" ng-show="plan.rateType == 'variable'">@planSelectionItem["Electricity Variable"]</span>
                                         <div class="plan-title">{{plan.name}}</div>
+                                        <div ng-if="plan.includesThermostat" class="includes-thermostat">
+                                            @planSelectionItem["Thermostat Text"]
+                                        </div>
+                                        <div ng-if="plan.includesSkydrop" class="includes-skydrop">
+                                            @planSelectionItem["Skydrop Text"]
+                                        </div>
                                         <a class="view-details" href="" ng-click="isOpen = !isOpen" ng-class="{'collapsed': !isOpen}">
                                             <span ng-if="!isOpen">@planSelectionItem["Electricity View Details"] <i class="icon-blue-arrow-down"></i></span>
                                             <span ng-if="isOpen">Hide Details <i class="icon-blue-arrow-up"></i></span>
                                         </a>
                                     </td>
                                     <td class="rate">
-                                        {{ plan.rate | number:1 }}&cent;<sup>{{plan.calculatedFootnotes.indices['Rate Footnote']}}</sup> <span>@planSelectionItem["Electricity Per kWh"]</span>
+                                        {{ plan.rate | number:1 }}&cent;<sup ng-bind-html="plan.calculatedFootnotes.indices['Rate Footnote'] | html"></sup> <span>@planSelectionItem["Electricity Per kWh"]</span>
                                     </td>
                                     <td class="term" ng-if="plan.termMonths != '1'">
                                         @Html.Sitecore().Field("Electricity Term Months").Format(new { Count = "{{plan.termMonths}}", Sup = "{{plan.calculatedFootnotes.indices['Term Footnote']}}" })<sup>{{plan.calculatedFootnotes.indices['Term Footnote']}}</sup>
@@ -317,7 +323,9 @@
                                 <tr class="details-row additional-fields ng-cloak" ng-repeat-end>
                                     <td colspan="6">
                                         <div slide-down-show="isOpen">
-                                            <p>{{plan.description}}</p>
+                                            <div ng-if="plan.includesThermostat" class="thermostat-description" ng-bind-html="plan.thermostatDescription | html"></div>
+                                            <div ng-if="plan.includesSkydrop" class="skydrop-description" ng-bind-html="plan.skydropDescription | html"></div>
+                                            <p ng-bind-html="plan.description | unsafe"></p>
                                             <ul class="plan-selection-list clearfix">
                                                 <li><a ng-href="{{plan.documents.electricityFactsLabel}}" target="_blank">@planSelectionItem["Electricity Facts Label Document"]</a></li>
                                                 <li><a ng-href="{{plan.documents.termsOfService}}" target="_blank">@planSelectionItem["Terms Of Service Document"]</a></li>
@@ -384,7 +392,7 @@
                                         </a>
                                     </td>
                                     <td class="rate">
-                                        ${{ plan.rate | number:3 }}<sup>{{plan.calculatedFootnotes.indices['Rate Footnote']}}</sup> <span>@planSelectionItem["Gas Per Therm"]</span>
+                                        ${{ plan.rate | number:3 }}<sup ng-bind-html="plan.calculatedFootnotes.indices['Rate Footnote'] | html"></sup> <span>@planSelectionItem["Gas Per Therm"]</span>
                                     </td>
                                     <td class="term" ng-if="plan.termMonths != '1'">
                                         @Html.Sitecore().Field("Gas Term Months").Format(new { Count = "{{plan.termMonths}}", Sup = "{{plan.calculatedFootnotes.indices['Term Footnote']}}" })
@@ -420,7 +428,7 @@
                                 <tr class="details-row additional-fields ng-cloak" ng-repeat-end>
                                     <td colspan="6">
                                         <div slide-down-show="isOpen">
-                                            <p>{{plan.description}}</p>
+                                            <p ng-bind-html="plan.description | unsafe"></p>
                                             <ul class="plan-selection-list clearfix">
                                                 <li><a ng-href="{{plan.documents.letterOfAgency}}" target="_blank">@planSelectionItem["Letter of Agency Document"]</a></li>
                                                 <li><a ng-href="{{plan.documents.termsAndDisclosures}}" target="_blank">@planSelectionItem["Terms and Disclosures Document"]</a></li>
