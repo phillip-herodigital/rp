@@ -270,7 +270,9 @@
         $scope.isLoading = true;
         angular.copy($scope.searchData, $scope.searchedData);
         $scope.isSearchLoading = false;
-        $scope.selectSubcategory(0);
+        if ($scope.isCategorySupport) {
+            $scope.selectSubcategory(0);
+        }
         $scope.toggleKeyword();
         var request = {
             query: $scope.searchData.text,
