@@ -65,7 +65,7 @@
                     height: 350px;
                     top: 43px;
                     right: 0px;
-                    z-index: 1;
+                    z-index: 400;
                     background-color: #00a8e1;
 
                     .subheading {
@@ -309,7 +309,6 @@
         clear: right;
         text-align: right;
         margin: 10px 0 -1px 10px;
-        //position: relative;
         > ul {
             @include inline-block-list();
             margin: 0 auto;
@@ -331,23 +330,19 @@
                     padding: 6px 10px 4px;
                     float: left;
                     display: block;
-                    //color: inherit;
-                    //font-size: 18px;
 					color: #4f4c4d;
 					font-size: 15px;
 					font-weight: 300;
                 }
                 
 				&.selected {
-                    //color: #1991cf !important;
-                    //background: image-url('marketing/redesign/nav-selector.png') bottom center no-repeat;
 					background-position: 50% 25px;
                     height: 48px;
 					&.has-subnav > a {
 						&:after {
 							position: absolute;
 							background: image-url('marketing/redesign/nav-selector.png') bottom center no-repeat;
-							left: 0px;
+							left: calc(50% - 33px);
 							top: 27px;
 							width: 66px;
 							height: 33px;
@@ -358,21 +353,21 @@
 					}
                 }
 
-				&.nav-services .sub-nav {
-					height: 400px;
-				}
-				
-				&.nav-support .sub-nav {
-					right: -65px;
+				&.overview .sub-nav {
+					right: -300px;
+					@include breakpoint(medium) {
+						right: -425px;
+						ul li {
+							padding-right: 0px;
+							margin-right: -5px;
+						}
+					}
 				}
 
-				&.nav-opportunity .sub-nav {
-					height: 330px;
-				}
 				.sub-nav {
 					position: absolute;
 					top: 60px;
-					right: -200px;
+					right: calc(50% - 50px);
 					z-index: 200;
 					background-color: #fff;
 					box-shadow: 3px 3px 25px 0px #7b7b7b;
@@ -431,84 +426,34 @@
 						}
 					}
 				}
+				&.nav-services .sub-nav {
+					height: 390px;
+					@include breakpoint(medium) {
+						right: -330px;
+					}
+				}
+				
+				&.nav-about .sub-nav {
+					@include breakpoint(medium) {
+						right: -250px;
+						ul li {
+							padding-right: 0px;
+						}
+					}
+				}
+				&.nav-opportunity .sub-nav {
+					@include breakpoint(medium) {
+						right: -13px;
+						ul li {
+							margin-right: -10px;
+							padding-right: 0px;
+						}
+					}
+				}
             }
 
             li.nav-opportunity {
                 margin-left: 50px;
-            }
-        }
-    }
-
-    nav.sub-nav {
-		/*
-        background-color: #f1f1f1;
-        min-height: 50px;
-		position: relative;
-
-		.nav-items {
-			margin: auto;
-			background-color: #fff;
-			box-shadow: 3px 3px 10px -5px #ccc;
-			margin-top: 15px;
-			position: absolute;
-			z-index: 200;
-			left: 25%;
-			&.grid {
-				width: 60%;
-			}
-		}
-		*/
-
-        ul {
-            /*@include inline-block-list();*/
-            display: inline-block;
-            margin: 20 auto;
-            font-size: $font-size-small;
-			padding: 0px 20px;
-
-            li {
-				padding-bottom: 5px;
-                a {
-                    /*display: inline-block;*/
-                    color: $nav-sub-color;
-                    padding: $nav-sub-padding;
-                }
-
-                &.selected {
-                    a {
-                        color: $nav-sub-hover-color;
-                        //   text-decoration: underline;
-                    }
-                }
-				&.category {
-					font-weight: 600;
-					font-size: 16px;
-					text-transform: uppercase;
-					padding-bottom: 10px;
-					&.energy {
-						color: #f99d25;
-					}
-					&.mobile {
-						color: #00a8e1;
-					}
-					&.protective {
-						color: #40ae49;
-					}
-					&.home {
-						color: #8e4b9d;
-					}
-				}
-            }
-        }
-
-        @include breakpoint(medium) {
-            .wrapper {
-                padding: 0 10px;
-
-                ul li a {
-                    padding-left: 5px;
-                    padding-right: 5px;
-                }
             }
         }
     }
