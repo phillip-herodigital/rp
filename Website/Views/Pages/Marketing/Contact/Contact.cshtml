@@ -3,14 +3,11 @@
 @using Sitecore.Data.Fields
 
 @{
-    SupportCenterController controller = new SupportCenterController();
-    var categories = StreamEnergy.Json.Stringify(controller.GetAllCategories());
-
     var categoryContent = Sitecore.Context.Database.GetItem("{E507A0DB-A122-406B-862E-6C163BCCA7E7}");
     ImageField modalIconField = categoryContent.Fields["Modal Icon"];
     var modalIconURL = Sitecore.Resources.Media.MediaManager.GetMediaUrl(modalIconField.MediaItem);
 }
-<div ng-controller="supportCenterCtrl" ng-init="contactInit(@categories)">
+<div ng-controller="supportCenterCtrl" ng-init="contactInit()">
     <article class="marketing contact">
         <div class="wrapper">
             @Html.Sitecore().Field("Intro Text")

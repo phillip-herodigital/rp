@@ -3,44 +3,15 @@
 @using Sitecore.Data.Fields
 @{
     var categoryContent = Sitecore.Context.Database.GetItem("{E507A0DB-A122-406B-862E-6C163BCCA7E7}");
-    ImageField modalIconField = categoryContent.Fields["Modal Icon"];
-    var modalIconURL = Sitecore.Resources.Media.MediaManager.GetMediaUrl(modalIconField.MediaItem);
-    ImageField headsetIconField = categoryContent.Fields["Headset Icon"];
-    var headsetIconURL = Sitecore.Resources.Media.MediaManager.GetMediaUrl(headsetIconField.MediaItem);
-    ImageField mailIconField = categoryContent.Fields["Mail Icon"];
-    var mailIconURL = Sitecore.Resources.Media.MediaManager.GetMediaUrl(mailIconField.MediaItem);
 
-    string categoryGuid = Sitecore.Context.Item.Fields["Category"].Value;
-    categoryGuid = categoryGuid.Replace("{", "").Replace("}", "");
-    FAQCategory categoryItem = new FAQCategory(Sitecore.Context.Database.GetItem(categoryGuid));
-    string category = StreamEnergy.Json.Stringify(categoryItem);
+    var modalIconURL = Sitecore.Resources.Media.MediaManager.GetMediaUrl(((ImageField)categoryContent.Fields["Modal Icon"]).MediaItem);
+    var headsetIconURL = Sitecore.Resources.Media.MediaManager.GetMediaUrl(((ImageField)categoryContent.Fields["Headset Icon"]).MediaItem);
+    var mailIconURL = Sitecore.Resources.Media.MediaManager.GetMediaUrl(((ImageField)categoryContent.Fields["Mail Icon"]).MediaItem);
 
-    string subcategory = StreamEnergy.Json.Stringify("All");
-    if (!string.IsNullOrEmpty(Request.QueryString["subcat"]))
-    {
-        subcategory = Request.QueryString["subcat"];
-    }
-
-    string keyword = StreamEnergy.Json.Stringify("All");
-    if (!string.IsNullOrEmpty(Request.QueryString["keyword"]))
-    {
-        keyword = StreamEnergy.Json.Stringify(Request.QueryString["keyword"]);
-    }
-
-    string searchFAQ = StreamEnergy.Json.Stringify(null);
-    if (!string.IsNullOrEmpty(Request.QueryString["searchFAQ"]))
-    {
-        FAQ searchFAQitem = new FAQ(Request.QueryString["searchFAQ"]);
-        searchFAQ = StreamEnergy.Json.Stringify(searchFAQitem);
-    }
-    string search = StreamEnergy.Json.Stringify(null);
-    if (!string.IsNullOrEmpty(Request.QueryString["search"]))
-    {
-        search = StreamEnergy.Json.Stringify(Request.QueryString["search"]);
-    }
+    FAQCategory categoryItem = new FAQCategory(Sitecore.Context.Database.GetItem(Sitecore.Context.Item.Fields["Category"].Value));
 }
 <div class="support-container layout" ng-cloak>
-    <div class="category clearfix" id="pageScroll" ng-init="categoryInit(@category, @subcategory, @keyword, @searchFAQ, @search)">
+    <div class="category clearfix" id="pageScroll" ng-init="categoryInit(@StreamEnergy.Json.Stringify(categoryItem), @StreamEnergy.Json.Stringify(Request.QueryString["subcat"] ?? "All"), @StreamEnergy.Json.Stringify(Request.QueryString["keyword"] ?? "All"), @StreamEnergy.Json.Stringify(Request.QueryString["search"] ?? null))">
         <div class="pagination-display clearfix" ng-show="searchResults">
             <p><a href="" ng-click="backToSupport()" ng-show="searchResults">@categoryContent.Fields["Back to Support"]</a></p>
             <p>

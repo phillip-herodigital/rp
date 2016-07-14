@@ -17,8 +17,6 @@ namespace StreamEnergy.MyStream.Models.Marketing.Support
         public string Name;
         public string FAQQuestion;
         public string FAQAnswer;
-        public string Description;
-        public string FurtherSupportText;
         public string Guid;
 
         private Item SitecoreItem;
@@ -45,8 +43,6 @@ namespace StreamEnergy.MyStream.Models.Marketing.Support
             string Answer1 = HttpUtility.HtmlEncode(getValue("FAQ Answer"));
             string Answer2 = utf8.GetString(iso.GetBytes(Answer1));
             FAQAnswer = Answer2;
-            Description = getValue("Faq Description");
-            FurtherSupportText = getValue("Further Support");
 
             Guid = SitecoreItem.ID.ToString().Replace("{", "").Replace("}", "");
 

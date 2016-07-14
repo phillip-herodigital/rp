@@ -7,7 +7,5 @@
         public string State { get; set; }
         public string Subcategory { get; set; }
         public string Keyword { get; set; }
-        public int StartRowIndex { get; set; }
-        public int MaximumRows { get; set; }
     }
 }

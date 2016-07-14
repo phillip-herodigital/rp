@@ -2,25 +2,12 @@
 @using StreamEnergy.MyStream.Models.Marketing.Support
 @using Sitecore.Data.Fields
 @{
-    SupportCenterController controller = new SupportCenterController();
     var categoryContent = Sitecore.Context.Database.GetItem("{E507A0DB-A122-406B-862E-6C163BCCA7E7}");
-    var categories = StreamEnergy.Json.Stringify(controller.GetAllCategories());
-    List<FAQ> popularFAQS = new List<FAQ>();
     ImageField headsetIconField = Html.Sitecore().CurrentItem.Fields["Headset Icon"];
     var headsetIconURL = Sitecore.Resources.Media.MediaManager.GetMediaUrl(headsetIconField.MediaItem);
-    if (!string.IsNullOrEmpty(Sitecore.Context.Item.Fields["Popular FAQs"].Value))
-    {
-        var guids = Sitecore.Context.Item.Fields["Popular FAQs"].Value.Split("|".ToCharArray());
-
-        foreach (string guid in guids)
-        {
-            popularFAQS.Add(new FAQ(guid));
-        }
-    }
-    var popFaqs = StreamEnergy.Json.Stringify(popularFAQS);
 }
 <div class="support-container layout" ng-cloak>
-    <div class="main" ng-init="init(@categories, @popFaqs)">
+    <div class="main" ng-init="init()">
         <div class="wrapper">
             <article class="faq-categories marketing">
                 <div class="primary">
@@ -54,7 +41,7 @@
                         <h1>@Html.Sitecore().Field("Pop FAQs Heading")</h1>
                     </header>
                     <div class="content">
-                        <div class="faq" ng-repeat="faq in getDisplayedFAQs() track by $index" ng-show="splitFaqFilter($index)" ng-init="isHelpful = ''; helpfulSelected = false; feedback = ''">
+                        <div class="faq" ng-repeat="faq in getDisplayedFAQs() track by $index" ng-init="isHelpful = ''; helpfulSelected = false; feedback = ''">
                             <div class="question clearfix" ng-click="selectFaq($index)">
                                 <div class="plus-minus">
                                     <div class="plus" ng-class="{minus: faq.selected}"></div>
