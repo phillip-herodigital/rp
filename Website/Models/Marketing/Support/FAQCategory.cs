@@ -45,13 +45,6 @@ namespace StreamEnergy.MyStream.Models.Marketing.Support
             if (lf != null) {
                 Link = lf.GetFriendlyUrl();
             }
-            //if (!string.IsNullOrEmpty(SitecoreItem.Fields["States"].Value)) {
-            //    var states = getValue("States").Split("|".ToCharArray()); ;
-            //    foreach (string state in states)
-            //    {
-            //        States.Add(new FAQState(state));
-            //    }
-            //}
             States = (from string stateGuid in getValue("States").Split("|".ToCharArray())
                       where !string.IsNullOrEmpty(stateGuid)
                       select new FAQState(stateGuid)).ToArray();

@@ -24,15 +24,6 @@ namespace StreamEnergy.MyStream.Models.Marketing.Support
         private void buildSubCategory() {
             Guid = SitecoreItem.ID.ToString();
             Name = SitecoreItem.Fields["Name"].Value;
-            //if (SitecoreItem.Fields["Categories"] != null && 
-            //    !string.IsNullOrEmpty(SitecoreItem.Fields["Categories"].Value))
-            //{
-            //    var cats = SitecoreItem.Fields["Categories"].Value.Split("|".ToCharArray());
-            //    foreach (string c in cats)
-            //    {
-            //        Categories.Add(Sitecore.Context.Database.GetItem(c).ID.ToString());
-            //    }
-            //}
             Categories = (from string category in SitecoreItem.Fields["Categories"].Value.Split("|".ToCharArray())
                           select category).ToArray();
         }
