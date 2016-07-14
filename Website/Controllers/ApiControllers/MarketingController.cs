@@ -25,6 +25,10 @@ using Sitecore.Data.Items;
 using System.Text.RegularExpressions;
 using Microsoft.VisualBasic.FileIO;
 using Newtonsoft.Json;
+using StackExchange.Redis;
+using System.Data.SqlClient;
+using System.Configuration;
+using System.Device.Location;
 
 namespace StreamEnergy.MyStream.Controllers.ApiControllers
 {
@@ -312,6 +316,77 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         }
 
         [HttpGet]
+        [Route("paymentlocations/{lat}/{lng}/{maxLat}/{maxLon}/{minLat}/{minLon}/{maxResults}/{useCache}")]
+        public List<PaymentLocation> Get(string lat, string lng, string maxLat, string maxLon, string minLat, string minLon, int maxResults, string useCache)
+        {
+            string key = string.Format("{0}|{1}|{2}", lat + lng, maxLat + maxLon + minLat + minLon, maxResults.ToString());
+            if (bool.Parse(useCache))
+            {
+                string cacheResult = redisDatabase.StringGet(key);
+                if (!string.IsNullOrEmpty(cacheResult))
+                {
+                    return JsonConvert.DeserializeObject<List<PaymentLocation>>(cacheResult);
+                }
+            }
+            List<PaymentLocation> results = new List<PaymentLocation>();
+            GeoCoordinate centerLoc = new GeoCoordinate(double.Parse(lat), double.Parse(lng));
+            string connectionString = Sitecore.Configuration.Settings.GetConnectionString("core");
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                using (SqlCommand command = connection.CreateCommand())
+                {
+                    command.CommandText = @"
+                        Select * from [paymentLocations] 
+                        Where Lat Between @minLat And @maxLat
+                        And Lon Between @minLon And @maxLon";
+
+                    command.Parameters.AddWithValue("@minLat", minLat);
+                    command.Parameters.AddWithValue("@minLon", minLon);
+                    command.Parameters.AddWithValue("@maxLat", maxLat);
+                    command.Parameters.AddWithValue("@maxLon", maxLon);
+
+                    using (var reader = command.ExecuteReader())
+                    {
+                        if (reader.HasRows)
+                        {
+                            while (reader.Read())
+                            {
+                                string ed = (string)reader["stop_date"];
+
+                                PaymentLocation location = new PaymentLocation()
+                                {
+                                    ID = (double)reader["id"],
+                                    Vender = (string)reader["vendor"],
+                                    Agent = (string)reader["agent"],
+                                    Name = (string)reader["location_name"],
+                                    AddressLine1 = (string)reader["address1"],
+                                    AddressLine2 = (string)reader["address2"],
+                                    City = (string)reader["city"],
+                                    StateAbbreviation = (string)reader["state"],
+                                    PostalCode5 = (string)reader["zip"],
+                                    PostalCodePlus4 = (string)reader["zip4"],
+                                    PhoneNumber = (string)reader["phone"],
+                                    ContactName = (string)reader["contact_name"],
+                                    Hours = (string)reader["hours"],
+                                    Fee = ((double)reader["fee"]) > 0,
+                                    StartDate = DateTime.Parse((string)reader["start_date"]),
+                                    EndDate = string.IsNullOrEmpty(ed) || ed == "0000-00-00" ? DateTime.MinValue : DateTime.Parse(ed),
+                                    Status = (string)reader["status"],
+                                    PaymentMethods = ((string)reader["pay_methods"]).Split(" ".ToCharArray()).ToList(),
+                                    Lat = (double)reader["lat"],
+                                    Lon = (double)reader["lon"],
+                                    Rank = (double)reader["rank"],
+                                    Distance = centerLoc.GetDistanceTo(new GeoCoordinate((double)reader["lat"], (double)reader["lon"]))/1609.34
+                                };
+
+                                results.Add(location);
+                            }
+                        }
+                    }
+        }
+
+        [HttpGet]
         [Route("importenergyfaqdata")]
         public void ImportEnergyFAQData(string path)
         {
@@ -418,6 +493,31 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 }
                 parser.Close();
             }
+        }
+    }
+
+            //Sort by distance
+            results.Sort((a, b) => a.Distance.CompareTo(b.Distance));
+
+            if (results.Count() > maxResults)
+            {
+                results = results.Take(maxResults).ToList();
+            }
+
+            if (bool.Parse(useCache) && results != null && results.Count() > 0)
+            {
+                try
+                {
+                    redisDatabase.StringSet(key, JsonConvert.SerializeObject(results), TimeSpan.FromDays(7));
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("cache write exception:");
+                    Console.WriteLine(e.Message);
+                }
+            }
+
+            return results;
         }
     }
 }

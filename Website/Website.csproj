@@ -686,6 +686,7 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Data.Services.Client" />
+    <Reference Include="System.Device" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Net" />
     <Reference Include="System.Net.FtpClient">
@@ -796,8 +797,6 @@
     <Compile Include="Conditions\CustomerAccountsCountCondition.cs" />
     <Compile Include="Conditions\HasUtilityEnrollmentCondition.cs" />
     <Compile Include="Conditions\HasMobileEnrollmentCondition.cs" />
-    <Compile Include="Conditions\GasAccountCondition.cs" />
-    <Compile Include="Conditions\ElectricityAccountConditioncs.cs" />
     <Compile Include="Conditions\MobileAccountCondition.cs" />
     <Compile Include="Conditions\CustomerDismissedModalCondition.cs" />
     <Compile Include="Conditions\CustomerAutoPayCondition.cs" />
@@ -948,6 +947,7 @@
     <Compile Include="Models\Marketing\Support\FaqSubcategory.cs" />
     <Compile Include="Models\Currents\Top10Leader.cs" />
     <Compile Include="Models\Currents\Top10LeaderList.cs" />
+    <Compile Include="Models\Marketing\PaymentLocation.cs" />
     <Compile Include="Models\ReturnForm.cs" />
     <Compile Include="Models\Currents\CalendarEvent.cs" />
     <Compile Include="Models\Currents\CalendarSearchRequest.cs" />
@@ -1718,6 +1718,7 @@
     <Content Include="Views\Components\Support Center\Mobile Acronyms.cshtml" />
     <Content Include="Views\Components\Account\Sidebar Widgets\FAQs.cshtml" />
     <Content Include="Views\Pages\Currents\10 in 2016.cshtml" />
+    <Content Include="Views\Pages\Marketing\Services\Paycenter Locator.cshtml" />
     <None Include="Web.Azure-Production Sitecore.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>

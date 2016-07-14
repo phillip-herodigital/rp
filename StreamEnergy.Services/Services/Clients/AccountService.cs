@@ -450,7 +450,7 @@ namespace StreamEnergy.Services.Clients
                 {
                     var account = accountFactory.CreateAccount(new AccountFactory.AccountKey());
                     LoadAccountDetailsFromStreamConnect(account, data);
-                    if (!account.SubAccounts.Any(a => a != null))
+                    if (!account.SubAccounts.Any(a => a != null) && account.AccountType != "Mobile")
                     {
                         return null;
                     }

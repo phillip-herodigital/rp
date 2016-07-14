@@ -1700,6 +1700,417 @@ article.pay {
     }
 }
 
+article.contact {
+    h2 {
+        font-size: 30px;
+
+        &.header-line {
+            position: relative;
+            overflow: hidden;
+
+            span {
+                position: relative;
+                padding-right: 20px;
+                //background: #fff;
+                z-index: 2;
+            }
+
+            &:after {
+                content: "";
+                height: 4px;
+                width: 100%;
+                background-color: #efefef;
+                position: absolute;
+                top: 50%;
+                margin-top: -2px;
+            }
+        }
+    }
+
+    div.wrapper {
+        padding-top: 40px;
+        padding-bottom: 30px;
+    }
+
+    div.intro {
+        font-size: 24px;
+        text-align: center;
+        width: 67%;
+    }
+
+    div.blue-bar {
+        height: 50px;
+        background-color: $brand-primary-color;
+        //border-bottom: 5px solid #ffa409;
+    }
+
+    div.contact-banner {
+        //border-top: 3px solid #ffa409;
+        background-position: center;
+        background-repeat: no-repeat;
+        min-height: 288px;
+    }
+
+    div.associate-support {
+        background-color: #efefef;
+        //border-top: 3px solid #0073c7;
+        h2 {
+            text-align: left;
+            color: #ac1f2d;
+        }
+
+        p {
+            margin: 0;
+
+            &.phone {
+                color: #ac1f2d;
+            }
+
+            &.fax {
+                color: #ac1f2d;
+                margin: 20px 0;
+            }
+        }
+
+        h4 {
+            margin-top: 0;
+            color: #ac1f2d;
+        }
+
+        @include breakpoint(small-medium) {
+            padding-left: 20px;
+
+            .grid .col {
+                width: 50%;
+                float: left;
+            }
+        }
+
+        @include breakpoint(small) {
+            .grid .col {
+                width: 100%;
+                padding-bottom: 20px;
+            }
+        }
+    }
+
+    div.homelife-services {
+        //border-bottom: 3px solid #0073c7;
+        text-align: center;
+
+        h2.homelife {
+            text-transform: none;
+        }
+
+        h2.phone {
+            margin: 0;
+        }
+
+        p {
+            text-align: center;
+        }
+    }
+
+    div.clean-nation {
+        background-color: #76bd1d;
+        color: #fff;
+
+        h2 {
+            text-align: left;
+            color: #fff;
+            margin: 40px 0 0 0;
+        }
+
+        h4 {
+            margin-top: 0;
+            color: #fff;
+        }
+
+        p {
+            margin: 0;
+
+            &.phone {
+                font-size: 22px;
+                margin: 10px 0 0 0;
+            }
+        }
+
+        @include breakpoint(small-medium) {
+            padding-left: 20px;
+
+            .grid .col {
+                width: 50%;
+                float: left;
+            }
+        }
+
+        @include breakpoint(small) {
+            .grid .col {
+                width: 100%;
+                padding-bottom: 20px;
+            }
+        }
+    }
+
+    div.vip {
+        h2 {
+            color: #ac1f2d;
+            text-align: center;
+        }
+
+        p {
+            width: 320px;
+            text-align: center;
+            margin: auto;
+        }
+    }
+
+    div.request {
+        background-color: $brand-primary-color;
+        color: #fff;
+        //border-bottom: 3px solid #ffa409;
+        //border-top: 3px solid #ffa409;
+        padding-bottom: 20px;
+        position: relative;
+
+        .request-or {
+            background-image: url('../i/marketing/contact-or.png');
+            background-repeat: no-repeat;
+            position: absolute;
+            top: -4px;
+            left: 50%;
+            margin-left: -57px;
+            height: 70px;
+            width: 114px;
+        }
+
+        h2 {
+            color: #fff;
+            text-align: left;
+        }
+
+        .grid {
+            -webkit-border-vertical-spacing: 0px;
+            margin-top: 0;
+
+            .col {
+                border-spacing: 0;
+
+                .item {
+                    position: relative;
+                    //width: 90%;
+                    input,
+                    select,
+                    textarea {
+                        width: 85%;
+                    }
+
+                    .asterisk {
+                        font-size: 24px;
+                        vertical-align: middle;
+                    }
+                }
+
+                .group .item, .item.half-width {
+                    width: 44.8%;
+                }
+
+                button {
+                    background-color: #ebebeb;
+                    background-image: none;
+                    color: #000;
+                }
+            }
+        }
+
+        .notice.error {
+            background: #136cc1;
+            color: #fcd22b;
+            border: 0;
+        }
+
+        .item.error {
+            span.field-validation-error {
+                color: #fcd22b;
+            }
+        }
+    }
+
+    div.success-message {
+        margin: 20px 0;
+        background-color: #e8e8e8;
+        border-bottom: 3px solid #fda32b;
+
+        h2 {
+            text-align: center;
+        }
+
+        h4 {
+            text-align: center;
+            text-transform: none;
+            font-size: 38px;
+            line-height: 1.1;
+        }
+    }
+
+    div.faq {
+        h2 {
+            text-align: left;
+        }
+
+        p {
+            width: 305px;
+        }
+    }
+}
+
+article.contact-state {
+    margin-bottom: 0;
+
+    h2 {
+        text-align: left;
+    }
+
+    .customer-service {
+        margin: 25px 0;
+
+        @include breakpoint(small) {
+            width: 100%;
+        }
+
+        h1 {
+            color: $brand-primary-color;
+            margin-bottom: 50px;
+        }
+
+        h2 {
+            text-transform: none;
+            margin-bottom: 0;
+        }
+
+        .left-side {
+            width: 62%;
+            float: left;
+
+            @include breakpoint(small) {
+                width: 100%;
+                float: none;
+            }
+
+            .phone-email {
+                margin-bottom: 40px;
+
+                p {
+                    margin: 0;
+                }
+            }
+        }
+
+        .right-side {
+            width: 35%;
+            float: right;
+
+            @include breakpoint(small) {
+                width: 100%;
+                float: none;
+            }
+
+            .mail {
+                @include border-radius(10px, 10px);
+                background-color: #e8e8e8;
+                padding: 20px;
+
+                h2 {
+                    background-image: url('../i/marketing/contact.png');
+                    background-repeat: no-repeat;
+                    background-position: top right;
+                    padding-right: 70px;
+                }
+
+                p {
+                    margin: 0;
+                }
+            }
+
+            @include breakpoint(small) {
+                float: left;    
+            }
+        }
+    }
+
+    .quality-control {
+        margin-bottom: 35px;
+        position: relative;
+
+        @include breakpoint(small) {
+            width: 100%;
+        }
+
+        p {
+            margin: 20px 0 30px 0;
+        }
+
+        h2 {
+            margin: 0;
+            font-size: 25px;
+        }
+    }
+
+    .emergency {
+        position: relative;
+
+        @include breakpoint(small) {
+            width: 100%;
+        }
+
+        h2 {
+            margin: 0;
+            font-size: 25px;
+        }
+
+        h3 {
+            color: $brand-primary-color;
+            margin: 50px 0 10px 0;
+        }
+
+        .grid .col {
+            .company {
+                color: $brand-primary-color;
+            }
+
+            .oncor {
+                width: 85%;
+            }
+
+            .company-contact {
+                width: 80%;
+
+                h2 {
+                    text-transform: none;
+                }
+
+                button,
+                .button {
+                    background-color: #ffa409;
+                    background-image: none;
+
+                    a {
+                        color: #fff;
+                    }
+
+                    &:hover {
+                        background-color: #6b6b6b;
+                    }
+                }
+            }
+        }
+    }
+
+    @include breakpoint(small) {
+        padding: 0 20px;
+    }
+}
+
 article.homelife-services {
     .intro {
         background-color: $brand-primary-color;

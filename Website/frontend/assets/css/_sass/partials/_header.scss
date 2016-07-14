@@ -506,7 +506,6 @@
     min-height: 50px;
     background-color: #28a5de;
     color: #ffffff;
-
     ul {
         @include inline-block-list();
         position: relative;
@@ -517,23 +516,17 @@
         li {
             position: relative;
             overflow: hidden;
-            min-width: 45px;
-            text-align: center;
-
             a {
                 display: inline-block;
                 color: $nav-tertiary-color;
                 padding: $nav-tertiary-padding;
                 //font-weight: 600;
             }
-
             &.selected {
                 background: image-url('marketing/redesign/nav-second-level-selected-indicator-mobile.png') bottom center no-repeat;
-
                 .triangle {
                     display: block;
                 }
-
                 a {
                     color: #fff;
                     font-weight: 600;
@@ -541,7 +534,6 @@
             }
         }
     }
-
     .triangle {
         display: none;
         position: absolute;
@@ -567,7 +559,6 @@
             margin-top: 4px;
         }
     }
-
     .wrapper {
         overflow: hidden;
     }
@@ -584,20 +575,16 @@
             -webkit-overflow-scrolling: touch;
         }
     }
-
-    &.mobile {
+    &.mobile {      
         background-color: #28a5de;
         color: #ffffff;
         border-top: none;
-
         li {
-            a {
-                color: #ffffff;
+            a {             
+                color:#ffffff;
             }
-
             &.selected {
                 background: image-url('marketing/redesign/nav-second-level-selected-indicator-mobile.png') bottom center no-repeat;
-
                 a {
                     color: #ffffff;
                     font-weight: 600;
@@ -605,7 +592,6 @@
             }
         }
     }
-
     &.orange {
         background-color: #f98e00;
     }

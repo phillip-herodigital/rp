@@ -1,0 +1,125 @@
+﻿
+<script src="//maps.googleapis.com/maps/api/js?key=AIzaSyCKwR5gbRNgWMZ84ZxGFPh1Jpvm5nMRuRY&libraries=places"></script>
+<script src="https://cdn.rawgit.com/googlemaps/v3-utility-library/master/infobox/src/infobox.js"></script>
+
+@Html.Sitecore().Field("Main Heading")
+
+<div ng-if="isLoading" class="enrollment__loadingMessage">
+    <span class="inner"><img class="loading" src="/frontend/assets/i/loading_screen.gif" width="44" height="44" /><br />@Html.Sitecore().Field("Processing")</span>
+</div>
+<article class="clearfix marketing paycenter-locator" ng-controller="PaycenterCtrl">
+    <div class="wrapper">
+        <header ng-show="isMobile() && showMap">
+            <h1 ng-hide="search">@Html.Sitecore().Field("Mobile Heading")</h1>
+            <h1 class="backToResults" ng-show="search && markers.length" ng-click="backToResults()">@Html.Sitecore().Field("Back to Results")</h1>
+            <h1 ng-show="!markers.length && search">@Html.Sitecore().Field("Zero Results Heading")</h1>
+            <h1 ng-hide="inTexas || markers.length">@Html.Sitecore().Field("Texas Only")</h1>
+        </header>
+        <aside>
+            <div class="form">
+                <script type="text/ng-template" id="searchbox.tpl.html">
+                    <input type="text" id="gmap-search-input" placeholder="@Html.Sitecore().Field("Map Search Placeholder")" />
+                </script>
+                <div class="item">
+                    <label for="gmap-search-input" ng-if="!isMobile()">@Html.Sitecore().Field("Map Search Label")</label>
+                    <div class="locate" ng-click="geolocate()" ng-if="false"></div>
+                    <div id="gmap-search"></div>
+                </div>
+            </div>
+            <div class="query-and-results" ng-hide="showMap && isMobile() || isLoading">
+                <div class="query" ng-show="search && !noneFound && !mapMoved">
+                    <p>
+                        @Html.Sitecore().Field("Search Result Label")
+                        <span ng-show="search" bind-html-unsafe="search"></span>
+                    </p>
+                </div>
+                <div class="query" ng-show="!noneFound && mapMoved">
+                    <p>{{markers.length}} Result<span ng-show="markers.length > 1">s</span> for Map Search</p>
+                </div>
+                <div class="query" ng-show="noneFound && inTexas">
+                    <p>@Html.Sitecore().Field("Zero Results Label")</p>
+                    <p>@Html.Sitecore().Field("Try Zoom Out")</p>
+                </div>
+                <div class="query" ng-hide="inTexas || markers.length">
+                    <p>@Html.Sitecore().Field("Texas Only")</p>
+                </div>
+                <div class="results" ng-show="markers.length">
+                    <div class="result" ng-repeat="marker in markers" ng-class="{selected: marker.selected && !isMobile()}" ng-click="openWindow($index)">
+                        <div class="grid clearfix">
+                            <div class="col-1">
+                                <div class="item">
+                                    <p class="distance">{{marker.distance}} @Html.Sitecore().Field("Mile")</p>
+                                </div>
+                            </div>
+                            <div class="col-2">
+                                <div class="item">
+                                    <p class="name">{{marker.locationInfo.name}}</p>
+                                    <p class="address">{{marker.locationInfo.address.line1}}<br></p>
+                                    <p class="address" ng-if="marker.locationInfo.address.line2">{{marker.locationInfo.address.line2}}<br></p>
+                                    <p class="address">
+                                        <span>{{marker.locationInfo.address.city}} </span>
+                                        <span>{{marker.locationInfo.address.state}}, </span>
+                                        <span>{{marker.locationInfo.address.postCode}}</span>
+                                    </p>
+                                    <p class="address">{{marker.locationInfo.address.phone | phone}}</p>
+                                </div>
+                                <div class="item arrow" ng-show="isMobile()">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+        <article class="coverage-map" ng-class="{zeroHeight: !showMap && isMobile()}">
+            <ui-gmap-google-map center="map.center" zoom="map.zoom" options="map.options" events="map.events" refresh="map.refresh">
+                <ui-gmap-search-box template="searchbox.template" events="searchbox.events" parentdiv="'gmap-search'"></ui-gmap-search-box>
+                <ui-gmap-markers models="markers" coords="'coords'" icon="'icon'" click="'onClicked'"></ui-gmap-markers>
+                @*<ui-gmap-marker idKey="searchMarker.id" coords="searchMarker.coords" options="searchMarker.options"></ui-gmap-marker>*@
+                <ui-gmap-window show="window.show" coords="window.coords" options="window.options" templateParameter="locationInfo" ng-style="{'width': isMobile() ? '100%' : ''}" ng-cloak>
+                    <div>
+                        <div class="grid clearfix">
+                            <div class="column">
+                                <div class="item">
+                                    <label>@Html.Sitecore().Field("Location")</label>
+                                    <p>{{locationInfo.name}}</p>
+                                </div>
+                                <div class="item">
+                                    <label>@Html.Sitecore().Field("Address")</label>
+                                    <a href="" ng-click="$parent.getDirections()">
+                                        <p>{{locationInfo.address.line1}}</p>
+                                        <p>{{locationInfo.address.line2}}</p>
+                                        <p>
+                                            <span>{{locationInfo.address.city}}, </span>
+                                            <span>{{locationInfo.address.state}} </span>
+                                            <span>{{locationInfo.address.postCode}}</span>
+                                        </p>
+                                    </a>
+                                    <p>{{locationInfo.address.phone | phone}}</p>
+                                </div>
+                            </div>
+                            <div class="column">
+                                <div class="item">
+                                    <label>@Html.Sitecore().Field("Hours")</label>
+                                    <p>{{locationInfo.hours}}</p>
+                                </div>
+                                <div class="item">
+                                    <label>@Html.Sitecore().Field("Payment Methods")</label>
+                                    @*ng-repeat doesn't work in this ui-gmap-window*@
+                                    <p ng-if="locationInfo.paymentMethods[0] != 'undefined'">{{locationInfo.paymentMethods[0]}}</p>
+                                    <p ng-if="locationInfo.paymentMethods[1] != 'undefined'">{{locationInfo.paymentMethods[1]}}</p>
+                                    <p ng-if="locationInfo.paymentMethods[2] != 'undefined'">{{locationInfo.paymentMethods[2]}}</p>
+                                    <p ng-if="locationInfo.paymentMethods[3] != 'undefined'">{{locationInfo.paymentMethods[3]}}</p>
+                                    <p ng-if="locationInfo.paymentMethods[4] != 'undefined'">{{locationInfo.paymentMethods[4]}}</p>
+                                    <p ng-if="locationInfo.paymentMethods[5] != 'undefined'">{{locationInfo.paymentMethods[5]}}</p>
+                                    <p ng-if="locationInfo.paymentMethods[6] != 'undefined'">{{locationInfo.paymentMethods[6]}}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="close"><a href="" ng-click="$parent.closeWindow($index)">@Html.Sitecore().Field("Plus Sign")</a></div>
+                    </div>
+                </ui-gmap-window>
+            </ui-gmap-google-map>
+        </article>
+    </div>
+</article>
