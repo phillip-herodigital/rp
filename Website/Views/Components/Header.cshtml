@@ -37,7 +37,7 @@
     var enableLanguageLink = !string.IsNullOrEmpty(settings.GetSettingsField("Language Link", "Enable Language Link").Value);
 
 }
-<header class="site-header" main-nav="@selectedNavItem" data-fixed-fix>
+<header class="site-header" main-nav="" data-fixed-fix>
     <script id="mobileNav" type="text/ng-template">
         <nav class="mobile-nav" mobile-nav="@selectedNavItem">
             <ul>
@@ -171,30 +171,43 @@
         <nav class="main-nav">
             <ul class="wrapper">
                 @foreach (var node in topLevelNavigation)
-                {
-                    <li class="nav-@node.Number nav-@node.Value.Item.Name.ToLowerInvariant()" ng-mouseover="showSubnav(@node.Number)" ng-mouseout="hideSubnav()" ng-class="{ selected: subnav==@node.Number }">@Html.Sitecore().Field("Navigation Link", @node.Value.Item)</li>
-                }
-            </ul>
-        </nav>
-    </div>
-    <nav class="sub-nav">
-        @foreach (var node in topLevelNavigation)
+{
+    <li class="@(node.Value.HasChildNodes ? "has-subnav" : null) nav-@node.Number nav-@node.Value.Item.Name.ToLowerInvariant()" ng-mouseover="showSubnav(@node.Number)" ng-mouseout="hideSubnav()" ng-class="{ selected: subnav==@node.Number }">
+        @Html.Sitecore().Field("Navigation Link", @node.Value.Item)
+        @if (node.Value.HasChildNodes)
         {
-            <div class="wrapper" sub-nav="@node.Number" ng-cloak ng-class="{ hidden: subnav != @node.Number }" ng-mouseover="showSubnav(@node.Number)" ng-mouseout="hideSubnav()">
-                <ul ng-style="{'margin-left': marginLeft}">
+            <div class="sub-nav" sub-nav="@node.Number" ng-cloak ng-class="{ hidden: subnav != @node.Number }" ng-mouseover="showSubnav(@node.Number)" ng-mouseout="hideSubnav()">
+                <ul>
                     @foreach (ItemSiteMapNode childNode in node.Value.ChildNodes)
                     {
                         var selected = selectedNode != null && (childNode.Url == selectedNode.Url || childNode.Key == selectedNode.Key || selectedNode.IsDescendantOf(childNode));
-                        <li class="@(selected ? "selected" : null)">@Html.Sitecore().Field("Navigation Link", childNode.Item)</li>
-                    }
-                    @if (!node.Value.HasChildNodes)
-                    {
-                        <li><a>&nbsp;</a></li>
+                        <li class="@(selected ? "selected" : null) @childNode.Item.Name.ToLower()">
+                            @Html.Sitecore().Field("Navigation Link", childNode.Item)
+                            @{
+                                var tertiaryNavCssClassField = Sitecore.Context.Item.Fields["Tertiary Nav CSS Class"];
+                            }
+                            @if (childNode.Item.HasChildren)
+                            {
+                                <nav class="tertiary-nav @(tertiaryNavCssClassField != null && !string.IsNullOrEmpty(tertiaryNavCssClassField.Value) ? tertiaryNavCssClassField.Value : "")">
+                                    <ul ng-style="{'margin-left': marginLeft}">
+                                        @foreach (ItemSiteMapNode thirdchildNode in childNode.ChildNodes)
+                                        {
+                                            var thirdselected = (selectedNode != null) ? (thirdchildNode.Url == selectedNode.Url || thirdchildNode.Key == selectedNode.Key || selectedNode.IsDescendantOf(thirdchildNode)) : false;
+                                            <li class="@(thirdselected ? "selected" : null)">@Html.Sitecore().Field("Navigation Link", thirdchildNode.Item)</li>
+                                        }
+                                    </ul>
+                                </nav>
+                            }
+                        </li>
                     }
                 </ul>
             </div>
         }
-    </nav>
+    </li>
+}
+            </ul>
+        </nav>
+    </div>
 </header>
 @{
     var bannerImage = Sitecore.Context.Item.Fields["Banner Image"];
@@ -220,24 +233,4 @@
     </div>
 }
 
-@{ 
-    var tertiaryNavCssClassField = Sitecore.Context.Item.Fields["Tertiary Nav CSS Class"];
-}
-@if (selectedNodeLevel > 2 || selectedNodeLevel == 2 && selectedNode.HasChildNodes)
-{
-    <nav class="tertiary-nav @(tertiaryNavCssClassField != null && !string.IsNullOrEmpty(tertiaryNavCssClassField.Value) ? tertiaryNavCssClassField.Value : "")">
-        @if (thirdLevelRootNode != null)
-        {
-            <div class="wrapper">
-                <ul ng-style="{'margin-left': marginLeft}">
-                    @foreach (ItemSiteMapNode childNode in thirdLevelRootNode.ChildNodes)
-                    {
-                        var selected = childNode.Url == selectedNode.Url || childNode.Key == selectedNode.Key || selectedNode.IsDescendantOf(childNode);
-                        <li class="@(selected ? "selected" : null)">@Html.Sitecore().Field("Navigation Link", childNode.Item)</li>
-                    }
-                </ul>
-            </div>
-        }
-    </nav>
-}
 @Html.Sitecore().Placeholder("header extra")
