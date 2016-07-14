@@ -13,7 +13,6 @@ namespace StreamEnergy.MyStream.Models.Marketing.Support
     {
         private Item SitecoreItem;
 
-        public string DisplayTitle;
         public string Name;
         public string Description;
         public string ContactPageContent;
@@ -21,7 +20,7 @@ namespace StreamEnergy.MyStream.Models.Marketing.Support
         public string EmergencyContactContent;
         public string ContactContent;
         public string Link;
-        public List<FAQState> States = new List<FAQState>();
+        public IEnumerable<FAQState> States = new List<FAQState>();
         public string IconURL;
         public bool DisplayOnMainPage;
         public bool DisplayOnContactPage;
@@ -30,7 +29,6 @@ namespace StreamEnergy.MyStream.Models.Marketing.Support
         public FAQCategory() { }
         public FAQCategory(Item SitecoreItem) {
             this.SitecoreItem = SitecoreItem;
-            DisplayTitle = getValue("Display Title");
             Name = getValue("Name");
             Description = getValue("Description");
             ContactPageContent = getValue("Contact Page Content");
@@ -47,15 +45,16 @@ namespace StreamEnergy.MyStream.Models.Marketing.Support
             if (lf != null) {
                 Link = lf.GetFriendlyUrl();
             }
-            
-
-            if (!string.IsNullOrEmpty(SitecoreItem.Fields["States"].Value)) {
-                var states = getValue("States").Split("|".ToCharArray()); ;
-                foreach (string state in states)
-                {
-                    States.Add(new FAQState(state));
-                }
-            }
+            //if (!string.IsNullOrEmpty(SitecoreItem.Fields["States"].Value)) {
+            //    var states = getValue("States").Split("|".ToCharArray()); ;
+            //    foreach (string state in states)
+            //    {
+            //        States.Add(new FAQState(state));
+            //    }
+            //}
+            States = (from string stateGuid in getValue("States").Split("|".ToCharArray())
+                      where !string.IsNullOrEmpty(stateGuid)
+                      select new FAQState(stateGuid)).ToArray();
             CheckboxField MainPageField = SitecoreItem.Fields["Main Page"];
             DisplayOnMainPage = MainPageField.Checked;
             CheckboxField ContactPageField = SitecoreItem.Fields["Contact Page"];

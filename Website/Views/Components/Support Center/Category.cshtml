@@ -11,13 +11,13 @@
     FAQCategory categoryItem = new FAQCategory(Sitecore.Context.Database.GetItem(Sitecore.Context.Item.Fields["Category"].Value));
 }
 <div class="support-container layout" ng-cloak>
-    <div class="category clearfix" id="pageScroll" ng-init="categoryInit(@StreamEnergy.Json.Stringify(categoryItem), @StreamEnergy.Json.Stringify(Request.QueryString["subcat"] ?? "All"), @StreamEnergy.Json.Stringify(Request.QueryString["keyword"] ?? "All"), @StreamEnergy.Json.Stringify(Request.QueryString["search"] ?? null))">
+    <div class="category clearfix" id="pageScroll" ng-init="categoryInit(@StreamEnergy.Json.Stringify(categoryItem), @StreamEnergy.Json.Stringify(Request.QueryString["search"] ?? null))">
         <div class="pagination-display clearfix" ng-show="searchResults">
             <p><a href="" ng-click="backToSupport()" ng-show="searchResults">@categoryContent.Fields["Back to Support"]</a></p>
             <p>
                 <span>@categoryContent.Fields["Showing"] {{resultsPageRange[resultsPage].low + 1}} - {{resultsPageRange[resultsPage].high + 1}} @categoryContent.Fields["of"] {{displayedFAQCount}}</span>
                 <span> @categoryContent.Fields["results for"] “{{searchedData.text}}”</span>
-                <span> @categoryContent.Fields["in"] {{searchedData.category.displayTitle}}</span>
+                <span> @categoryContent.Fields["in"] {{searchedData.category.name}}</span>
                 <span ng-show="searchedData.state.name"> - {{searchedData.state.abbreviation}}</span>
             </p>
         </div>
@@ -128,7 +128,7 @@
     <div class="support-modal">
         <div class="modal-header">
             <a href="" ng-click="$dismiss()">Close</a>
-            <h2>@categoryContent.Fields["Modal Heading"] - {{category.displayTitle}}<span ng-show="searchData.state"> - {{searchData.state.abbreviation}}</span></h2>
+            <h2>@categoryContent.Fields["Modal Heading"] - {{category.name}}<span ng-show="searchData.state"> - {{searchData.state.abbreviation}}</span></h2>
             <p>@categoryItem.EmergencyContactSubheading.AsHtml()</p>
             <img class="life-preserver" src="@modalIconURL" />
             <div ng-show="category.states">

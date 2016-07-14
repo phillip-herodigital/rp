@@ -7,9 +7,8 @@ namespace StreamEnergy.MyStream.Models.Marketing.Support
 {
     public class FaqSubcategory
     {
-        public List<string> Categories = new List<string>();
+        public IEnumerable<string> Categories = new List<string>();
         public string Guid;
-        public string DisplayTitle;
         public string Name;
 
         private Item SitecoreItem;
@@ -23,20 +22,19 @@ namespace StreamEnergy.MyStream.Models.Marketing.Support
         }
 
         private void buildSubCategory() {
-            this.Guid = SitecoreItem.ID.ToString();
-
-            DisplayTitle = SitecoreItem.Fields["Display Title"].Value;
+            Guid = SitecoreItem.ID.ToString();
             Name = SitecoreItem.Fields["Name"].Value;
-
-            if (SitecoreItem.Fields["Categories"] != null && 
-                !string.IsNullOrEmpty(SitecoreItem.Fields["Categories"].Value))
-            {
-                var cats = SitecoreItem.Fields["Categories"].Value.Split("|".ToCharArray());
-                foreach (string c in cats)
-                {
-                    Categories.Add(Sitecore.Context.Database.GetItem(c).ID.ToString());
-                }
-            }
+            //if (SitecoreItem.Fields["Categories"] != null && 
+            //    !string.IsNullOrEmpty(SitecoreItem.Fields["Categories"].Value))
+            //{
+            //    var cats = SitecoreItem.Fields["Categories"].Value.Split("|".ToCharArray());
+            //    foreach (string c in cats)
+            //    {
+            //        Categories.Add(Sitecore.Context.Database.GetItem(c).ID.ToString());
+            //    }
+            //}
+            Categories = (from string category in SitecoreItem.Fields["Categories"].Value.Split("|".ToCharArray())
+                          select category).ToArray();
         }
     }
 }

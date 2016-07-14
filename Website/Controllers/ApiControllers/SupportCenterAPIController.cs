@@ -53,13 +53,11 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             var query = HttpUtility.HtmlEncode(searchRequest.Query);
             var category = searchRequest.Category;
             var state = searchRequest.State;
-            var subcategory = searchRequest.Subcategory;
-            var keyword = searchRequest.Keyword;
 
             if (!string.IsNullOrEmpty(category))
             {
                 filter.Category = (from categoryItem in controller.GetAllCategories()
-                                   where categoryItem.DisplayTitle.ToLower() == category.ToLower() || categoryItem.Guid == category
+                                   where categoryItem.Guid == category
                                    select categoryItem).FirstOrDefault();
             }
 
@@ -67,23 +65,8 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             {
 
                 filter.State = (from stateItem in controller.GetAllStates()
-                                where stateItem.Name.ToLower() == state || stateItem.Guid.ToLower() == state
+                                where stateItem.Guid == state
                                 select stateItem).FirstOrDefault();
-            }
-
-            if (!string.IsNullOrEmpty(subcategory))
-            {
-                if (subcategory != "All")
-                {
-                    filter.Subcategory = (from subcategoryItem in controller.GetAllSubCategories()
-                                          where subcategoryItem.Name == subcategory || subcategoryItem.DisplayTitle == subcategory || subcategoryItem.Guid == subcategory
-                                          select subcategoryItem).FirstOrDefault();
-                }
-            }
-
-            if (!string.IsNullOrEmpty(keyword))
-            {
-                filter.Keyword = keyword;
             }
 
             return controller.Search(query, filter);

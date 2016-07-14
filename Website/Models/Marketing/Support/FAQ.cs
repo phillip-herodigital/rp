@@ -14,7 +14,6 @@ namespace StreamEnergy.MyStream.Models.Marketing.Support
         public IEnumerable<string> RelatedFAQs = new string[] { };
         public IEnumerable<string> States = new string[] { };
 
-        public string Name;
         public string FAQQuestion;
         public string FAQAnswer;
         public string Guid;
@@ -34,7 +33,6 @@ namespace StreamEnergy.MyStream.Models.Marketing.Support
         }
         private void buildFAQ()
         {
-            Name = getValue("FAQ Name");
             Encoding iso = Encoding.GetEncoding("ISO-8859-1");
             Encoding utf8 = Encoding.UTF8;
             string Question1 = HttpUtility.HtmlEncode(getValue("FAQ Question"));

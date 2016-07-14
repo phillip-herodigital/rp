@@ -5,7 +5,5 @@
         public string Query { get; set; }
         public string Category { get; set; }
         public string State { get; set; }
-        public string Subcategory { get; set; }
-        public string Keyword { get; set; }
     }
 }

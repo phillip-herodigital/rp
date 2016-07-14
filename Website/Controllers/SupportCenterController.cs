@@ -28,20 +28,10 @@ namespace StreamEnergy.MyStream.Controllers
         #endregion
 
         public IEnumerable<FAQ> getPopularFAQs() {
-            //List<FAQ> PopFAQs = new List<FAQ>();
-            //var popularFAQs = Sitecore.Context.Database.GetItem(supportHomeItemID).Fields["Popular FAQs"].Value;
-            //if (!string.IsNullOrEmpty(popularFAQs))
-            //{
-            //    foreach (string guid in popularFAQs.Split("|".ToCharArray()))
-            //    {
-            //        PopFAQs.Add(new FAQ(guid));
-            //    }
-            //}
             return (from guid in Sitecore.Context.Database.GetItem(supportHomeItemID).Fields["Popular FAQs"].Value.Split("|".ToCharArray())
                    select new FAQ(guid)).ToArray();
         }
  
-
         public IEnumerable<FAQCategory> GetAllCategories()
         {
             return (from item in Sitecore.Context.Database.GetItem(categoryRootItemID).Children
@@ -120,36 +110,20 @@ namespace StreamEnergy.MyStream.Controllers
             query = query.Trim().ToLower();
             List<FAQ> matchingFAQS = new List<FAQ>();
             var categories = GetAllCategories();
-            var subCategories = GetAllSubCategories();
-            //var allFAQs = (from item in Sitecore.Context.Database.SelectItems("/sitecore/content/Data/Components/Support/FAQs//*")
-            //               where item.TemplateID.ToString() == FAQsTempalteID || item.TemplateID.ToString() == StateFAQsTempalteID
-            //               where item.Fields["FAQ Categories"].Value.Contains(filter.Category.Guid) 
-            //               select new FAQ(item)).ToArray();
-            var allFAQs = (from item in Sitecore.Context.Database.GetItem(FAQsRootItemID).Axes.GetDescendants()
-                           where item.TemplateID.ToString() == FAQsTempalteID || item.TemplateID.ToString() == StateFAQsTempalteID
-                           where item.Fields["FAQ Categories"].Value.Contains(filter.Category.Guid)
-                           select new FAQ(item)).ToList();
+            var subCategories = GetAllSubCategoriesForCategory(filter.Category.Guid);
+            var searchFAQs = (from item in Sitecore.Context.Database.GetItem(FAQsRootItemID).Axes.GetDescendants()
+                              where item.TemplateID.ToString() == FAQsTempalteID || item.TemplateID.ToString() == StateFAQsTempalteID
+                              where item.Fields["FAQ Categories"].Value.Contains(filter.Category.Guid)
+                              where filter.State == null || item.TemplateID.ToString() == FAQsTempalteID ? true : item.Fields["FAQ States"].Value.Contains(filter.State.Guid)
+                              select new FAQ(item)).ToList();
 
-            foreach (FAQ faq in allFAQs)
+            foreach (FAQ faq in searchFAQs)
             {
-                //if (filter.Category != null && !faq.Categories.Contains(filter.Category.DisplayTitle + "|" + filter.Category.Guid))
-                //{
-                //    continue;
-                //}
-                if (filter.Subcategory != null && !faq.SubCategories.Contains(filter.Subcategory.Guid))
-                {
-                    continue;
-                }
-                if (filter.State != null && !faq.States.Contains(filter.State.Guid))
-                {
-                    continue;
-                }
                 if (
-                    faq.Name.ToLower().Contains(query) ||
                     faq.FAQQuestion.ToLower().Contains(query) ||
                     faq.FAQAnswer.ToLower().Contains(query) ||
-                    categories.Any(c => faq.Categories.Contains(c.Guid) && c.DisplayTitle.ToLower().Contains(query)) ||
-                    subCategories.Any(s => faq.Categories.Contains(s.Guid) && s.DisplayTitle.ToLower().Contains(query)) ||
+                    categories.Any(c => c.Name.ToLower().Contains(query)) ||
+                    subCategories.Any(s => s.Name.ToLower().Contains(query)) ||
                     faq.Keywords.Any(k => k.ToLower().Contains(query))
                     )
                 {

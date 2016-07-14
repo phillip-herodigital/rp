@@ -7,7 +7,7 @@
     }; 
     $scope.categories = []; //list of all categories
     $scope.subcategories = []; //list of subcategories for $scope.category
-    $scope.subcategory = "All"; //currently selected subcategory
+    $scope.subcategory = "{249FF312-DD00-4E9A-BCFC-D5F782FDA700}"; //currently selected subcategory, the "All" guid
     $scope.faqs = []; //popular faqs on /support page, displayed faqs for category/subcategory on category/subcategory pages
 
     $scope.searchData = { //data for text searches 
@@ -87,7 +87,7 @@
         $scope.defaultSearchPlaceholder = defaultSearchPlaceholder;
     }
 
-    $scope.categoryInit = function (category, subcategory, keyword, search) {
+    $scope.categoryInit = function (category, search) {
         $scope.isLoading = true;
         $scope.searchData.category = category;
         $scope.category = category;
@@ -113,14 +113,7 @@
                 }
             });
             $scope.subcategories = response.data.subcategories;
-            angular.forEach($scope.subcategories, function (subcat) {
-                if (subcat.name === subcategory) {
-                    subcat.selected = true;
-                    if (subcategory != "All") {
-                        $scope.subcategory = subcat.guid;
-                    }
-                }
-            });
+            $scope.subcategories[0].selected = true;
             var div = document.createElement('div');
             angular.forEach(response.data.faQs, function (faq) {
                 div.innerHTML = faq.faqAnswer;
@@ -152,7 +145,7 @@
             }
             else {
                 $scope.isLoading = false;
-                buildKeywords(keyword);
+                buildKeywords();
                 paginate();
             }
 
@@ -252,10 +245,8 @@
         $scope.noSearchResults = false;
         var request = {
             query: viewValue,
-            category: $scope.searchData.category.displayTitle,
-            state: $scope.searchData.state ? $scope.searchData.state.name : null,
-            subcategory: null,
-            keyword: null,
+            category: $scope.searchData.category.guid,
+            state: $scope.searchData.state ? $scope.searchData.state.guid : null,
         }
         var promise = new Promise(function (resolve, reject) {
             getFAQs(request).then(function (response) {
@@ -279,17 +270,16 @@
         $scope.isLoading = true;
         angular.copy($scope.searchData, $scope.searchedData);
         $scope.isSearchLoading = false;
+        $scope.selectSubcategory(0);
         $scope.toggleKeyword();
         var request = {
             query: $scope.searchData.text,
-            category: $scope.searchData.category.displayTitle,
-            state: $scope.searchData.state ? $scope.searchData.state.name : null,
-            subcategory: null,
-            keyword: null,
+            category: $scope.searchData.category.guid,
+            state: $scope.searchData.state ? $scope.searchData.state.guid : null,
         };
         getFAQs(request).then(function (response) {
             $scope.isLoading = false;
-            var categorySame = $scope.category.name === $scope.searchData.category.displayTitle;
+            var categorySame = $scope.category.name === $scope.searchData.category.name;
             if (categorySame) {
                 //same category
                 if (response.length == 1) {
@@ -328,7 +318,7 @@
                 if ($scope.searchData.text) {
                     text = "|" + $scope.searchData.text;
                 }
-                window.location.href = "/support/" + $scope.searchData.category.displayTitle + "?search=" + state + text;
+                window.location.href = "/support/" + $scope.searchData.category.name + "?search=" + state + text;
             }
         }, function (error) {
             console.log(error);
@@ -412,8 +402,7 @@
     }
 
     $scope.selectSubcategory = function (index) {
-        $scope.subcategory = ($scope.subcategories[index].name == "All") ? "All": $scope.subcategory = $scope.subcategories[index].guid;
-
+        $scope.subcategory = $scope.subcategories[index].guid;
         angular.forEach($scope.subcategories, function (subcat) {
             subcat.selected = false;
         });
@@ -423,7 +412,7 @@
         buildKeywords();
         $scope.toggleKeyword();
         $scope.resultsPage = 0;
-        }
+    }
 
     $scope.selectFaq = function (index) {
         //select new faq
@@ -438,7 +427,7 @@
                 $scope.getDisplayedFAQs()[index].selected = false;
                 $scope.selectedFaqIndex = null;
             }
-                //select different faq
+            //select different faq
             else {
                 angular.forEach($scope.faqs, function (faq) {
                     faq.selected = false;
@@ -450,7 +439,7 @@
         }
     }
 
-    var buildKeywords = function (queryKeyword) {
+    var buildKeywords = function () {
         $scope.keywords = [];
         angular.forEach($scope.faqs, function (faq) {
             if (searchStateFilter(faq) && subcategoryFilter(faq)) {
@@ -462,24 +451,10 @@
                         }
                     });
                     if (index === -1) {
-                        if (keyword === queryKeyword) {
-                            $scope.noKeywordSelected = false;
-                            $scope.keywords.push({
-                                name: keyword,
-                                selected: true,
-                                count: 1
-                            });
-                        }
-                        else {
-                            $scope.keywords.push({
-                                name: keyword,
-                                selected: false,
-                                count: 1
-                            });
-                        }
-                    }
-                    else {
-                        $scope.keywords[index].count++;
+                        $scope.keywords.push({
+                            name: keyword,
+                            selected: false,
+                        });
                     }
                 });
             }
@@ -588,7 +563,7 @@
     }
 
     subcategoryFilter = function (faq) {
-        if ($scope.subcategory != "All") {
+        if ($scope.subcategory != "{249FF312-DD00-4E9A-BCFC-D5F782FDA700}") { //does not equal "All"
             var filter = false;
             angular.forEach(faq.subCategories, function (subcat) {
                 if (subcat === $scope.subcategory) {
@@ -603,28 +578,31 @@
     }
 
     keywordFilter = function (faq) {
-        var result = true;
-        var filters = [];
-        var filter = true;
-        var noneSelected = true;
-        angular.forEach($scope.keywords, function (keyword) {
-            if (keyword.selected) {
-                filter = true;
-                angular.forEach(faq.keywords, function (faqKeyword) {
-                    if (keyword.name.toLowerCase() === faqKeyword.toLowerCase()) {
-                        filter = false;
-                    }
-                });
-                filters.push(filter);
-                noneSelected = false;
-            }
-        });
-        angular.forEach(filters, function (value) {
-            if (value) {
-                result = false;
-            };
-        });
-        return (noneSelected || result);
+        if ($scope.noKeywordSelected) {
+            return true;
+        }
+        else {
+            var result = true;
+            var filters = [];
+            var filter = true;
+            angular.forEach($scope.keywords, function (keyword) {
+                if (keyword.selected) {
+                    filter = true;
+                    angular.forEach(faq.keywords, function (faqKeyword) {
+                        if (keyword.name.toLowerCase() === faqKeyword.toLowerCase()) {
+                            filter = false;
+                        }
+                    });
+                    filters.push(filter);
+                }
+            });
+            angular.forEach(filters, function (value) {
+                if (value) {
+                    result = false;
+                };
+            });
+            return (result);
+        }
     };
 
     $scope.toggleKeyword = function (keywordToToggle) {
@@ -635,20 +613,15 @@
             $scope.noKeywordSelected = true;
         }
         else {
-            angular.forEach($scope.keywords, function (keyword) {
-                if (keywordToToggle.name != keyword.name) {
-                    keyword.selected = false;
-                }
-            });
             keywordToToggle.selected = !keywordToToggle.selected;
-            $scope.resultsPage = 0;
-            $scope.noKeywordSelected = true;
-            angular.forEach($scope.keywords, function (keyword) {
-                if (keyword.selected) {
-                    $scope.noKeywordSelected = false;
-                }
-            });
+            $scope.noKeywordSelected = !keywordToToggle.selected;
+            if (keywordToToggle.selected) {
+                angular.forEach($scope.keywords, function (keyword) {
+                    if (keyword != keywordToToggle) keyword.selected = false;
+                });
+            }
         }
+        $scope.resultsPage = 0;
         paginate();
     };
 

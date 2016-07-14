@@ -12,7 +12,7 @@
 <div class="support-search" ng-class="{'category-search': isCategorySupport}" ng-style="{'background-image': isCategorySupport ? 'URL(@categoryBackgroundURL)' : 'URL(@backgroundURL)'}" ng-cloak>
     <div class="content clearfix" ng-init="searchInit(@selectSearchPlaceholder, @defaultSearchPlaceholder)">
         <h1 ng-show="!subcategories.length && !searchResults && !mobileAcronyms">@Html.Sitecore().Field("Main Heading")</h1>
-        <h1 ng-show="subcategories.length  && !searchResults && !mobileAcronyms">{{category.displayTitle}} @Html.Sitecore().Field("Support")</h1>
+        <h1 ng-show="subcategories.length  && !searchResults && !mobileAcronyms">{{category.name}} @Html.Sitecore().Field("Support")</h1>
         <h1 ng-show="searchResults">@Html.Sitecore().Field("Search Results Heading")</h1>
         <h1 ng-show="mobileAcronyms" class="mobile-acronyms-header">@Html.Sitecore().Field("Mobile Acronyms Heading")</h1>
         <h4 ng-hide="isCategorySupport">@Html.Sitecore().Field("Main Subheading")</h4>
@@ -37,10 +37,10 @@
                 </ul>
             </div>
             <div class="select clearfix" ng-click="dropDown=!dropDown">
-                <div class="selected-category" ng-show="searchData.category.displayTitle">
-                    In {{searchData.category.displayTitle}}<span ng-show="searchData.state"> - {{searchData.state.abbreviation}}</span>
+                <div class="selected-category" ng-show="searchData.category.name">
+                    In {{searchData.category.name}}<span ng-show="searchData.state"> - {{searchData.state.abbreviation}}</span>
                 </div>
-                <div class="selected-category" ng-hide="searchData.category.displayTitle" ng-cloak>@Html.Sitecore().Field("Service Type")</div>
+                <div class="selected-category" ng-hide="searchData.category.name" ng-cloak>@Html.Sitecore().Field("Service Type")</div>
                 <div class="triangle-down" ng-class="{flipped: dropDown}"></div>
             </div>
             <div ng-class="{reveal: dropDown}" class="category-dropdown-container">
@@ -48,7 +48,7 @@
                 <ul class="category-dropdown">
                     <li ng-repeat="category in categories" ng-class="{noHover: category.states.length}">
                         <div ng-click="selectCategory(category, null)" ng-class="{noHover: category.states.length}">
-                            {{category.displayTitle}}<span ng-show="category.states.length"> @Html.Sitecore().Field("Select State")</span>
+                            {{category.name}}<span ng-show="category.states.length"> @Html.Sitecore().Field("Select State")</span>
                         </div>
                         <ul class="state" ng-show="category.states.length">
                             <li ng-repeat="state in category.states">
@@ -65,7 +65,7 @@
     <div class="wrapper">
         <ul>
             <li ng-repeat="subcategory in subcategories" ng-class="{selected: subcategory.selected}">
-                <a href="" ng-click="selectSubcategory($index)">{{subcategory.displayTitle}}</a>
+                <a href="" ng-click="selectSubcategory($index)">{{subcategory.name}}</a>
             </li>
         </ul>
     </div>
