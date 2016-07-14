@@ -252,8 +252,8 @@
                             cursor: pointer;
 
                             &.noHover {
-                                background-color: initial;
-                                cursor: initial;
+                                background-color: inherit;
+                                cursor: default;
                             }
                         }
 
@@ -400,6 +400,7 @@
                             background: url(/frontend/assets/i/icon/backward.png) left center no-repeat;
                             padding-left: 10px;
                         }
+
                         &:hover {
                             cursor: pointer;
                         }
@@ -409,16 +410,19 @@
                         .content {
                             float: none;
                             padding: 0;
+
                             .page-number {
                                 border: 1px solid grey;
                                 width: 26px;
                                 text-align: center;
                                 border-radius: 5px;
+
                                 &.selected {
                                     background-color: #28a5de;
                                     border-color: #28a5de;
                                     color: #ffffff;
                                 }
+
                                 &:hover {
                                     cursor: pointer;
                                 }
@@ -432,6 +436,7 @@
                             background: url(/frontend/assets/i/icon/forward.png) right center no-repeat;
                             padding-right: 10px;
                         }
+
                         &:hover {
                             cursor: pointer;
                         }
