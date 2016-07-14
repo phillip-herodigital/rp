@@ -384,31 +384,140 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                             }
                         }
                     }
+
+                    //Sort by distance
+                    results.Sort((a, b) => a.Distance.CompareTo(b.Distance));
+
+                    if (results.Count() > maxResults)
+                    {
+                        results = results.Take(maxResults).ToList();
+                    }
+
+                    if (bool.Parse(useCache) && results != null && results.Count() > 0)
+                    {
+                        try
+                        {
+                            redisDatabase.StringSet(key, JsonConvert.SerializeObject(results), TimeSpan.FromDays(7));
+                        }
+                        catch (Exception e)
+                        {
+                            Console.WriteLine("cache write exception:");
+                            Console.WriteLine(e.Message);
+                        }
+                    }
+
+                    return results;
                 }
             }
+        }
 
-            //Sort by distance
-            results.Sort((a, b) => a.Distance.CompareTo(b.Distance));
+        [HttpGet]
+        [Route("importenergyfaqdata")]
+        public void ImportFAQData(string path)
+        {
+            Item EnergyFAQFolder = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Components/Support/FAQs/Energy FAQs");
+            TemplateItem FAQTemplate = Sitecore.Context.Database.GetTemplate("User Defined/Components/Support/State FAQ");
+            Item EnergySubcategoryFolder = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Components/Support/Subcategories/Energy");
+            String EnergyCategoryGuid = "{D009C153-3D1F-4C58-A984-7C4AC60612B3}";
+            //string GeorgiaGuid = "{CF5BAF5B-35B4-4AE0-8F3A-F9F10F332A55}";
+            //string MarylandGuid = "{62775FBA-8066-4D70-B575-8BA70A9E26D0}";
+            //string NewJerseyGuid = "{AF7168F9-D030-4598-B5D2-7F5459DE3808}";
+            //string NewYorkGuid = "{FD9206D6-844E-4476-AC18-FF833A36F99A}";
+            //string PennsylvaniaGuid = "{7224504C-1989-4410-B8E4-A3D536958E35}";
+            //string TexasGuid = "{C524C6E6-7BEE-402E-BC3F-ACC22E90A8CC}";
+            //string DCGuid = "{55CAD77F-9736-4D3B-94E6-502252A81D9A}";
 
-            if (results.Count() > maxResults)
+            string stateGuid = "{C524C6E6-7BEE-402E-BC3F-ACC22E90A8CC}";
+
+            List<Item> EnergySubcategoryItems = new List<Item>();
+            Item FAQItem;
+            bool updated = false;
+            using (new Sitecore.SecurityModel.SecurityDisabler())
             {
-                results = results.Take(maxResults).ToList();
-            }
+                //foreach (Item child in EnergyFAQFolder.Children)
+                //{
+                //    child.Delete();
+                //}
 
-            if (bool.Parse(useCache) && results != null && results.Count() > 0)
-            {
-                try
+                foreach (Item child in EnergySubcategoryFolder.Children)
                 {
-                    redisDatabase.StringSet(key, JsonConvert.SerializeObject(results), TimeSpan.FromDays(7));
+                    EnergySubcategoryItems.Add(child);
                 }
-                catch (Exception e)
-                {
-                    Console.WriteLine("cache write exception:");
-                    Console.WriteLine(e.Message);
-                }
-            }
+                TextFieldParser parser = new TextFieldParser(path);
+                parser.TextFieldType = Microsoft.VisualBasic.FileIO.FieldType.Delimited;
+                parser.SetDelimiters(",");
 
-            return results;
+                var Spanish = Sitecore.Globalization.Language.Parse("es");
+                while (!parser.EndOfData)
+                {
+                    string[] fields = parser.ReadFields();
+                    string pattern = @"[^\w\s\-\$]"; // only allow \w, \s, -, and $ for Sitecore Item names
+                    Regex rgx = new Regex(pattern);
+                    string[] faqSubcategoryNames = fields[0].Split("|".ToCharArray());
+                    string faqSubcategory = "";
+
+                    foreach (string faqSubcategoryName in faqSubcategoryNames)
+                    {
+                        faqSubcategory += EnergySubcategoryItems.First(s => s.Fields["Name"].ToString() == faqSubcategoryName).ID.ToString();
+                    }
+                    faqSubcategory.Replace("}{", "}|{");
+                    int sortOrder = Convert.ToInt16(fields[1]);
+                    string faqQuestion = fields[2];
+                    string faqAnswer = fields[3];
+                    string faqQuestionES = "";
+                    string faqAnswerES = "";
+                    if (fields.Length == 6)
+                    {
+                        faqQuestionES = fields[4];
+                        faqAnswerES = fields[5];
+                    }
+                    string faqQuestionItemName = rgx.Replace(faqQuestion, "");
+                    if (faqQuestionItemName.Length > 99)
+                    {
+                        faqQuestionItemName = faqQuestionItemName.Substring(0, 99);
+                    }
+                    updated = false;
+                    foreach (Item child in EnergyFAQFolder.Children)
+                    {
+                        if (!updated && child.Fields["FAQ Question"].Value == faqQuestion && child.Fields["FAQ Answer"].Value == faqAnswer && child.Fields["FAQ Subcategories"].Value == faqSubcategory && child.Fields["FAQ Categories"].Value == EnergyCategoryGuid)
+                        {
+                            FAQItem = child;
+                            FAQItem.Editing.BeginEdit();
+                            FAQItem.Fields["FAQ States"].Value = FAQItem.Fields["FAQ States"].ToString() + "|" + stateGuid;
+                            FAQItem.Editing.EndEdit();
+                            updated = true;
+                        }
+                    }
+                    if (!updated)
+                    {
+                        FAQItem = EnergyFAQFolder.Add(faqQuestionItemName, FAQTemplate);
+                        FAQItem.Editing.BeginEdit();
+                        FAQItem.Fields["FAQ Question"].Value = faqQuestion;
+                        FAQItem.Fields["FAQ Answer"].Value = faqAnswer;
+                        FAQItem.Fields["FAQ Subcategories"].Value = faqSubcategory;
+                        FAQItem.Fields["FAQ Categories"].Value = EnergyCategoryGuid;
+                        FAQItem.Fields["FAQ States"].Value = stateGuid;
+                        FAQItem.Appearance.Sortorder = sortOrder;
+                        FAQItem.Editing.EndEdit();
+                        if (fields.Length == 6) //if spanish content
+                        {
+                            using (new Sitecore.Globalization.LanguageSwitcher("es"))
+                            {
+                                if (FAQItem.Versions.Count == 0)
+                                {
+                                    Item FAQItemES = Sitecore.Context.Database.GetItem(FAQItem.ID, Spanish);
+                                    FAQItemES.Editing.BeginEdit();
+                                    FAQItemES.Versions.AddVersion();
+                                    FAQItemES.Fields["FAQ Question"].Value = faqQuestionES;
+                                    FAQItemES.Fields["FAQ Answer"].Value = faqAnswerES;
+                                    FAQItemES.Editing.EndEdit();
+                                }
+                            }
+                        }
+                    }
+                }
+                parser.Close();
+            }
         }
     }
 }
