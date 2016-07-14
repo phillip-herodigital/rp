@@ -384,11 +384,36 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                             }
                         }
                     }
+
+                    //Sort by distance
+                    results.Sort((a, b) => a.Distance.CompareTo(b.Distance));
+
+                    if (results.Count() > maxResults)
+                    {
+                        results = results.Take(maxResults).ToList();
+                    }
+
+                    if (bool.Parse(useCache) && results != null && results.Count() > 0)
+                    {
+                        try
+                        {
+                            redisDatabase.StringSet(key, JsonConvert.SerializeObject(results), TimeSpan.FromDays(7));
+                        }
+                        catch (Exception e)
+                        {
+                            Console.WriteLine("cache write exception:");
+                            Console.WriteLine(e.Message);
+                        }
+                    }
+
+                    return results;
+                }
+            }
         }
 
         [HttpGet]
         [Route("importenergyfaqdata")]
-        public void ImportEnergyFAQData(string path)
+        public void ImportFAQData(string path)
         {
             Item EnergyFAQFolder = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Components/Support/FAQs/Energy FAQs");
             TemplateItem FAQTemplate = Sitecore.Context.Database.GetTemplate("User Defined/Components/Support/State FAQ");
@@ -493,31 +518,6 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 }
                 parser.Close();
             }
-        }
-    }
-
-            //Sort by distance
-            results.Sort((a, b) => a.Distance.CompareTo(b.Distance));
-
-            if (results.Count() > maxResults)
-            {
-                results = results.Take(maxResults).ToList();
-            }
-
-            if (bool.Parse(useCache) && results != null && results.Count() > 0)
-            {
-                try
-                {
-                    redisDatabase.StringSet(key, JsonConvert.SerializeObject(results), TimeSpan.FromDays(7));
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine("cache write exception:");
-                    Console.WriteLine(e.Message);
-                }
-            }
-
-            return results;
         }
     }
 }
