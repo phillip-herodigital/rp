@@ -1223,7 +1223,6 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="_CMP\RazlService.asmx" />
-    <Content Include="frontend\assets\css\_sass\partials\_support.scss" />
     <None Include="Properties\PublishProfiles\PackageForUpgrade.pubxml" />
     <None Include="Properties\PublishProfiles\Package.pubxml" />
     <None Include="Scripts\_references.js" />
