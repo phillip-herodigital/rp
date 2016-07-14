@@ -4085,3 +4085,179 @@ article.protective-module {
 		margin-top: 80px;
 	}
 }
+
+.skydrop {		
+	&.banner {		
+		min-height: 202px;		
+		.inner .wrapper h1 {		
+			font-size: 40px;		
+			color: #424242;		
+		}		
+	}		
+	&.save-blue {		
+		h1 {		
+			margin-top: 0px;		
+		}		
+		p {		
+			text-align: center;		
+			&.free-controller {		
+				font-size: 20px;		
+				text-align: left;		
+			}		
+			u a {		
+				color: #6b6b6b;		
+			}		
+		}		
+		img {		
+			width: auto;		
+		}		
+		ul {		
+			margin: 40px 0 40px 200px;		
+			li {		
+				list-style-image: url("../i/marketing/redesign/dark-blue-check.png");		
+			}		
+		}		
+	}		
+	&.smart {		
+		margin-left: 200px;		
+		h3 {		
+			font-style: italic;		
+		}		
+		ul {		
+			padding-left: 20px;		
+			li {		
+				list-style-image: url("../i/marketing/redesign/light-green-check.png");		
+			}		
+		}		
+		@include breakpoint(small) {		
+			margin-left: 0px;		
+		}		
+	}		
+	h1.save {		
+		color: #f98e00;		
+	}		
+	p.save-paragraph {		
+		font-size: 20px;		
+	}		
+	.footer {		
+		text-align: center;		
+		margintop: 3em;		
+		p {		
+			color: #f98e00;		
+			a {		
+				color: #f98e00;		
+			}		
+		}		
+	}		
+	.grid {		
+		margin-top: 30px;		
+		.col {		
+			padding: 90px 25px 0px 0px;		
+			background-repeat: no-repeat;		
+			background-position: top center;		
+			&.self-regulating {		
+				background-image: url('../i/marketing/redesign/Modules/self-regulating.png');		
+			}		
+			&.easy-install {		
+				background-image: url('../i/marketing/redesign/Modules/easy-install.png');		
+			}		
+			&.manage-remotely {		
+				background-image: url('../i/marketing/redesign/Modules/manage-remotely.png');		
+			}		
+			&.curb-appeal {		
+				background-image: url('../i/marketing/redesign/Modules/curb-appeal.png');		
+			}		
+		}		
+	}		
+	&.skydropapp {		
+		.wrapper {		
+			background-image: none;		
+			padding-bottom: 0px;		
+			padding-top: 10px;		
+		}		
+		background-color: #0071b9;		
+		.image {		
+			float: left;		
+			padding-left: 100px;		
+			img {		
+				margin-bottom: -15px;		
+			}		
+			@include breakpoint(small) {		
+				display: none;		
+			}		
+			@include breakpoint(medium) {		
+				padding-left: 0px;		
+			}		
+		}		
+		.info {		
+			h1 {		
+				color: #fff;		
+				text-align: left;		
+				margin-top: 80px;		
+			}		
+			float: left;		
+			width: 500px;		
+			color: #fff;		
+			padding-left: 100px;		
+			ul {		
+				padding-left: 20px;		
+				margin-bottom: 50px;		
+				li {		
+					list-style-image: url("../i/marketing/redesign/white-check.png");		
+					padding-bottom: 10px;		
+				}		
+			}		
+			@include breakpoint(medium) {		
+				width: 395px;		
+				padding-left: 0px;		
+			}		
+		}		
+	}		
+	&.faqs-heading .heading {		
+		color: #f98e00;		
+	}		
+	&.skydrop-promo {		
+		background-image: image-url('marketing/redesign/Modules/skydrop-promo.png');		
+		background-repeat: no-repeat;		
+		background-position: 60% 115px;		
+		.wrapper {		
+			padding: 50px 0px 0px 0px;		
+		}		
+		.content {		
+			width: 70%;		
+			float: left;		
+			.promo-paragraph {		
+				width: 37%;		
+				@include breakpoint(small) {		
+					width: 80%;		
+				}		
+			}		
+			a.button {		
+                background-image: none;		
+                background-color: #f87c00;		
+                border-radius: 5px;		
+            }			
+            a.button:hover {		
+                background-color: #f79431;		
+            }		
+			@include breakpoint(small) {		
+				width: 100%;		
+				float: none;		
+			}		
+		}		
+		.image {		
+			float: right;		
+			margin-bottom: -6px;		
+			@include breakpoint(small) {		
+				float: none;		
+			}		
+		}		
+		@include breakpoint(medium) {		
+			background-size: 60%;		
+			background-position: 60% 100%;		
+		}		
+		@include breakpoint(small) {		
+			background-image: none;		
+		}		
+	}		
+} 
