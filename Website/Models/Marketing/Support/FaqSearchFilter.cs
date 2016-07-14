@@ -10,6 +10,5 @@ namespace StreamEnergy.MyStream.Models.Marketing.Support
         public FAQCategory Category { get; set; }
         public FaqSubcategory Subcategory { get; set; }
         public FAQState State { get; set; }
-        public string Keyword { get; set; }
     }
 }

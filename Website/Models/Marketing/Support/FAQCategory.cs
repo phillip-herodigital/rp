@@ -20,7 +20,7 @@ namespace StreamEnergy.MyStream.Models.Marketing.Support
         public string EmergencyContactContent;
         public string ContactContent;
         public string Link;
-        public IEnumerable<FAQState> States = new List<FAQState>();
+        public IEnumerable<FAQState> States;
         public string IconURL;
         public bool DisplayOnMainPage;
         public bool DisplayOnContactPage;
