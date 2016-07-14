@@ -309,6 +309,7 @@
         clear: right;
         text-align: right;
         margin: 10px 0 -1px 10px;
+        position: relative;
         > ul {
             @include inline-block-list();
             margin: 0 auto;
@@ -322,10 +323,9 @@
             }
 
             li {
-                height: 48px;
                 font-size: 15px;
                 line-height: 1.4; /* This fixes the partial-pixel height on IE */
-				position: relative;
+                vertical-align: top;
                 a {
                     padding: 6px 10px 4px;
                     float: left;
@@ -337,44 +337,41 @@
                 
 				&.selected {
 					background-position: 50% 25px;
-                    height: 48px;
 					&.has-subnav > a {
 						&:after {
 							position: absolute;
 							background: image-url('marketing/redesign/nav-selector.png') bottom center no-repeat;
-							left: calc(50% - 33px);
 							top: 27px;
 							width: 66px;
 							height: 33px;
-							display: inline-block;
+							display: block;
 							content: "";
 							z-index: 300;
 						}
 					}
                 }
 
-				&.overview .sub-nav {
-					right: -300px;
-					@include breakpoint(medium) {
-						right: -425px;
-						ul li {
-							padding-right: 0px;
-							margin-right: -5px;
-						}
-					}
-				}
-
 				.sub-nav {
 					position: absolute;
 					top: 60px;
-					right: calc(50% - 50px);
+					right: 0;
 					z-index: 200;
 					background-color: #fff;
 					box-shadow: 3px 3px 25px 0px #7b7b7b;
-					padding: 20px;
-
+					padding: 16px;
+                    @include breakpoint-min(1300px) {
+                        width: 1280px;
+                        right: -120px;
+                    }
+                    @include breakpoint-min-max(1060px, 1299px) {
+                        width: 1040px;
+                    }
+                    @include breakpoint-min-max(1024px, 1059px) {
+                        right: 15px;
+                    }
 					ul {
 						padding: 0px;
+                        text-align: center;
 						> li {
 							&.services a {
 								text-transform: uppercase;
@@ -395,12 +392,15 @@
 						}
 						li {
 							padding-right: 30px;
-							height: 30px;
 							&:last-child {
 								padding-right: 0px;
 							}
 							&.selected {
 								background-image: none;
+                                a {
+                                    font-weight: 600;
+                                }
+                                
 							}
 							a {
 								text-transform: none;
@@ -414,46 +414,29 @@
 								margin-top: 25px;
 								ul li {
 									display: block;
-									height: 30px;
+                                    clear: both;
 									a {
 										color: #4f4c4d;
 										font-size: 15px;
 										font-weight: 300;
 										text-transform: none;
 									}
+                                    &.selected a {
+                                        font-weight: 600;
+                                    }
 								}
 							}
 						}
 					}
+                    @include breakpoint(medium) {
+                        min-width: 100%;
+                        right: -15px;
+                        ul li {
+                            padding-right: 0px;
+                            margin-right: -10px;
+                        }
+                    }
 				}
-				&.nav-services .sub-nav {
-					height: 390px;
-					@include breakpoint(medium) {
-						right: -330px;
-					}
-				}
-				
-				&.nav-about .sub-nav {
-					@include breakpoint(medium) {
-						right: -250px;
-						ul li {
-							padding-right: 0px;
-						}
-					}
-				}
-				&.nav-opportunity .sub-nav {
-					@include breakpoint(medium) {
-						right: -13px;
-						ul li {
-							margin-right: -10px;
-							padding-right: 0px;
-						}
-					}
-				}
-            }
-
-            li.nav-opportunity {
-                margin-left: 50px;
             }
         }
     }

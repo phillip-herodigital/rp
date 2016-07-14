@@ -37,7 +37,7 @@
     var enableLanguageLink = !string.IsNullOrEmpty(settings.GetSettingsField("Language Link", "Enable Language Link").Value);
 
 }
-<header class="site-header" main-nav="@selectedNavItem" data-fixed-fix>
+<header class="site-header" main-nav="" data-fixed-fix>
     <script id="mobileNav" type="text/ng-template">
         <nav class="mobile-nav" mobile-nav="@selectedNavItem">
             <ul>
@@ -177,7 +177,6 @@
         @if (node.Value.HasChildNodes)
         {
             <div class="sub-nav" sub-nav="@node.Number" ng-cloak ng-class="{ hidden: subnav != @node.Number }" ng-mouseover="showSubnav(@node.Number)" ng-mouseout="hideSubnav()">
-                <!--<ul ng-style="{'margin-left': marginLeft}">-->
                 <ul>
                     @foreach (ItemSiteMapNode childNode in node.Value.ChildNodes)
                     {
@@ -185,29 +184,21 @@
                         <li class="@(selected ? "selected" : null) @childNode.Item.Name.ToLower()">
                             @Html.Sitecore().Field("Navigation Link", childNode.Item)
                             @{
-                        var tertiaryNavCssClassField = Sitecore.Context.Item.Fields["Tertiary Nav CSS Class"];
+                                var tertiaryNavCssClassField = Sitecore.Context.Item.Fields["Tertiary Nav CSS Class"];
                             }
                             @if (childNode.Item.HasChildren)
                             {
                                 <nav class="tertiary-nav @(tertiaryNavCssClassField != null && !string.IsNullOrEmpty(tertiaryNavCssClassField.Value) ? tertiaryNavCssClassField.Value : "")">
-
-                                    <!--<div class="wrapper">-->
                                     <ul ng-style="{'margin-left': marginLeft}">
                                         @foreach (ItemSiteMapNode thirdchildNode in childNode.ChildNodes)
                                         {
-                                            var thirdselected = true;// thirdchildNode.Url == selectedNode.Url || thirdchildNode.Key == selectedNode.Key || selectedNode.IsDescendantOf(thirdchildNode);
+                                            var thirdselected = (selectedNode != null) ? (thirdchildNode.Url == selectedNode.Url || thirdchildNode.Key == selectedNode.Key || selectedNode.IsDescendantOf(thirdchildNode)) : false;
                                             <li class="@(thirdselected ? "selected" : null)">@Html.Sitecore().Field("Navigation Link", thirdchildNode.Item)</li>
                                         }
                                     </ul>
-                                    <!--</div>-->
-
                                 </nav>
                             }
                         </li>
-                    }
-                    @if (!node.Value.HasChildNodes)
-                    {
-                        <li><a>&nbsp;</a></li>
                     }
                 </ul>
             </div>
@@ -217,98 +208,6 @@
             </ul>
         </nav>
     </div>
-    <!--
-    <nav class="sub-nav">
-        <div class="wrapper" sub-nav="1" ng-cloak ng-class="{ hidden: subnav != 1 }" ng-mouseover="showSubnav(1)" ng-mouseout="hideSubnav()">
-            <div class="nav-items grid four" sub-nav="1" ng-cloak ng-class="{ hidden: subnav != 1 }" ng-mouseover="showSubnav(1)" ng-mouseout="hideSubnav()">
-                <div class="col">
-                    <ul>
-                        <li class="category energy">Energy</li>
-                        <li>Overview</li>
-                        <li>Become a Customer</li>
-                        <li>Renew my Contract</li>
-                        <li>Commercial</li>
-                        <li>Electricity</li>
-                        <li>Gas</li>
-                        <li>Clean Energy</li>
-                        <li>Free Energy</li>
-                    </ul>
-                </div>
-                <div class="col">
-                    <ul>
-                        <li class="category mobile">Mobile</li>
-                        <li>Overview</li>
-                        <li>Promotions</li>
-                        <li>Plans</li>
-                        <li>Devices</li>
-                        <li>International Plans</li>
-                        <li>Coverage</li>
-                        <li>Tools</li>
-                        <li>Free Mobile</li>
-                        <li>Activation</li>
-                    </ul>
-                </div>
-                <div class="col">
-                    <ul>
-                        <li class="category protective">Protective</li>
-                        <li>Overview</li>
-                    </ul>
-                </div>
-                <div class="col">
-                    <ul>
-                        <li class="category home">Home</li>
-                        <li>Overview</li>
-                        <li>Voice</li>
-                        <li>International</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-        <div class="wrapper" sub-nav="2" ng-cloak ng-class="{ hidden: subnav != 2 }" ng-mouseover="showSubnav(2)" ng-mouseout="hideSubnav()">
-            <div class="nav-items">
-                <div>
-                    <ul>
-                        <li class="category services">About</li>
-                        <li>Corporate Team</li>
-                        <li>Blog</li>
-                        <li>Press</li>
-                        <li>Philanthropy</li>
-                        <li>Careers</li>
-                        <li>Terms of Use</li>
-                        <li>Privacy Policy</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-        <div class="wrapper" sub-nav="3" ng-cloak ng-class="{ hidden: subnav != 3 }" ng-mouseover="showSubnav(3)" ng-mouseout="hideSubnav()">
-            <div class="nav-items">
-                <div>
-                    <ul>
-                        <li class="category services">Support</li>
-                        <li>Contact Us</li>
-                        <li>FAQs</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-        <div class="wrapper" sub-nav="4" ng-cloak ng-class="{ hidden: subnav != 4 }" ng-mouseover="showSubnav(4)" ng-mouseout="hideSubnav()">
-            <div class="nav-items">
-                <div>
-                    <ul>
-                        <li class="category services">Opporunity</li>
-                        <li>Why Stream?</li>
-                        <li>Why Energy?</li>
-                        <li>How It Works</li>
-                        <li>Compensation Plan</li>
-                        <li>Start a Business</li>
-                        <li>Events</li>
-                        <li>Top Leaders</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </nav>
-    -->
 </header>
 @{
     var bannerImage = Sitecore.Context.Item.Fields["Banner Image"];
