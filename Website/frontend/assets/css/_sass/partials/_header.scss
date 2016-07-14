@@ -326,19 +326,111 @@
                 height: 48px;
                 font-size: 15px;
                 line-height: 1.4; /* This fixes the partial-pixel height on IE */
+				position: relative;
                 a {
                     padding: 6px 10px 4px;
                     float: left;
                     display: block;
-                    color: inherit;
-                    font-size: 18px;
+                    //color: inherit;
+                    //font-size: 18px;
+					color: #4f4c4d;
+					font-size: 15px;
+					font-weight: 300;
+                }
+                
+				&.selected {
+                    //color: #1991cf !important;
+                    //background: image-url('marketing/redesign/nav-selector.png') bottom center no-repeat;
+					background-position: 50% 25px;
+                    height: 48px;
+					&.has-subnav > a {
+						&:after {
+							position: absolute;
+							background: image-url('marketing/redesign/nav-selector.png') bottom center no-repeat;
+							left: 0px;
+							top: 27px;
+							width: 66px;
+							height: 33px;
+							display: inline-block;
+							content: "";
+							z-index: 300;
+						}
+					}
                 }
 
-                &.selected {
-                    color: #1991cf !important;
-                    background: image-url('marketing/redesign/nav-selector.png') bottom center no-repeat;
-                    height: 48px;
-                }
+				&.nav-services .sub-nav {
+					height: 400px;
+				}
+				
+				&.nav-support .sub-nav {
+					right: -65px;
+				}
+
+				&.nav-opportunity .sub-nav {
+					height: 330px;
+				}
+				.sub-nav {
+					position: absolute;
+					top: 60px;
+					right: -200px;
+					z-index: 200;
+					background-color: #fff;
+					box-shadow: 3px 3px 25px 0px #7b7b7b;
+					padding: 20px;
+
+					ul {
+						padding: 0px;
+						> li {
+							&.services a {
+								text-transform: uppercase;
+								font-weight: 600;
+							}
+							&.services.energy > a {
+								color: #f99d25;
+							}
+							&.mobile a {
+								color: #00a8e1;
+							}
+							&.protective a {
+								color: #40ae49;
+							}
+							&.home a {
+								color: #8e4b9d;
+							}
+						}
+						li {
+							padding-right: 30px;
+							height: 30px;
+							&:last-child {
+								padding-right: 0px;
+							}
+							&.selected {
+								background-image: none;
+							}
+							a {
+								text-transform: none;
+								&:after {
+									display: none;
+								}
+							}
+							nav.tertiary-nav {
+								background-color: #fff;
+								color: #666;
+								margin-top: 25px;
+								ul li {
+									display: block;
+									height: 30px;
+									a {
+										color: #4f4c4d;
+										font-size: 15px;
+										font-weight: 300;
+										text-transform: none;
+									}
+								}
+							}
+						}
+					}
+				}
             }
 
             li.nav-opportunity {
@@ -348,6 +440,7 @@
     }
 
     nav.sub-nav {
+		/*
         background-color: #f1f1f1;
         min-height: 50px;
 		position: relative;
@@ -364,6 +457,7 @@
 				width: 60%;
 			}
 		}
+		*/
 
         ul {
             /*@include inline-block-list();*/
