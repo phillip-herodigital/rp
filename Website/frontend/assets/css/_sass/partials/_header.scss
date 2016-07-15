@@ -761,3 +761,24 @@
         }   
     }       
 }
+article.marketing {
+    &.events-nav {
+        padding: 0;
+        background-color: #28a5de;
+
+        .wrapper {
+            padding: 0;
+            width: 100%;
+
+            .tertiary-nav {
+                padding: 0 20px;
+
+                div {
+                    max-width: 1040px;
+                    margin: 0 auto;
+                    padding: 0;
+                }
+            }
+        }
+    }
+}
