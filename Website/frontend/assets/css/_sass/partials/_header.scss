@@ -705,3 +705,21 @@
         }   
     }       
 }
+
+article.marketing {
+
+    &.events-nav {
+        padding: 0;
+
+        .wrapper {
+            padding: 0;
+            
+            .tertiary-nav {
+
+                .wrapper {
+                    padding: 0 20px;
+                }
+            }
+        }
+    }
+}
