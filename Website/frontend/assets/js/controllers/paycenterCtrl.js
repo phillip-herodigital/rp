@@ -73,63 +73,60 @@ ngApp.controller('PaycenterCtrl', ['$scope', '$http', '$window', '$location', 'o
 
     $scope.search = "";
     var fromAddress = "";
-    $scope.searchType = "";
     var updateMap = true;
 
     $scope.searchbox = {
         template: 'searchbox.tpl.html',
         events: {
             places_changed: function (searchBox) {
-                $scope.bounds = new google.maps.LatLngBounds();
                 var getPlaces = searchBox.getPlaces()[0];
-                    $scope.searchMarker.options.visible = true;
-                    $scope.searchMarker.coords = {
-                        latitude: getPlaces.geometry.location.lat(),
-                        longitude: getPlaces.geometry.location.lng()
-                    };
-                    if (getPlaces.adr_address) {
-                        $scope.search = getPlaces.adr_address;
-                        $scope.searchType = "address";
+                $scope.searchMarker.options.visible = true;
+                $scope.searchMarker.coords = {
+                    latitude: getPlaces.geometry.location.lat(),
+                    longitude: getPlaces.geometry.location.lng()
+                };
+                if (getPlaces.adr_address) {
+                    $scope.search = getPlaces.adr_address;
+                }
+                else {
+                    $scope.search = getPlaces.formatted_address;
+                }
+                fromAddress = getPlaces.formatted_address;
+                if (!getPlaces.geometry.viewport) {
+                    updateMap = false;
+                    $scope.mapInstance.setCenter(getPlaces.geometry.location);
+                    $scope.mapInstance.setZoom(15);
+                    getPlaces.geometry.viewport = $scope.mapInstance.getBounds();
+                    updateMap = true;
+                }
+                var promise = $scope.getMarkers(getPlaces);
+                promise.then(function (value) {
+                    $scope.showMap = false;
+                    $scope.mapMoved = false;
+                    updateMap = false;
+                    var bounds = new google.maps.LatLngBounds();
+                    bounds.extend(new google.maps.LatLng(
+                        getPlaces.geometry.viewport.f.b,
+                        getPlaces.geometry.viewport.b.f));
+                    bounds.extend(new google.maps.LatLng(
+                        getPlaces.geometry.viewport.f.f,
+                        getPlaces.geometry.viewport.b.b));
+                    if ($scope.markers.length) {
+                        bounds.extend(new google.maps.LatLng(
+                            $scope.markers[0].coords.latitude,
+                            $scope.markers[0].coords.longitude));
                     }
                     else {
-                        $scope.search = getPlaces.formatted_address;
-                        $scope.searchType = "zipcode";
-                    }
-                    fromAddress = getPlaces.formatted_address;
-                    if (!getPlaces.geometry.viewport) {
-                        updateMap = false;
-                        $scope.mapInstance.setCenter(getPlaces.geometry.location);
-                        $scope.mapInstance.setZoom(16);
-                        getPlaces.geometry.viewport = $scope.mapInstance.getBounds();
-                        updateMap = true;
-                    }
-                    var promise = $scope.getMarkers(getPlaces);
-                    promise.then(function (value) {
-                        $scope.showMap = false;
-                        updateMap = false;
-                        $scope.mapMoved = false;
-                        $scope.bounds.extend(new google.maps.LatLng(
-                            getPlaces.geometry.viewport.f.b,
-                            getPlaces.geometry.viewport.b.f));
-                        $scope.bounds.extend(new google.maps.LatLng(
-                            getPlaces.geometry.viewport.f.f,
-                            getPlaces.geometry.viewport.b.b));
-                        if ($scope.markers.length) {
-                            $scope.bounds.extend(new google.maps.LatLng(
-                                $scope.markers[0].coords.latitude,
-                                $scope.markers[0].coords.longitude));
+                        if ($scope.isMobile()) {
+                            $scope.showMap = true;
                         }
-                        else {
-                            if ($scope.isMobile()) {
-                                $scope.showMap = true;
-                            }
-                        }
-                        $scope.mapInstance.fitBounds($scope.bounds);
-                        updateMap = true;
-                    }, function (reason) {
-                        console.log(reason);
-                    });
-                }
+                    }
+                    $scope.mapInstance.fitBounds(bounds);
+                    updateMap = true;
+                }, function (reason) {
+                    console.log(reason);
+                });
+            }
         }
     };
 
