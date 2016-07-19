@@ -211,6 +211,7 @@ ngApp.controller('PaycenterCtrl', ['$scope', '$http', '$window', '$location', 'o
                                 phone: place.phoneNumber
                             },
                             hours: place.hours,
+                            hoursArr: place.hours.replace(/(sun|mon|tue|wed|thur|fri|sat)\s/ig, "$1[NEWLINE]").split("[NEWLINE]"),
                             paymentMethods: place.paymentMethods
                         },
                         onClicked: function () {

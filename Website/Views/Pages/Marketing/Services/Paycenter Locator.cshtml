@@ -101,7 +101,10 @@
                             <div class="column">
                                 <div class="item">
                                     <label>@Html.Sitecore().Field("Hours")</label>
-                                    <p>{{locationInfo.hours}}</p>
+                                    <p>{{locationInfo.hoursArr[0]}}<br />
+                                       {{locationInfo.hoursArr[1]}}<br />
+                                       {{locationInfo.hoursArr[2]}}<br />
+                                       {{locationInfo.hoursArr[3]}}</p>
                                 </div>
                                 <div class="item">
                                     <label>@Html.Sitecore().Field("Payment Methods")</label>
