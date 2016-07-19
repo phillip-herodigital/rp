@@ -5,7 +5,7 @@ ngApp.controller('PaycenterCtrl', ['$scope', '$http', '$window', '$location', 'o
     $scope.isLoading = true;
     $scope.inTexas = true;
     $scope.showMap = true;
-    $scope.mapMoved = true;
+    $scope.mapMoved = false;
     $scope.map = {
         center: { latitude: 32.78, longitude: -96.797 },
         zoom: 7,
