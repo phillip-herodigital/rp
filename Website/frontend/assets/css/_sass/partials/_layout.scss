@@ -76,6 +76,35 @@ $mobile-nav-margin: 15px;
 							padding-left: 35px;
 						}
 					}
+                    li.services {
+                        position: relative;
+                    }
+                    li.services > a {
+						text-transform: uppercase;
+						font-weight: 600;
+                        padding-left: 10px;
+                        &:hover, &:active, &:focus {
+                            padding-left: 25px;
+                        }
+					}
+					li.services.energy > a {
+						color: #f99d25;
+					}
+					li.services.mobile > a {
+						color: #00a8e1;
+					}
+					li.services.protective > a {
+						color: #40ae49;
+					}
+					li.services.home > a {
+						color: #8e4b9d;
+					}
+                    li ul li {
+                        display: block;
+                    }
+                    li .arrow {
+                        line-height: 36px;
+                    }
 				}
 			}
 		}
