@@ -12,6 +12,12 @@ ngApp.directive('mobileNav', [function () {
 				scope.subnav = (scope.subnav != item) ? item : -1
 			};
 
+			scope.subsubnav = -1;
+
+			scope.toggleSubSubnav = function (item) {
+			    scope.subsubnav = (scope.subsubnav != item) ? item : -1
+			};
+
 		}
 	};
 }]);
