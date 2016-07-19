@@ -5,9 +5,9 @@ ngApp.controller('PaycenterCtrl', ['$scope', '$http', '$window', '$location', 'o
     $scope.isLoading = true;
     $scope.inTexas = true;
     $scope.showMap = true;
-    $scope.mapMoved = false;
+    $scope.mapMoved = true;
     $scope.map = {
-        center: { latitude: 31.37, longitude: -99.23 },
+        center: { latitude: 32.78, longitude: -96.797 },
         zoom: 7,
         options: {
             disableDefaultUI: false,
@@ -172,8 +172,6 @@ ngApp.controller('PaycenterCtrl', ['$scope', '$http', '$window', '$location', 'o
             var bottomLat = getPlaces.geometry.viewport.f.f;
             var leftLng = getPlaces.geometry.viewport.b.f;
             var rightLng = getPlaces.geometry.viewport.b.b;
-            var maxResults = 50;
-            var useCache = !$scope.mapMoved;
             $scope.isLoading = true;
             $scope.inTexas = false;
             if (getPlaces.address_components) {
@@ -190,7 +188,7 @@ ngApp.controller('PaycenterCtrl', ['$scope', '$http', '$window', '$location', 'o
             }
             $http({
                 method: 'GET',
-                url: '/api/marketing/paymentlocations/' + lat + '/' + lng + '/' + topLat + '/' + leftLng + '/' + bottomLat + '/' + rightLng + '/' + maxResults + '/' + useCache
+                url: '/api/marketing/paymentlocations/' + lat + '/' + lng + '/' + topLat + '/' + leftLng + '/' + bottomLat + '/' + rightLng
             }).then(function successCallback(response) {
                 $scope.markers = [];
                 $scope.isLoading = false;
