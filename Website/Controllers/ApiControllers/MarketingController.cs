@@ -316,35 +316,31 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         }
 
         [HttpGet]
-        [Route("paymentlocations/{lat}/{lng}/{maxLat}/{maxLon}/{minLat}/{minLon}/{maxResults}/{useCache}")]
-        public List<PaymentLocation> Get(string lat, string lng, string maxLat, string maxLon, string minLat, string minLon, int maxResults, string useCache)
+        [Route("paymentlocations/{lat}/{lng}/{maxLat}/{maxLon}/{minLat}/{minLon}")]
+        public List<PaymentLocation> Get(string lat, string lng, string maxLat, string maxLon, string minLat, string minLon)
         {
-            string key = string.Format("{0}|{1}|{2}", lat + lng, maxLat + maxLon + minLat + minLon, maxResults.ToString());
-            if (bool.Parse(useCache))
-            {
-                string cacheResult = redisDatabase.StringGet(key);
-                if (!string.IsNullOrEmpty(cacheResult))
-                {
-                    return JsonConvert.DeserializeObject<List<PaymentLocation>>(cacheResult);
-                }
-            }
             List<PaymentLocation> results = new List<PaymentLocation>();
-            GeoCoordinate centerLoc = new GeoCoordinate(double.Parse(lat), double.Parse(lng));
-            string connectionString = Sitecore.Configuration.Settings.GetConnectionString("core");
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = new SqlConnection(Sitecore.Configuration.Settings.GetConnectionString("core")))
             {
                 connection.Open();
                 using (SqlCommand command = connection.CreateCommand())
                 {
                     command.CommandText = @"
-                        Select * from [paymentLocations] 
-                        Where Lat Between @minLat And @maxLat
-                        And Lon Between @minLon And @maxLon";
+                        SELECT TOP 50 *, DEGREES(ACOS(COS(RADIANS(@centerLat))
+                                 * COS(RADIANS(Lat))
+                                 * COS(RADIANS(@centerLon - Lon))
+                                 + SIN(RADIANS(@centerLat))
+                                 * SIN(RADIANS(Lat)))) * 69 AS distance_in_mi FROM [paymentLocations] 
+                        WHERE Lat BETWEEN @minLat AND @maxLat
+                        AND Lon BETWEEN @minLon AND @maxLon
+                        ORDER BY distance_in_mi ASC";
 
                     command.Parameters.AddWithValue("@minLat", minLat);
                     command.Parameters.AddWithValue("@minLon", minLon);
                     command.Parameters.AddWithValue("@maxLat", maxLat);
                     command.Parameters.AddWithValue("@maxLon", maxLon);
+                    command.Parameters.AddWithValue("@centerLat", lat);
+                    command.Parameters.AddWithValue("@centerLon", lng);
 
                     using (var reader = command.ExecuteReader())
                     {
@@ -377,32 +373,11 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                                     Lat = (double)reader["lat"],
                                     Lon = (double)reader["lon"],
                                     Rank = (double)reader["rank"],
-                                    Distance = centerLoc.GetDistanceTo(new GeoCoordinate((double)reader["lat"], (double)reader["lon"]))/1609.34
+                                    Distance = (double)reader["distance_in_mi"],
                                 };
 
                                 results.Add(location);
                             }
-                        }
-                    }
-
-                    //Sort by distance
-                    results.Sort((a, b) => a.Distance.CompareTo(b.Distance));
-
-                    if (results.Count() > maxResults)
-                    {
-                        results = results.Take(maxResults).ToList();
-                    }
-
-                    if (bool.Parse(useCache) && results != null && results.Count() > 0)
-                    {
-                        try
-                        {
-                            redisDatabase.StringSet(key, JsonConvert.SerializeObject(results), TimeSpan.FromDays(7));
-                        }
-                        catch (Exception e)
-                        {
-                            Console.WriteLine("cache write exception:");
-                            Console.WriteLine(e.Message);
                         }
                     }
 
