@@ -129,7 +129,7 @@
                             @Html.Sitecore().Field("Thermostat Text")
                         </div>
                         <div ng-if="plan.includesSkydrop" class="includes-skydrop">
-                            @Html.Raw(@Html.Sitecore().Field("Skydrop Text"))
+                            @Html.Sitecore().Field("Skydrop Text")
                         </div>
                         <a class="view-details" href="" ng-click="isOpen = !isOpen" ng-class="{'collapsed': !isOpen}">
                             <span ng-if="!isOpen">@Html.Sitecore().Field("Electricity View Details") <i class="icon-blue-arrow-down"></i></span>
