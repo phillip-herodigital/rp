@@ -4090,6 +4090,14 @@ article.protective-module {
 			li {
 				list-style-image: url("../i/marketing/redesign/dark-blue-check.png");
 			}
+            
+            @include breakpoint(small) {
+                margin: 40px 0;
+            }
+
+            @include breakpoint(medium) {
+                margin: 40px 0;
+            }
 		}
 	}
 	&.smart {
@@ -4125,6 +4133,7 @@ article.protective-module {
 	}
 	.grid {
 		margin-top: 30px;
+        
 		.col {
 			padding: 90px 25px 0px 0px;
 			background-repeat: no-repeat;
@@ -4146,13 +4155,21 @@ article.protective-module {
 	&.skydrop-app {
 		.wrapper {
 			background-image: none;
+            background: #0071b9; 
 			padding-bottom: 0px;
-			padding-top: 10px;
+			padding-top: 30px;
 		}
+        .col {
+            padding: 50px 25px 0px 0px;
+        }
+        .col:last-child {
+            padding: 80px 25px 0px 0px;
+        }
 		background-color: #0071b9;
 		.image {
 			float: left;
 			padding-left: 100px;
+            margin-bottom: -16px;
 			img {
 				margin-bottom: -15px;
 			}
@@ -4161,19 +4178,32 @@ article.protective-module {
 			}
 			@include breakpoint(medium) {
 				padding-left: 0px;
+                padding-right: 40px;
 			}
 		}
 		.info {
 			h1 {
+                text-align: left; 
+                line-height: 30px;
 				color: #fff;
 				text-align: left;
-				margin-top: 80px;
+				margin-top: 60px;
+
+                @include breakpoint(small){
+                    margin-top: 40px;
+                }
 			}
+            p {
+                line-height: 30px;
+            }
 			float: left;
 			width: 500px;
 			color: #fff;
 			padding-left: 100px;
+
+
 			ul {
+                list-style-image: url("../i/marketing/redesign/white-check.png");
 				padding-left: 20px;
 				margin-bottom: 50px;
 				li {
@@ -4181,9 +4211,17 @@ article.protective-module {
 					padding-bottom: 10px;
 				}
 			}
+
 			@include breakpoint(medium) {
-				width: 395px;
+                width: 100%;
+				max-width: 395px;
 				padding-left: 0px;
+			}
+
+            @include breakpoint(small) {
+                padding-bottom: 60px;
+                width: 100%;
+                padding-left: 0px;
 			}
 		}
 	}
