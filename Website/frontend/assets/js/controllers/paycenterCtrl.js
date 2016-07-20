@@ -10,6 +10,7 @@ ngApp.controller('PaycenterCtrl', ['$scope', '$http', '$window', '$location', 'o
     var isSearch = false;
     var updateMap = false;
     var getPlaces = null;
+    var searchTimeout = null;
 
     $scope.search = "";
     var fromAddress = "";
@@ -40,6 +41,8 @@ ngApp.controller('PaycenterCtrl', ['$scope', '$http', '$window', '$location', 'o
                 });
             },
             idle: function (map) {
+                $scope.isLoading = true;
+                clearTimeout(searchTimeout);
                 if (updateMap) {
                     $scope.mapManuallyMoved = !isSearch;
                     var getMarkers = function (getPlaces) {
@@ -84,29 +87,35 @@ ngApp.controller('PaycenterCtrl', ['$scope', '$http', '$window', '$location', 'o
         events: {
             places_changed: function (searchBox) {
                 isSearch = true;
-                if (getPlaces == null || !angular.equals(getPlaces.geometry.viewport, searchBox.getPlaces()[0].geometry.viewport)) {
-                    updateMap = true;
-                    getPlaces = searchBox.getPlaces()[0];
-                    $scope.searchMarker.options.visible = true;
-                    $scope.searchMarker.coords = {
-                        latitude: getPlaces.geometry.location.lat(),
-                        longitude: getPlaces.geometry.location.lng()
-                    };
-                    if (getPlaces.adr_address) {
-                        $scope.search = getPlaces.adr_address;
-                    }
-                    else {
-                        $scope.search = getPlaces.formatted_address;
-                    }
-                    fromAddress = getPlaces.formatted_address;
-                    if (!getPlaces.geometry.viewport) {
-                        $scope.mapInstance.setCenter(getPlaces.geometry.location);
-                        $scope.mapInstance.setZoom(15);
-                        getPlaces.geometry.viewport = $scope.mapInstance.getBounds();
-                    }
-                    $scope.isLoading = true;
-                    $scope.showMap = false;
+                updateMap = true;
+                $scope.isLoading = true;
+
+                searchTimeout = setTimeout(function () {
+                    $scope.$apply(function () {
+                        isSearch = false;
+                        $scope.isLoading = false;
+                    });
+                }, 500);
+
+                getPlaces = searchBox.getPlaces()[0];
+                $scope.searchMarker.options.visible = true;
+                $scope.searchMarker.coords = {
+                    latitude: getPlaces.geometry.location.lat(),
+                    longitude: getPlaces.geometry.location.lng()
+                };
+                if (getPlaces.adr_address) {
+                    $scope.search = getPlaces.adr_address;
                 }
+                else {
+                    $scope.search = getPlaces.formatted_address;
+                }
+                fromAddress = getPlaces.formatted_address;
+                if (!getPlaces.geometry.viewport) {
+                    $scope.mapInstance.setCenter(getPlaces.geometry.location);
+                    $scope.mapInstance.setZoom(15);
+                    getPlaces.geometry.viewport = $scope.mapInstance.getBounds();
+                }
+                $scope.showMap = false;
                 $scope.mapInstance.fitBounds(getPlaces.geometry.viewport);
             }
         }
