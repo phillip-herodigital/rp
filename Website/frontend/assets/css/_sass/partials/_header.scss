@@ -369,27 +369,30 @@
                     @include breakpoint-min-max(1024px, 1059px) {
                         right: 15px;
                     }
-					ul {
-						padding: 0px;
-                        text-align: center;
-						> li {
-							&.services a {
+                    ul.services,
+                    ul.support {
+                        > li {
+							> a {
 								text-transform: uppercase;
 								font-weight: 600;
 							}
-							&.services.energy > a {
+							&.energy > a {
 								color: #f99d25;
 							}
-							&.services.mobile > a {
+							&.mobile > a {
 								color: #00a8e1;
 							}
-							&.services.protective > a {
+							&.protective > a {
 								color: #40ae49;
 							}
-							&.services.home > a {
+							&.home > a {
 								color: #8e4b9d;
 							}
 						}
+                    }
+					ul {
+						padding: 0px;
+                        text-align: center;
 						li {
 							padding-right: 30px;
 							&:last-child {
