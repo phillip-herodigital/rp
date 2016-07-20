@@ -27,13 +27,13 @@
                 </div>
             </div>
             <div class="query-and-results" ng-hide="showMap && isMobile() || isLoading">
-                <div class="query" ng-show="search && !noneFound && !mapMoved">
+                <div class="query" ng-show="search && !noneFound && !mapManuallyMoved">
                     <p>
                         @Html.Sitecore().Field("Search Result Label")
                         <span ng-show="search" bind-html-unsafe="search"></span>
                     </p>
                 </div>
-                <div class="query" ng-show="!noneFound && mapMoved">
+                <div class="query" ng-show="!noneFound && mapManuallyMoved">
                     <p>@Html.Sitecore().Field("Map Search Results Label")</p>
                 </div>
                 <div class="query" ng-show="noneFound && inTexas">

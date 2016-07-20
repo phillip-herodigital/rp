@@ -5,7 +5,16 @@ ngApp.controller('PaycenterCtrl', ['$scope', '$http', '$window', '$location', 'o
     $scope.isLoading = true;
     $scope.inTexas = true;
     $scope.showMap = true;
-    $scope.mapMoved = false;
+    $scope.mapManuallyMoved = false;
+
+    var isSearch = false;
+    var updateMap = false;
+    var getPlaces = null;
+    var searchTimeout = null;
+
+    $scope.search = "";
+    var fromAddress = "";
+
     $scope.map = {
         center: { latitude: 32.78, longitude: -96.797 },
         zoom: 7,
@@ -25,21 +34,17 @@ ngApp.controller('PaycenterCtrl', ['$scope', '$http', '$window', '$location', 'o
             tilesloaded: function (map) {
                 $scope.$apply(function () {
                     $scope.mapInstance = map;
-                    $scope.isLoading = false;
+                    if (!updateMap) {
+                        $scope.isLoading = false;
+                        updateMap = true;
+                    }
                 });
             },
-            dragend: function (map) {
-                if (updateMap) {
-                    $scope.mapMoved = true;
-                }
-            },
-            zoom_changed: function (map) {
-                if (updateMap) {
-                    $scope.mapMoved = true;
-                }
-            },
             idle: function (map) {
-                if (updateMap && $scope.mapMoved) {
+                $scope.isLoading = true;
+                clearTimeout(searchTimeout);
+                if (updateMap) {
+                    $scope.mapManuallyMoved = !isSearch;
                     var getMarkers = function (getPlaces) {
                         var promise = $scope.getMarkers(getPlaces);
                         promise.then(function (value) {
@@ -48,38 +53,51 @@ ngApp.controller('PaycenterCtrl', ['$scope', '$http', '$window', '$location', 'o
                             console.log(reason);
                         });
                     };
-                    var getPlaces = {
+                    getPlaces = {
                         geometry: {
                             location: map.center,
                             viewport: map.getBounds()
-                            }
+                        }
                     };
-                    var lat = map.center.lat();
-                    var lng = map.center.lng();
-                    var uri = 'https://maps.googleapis.com/maps/api/geocode/json?latlng=' + lat + ',' + lng + '&key=AIzaSyCKwR5gbRNgWMZ84ZxGFPh1Jpvm5nMRuRY';
+                    if (getPlaces.address_components) {
+                        getMarkers(getPlaces);
+                    }
+                    else {
+                        var lat = map.center.lat();
+                        var lng = map.center.lng();
+                        var uri = 'https://maps.googleapis.com/maps/api/geocode/json?latlng=' + lat + ',' + lng + '&key=AIzaSyCKwR5gbRNgWMZ84ZxGFPh1Jpvm5nMRuRY';
 
-                    $http.get(uri)
-                    .then(function successCallback(response) {
-                        getPlaces.address_components = response.data.results[0].address_components;
-                        getMarkers(getPlaces);
-                    },
-                    function errorCallback(response) {
-                        getMarkers(getPlaces);
-                    });
+                        $http.get(uri)
+                        .then(function successCallback(response) {
+                            getPlaces.address_components = response.data.results[0].address_components;
+                            getMarkers(getPlaces);
+                        },
+                        function errorCallback(response) {
+                            getMarkers(getPlaces);
+                        });
+                    }
+                    isSearch = false;
                 }
             }
         }
     };
 
-    $scope.search = "";
-    var fromAddress = "";
-    var updateMap = true;
-
     $scope.searchbox = {
         template: 'searchbox.tpl.html',
         events: {
             places_changed: function (searchBox) {
-                var getPlaces = searchBox.getPlaces()[0];
+                isSearch = true;
+                updateMap = true;
+                $scope.isLoading = true;
+
+                searchTimeout = setTimeout(function () {
+                    $scope.$apply(function () {
+                        isSearch = false;
+                        $scope.isLoading = false;
+                    });
+                }, 500);
+
+                getPlaces = searchBox.getPlaces()[0];
                 $scope.searchMarker.options.visible = true;
                 $scope.searchMarker.coords = {
                     latitude: getPlaces.geometry.location.lat(),
@@ -93,35 +111,12 @@ ngApp.controller('PaycenterCtrl', ['$scope', '$http', '$window', '$location', 'o
                 }
                 fromAddress = getPlaces.formatted_address;
                 if (!getPlaces.geometry.viewport) {
-                    updateMap = false;
                     $scope.mapInstance.setCenter(getPlaces.geometry.location);
                     $scope.mapInstance.setZoom(15);
                     getPlaces.geometry.viewport = $scope.mapInstance.getBounds();
-                    updateMap = true;
                 }
-                $scope.isLoading = true;
                 $scope.showMap = false;
-                $scope.mapMoved = true;
-                updateMap = false;
-                var bounds = new google.maps.LatLngBounds();
-                bounds.extend(new google.maps.LatLng(
-                    getPlaces.geometry.viewport.f.b,
-                    getPlaces.geometry.viewport.b.f));
-                bounds.extend(new google.maps.LatLng(
-                    getPlaces.geometry.viewport.f.f,
-                    getPlaces.geometry.viewport.b.b));
-                if ($scope.markers.length) {
-                    bounds.extend(new google.maps.LatLng(
-                        $scope.markers[0].coords.latitude,
-                        $scope.markers[0].coords.longitude));
-                }
-                else {
-                    if ($scope.isMobile()) {
-                        $scope.showMap = true;
-                    }
-                }
-                $scope.mapInstance.fitBounds(bounds);
-                updateMap = true;
+                $scope.mapInstance.fitBounds(getPlaces.geometry.viewport);
             }
         }
     };
@@ -220,6 +215,9 @@ ngApp.controller('PaycenterCtrl', ['$scope', '$http', '$window', '$location', 'o
                 }
                 else {
                     $scope.noneFound = true;
+                    if ($scope.isMobile()) {
+                        $scope.showMap = true;
+                    }
                     resolve("No Results Found");
                 }
             }, function errorCallback(response) {
