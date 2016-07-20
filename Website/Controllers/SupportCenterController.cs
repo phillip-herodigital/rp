@@ -107,7 +107,7 @@ namespace StreamEnergy.MyStream.Controllers
         }
 
         public IEnumerable<FAQ> Search(string query, FaqSearchFilter filter) {
-            query = query.Trim().ToLower();
+            query = (query ?? "").Trim().ToLower();
             List<FAQ> matchingFAQS = new List<FAQ>();
             var categories = GetAllCategories();
             var subCategories = GetAllSubCategoriesForCategory(filter.Category.Guid);

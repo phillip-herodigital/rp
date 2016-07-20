@@ -1,4 +1,10 @@
 ﻿ngApp.controller('supportCenterCtrl', ['$scope', '$http', '$sce', '$modal', 'scrollService', 'orderByFilter', function ($scope, $http, $sce, $modal, scrollService, orderByFilter) {
+    function getParameterByName(name) {
+        name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+        var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+            results = regex.exec(window.location.search);
+        return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+    }
     $scope.dropDown = false;
     $scope.selectedFaqIndex = null;
     $scope.category = { //currently selected category object
@@ -147,6 +153,11 @@
                 $scope.isLoading = false;
                 buildKeywords();
                 paginate();
+            }
+
+            var queryStringSubCategory = getParameterByName("subcategory");
+            if (queryStringSubCategory != null && queryStringSubCategory != "" && $scope.subcategories[queryStringSubCategory]) {
+                $scope.selectSubcategory(queryStringSubCategory);
             }
 
         }, function errorCallback(response) {
