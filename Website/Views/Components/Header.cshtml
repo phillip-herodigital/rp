@@ -53,7 +53,7 @@
                         </span>
                         @if (node.Value.HasChildNodes)
                         {
-                            <ul ng-hide="subnav != @node.Number">
+                            <ul class="@node.Value.Item.Name.ToLower()" ng-hide="subnav != @node.Number">
                                 @for (var i=0; i< node.Value.ChildNodes.Count; i++)
                                 {
                                     var childNode = (ItemSiteMapNode)node.Value.ChildNodes[i];
@@ -197,7 +197,7 @@
         @if (node.Value.HasChildNodes)
         {
             <div class="sub-nav" sub-nav="@node.Number" ng-cloak ng-class="{ hidden: subnav != @node.Number }" ng-mouseover="showSubnav(@node.Number)" ng-mouseout="hideSubnav()">
-                <ul>
+                <ul class="@node.Value.Item.Name.ToLower()">
                     @foreach (ItemSiteMapNode childNode in node.Value.ChildNodes)
                     {
                         var selected = selectedNode != null && (childNode.Url == selectedNode.Url || childNode.Key == selectedNode.Key || selectedNode.IsDescendantOf(childNode));
