@@ -99,33 +99,29 @@ ngApp.controller('PaycenterCtrl', ['$scope', '$http', '$window', '$location', 'o
                     getPlaces.geometry.viewport = $scope.mapInstance.getBounds();
                     updateMap = true;
                 }
-                var promise = $scope.getMarkers(getPlaces);
-                promise.then(function (value) {
-                    $scope.showMap = false;
-                    $scope.mapMoved = false;
-                    updateMap = false;
-                    var bounds = new google.maps.LatLngBounds();
+                $scope.isLoading = true;
+                $scope.showMap = false;
+                $scope.mapMoved = true;
+                updateMap = false;
+                var bounds = new google.maps.LatLngBounds();
+                bounds.extend(new google.maps.LatLng(
+                    getPlaces.geometry.viewport.f.b,
+                    getPlaces.geometry.viewport.b.f));
+                bounds.extend(new google.maps.LatLng(
+                    getPlaces.geometry.viewport.f.f,
+                    getPlaces.geometry.viewport.b.b));
+                if ($scope.markers.length) {
                     bounds.extend(new google.maps.LatLng(
-                        getPlaces.geometry.viewport.f.b,
-                        getPlaces.geometry.viewport.b.f));
-                    bounds.extend(new google.maps.LatLng(
-                        getPlaces.geometry.viewport.f.f,
-                        getPlaces.geometry.viewport.b.b));
-                    if ($scope.markers.length) {
-                        bounds.extend(new google.maps.LatLng(
-                            $scope.markers[0].coords.latitude,
-                            $scope.markers[0].coords.longitude));
+                        $scope.markers[0].coords.latitude,
+                        $scope.markers[0].coords.longitude));
+                }
+                else {
+                    if ($scope.isMobile()) {
+                        $scope.showMap = true;
                     }
-                    else {
-                        if ($scope.isMobile()) {
-                            $scope.showMap = true;
-                        }
-                    }
-                    $scope.mapInstance.fitBounds(bounds);
-                    updateMap = true;
-                }, function (reason) {
-                    console.log(reason);
-                });
+                }
+                $scope.mapInstance.fitBounds(bounds);
+                updateMap = true;
             }
         }
     };
