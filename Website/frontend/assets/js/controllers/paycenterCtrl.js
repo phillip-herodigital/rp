@@ -5,7 +5,10 @@ ngApp.controller('PaycenterCtrl', ['$scope', '$http', '$window', '$location', 'o
     $scope.isLoading = true;
     $scope.inTexas = true;
     $scope.showMap = true;
-    $scope.mapMoved = false;
+    $scope.mapManuallyMoved = false;
+
+    var isSearch = false;
+    var updateMap = false;
     $scope.map = {
         center: { latitude: 32.78, longitude: -96.797 },
         zoom: 7,
@@ -25,21 +28,14 @@ ngApp.controller('PaycenterCtrl', ['$scope', '$http', '$window', '$location', 'o
             tilesloaded: function (map) {
                 $scope.$apply(function () {
                     $scope.mapInstance = map;
-                    $scope.isLoading = false;
+                    if (!updateMap) {
+                        $scope.isLoading = false;
+                    }
                 });
             },
-            dragend: function (map) {
-                if (updateMap) {
-                    $scope.mapMoved = true;
-                }
-            },
-            zoom_changed: function (map) {
-                if (updateMap) {
-                    $scope.mapMoved = true;
-                }
-            },
             idle: function (map) {
-                if (updateMap && $scope.mapMoved) {
+                $scope.mapManuallyMoved = !isSearch;
+                if (updateMap) {
                     var getMarkers = function (getPlaces) {
                         var promise = $scope.getMarkers(getPlaces);
                         promise.then(function (value) {
@@ -66,6 +62,8 @@ ngApp.controller('PaycenterCtrl', ['$scope', '$http', '$window', '$location', 'o
                     function errorCallback(response) {
                         getMarkers(getPlaces);
                     });
+
+                    isSearch = false;
                 }
             }
         }
@@ -73,12 +71,13 @@ ngApp.controller('PaycenterCtrl', ['$scope', '$http', '$window', '$location', 'o
 
     $scope.search = "";
     var fromAddress = "";
-    var updateMap = true;
 
     $scope.searchbox = {
         template: 'searchbox.tpl.html',
         events: {
             places_changed: function (searchBox) {
+                isSearch = true;
+                updateMap = true;
                 var getPlaces = searchBox.getPlaces()[0];
                 $scope.searchMarker.options.visible = true;
                 $scope.searchMarker.coords = {
@@ -93,16 +92,12 @@ ngApp.controller('PaycenterCtrl', ['$scope', '$http', '$window', '$location', 'o
                 }
                 fromAddress = getPlaces.formatted_address;
                 if (!getPlaces.geometry.viewport) {
-                    updateMap = false;
                     $scope.mapInstance.setCenter(getPlaces.geometry.location);
                     $scope.mapInstance.setZoom(15);
                     getPlaces.geometry.viewport = $scope.mapInstance.getBounds();
-                    updateMap = true;
                 }
                 $scope.isLoading = true;
                 $scope.showMap = false;
-                $scope.mapMoved = true;
-                updateMap = false;
                 var bounds = new google.maps.LatLngBounds();
                 bounds.extend(new google.maps.LatLng(
                     getPlaces.geometry.viewport.f.b,
@@ -110,18 +105,11 @@ ngApp.controller('PaycenterCtrl', ['$scope', '$http', '$window', '$location', 'o
                 bounds.extend(new google.maps.LatLng(
                     getPlaces.geometry.viewport.f.f,
                     getPlaces.geometry.viewport.b.b));
-                if ($scope.markers.length) {
-                    bounds.extend(new google.maps.LatLng(
-                        $scope.markers[0].coords.latitude,
-                        $scope.markers[0].coords.longitude));
-                }
-                else {
-                    if ($scope.isMobile()) {
-                        $scope.showMap = true;
-                    }
+                
+                if ($scope.isMobile()) {
+                    $scope.showMap = true;
                 }
                 $scope.mapInstance.fitBounds(bounds);
-                updateMap = true;
             }
         }
     };
