@@ -12,7 +12,7 @@
         <header ng-show="isMobile() && showMap">
             <h1 ng-hide="search">@Html.Sitecore().Field("Mobile Heading")</h1>
             <h1 class="backToResults" ng-show="search && markers.length" ng-click="backToResults()">@Html.Sitecore().Field("Back to Results")</h1>
-            <h1 ng-show="!markers.length && search">@Html.Sitecore().Field("Zero Results Heading")</h1>
+            <h1 ng-show="!markers.length && search && inTexas">@Html.Sitecore().Field("Zero Results Heading")</h1>
             <h1 ng-hide="inTexas || markers.length">@Html.Sitecore().Field("Texas Only")</h1>
         </header>
         <aside>
