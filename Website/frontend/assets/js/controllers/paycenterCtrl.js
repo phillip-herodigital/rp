@@ -11,6 +11,7 @@ ngApp.controller('PaycenterCtrl', ['$scope', '$http', '$window', '$location', 'o
     var updateMap = false;
     var getPlaces = null;
     var searchTimeout = null;
+    var initialLoad = true;
 
     $scope.search = "";
     var fromAddress = "";
@@ -34,16 +35,19 @@ ngApp.controller('PaycenterCtrl', ['$scope', '$http', '$window', '$location', 'o
             tilesloaded: function (map) {
                 $scope.$apply(function () {
                     $scope.mapInstance = map;
-                    if (!updateMap) {
+                    if (initialLoad) {
                         $scope.isLoading = false;
-                        updateMap = true;
+                        setTimeout(function () {
+                            updateMap = true;
+                            initialLoad = false;
+                        }, 500);
                     }
                 });
             },
             idle: function (map) {
                 $scope.isLoading = true;
                 clearTimeout(searchTimeout);
-                if (updateMap) {
+                if (updateMap && !initialLoad) {
                     $scope.mapManuallyMoved = !isSearch;
                     var getMarkers = function (getPlaces) {
                         var promise = $scope.getMarkers(getPlaces);
@@ -77,6 +81,8 @@ ngApp.controller('PaycenterCtrl', ['$scope', '$http', '$window', '$location', 'o
                         });
                     }
                     isSearch = false;
+                } else {
+                    $scope.isLoading = false;
                 }
             }
         }
@@ -87,7 +93,6 @@ ngApp.controller('PaycenterCtrl', ['$scope', '$http', '$window', '$location', 'o
         events: {
             places_changed: function (searchBox) {
                 isSearch = true;
-                updateMap = true;
                 $scope.isLoading = true;
 
                 searchTimeout = setTimeout(function () {
@@ -271,8 +276,10 @@ ngApp.controller('PaycenterCtrl', ['$scope', '$http', '$window', '$location', 'o
             windowMarkerIndex = -1;
             $scope.mapInstance.panTo(ogCoords);
             ogCoords = null;
-            updateMap = true;
         }
+        setTimeout(function () {
+            updateMap = true;
+        }, 500);
     }
 
     $scope.isMobile = function () {
