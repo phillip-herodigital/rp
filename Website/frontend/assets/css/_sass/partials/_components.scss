@@ -62,3 +62,404 @@
         border-top: 1px solid #ddd;
     }
 }
+
+
+.paycenter {
+
+    .paycenter-header {
+        height: 100px;
+
+        a.logo {
+            display: inline-block;
+            width: 206px;
+            height: 50px;
+            margin: 25px 25px 25px 0;
+            background-image: url('../i/bg/logo-desktop.png?1447108210');
+            background-repeat: no-repeat;
+            float: left;
+        }
+
+        h2 {
+            color: #0f7fc3;
+            font-size: 30px;
+            font-weight: 300;
+            float: left;
+            margin: 35px auto;
+        }
+
+        p {
+            font-size: 18px;
+            float: right;
+            margin: 41px auto;
+
+            @include breakpoint(small) {
+                .hide-small {
+                    display: none;
+                }
+            }
+
+            a {
+                font-weight: 700;
+                color: #0074bb;
+            }
+        }
+
+        @include breakpoint(small-medium) {
+            height: auto;
+
+            .logo-container {
+                width: auto;
+                text-align: center;
+
+                a.logo {
+                    float: none;
+                    margin: 10px 0;
+                }
+            }
+
+            h2 {
+                margin: 10px auto;
+            }
+
+            p {
+                margin: 15px auto;
+            }
+        }
+
+        @include breakpoint(small) {
+
+            .logo-container {
+                a.logo {
+                    width: 103px;
+                    height: 25px;
+                    background-image: url('../i/bg/logo-mobile.png');
+                }
+            }
+
+            h2 {
+                font-size: 20px;
+                font-weight: 300;
+                margin: 0;
+            }
+
+            p {
+                margin: 0;
+
+                a {
+                    font-weight: 400;
+                }
+            }
+        }
+    }
+
+    article.paycenter-locator {
+        background: url('../i/marketing/redesign/Modules/module_background.png') no-repeat center top;
+
+        .wrapper {
+            padding: 0;
+        }
+
+        .paycenter-header {
+            height: 174px;
+            border: none;
+            padding: 66px 0;
+
+            h1 {
+                text-align: center;
+                color: #6b6b6b;
+                font-size: 40px;
+                font-weight: 300;
+                width: 100%;
+
+                &.backToResults {
+                    cursor: pointer;
+                    padding-left: 25px;
+                    text-align: left;
+                    background: url("../i/icon/left-arrow.png") no-repeat center left;
+                }
+            }
+
+            @include breakpoint(small-medium) {
+                height: auto;
+                padding: 25px 0;
+            }
+
+            @include breakpoint(small) {
+                h1 {
+                    font-size: 16px;
+                    font-weight: 400;
+                    color: #333333;
+                }
+            }
+        }
+
+        aside {
+            float: left;
+            width: 300px;
+            margin-right: 25px;
+            color: #333333;
+
+            @include breakpoint(medium) {
+                margin-top: 25px;
+            }
+
+            .form {
+                margin-bottom: 25px;
+
+                .item {
+                    label {
+                        font-size: 18px;
+                    }
+
+                    /*.locate {
+                        background-image: url("/frontend/assets/i/icon/address-icon.png");
+                        background-repeat: no-repeat;
+                        background-position: 10px center;
+                        height: 45px;
+                        width: 45px;
+                        border: 1px solid #cccccc;
+                        border-radius: 5px;
+                        box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15);
+                        float: left;
+                        margin-right: 15px;
+                        cursor: pointer;
+                    }*/
+
+                    #gmap-search {
+                        input[type="text"] {
+                            //width: calc(100% - 60px);
+                            width: 100%;
+                            height: 45px;
+
+                            &::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+                                font-size: 18px;
+                                color: #333333;
+                            }
+
+                            &::-moz-placeholder { /* Firefox 19+ */
+                                font-size: 18px;
+                                color: #333333;
+                            }
+
+                            &:-ms-input-placeholder { /* IE 10+ */
+                                font-size: 18px;
+                                color: #333333;
+                            }
+
+                            &:-moz-placeholder { /* Firefox 18- */
+                                font-size: 18px;
+                                color: #333333;
+                            }
+                        }
+                    }
+                }
+            }
+
+            .query {
+                border: 1px solid #e2e1e2;
+                border-radius: 5px 5px 0 0;
+
+                p {
+                    font-size: 18px;
+                    font-weight: 600;
+                    color: #333333;
+                    margin: 10px 25px;
+                }
+            }
+
+            .results {
+                border: solid #e2e1e2;
+                border-width: 0 1px 1px 1px;
+                border-radius: 0 0 5px 5px;
+                max-height: 587px;
+                overflow: auto;
+
+                .result {
+                    border-bottom: 1px solid #e2e1e2;
+                    padding: 20px 10px 20px 20px;
+                    line-height: 1;
+                    min-height: 106px;
+
+                    .grid {
+
+                        .col-1 {
+                            background: url("../i/icon/pin.png");
+                            background-repeat: no-repeat;
+                            background-position: top left;
+                            padding-top: 50px;
+                            width: 75px;
+                            float: left;
+
+                            .item {
+                                .distance {
+                                    margin: 0;
+                                    font-weight: 600;
+                                }
+                            }
+
+                            @include breakpoint(small) {
+                                width: 60px;
+                            }
+                        }
+
+                        .col-2 {
+                            width: calc(100% - 75px);
+                            float: right;
+
+                            .item {
+                                display: inline-block;
+
+                                .name {
+                                    margin: 0;
+                                    font-weight: 600;
+                                }
+
+                                .address {
+                                    margin: 0;
+                                }
+
+                                @include breakpoint(small) {
+                                    width: calc(100% - 12px);
+                                }
+
+                                &.arrow {
+                                    background: url("../i/icon/right-arrow.png") no-repeat center right;
+                                    width: 12px;
+                                    height: 66px;
+                                    float: right;
+                                    cursor: pointer;
+                                }
+                            }
+
+                            @include breakpoint(small) {
+                                width: calc(100% - 72px);
+                            }
+                        }
+                    }
+
+                    &.selected {
+                        background-color: rgba(0,55,84,.2);
+                    }
+                }
+            }
+
+            @include breakpoint(small) {
+                width: 100%;
+            }
+        }
+
+        .coverage-map {
+            padding: 0;
+            margin: 0;
+            width: calc(100% - 325px);
+            float: right;
+
+            &.zeroHeight {
+                visibility: hidden;
+                height: 0;
+            }
+
+            .angular-google-map .angular-google-map-container {
+                height: 730px;
+                margin: 0;
+
+                @include breakpoint(small) {
+                    height: 350px;
+                }
+
+                .marker-window {
+                    background-color: rgba(0,55,84,.1);
+                    position: relative;
+                    padding: 10px;
+                    margin: 10px 10px 0 0;
+
+                    .grid {
+                        margin: 0;
+                        background-color: #fff;
+                        width: auto;
+                        min-width: 240px;
+
+                        @include breakpoint(small) {
+                            padding: 20px;
+                        }
+
+                        .column {
+                            float: left;
+
+                            .item {
+                                label {
+                                    font-size: 14px;
+                                    font-weight: 500;
+                                    color: #919191;
+                                }
+
+                                a > p {
+                                    color: #1f8fce;
+                                }
+
+                                p {
+                                    font-size: 16px;
+                                    font-weight: 500;
+                                    color: #000000;
+                                    margin: 0;
+
+                                    &:first-of-type {
+                                        margin-top: 5px;
+                                    }
+
+                                    &:last-of-type {
+                                        margin-bottom: 5px;
+                                    }
+                                }
+                            }
+
+                            .item:last-of-type {
+                                p:last-of-type {
+                                    margin-bottom: 0;
+                                }
+                            }
+
+                            &:last-of-type {
+                                padding-left: 20px;
+
+                                @include breakpoint(small) {
+                                    padding-left: 0;
+                                }
+                            }
+                        }
+                    }
+
+                    .close {
+                        width: 40px;
+                        height: 40px;
+                        border-radius: 20px;
+                        position: absolute;
+                        top: -10px;
+                        right: -10px;
+                        background: #ffffff;
+                        transform: rotate(45deg);
+
+                        a {
+                            font-size: 40px;
+                            font-weight: 300;
+                            color: #919191;
+                            position: absolute;
+                            top: -8px;
+                            right: 8px;
+                        }
+                    }
+                }
+            }
+
+            @include breakpoint(small) {
+                width: 100%;
+            }
+        }
+    }
+
+    @include breakpoint(small) {
+        .page-content {
+            padding: 0;
+        }
+    }
+}

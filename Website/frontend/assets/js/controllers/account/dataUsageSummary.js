@@ -26,7 +26,14 @@ ngApp.controller('DataUsageSummaryCtrl', ['$scope', '$rootScope', '$http', 'brea
             $scope.isLoading = true;
             mobileUsageService.loadCurrentMobileUsage(newVal).then(function (data) {
                 $scope.data = angular.extend($scope.data, data);
-                
+
+                $scope.hasNoSubAccounts = $scope.data.subAccountCount < 1;
+               
+                if ($scope.hasNoSubAccounts) {
+                    $scope.hideComponent = true;
+                    return;
+                }
+
                 if (_.every($scope.data.deviceUsage, function (d) { return (d.dataUsage == null); })) {
                     $scope.noUsage = true;
                     $scope.data.dataUsageLimit = ($scope.data.dataUsageLimit != 0) ? $scope.data.dataUsageLimit : 1;

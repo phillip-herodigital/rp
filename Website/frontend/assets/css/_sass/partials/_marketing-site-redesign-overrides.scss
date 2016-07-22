@@ -804,6 +804,7 @@ article.service-tabs {
         display: block;
     }
 }
+
 article.contact {
     .request {
         p {
@@ -3044,6 +3045,21 @@ article.mobile-pricing-plans {
 	a strong {
 		color: #0a97d6;
 	}
+	.local-wire-companies {
+		padding: 0px 0px 30px 40px;
+		p {
+			margin: .5em 0px 0px 0px;
+		}
+		.grid .col {
+			&.company {
+				width: 70%;
+			}
+			&.outage-info {
+				width: 30%;
+			}
+			margin-bottom: 20px;
+		}
+	}
 }
 
 .global-header {
@@ -3147,6 +3163,16 @@ article.mobile-pricing-plans {
 				}
 			}
 		}
+	}
+}
+
+.emergency-contacts-header {
+	background-image: url('../i/icon/protection.png');
+	background-position: 95% 50%;
+	background-repeat: no-repeat;
+	padding-right: 100px;
+	&.georgia {
+		padding: 20px 100px 20px 0px;
 	}
 }
 
@@ -4061,6 +4087,13 @@ article.protective-module {
 }
 
 .skydrop {
+	&.banner {
+		min-height: 202px;
+		.inner .wrapper h1 {
+			font-size: 40px;
+			color: #424242;
+		}
+	}
 	&.save-blue {
 		h1 {
 			margin-top: 0px;
@@ -4071,9 +4104,26 @@ article.protective-module {
 				font-size: 20px;
 				text-align: left;
 			}
+			u a {
+				color: #6b6b6b;
+			}
 		}
 		img {
 			width: auto;
+		}
+		ul {
+			margin: 40px 0 40px 200px;
+			li {
+				list-style-image: url("../i/marketing/redesign/dark-blue-check.png");
+			}
+            
+            @include breakpoint(small) {
+                margin: 40px 0;
+            }
+
+            @include breakpoint(medium) {
+                margin: 40px 0;
+            }
 		}
 	}
 	&.smart {
@@ -4099,16 +4149,17 @@ article.protective-module {
 	}
 	.footer {
 		text-align: center;
-		h3 {
-			margin: 2em 0 .5em 0;
+		margin-top: 3em;
+		p {
 			color: #f98e00;
-		}
-		a {
-			color: #f98e00;
+			a {
+				color: #f98e00;
+			}
 		}
 	}
 	.grid {
 		margin-top: 30px;
+        
 		.col {
 			padding: 90px 25px 0px 0px;
 			background-repeat: no-repeat;
@@ -4130,13 +4181,21 @@ article.protective-module {
 	&.skydrop-app {
 		.wrapper {
 			background-image: none;
+            background: #0071b9; 
 			padding-bottom: 0px;
-			padding-top: 10px;
+			padding-top: 30px;
 		}
-		background-color: #78bb2f;
+        .col {
+            padding: 50px 25px 0px 0px;
+        }
+        .col:last-child {
+            padding: 80px 25px 0px 0px;
+        }
+		background-color: #0071b9;
 		.image {
 			float: left;
 			padding-left: 100px;
+            margin-bottom: -16px;
 			img {
 				margin-bottom: -15px;
 			}
@@ -4145,53 +4204,73 @@ article.protective-module {
 			}
 			@include breakpoint(medium) {
 				padding-left: 0px;
+                padding-right: 40px;
 			}
 		}
 		.info {
 			h1 {
+                text-align: left; 
+                line-height: 30px;
 				color: #fff;
 				text-align: left;
-				margin-top: 80px;
+				margin-top: 60px;
+
+                @include breakpoint(small){
+                    margin-top: 40px;
+                }
 			}
+            p {
+                line-height: 30px;
+            }
 			float: left;
-			width: 570px;
-			color: #000;
+			width: 500px;
+			color: #fff;
 			padding-left: 100px;
+
+
 			ul {
+                list-style-image: url("../i/marketing/redesign/white-check.png");
 				padding-left: 20px;
 				margin-bottom: 50px;
 				li {
-					list-style-image: url("../i/marketing/redesign/check.png");
+					list-style-image: url("../i/marketing/redesign/white-check.png");
 					padding-bottom: 10px;
 				}
 			}
+
 			@include breakpoint(medium) {
-				width: 395px;
+                width: 100%;
+				max-width: 395px;
 				padding-left: 0px;
+			}
+
+            @include breakpoint(small) {
+                padding-bottom: 60px;
+                width: 100%;
+                padding-left: 0px;
 			}
 		}
 	}
 	&.faqs-heading .heading {
-		color: #78bb2f;
+		color: #f98e00;
 	}
 	&.skydrop-promo {
-		background-image: image-url('marketing/redesign/Modules/skydrop-module.png');
+		background-image: image-url('marketing/redesign/Modules/skydrop-promo.png');
 		background-repeat: no-repeat;
-		background-position: 80% 20px;
-		.promo-paragraph {
-			width: 25%;
-			@include breakpoint(small) {
-				width: 80%;
+		background-position: 60% 115px;
+		.wrapper {
+			padding: 50px 0px 0px 0px;
+		}
+		.content {
+			width: 70%;
+			float: left;
+			.promo-paragraph {
+				width: 37%;
+				@include breakpoint(small) {
+					width: 80%;
+				}
 			}
-		}
-		@include breakpoint(medium) {
-			background-size: 60%;
-			background-position: 80% 100%;
-		}
-		@include breakpoint(small) {
-			background-image: none;
-		}
-		a.button {
+			a.button {
                 background-image: none;
                 background-color: #f87c00;
                 border-radius: 5px;
@@ -4200,5 +4279,24 @@ article.protective-module {
             a.button:hover {
                 background-color: #f79431;
             }
+			@include breakpoint(small) {
+				width: 100%;
+				float: none;
+			}
+		}
+		.image {
+			float: right;
+			margin-bottom: -6px;
+			@include breakpoint(small) {
+				float: none;
+			}
+		}
+		@include breakpoint(medium) {
+			background-size: 60%;
+			background-position: 60% 100%;
+		}
+		@include breakpoint(small) {
+			background-image: none;
+		}
 	}
 }
