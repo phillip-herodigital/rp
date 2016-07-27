@@ -72,6 +72,7 @@
                                         <div class="label" ng-class="{ disabled : phoneOptions.missingIccid }">@Html.Sitecore().Field("Label - ICCID Number")</div>
                                         <a class="what-is-this" href="" ng-click="showModal('instructions/iccid')">@Html.Sitecore().Field("What is this Text")</a>
                                         <input type="text" name="iccid" ng-disabled="phoneOptions.missingIccid" ng-model="phoneOptions.iccidNumber" data-val="true" data-val-required data-val-regex data-val-regex-pattern="^(8901)(120|490)" data-val-if="phoneOptions.showIccid && !phoneOptions.missingIccid" />
+                                        <p>@Html.Sitecore().Field("ICCID Not Valid")</p>
                                     </div>
                                     <div class="clearfix"></div>
                                     <div>
@@ -249,7 +250,7 @@
                         <footer class="clearfix" ng-hide="showChangeLocation">
                             <a class="back" href="" ng-click="editDevice(true)">@Html.Sitecore().Field("Link - Back")</a>
                             <button class="button" ng-submit ng-disabled="configureData.$invalid">@Html.Sitecore().Field("Button - Check Out")</button>
-                            <button class="button add-line" type="button" ng-click="completeStep(true)" ng-disabled="configureData.$invalid">@Html.Sitecore().Field("Button - Add Another Line")</button>
+                            <button class="button add-line" type="button" ng-click="showLightbox('add-another-line') ng-disabled=" configuredata.$invalid">@Html.Sitecore().Field("Button - Add Another Line")</button>
                         </footer>
                     </form>
                     <div class="location-section clearfix" ng-show="showChangeLocation">
