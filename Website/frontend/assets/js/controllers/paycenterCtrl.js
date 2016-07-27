@@ -1,7 +1,7 @@
 ﻿/* Paycenter Map Controller
  *
  */
-ngApp.controller('PaycenterCtrl', ['$scope', '$http', '$window', '$location', 'orderByFilter', 'uiGmapGoogleMapApi', function ($scope, $http, $window, $location, orderBy, uiGmapGoogleMapApi) {
+ngApp.controller('PaycenterCtrl', ['$scope', '$http', '$window', '$location', 'orderByFilter', 'uiGmapGoogleMapApi', '$q', function ($scope, $http, $window, $location, orderBy, uiGmapGoogleMapApi, $q) {
     $scope.isLoading = true;
     $scope.inTexas = true;
     $scope.showMap = true;
@@ -158,78 +158,79 @@ ngApp.controller('PaycenterCtrl', ['$scope', '$http', '$window', '$location', 'o
     $scope.markers = [];
 
     $scope.getMarkers = function (getPlaces) {
-        var promise = new Promise(function (resolve, reject) {
-            var lat = getPlaces.geometry.location.lat();
-            var lng = getPlaces.geometry.location.lng();
-            var topLat = getPlaces.geometry.viewport.f.b;
-            var bottomLat = getPlaces.geometry.viewport.f.f;
-            var leftLng = getPlaces.geometry.viewport.b.f;
-            var rightLng = getPlaces.geometry.viewport.b.b;
-            $scope.isLoading = true;
-            $scope.inTexas = false;
-            if (getPlaces.address_components) {
-                angular.forEach(getPlaces.address_components, function (component) {
-                    if (component.short_name == "TX") {
-                        $scope.inTexas = true;
-                    }
-                });
-            }
-            else {
-                if (getPlaces.formatted_address.includes(" TX ")) {
+        var deferred = $q.defer();
+
+        var lat = getPlaces.geometry.location.lat();
+        var lng = getPlaces.geometry.location.lng();
+        var topLat = getPlaces.geometry.viewport.f.b;
+        var bottomLat = getPlaces.geometry.viewport.f.f;
+        var leftLng = getPlaces.geometry.viewport.b.f;
+        var rightLng = getPlaces.geometry.viewport.b.b;
+        $scope.isLoading = true;
+        $scope.inTexas = false;
+        if (getPlaces.address_components) {
+            angular.forEach(getPlaces.address_components, function (component) {
+                if (component.short_name == "TX") {
                     $scope.inTexas = true;
                 }
-            }
-            $http({
-                method: 'GET',
-                url: '/api/marketing/paymentlocations/' + lat + '/' + lng + '/' + topLat + '/' + leftLng + '/' + bottomLat + '/' + rightLng
-            }).then(function successCallback(response) {
-                $scope.markers = [];
-                $scope.isLoading = false;
-                angular.forEach(response.data, function (place, index) {
-                    $scope.markers.push({
-                        id: index + 1,
-                        icon: pinImage,
-                        coords: {
-                            latitude: place.lat,
-                            longitude: place.lon
-                        },
-                        locationInfo: {
-                            name: place.name,
-                            address: {
-                                line1: place.addressLine1,
-                                line2: place.addressLine2,
-                                city: place.city,
-                                state: place.stateAbbreviation,
-                                postCode: place.postalCode5,
-                                phone: place.phoneNumber
-                            },
-                            hours: place.hours,
-                            hoursArr: place.hours.replace(/(sun|mon|tue|wed|thur|fri|sat)\s/ig, "$1[NEWLINE]").split("[NEWLINE]"),
-                            paymentMethods: place.paymentMethods
-                        },
-                        onClicked: function () {
-                            $scope.openWindow(index)
-                        },
-                        distance: place.distance.toFixed(1),
-                        selected: false
-                    })
-                });
-                if (response.data.length) {
-                    $scope.noneFound = false;
-                    resolve(response.status);
-                }
-                else {
-                    $scope.noneFound = true;
-                    if ($scope.isMobile()) {
-                        $scope.showMap = true;
-                    }
-                    resolve("No Results Found");
-                }
-            }, function errorCallback(response) {
-                reject(new Error(response.status));
             });
+        }
+        else {
+            if (getPlaces.formatted_address.includes(" TX ")) {
+                $scope.inTexas = true;
+            }
+        }
+        $http({
+            method: 'GET',
+            url: '/api/marketing/paymentlocations/' + lat + '/' + lng + '/' + topLat + '/' + leftLng + '/' + bottomLat + '/' + rightLng
+        }).then(function successCallback(response) {
+            $scope.markers = [];
+            $scope.isLoading = false;
+            angular.forEach(response.data, function (place, index) {
+                $scope.markers.push({
+                    id: index + 1,
+                    icon: pinImage,
+                    coords: {
+                        latitude: place.lat,
+                        longitude: place.lon
+                    },
+                    locationInfo: {
+                        name: place.name,
+                        address: {
+                            line1: place.addressLine1,
+                            line2: place.addressLine2,
+                            city: place.city,
+                            state: place.stateAbbreviation,
+                            postCode: place.postalCode5,
+                            phone: place.phoneNumber
+                        },
+                        hours: place.hours,
+                        hoursArr: place.hours.replace(/(sun|mon|tue|wed|thur|fri|sat)\s/ig, "$1[NEWLINE]").split("[NEWLINE]"),
+                        paymentMethods: place.paymentMethods
+                    },
+                    onClicked: function () {
+                        $scope.openWindow(index)
+                    },
+                    distance: place.distance.toFixed(1),
+                    selected: false
+                })
+            });
+            if (response.data.length) {
+                $scope.noneFound = false;
+                deferred.resolve(response.status);
+            }
+            else {
+                $scope.noneFound = true;
+                if ($scope.isMobile()) {
+                    $scope.showMap = true;
+                }
+                deferred.resolve("No Results Found");
+            }
+        }, function errorCallback(response) {
+            deferred.reject(new Error(response.status));
         });
-        return promise;
+
+        return deferred.promise;
     }
 
     var ogCoords = null;

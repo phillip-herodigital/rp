@@ -1,4 +1,4 @@
-﻿ngApp.controller('supportCenterCtrl', ['$scope', '$http', '$sce', '$modal', 'scrollService', 'orderByFilter', function ($scope, $http, $sce, $modal, scrollService, orderByFilter) {
+﻿ngApp.controller('supportCenterCtrl', ['$scope', '$http', '$sce', '$modal', 'scrollService', 'orderByFilter', '$q', function ($scope, $http, $sce, $modal, scrollService, orderByFilter, $q) {
     function getParameterByName(name) {
         name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
         var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
@@ -225,31 +225,30 @@
     }
 
     var getFAQs = function (searchRequest) {
-        var promise = new Promise(function (resolve, reject) {
-            $http({
-                method: 'Post',
-                data: searchRequest,
-                url: "/api/support/search"
-            }).then(function success(response) {
-                var div = document.createElement('div');
-                angular.forEach(response.data, function (faq) {
-                    div.innerHTML = faq.faqAnswer;
-                    faq.faqAnswer = $sce.trustAsHtml(div.textContent);
-                    div.innerHTML = faq.faqQuestion;
-                    faq.faqQuestion = div.textContent;
-                    angular.forEach(faq.categories, function (faqCat, index) {
-                        faq.categories[index] = {
-                            name: faqCat.split("|")[0],
-                            guid: faqCat.split("|")[1]
-                        };
-                    });
+        var deferred = $q.defer();
+        $http({
+            method: 'Post',
+            data: searchRequest,
+            url: "/api/support/search"
+        }).then(function success(response) {
+            var div = document.createElement('div');
+            angular.forEach(response.data, function (faq) {
+                div.innerHTML = faq.faqAnswer;
+                faq.faqAnswer = $sce.trustAsHtml(div.textContent);
+                div.innerHTML = faq.faqQuestion;
+                faq.faqQuestion = div.textContent;
+                angular.forEach(faq.categories, function (faqCat, index) {
+                    faq.categories[index] = {
+                        name: faqCat.split("|")[0],
+                        guid: faqCat.split("|")[1]
+                    };
                 });
-                resolve(response.data);
-            }, function error(response) {
-                reject(response);
             });
+            deferred.resolve(response.data);
+        }, function error(response) {
+            deferred.reject(response);
         });
-        return promise;
+        return deferred.promise;
     }
 
     $scope.getSearchFaqs = function (viewValue) {
@@ -259,22 +258,21 @@
             category: $scope.searchData.category.guid,
             state: $scope.searchData.state ? $scope.searchData.state.guid : null,
         }
-        var promise = new Promise(function (resolve, reject) {
-            getFAQs(request).then(function (response) {
-                if ($scope.isLoading) {
-                    resolve([]);
+        var deferred = $q.defer();
+        getFAQs(request).then(function (response) {
+            if ($scope.isLoading) {
+                deferred.resolve([]);
+            }
+            else {
+                deferred.resolve(response.slice(0, 4));
+                if (response.length == 0 && $scope.searchData.text) {
+                    $scope.noSearchResults = true;
                 }
-                else {
-                    resolve(response.slice(0, 4));
-                    if (response.length == 0 && $scope.searchData.text) {
-                        $scope.noSearchResults = true;
-                    }
-                }
-            }, function (error) {
-                reject(null);
-            });
+            }
+        }, function (error) {
+            deferred.reject(null);
         });
-        return promise;
+        return deferred.promise;
     }
 
     $scope.search = function () {
