@@ -49,6 +49,10 @@ namespace StreamEnergy.DomainModels.Enrollments.Mobile
 
         public bool DisplayPlan { get; set; }
 
+        public string NonAutoPayID { get; set; }
+
+        public string WithAutoPayID { get; set; }
+
         public int SortOrder { get; set; }
 
         public IList<Rate> Rates { get; set; }

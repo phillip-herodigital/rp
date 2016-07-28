@@ -41,7 +41,7 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Test|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
+    <Optimize>false</Optimize>
     <OutputPath>bin\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
@@ -806,6 +806,7 @@
     <Compile Include="Conditions\EnrollmentTrafficCopCondition.cs" />
     <Compile Include="Conditions\HasThermostatPlanCondition.cs" />
     <Compile Include="Conditions\MaintenanceModeCondition.cs" />
+    <Compile Include="Controllers\ApiControllers\ToggleAutoPayRequest.cs" />
     <Compile Include="Models\Marketing\Support\InitResponse.cs" />
     <Compile Include="Controllers\ApiControllers\CurrentsController.cs" />
     <Compile Include="Controllers\ApiControllers\LogRecorderController.cs" />

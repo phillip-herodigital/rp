@@ -751,6 +751,24 @@ FROM [SwitchBack] WHERE ESIID=@esiId";
         }
 
         [HttpPost]
+        public async Task<ClientData> ToggleAutoPay([FromBody]AccountInformation request)
+        {
+            await Initialize();
+            MapCartToServices(request);
+            await stateMachine.Process(typeof(DomainModels.Enrollments.LoadDespositInfoState));
+            foreach (var locationService in stateMachine.Context.Services)
+            {
+                foreach (var offer in locationService.SelectedOffers)
+                {
+                    offer.WaiveDeposit = false;
+                    offer.DepositAlternative = false;
+                }
+            }
+            await stateMachine.ContextUpdated();
+            return ClientData();
+        }
+
+        [HttpPost]
         [Caching.CacheControl(MaxAgeInMinutes = 0)]
         public async Task<ClientData> SelectedOffers([FromBody]SelectedOffers value)
         {
