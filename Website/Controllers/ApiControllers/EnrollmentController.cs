@@ -1159,7 +1159,7 @@ FROM [SwitchBack] WHERE ESIID=@esiId";
 
                     if (emailType == "pending")
                     {
-                        await emailService.SendEmail(new Guid("{4310884E-4EA2-4D17-9ABA-5553C4D18E57}"), to, new NameValueCollection() {
+                        await emailService.SendEmail(new Guid("{006D3E9E-AA1D-4B44-A2E8-E531C828137A}"), to, new NameValueCollection() {
                             {"customerName", customerName},
                             {"accountNumbers", string.Join(", ", acctNumbers)},
                         });
@@ -1167,7 +1167,7 @@ FROM [SwitchBack] WHERE ESIID=@esiId";
                     }
                     else if (emailType == "pending review")
                     {
-                        await emailService.SendEmail(new Guid("{0594853C-1217-43D6-B866-F8BA0C57F488}"), to, new NameValueCollection() {
+                        await emailService.SendEmail(new Guid("{86A3E0E6-CC5A-43C8-8F11-AE9F352FF07C}"), to, new NameValueCollection() {
                             {"customerName", customerName},
                             {"accountNumbers", string.Join(", ", acctNumbers)},
                         });
@@ -1175,7 +1175,7 @@ FROM [SwitchBack] WHERE ESIID=@esiId";
                     }
                     else if (emailType == "submitted")
                     {
-                        await emailService.SendEmail(new Guid("{C874C035-AD39-4F33-8B51-AD142A6CCFDF}"), to, new NameValueCollection() {
+                        await emailService.SendEmail(new Guid("{83210888-B623-4589-A679-E532144053F7}"), to, new NameValueCollection() {
                             {"customerName", customerName},
                             {"accountNumbers", string.Join(", ", acctNumbers)},
                         });
