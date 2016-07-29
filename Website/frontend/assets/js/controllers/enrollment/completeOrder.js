@@ -166,8 +166,15 @@ ngApp.controller('EnrollmentCompleteOrderCtrl', ['$scope', 'enrollmentService', 
         });
     };
 
-    $scope.showAutopayWarning = function () {
-        if (!$scope.completeOrder.autopay) {
+    $scope.toggleAutoPay = function () {
+        if ($scope.completeOrder.autopay) {
+            if (_.some($scope.getCartItems(), function (item) {
+                return item.offerInformationByType[0].value.offerSelections[0].offer.withAutoPayID != "";
+            })) {
+                turnOnAutoPay();
+            }
+        }
+        else {
             if (_.some($scope.getCartItems(), function (item) {
                 return item.offerInformationByType[0].value.offerSelections[0].offer.nonAutoPayID != "";
             })) {
@@ -187,38 +194,10 @@ ngApp.controller('EnrollmentCompleteOrderCtrl', ['$scope', 'enrollmentService', 
                     'templateUrl': 'autopay-warning'
                 });
             }
-        }
-        else {
-            if (_.some($scope.getCartItems(), function (item) {
-            return item.offerInformationByType[0].value.offerSelections[0].offer.withAutoPayID != "";
-            })) {
-                $scope.turnAutoPayBackOn();
-            }
-        }
+        };
     };
 
-    $scope.leaveAutoPayOff = function () {
-        $scope.autoPayModalInstance.close();
-        if (enrollmentCartService.getCartVisibility()) {
-            enrollmentCartService.toggleCart();
-        }
-        _.filter(enrollmentCartService.services, function (s) {
-            return s.offerInformationByType[0].value.offerSelections[0].offer.nonAutoPayID != "";
-        }).forEach(function (service) {
-            service.offerInformationByType[0].value.offerSelections[0].offerId = service.offerInformationByType[0].value.offerSelections[0].offer.nonAutoPayID;
-            service.offerInformationByType[0].value.offerSelections[0].offer = _.find(service.offerInformationByType[0].value.availableOffers,
-                { id: service.offerInformationByType[0].value.offerSelections[0].offer.nonAutoPayID });
-        });
-
-        enrollmentService.toggleAutoPay();
-    };
-
-    $scope.turnAutoPayBackOn = function () {
-        $scope.completeOrder.autopay = true;
-        $scope.autoPayModalInstance.close();
-        if (enrollmentCartService.getCartVisibility()) {
-            enrollmentCartService.toggleCart();
-        }
+    var turnOnAutoPay = function () {
         _.filter(enrollmentCartService.services, function (s) {
             return s.offerInformationByType[0].value.offerSelections[0].offer.withAutoPayID != "";
         }).forEach(function (service) {
@@ -227,6 +206,28 @@ ngApp.controller('EnrollmentCompleteOrderCtrl', ['$scope', 'enrollmentService', 
                 { id: service.offerInformationByType[0].value.offerSelections[0].offer.withAutoPayID });
         });
         enrollmentService.toggleAutoPay();
+    }
+
+    $scope.turnOffAutoPay = function () {
+        $scope.autoPayModalInstance.close();
+        _.filter(enrollmentCartService.services, function (s) {
+            return s.offerInformationByType[0].value.offerSelections[0].offer.nonAutoPayID != "";
+            }).forEach(function (service) {
+                service.offerInformationByType[0].value.offerSelections[0].offerId = service.offerInformationByType[0].value.offerSelections[0].offer.nonAutoPayID;
+                service.offerInformationByType[0].value.offerSelections[0].offer = _.find(service.offerInformationByType[0].value.availableOffers,
+                    { id: service.offerInformationByType[0].value.offerSelections[0].offer.nonAutoPayID });
+            });
+        enrollmentService.toggleAutoPay();
+    };
+
+    $scope.keepAutoPay = function () {
+        $scope.completeOrder.autopay = true;
+        $scope.autoPayModalInstance.close();
+        if (_.some($scope.getCartItems(), function (item) {
+                return item.offerInformationByType[0].value.offerSelections[0].offer.withAutoPayID != "";
+        })) {
+            turnOnAutoPay();
+        }
     };
 
     $scope.editMobileDevice = function (item) {
