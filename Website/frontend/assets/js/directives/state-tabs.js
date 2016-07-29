@@ -19,7 +19,7 @@ ngApp.directive('stateTabs', ['breakpoint', 'jQuery', '$window', function (break
 
 				//Calculate the height of the tab items and window scroll offset also accounting for the fixed nav height
 				if(breakpoint.breakpoint.name == 'phone') {
-				    $window.scrollTo(0, $tabs.offset().top + $tabs.height() - jQuery('.states-menu:visible').innerHeight() - jQuery('.site-header').height());
+				    $window.scrollTo(0, $tabs.offset().top + $tabs.height() - jQuery('.site-header').height());
 				}
 			};
 
