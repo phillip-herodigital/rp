@@ -626,6 +626,7 @@ FROM [SwitchBack] WHERE ESIID=@esiId";
                                                                                     || renewalConfirmations.IsSuccess,
                                                                                ConfirmationNumber = confirmations.Where(entry => entry.Location == service.Location && entry.Offer.Id == selectedOffer.Offer.Id).Select(entry => entry.Details.ConfirmationNumber).FirstOrDefault()
                                                                                     ?? renewalConfirmations.ConfirmationNumber,
+                                                                               ConfirmationStatus = confirmations.Where(entry => entry.Location == service.Location && entry.Offer.Id == selectedOffer.Offer.Id).Select(entry => entry.Details.ConfirmationStatus).FirstOrDefault() ?? "",
                                                                                DepositType = GetDepositType(selectedOffer),
                                                                                ConfirmationDetails = confirmations.Where(entry => entry.Location == service.Location && entry.Offer.Id == selectedOffer.Offer.Id && entry.Details is PlaceMobileOrderResult).Select(entry => ((PlaceMobileOrderResult)entry.Details).PhoneNumber).FirstOrDefault(),
                                                                                RenewalConfirmation = renewalConfirmations
@@ -955,6 +956,7 @@ FROM [SwitchBack] WHERE ESIID=@esiId";
             var resultData = ClientData(typeof(DomainModels.Enrollments.PaymentInfoState));
             await GenerateEndOfEnrollmentScreenshot(resultData);
             await SendAssociateNameEmail(resultData);
+            await SendMobileNextSteps(resultData);
             return resultData;
         }
 
@@ -1035,7 +1037,7 @@ FROM [SwitchBack] WHERE ESIID=@esiId";
 
             await GenerateEndOfEnrollmentScreenshot(resultData);
             await SendAssociateNameEmail(resultData);
-
+            await SendMobileNextSteps(resultData);
             return resultData;
         }
 
@@ -1138,6 +1140,56 @@ FROM [SwitchBack] WHERE ESIID=@esiId";
                 stateMachine.InternalContext.AssociateEmailSent = true;
             }
         }
+
+        private async Task SendMobileNextSteps(Models.Enrollment.ClientData resultData)
+        {
+            if (resultData.ExpectedState == Models.Enrollment.ExpectedState.OrderConfirmed && !resultData.MobileNextStepsEmailSent)
+            {
+                var acctNumbers = (from product in resultData.Cart
+                                       from offerInformation in product.OfferInformationByType
+                                           where offerInformation.Key == "Mobile"
+                                           from selectedOffer in offerInformation.Value.OfferSelections
+                                               where !selectedOffer.ConfirmationSuccess
+                                               select selectedOffer.ConfirmationNumber).Distinct().ToArray();
+
+                if (acctNumbers.Length != 0)
+                {
+                    string emailType = (from product in resultData.Cart
+                                        from offerInformation in product.OfferInformationByType
+                                        where offerInformation.Key == "Mobile"
+                                        from selectedOffer in offerInformation.Value.OfferSelections
+                                        select selectedOffer.ConfirmationStatus).FirstOrDefault().ToLower();
+
+                    string to = resultData.ContactInfo.Email.Address.ToString();
+                    string customerName = resultData.ContactInfo.Name.First + " " + resultData.ContactInfo.Name.Last;
+
+                    if (emailType == "pending")
+                    {
+                        await emailService.SendEmail(new Guid("{006D3E9E-AA1D-4B44-A2E8-E531C828137A}"), to, new NameValueCollection() {
+                            {"customerName", customerName},
+                            {"accountNumbers", string.Join(", ", acctNumbers)},
+                        });
+                    }
+                    else if (emailType == "pending review")
+                    {
+                        await emailService.SendEmail(new Guid("{86A3E0E6-CC5A-43C8-8F11-AE9F352FF07C}"), to, new NameValueCollection() {
+                            {"customerName", customerName},
+                            {"accountNumbers", string.Join(", ", acctNumbers)},
+                        });
+                    }
+                    else if (emailType == "submitted")
+                    {
+                        await emailService.SendEmail(new Guid("{83210888-B623-4589-A679-E532144053F7}"), to, new NameValueCollection() {
+                            {"customerName", customerName},
+                            {"accountNumbers", string.Join(", ", acctNumbers)},
+                        });
+                    }
+                }
+                stateMachine.InternalContext.MobileNextStepsEmailSent = true;
+            }
+        }
+
+
 
         [HttpGet]
         [Caching.CacheControl(MaxAgeInMinutes = 0)]
