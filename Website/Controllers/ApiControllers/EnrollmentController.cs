@@ -752,6 +752,37 @@ FROM [SwitchBack] WHERE ESIID=@esiId";
         }
 
         [HttpPost]
+        public async Task<ClientData> ToggleAutoPay([FromBody]AccountInformation request)
+        {
+            await Initialize();
+
+            if (stateHelper.InternalContext != null)
+            {
+                stateHelper.InternalContext.Deposit = null;
+            }
+            var context = stateHelper.Context;
+            var internalContext = stateHelper.InternalContext;
+            stateHelper.Reset();
+            stateHelper.Context = context;
+            stateHelper.InternalContext = internalContext;
+            stateHelper.State = typeof(AccountInformationState);
+
+            await stateHelper.EnsureInitialized();
+
+            this.stateMachine = stateHelper.StateMachine;
+
+            await stateMachine.ContextUpdated();
+
+            MapCartToServices(request);
+
+            await stateMachine.ContextUpdated();
+
+            await stateMachine.Process(typeof(DomainModels.Enrollments.OrderConfirmationState));
+
+            return ClientData(typeof(DomainModels.Enrollments.VerifyIdentityState), typeof(DomainModels.Enrollments.PaymentInfoState));
+        }
+
+        [HttpPost]
         [Caching.CacheControl(MaxAgeInMinutes = 0)]
         public async Task<ClientData> SelectedOffers([FromBody]SelectedOffers value)
         {

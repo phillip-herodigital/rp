@@ -138,6 +138,83 @@
     }
 }
 
+.autopay-modal {
+    .modal-header {
+        padding: 20px 30px;
+    }
+
+    .modal-body {
+        padding: 0 0 25px 0;
+        background: url(../i/bg/divider.png) center top no-repeat;
+
+        p {
+            &:first-child {
+                margin: 0 30px;
+            }
+        }
+
+        hr {
+            border-top: 1px solid #e6e6e6;
+        }
+
+        .line {
+            border-bottom: 1px solid #e6e6e6;
+            margin: 0 30px 25px;
+            padding: 0 0 15px 40px;
+            background: url(../i/icon/phone-generic.png) left top no-repeat;
+
+            &:last-of-type {
+                border-bottom: none;
+                margin-bottom: 5px;
+            }
+
+            h3 {
+                font-size: 18px;
+                font-weight: 600;
+                color: #013c5b;
+                margin: 0 0 5px;
+            }
+
+            p {
+                font-size: 18px;
+                font-weight: 300;
+                color: #666666;
+            }
+
+            table {
+                td {
+                    border: none;
+                    font-size: 16px;
+                    font-weight: 400;
+                    color: #333333;
+                    width: 50%;
+                    padding: 5px 0;
+
+                    &.price {
+                        font-size: 18px;
+                        color: #000;
+                    }
+                }
+            }
+        }
+
+        .note {
+            margin: 0 30px;
+            font-size: 14px;
+            color: #333333;
+        }
+    }
+
+    .modal-footer {
+        border-top: 1px solid #e6e6e6;
+        background-color: #fff;
+
+        .button {
+            margin-left: 10px;
+        }
+    }
+}
+
 /*
     Generic styling for enrollment pages
  */
