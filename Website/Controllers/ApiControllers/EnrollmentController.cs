@@ -755,8 +755,23 @@ FROM [SwitchBack] WHERE ESIID=@esiId";
         {
             await Initialize();
 
-            //stateHelper.InternalContext.Deposit = null;
-            stateHelper.State = typeof(LoadDespositInfoState);
+            if (stateHelper.InternalContext != null)
+            {
+                stateHelper.InternalContext.Deposit = null;
+            }
+            var context = stateHelper.Context;
+            var internalContext = stateHelper.InternalContext;
+            stateHelper.Reset();
+            stateHelper.Context = context;
+            stateHelper.InternalContext = internalContext;
+            stateHelper.State = typeof(AccountInformationState);
+
+            await stateHelper.EnsureInitialized();
+
+            this.stateMachine = stateHelper.StateMachine;
+
+            await stateMachine.ContextUpdated();
+
             MapCartToServices(request);
 
             await stateMachine.ContextUpdated();
