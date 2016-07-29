@@ -340,15 +340,7 @@
                 })
             };
         });
-        $http.post('/api/enrollment/toggleAutoPay', data)
-            .success(function (response) {
-                return (response);
-            })
-            .error(function (status) {
-                console.log(status);
-                return (status);
-                $window.location.href = '/enrollment/please-contact';
-            });
+        makeCall("toggleAutoPay", data);
     };
 
     /**
