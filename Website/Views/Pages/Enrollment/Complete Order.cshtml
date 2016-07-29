@@ -888,26 +888,27 @@
     <div class="autopay-modal">
         <div class="modal-header">
             <a href="" ng-click="$dismiss()">Close</a>
-            <h2>Turn off AutoPay</h2>
+            <h2>Turn Off AutoPay</h2>
         </div>
         <div class="modal-body">
             <p>The plan you have selected has an AutoPay promotional discount. If you choose to turn off AutoPay, your monthly plan payment will change.</p>            
-            <div class="line" ng-repeat="item in getCartItems()" ng-init="offer = item.offerInformationByType[0].value.offerSelections[0].offer">
+            <hr />
+            <div class="line" ng-repeat="item in getCartItems()" ng-init="offer = item.offerInformationByType[0].value.offerSelections[0].offer" ng-show="offer.nonAutoPayID != ''">
                 <h3>Line #{{$index + 1}}</h3>
-                <p>Individual Plan + {{offer.data}}<span ng-hide="offer.data === 'unlimited'">GB</span> Plan</p>
-                <h3>Plan includes Unlimited Voice, Text and {{offer.data}}<span ng-hide="offer.data === 'unlimited'">GB</span> Data on our 4G LET Network<span ng-show="offer.includesInternational"> + Stream International Plus</span>.</h3>
+                <h3>Individual Plan + {{offer.data}}<span ng-hide="offer.data === 'Unlimited'">GB</span> Plan</h3>
+                <p>Plan includes Unlimited Voice, Text and {{offer.data}}<span ng-hide="offer.data === 'Unlimited'">GB</span> Data on our 4G LTE Network<span ng-show="offer.includesInternational"><br />+ Stream International Plus</span>.</p>
                 <table>
                     <tr>
                         <td>Price With AutoPay discount</td>
-                        <td>{{offer.rates[0].rateAmount}}</td>
+                        <td class="price">{{offer.rates[0].rateAmount | currency}}/month</td>
                     </tr>
                     <tr>
                         <td>Price Without AutoPay discount</td>
-                        <td>{{offer.rates[0].nonAutoPayPrice}}</td>
+                        <td class="price">{{offer.rates[0].nonAutoPayPrice | currency}}/month</td>
                     </tr>
                 </table>
             </div>
-            <p class="note">Turning off AutoPay will affect your plan price for the duration of your plan.</p>
+            <p class="note">*Turning off AutoPay will affect your plan price for the duration of your plan.</p>
         </div>
         <div class="modal-footer">
             <a class="button secondary" href="" ng-click="leaveAutoPayOff()">Turn Off AutoPay</a>

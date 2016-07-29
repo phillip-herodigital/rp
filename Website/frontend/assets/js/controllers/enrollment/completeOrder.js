@@ -168,6 +168,9 @@ ngApp.controller('EnrollmentCompleteOrderCtrl', ['$scope', 'enrollmentService', 
 
     $scope.showAutopayWarning = function () {
         if (!$scope.completeOrder.autopay) {
+            if (_.some($scope.getCartItems(), function (item) {
+            return item.offerInformationByType[0].value.offerSelections[0].offer.nonAutoPayID != "";
+        })) {
             angular.forEach($scope.getCartItems(), function (item) {
                 if (item.offerInformationByType[0].value.offerSelections[0].offer.nonAutoPayID != "") {
                     var nonAutoPayOffer = _.find(item.offerInformationByType[0].value.availableOffers, function (o) {
@@ -183,6 +186,14 @@ ngApp.controller('EnrollmentCompleteOrderCtrl', ['$scope', 'enrollmentService', 
                 'scope': $scope,
                 'templateUrl': 'autopay-warning'
             });
+            }
+        }
+        else {
+            if (_.some($scope.getCartItems(), function (item) {
+            return item.offerInformationByType[0].value.offerSelections[0].offer.withAutoPayID != "";
+            })) {
+                $scope.turnAutoPayBackOn();
+            }
         }
     };
 
@@ -194,18 +205,27 @@ ngApp.controller('EnrollmentCompleteOrderCtrl', ['$scope', 'enrollmentService', 
         _.filter(enrollmentCartService.services, function (s) {
             return s.offerInformationByType[0].value.offerSelections[0].offer.nonAutoPayID != "";
             }).forEach(function (service) {
-                enrollmentCartService.removeService(service);
                 service.offerInformationByType[0].value.offerSelections[0].offerId = service.offerInformationByType[0].value.offerSelections[0].offer.nonAutoPayID;
                 service.offerInformationByType[0].value.offerSelections[0].offer = _.find(service.offerInformationByType[0].value.availableOffers,
                     { id: service.offerInformationByType[0].value.offerSelections[0].offer.nonAutoPayID });
-                enrollmentCartService.addService(service);
             });
-        //enrollmentService.toggleAutoPay();
+        enrollmentService.toggleAutoPay();
     };
 
     $scope.turnAutoPayBackOn = function () {
         $scope.completeOrder.autopay = true;
         $scope.autoPayModalInstance.close();
+        if (enrollmentCartService.getCartVisibility()) {
+            enrollmentCartService.toggleCart();
+        }
+        _.filter(enrollmentCartService.services, function (s) {
+            return s.offerInformationByType[0].value.offerSelections[0].offer.withAutoPayID != "";
+        }).forEach(function (service) {
+            service.offerInformationByType[0].value.offerSelections[0].offerId = service.offerInformationByType[0].value.offerSelections[0].offer.withAutoPayID;
+            service.offerInformationByType[0].value.offerSelections[0].offer = _.find(service.offerInformationByType[0].value.availableOffers,
+                { id: service.offerInformationByType[0].value.offerSelections[0].offer.withAutoPayID });
+        });
+        enrollmentService.toggleAutoPay();
     };
 
     $scope.editMobileDevice = function (item) {

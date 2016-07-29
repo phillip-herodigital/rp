@@ -754,18 +754,16 @@ FROM [SwitchBack] WHERE ESIID=@esiId";
         public async Task<ClientData> ToggleAutoPay([FromBody]AccountInformation request)
         {
             await Initialize();
+
+            //stateHelper.InternalContext.Deposit = null;
+            stateHelper.State = typeof(LoadDespositInfoState);
             MapCartToServices(request);
-            await stateMachine.Process(typeof(DomainModels.Enrollments.LoadDespositInfoState));
-            foreach (var locationService in stateMachine.Context.Services)
-            {
-                foreach (var offer in locationService.SelectedOffers)
-                {
-                    offer.WaiveDeposit = false;
-                    offer.DepositAlternative = false;
-                }
-            }
+
             await stateMachine.ContextUpdated();
-            return ClientData();
+
+            await stateMachine.Process(typeof(DomainModels.Enrollments.OrderConfirmationState));
+
+            return ClientData(typeof(DomainModels.Enrollments.VerifyIdentityState), typeof(DomainModels.Enrollments.PaymentInfoState));
         }
 
         [HttpPost]
