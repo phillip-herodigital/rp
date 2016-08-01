@@ -2,12 +2,6 @@
 <script src="//maps.googleapis.com/maps/api/js?key=AIzaSyCKwR5gbRNgWMZ84ZxGFPh1Jpvm5nMRuRY&libraries=places"></script>
 <script src="https://cdn.rawgit.com/googlemaps/v3-utility-library/master/infobox/src/infobox.js"></script>
 
-@*<div class="paycenter-header">
-    <div class="wrapper clearfix">
-        <p class="description">@Html.Sitecore().Field("Paystation Description")</p>
-        <p class="pay-online">@Html.Sitecore().Field("Pay Online")</p>
-    </div>
-</div>*@
 <article class="clearfix marketing paycenter-locator" ng-controller="PaycenterCtrl">
     <div ng-if="isLoading" class="enrollment__loadingMessage">
         <span class="inner"><img class="loading" src="/frontend/assets/i/loading_screen.gif" width="44" height="44" /><br />@Html.Sitecore().Field("Processing")</span>
