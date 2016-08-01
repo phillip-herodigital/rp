@@ -2,8 +2,12 @@
 <script src="//maps.googleapis.com/maps/api/js?key=AIzaSyCKwR5gbRNgWMZ84ZxGFPh1Jpvm5nMRuRY&libraries=places"></script>
 <script src="https://cdn.rawgit.com/googlemaps/v3-utility-library/master/infobox/src/infobox.js"></script>
 
-@Html.Sitecore().Field("Main Heading")
-
+@*<div class="paycenter-header">
+    <div class="wrapper clearfix">
+        <p class="description">@Html.Sitecore().Field("Paystation Description")</p>
+        <p class="pay-online">@Html.Sitecore().Field("Pay Online")</p>
+    </div>
+</div>*@
 <article class="clearfix marketing paycenter-locator" ng-controller="PaycenterCtrl">
     <div ng-if="isLoading" class="enrollment__loadingMessage">
         <span class="inner"><img class="loading" src="/frontend/assets/i/loading_screen.gif" width="44" height="44" /><br />@Html.Sitecore().Field("Processing")</span>
@@ -124,5 +128,8 @@
                 </ui-gmap-window>
             </ui-gmap-google-map>
         </article>
+        <div class="note">
+            <p>Payments will be posted to your account within 3 business days after the date of payment. Utilizing these payment locations may incur a convenience fee of up to $2.95 for this service.</p>
+        </div>
     </div>
 </article>
