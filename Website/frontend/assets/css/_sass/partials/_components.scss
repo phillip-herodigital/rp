@@ -67,7 +67,10 @@
 .paycenter {
 
     .paycenter-header {
-        height: 100px;
+
+        .wrapper {
+            padding: 0;
+        }
 
         a.logo {
             display: inline-block;
@@ -87,10 +90,19 @@
             margin: 35px auto;
         }
 
-        p {
+        .description {
+            float: left;
+            width: 75%;
+            padding-right: 1em;
+            font-size: 18px;
+            margin-bottom: 1em;
+        }
+
+        .pay-online {
             font-size: 18px;
             float: right;
-            margin: 41px auto;
+            width: 25%;
+            margin: 1em auto;
 
             @include breakpoint(small) {
                 .hide-small {
@@ -153,10 +165,9 @@
     }
 
     article.paycenter-locator {
-        background: url('../i/marketing/redesign/Modules/module_background.png') no-repeat center top;
 
         .wrapper {
-            padding: 0;
+            padding: 1em 0;
         }
 
         .paycenter-header {
@@ -454,6 +465,13 @@
             @include breakpoint(small) {
                 width: 100%;
             }
+        }
+
+        .note {
+            clear: both;
+            padding-top: 1em;
+            font-size: 14px;
+            font-weight: 300;
         }
     }
 
