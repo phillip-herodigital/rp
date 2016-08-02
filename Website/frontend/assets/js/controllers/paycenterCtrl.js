@@ -45,7 +45,6 @@ ngApp.controller('PaycenterCtrl', ['$scope', '$http', '$window', '$location', 'o
                 });
             },
             idle: function (map) {
-                $scope.isLoading = true;
                 clearTimeout(searchTimeout);
                 if (updateMap && !initialLoad) {
                     $scope.mapManuallyMoved = !isSearch;
@@ -57,16 +56,16 @@ ngApp.controller('PaycenterCtrl', ['$scope', '$http', '$window', '$location', 'o
                             console.log(reason);
                         });
                     };
-                    getPlaces = {
-                        geometry: {
-                            location: map.center,
-                            viewport: map.getBounds()
-                        }
-                    };
-                    if (getPlaces.address_components) {
+                    if (isSearch) {
                         getMarkers(getPlaces);
                     }
                     else {
+                        getPlaces = {
+                            geometry: {
+                                location: map.center,
+                                viewport: map.getBounds()
+                            }
+                        };
                         var lat = map.center.lat();
                         var lng = map.center.lng();
                         var uri = 'https://maps.googleapis.com/maps/api/geocode/json?latlng=' + lat + ',' + lng + '&key=AIzaSyCKwR5gbRNgWMZ84ZxGFPh1Jpvm5nMRuRY';

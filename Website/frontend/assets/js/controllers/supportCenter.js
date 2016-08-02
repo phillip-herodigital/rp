@@ -10,7 +10,7 @@
     $scope.category = { //currently selected category object
         name: "",
         states: []
-    }; 
+    };
     $scope.categories = []; //list of all categories
     $scope.subcategories = []; //list of subcategories for $scope.category
     $scope.subcategory = "{249FF312-DD00-4E9A-BCFC-D5F782FDA700}"; //currently selected subcategory, the "All" guid
@@ -440,7 +440,7 @@
                 $scope.getDisplayedFAQs()[index].selected = false;
                 $scope.selectedFaqIndex = null;
             }
-            //select different faq
+                //select different faq
             else {
                 angular.forEach($scope.faqs, function (faq) {
                     faq.selected = false;
