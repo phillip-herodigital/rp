@@ -98,14 +98,14 @@
         if ($scope.selectedPlan.includesInternational) {
             i = _.findIndex($scope.currentMobileLocationInfo().offerInformationByType[0].value.availableOffers, function (o) {
                 if (!o.includesInternational) {
-                    return _.isEqual(o.data, $scope.selectedPlan.data);
+                    return _.isEqual(o.data, $scope.selectedPlan.data) && o.withAutoPayID === "";
                 }
             });
         }
         else {
             i = _.findIndex($scope.currentMobileLocationInfo().offerInformationByType[0].value.availableOffers, function (o) {
                 if (o.includesInternational) {
-                    return _.isEqual(o.data, $scope.selectedPlan.data);
+                    return _.isEqual(o.data, $scope.selectedPlan.data) && o.withAutoPayID === "";
                 }
             });
         }
