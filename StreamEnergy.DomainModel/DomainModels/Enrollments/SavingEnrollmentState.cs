@@ -21,7 +21,7 @@ namespace StreamEnergy.DomainModels.Enrollments
         public override IEnumerable<System.Linq.Expressions.Expression<Func<UserContext, object>>> PreconditionValidations(UserContext data, InternalContext internalContext)
         {
             yield return context => context.Services;
-            if (!data.IsRenewal)
+            if (!data.IsRenewal && !data.IsAddLine)
             {
                 yield return context => context.ContactInfo;
                 yield return context => context.Language;
@@ -47,13 +47,13 @@ namespace StreamEnergy.DomainModels.Enrollments
                 internalContext.EnrollmentSaveState = await enrollmentService.EndSaveEnrollment(internalContext.EnrollmentSaveState, context);
             }
 
-            if (!context.IsRenewal && !internalContext.EnrollmentSaveState.IsCompleted)
+            if (!context.IsRenewal /*&& !context.IsAddLine*/ && !internalContext.EnrollmentSaveState.IsCompleted)
             {
                 return this.GetType();
             }
             else
             {
-                if (!context.IsRenewal && internalContext.EnrollmentSaveState.Data == null)
+                if (!context.IsRenewal && /*!context.IsAddLine* && */ internalContext.EnrollmentSaveState.Data == null)
                 {
                     // some kind of enrollment error
                     return typeof(EnrollmentErrorState);
@@ -70,7 +70,7 @@ namespace StreamEnergy.DomainModels.Enrollments
 
         public override bool ForceBreak(UserContext context, InternalContext internalContext)
         {
-            return !context.IsRenewal && !internalContext.EnrollmentSaveState.IsCompleted;
+            return !context.IsRenewal /*&& !context.IsAddLine*/ && !internalContext.EnrollmentSaveState.IsCompleted;
         }
     }
 }

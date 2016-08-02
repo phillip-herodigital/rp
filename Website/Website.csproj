@@ -895,6 +895,7 @@
     <Compile Include="Models\Account\SetAutoPayResponse.cs" />
     <Compile Include="Models\Account\DismissInterstitialRequest.cs" />
     <Compile Include="Models\Account\DismissInterstitialResponse.cs" />
+    <Compile Include="Models\Account\SetupAddLineRequest.cs" />
     <Compile Include="Models\Account\SetupRenewalRequest.cs" />
     <Compile Include="Models\Account\SetupRenewalResponse.cs" />
     <Compile Include="Models\Account\UpdateAccountInformationRequest.cs" />
@@ -1735,7 +1736,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Azure-Production Sitecore|AnyCPU'">
     <OutputPath>bin\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
-    <Optimize>true</Optimize>
+    <Optimize>false</Optimize>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>

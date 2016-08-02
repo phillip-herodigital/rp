@@ -3,12 +3,13 @@
     needing to know which steps are next. This will allow the main controller
     or any other controller to turn on and off steps as needed when new products are added.
 */
-ngApp.factory('enrollmentStepsService', ['$rootScope', 'scrollService', 'jQuery', '$timeout', '$window', '$location', function ($rootScope, scrollService, jQuery, $timeout, $window, $location) {
+ngApp.factory('enrollmentStepsService', ['$rootScope', 'scrollService','$http', 'jQuery', '$timeout', '$window', '$location', function ($rootScope, scrollService,$http, jQuery, $timeout, $window, $location) {
     //Only currentStep is visible
     var currentStep = {};
     var initialFlow,
         currentFlow,
-        isRenewal;
+        isRenewal,
+        isAddLine;
 
     //List of steps for the enrollment process
     var steps = {};
@@ -159,6 +160,43 @@ ngApp.factory('enrollmentStepsService', ['$rootScope', 'scrollService', 'jQuery'
             isRenewal = true;
         },
 
+        setAddLine: function (accountNumber) {
+            delete steps.accountInformation;
+            isAddLine = true;
+
+            var accountData = {
+                accountNumber: accountNumber
+            };
+
+            $http.post('/api/account/Setupaddline', accountData)
+
+            flows.phone = {
+                'serviceInformation': {
+                    //name: 'phoneFlowVerifyPhone',
+                    //name: 'phoneFlowNetwork',
+                    name: 'phoneFlowDevices',
+                    previous: []
+                },
+                'deviceSelection': {
+                    name: 'phoneFlowDevices',
+                    //previous: ['phoneFlowVerifyPhone', 'phoneFlowNetwork']
+                    previous: []
+                },
+                'planSelection': {
+                    name: 'phoneFlowPlans',
+                    //previous: ['phoneFlowVerifyPhone', 'phoneFlowNetwork', 'phoneFlowDevices']
+                    previous: ['phoneFlowDevices']
+                }
+                /*'planSettings': {
+                    name: 'accountInformation',
+                    //previous: ['phoneFlowVerifyPhone', 'phoneFlowNetwork', 'phoneFlowDevices', 'phoneFlowPlans']
+                    previous: ['phoneFlowDevices', 'phoneFlowPlans']
+                }*/
+            }
+        },
+        isAddLine: function(){
+            return isAddLine;
+        },
         setInitialFlow: function (flow) {
             initialFlow = flow;
             currentFlow = flow;
@@ -203,10 +241,17 @@ ngApp.factory('enrollmentStepsService', ['$rootScope', 'scrollService', 'jQuery'
             else if (expectedState == 'errorHardStop') {
                 $window.location.href = '/enrollment/please-contact';
             }
-            else if (expectedState == 'planSettings' && isRenewal) {
+            else if (expectedState == 'planSettings' && (isRenewal)) {
+               service.setStep('reviewOrder');
+               service.setMaxStep('reviewOrder');
+                
+            }
+            else if (expectedState == "accountInformation" && isAddLine) {
                 service.setStep('reviewOrder');
                 service.setMaxStep('reviewOrder');
             }
+
+
             else if (flows[currentFlow] && flows[currentFlow][expectedState]) {
                 for (var i = 0; i < flows[currentFlow][expectedState].previous.length; i++) {
                     var stateName = flows[currentFlow][expectedState].previous[i];

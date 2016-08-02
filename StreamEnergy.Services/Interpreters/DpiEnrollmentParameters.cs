@@ -46,6 +46,10 @@ namespace StreamEnergy.Interpreters
             get { return (queryString["ServiceType"] ?? "").ToUpper(); }
         }
 
+        public string AddLineAccountNumber {
+            get { return (queryString["addline"] ?? ""); }
+        }
+
         public string State
         {
             get { return ((queryString["St"] ?? queryString["State"]) ?? "").ToUpper(); }
