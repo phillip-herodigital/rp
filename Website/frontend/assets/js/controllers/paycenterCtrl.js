@@ -93,7 +93,7 @@ ngApp.controller('PaycenterCtrl', ['$scope', '$http', '$window', '$location', 'o
             places_changed: function (searchBox) {
                 isSearch = true;
                 $scope.isLoading = true;
-
+                updateMap = true;
                 searchTimeout = setTimeout(function () {
                     $scope.$apply(function () {
                         isSearch = false;
