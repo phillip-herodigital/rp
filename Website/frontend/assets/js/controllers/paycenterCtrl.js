@@ -35,15 +35,15 @@ ngApp.controller('PaycenterCtrl', ['$scope', '$http', '$window', '$location', 'o
                 $scope.$apply(function () {
                     $scope.mapInstance = map;
                     if (!updateMap) {
-                        $scope.isLoading = false;
                         updateMap = true;
+                        $scope.isLoading = false;
                     }
                 });
             },
             idle: function (map) {
-                $scope.isLoading = true;
                 clearTimeout(searchTimeout);
                 if (updateMap) {
+                    $scope.isLoading = true;
                     $scope.mapManuallyMoved = !isSearch;
                     var getMarkers = function (getPlaces) {
                         var promise = $scope.getMarkers(getPlaces);
@@ -53,16 +53,16 @@ ngApp.controller('PaycenterCtrl', ['$scope', '$http', '$window', '$location', 'o
                             console.log(reason);
                         });
                     };
-                    getPlaces = {
-                        geometry: {
-                            location: map.center,
-                            viewport: map.getBounds()
-                        }
-                    };
-                    if (getPlaces.address_components) {
+                    if (isSearch) {
                         getMarkers(getPlaces);
                     }
                     else {
+                        getPlaces = {
+                            geometry: {
+                                location: map.center,
+                                viewport: map.getBounds()
+                            }
+                        };
                         var lat = map.center.lat();
                         var lng = map.center.lng();
                         var uri = 'https://maps.googleapis.com/maps/api/geocode/json?latlng=' + lat + ',' + lng + '&key=AIzaSyCKwR5gbRNgWMZ84ZxGFPh1Jpvm5nMRuRY';
