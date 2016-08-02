@@ -81,6 +81,7 @@ ngApp.controller('AcctYourUtilityPlanCtrl', ['$scope', '$rootScope', '$http', '$
     $scope.$watch('selectedAccount.accountNumber', function (newVal) {
         if (newVal && !$scope.isLoading) {
             $scope.isLoading = true;
+            $scope.hideCurrentRatePrice = false;
             $http({
                 method: 'POST',
                 url: '/api/account/getUtilityPlan',
@@ -126,6 +127,33 @@ ngApp.controller('AcctYourUtilityPlanCtrl', ['$scope', '$rootScope', '$http', '$
             if (data.isRenewal) {
                 $scope.showPlanSelector = true;
                 enrollmentService.setClientData(data);
+
+                var allisMore = true;
+                for (var i = 0; i < data.cart.length;i++){
+                    var c = data.cart[i];
+
+                    for (var j = 0; j < c.offerInformationByType.length; j++) {
+                        var t = c.offerInformationByType[j].value;
+
+                        var offers = t.availableOffers;
+
+                        for (var k = 0; k < offers.length; k++) {
+                            var rate = offers[k].rate;
+                            if (rate <= ($scope.utilityPlan.rate * 100))
+                            {
+                                allisMore = false;
+                                break;
+                            }
+                        }
+
+                        if (!allisMore) break;
+                    }
+
+                    if (!allisMore) break;
+                }
+
+                $scope.hideCurrentRatePrice = allisMore;
+
                 $scope.isLoading = false;
             } else {
                 // the account is no longer eligible, or something else went wrong

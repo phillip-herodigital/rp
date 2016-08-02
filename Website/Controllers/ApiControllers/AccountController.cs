@@ -197,10 +197,10 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
             var response = new GetMobileUsageResponse()
             {
-                BillToDate = account.Usage.Any() ? account.Usage.First().Value.EndDate : (DateTime?)null,
-                BillFromDate = account.Usage.Any() ? account.Usage.First().Value.StartDate : (DateTime?)null,
-                DataUsageLimit = account.SubAccounts.Cast<MobileAccount>().Max(p => p.PlanDataAvailable.HasValue ? p.PlanDataAvailable.Value : 0),
-                DeviceUsage = from device in account.SubAccounts.Cast<MobileAccount>()
+                BillToDate = account.Usage!= null && account.Usage.Any() ? account.Usage.First().Value.EndDate : (DateTime?)null,
+                BillFromDate = account.Usage != null && account.Usage.Any() ? account.Usage.First().Value.StartDate : (DateTime?)null,
+                DataUsageLimit = account.SubAccounts!= null && account.SubAccounts.Count() > 0 ?  account.SubAccounts.Cast<MobileAccount>().Max(p => p.PlanDataAvailable.HasValue ? p.PlanDataAvailable.Value : 0) : 0,
+                DeviceUsage = account.SubAccounts != null && account.SubAccounts.Count() > 0 ?  from device in account.SubAccounts.Cast<MobileAccount>()
                               let usage = (MobileAccountUsage)(account.Usage != null ? account.Usage.FirstOrDefault(u => ((MobileAccount)u.Key).PhoneNumber.Trim() == device.PhoneNumber.Trim()).Value : null)
                               select new MobileUsage()
                               {
@@ -211,7 +211,9 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                                   MessagesUsage = usage != null ? usage.MessagesUsage : (decimal?)null,
                                   MinutesUsage = usage != null ? usage.MinutesUsage : (decimal?)null,
 
-                              },
+                              } : null,
+
+                SubAccountCount = account.SubAccounts!= null ? account.SubAccounts.Count() : 0
             };
 
             return response;
