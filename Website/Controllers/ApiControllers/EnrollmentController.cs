@@ -1152,7 +1152,7 @@ FROM [SwitchBack] WHERE ESIID=@esiId";
                                                where !selectedOffer.ConfirmationSuccess
                                                select selectedOffer.ConfirmationNumber).Distinct().ToArray();
 
-                if (acctNumbers.Length != 0)
+                if (acctNumbers.Length != 0 && false)
                 {
                     string emailType = (from product in resultData.Cart
                                         from offerInformation in product.OfferInformationByType
