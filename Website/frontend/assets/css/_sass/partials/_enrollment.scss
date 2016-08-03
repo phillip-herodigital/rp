@@ -5471,7 +5471,8 @@ h3.success-message{
             font-weight: 500;
             background-color: #2aa4dc;
             border: 1px solid #229acd;
-            padding: 10px 22px;
+            padding: 10px 0;
+            text-align: center;
             min-height: 25px;
             width: 100px;
             @include border-radius(5px);
