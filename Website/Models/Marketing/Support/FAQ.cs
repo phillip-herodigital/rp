@@ -74,12 +74,26 @@ namespace StreamEnergy.MyStream.Models.Marketing.Support
             }
         }
 
-        private string getValue(string key) {
-            return SitecoreItem.Fields[key] != null ?  SitecoreItem.Fields[key].Value : "";
+        private string getValue(string key)
+        {
+            return getValue(key, false);
         }
 
-        private string getValueFromItem(Item item, string key) {
-            return item.Fields[key] != null ? item.Fields[key].Value : "";
+        private string getValue(string key, bool encodeValue)
+        {
+            return getValueFromItem(SitecoreItem, key, encodeValue);
+        }
+
+        private string getValueFromItem(Item item, string key)
+        {
+            return getValueFromItem(item, key, false);
+        }
+
+        private string getValueFromItem(Item item, string key, bool encodeValue)
+        {
+            return item.Fields[key] != null ? (encodeValue ? HttpUtility.HtmlEncode(item.Fields[key].Value)
+                                                : item.Fields[key].Value)
+                : "";
         }
     }
 }

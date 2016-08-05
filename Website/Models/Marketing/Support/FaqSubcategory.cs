@@ -23,7 +23,7 @@ namespace StreamEnergy.MyStream.Models.Marketing.Support
 
         private void buildSubCategory() {
             Guid = SitecoreItem.ID.ToString();
-            Name = SitecoreItem.Fields["Name"].Value;
+            Name = HttpUtility.HtmlEncode(SitecoreItem.Fields["Name"].Value);
             Categories = (from string category in SitecoreItem.Fields["Categories"].Value.Split("|".ToCharArray())
                           select category).ToArray();
         }
