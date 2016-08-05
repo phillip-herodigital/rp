@@ -1,4 +1,8 @@
-﻿<article class="grey-box mobile usage-details" ng-app ng-controller="AcctUsageSummaryCtrl" ng-hide="hideComponent" loading-indicator ng-cloak>
+﻿@{
+    Sitecore.Data.Items.Item cdmaPlansItem = Sitecore.Context.Database.GetItem("{2F9BF741-D951-4C8C-957F-07F1C846A169}");
+}
+
+<article class="grey-box mobile usage-details marketing cdma-pricing-plans portal-plans"  ng-app ng-controller="AcctUsageSummaryCtrl" ng-hide="hideComponent" loading-indicator ng-cloak>
     <header>
         <h2 class="header-left">@Html.Sitecore().Field("Header Text")</h2>
         <div class="filters">
@@ -53,7 +57,7 @@
                     </td>
                     <td>
                         <div class="device-full">
-                            <strong>{{ device.dataUsage | gigabyte }} GB</strong>
+                            <strong>{{ device.dataUsage | gigabyte }} GB of 3 GB<br /> used</strong>
                         </div>
                         <div class="device-short">
                             <strong>{{ device.dataUsage | gigabyte:1 }} GB</strong>
@@ -77,41 +81,63 @@
                     </td>
                 </tr>
             </tbody>
-            <tfoot>
-                <tr ng-model="usageTotal">
-                    <td><div class="add-device">@Html.Sitecore().Field("Add Device Link")</div></td>
-                    <td>
-                        <div class="device-full">
-                            @Html.Sitecore().Field("Data Total")<br />
-                            <strong>{{ deviceTotal.data.usage | gigabyte }} GB</strong>
-                            @Html.Sitecore().Field("Of")
-                            <strong>{{ deviceTotal.data.limit <= 0 ? 'Unlimited' : (deviceTotal.data.limit | gigabyte) + ' GB' }}</strong>
-                        </div>
-                        <div class="device-short">
-                            <strong>{{ deviceTotal.data.usage | gigabyte:1 }} GB</strong>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="device-full">
-                            @Html.Sitecore().Field("Messages Total")<br />
-                            <strong>{{ deviceTotal.messages.usage | number }}</strong>
-                        </div>
-                        <div class="device-short">
-                            <strong>{{ deviceTotal.messages.usage | number }}</strong>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="device-full">
-                            @Html.Sitecore().Field("Minutes Total")<br />
-                            <strong>{{ deviceTotal.minutes.usage | number }}</strong>
-                        </div>
-                        <div class="device-short">
-                            <strong>{{ deviceTotal.minutes.usage | number }}</strong>
-                        </div>
-                    </td>
-                </tr>
-            </tfoot>
         </table>
+        <footer>
+            <div ng-click="addDevice=!addDevice" ng-show="!addDevice">
+                <p><a class="button secondary" href="">@Html.Sitecore().Field("Add Device Button Text")</a></p>
+            </div>
+            <div ng-show="addDevice">
+                <h3>@Html.Sitecore().Field("Select Rate Header")</h3>
+                <div class="grid border four">
+                    <div class="col">
+                        <div class="plan-details">
+                            <p class="data">@cdmaPlansItem["Plan 1 GB"]</p>
+                            <p class="lte">@cdmaPlansItem["LTE Data"]</p>
+                            <h2>@Html.Sitecore().Field("Plan 1 Service", cdmaPlansItem)</h2>
+                            <p class="international">@Html.Sitecore().Field("Add International Service", cdmaPlansItem)</p>
+                            <p class="price no-international">@Html.Sitecore().Field("Plan 1 Price", cdmaPlansItem)</p>
+                            <p>@Html.Sitecore().Field("Portal Plan 1 Button", cdmaPlansItem)</p>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="plan-details">
+                            <p class="data">@cdmaPlansItem["Plan 2 GB"]</p>
+                            <p class="lte">@cdmaPlansItem["LTE Data"]</p>
+                            <h2>@Html.Sitecore().Field("Plan 2 Service", cdmaPlansItem)</h2>
+                            <p class="international">@Html.Sitecore().Field("Add International Service", cdmaPlansItem)</p>
+                            <p class="price no-international">@Html.Sitecore().Field("Plan 2 Price", cdmaPlansItem)</p>
+                            <p>@Html.Sitecore().Field("Portal Plan 2 Button", cdmaPlansItem)</p>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="plan-details">
+                            <span class="best-deal">
+                                @cdmaPlansItem["Best Deal"]
+                            </span>
+                            <p class="data">@cdmaPlansItem["Plan 3 GB"]</p>
+                            <p class="lte">@cdmaPlansItem["LTE Data"]</p>
+                            <h2>@Html.Sitecore().Field("Plan 3 Service", cdmaPlansItem)</h2>
+                            <div class="international">
+                                <p>@Html.Sitecore().Field("Stream International", cdmaPlansItem)</p>
+                            </div>
+                            <p class="price">@Html.Sitecore().Field("Plan 3 Price", cdmaPlansItem)</p>
+                            <p>@Html.Sitecore().Field("Portal Plan 3 Button", cdmaPlansItem)</p>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="plan-details">
+                            <p class="data">@Html.Sitecore().Field("Plan 4 GB", cdmaPlansItem)</p>
+                            <p class="lte">@cdmaPlansItem["LTE Data"]</p>
+                            <h2>@Html.Sitecore().Field("Plan 4 Service", cdmaPlansItem)</h2>
+                            <div class="international">
+                                <p>@Html.Sitecore().Field("Stream International", cdmaPlansItem)</p>
+                            </div>
+                            <p class="price">@Html.Sitecore().Field("Plan 4 Price", cdmaPlansItem)</p>
+                            <p>@Html.Sitecore().Field("Portal Plan 4 Button", cdmaPlansItem)</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
     </div>
 </article>
-
