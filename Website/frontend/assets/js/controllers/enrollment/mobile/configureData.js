@@ -188,6 +188,51 @@
             enrollmentService.setAccountInformation();
             $scope.selectedPlan = {};
         }
+
+
+        if (enrollmentStepsService.isAddLine()) {
+            //setup cart
+            var depositAlternatives = _(enrollmentCartService.services).map(function (service) {
+                return _(service.offerInformationByType).pluck('value').flatten().filter().pluck('offerSelections').flatten().filter().map(function (selection) {
+                    if (selection.payments != null && _(selection.payments.requiredAmounts).filter({ depositOption: 'depositAlternative' }).some()) {
+                        return {
+                            location: service.location,
+                            offerId: selection.offerId
+                        };
+                    }
+                }).value();
+            }).flatten().filter().value();
+
+            var depositWaivers = _(enrollmentCartService.services).map(function (service) {
+                return _(service.offerInformationByType).pluck('value').flatten().filter().pluck('offerSelections').flatten().filter().map(function (selection) {
+                    if (selection.payments != null && _(selection.payments.requiredAmounts).filter({ depositOption: 'waived' }).some()) {
+                        return {
+                            location: service.location,
+                            offerId: selection.offerId
+                        };
+                    }
+                }).value();
+            }).flatten().filter().value();
+
+            var setConfirmOrder = function (paymentInfo) {
+                enrollmentService.setConfirmOrder({
+                    autopay: $scope.completeOrder.autopay && !enrollmentCartService.cartHasUtility(),
+                    additionalAuthorizations: $scope.completeOrder.additionalAuthorizations,
+                    agreeToTerms: $scope.completeOrder.agreeToTerms,
+                    agreeToAutoPayTerms: $scope.completeOrder.agreeToAutoPayTerms,
+                    paymentInfo: paymentInfo,
+                    depositAlternatives: depositAlternatives,
+                    depositWaivers: depositWaivers,
+                    w9BusinessData: _.keys($scope.w9BusinessData).length ? $scope.w9BusinessData : null
+                });
+
+                enrollmentService.setAccountInformation().then(function (data) {
+                    $scope.validations = data.validations;
+                });
+            };
+
+            setConfirmOrder(null);
+        }
     };
 
     $scope.showModal = function (templateUrl, size) {

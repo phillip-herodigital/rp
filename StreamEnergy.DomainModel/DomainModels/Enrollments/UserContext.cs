@@ -16,6 +16,10 @@ namespace StreamEnergy.DomainModels.Enrollments
     {
         public bool IsRenewal { get; set; }
 
+        public bool IsAddLine { get; set; }
+
+        public string AddLineAccountNumber { get; set; }
+
         public bool IsSinglePage { get; set; }
 
         public Guid LoggedInCustomerId { get; set; }
@@ -129,7 +133,7 @@ namespace StreamEnergy.DomainModels.Enrollments
 
         IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
-            if (SocialSecurityNumber == null && TaxId == null)
+            if (!IsAddLine && SocialSecurityNumber == null && TaxId == null)
             {
                 yield return new ValidationResult("Tax Id or SSN Required", new[] { "SocialSecurityNumber", "TaxId" });
             }

@@ -90,6 +90,10 @@
         if (result.isRenewal) {
             enrollmentStepsService.setRenewal();
         }
+
+        if (result.isAddLine && result.expectedState == "serviceInformation") {
+            enrollmentStepsService.setAddLine(result.addLineAccountNumber);
+        }
     };
 
     function makeCall(urlSuffix, data, mode, overrideServerStep) {

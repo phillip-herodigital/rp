@@ -25,7 +25,7 @@ namespace StreamEnergy.DomainModels.Enrollments
 
         public override bool IgnoreValidation(System.ComponentModel.DataAnnotations.ValidationResult validationResult, UserContext context, InternalContext internalContext)
         {
-            if (context.IsRenewal)
+            if (context.IsRenewal || context.IsAddLine)
             {
                 if (validationResult.MemberNames.Any(m => m.StartsWith("ContactInfo")))
                     return true;
@@ -40,14 +40,14 @@ namespace StreamEnergy.DomainModels.Enrollments
                 if (validationResult.MemberNames.Any(m => m.StartsWith("MailingAddress")))
                     return true;
             }
-            if (context.IsRenewal || context.IsSinglePage || context.Services.SelectMany(s => s.Location.Capabilities).OfType<CustomerTypeCapability>().Any(ct => ct.CustomerType == EnrollmentCustomerType.Commercial))
+            if (context.IsRenewal || context.IsAddLine || context.IsSinglePage || context.Services.SelectMany(s => s.Location.Capabilities).OfType<CustomerTypeCapability>().Any(ct => ct.CustomerType == EnrollmentCustomerType.Commercial))
             {
                 if (validationResult.MemberNames.Any(m => m.StartsWith("OnlineAccount")))
                     return true;
                 if (validationResult.MemberNames.Any(m => m.StartsWith("SelectedIdentityAnswers")))
                     return true;
             }
-            if (context.IsRenewal || context.IsSinglePage || !context.Services.SelectMany(svc => svc.Location.Capabilities).OfType<ServiceStatusCapability>().Any(cap => cap.EnrollmentType == EnrollmentType.MoveIn) || !context.Services.SelectMany(s => s.Location.Capabilities).OfType<CustomerTypeCapability>().Any(ct => ct.CustomerType != EnrollmentCustomerType.Commercial))
+            if (context.IsRenewal || context.IsAddLine || context.IsSinglePage || !context.Services.SelectMany(svc => svc.Location.Capabilities).OfType<ServiceStatusCapability>().Any(cap => cap.EnrollmentType == EnrollmentType.MoveIn) || !context.Services.SelectMany(s => s.Location.Capabilities).OfType<CustomerTypeCapability>().Any(ct => ct.CustomerType != EnrollmentCustomerType.Commercial))
             {
                 if (validationResult.MemberNames.Any(m => m.StartsWith("PreviousAddress")))
                     return true;
@@ -57,7 +57,7 @@ namespace StreamEnergy.DomainModels.Enrollments
 
         protected override async Task<Type> InternalProcess(UserContext context, InternalContext internalContext)
         {
-            if (context.IsRenewal)
+            if (context.IsRenewal) //I don't believe that we need AddLine here.  Is that correct?
             {
                 var svc = context.Services.Single().SelectedOffers.Single();
                 var renewalCapability = context.Services.SelectMany(s => s.Location.Capabilities).OfType<IRenewalCapability>().First();
@@ -109,7 +109,7 @@ namespace StreamEnergy.DomainModels.Enrollments
 
         public override bool ForceBreak(UserContext context, InternalContext internalContext)
         {
-            if (context.IsRenewal && !internalContext.RenewalResult.IsCompleted)
+            if (context.IsRenewal && !internalContext.RenewalResult.IsCompleted) //I don't think we need AddLine here.  Is that correct?
             {
                 return true;
             }

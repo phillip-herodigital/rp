@@ -127,6 +127,10 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
             stateHelper.StateMachine.Context.SitecoreLanguageIsoCode = Sitecore.Context.Language.CultureInfo.TwoLetterISOLanguageName;
 
+            stateHelper.Context.AddLineAccountNumber = stateHelper.Context.AddLineAccountNumber ?? dpiEnrollmentParameters.AddLineAccountNumber;
+            stateHelper.Context.IsAddLine = currentUser.StreamConnectCustomerId.ToString() != "00000000-0000-0000-0000-000000000000" 
+                && !string.IsNullOrEmpty(stateHelper.Context.AddLineAccountNumber);
+
             this.stateMachine = stateHelper.StateMachine;
         }
 
@@ -320,6 +324,37 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             this.stateMachine = stateHelper.StateMachine;
 
             return ClientData(typeof(DomainModels.Enrollments.PlanSelectionState));
+        }
+
+        [NonAction]
+        public async Task<ClientData> SetupAddLine(DomainModels.Accounts.Account account)
+        {
+            await Initialize();
+            
+            if (stateMachine.InternalContext.EnrollmentSaveState != null && stateMachine.InternalContext.EnrollmentSaveState.IsCompleted)
+            {
+                await ResetPreAccountInformation();
+            }
+            
+            stateHelper.StateMachine.InternalContext.GlobalCustomerId = account.StreamConnectCustomerId;
+            stateMachine.Context.ContactInfo = account.Details.ContactInfo;
+
+            //FOR CODE REVIEW.  IS THIS THE CORRECT MAPPING?
+            stateMachine.Context.MailingAddress = account.Details.BillingAddress;
+            stateMachine.Context.PreviousAddress = account.Details.BillingAddress; 
+            
+            if (stateMachine.Context.ContactInfo != null && stateMachine.Context.ContactInfo.Phone != null)
+            {
+                EnsureTypedPhones(stateMachine.Context.ContactInfo.Phone);
+            }
+
+            await stateMachine.ContextUpdated();
+            await stateMachine.ContextUpdated();
+
+            if (stateMachine.State == typeof(DomainModels.Enrollments.AccountInformationState) || stateMachine.State == typeof(DomainModels.Enrollments.PlanSelectionState))
+                await stateMachine.Process(typeof(DomainModels.Enrollments.PaymentInfoState));
+
+            return ClientData(typeof(DomainModels.Enrollments.VerifyIdentityState), typeof(DomainModels.Enrollments.PaymentInfoState));
         }
 
         /// <summary>
@@ -570,6 +605,20 @@ FROM [SwitchBack] WHERE ESIID=@esiId";
                 Reset();
             }
 
+            var loggedInCustomerID = stateMachine.Context.LoggedInCustomerId;
+
+            /*if (loggedInCustomerID .ToString() == "00000000-0000-0000-0000-000000000000" && currentUser != null && loggedInCustomerID.ToString() != currentUser.StreamConnectCustomerId.ToString()) {
+                var accounts = (accountService.GetAccounts(currentUser.StreamConnectCustomerId)).Result.ToList().Take(3);
+                stateMachine.Context.LoggedInCustomerId = currentUser.StreamConnectCustomerId;
+                stateMachine.Context.LoggedInAccountDetails =  (from account in accounts
+                                     select new UserAccountDetails
+                                     {
+                                         ContactInfo = account.Details.ContactInfo,
+                                         MailingAddress = account.Details.BillingAddress,
+                                         AccountNumber = account.AccountNumber
+                                     }).ToArray();
+            }*/
+
             return new ClientData
             {
                 IsTimeout = stateHelper.IsNewSession,
@@ -577,6 +626,8 @@ FROM [SwitchBack] WHERE ESIID=@esiId";
                 Validations = validations,
                 ExpectedState = expectedState,
                 IsRenewal = stateMachine.Context.IsRenewal,
+                IsAddLine = stateMachine.Context.IsAddLine,
+                AddLineAccountNumber = stateMachine.Context.AddLineAccountNumber,
                 IsSinglePage = stateMachine.Context.IsSinglePage,
                 LoggedInCustomerId = stateMachine.Context.LoggedInCustomerId,
                 EnrolledInAutoPay = stateMachine.Context.EnrolledInAutoPay,
@@ -774,7 +825,9 @@ FROM [SwitchBack] WHERE ESIID=@esiId";
                 await stateMachine.Process(typeof(DomainModels.Enrollments.AccountInformationState));
             else
                 await stateMachine.ContextUpdated();
-            /* Disable logged in enrollment for now
+
+
+            //Disable logged in enrollment for now
             
             if (currentUser.StreamConnectCustomerId != Guid.Empty && stateMachine.Context.LoggedInCustomerId == Guid.Empty)
             {
@@ -792,15 +845,16 @@ FROM [SwitchBack] WHERE ESIID=@esiId";
                                      {
                                          ContactInfo = account.Details.ContactInfo,
                                          MailingAddress = account.Details.BillingAddress,
+                                         AccountNumber = account.AccountNumber
                                      }).ToArray();
             }
-            */
+            
             return ClientData(typeof(DomainModels.Enrollments.AccountInformationState));
         }
 
         private async Task ResetPreAccountInformation()
         {
-            if (stateHelper.Context.IsRenewal || stateHelper.Context.IsSinglePage)
+            if (stateHelper.Context.IsRenewal  || stateMachine.Context.IsAddLine || stateHelper.Context.IsSinglePage)
                 return;
             if (stateHelper.InternalContext != null)
             {
@@ -865,29 +919,41 @@ FROM [SwitchBack] WHERE ESIID=@esiId";
             MapCartToServices(request);
 
             stateMachine.Context.AgreeToTerms = false;
-            stateMachine.Context.ContactInfo = request.ContactInfo;
-            stateMachine.Context.ContactTitle = request.ContactTitle;
-            if (stateMachine.Context.ContactInfo != null && stateMachine.Context.ContactInfo.Phone != null)
-            {
-                EnsureTypedPhones(stateMachine.Context.ContactInfo.Phone);
-            }
-            stateMachine.Context.OnlineAccount = request.OnlineAccount;
-            if (stateMachine.Context.OnlineAccount != null)
-            {
-                stateMachine.Context.OnlineAccount.Username = domain.AccountPrefix + stateMachine.Context.OnlineAccount.Username;
-            }
-            stateMachine.Context.Language = request.Language;
-            stateMachine.Context.SecondaryContactInfo = request.SecondaryContactInfo;
-            stateMachine.Context.SocialSecurityNumber = request.SocialSecurityNumber;
-            stateMachine.Context.PreviousAddress = request.PreviousAddress;
-            stateMachine.Context.MailingAddress = request.MailingAddress;
+            
+            
 
-            stateMachine.Context.TaxId = request.TaxId;
-            stateMachine.Context.CompanyName = request.CompanyName;
-            stateMachine.Context.DoingBusinessAs = request.DoingBusinessAs;
-            stateMachine.Context.PreferredSalesExecutive = request.PreferredSalesExecutive;
-            stateMachine.Context.PreviousProvider = request.PreviousProvider;
-            stateMachine.Context.AssociateName = request.AssociateName;
+            if (!stateMachine.Context.IsAddLine)
+            {
+                // This information is no longer sent on the request for addLine
+                
+                stateMachine.Context.OnlineAccount = request.OnlineAccount;
+                if (stateMachine.Context.OnlineAccount != null)
+                {
+                    stateMachine.Context.OnlineAccount.Username = domain.AccountPrefix + stateMachine.Context.OnlineAccount.Username;
+                }
+
+                stateMachine.Context.ContactInfo = request.ContactInfo;
+                stateMachine.Context.ContactTitle = request.ContactTitle;
+
+                if (stateMachine.Context.ContactInfo != null && stateMachine.Context.ContactInfo.Phone != null)
+                {
+                    EnsureTypedPhones(stateMachine.Context.ContactInfo.Phone);
+                }
+
+                stateMachine.Context.Language = request.Language;
+                stateMachine.Context.SecondaryContactInfo = request.SecondaryContactInfo;
+                stateMachine.Context.SocialSecurityNumber = request.SocialSecurityNumber;
+                stateMachine.Context.PreviousAddress = request.PreviousAddress;
+                stateMachine.Context.MailingAddress = request.MailingAddress;
+
+                stateMachine.Context.TaxId = request.TaxId;
+                stateMachine.Context.CompanyName = request.CompanyName;
+                stateMachine.Context.DoingBusinessAs = request.DoingBusinessAs;
+                stateMachine.Context.PreferredSalesExecutive = request.PreferredSalesExecutive;
+                stateMachine.Context.PreviousProvider = request.PreviousProvider;
+                stateMachine.Context.AssociateName = request.AssociateName;
+            }
+            
 
             stateMachine.Context.TrustEvSessionId = request.TrustEvSessionId;
 
@@ -898,11 +964,20 @@ FROM [SwitchBack] WHERE ESIID=@esiId";
             await stateMachine.ContextUpdated();
 
             if (stateMachine.State == typeof(DomainModels.Enrollments.AccountInformationState) || stateMachine.State == typeof(DomainModels.Enrollments.PlanSelectionState))
+            {
+                    await stateMachine.Process(typeof(DomainModels.Enrollments.OrderConfirmationState));
+            }
+                
+            else if ((stateMachine.Context.IsRenewal || stateMachine.Context.IsAddLine || stateMachine.Context.IsSinglePage) && stateMachine.State == typeof(DomainModels.Enrollments.LoadDespositInfoState))
                 await stateMachine.Process(typeof(DomainModels.Enrollments.OrderConfirmationState));
-            else if ((stateMachine.Context.IsRenewal || stateMachine.Context.IsSinglePage) && stateMachine.State == typeof(DomainModels.Enrollments.LoadDespositInfoState))
+            /*else if (stateMachine.Context.IsAddLine && stateMachine.State == typeof(DomainModels.Enrollments.AccountInformationState)) {
                 await stateMachine.Process(typeof(DomainModels.Enrollments.OrderConfirmationState));
+            }*/
 
-            return ClientData(typeof(DomainModels.Enrollments.VerifyIdentityState), typeof(DomainModels.Enrollments.PaymentInfoState));
+            var cd = ClientData(typeof(DomainModels.Enrollments.VerifyIdentityState), typeof(DomainModels.Enrollments.PaymentInfoState));
+
+            return cd;
+            //return ClientData(typeof(DomainModels.Enrollments.VerifyIdentityState), typeof(DomainModels.Enrollments.PaymentInfoState));
         }
 
         private void EnsureTypedPhones(Phone[] phones)

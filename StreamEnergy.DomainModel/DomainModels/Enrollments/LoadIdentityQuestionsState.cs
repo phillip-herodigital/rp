@@ -22,7 +22,7 @@ namespace StreamEnergy.DomainModels.Enrollments
         public override IEnumerable<System.Linq.Expressions.Expression<Func<UserContext, object>>> PreconditionValidations(UserContext data, InternalContext internalContext)
         {
             yield return context => context.Services;
-            if (!data.IsRenewal)
+            if (!data.IsRenewal && !data.IsAddLine)
             {
                 yield return context => context.ContactInfo;
                 yield return context => context.Language;
@@ -43,9 +43,9 @@ namespace StreamEnergy.DomainModels.Enrollments
 
         protected override async Task<Type> InternalProcess(UserContext context, InternalContext internalContext)
         {
-            if (context.IsRenewal || context.IsSinglePage || !internalContext.IdentityCheck.Data.HardStop.HasValue)
+            if (context.IsRenewal || context.IsAddLine || context.IsSinglePage || !internalContext.IdentityCheck.Data.HardStop.HasValue)
             {
-                if (context.IsRenewal || context.IsSinglePage || internalContext.IdentityCheck.Data.IdentityQuestions.Length == 0)
+                if (context.IsRenewal || context.IsAddLine || context.IsSinglePage || internalContext.IdentityCheck.Data.IdentityQuestions.Length == 0)
                 {
                     context.SelectedIdentityAnswers = new Dictionary<string, string>();
                     return typeof(LoadDespositInfoState);
@@ -60,12 +60,12 @@ namespace StreamEnergy.DomainModels.Enrollments
 
         protected override bool NeedRestoreInternalState(UserContext context, InternalContext internalContext)
         {
-            return !context.IsRenewal && !context.IsSinglePage && (internalContext.IdentityCheck == null || !internalContext.IdentityCheck.IsCompleted || (!internalContext.IdentityCheck.Data.IdentityAccepted && internalContext.IdentityCheck.Data.HardStop != null));
+            return !context.IsRenewal && !context.IsAddLine && !context.IsSinglePage && (internalContext.IdentityCheck == null || !internalContext.IdentityCheck.IsCompleted || (!internalContext.IdentityCheck.Data.IdentityAccepted && internalContext.IdentityCheck.Data.HardStop != null));
         }
 
         protected override async Task LoadInternalState(UserContext context, InternalContext internalContext)
         {
-            if (context.IsRenewal || context.IsSinglePage)
+            if (context.IsRenewal  || context.IsAddLine || context.IsSinglePage)
                 return;
 
             if (internalContext.IdentityCheck == null)

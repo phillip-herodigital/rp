@@ -23,7 +23,7 @@ namespace StreamEnergy.DomainModels.Enrollments
         public override IEnumerable<System.Linq.Expressions.Expression<Func<UserContext, object>>> PreconditionValidations(UserContext data, InternalContext internalContext)
         {
             yield return context => context.Services;
-            if (!data.IsRenewal)
+            if (!data.IsRenewal && !data.IsAddLine)
             {
                 yield return context => context.ContactInfo;
                 yield return context => context.Language;
@@ -71,18 +71,17 @@ namespace StreamEnergy.DomainModels.Enrollments
                 {
                     if (internalContext.GlobalCustomerId == Guid.Empty)
                     {
-                        /* Disable logged in enrollment for now
                         
-                        if (context.LoggedInCustomerId != Guid.Empty)
+                        if (context.IsAddLine && context.LoggedInCustomerId != Guid.Empty)
                         {
                             internalContext.GlobalCustomerId = context.LoggedInCustomerId;
                         }
                         else
                         {
-                        */
+                        
                             var customer = await accountService.CreateStreamConnectCustomer(email: context.ContactInfo.Email.Address);
                             internalContext.GlobalCustomerId = customer.GlobalCustomerId;
-                        //}
+                        }
                     }
                     internalContext.EnrollmentSaveState = await enrollmentService.BeginSaveEnrollment(internalContext.GlobalCustomerId, context, internalContext.EnrollmentDpiParameters);
                 }

@@ -20,7 +20,7 @@ namespace StreamEnergy.DomainModels.Enrollments
         public override IEnumerable<System.Linq.Expressions.Expression<Func<UserContext, object>>> PreconditionValidations(UserContext data, InternalContext internalContext)
         {
             yield return context => context.Services;
-            if (!data.IsRenewal)
+            if (!data.IsRenewal && !data.IsAddLine)
             {
                 yield return context => context.ContactInfo;
                 yield return context => context.Language;
@@ -52,7 +52,7 @@ namespace StreamEnergy.DomainModels.Enrollments
 
         public override Task<RestoreInternalStateResult> RestoreInternalState(IStateMachine<UserContext, InternalContext> stateMachine, Type state)
         {
-            if (stateMachine.Context.IsRenewal)
+            if (stateMachine.Context.IsRenewal || stateMachine.Context.IsAddLine)
                 previousState = typeof(PlanSelectionState);
 
             return base.RestoreInternalState(stateMachine, state);
@@ -66,7 +66,7 @@ namespace StreamEnergy.DomainModels.Enrollments
             }
             else
             {
-                if (!internalContext.CreditCheck.IsCompleted)
+                if (!context.IsAddLine && !internalContext.CreditCheck.IsCompleted)
                 {
                     internalContext.CreditCheck = await enrollmentService.EndCreditCheck(internalContext.CreditCheck);
                     if (!internalContext.CreditCheck.IsCompleted)
@@ -82,7 +82,7 @@ namespace StreamEnergy.DomainModels.Enrollments
 
         public override bool ForceBreak(UserContext context, InternalContext internalContext)
         {
-            return !context.IsRenewal && !context.IsSinglePage && !internalContext.CreditCheck.IsCompleted;
+            return !context.IsRenewal && !context.IsAddLine && !context.IsSinglePage && !internalContext.CreditCheck.IsCompleted;
         }
     }
 }
