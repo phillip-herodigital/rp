@@ -44,20 +44,23 @@
             url: '/api/support/init',
         }).then(function successCallback(response) {
             $scope.isLoading = false;
+            var div = document.createElement('div');
             angular.forEach(response.data.categories, function (category) {
                 if (category.displayOnMainPage) {
+                    div.innerHTML = category.name;
+                    category.name = div.textContent;
                     $scope.categories.push(category);
                 }
             });
-            var div = document.createElement('div');
             angular.forEach(response.data.faQs, function (faq) {
                 div.innerHTML = faq.faqAnswer;
                 faq.faqAnswer = $sce.trustAsHtml(div.textContent);
                 div.innerHTML = faq.faqQuestion;
                 faq.faqQuestion = div.textContent;
                 angular.forEach(faq.categories, function (faqCat, index) {
+                    div.innerHTML = faqCat.split("|")[0];
                     faq.categories[index] = {
-                        name: faqCat.split("|")[0],
+                        name: div.textContent,
                         guid: faqCat.split("|")[1]
                     };
                 });
@@ -118,17 +121,23 @@
                     $scope.categories.push(category);
                 }
             });
-            $scope.subcategories = response.data.subcategories;
-            $scope.subcategories[0].selected = true;
             var div = document.createElement('div');
+            $scope.subcategories = [];
+            angular.forEach(response.data.subcategories, function (subcat, index) {
+                div.innerHTML = subcat.name;
+                subcat.name = div.textContent;
+                $scope.subcategories.push(subcat);
+            });
+            $scope.subcategories[0].selected = true;
             angular.forEach(response.data.faQs, function (faq) {
                 div.innerHTML = faq.faqAnswer;
                 faq.faqAnswer = $sce.trustAsHtml(div.textContent);
                 div.innerHTML = faq.faqQuestion;
                 faq.faqQuestion = div.textContent;
                 angular.forEach(faq.categories, function (faqCat, index) {
+                    div.innerHTML = faqCat.split("|")[0];
                     faq.categories[index] = {
-                        name: faqCat.split("|")[0],
+                        name: div.textContent,
                         guid: faqCat.split("|")[1]
                     };
                 });
@@ -183,13 +192,18 @@
                 }
             });
             $scope.isLoading = false;
+            var div = document.createElement('div');
             angular.forEach($scope.categories, function (category) {
-                category.contactPageContent = $sce.trustAsHtml(category.contactPageContent);
-                category.emergencyContactSubheading = $sce.trustAsHtml(category.emergencyContactSubheading);
-                category.emergencyContactContent = $sce.trustAsHtml(category.emergencyContactContent);
+                div.innerHTML = category.contactPageContent;
+                category.contactPageContent = $sce.trustAsHtml(div.textContent);
+                div.innerHTML = category.emergencyContactSubheading;
+                category.emergencyContactSubheading = $sce.trustAsHtml(div.textContent);
+                div.innerHTML = category.emergencyContactContent;
+                category.emergencyContactContent = $sce.trustAsHtml(div.textContent);
                 if (category.states.length) {
                     angular.forEach(category.states, function (state) {
-                        state.contactPageContent = $sce.trustAsHtml(state.contactPageContent);
+                        div.innerHTML = state.contactPageContent;
+                        state.contactPageContent = $sce.trustAsHtml(div.textContent);
                     });
                 }
             });
@@ -242,8 +256,9 @@
                     div.innerHTML = faq.faqQuestion;
                     faq.faqQuestion = div.textContent;
                     angular.forEach(faq.categories, function (faqCat, index) {
+                        div.innerHTML = faqCat.split("|")[0];
                         faq.categories[index] = {
-                            name: faqCat.split("|")[0],
+                            name: div.textContent,
                             guid: faqCat.split("|")[1]
                         };
                     });
@@ -403,7 +418,12 @@
     $scope.selectCategory = function (category, state) {
         if (!category.states.length > 0 || state) {
             if (state && typeof (state.emergencyContactContent) === "string") {
+                var div = document.createElement('div');
+                div.innerHTML = state.emergencyContactContent;
+                state.emergencyContactContent = div.textContent;
                 state.emergencyContactContent = $sce.trustAsHtml(state.emergencyContactContent);
+                div.innerHTML = state.contactContent;
+                state.contactContent = div.textContent;
                 state.contactContent = $sce.trustAsHtml(state.contactContent);
             }
             $scope.searchData.category = category;

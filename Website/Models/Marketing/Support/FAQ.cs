@@ -91,9 +91,7 @@ namespace StreamEnergy.MyStream.Models.Marketing.Support
 
         private string getValueFromItem(Item item, string key, bool encodeValue)
         {
-            return item.Fields[key] != null ? (encodeValue ? HttpUtility.HtmlEncode(item.Fields[key].Value)
-                                                : item.Fields[key].Value)
-                : "";
+            return item.Fields[key] == null ? "" : (encodeValue ? HttpUtility.HtmlEncode(item.Fields[key].Value) : item.Fields[key].Value);
         }
     }
 }
