@@ -247,6 +247,10 @@
                             guid: faqCat.split("|")[1]
                         };
                     });
+                    angular.forEach(faq.keywords, function (keyword, index) {
+                        div.innerHTML = keyword;
+                        faq.keywords[index] = div.textContent;
+                    });
                 });
                 resolve(response.data);
             }, function error(response) {
