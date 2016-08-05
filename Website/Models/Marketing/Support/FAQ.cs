@@ -58,7 +58,7 @@ namespace StreamEnergy.MyStream.Models.Marketing.Support
             if (!string.IsNullOrEmpty(getValue("Keywords")))
             {
                 Keywords = (from keyword in getValue("Keywords").Split(',')
-                            select keyword.Trim()).ToArray();
+                            select HttpUtility.HtmlEncode(keyword).Trim()).ToArray();
             }
 
             if (!string.IsNullOrEmpty(getValue("Related FAQs")))
