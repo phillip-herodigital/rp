@@ -45,6 +45,8 @@ namespace StreamEnergy.DomainModels.Enrollments
 
         public bool AssociateEmailSent { get; set; }
 
+        public bool MobileNextStepsEmailSent { get; set; }
+
         public bool EnrollmentScreenshotTaken { get; set; }
     }
 }

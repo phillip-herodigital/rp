@@ -32,7 +32,7 @@
     }
 }
 <div ng-controller="LoginCtrl" ng-init="init('@Html.TranslateDomain("https://secure3.i-doxs.net")/StreamEnergy/Default.aspx', '@Html.TranslateDomain("https://secure3.i-doxs.net")/StreamEnergyGA/Default.aspx'); pane = '@selectedTab'" state-tabs>
-    <article class="marketing service-tabs pay">
+    <article class="marketing service-tabs tabs-nav pay">
         <div class="wrapper">
             <div class="grid border three">
                 <div class="col mobile" ng-click="selectPane('mobile')">
@@ -44,7 +44,7 @@
                     <a href="" class="dropdown-toggle" dropdown-toggle>
                         <h2>@Html.Sitecore().Field("Energy Text")</h2>
                     </a>
-                    <ul class="dropdown-menu" role="menu">
+                    <ul class="dropdown-menu states-menu" role="menu">
                         <li class="icon texas" ng-click="selectPane('texas')"><a href="">@Html.Sitecore().Field("Texas State Text")</a></li>
                         <li class="icon georgia" ng-click="selectPane('georgia')"><a href="">@Html.Sitecore().Field("Georgia State Text")</a></li>
                         <li class="icon pennsylvania" ng-click="selectPane('pennsylvania')"><a href="">@Html.Sitecore().Field("Pennsylvania State Text")</a></li>

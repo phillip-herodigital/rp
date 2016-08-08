@@ -1,4 +1,4 @@
-﻿ngApp.controller('supportCenterCtrl', ['$scope', '$http', '$sce', '$modal', 'scrollService', 'orderByFilter', function ($scope, $http, $sce, $modal, scrollService, orderByFilter) {
+﻿ngApp.controller('supportCenterCtrl', ['$scope', '$http', '$sce', '$modal', 'scrollService', 'orderByFilter', '$q', function ($scope, $http, $sce, $modal, scrollService, orderByFilter, $q) {
     function getParameterByName(name) {
         name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
         var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
@@ -144,7 +144,7 @@
                 angular.forEach(faq.keywords, function (keyword, index) {
                     div.innerHTML = keyword;
                     faq.keywords[index] = div.textContent;
-                });
+            });
             });
             allFAQs = $scope.faqs = response.data.faQs;
             $scope.displayedFAQCount = response.data.faQs.length;
@@ -243,7 +243,7 @@
     }
 
     var getFAQs = function (searchRequest) {
-        var promise = new Promise(function (resolve, reject) {
+        var deferred = $q.defer();
             $http({
                 method: 'Post',
                 data: searchRequest,
@@ -267,12 +267,11 @@
                         faq.keywords[index] = div.textContent;
                     });
                 });
-                resolve(response.data);
+            deferred.resolve(response.data);
             }, function error(response) {
-                reject(response);
+            deferred.reject(response);
             });
-        });
-        return promise;
+        return deferred.promise;
     }
 
     $scope.getSearchFaqs = function (viewValue) {
@@ -282,22 +281,21 @@
             category: $scope.searchData.category.guid,
             state: $scope.searchData.state ? $scope.searchData.state.guid : null,
         }
-        var promise = new Promise(function (resolve, reject) {
+        var deferred = $q.defer();
             getFAQs(request).then(function (response) {
                 if ($scope.isLoading) {
-                    resolve([]);
+                deferred.resolve([]);
                 }
                 else {
-                    resolve(response.slice(0, 4));
+                deferred.resolve(response.slice(0, 4));
                     if (response.length == 0 && $scope.searchData.text) {
                         $scope.noSearchResults = true;
                     }
                 }
             }, function (error) {
-                reject(null);
-            });
+            deferred.reject(null);
         });
-        return promise;
+        return deferred.promise;
     }
 
     $scope.search = function () {

@@ -4,6 +4,14 @@
         <div class="grid border four">
             <div class="col">
                 <div class="plan-details">
+                    @{ 
+                        if (!string.IsNullOrEmpty(Html.Sitecore().Field("Best Deal 1").ToString()))
+                        {
+                            <span class="best-deal">
+                                @Html.Sitecore().Field("Best Deal 1")
+                            </span>
+                        }
+                    }
                     <p class="data">@Html.Sitecore().Field("Plan 1 GB")</p>
                     <p class="lte">@Html.Sitecore().Field("LTE Data")</p>
                     <h2>@Html.Sitecore().Field("Plan 1 Service")</h2>
@@ -14,6 +22,14 @@
             </div>
             <div class="col">
                 <div class="plan-details">
+                    @{
+                        if (!string.IsNullOrEmpty(Html.Sitecore().Field("Best Deal 2").ToString()))
+                        {
+                            <span class="best-deal">
+                                @Html.Sitecore().Field("Best Deal 2")
+                            </span>
+                        }
+                    }
                     <p class="data">@Html.Sitecore().Field("Plan 2 GB")</p>
                     <p class="lte">@Html.Sitecore().Field("LTE Data")</p>
                     <h2>@Html.Sitecore().Field("Plan 2 Service")</h2>
@@ -24,9 +40,14 @@
             </div>
             <div class="col">
                 <div class="plan-details">
-                    <span class="best-deal">
-                        @Html.Sitecore().Field("Best Deal")
-                    </span>
+                    @{        
+                        if (!string.IsNullOrEmpty(Html.Sitecore().Field("Best Deal 3").ToString()))
+                        {
+                            <span class="best-deal">
+                                @Html.Sitecore().Field("Best Deal 3")
+                            </span>
+                        }
+                    }
                     <p class="data">@Html.Sitecore().Field("Plan 3 GB")</p>
                     <p class="lte">@Html.Sitecore().Field("LTE Data")</p>
                     <h2>@Html.Sitecore().Field("Plan 3 Service")</h2>
@@ -39,6 +60,14 @@
             </div>
             <div class="col">
                 <div class="plan-details">
+                    @{
+                        if (!string.IsNullOrEmpty(Html.Sitecore().Field("Best Deal 4").ToString()))
+                        {
+                            <span class="best-deal">
+                                @Html.Sitecore().Field("Best Deal 4")
+                            </span>
+                        }
+                    }
                     <p class="data">@Html.Sitecore().Field("Plan 4 GB")</p>
                     <p class="lte">@Html.Sitecore().Field("LTE Data")</p>
                     <h2>@Html.Sitecore().Field("Plan 4 Service")</h2>
