@@ -14,6 +14,7 @@ ngApp.directive('stateTabs', ['breakpoint', 'jQuery', '$window', function (break
 			scope.stateEnrollData = $window.stateEnrollData;
 
 			scope.selectPane = function(pane) {
+				scope.status.isopen = false;
 				scope.pane = pane;
 
 				//Calculate the height of the tab items and window scroll offset also accounting for the fixed nav height
