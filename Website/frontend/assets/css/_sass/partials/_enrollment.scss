@@ -5636,6 +5636,15 @@ h3.success-message{
     }
 }
 
+.add-another-line {
+    .modal-footer {
+        a.button {
+            float: right;
+            margin: 0 5px;
+        }
+    }
+}
+
 .enrollment__mobile-order-details {
     .condition {
         color: #999;

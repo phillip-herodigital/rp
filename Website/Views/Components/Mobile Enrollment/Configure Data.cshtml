@@ -250,7 +250,7 @@
                         <footer class="clearfix" ng-hide="showChangeLocation">
                             <a class="back" href="" ng-click="editDevice(true)">@Html.Sitecore().Field("Link - Back")</a>
                             <button class="button" ng-submit ng-disabled="configureData.$invalid">@Html.Sitecore().Field("Button - Check Out")</button>
-                            <button class="button add-line" type="button" ng-click="showLightbox('add-another-line')" ng-disabled="configuredata.$invalid">@Html.Sitecore().Field("Button - Add Another Line")</button>
+                            <button class="button add-line" type="button" ng-click="showModal('add-another-line')" ng-disabled="configureData.$invalid">@Html.Sitecore().Field("Button - Add Another Line")</button>
                         </footer>
                     </form>
                     <div class="location-section clearfix" ng-show="showChangeLocation">
@@ -350,8 +350,8 @@
         </div>
     </div>
 </script>
-<script type="text/ng-template" id="addLine">
-    <div class="mobile-enrollment-modal">
+<script type="text/ng-template" id="add-another-line">
+    <div class="mobile-enrollment-modal add-another-line">
         <div class="modal-header">
             <a href="" ng-click="$dismiss()">Close</a>
             <h2>Add Another Line?</h2>
@@ -359,9 +359,9 @@
         <div class="modal-body">
             <p>Are you sure you want to add another line to your order?</p>
         </div>
-        <div class="modal-footer">
-            <a class="button primary">Add Another Line</a>
-            <a class="button secondary">Go Back</a>
+        <div class="modal-footer clearfix">
+            <a href="" class="button primary" ng-click="$dismiss(); completeStep(true)">Add Another Line</a>
+            <a href="" class="button secondary" ng-click="$dismiss()">Go Back</a>
         </div>
     </div>
 </script>
