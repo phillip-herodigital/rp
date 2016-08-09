@@ -72,7 +72,7 @@
                                         <div class="label" ng-class="{ disabled : phoneOptions.missingIccid }">@Html.Sitecore().Field("Label - ICCID Number")</div>
                                         <a class="what-is-this" href="" ng-click="showModal('instructions/iccid')">@Html.Sitecore().Field("What is this Text")</a>
                                         <input type="text" name="iccid" ng-disabled="phoneOptions.missingIccid" ng-model="phoneOptions.iccidNumber" data-val="true" data-val-required data-val-regex data-val-regex-pattern="^(8901)(120|490)" data-val-if="phoneOptions.showIccid && !phoneOptions.missingIccid" />
-                                        <p>@Html.Sitecore().Field("ICCID Not Valid")</p>
+                                        <p ng-if="configureData.iccid.$error.regex && !configureData.iccid.suppressValidationMessages">@Html.Sitecore().Field("ICCID Not Valid")</p>
                                     </div>
                                     <div class="clearfix"></div>
                                     <div>
@@ -305,15 +305,6 @@
 </div>
 <div class="coverage-map-fade"></div>
 
-@*<div class="data-calculator-container hidden">
-    <a class="close" onclick="$('.data-calculator-container').addClass('hidden')" href=""><i class="icon-close"></i></a>
-    <div class="inner">
-        @Html.Partial("~/Views/Components/Marketing/Mobile/Mobile Usage Calculator.cshtml", new StreamEnergy.MyStream.Models.Marketing.UsageCalculator { IsModal = true, ShowManualCalculator = true, IsJavascriptSubmit = true })
-    </div>
-    
-</div>
-<div class="data-calculator-fade"></div>*@
-
 <script type="text/ng-template" id="indPlanList/Mobile">
     <div class="btn-group btn-group-options mobile-plans">
         <div class="button" ng-class="{selected: selectedPlan.data === plan.data, 'is-recommended': plan.recommended}" ng-click="selectPlan(plan.id)" ng-repeat="plan in typedOffers.value.availableOffers | filter:filterPlans | orderBy:'sortOrder'">
@@ -356,6 +347,21 @@
         </div>
         <div class="modal-body">
             @Html.Sitecore().Field("Content - International Details")
+        </div>
+    </div>
+</script>
+<script type="text/ng-template" id="addLine">
+    <div class="mobile-enrollment-modal">
+        <div class="modal-header">
+            <a href="" ng-click="$dismiss()">Close</a>
+            <h2>Add Another Line?</h2>
+        </div>
+        <div class="modal-body">
+            <p>Are you sure you want to add another line to your order?</p>
+        </div>
+        <div class="modal-footer">
+            <a class="button primary">Add Another Line</a>
+            <a class="button secondary">Go Back</a>
         </div>
     </div>
 </script>
