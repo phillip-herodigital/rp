@@ -250,7 +250,7 @@
                         <footer class="clearfix" ng-hide="showChangeLocation">
                             <a class="back" href="" ng-click="editDevice(true)">@Html.Sitecore().Field("Link - Back")</a>
                             <button class="button" ng-submit ng-disabled="configureData.$invalid">@Html.Sitecore().Field("Button - Check Out")</button>
-                            <button class="button add-line" type="button" ng-click="showLightbox('add-another-line') ng-disabled=" configuredata.$invalid">@Html.Sitecore().Field("Button - Add Another Line")</button>
+                            <button class="button add-line" type="button" ng-click="showLightbox('add-another-line')" ng-disabled="configuredata.$invalid">@Html.Sitecore().Field("Button - Add Another Line")</button>
                         </footer>
                     </form>
                     <div class="location-section clearfix" ng-show="showChangeLocation">
