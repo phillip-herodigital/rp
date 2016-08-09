@@ -36,6 +36,9 @@ namespace StreamEnergy.MyStream.Controllers
             string key = string.Format("{0}|{1}", layers, tile);
             byte[] data;
 
+            //test only
+            return null;
+
             if (Connection == null || !Connection.IsConnected)
             {
                 Connection = ConnectionMultiplexer.Connect(ConfigurationManager.ConnectionStrings["mapServerCache"].ConnectionString);
@@ -74,6 +77,10 @@ namespace StreamEnergy.MyStream.Controllers
         private byte[] LoadTileFromServer(string key, string layers, string tile) {
             DateTime start = DateTime.Now;
             byte[] data;
+
+            //TEST REMOVE THIS
+            return new byte[0];
+
             string url = string.Format("{0}&mode=tile&tilemode=gmap&tile={1}&layers={2}",
                 ConfigurationManager.AppSettings["MapServerURL"], tile, layers);
 
