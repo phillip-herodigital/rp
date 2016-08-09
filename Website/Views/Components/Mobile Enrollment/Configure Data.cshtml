@@ -354,14 +354,12 @@
     <div class="mobile-enrollment-modal add-another-line">
         <div class="modal-header">
             <a href="" ng-click="$dismiss()">Close</a>
-            <h2>Add Another Line?</h2>
+            <h2>@Html.Sitecore().Field("Heading")</h2>
         </div>
-        <div class="modal-body">
-            <p>Are you sure you want to add another line to your order?</p>
-        </div>
+        <div class="modal-body">@Html.Sitecore().Field("Body Content")</div>
         <div class="modal-footer clearfix">
-            <a href="" class="button primary" ng-click="$dismiss(); completeStep(true)">Add Another Line</a>
-            <a href="" class="button secondary" ng-click="$dismiss()">Go Back</a>
+            <a href="" class="button primary" ng-click="$dismiss(); completeStep(true)">@Html.Sitecore().Field("Button - Add Another Line")</a>
+            <a href="" class="button secondary" ng-click="$dismiss()">@Html.Sitecore().Field("Button - Go Back")</a>
         </div>
     </div>
 </script>
