@@ -15,6 +15,7 @@ namespace StreamEnergy.MyStream.Models.Enrollment
         public OfferPayment Payments { get; set; }
         public bool ConfirmationSuccess { get; set; }
         public string ConfirmationNumber { get; set; }
+        public string ConfirmationStatus { get; set; }
         public string ConfirmationDetails { get; set; }
         public string DepositType { get; set; }
         public RenewalResult RenewalConfirmation { get; set; }

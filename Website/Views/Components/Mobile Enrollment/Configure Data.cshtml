@@ -318,7 +318,7 @@
     <div class="btn-group btn-group-options mobile-plans">
         <div class="button" ng-class="{selected: selectedPlan.data === plan.data, 'is-recommended': plan.recommended}" ng-click="selectPlan(plan.id)" ng-repeat="plan in typedOffers.value.availableOffers | filter:filterPlans | orderBy:'sortOrder'">
             <div class="size-speed">
-                <div class="size"><span ng-class="{ number : plan.data != 'Unlimited' }">{{ plan.data }}</span><span ng-if="plan.data != 'Unlimited'">@Html.Sitecore().Field("GB Text")</span></div>
+                <div class="size"><span ng-class="{ number : plan.data != 'Unlimited' && plan.data != 'Ilimitado' }">{{ plan.data }}</span><span ng-if="plan.data != 'Unlimited' && plan.data != 'Ilimitado'">@Html.Sitecore().Field("GB Text")</span></div>
                 <div class="speed">@Html.Sitecore().Field("Text - 4G LTE Data")</div>
             </div>
             <hr />

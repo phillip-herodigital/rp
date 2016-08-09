@@ -725,6 +725,7 @@ namespace StreamEnergy.Services.Clients
                                                 new PlaceMobileOrderResult
                                                 {
                                                 ConfirmationNumber = response.EnrollmentReferenceNumber,
+                                                ConfirmationStatus = response.EnrollmentOrderStatus,
                                                 IsSuccess = response.Status == "Success",
                                                 PaymentConfirmation = ToPaymentResult(response.PaymentResponse),
                                                 PhoneNumber = response.PhoneNumber
