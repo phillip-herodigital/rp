@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using ResponsivePath.Validation;
 using StreamEnergy.DomainModels.Associate;
+using StreamEnergy.DomainModels.Accounts;
 
 namespace StreamEnergy.DomainModels.Enrollments
 {
@@ -19,6 +20,8 @@ namespace StreamEnergy.DomainModels.Enrollments
         public bool IsAddLine { get; set; }
 
         public string AddLineAccountNumber { get; set; }
+
+        public ISubAccount[] AddLineSubAccounts { get; set; }
 
         public bool IsSinglePage { get; set; }
 

@@ -57,7 +57,7 @@ namespace StreamEnergy.DomainModels.Enrollments
 
         protected override async Task<Type> InternalProcess(UserContext context, InternalContext internalContext)
         {
-            if (context.IsRenewal) //I don't believe that we need AddLine here.  Is that correct?
+            if (context.IsRenewal)
             {
                 var svc = context.Services.Single().SelectedOffers.Single();
                 var renewalCapability = context.Services.SelectMany(s => s.Location.Capabilities).OfType<IRenewalCapability>().First();
@@ -109,7 +109,7 @@ namespace StreamEnergy.DomainModels.Enrollments
 
         public override bool ForceBreak(UserContext context, InternalContext internalContext)
         {
-            if (context.IsRenewal && !internalContext.RenewalResult.IsCompleted) //I don't think we need AddLine here.  Is that correct?
+            if (context.IsRenewal && !internalContext.RenewalResult.IsCompleted)
             {
                 return true;
             }

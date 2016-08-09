@@ -47,7 +47,7 @@ namespace StreamEnergy.Interpreters
         }
 
         public string AddLineAccountNumber {
-            get { return (queryString["addline"] ?? ""); }
+            get { return (queryString["AddLine"] ?? ""); }
         }
 
         public string State

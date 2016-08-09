@@ -602,7 +602,7 @@ namespace StreamEnergy.Services.Clients
             var hasSpecialCommercial = (from service in context.Services
                                         let locAdapter = enrollmentLocationAdapters.FirstOrDefault(e => e.IsFor(service.Location.Capabilities))
                                         select locAdapter.HasSpecialCommercialEnrollment(service.Location.Capabilities)).Any(e => e);
-
+            
             if (hasSpecialCommercial)
             {
                 // WARNING - if this is mixed special enrollment vs. standard enrollment, the standard enrollment gets skipped!
@@ -689,6 +689,7 @@ namespace StreamEnergy.Services.Clients
                 TrustEvCaseId = context.TrustEvCaseId,
                 ShouldFailOnPaymentFailure =  hasAllMobile,
                 EnableAutoPay = context.EnrolledInAutoPay,
+                AddLineAccountNumber = context.AddLineAccountNumber ?? null
             });
 
             var asyncUrl = response.Headers.Location;
