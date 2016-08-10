@@ -73,8 +73,8 @@
                 <ui-gmap-search-box template="searchbox.template" events="searchbox.events" parentdiv="'gmap-search'"></ui-gmap-search-box>
                 <ui-gmap-markers models="markers" coords="'coords'" icon="'icon'" click="'onClicked'"></ui-gmap-markers>
                 @*<ui-gmap-marker idKey="searchMarker.id" coords="searchMarker.coords" options="searchMarker.options"></ui-gmap-marker>*@
-                <ui-gmap-window show="window.show" coords="window.coords" options="window.options" templateParameter="locationInfo" ng-style="{'width': isMobile() ? '100%' : ''}" ng-cloak>
-                    <div>
+                <ui-gmap-window show="window.show" coords="window.coords" options="window.options" ng-style="{'width': isMobile() ? '100%' : ''}" ng-cloak>
+                    <div ng-controller="PaycenterCtrl">
                         <div class="grid clearfix">
                             <div class="column">
                                 <div class="item">
@@ -98,27 +98,26 @@
                             <div class="column">
                                 <div class="item">
                                     <label>@Html.Sitecore().Field("Hours")</label>
-                                    <p>
-                                        {{locationInfo.hoursArr[0]}}<br />
-                                        {{locationInfo.hoursArr[1]}}<br />
-                                        {{locationInfo.hoursArr[2]}}<br />
-                                        {{locationInfo.hoursArr[3]}}
-                                    </p>
+                                    @*ng-show works a litte funny in this ui-gmap-window*@
+                                    <p ng-show="{{locationInfo.hoursArr[0] != undefined}}">{{locationInfo.hoursArr[0].startDate}}<span ng-hide="{{locationInfo.hoursArr[0].startDate === locationInfo.hoursArr[0].endDate}}"> - {{locationInfo.hoursArr[0].endDate}}</span>: {{locationInfo.hoursArr[0].hours}}</p>
+                                    <p ng-show="{{locationInfo.hoursArr[1] != undefined}}">{{locationInfo.hoursArr[1].startDate}}<span ng-hide="{{locationInfo.hoursArr[1].startDate === locationInfo.hoursArr[1].endDate}}"> - {{locationInfo.hoursArr[1].endDate}}</span>: {{locationInfo.hoursArr[1].hours}}</p>
+                                    <p ng-show="{{locationInfo.hoursArr[2] != undefined}}">{{locationInfo.hoursArr[2].startDate}}<span ng-hide="{{locationInfo.hoursArr[2].startDate === locationInfo.hoursArr[2].endDate}}"> - {{locationInfo.hoursArr[2].endDate}}</span>: {{locationInfo.hoursArr[2].hours}}</p>
+                                    <p ng-show="{{locationInfo.hoursArr[3] != undefined}}">{{locationInfo.hoursArr[3].startDate}}<span ng-hide="{{locationInfo.hoursArr[3].startDate === locationInfo.hoursArr[3].endDate}}"> - {{locationInfo.hoursArr[3].endDate}}</span>: {{locationInfo.hoursArr[3].hours}}</p>
+                                    <p ng-show="{{locationInfo.hoursArr[4] != undefined}}">{{locationInfo.hoursArr[4].startDate}}<span ng-hide="{{locationInfo.hoursArr[4].startDate === locationInfo.hoursArr[4].endDate}}"> - {{locationInfo.hoursArr[4].endDate}}</span>: {{locationInfo.hoursArr[4].hours}}</p>
+                                    <p ng-show="{{locationInfo.hoursArr[5] != undefined}}">{{locationInfo.hoursArr[5].startDate}}<span ng-hide="{{locationInfo.hoursArr[5].startDate === locationInfo.hoursArr[5].endDate}}"> - {{locationInfo.hoursArr[5].endDate}}</span>: {{locationInfo.hoursArr[5].hours}}</p>
+                                    <p ng-show="{{locationInfo.hoursArr[6] != undefined}}">{{locationInfo.hoursArr[6].startDate}}<span ng-hide="{{locationInfo.hoursArr[6].startDate === locationInfo.hoursArr[6].endDate}}"> - {{locationInfo.hoursArr[6].endDate}}</span>: {{locationInfo.hoursArr[6].hours}}</p>
                                 </div>
                                 <div class="item">
                                     <label>@Html.Sitecore().Field("Payment Methods")</label>
                                     @*ng-repeat doesn't work in this ui-gmap-window*@
-                                    <p ng-if="locationInfo.paymentMethods[0] != 'undefined'">{{locationInfo.paymentMethods[0]}}</p>
-                                    <p ng-if="locationInfo.paymentMethods[1] != 'undefined'">{{locationInfo.paymentMethods[1]}}</p>
-                                    <p ng-if="locationInfo.paymentMethods[2] != 'undefined'">{{locationInfo.paymentMethods[2]}}</p>
-                                    <p ng-if="locationInfo.paymentMethods[3] != 'undefined'">{{locationInfo.paymentMethods[3]}}</p>
-                                    <p ng-if="locationInfo.paymentMethods[4] != 'undefined'">{{locationInfo.paymentMethods[4]}}</p>
-                                    <p ng-if="locationInfo.paymentMethods[5] != 'undefined'">{{locationInfo.paymentMethods[5]}}</p>
-                                    <p ng-if="locationInfo.paymentMethods[6] != 'undefined'">{{locationInfo.paymentMethods[6]}}</p>
+                                    <p ng-show="{{locationInfo.paymentMethods[0] != undefined}}">{{locationInfo.paymentMethods[0]}}</p>
+                                    <p ng-show="{{locationInfo.paymentMethods[1] != undefined}}">{{locationInfo.paymentMethods[1]}}</p>
+                                    <p ng-show="{{locationInfo.paymentMethods[2] != undefined}}">{{locationInfo.paymentMethods[2]}}</p>
+                                    <p ng-show="{{locationInfo.paymentMethods[3] != undefined}}">{{locationInfo.paymentMethods[3]}}</p>
                                 </div>
                             </div>
                         </div>
-                        <div class="close"><a href="" ng-click="$parent.closeWindow($index)">@Html.Sitecore().Field("Plus Sign")</a></div>
+                        <div class="close"><a href="" ng-click="closeWindow($index)">@Html.Sitecore().Field("Plus Sign")</a></div>
                     </div>
                 </ui-gmap-window>
             </ui-gmap-google-map>
@@ -128,3 +127,14 @@
         </div>
     </div>
 </article>
+<script type="text/ng-template" id="windowMarker">
+    <div class="mobile-enrollment-modal">
+        <div class="modal-header">
+            <a href="" ng-click="$dismiss()">Close</a>
+            <h2>@Html.Sitecore().Field("Header - International Details")</h2>
+        </div>
+        <div class="modal-body">
+            @Html.Sitecore().Field("Content - International Details")
+        </div>
+    </div>
+</script>
