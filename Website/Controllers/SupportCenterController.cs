@@ -8,8 +8,13 @@ using System.Web;
 using System.Web.Mvc;
 using StreamEnergy.MyStream.Models.Marketing.Support;
 using Sitecore.Data.Items;
+using Sitecore.ContentSearch;
+
 using System.Data.SqlClient;
 using System.Data;
+using Sitecore.ContentSearch.SearchTypes;
+using Sitecore.ContentSearch.Security;
+
 namespace StreamEnergy.MyStream.Controllers
 {
     public class SupportCenterController : Controller
@@ -108,29 +113,27 @@ namespace StreamEnergy.MyStream.Controllers
 
         public IEnumerable<FAQ> Search(string query, FaqSearchFilter filter) {
             query = (query ?? "").Trim().ToLower();
-            List<FAQ> matchingFAQS = new List<FAQ>();
             var categories = GetAllCategories();
             var subCategories = GetAllSubCategoriesForCategory(filter.Category.Guid);
-            var searchFAQs = (from item in Sitecore.Context.Database.GetItem(FAQsRootItemID).Axes.GetDescendants()
-                              where item.TemplateID.ToString() == FAQsTempalteID || item.TemplateID.ToString() == StateFAQsTempalteID
-                              where item.Fields["FAQ Categories"].Value.Contains(filter.Category.Guid)
-                              where filter.State == null || item.TemplateID.ToString() == FAQsTempalteID ? true : item.Fields["FAQ States"].Value.Contains(filter.State.Guid)
-                              select new FAQ(item)).ToList();
 
-            foreach (FAQ faq in searchFAQs)
+            Item repositorySearchItem = Sitecore.Context.Database.GetItem(FAQStateRootItemID);
+            ISearchIndex index = ContentSearchManager.GetIndex(new SitecoreIndexableItem(repositorySearchItem));
+            using (IProviderSearchContext context = index.CreateSearchContext(SearchSecurityOptions.EnableSecurityCheck))
             {
-                if (
-                    faq.FAQQuestion.ToLower().Contains(query) ||
-                    faq.FAQAnswer.ToLower().Contains(query) ||
-                    categories.Any(c => c.Name.ToLower().Contains(query)) ||
-                    subCategories.Any(s => s.Name.ToLower().Contains(query)) ||
-                    faq.Keywords.Any(k => k.ToLower().Contains(query))
-                    )
-                {
-                    matchingFAQS.Add(faq);
-                }
+                var results = context.GetQueryable<SearchResultItem>()
+                        .Where(item => item.TemplateId.ToString() == FAQsTempalteID || item.TemplateId.ToString() == StateFAQsTempalteID)
+                        .Where(item => item.GetField("FAQ Categories").Value..Contains(filter.Category.Guid))
+                        .Where(item => item.TemplateId.ToString() == FAQsTempalteID ? true : item.Fields["FAQ States"].ToString().Contains(filter.State.Guid) || filter.State == null)
+                        .Where(item => item.GetField("FAQ Question").Value.ToString().ToLower().Contains(query) ||
+                             item.GetField("FAQ Answer").Value.ToString().ToLower().Contains(query) ||
+                             item.GetField("Keywords").Value.ToString().ToLower().Contains(query) ||
+                             categories.Any(c => c.Name.ToLower().Contains(query)) ||
+                             subCategories.Any(s => s.Name.ToLower().Contains(query))
+                             )
+                        .ToList();
+                return (from result in results
+                    select result.GetItem()).OfType<FAQ>().ToList<FAQ>();
             }
-            return matchingFAQS;
         }
     }
 }
