@@ -116,13 +116,6 @@
             }
         }
 
-        .note {
-            float: left;
-            width: 75%;
-            margin-bottom: 1em;
-            margin-top: 0;
-        }
-
         @include breakpoint(small-medium) {
             height: auto;
 
