@@ -14,6 +14,8 @@ using System.Data.SqlClient;
 using System.Data;
 using Sitecore.ContentSearch.SearchTypes;
 using Sitecore.ContentSearch.Security;
+using Sitecore.ContentSearch.LuceneProvider;
+using Sitecore.ContentSearch.Linq.Utilities;
 
 namespace StreamEnergy.MyStream.Controllers
 {
@@ -120,19 +122,34 @@ namespace StreamEnergy.MyStream.Controllers
             ISearchIndex index = ContentSearchManager.GetIndex(new SitecoreIndexableItem(repositorySearchItem));
             using (IProviderSearchContext context = index.CreateSearchContext(SearchSecurityOptions.EnableSecurityCheck))
             {
-                var results = context.GetQueryable<SearchResultItem>()
-                        .Where(item => item.TemplateId.ToString() == FAQsTempalteID || item.TemplateId.ToString() == StateFAQsTempalteID)
-                        .Where(item => item.GetField("FAQ Categories").Value..Contains(filter.Category.Guid))
-                        .Where(item => item.TemplateId.ToString() == FAQsTempalteID ? true : item.Fields["FAQ States"].ToString().Contains(filter.State.Guid) || filter.State == null)
-                        .Where(item => item.GetField("FAQ Question").Value.ToString().ToLower().Contains(query) ||
-                             item.GetField("FAQ Answer").Value.ToString().ToLower().Contains(query) ||
-                             item.GetField("Keywords").Value.ToString().ToLower().Contains(query) ||
-                             categories.Any(c => c.Name.ToLower().Contains(query)) ||
-                             subCategories.Any(s => s.Name.ToLower().Contains(query))
-                             )
-                        .ToList();
-                return (from result in results
-                    select result.GetItem()).OfType<FAQ>().ToList<FAQ>();
+                var luceneSearchContext = context as LuceneSearchContext;
+                var parsedQuery = luceneSearchContext.Parse(query);
+
+                // use False because we'll be ANDing this clause together
+                var filterPredicate = PredicateBuilder.True<SearchResultItem>()
+                    .And(item => item.TemplateId.ToString() == FAQsTempalteID || item.TemplateId.ToString() == StateFAQsTempalteID)
+                    .And(item => item.GetField("FAQ Categories").Value.Contains(filter.Category.Guid))
+                    .And(item => item.TemplateId.ToString() == FAQsTempalteID ? true : item.Fields["FAQ States"].ToString().Contains(filter.State.Guid) || filter.State == null);
+
+                var terms = query.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+
+                // use False because we'll be ORing this clause together
+                var termPredicate = PredicateBuilder.False<SearchResultItem>();
+
+                foreach (var term in terms)
+                {
+                    termPredicate = termPredicate
+                        .Or(item => item.GetField("FAQ Question").Value.ToString().ToLower().Contains(query))
+                        .Or(item => item.GetField("FAQ Answer").Value.ToString().ToLower().Contains(query))
+                        .Or(item => item.GetField("Keywords").Value.ToString().ToLower().Contains(query))
+                        .Or(item => categories.Any(c => c.Name.ToLower().Contains(query)))
+                        .Or(item => subCategories.Any(s => s.Name.ToLower().Contains(query)));
+                }
+
+                var luceneQuery = context.GetQueryable<SearchResultItem>().Where(filterPredicate.And(termPredicate));
+
+                return (from result in luceneQuery
+                        select new FAQ(result.GetItem())).ToList();
             }
         }
     }
