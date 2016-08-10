@@ -789,9 +789,9 @@ article.service-tabs {
                     background-color: #e6e7e8;
                 }
             }
-            }
+        }
         @include breakpoint(small) {
-            // display: block;
+            display: block;
             position: relative;
             width: 100%;
             border-top: 3px solid #f59a42;

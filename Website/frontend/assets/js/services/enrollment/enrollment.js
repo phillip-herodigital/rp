@@ -316,6 +316,34 @@
     };
 
     /**
+    * Toggle AutoPay in Complete Order step
+    * 
+    * @return {object}            Promise object returned when API call has successfully completed.
+    */
+    service.toggleAutoPay = function () {
+        var data = {};
+        data.cart = _.map(enrollmentCartService.services, function (cartItem) {
+            return {
+                location: cartItem.location,
+                offerInformationByType: _.map(cartItem.offerInformationByType, function (typedOrderInfo) {
+                    return {
+                        key: typedOrderInfo.key,
+                        value: {
+                            offerSelections: _.map(typedOrderInfo.value.offerSelections, function (offerSelection) {
+                                return {
+                                    offerId: offerSelection.offerId,
+                                    offerOption: offerSelection.offerOption
+                                };
+                            })
+                        }
+                    };
+                })
+            };
+        });
+        makeCall("toggleAutoPay", data);
+    };
+
+    /**
     * Set single page order
     * 
     * @return {object}            Promise object returned when API call has successfully completed.
