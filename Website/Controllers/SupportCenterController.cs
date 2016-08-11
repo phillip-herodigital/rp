@@ -16,6 +16,7 @@ using Sitecore.ContentSearch.SearchTypes;
 using Sitecore.ContentSearch.Security;
 using Sitecore.ContentSearch.LuceneProvider;
 using Sitecore.ContentSearch.Linq.Utilities;
+using Sitecore.Data;
 
 namespace StreamEnergy.MyStream.Controllers
 {
@@ -115,22 +116,29 @@ namespace StreamEnergy.MyStream.Controllers
 
         public IEnumerable<FAQ> Search(string query, FaqSearchFilter filter) {
             query = (query ?? "").Trim().ToLower();
-            var categories = GetAllCategories();
-            var subCategories = GetAllSubCategoriesForCategory(filter.Category.Guid);
+            List<string> categories = (from c in GetAllCategories() select c.Name).ToList();
+            List<string> subCategories = (from s in GetAllSubCategoriesForCategory(filter.Category.Guid) select s.Name).ToList();
+            var faqsTemplateID = ID.Parse(FAQsTempalteID);
+            var stateFAQsTempalteID = ID.Parse(StateFAQsTempalteID);
+            var filterCategoryID = Sitecore.ContentSearch.Utilities.IdHelper.NormalizeGuid(filter.Category.Guid, true);
 
             Item repositorySearchItem = Sitecore.Context.Database.GetItem(FAQStateRootItemID);
             ISearchIndex index = ContentSearchManager.GetIndex(new SitecoreIndexableItem(repositorySearchItem));
             using (IProviderSearchContext context = index.CreateSearchContext(SearchSecurityOptions.EnableSecurityCheck))
             {
                 var luceneSearchContext = context as LuceneSearchContext;
-                var parsedQuery = luceneSearchContext.Parse(query);
 
                 // use False because we'll be ANDing this clause together
                 var filterPredicate = PredicateBuilder.True<SearchResultItem>()
-                    .And(item => item.TemplateId.ToString() == FAQsTempalteID || item.TemplateId.ToString() == StateFAQsTempalteID)
-                    .And(item => item.GetField("FAQ Categories").Value.Contains(filter.Category.Guid))
-                    .And(item => item.TemplateId.ToString() == FAQsTempalteID ? true : item.Fields["FAQ States"].ToString().Contains(filter.State.Guid) || filter.State == null);
-
+                    .And(item => item.TemplateId == faqsTemplateID || item.TemplateId == stateFAQsTempalteID)
+                    .And(item => item["FAQ Categories"].Contains(filterCategoryID))
+                    .And(item => item.Language == Sitecore.Context.Language.Name);
+                if (filter.State != null)
+                {
+                    filterPredicate = filterPredicate
+                        .And(item => item.TemplateId == faqsTemplateID || item["FAQ States"].Contains(Sitecore.ContentSearch.Utilities.IdHelper.NormalizeGuid(filter.State.Guid, true)));
+                }
+            
                 var terms = query.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
 
                 // use False because we'll be ORing this clause together
@@ -139,14 +147,19 @@ namespace StreamEnergy.MyStream.Controllers
                 foreach (var term in terms)
                 {
                     termPredicate = termPredicate
-                        .Or(item => item.GetField("FAQ Question").Value.ToString().ToLower().Contains(query))
-                        .Or(item => item.GetField("FAQ Answer").Value.ToString().ToLower().Contains(query))
-                        .Or(item => item.GetField("Keywords").Value.ToString().ToLower().Contains(query))
-                        .Or(item => categories.Any(c => c.Name.ToLower().Contains(query)))
-                        .Or(item => subCategories.Any(s => s.Name.ToLower().Contains(query)));
+                        .Or(item => item["FAQ Question"].Contains(query))
+                        .Or(item => item["FAQ Answer"].Contains(query))
+                        .Or(item => item["Keywords"].Contains(query))
+                        .Or(item => categories.Contains(query))
+                        .Or(item => subCategories.Contains(query));
                 }
 
-                var luceneQuery = context.GetQueryable<SearchResultItem>().Where(filterPredicate.And(termPredicate));
+                if (query != "")
+                {
+                    filterPredicate = filterPredicate.And(termPredicate);
+                }
+
+                var luceneQuery = context.GetQueryable<SearchResultItem>().Where(filterPredicate);
 
                 return (from result in luceneQuery
                         select new FAQ(result.GetItem())).ToList();
