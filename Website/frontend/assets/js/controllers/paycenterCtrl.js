@@ -203,8 +203,7 @@ ngApp.controller('PaycenterCtrl', ['$scope', '$http', '$window', '$location', 'o
                             postCode: place.postalCode5,
                             phone: place.phoneNumber
                         },
-                        hours: place.hours,
-                        hoursArr: place.hours.replace(/(sun|mon|tue|wed|thur|fri|sat)\s/ig, "$1[NEWLINE]").split("[NEWLINE]"),
+                        hoursArr: place.hours.split("|"),
                         paymentMethods: place.paymentMethods
                     },
                     onClicked: function () {
@@ -232,6 +231,7 @@ ngApp.controller('PaycenterCtrl', ['$scope', '$http', '$window', '$location', 'o
         return deferred.promise;
     }
 
+    var windowMarkerIndex = -1;
     var ogCoords = null;
     $scope.openWindow = function (i) {
         if (windowMarkerIndex == i) {
@@ -266,8 +266,6 @@ ngApp.controller('PaycenterCtrl', ['$scope', '$http', '$window', '$location', 'o
             }
         }
     }
-
-    var windowMarkerIndex = -1;
 
     $scope.closeWindow = function () {
         $scope.window.show = false;
