@@ -17,6 +17,7 @@ using Sitecore.ContentSearch.Security;
 using Sitecore.ContentSearch.LuceneProvider;
 using Sitecore.ContentSearch.Linq.Utilities;
 using Sitecore.Data;
+using Sitecore.ContentSearch.Linq;
 
 namespace StreamEnergy.MyStream.Controllers
 {
@@ -147,11 +148,11 @@ namespace StreamEnergy.MyStream.Controllers
                 foreach (var term in terms)
                 {
                     termPredicate = termPredicate
-                        .Or(item => item["FAQ Question"].Contains(query))
-                        .Or(item => item["FAQ Answer"].Contains(query))
-                        .Or(item => item["Keywords"].Contains(query))
-                        .Or(item => categories.Contains(query))
-                        .Or(item => subCategories.Contains(query));
+                        .Or(item => item["FAQ Question"].Contains(term)).Boost(3)
+                        .Or(item => item["FAQ Answer"].Contains(term))
+                        .Or(item => item["Keywords"].Contains(term)).Boost(2)
+                        .Or(item => categories.Contains(term)).Boost(1)
+                        .Or(item => subCategories.Contains(term)).Boost(1);
                 }
 
                 if (query != "")
