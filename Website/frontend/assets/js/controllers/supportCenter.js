@@ -36,6 +36,13 @@
     var selectedKeyword = "";
     $scope.noKeywordSelected = true;
 
+    var div = document.createElement('div');
+    var htmlDecode = function (item) {
+        div.innerHTML = item;
+        item = div.textContent;
+        return item;
+    }
+
     $scope.init = function () {
         $scope.isLoading = true;
         $http({
@@ -52,18 +59,8 @@
                     $scope.categories.push(category);
                 }
             });
+            $scope.faqs = allFAQs = processFAQS(response.data.faQs);
             angular.forEach(response.data.faQs, function (faq) {
-                div.innerHTML = faq.faqAnswer;
-                faq.faqAnswer = $sce.trustAsHtml(div.textContent);
-                div.innerHTML = faq.faqQuestion;
-                faq.faqQuestion = div.textContent;
-                angular.forEach(faq.categories, function (faqCat, index) {
-                    div.innerHTML = faqCat.split("|")[0];
-                    faq.categories[index] = {
-                        name: div.textContent,
-                        guid: faqCat.split("|")[1]
-                    };
-                });
                 angular.forEach(faq.relatedFAQs, function (relatedFAQ, index) {
                     var split = relatedFAQ.split("||");
                     var categories = [];
@@ -81,7 +78,6 @@
                     };
                 });
             });
-            $scope.faqs = response.data.faQs;
             $scope.isLoading = false;
         }, function errorCallback(response) {
             $scope.isLoading = false;
@@ -96,20 +92,23 @@
         $scope.defaultSearchPlaceholder = defaultSearchPlaceholder;
     }
 
-    $scope.categoryInit = function (category, search) {
+    $scope.categoryInit = function (category) {
         $scope.isLoading = true;
         $scope.searchData.category = category;
         $scope.category = category;
         if (category.states.length == 0) {
             $scope.searchPlaceholder = $scope.defaultSearchPlaceholder;
         }
+        $scope.category.emergencyContactContent = $sce.trustAsHtml(htmlDecode($scope.category.emergencyContactContent));
+        $scope.category.contactContent = $sce.trustAsHtml(htmlDecode($scope.category.contactContent));
         $scope.isCategorySupport = true;
+        var queryState = getParameterByName("state");
         $http({
             method: 'Post',
             data: {
                 query: "",
                 category: category.guid,
-                state: null,
+                state: queryState,
                 subcategory: null,
                 keyword: null
             },
@@ -121,58 +120,44 @@
                     $scope.categories.push(category);
                 }
             });
-            var div = document.createElement('div');
-            $scope.subcategories = [];
-            angular.forEach(response.data.subcategories, function (subcat, index) {
-                div.innerHTML = subcat.name;
-                subcat.name = div.textContent;
-                $scope.subcategories.push(subcat);
-            });
-            $scope.subcategories[0].selected = true;
-            angular.forEach(response.data.faQs, function (faq) {
-                div.innerHTML = faq.faqAnswer;
-                faq.faqAnswer = $sce.trustAsHtml(div.textContent);
-                div.innerHTML = faq.faqQuestion;
-                faq.faqQuestion = div.textContent;
-                angular.forEach(faq.categories, function (faqCat, index) {
-                    div.innerHTML = faqCat.split("|")[0];
-                    faq.categories[index] = {
-                        name: div.textContent,
-                        guid: faqCat.split("|")[1]
-                    };
-                });
-                angular.forEach(faq.keywords, function (keyword, index) {
-                    div.innerHTML = keyword;
-                    faq.keywords[index] = div.textContent;
-            });
-            });
-            allFAQs = $scope.faqs = response.data.faQs;
+            allFAQs = $scope.faqs = processFAQS(response.data.faQs);
             $scope.displayedFAQCount = response.data.faQs.length;
-            if (search && search != "-") {
-                var searchArray = search.split("|");
+            if (queryState) {
                 angular.forEach($scope.categories, function (category) {
                     if (category.states.length) {
                         angular.forEach($scope.category.states, function (state) {
-                            if (state.name === searchArray[0]) {
-                                $scope.selectCategory(category, state);
+                            if (state.guid === queryState) {
+                                state.emergencyContactContent = $sce.trustAsHtml(htmlDecode(state.emergencyContactContent));
+                                state.contactContent = $sce.trustAsHtml(htmlDecode(state.contactContent));
+                                $scope.searchData.state = state;
+                                $scope.searchPlaceholder = $scope.defaultSearchPlaceholder;
+                                $scope.selectedStateName = state.name
                             }
                         });
                     }
                 });
-                $scope.searchData.text = searchArray[1];
-                $scope.search();
+            }
+            $scope.subcategories = response.data.subcategories;
+            angular.forEach($scope.subcategories, function (subcat, index) {
+                $scope.subcategories[index].name = htmlDecode($scope.subcategories[index].name);
+            });
+            var queryStringSubCategory = getParameterByName("subcategory");
+            if (queryStringSubCategory != null && queryStringSubCategory != "" && $scope.subcategories[queryStringSubCategory]) {
+                $scope.selectSubcategory(queryStringSubCategory);
+            }
+            else {
+                $scope.selectSubcategory(0);
+            }
+            var query = getParameterByName("query");
+            if (query) {
+                $scope.searchData.text = query;
+                $scope.search(getParameterByName("oneResult") === "true");
             }
             else {
                 $scope.isLoading = false;
                 buildKeywords();
                 paginate();
             }
-
-            var queryStringSubCategory = getParameterByName("subcategory");
-            if (queryStringSubCategory != null && queryStringSubCategory != "" && $scope.subcategories[queryStringSubCategory]) {
-                $scope.selectSubcategory(queryStringSubCategory);
-            }
-
         }, function errorCallback(response) {
             $scope.isLoading = false;
             console.log(response);
@@ -192,18 +177,13 @@
                 }
             });
             $scope.isLoading = false;
-            var div = document.createElement('div');
             angular.forEach($scope.categories, function (category) {
-                div.innerHTML = category.contactPageContent;
-                category.contactPageContent = $sce.trustAsHtml(div.textContent);
-                div.innerHTML = category.emergencyContactSubheading;
-                category.emergencyContactSubheading = $sce.trustAsHtml(div.textContent);
-                div.innerHTML = category.emergencyContactContent;
-                category.emergencyContactContent = $sce.trustAsHtml(div.textContent);
+                category.contactPageContent = $sce.trustAsHtml(htmlDecode(category.contactPageContent));
+                category.emergencyContactSubheading = $sce.trustAsHtml(htmlDecode(category.emergencyContactSubheading));
+                category.emergencyContactContent = $sce.trustAsHtml(htmlDecode(category.emergencyContactContent));
                 if (category.states.length) {
                     angular.forEach(category.states, function (state) {
-                        div.innerHTML = state.contactPageContent;
-                        state.contactPageContent = $sce.trustAsHtml(div.textContent);
+                        state.contactPageContent = $sce.trustAsHtml(htmlDecode(state.contactPageContent));
                     });
                 }
             });
@@ -218,6 +198,7 @@
             $scope.pane = state.name;
         }
         else {
+            state = null;
             $scope.pane = category.name;
         }
         $scope.category = category;
@@ -243,62 +224,65 @@
     }
 
     var getFAQs = function (searchRequest) {
-        var deferred = $q.defer();
-            $http({
-                method: 'Post',
-                data: searchRequest,
-                url: "/api/support/search"
-            }).then(function success(response) {
-                var div = document.createElement('div');
-                angular.forEach(response.data, function (faq) {
-                    div.innerHTML = faq.faqAnswer;
-                    faq.faqAnswer = $sce.trustAsHtml(div.textContent);
-                    div.innerHTML = faq.faqQuestion;
-                    faq.faqQuestion = div.textContent;
-                    angular.forEach(faq.categories, function (faqCat, index) {
-                        div.innerHTML = faqCat.split("|")[0];
-                        faq.categories[index] = {
-                            name: div.textContent,
-                            guid: faqCat.split("|")[1]
-                        };
-                    });
-                    angular.forEach(faq.keywords, function (keyword, index) {
-                        div.innerHTML = keyword;
-                        faq.keywords[index] = div.textContent;
-                    });
-                });
-            deferred.resolve(response.data);
-            }, function error(response) {
-            deferred.reject(response);
+        return $http({
+            method: 'Post',
+            data: searchRequest,
+            url: "/api/support/search"
+        }).then(function success(response) {  
+            return (processFAQS(response.data));
+        }, function error(response) {
+            return (response);
+        });
+    }
+
+    var processFAQS = function (faqs) {
+        angular.forEach(faqs, function (faq) {
+            faq.faqAnswer = $sce.trustAsHtml(htmlDecode(faq.faqAnswer));
+            faq.faqQuestion = htmlDecode(faq.faqQuestion);
+            angular.forEach(faq.categories, function (faqCat, index) {
+                faq.categories[index] = {
+                    name: htmlDecode(faqCat.split("|")[0]),
+                    guid: faqCat.split("|")[1]
+                };
             });
-        return deferred.promise;
+            angular.forEach(faq.keywords, function (keyword, index) {
+                faq.keywords[index] = htmlDecode(keyword);
+            });
+        });
+        return faqs;
     }
 
     $scope.getSearchFaqs = function (viewValue) {
-        $scope.noSearchResults = false;
-        var request = {
+        return getFAQs({
             query: viewValue,
             category: $scope.searchData.category.guid,
             state: $scope.searchData.state ? $scope.searchData.state.guid : null,
-        }
-        var deferred = $q.defer();
-            getFAQs(request).then(function (response) {
-                if ($scope.isLoading) {
-                deferred.resolve([]);
+        }).then(function (response) {
+            if ($scope.isLoading) {
+                $scope.noSearchResults = false;
+                return ([]);
+                $scope.$apply();
+            }
+            else {
+                if (response.length == 0 && $scope.searchData.text) {
+                    $scope.noSearchResults = true;
+                    return ([]);
+                    $scope.$apply();
                 }
                 else {
-                deferred.resolve(response.slice(0, 4));
-                    if (response.length == 0 && $scope.searchData.text) {
-                        $scope.noSearchResults = true;
-                    }
+                    $scope.noSearchResults = false;
+                    return (response.slice(0, 4));
+                    $scope.$apply();
                 }
-            }, function (error) {
-            deferred.reject(null);
+            }
+        }, function (error) {
+            $scope.noSearchResults = true;
+            console.log(error);
+            return (error);
         });
-        return deferred.promise;
     }
 
-    $scope.search = function () {
+    $scope.search = function (oneResult) {
         if ($scope.searchData.text) {
             $scope.isLoading = true;
             angular.copy($scope.searchData, $scope.searchedData);
@@ -307,17 +291,16 @@
                 $scope.selectSubcategory(0);
             }
             $scope.toggleKeyword();
-            var request = {
+            getFAQs({
                 query: $scope.searchData.text,
                 category: $scope.searchData.category.guid,
                 state: $scope.searchData.state ? $scope.searchData.state.guid : null,
-            };
-            getFAQs(request).then(function (response) {
+            }).then(function (response) {
                 $scope.isLoading = false;
                 var categorySame = $scope.category.name === $scope.searchData.category.name;
                 if (categorySame) {
                     //same category
-                    if (response.length == 1) {
+                    if (oneResult) {
                         //same category, one result
                         var faqIndex = -1;
                         var displayedFAQs = $scope.getDisplayedFAQs()
@@ -331,7 +314,6 @@
                         $scope.selectFaq(faqIndex);
                         $scope.searchData.text = "";
                         scrollGuid = "id" + displayedFAQs[faqIndex].guid;
-                        $scope.$apply();
                     }
                     else {
                         //same category, multiple results
@@ -340,20 +322,19 @@
                         paginate();
                         $scope.searchResults = true;
                         buildKeywords();
-                        $scope.$apply();
                     }
                 }
                 else {
                     //different category
-                    var state = "-";
+                    var state = "";
                     if ($scope.searchData.state) {
-                        state = $scope.searchData.state.name;
+                        state = "&state=" + $scope.searchData.state.guid;
                     }
-                    var text = ""
+                    var query = "";
                     if ($scope.searchData.text) {
-                        text = "|" + $scope.searchData.text;
+                        query = "&query=" + $scope.searchData.text;
                     }
-                    window.location.href = "/support/" + $scope.searchData.category.name + "?search=" + state + text;
+                    window.location.href = "/support/" + $scope.searchData.category.name + "?oneResult=" + oneResult + query + state;
                 }
             }, function (error) {
                 console.log(error);
@@ -416,13 +397,8 @@
     $scope.selectCategory = function (category, state) {
         if (!category.states.length > 0 || state) {
             if (state && typeof (state.emergencyContactContent) === "string") {
-                var div = document.createElement('div');
-                div.innerHTML = state.emergencyContactContent;
-                state.emergencyContactContent = div.textContent;
-                state.emergencyContactContent = $sce.trustAsHtml(state.emergencyContactContent);
-                div.innerHTML = state.contactContent;
-                state.contactContent = div.textContent;
-                state.contactContent = $sce.trustAsHtml(state.contactContent);
+                state.emergencyContactContent = $sce.trustAsHtml(htmlDecode(state.emergencyContactContent));
+                state.contactContent = $sce.trustAsHtml(htmlDecode(state.contactContent));
             }
             $scope.searchData.category = category;
             $scope.searchData.state = state;

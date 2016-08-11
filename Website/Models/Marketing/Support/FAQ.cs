@@ -35,13 +35,8 @@ namespace StreamEnergy.MyStream.Models.Marketing.Support
         {
             Encoding iso = Encoding.GetEncoding("ISO-8859-1");
             Encoding utf8 = Encoding.UTF8;
-            string Question1 = HttpUtility.HtmlEncode(getValue("FAQ Question"));
-            string Question2 = utf8.GetString(iso.GetBytes(Question1));
-            FAQQuestion = Question2; //to avoid weird copy/paste characters
-            string Answer1 = HttpUtility.HtmlEncode(getValue("FAQ Answer"));
-            string Answer2 = utf8.GetString(iso.GetBytes(Answer1));
-            FAQAnswer = Answer2;
-
+            FAQQuestion = utf8.GetString(iso.GetBytes(getValue("FAQ Question", true))); //to avoid weird copy/paste characters
+            FAQAnswer = utf8.GetString(iso.GetBytes(getValue("FAQ Answer", true)));
             Guid = SitecoreItem.ID.ToString().Replace("{", "").Replace("}", "");
 
             if (!string.IsNullOrEmpty(getValue("FAQ Categories")))
