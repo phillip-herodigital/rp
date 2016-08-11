@@ -56,7 +56,7 @@
                     $scope.hasError = true;
                     $scope.deviceIneligible = true;
                     analytics.sendVariables(17, $scope.phoneOptions.imeiNumber);
-                    if(data.verifyEsnResponseCode) {
+                    if (data.verifyEsnResponseCode) {
                         $scope.deviceIneligibleMessage = _.find($scope.esnValidationMessages, function (message) { 
                                 return message.code.toLowerCase() == data.verifyEsnResponseCode.toLowerCase();
                             }).message;
