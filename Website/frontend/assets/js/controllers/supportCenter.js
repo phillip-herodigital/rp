@@ -51,11 +51,9 @@
             url: '/api/support/init',
         }).then(function successCallback(response) {
             $scope.isLoading = false;
-            var div = document.createElement('div');
             angular.forEach(response.data.categories, function (category) {
                 if (category.displayOnMainPage) {
-                    div.innerHTML = category.name;
-                    category.name = div.textContent;
+                    category.name = htmlDecode(category.name);
                     $scope.categories.push(category);
                 }
             });
