@@ -348,71 +348,26 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                         {
                             while (reader.Read())
                             {
-                                string ed = (string)reader["stop_date"];
-                                string hours = (string)reader["hours"];
-                                var hoursArray = hours.Split(new string[]{ "[NEWLINE]" }, 50, StringSplitOptions.RemoveEmptyEntries);
-                                for (var i = 0; i < hoursArray.Length; i++)
-                                {
-                                    hoursArray[i] = hoursArray[i].Substring(2).Trim();
-                                }
-                                var hoursList = hoursArray.ToList();
-                                hoursList.Insert(0, hoursList.Last());
-                                hoursList.RemoveAt(hoursList.Count-1); //the data starts on monday.
-                                hoursArray = hoursList.ToArray();
-                                var displayHours = new List<PaymentLocation.DateHours> { new PaymentLocation.DateHours
-                                        {
-                                            StartDate = 0, 
-                                            EndDate = 0,
-                                            Hours = hoursArray[0]
-                                        }};
-                                for (var i = 1; i < hoursArray.Length; i++)
-                                {
-                                    if (hoursArray[i] == hoursArray[i - 1])
-                                    {
-                                        displayHours.Last().EndDate++;
-                                    }
-                                    else
-                                    {
-                                        displayHours.Add(new PaymentLocation.DateHours
-                                        {
-                                            StartDate = i,
-                                            EndDate = i,
-                                            Hours = hoursArray[i]
-                                        });
-                                    }
-                                }
-
                                 PaymentLocation location = new PaymentLocation()
                                 {
-                                    ID = (double)reader["id"],
                                     Vender = (string)reader["vendor"],
                                     Agent = (string)reader["agent"],
                                     Name = (string)reader["location_name"],
                                     AddressLine1 = (string)reader["address1"],
-                                    AddressLine2 = (string)reader["address2"],
                                     City = (string)reader["city"],
                                     StateAbbreviation = (string)reader["state"],
                                     PostalCode5 = (string)reader["zip"],
-                                    PostalCodePlus4 = (string)reader["zip4"],
                                     PhoneNumber = (string)reader["phone"],
-                                    ContactName = (string)reader["contact_name"],
-                                    Hours = displayHours,
-                                    Fee = ((double)reader["fee"]) > 0,
-                                    StartDate = DateTime.Parse((string)reader["start_date"]),
-                                    EndDate = string.IsNullOrEmpty(ed) || ed == "0000-00-00" ? DateTime.MinValue : DateTime.Parse(ed),
-                                    Status = (string)reader["status"],
+                                    Hours = (string)reader["hours"],
                                     PaymentMethods = ((string)reader["pay_methods"]).Split("/".ToCharArray()).ToList(),
                                     Lat = (double)reader["lat"],
                                     Lon = (double)reader["lon"],
-                                    Rank = (double)reader["rank"],
                                     Distance = (double)reader["distance_in_mi"],
                                 };
-
                                 results.Add(location);
                             }
                         }
                     }
-
                     return results;
                 }
             }

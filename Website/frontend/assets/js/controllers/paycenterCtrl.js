@@ -186,24 +186,6 @@ ngApp.controller('PaycenterCtrl', ['$scope', '$http', '$window', '$location', 'o
             $scope.markers = [];
             $scope.isLoading = false;
             angular.forEach(response.data, function (place, index) {
-                angular.forEach(place.hours, function (hour) {
-                    if (hour.startDate === 0) { hour.startDate = "Sun"; }
-                    else if (hour.startDate === 1) { hour.startDate = "Mon"; }
-                    else if (hour.startDate === 2) { hour.startDate = "Tue"; }
-                    else if (hour.startDate === 3) { hour.startDate = "Wed"; }
-                    else if (hour.startDate === 4) { hour.startDate = "Thu"; }
-                    else if (hour.startDate === 5) { hour.startDate = "Fri"; }
-                    else if (hour.startDate === 6) { hour.startDate = "Sat"; }
-                    else if (hour.startDate === 7) { hour.startDate = "Sun"; }
-                    if (hour.endDate === 0) { hour.endDate = "Sun"; }
-                    else if (hour.endDate === 1) { hour.endDate = "Mon"; }
-                    else if (hour.endDate === 2) { hour.endDate = "Tue"; }
-                    else if (hour.endDate === 3) { hour.endDate = "Wed"; }
-                    else if (hour.endDate === 4) { hour.endDate = "Thu"; }
-                    else if (hour.endDate === 5) { hour.endDate = "Fri"; }
-                    else if (hour.endDate === 6) { hour.endDate = "Sat"; }
-                    else if (hour.endDate === 7) { hour.endDate = "Sun"; }
-                });
                 $scope.markers.push({
                     id: index + 1,
                     icon: pinImage,
@@ -221,7 +203,7 @@ ngApp.controller('PaycenterCtrl', ['$scope', '$http', '$window', '$location', 'o
                             postCode: place.postalCode5,
                             phone: place.phoneNumber
                         },
-                        hoursArr: place.hours,
+                        hoursArr: place.hours.split("|"),
                         paymentMethods: place.paymentMethods
                     },
                     onClicked: function () {
@@ -249,6 +231,7 @@ ngApp.controller('PaycenterCtrl', ['$scope', '$http', '$window', '$location', 'o
         return deferred.promise;
     }
 
+    var windowMarkerIndex = -1;
     var ogCoords = null;
     $scope.openWindow = function (i) {
         if (windowMarkerIndex == i) {
@@ -283,8 +266,6 @@ ngApp.controller('PaycenterCtrl', ['$scope', '$http', '$window', '$location', 'o
             }
         }
     }
-
-    var windowMarkerIndex = -1;
 
     $scope.closeWindow = function () {
         $scope.window.show = false;
