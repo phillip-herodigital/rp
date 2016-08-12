@@ -123,7 +123,7 @@ namespace StreamEnergy.MyStream.Controllers
             var stateFAQsTempalteID = ID.Parse(StateFAQsTempalteID);
             var filterCategoryID = Sitecore.ContentSearch.Utilities.IdHelper.NormalizeGuid(filter.Category.Guid, true);
 
-            Item repositorySearchItem = Sitecore.Context.Database.GetItem(FAQStateRootItemID);
+            Item repositorySearchItem = Sitecore.Context.Database.GetItem(FAQsRootItemID);
             ISearchIndex index = ContentSearchManager.GetIndex(new SitecoreIndexableItem(repositorySearchItem));
             using (IProviderSearchContext context = index.CreateSearchContext(SearchSecurityOptions.EnableSecurityCheck))
             {
