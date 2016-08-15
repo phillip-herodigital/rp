@@ -55,13 +55,15 @@ ngApp.controller('EnrollmentPlanSelectionCtrl', ['$scope', 'enrollmentService', 
                 plan = $scope.currentLocationInfo().offerInformationByType[0].value.availableOffers[i],
                 key = $scope.currentLocationInfo().offerInformationByType[0].key;
                 if (typeof plan != 'undefined') {
-                    $scope.currentLocationInfo().offerInformationByType[0].value.availableOffers.splice(i, 1);
-                    $scope.currentLocationInfo().offerInformationByType[0].value.availableOffers.push(plan);
                     $scope.planSelection.selectedOffers[key] = plan.id;
+                    $scope.currentLocationInfo().offerInformationByType[0].sortBy = function (plan) {
+                        if (plan) {
+                            return plan.id.indexOf($scope.utilityEnrollment.requestedPlanId) == -1;
+                        }
+                    };
                 }
             }
         }
-
         updateFootnotes();
     });
 
