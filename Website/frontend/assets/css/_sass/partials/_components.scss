@@ -385,11 +385,11 @@
                     .grid {
                         margin: 0;
                         background-color: #fff;
-                        width: auto;
+                        width: 100%;
                         min-width: 240px;
 
                         @include breakpoint(small) {
-                            padding: 20px;
+                            padding: 10px;
                         }
 
                         .column {
@@ -400,6 +400,10 @@
                                     font-size: 14px;
                                     font-weight: 500;
                                     color: #919191;
+
+                                    @include breakpoint(small) {
+                                        font-size: 12px;
+                                    }
                                 }
 
                                 a > p {
@@ -419,6 +423,10 @@
                                     &:last-of-type {
                                         margin-bottom: 5px;
                                     }
+
+                                    @include breakpoint(small) {
+                                        font-size: 12px;
+                                    }
                                 }
                             }
 
@@ -428,11 +436,15 @@
                                 }
                             }
 
+                            &:first-of-type {
+                                max-width: calc(100% - 100px);
+                            }
+
                             &:last-of-type {
                                 padding-left: 20px;
 
                                 @include breakpoint(small) {
-                                    padding-left: 0;
+                                    padding-left: 5px;
                                 }
                             }
                         }
