@@ -104,7 +104,7 @@
                         <p>@categoryContent.Fields["Please Contact"]</p>
                     </div>
                     <div class="contact-info" ng-hide="category.states.length">
-                        @categoryItem.ContactContent.AsHtml()
+                        <div ng-bind-html="category.contactContent"></div>
                         <p ng-show="category.name == 'Mobile'"><a href="" ng-click="mobileAcronyms = true">@categoryContent.Fields["Mobile Acronyms"]</a></p>
                     </div>
                     <div class="contact-info" ng-show="category.states.length">
