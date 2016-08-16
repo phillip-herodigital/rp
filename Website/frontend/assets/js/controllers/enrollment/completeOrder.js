@@ -168,11 +168,14 @@ ngApp.controller('EnrollmentCompleteOrderCtrl', ['$scope', 'enrollmentService', 
 
     $scope.toggleAutoPay = function () {
         if ($scope.completeOrder.autopay) {
-            if (_.some($scope.getCartItems(), function (item) {
-                return item.offerInformationByType[0].value.offerSelections[0].offer.withAutoPayID != "";
-            })) {
-                turnOnAutoPay();
-            }
+            _.filter(enrollmentCartService.services, function (s) {
+                return s.offerInformationByType[0].value.offerSelections[0].offer.withAutoPayID != "";
+            }).forEach(function (service) {
+                service.offerInformationByType[0].value.offerSelections[0].offerId = service.offerInformationByType[0].value.offerSelections[0].offer.withAutoPayID;
+                service.offerInformationByType[0].value.offerSelections[0].offer = _.find(service.offerInformationByType[0].value.availableOffers,
+                    { id: service.offerInformationByType[0].value.offerSelections[0].offer.withAutoPayID });
+            });
+            enrollmentService.toggleAutoPay();
         }
         else {
             if (_.some($scope.getCartItems(), function (item) {
@@ -194,19 +197,11 @@ ngApp.controller('EnrollmentCompleteOrderCtrl', ['$scope', 'enrollmentService', 
                     'templateUrl': 'autopay-warning'
                 });
             }
+            else {
+                $scope.turnOffAutoPay();
+            }
         };
     };
-
-    var turnOnAutoPay = function () {
-        _.filter(enrollmentCartService.services, function (s) {
-            return s.offerInformationByType[0].value.offerSelections[0].offer.withAutoPayID != "";
-        }).forEach(function (service) {
-            service.offerInformationByType[0].value.offerSelections[0].offerId = service.offerInformationByType[0].value.offerSelections[0].offer.withAutoPayID;
-            service.offerInformationByType[0].value.offerSelections[0].offer = _.find(service.offerInformationByType[0].value.availableOffers,
-                { id: service.offerInformationByType[0].value.offerSelections[0].offer.withAutoPayID });
-        });
-        enrollmentService.toggleAutoPay();
-    }
 
     $scope.turnOffAutoPay = function () {
         $scope.autoPayModalInstance.close();
@@ -223,11 +218,6 @@ ngApp.controller('EnrollmentCompleteOrderCtrl', ['$scope', 'enrollmentService', 
     $scope.keepAutoPay = function () {
         $scope.completeOrder.autopay = true;
         $scope.autoPayModalInstance.close();
-        if (_.some($scope.getCartItems(), function (item) {
-                return item.offerInformationByType[0].value.offerSelections[0].offer.withAutoPayID != "";
-        })) {
-            turnOnAutoPay();
-        }
     };
 
     $scope.editMobileDevice = function (item) {

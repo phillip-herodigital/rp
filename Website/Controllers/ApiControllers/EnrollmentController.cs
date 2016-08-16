@@ -762,9 +762,11 @@ FROM [SwitchBack] WHERE ESIID=@esiId";
             }
             var context = stateHelper.Context;
             var internalContext = stateHelper.InternalContext;
+            //update internalContext.AllOffers here
             stateHelper.Reset();
             stateHelper.Context = context;
             stateHelper.InternalContext = internalContext;
+
             stateHelper.State = typeof(AccountInformationState);
 
             await stateHelper.EnsureInitialized();
