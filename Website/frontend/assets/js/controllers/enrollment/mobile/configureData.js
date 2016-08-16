@@ -69,27 +69,25 @@
     };
 
     var addNewService = function () {
-        var location = {
-            address: {
-                city: $scope.data.serviceLocation.address.city,
-                line1: "",
-                postalCode5: $scope.data.serviceLocation.address.postalCode5,
-                stateAbbreviation: $scope.data.serviceLocation.address.stateAbbreviation
-            },
-            capabilities: $scope.data.serviceLocation.capabilities
-        };
-        var offerInfo = [{
-            key: "Mobile",
-            value: {
-                availableOffers: $scope.availableOffers,
-                errors: [],
-                offerSelections: []
-            }
-        }];
         enrollmentCartService.addService({
             eligibility: "success",
-            location: location,
-            offerInformationByType: offerInfo
+            location: {
+                address: {
+                    city: $scope.data.serviceLocation.address.city,
+                    line1: "",
+                    postalCode5: $scope.data.serviceLocation.address.postalCode5,
+                    stateAbbreviation: $scope.data.serviceLocation.address.stateAbbreviation
+                },
+                capabilities: $scope.data.serviceLocation.capabilities
+            },
+            offerInformationByType: [{
+                key: "Mobile",
+                value: {
+                    availableOffers: $scope.currentMobileLocationInfo().offerInformationByType[0].value.availableOffers,
+                    errors: [],
+                    offerSelections: []
+                }
+            }]
         });
     };
 
@@ -239,7 +237,6 @@
                     if (activeService && !$scope.excludedState) {
                         activeService.location = $scope.data.serviceLocation;
                         enrollmentService.setSelectedOffers(true).then(function () {
-                            $scope.availableOffers = enrollmentCartService.getActiveService().offerInformationByType[0].value.availableOffers;
                             if ($scope.mobileEnrollment.requestedPlanId != "") {
                                 $scope.selectPlan($scope.mobileEnrollment.requestedPlanId);
                             }
