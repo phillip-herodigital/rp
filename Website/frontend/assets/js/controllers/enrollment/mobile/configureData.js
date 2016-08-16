@@ -16,7 +16,14 @@
     $scope.$watch("cartDevices().length", function (newVal, oldVal) {
         if (newVal != oldVal) {
             $scope.phoneOptions = $scope.cartDevices()[activeServiceIndex()];
-            $scope.selectedPlan = {};
+            if ($scope.cartDevices().length === 1 && $scope.mobileEnrollment.requestedPlanId != "") {
+                if ($scope.currentMobileLocationInfo().offerInformationByType.length != 0) {
+                    $scope.selectPlan($scope.mobileEnrollment.requestedPlanId);
+                }
+            }
+            else {
+                $scope.selectedPlan = {};
+            }
         }
     });
 
