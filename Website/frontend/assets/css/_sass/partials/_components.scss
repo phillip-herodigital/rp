@@ -385,7 +385,7 @@
                     .grid {
                         margin: 0;
                         background-color: #fff;
-                        width: auto;
+                        width: 100%;
                         min-width: 240px;
 
                         @include breakpoint(small) {
