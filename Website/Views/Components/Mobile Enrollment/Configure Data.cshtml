@@ -190,7 +190,7 @@
                                     <div class="label">
                                         <label>@Html.Sitecore().Field("Text - Select Your Rate Plan")</label>
                                         <span class="location-text">
-                                            @Html.Sitecore().Field("It looks like youre in") {{ geoLocation.city }}, {{ geoLocation.state }} {{ geoLocation.postalCode5 }} <a href="" ng-click="showChangeLocation = true">@Html.Sitecore().Field("Change Text")</a>
+                                            @Html.Sitecore().Field("It looks like youre in") {{ geoLocation.city }}, {{ geoLocation.state }} {{ geoLocation.postalCode5 }} <a href="" ng-click="changeLocation()">@Html.Sitecore().Field("Change Text")</a>
                                         </span>
                                     </div>
                                     <div>

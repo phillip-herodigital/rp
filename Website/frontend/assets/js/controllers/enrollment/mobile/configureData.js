@@ -55,6 +55,11 @@
         }
     };
 
+    $scope.changeLocation = function () {
+        $scope.showChangeLocation = true;
+        enrollmentStepsService.scrollToStep("phoneFlowPlans");
+    }
+
     $scope.selectPlan = function (planID) {
         var i = _.findIndex($scope.currentMobileLocationInfo().offerInformationByType[0].value.availableOffers, function (o) {
             return _(o.id).contains(planID);
