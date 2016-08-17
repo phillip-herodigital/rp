@@ -146,7 +146,7 @@ namespace StreamEnergy.Services.Clients
 
 
 
-        dynamic ILocationAdapter.ToEnrollmentAccount(Guid globalCustomerId, EnrollmentAccountDetails account, string addLineAccountNumber)
+        dynamic ILocationAdapter.ToEnrollmentAccount(Guid globalCustomerId, EnrollmentAccountDetails account)
         {
             var texasElectricityOffer = account.Offer.Offer as TexasElectricity.Offer;
             var texasService = account.Location.Capabilities.OfType<TexasElectricity.ServiceCapability>().Single();

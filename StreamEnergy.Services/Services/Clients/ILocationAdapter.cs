@@ -26,7 +26,7 @@ namespace StreamEnergy.Services.Clients
 
         bool SkipPremiseVerification(Location location);
 
-        dynamic ToEnrollmentAccount(Guid globalCustomerId, EnrollmentAccountDetails account, string addLineAccountNumber);
+        dynamic ToEnrollmentAccount(Guid globalCustomerId, EnrollmentAccountDetails account);
 
         DomainModels.Accounts.ISubAccount BuildSubAccount(Address serviceAddress, dynamic details);
 

@@ -19,8 +19,6 @@ namespace StreamEnergy.Interpreters
 
         string AccountNumber { get; }
 
-        string AddLineAccountNumber { get; }
-
         string GroupId { get; }
 
         string RefSite { get; }

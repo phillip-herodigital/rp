@@ -189,7 +189,7 @@ namespace StreamEnergy.Services.Clients
             return true;
         }
 
-        dynamic ILocationAdapter.ToEnrollmentAccount(Guid globalCustomerId, EnrollmentAccountDetails account, string addLineAccountNumber)
+        dynamic ILocationAdapter.ToEnrollmentAccount(Guid globalCustomerId, EnrollmentAccountDetails account)
         {
             var offer = (account.Offer.Offer as Mobile.Offer);
             var offerOption = (account.Offer.OfferOption as Mobile.OfferOption);
@@ -215,7 +215,6 @@ namespace StreamEnergy.Services.Clients
                 InventoryInstallmentPlanByCredit = offerOption.UseInstallmentPlan
                     ? new { A = selectedInventory.InstallmentPlan.ByCreditRating.A, B = selectedInventory.InstallmentPlan.ByCreditRating.B, C = selectedInventory.InstallmentPlan.ByCreditRating.C }
                     : null,
-                ExistingAccountNumber = addLineAccountNumber,
             };
         }
 

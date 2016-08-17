@@ -172,26 +172,17 @@ ngApp.factory('enrollmentStepsService', ['$rootScope', 'scrollService','$http', 
 
             flows.phone = {
                 'serviceInformation': {
-                    //name: 'phoneFlowVerifyPhone',
-                    //name: 'phoneFlowNetwork',
                     name: 'phoneFlowDevices',
                     previous: []
                 },
                 'deviceSelection': {
                     name: 'phoneFlowDevices',
-                    //previous: ['phoneFlowVerifyPhone', 'phoneFlowNetwork']
                     previous: []
                 },
                 'planSelection': {
                     name: 'phoneFlowPlans',
-                    //previous: ['phoneFlowVerifyPhone', 'phoneFlowNetwork', 'phoneFlowDevices']
                     previous: ['phoneFlowDevices']
                 }
-                /*'planSettings': {
-                    name: 'accountInformation',
-                    //previous: ['phoneFlowVerifyPhone', 'phoneFlowNetwork', 'phoneFlowDevices', 'phoneFlowPlans']
-                    previous: ['phoneFlowDevices', 'phoneFlowPlans']
-                }*/
             }
         },
         isAddLine: function(){

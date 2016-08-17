@@ -47,13 +47,13 @@ namespace StreamEnergy.DomainModels.Enrollments
                 internalContext.EnrollmentSaveState = await enrollmentService.EndSaveEnrollment(internalContext.EnrollmentSaveState, context);
             }
 
-            if (!context.IsRenewal  && !internalContext.EnrollmentSaveState.IsCompleted)
+            if (!context.IsRenewal && !internalContext.EnrollmentSaveState.IsCompleted)
             {
                 return this.GetType();
             }
             else
             {
-                if (!context.IsRenewal &&  internalContext.EnrollmentSaveState.Data == null)
+                if (!context.IsRenewal && internalContext.EnrollmentSaveState.Data == null)
                 {
                     // some kind of enrollment error
                     return typeof(EnrollmentErrorState);

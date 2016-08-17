@@ -127,10 +127,6 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
             stateHelper.StateMachine.Context.SitecoreLanguageIsoCode = Sitecore.Context.Language.CultureInfo.TwoLetterISOLanguageName;
 
-            stateHelper.Context.AddLineAccountNumber = stateHelper.Context.AddLineAccountNumber ?? dpiEnrollmentParameters.AddLineAccountNumber;
-            stateHelper.Context.IsAddLine = currentUser.StreamConnectCustomerId != Guid.Empty
-                && !string.IsNullOrEmpty(stateHelper.Context.AddLineAccountNumber);
-
             this.stateMachine = stateHelper.StateMachine;
         }
 
@@ -343,9 +339,9 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
 
             await accountService.GetAccountDetails(target);
 
+            stateMachine.Context.IsAddLine = true;
+            stateMachine.Context.AddLineAccountNumber = account.AccountNumber;
             stateMachine.Context.AddLineSubAccounts = target.SubAccounts;
-
-            //FOR CODE REVIEW.  IS THIS THE CORRECT MAPPING?
             stateMachine.Context.MailingAddress = account.Details.BillingAddress;
             stateMachine.Context.PreviousAddress = account.Details.BillingAddress; 
             
@@ -354,7 +350,6 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 EnsureTypedPhones(stateMachine.Context.ContactInfo.Phone);
             }
 
-            await stateMachine.ContextUpdated();
             await stateMachine.ContextUpdated();
 
             if (stateMachine.State == typeof(DomainModels.Enrollments.AccountInformationState) || stateMachine.State == typeof(DomainModels.Enrollments.PlanSelectionState))
@@ -974,15 +969,10 @@ FROM [SwitchBack] WHERE ESIID=@esiId";
             await stateMachine.ContextUpdated();
 
             if (stateMachine.State == typeof(DomainModels.Enrollments.AccountInformationState) || stateMachine.State == typeof(DomainModels.Enrollments.PlanSelectionState))
-            {
-                    await stateMachine.Process(typeof(DomainModels.Enrollments.OrderConfirmationState));
-            }
-                
+                await stateMachine.Process(typeof(DomainModels.Enrollments.OrderConfirmationState));
             else if ((stateMachine.Context.IsRenewal || stateMachine.Context.IsAddLine || stateMachine.Context.IsSinglePage) && stateMachine.State == typeof(DomainModels.Enrollments.LoadDespositInfoState))
                 await stateMachine.Process(typeof(DomainModels.Enrollments.OrderConfirmationState));
-            
 
-            
             return ClientData(typeof(DomainModels.Enrollments.VerifyIdentityState), typeof(DomainModels.Enrollments.PaymentInfoState));
         }
 
