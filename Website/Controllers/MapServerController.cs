@@ -74,7 +74,6 @@ namespace StreamEnergy.MyStream.Controllers
         private byte[] LoadTileFromServer(string key, string layers, string tile) {
             DateTime start = DateTime.Now;
             byte[] data;
-
             string url = string.Format("{0}&mode=tile&tilemode=gmap&tile={1}&layers={2}",
                 ConfigurationManager.AppSettings["MapServerURL"], tile, layers);
 

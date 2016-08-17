@@ -188,11 +188,10 @@ namespace StreamEnergy.MyStream.Controllers
             return data;
         }
 
-        public ActionResult ProgressBar(string addline)
+        public ActionResult ProgressBar()
         {
             return View("~/Views/Components/Mobile Enrollment/Progress Bar.cshtml", new ProgressBar{
-                StepNumber = 1,
-                AddLineAccountNumber = Request.QueryString["addline"] ?? ""
+                StepNumber = 1
             });
         }
 
