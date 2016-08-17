@@ -175,7 +175,7 @@ ngApp.controller('PaycenterCtrl', ['$scope', '$http', '$window', '$location', 'o
             });
         }
         else {
-            if (getPlaces.formatted_address.includes(" TX ")) {
+            if (getPlaces.formatted_address.indexOf(" TX ") != -1) {
                 $scope.inTexas = true;
             }
         }
