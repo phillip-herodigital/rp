@@ -73,7 +73,7 @@
                 <ui-gmap-search-box template="searchbox.template" events="searchbox.events" parentdiv="'gmap-search'"></ui-gmap-search-box>
                 <ui-gmap-markers models="markers" coords="'coords'" icon="'icon'" click="'onClicked'"></ui-gmap-markers>
                 @*<ui-gmap-marker idKey="searchMarker.id" coords="searchMarker.coords" options="searchMarker.options"></ui-gmap-marker>*@
-                <ui-gmap-window show="window.show" coords="window.coords" options="window.options" templateParameter="locationInfo" ng-style="{'width': isMobile() ? '100%' : ''}" ng-cloak>
+                <ui-gmap-window show="window.show" coords="window.coords" options="window.options" ng-style="{'width': isMobile() ? '100%' : ''}" ng-cloak>
                     <div>
                         <div class="grid clearfix">
                             <div class="column">
@@ -94,27 +94,26 @@
                                     </a>
                                     <p>{{locationInfo.address.phone | phone}}</p>
                                 </div>
+                                <div class="item">
+                                    <label>@Html.Sitecore().Field("Payment Methods")</label>
+                                    @*ng-repeat doesn't work in this ui-gmap-window*@
+                                    <p ng-show="{{locationInfo.paymentMethods[0] != undefined}}">{{locationInfo.paymentMethods[0]}}</p>
+                                    <p ng-show="{{locationInfo.paymentMethods[1] != undefined}}">{{locationInfo.paymentMethods[1]}}</p>
+                                    <p ng-show="{{locationInfo.paymentMethods[2] != undefined}}">{{locationInfo.paymentMethods[2]}}</p>
+                                    <p ng-show="{{locationInfo.paymentMethods[3] != undefined}}">{{locationInfo.paymentMethods[3]}}</p>
+                                </div>
                             </div>
                             <div class="column">
                                 <div class="item">
                                     <label>@Html.Sitecore().Field("Hours")</label>
-                                    <p>
-                                        {{locationInfo.hoursArr[0]}}<br />
-                                        {{locationInfo.hoursArr[1]}}<br />
-                                        {{locationInfo.hoursArr[2]}}<br />
-                                        {{locationInfo.hoursArr[3]}}
-                                    </p>
-                                </div>
-                                <div class="item">
-                                    <label>@Html.Sitecore().Field("Payment Methods")</label>
                                     @*ng-repeat doesn't work in this ui-gmap-window*@
-                                    <p ng-if="locationInfo.paymentMethods[0] != 'undefined'">{{locationInfo.paymentMethods[0]}}</p>
-                                    <p ng-if="locationInfo.paymentMethods[1] != 'undefined'">{{locationInfo.paymentMethods[1]}}</p>
-                                    <p ng-if="locationInfo.paymentMethods[2] != 'undefined'">{{locationInfo.paymentMethods[2]}}</p>
-                                    <p ng-if="locationInfo.paymentMethods[3] != 'undefined'">{{locationInfo.paymentMethods[3]}}</p>
-                                    <p ng-if="locationInfo.paymentMethods[4] != 'undefined'">{{locationInfo.paymentMethods[4]}}</p>
-                                    <p ng-if="locationInfo.paymentMethods[5] != 'undefined'">{{locationInfo.paymentMethods[5]}}</p>
-                                    <p ng-if="locationInfo.paymentMethods[6] != 'undefined'">{{locationInfo.paymentMethods[6]}}</p>
+                                    <p>{{locationInfo.hoursArr[0]}}</p>
+                                    <p>{{locationInfo.hoursArr[1]}}</p>
+                                    <p>{{locationInfo.hoursArr[2]}}</p>
+                                    <p>{{locationInfo.hoursArr[3]}}</p>
+                                    <p>{{locationInfo.hoursArr[4]}}</p>
+                                    <p>{{locationInfo.hoursArr[5]}}</p>
+                                    <p>{{locationInfo.hoursArr[6]}}</p>
                                 </div>
                             </div>
                         </div>
@@ -128,3 +127,14 @@
         </div>
     </div>
 </article>
+<script type="text/ng-template" id="windowMarker">
+    <div class="mobile-enrollment-modal">
+        <div class="modal-header">
+            <a href="" ng-click="$dismiss()">Close</a>
+            <h2>@Html.Sitecore().Field("Header - International Details")</h2>
+        </div>
+        <div class="modal-body">
+            @Html.Sitecore().Field("Content - International Details")
+        </div>
+    </div>
+</script>

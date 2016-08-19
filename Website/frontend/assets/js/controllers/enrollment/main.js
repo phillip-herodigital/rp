@@ -9,6 +9,7 @@ ngApp.controller('EnrollmentMainCtrl', ['$scope', '$anchorScroll', '$location', 
     $scope.cartLocationsCount = 0;
     $scope.isCartFull = false;
     $scope.isLoading = enrollmentService.isLoading;
+    var isLoadingOverride = false;
     $scope.mobileEnrollment = {
         currentStep: 'choose-network',
         phoneTypeTab: 'new',
@@ -23,7 +24,7 @@ ngApp.controller('EnrollmentMainCtrl', ['$scope', '$anchorScroll', '$location', 
     };
 
     $scope.$watch(function () { return enrollmentService.isLoading; }, function (newValue) {
-        $scope.isLoading = newValue;
+        if (!isLoadingOverride) $scope.isLoading = newValue;
     });
 
     //Set the first step based on query string
@@ -175,7 +176,13 @@ ngApp.controller('EnrollmentMainCtrl', ['$scope', '$anchorScroll', '$location', 
             }
             else {
                 enrollmentCartService.addService({ location: $scope.data.serviceLocation });
-                enrollmentService.setServiceInformation(true);
+                isLoadingOverride = true;
+                $scope.isLoading = true;
+                
+                enrollmentService.setServiceInformation(true).then(function success() {
+                    $scope.isLoading = false;
+                    isLoadingOverride = false;
+                });
                 activeService = enrollmentCartService.getActiveService();
             }
 
