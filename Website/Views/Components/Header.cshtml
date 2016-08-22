@@ -89,12 +89,14 @@
                         <li><a href="@languageLinkUrl" hreflang="@languageLinkUrlLanguage" lang="@languageLinkUrlLanguage" translate="no">@languageLinkText</a></li>
                     }
                     <li><a href="/pay/">@Html.Sitecore().Field("Pay Bill text", accountDataSourceItem)</a></li>
+                    <li><a href="/services/renew">@Html.Sitecore().Field("Renew text", accountDataSourceItem)</a></li>
                     <li><a href="/auth/login">@Html.Sitecore().Field("Manage text", accountDataSourceItem)</a></li>
                 }
                 else
                 {
                     <li><a href="/account">@Html.Sitecore().Field("Account text", accountDataSourceItem)</a></li>
                     <li><a href="/account/profile">@Html.Sitecore().Field("My Profile text", accountDataSourceItem)</a></li>
+                    <li><a href="/services/renew">@Html.Sitecore().Field("Renew text", accountDataSourceItem)</a></li>
                     <li><a href="/api/authentication/logout">@Html.Sitecore().Field("Sign Out text", accountDataSourceItem)</a></li>
                 }
             </ul>
@@ -110,6 +112,7 @@
                 <ul>
                     <li><a href="/account">@Html.Sitecore().Field("Account text", accountDataSourceItem)</a></li>
                     <li><a href="/account/profile">@Html.Sitecore().Field("My Profile text", accountDataSourceItem)</a></li>
+                    <li><a href="/services/renew">@Html.Sitecore().Field("Renew text", accountDataSourceItem)</a></li>
                     <li><a href="/api/authentication/logout">@Html.Sitecore().Field("Sign Out text", accountDataSourceItem)</a></li>
                 </ul>
             }
@@ -121,6 +124,7 @@
                     <li><a href="@languageLinkUrl" hreflang="@languageLinkUrlLanguage" lang="@languageLinkUrlLanguage" translate="no">@languageLinkText</a></li>
                     }
                     <li><a href="/pay/">@Html.Sitecore().Field("Pay Bill text", accountDataSourceItem)</a></li>
+                    <li><a href="/services/renew">@Html.Sitecore().Field("Renew text", accountDataSourceItem)</a></li>
                     <li class="dropdown" ng-class="{ active: dropdownMenu }">
                         <a href="" class="dropdown-toggle" ng-click="dropdownMenu = !dropdownMenu;" ng-class="{ activeblock: dropdownMenu }">
                             @Html.Sitecore().Field("Account text", accountDataSourceItem)
