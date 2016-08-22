@@ -755,14 +755,13 @@ FROM [SwitchBack] WHERE ESIID=@esiId";
         public async Task<ClientData> ToggleAutoPay([FromBody]AccountInformation request)
         {
             await Initialize();
-
+            stateMachine.Context.EnrolledInAutoPay = !stateMachine.Context.EnrolledInAutoPay;
             if (stateHelper.InternalContext != null)
             {
                 stateHelper.InternalContext.Deposit = null;
             }
             var context = stateHelper.Context;
             var internalContext = stateHelper.InternalContext;
-            //update internalContext.AllOffers here
             stateHelper.Reset();
             stateHelper.Context = context;
             stateHelper.InternalContext = internalContext;
@@ -897,7 +896,10 @@ FROM [SwitchBack] WHERE ESIID=@esiId";
             }
 
             MapCartToServices(request);
-
+            if (request.Cart.Any(CartEntry => CartEntry.OfferInformationByType.Any(offer => offer.Key == "Mobile")))
+            {
+                stateMachine.Context.EnrolledInAutoPay = true;
+            }
             stateMachine.Context.AgreeToTerms = false;
             stateMachine.Context.ContactInfo = request.ContactInfo;
             stateMachine.Context.ContactTitle = request.ContactTitle;
@@ -1032,7 +1034,6 @@ FROM [SwitchBack] WHERE ESIID=@esiId";
             stateMachine.Context.AgreeToTerms = request.AgreeToTerms;
             stateMachine.Context.AgreeToAutoPayTerms = request.AgreeToAutoPayTerms;
             stateMachine.Context.W9BusinessData = request.W9BusinessData;
-            stateMachine.Context.EnrolledInAutoPay = request.AutoPay;
             stateMachine.Context.AutoPayDiscount = Convert.ToDecimal(settings.GetSettingsValue("Mobile Enrollment Options", "AutoPay Discount"));
             
             foreach (var locationService in stateMachine.Context.Services)

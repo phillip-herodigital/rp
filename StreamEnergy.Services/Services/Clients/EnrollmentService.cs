@@ -354,6 +354,7 @@ namespace StreamEnergy.Services.Clients
                                           select systemOfRecordSet.Key.ToEnrollmentAccount(globalCustomerId, account),
                                TrustEvCaseId = context.TrustEvCaseId,
                                TrustEvSessionId = context.TrustEvSessionId,
+                               IsAutoPay = context.EnrolledInAutoPay
                            }).ToArray();
             var response = await streamConnectClient.PutAsJsonAsync("/api/v1-1/customers/" + globalCustomerId.ToString() + "/enrollments", request);
             response.EnsureSuccessStatusCode();

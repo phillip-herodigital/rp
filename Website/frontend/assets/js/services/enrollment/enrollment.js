@@ -74,6 +74,7 @@
         service.accountInformation.previousAddress = result.previousAddress;
         service.accountInformation.previousProvider = result.previousProvider;
         service.associateInformation = result.associateInformation;
+        service.enrolledInAutoPay = result.enrolledInAutoPay;
         service.loggedInAccountDetails = result.loggedInAccountDetails;
 
         // Default these object to prevent errors

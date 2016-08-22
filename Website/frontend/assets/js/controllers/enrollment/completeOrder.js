@@ -8,7 +8,7 @@ ngApp.controller('EnrollmentCompleteOrderCtrl', ['$scope', 'enrollmentService', 
         additionalAuthorizations: {},
         agreeToTerms: false,
         creditCard: {},
-        autopay: true,
+        autopay: enrollmentService.enrolledInAutoPay,
     };
 
     $scope.w9BusinessData = {};
@@ -204,7 +204,7 @@ ngApp.controller('EnrollmentCompleteOrderCtrl', ['$scope', 'enrollmentService', 
     };
 
     $scope.turnOffAutoPay = function () {
-        $scope.autoPayModalInstance.close();
+        if ($scope.autoPayModalInstance) $scope.autoPayModalInstance.close();
         _.filter(enrollmentCartService.services, function (s) {
             return s.offerInformationByType[0].value.offerSelections[0].offer.nonAutoPayID != "";
             }).forEach(function (service) {
