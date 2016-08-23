@@ -335,13 +335,11 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             stateHelper.StateMachine.InternalContext.GlobalCustomerId = account.StreamConnectCustomerId;
             stateMachine.Context.ContactInfo = account.Details.ContactInfo;
 
-            var target = currentUser.Accounts.First(acct =>acct.AccountNumber == stateMachine.Context.AddLineAccountNumber);
-
-            await accountService.GetAccountDetails(target);
+            await accountService.GetAccountDetails(account);
 
             stateMachine.Context.IsAddLine = true;
             stateMachine.Context.AddLineAccountNumber = account.AccountNumber;
-            stateMachine.Context.AddLineSubAccounts = target.SubAccounts;
+            stateMachine.Context.AddLineSubAccounts = account.SubAccounts;
             stateMachine.Context.MailingAddress = account.Details.BillingAddress;
             stateMachine.Context.PreviousAddress = account.Details.BillingAddress; 
             

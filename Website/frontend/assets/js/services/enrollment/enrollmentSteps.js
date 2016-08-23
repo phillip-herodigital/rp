@@ -168,8 +168,6 @@ ngApp.factory('enrollmentStepsService', ['$rootScope', 'scrollService','$http', 
                 accountNumber: accountNumber
             };
 
-            $http.post('/api/account/Setupaddline', accountData)
-
             flows.phone = {
                 'serviceInformation': {
                     name: 'phoneFlowDevices',
