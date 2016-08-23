@@ -2,7 +2,7 @@
     Sitecore.Data.Items.Item cdmaPlansItem = Sitecore.Context.Database.GetItem("{2F9BF741-D951-4C8C-957F-07F1C846A169}");
 }
 
-<article class="grey-box mobile usage-details marketing cdma-pricing-plans portal-plans"  ng-app ng-controller="AcctUsageSummaryCtrl" ng-hide="hideComponent" loading-indicator ng-cloak>
+<article class="grey-box mobile usage-details marketing cdma-pricing-plans portal-plans"  ng-app ng-controller="AcctUsageSummaryCtrl" ng-hide="hideComponent" loading-indicator ng-cloak ng-init="mobileEnrollmentSettings = @(Html.Action("MobileEnrollmentSettings", "Data").ToHtmlString());">
     <header>
         <h2 class="header-left">@Html.Sitecore().Field("Header Text")</h2>
         <div class="filters">
@@ -82,7 +82,7 @@
                 </tr>
             </tbody>
         </table>
-        <footer>
+        <footer ng-if="mobileEnrollmentSettings.allowAddDevice">
             <div ng-click="addDevice=!addDevice" ng-show="!addDevice">
                 <p><a class="button secondary" href="">@Html.Sitecore().Field("Add Device Button Text")</a></p>
             </div>
