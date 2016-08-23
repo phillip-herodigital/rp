@@ -221,7 +221,6 @@
                     label {
                         font-size: 18px;
                     }
-
                     /*.locate {
                         background-image: url("/frontend/assets/i/icon/address-icon.png");
                         background-repeat: no-repeat;
@@ -235,7 +234,6 @@
                         margin-right: 15px;
                         cursor: pointer;
                     }*/
-
                     #gmap-search {
                         input[type="text"] {
                             //width: calc(100% - 60px);
@@ -387,11 +385,11 @@
                     .grid {
                         margin: 0;
                         background-color: #fff;
-                        width: auto;
-                        min-width: 240px;
+                        width: 375px;
 
                         @include breakpoint(small) {
-                            padding: 20px;
+                            width: 255px;
+                            padding: 10px;
                         }
 
                         .column {
@@ -402,6 +400,10 @@
                                     font-size: 14px;
                                     font-weight: 500;
                                     color: #919191;
+
+                                    @include breakpoint(small) {
+                                        font-size: 12px;
+                                    }
                                 }
 
                                 a > p {
@@ -421,6 +423,10 @@
                                     &:last-of-type {
                                         margin-bottom: 5px;
                                     }
+
+                                    @include breakpoint(small) {
+                                        font-size: 12px;
+                                    }
                                 }
                             }
 
@@ -430,11 +436,20 @@
                                 }
                             }
 
+                            &:first-of-type {
+                                width: 225px;
+                                @include breakpoint(small) {
+                                    width: 150px;
+                                }
+                            }
+
                             &:last-of-type {
                                 padding-left: 20px;
+                                width: 130px;
 
                                 @include breakpoint(small) {
-                                    padding-left: 0;
+                                    padding-left: 5px;
+                                    width: 85px;
                                 }
                             }
                         }

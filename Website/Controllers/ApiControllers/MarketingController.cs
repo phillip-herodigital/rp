@@ -348,39 +348,26 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                         {
                             while (reader.Read())
                             {
-                                string ed = (string)reader["stop_date"];
-
                                 PaymentLocation location = new PaymentLocation()
                                 {
-                                    ID = (double)reader["id"],
                                     Vender = (string)reader["vendor"],
                                     Agent = (string)reader["agent"],
                                     Name = (string)reader["location_name"],
                                     AddressLine1 = (string)reader["address1"],
-                                    AddressLine2 = (string)reader["address2"],
                                     City = (string)reader["city"],
                                     StateAbbreviation = (string)reader["state"],
                                     PostalCode5 = (string)reader["zip"],
-                                    PostalCodePlus4 = (string)reader["zip4"],
                                     PhoneNumber = (string)reader["phone"],
-                                    ContactName = (string)reader["contact_name"],
                                     Hours = (string)reader["hours"],
-                                    Fee = ((double)reader["fee"]) > 0,
-                                    StartDate = DateTime.Parse((string)reader["start_date"]),
-                                    EndDate = string.IsNullOrEmpty(ed) || ed == "0000-00-00" ? DateTime.MinValue : DateTime.Parse(ed),
-                                    Status = (string)reader["status"],
-                                    PaymentMethods = ((string)reader["pay_methods"]).Split(" ".ToCharArray()).ToList(),
+                                    PaymentMethods = ((string)reader["pay_methods"]).Split("/".ToCharArray()).ToList(),
                                     Lat = (double)reader["lat"],
                                     Lon = (double)reader["lon"],
-                                    Rank = (double)reader["rank"],
                                     Distance = (double)reader["distance_in_mi"],
                                 };
-
                                 results.Add(location);
                             }
                         }
                     }
-
                     return results;
                 }
             }

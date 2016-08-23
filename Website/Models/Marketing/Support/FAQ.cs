@@ -35,13 +35,8 @@ namespace StreamEnergy.MyStream.Models.Marketing.Support
         {
             Encoding iso = Encoding.GetEncoding("ISO-8859-1");
             Encoding utf8 = Encoding.UTF8;
-            string Question1 = HttpUtility.HtmlEncode(getValue("FAQ Question"));
-            string Question2 = utf8.GetString(iso.GetBytes(Question1));
-            FAQQuestion = Question2; //to avoid weird copy/paste characters
-            string Answer1 = HttpUtility.HtmlEncode(getValue("FAQ Answer"));
-            string Answer2 = utf8.GetString(iso.GetBytes(Answer1));
-            FAQAnswer = Answer2;
-
+            FAQQuestion = utf8.GetString(iso.GetBytes(getValue("FAQ Question", true))); //to avoid weird copy/paste characters
+            FAQAnswer = utf8.GetString(iso.GetBytes(getValue("FAQ Answer", true)));
             Guid = SitecoreItem.ID.ToString().Replace("{", "").Replace("}", "");
 
             if (!string.IsNullOrEmpty(getValue("FAQ Categories")))
@@ -58,7 +53,7 @@ namespace StreamEnergy.MyStream.Models.Marketing.Support
             if (!string.IsNullOrEmpty(getValue("Keywords")))
             {
                 Keywords = (from keyword in getValue("Keywords").Split(',')
-                            select keyword.Trim()).ToArray();
+                            select HttpUtility.HtmlEncode(keyword).Trim()).ToArray();
             }
 
             if (!string.IsNullOrEmpty(getValue("Related FAQs")))
@@ -74,12 +69,24 @@ namespace StreamEnergy.MyStream.Models.Marketing.Support
             }
         }
 
-        private string getValue(string key) {
-            return SitecoreItem.Fields[key] != null ?  SitecoreItem.Fields[key].Value : "";
+        private string getValue(string key)
+        {
+            return getValue(key, false);
         }
 
-        private string getValueFromItem(Item item, string key) {
-            return item.Fields[key] != null ? item.Fields[key].Value : "";
+        private string getValue(string key, bool encodeValue)
+        {
+            return getValueFromItem(SitecoreItem, key, encodeValue);
+        }
+
+        private string getValueFromItem(Item item, string key)
+        {
+            return getValueFromItem(item, key, false);
+        }
+
+        private string getValueFromItem(Item item, string key, bool encodeValue)
+        {
+            return item.Fields[key] == null ? "" : (encodeValue ? HttpUtility.HtmlEncode(item.Fields[key].Value) : item.Fields[key].Value);
         }
     }
 }
