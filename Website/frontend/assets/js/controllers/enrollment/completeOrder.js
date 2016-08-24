@@ -81,6 +81,10 @@ ngApp.controller('EnrollmentCompleteOrderCtrl', ['$scope', 'enrollmentService', 
         }).flatten().filter().value();
 
         var setConfirmOrder = function (paymentInfo) {
+            if (!enrollmentService.hitKIQ) analytics.sendTags({
+                KIQ: false,
+            });
+
             if (_.some(enrollmentCartService.services, function (service) {
                 return _.some(service.offerInformationByType[0].value.offerSelections, function (selection) {
                     return _.some(selection.payments.requiredAmounts, function (amount) {

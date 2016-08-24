@@ -171,7 +171,7 @@ ngApp.controller('EnrollmentPlanSelectionCtrl', ['$scope', 'enrollmentService', 
         analytics.sendTags({
             EnrollmentPlanType: $scope.isRenewal ? "Renewal" : plan.rateType == "fixed" ? "Fixed" : "Variable",
             EnrollmentPlanTerm: plan.termMonths,
-            EnrollmentPlanIndex: (i + 1),
+            EnrollmentPlanIndex: $scope.currentLocationInfo().offerInformationByType[0].value.availableOffers.length - i, //the plans are reversed when displayed
             EnrollmentPlanID: plan.id,
             EnrollmentProductTypeInCart: plan.offerType
         });
