@@ -16,7 +16,7 @@
             <p><a href="" ng-click="backToSupport()" ng-show="searchResults">@categoryContent.Fields["Back to Support"]</a></p>
             <p>
                 <span>@categoryContent.Fields["Showing"] {{resultsPageRange[resultsPage].low + 1}} - {{resultsPageRange[resultsPage].high + 1}} @categoryContent.Fields["of"] {{displayedFAQCount}}</span>
-                <span> @categoryContent.Fields["results for"] “{{searchedData.text}}”</span>
+                <span> @categoryContent.Fields["results for"] “<span ng-bind="searchedData.text"></span>”</span>
                 <span> @categoryContent.Fields["in"] {{searchedData.category.name}}</span>
                 <span ng-show="searchedData.state.name"> - {{searchedData.state.abbreviation}}</span>
             </p>
