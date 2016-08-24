@@ -21,10 +21,9 @@
                 <span ng-show="searchedData.state.name"> - {{searchedData.state.abbreviation}}</span>
             </p>
         </div>
-        <div class="faqs-heading" ng-show="!mobileAcronyms && category.states.length && !searchResults">
-            <h2>FAQs for {{category.name}}<span ng-show="searchData.state.name"> - {{searchData.state.name}}</span></h2>
+        <div class="faqs-heading" ng-show="!mobileAcronyms && !searchResults">
+            <h2>{{category.name}}<span ng-show="searchData.state.name"> - {{searchData.state.name}}</span><span ng-show="subcategoryName"> - {{subcategoryName}}</span></h2>
         </div>
-        <div class="pagination-spacer" ng-hide="searchResults || mobileAcronyms || category.states.length"></div>
         <div class="faqs clearfix" ng-hide="mobileAcronyms">
             <aside class="top">
                 <h4>@categoryContent.Fields["Keyword Heading"]</h4>
