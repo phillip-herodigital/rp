@@ -752,10 +752,10 @@ FROM [SwitchBack] WHERE ESIID=@esiId";
         }
 
         [HttpPost]
-        public async Task<ClientData> ToggleAutoPay([FromBody]AccountInformation request)
+        public async Task<ClientData> SetAutoPay([FromBody]SetAutoPayRequest request)
         {
             await Initialize();
-            stateMachine.Context.EnrolledInAutoPay = !stateMachine.Context.EnrolledInAutoPay;
+            stateMachine.Context.EnrolledInAutoPay = request.IsAutoPay;
             if (stateHelper.InternalContext != null)
             {
                 stateHelper.InternalContext.Deposit = null;
@@ -774,7 +774,9 @@ FROM [SwitchBack] WHERE ESIID=@esiId";
 
             await stateMachine.ContextUpdated();
 
-            MapCartToServices(request);
+            MapCartToServices(new AccountInformation {
+                Cart = request.Cart
+            });
 
             await stateMachine.ContextUpdated();
 

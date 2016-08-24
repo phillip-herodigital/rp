@@ -8,21 +8,14 @@ ngApp.controller('EnrollmentCompleteOrderCtrl', ['$scope', 'enrollmentService', 
         additionalAuthorizations: {},
         agreeToTerms: false,
         creditCard: {},
-        autopay: enrollmentService.enrolledInAutoPay,
+        autopay: true,
     };
 
     $scope.w9BusinessData = {};
     $scope.getCartCount = enrollmentCartService.getCartCount;
     $scope.getCartItems = enrollmentCartService.getCartItems;  
     $scope.autopayDiscount = $scope.mobileEnrollmentSettings.autoPayDiscount;
-    $scope.getCartTotal = function () {
-        if ($scope.completeOrder.autopay) {
-            return enrollmentCartService.calculateCartTotal() - ($scope.autopayDiscount * $scope.getDevicesCount());
-        }
-        else {
-            return enrollmentCartService.calculateCartTotal();
-        }
-    };
+    $scope.getCartTotal = enrollmentCartService.calculateCartTotal();
     $scope.cartHasTxLocation = enrollmentCartService.cartHasTxLocation;
     $scope.isRenewal = enrollmentService.isRenewal;
     $scope.cartHasUtility = enrollmentCartService.cartHasUtility;
@@ -175,7 +168,7 @@ ngApp.controller('EnrollmentCompleteOrderCtrl', ['$scope', 'enrollmentService', 
                 service.offerInformationByType[0].value.offerSelections[0].offer = _.find(service.offerInformationByType[0].value.availableOffers,
                     { id: service.offerInformationByType[0].value.offerSelections[0].offer.withAutoPayID });
             });
-            enrollmentService.toggleAutoPay();
+            enrollmentService.setAutoPay(true);
         }
         else {
             if (_.some($scope.getCartItems(), function (item) {
@@ -212,7 +205,7 @@ ngApp.controller('EnrollmentCompleteOrderCtrl', ['$scope', 'enrollmentService', 
                 service.offerInformationByType[0].value.offerSelections[0].offer = _.find(service.offerInformationByType[0].value.availableOffers,
                     { id: service.offerInformationByType[0].value.offerSelections[0].offer.nonAutoPayID });
             });
-        enrollmentService.toggleAutoPay();
+        enrollmentService.setAutoPay(false);
     };
 
     $scope.keepAutoPay = function () {
