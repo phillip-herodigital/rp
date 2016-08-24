@@ -1,7 +1,6 @@
 ﻿ngApp.controller('MobileEnrollmentChoosePhoneCtrl', ['$scope', '$filter', '$modal', '$http', '$sce', 'enrollmentService', 'enrollmentStepsService', 'enrollmentCartService', 'scrollService', 'analytics', 'reCAPTCHA', function ($scope, $filter, $modal, $http, $sce, enrollmentService, enrollmentStepsService, enrollmentCartService, scrollService, analytics, reCAPTCHA) {
 
     var maxMobileItems = 10;
-
     $scope.getCartDevices = enrollmentCartService.getCartDevices;
     $scope.getDevicesCount = enrollmentCartService.getDevicesCount;
     $scope.getCartDataPlan = enrollmentCartService.getCartDataPlan;
@@ -22,7 +21,6 @@
         foreignDevice: false,
     };
     $scope.mobileEnrollment.phoneTypeTab = 'existing';
-
     $scope.verifyPhone = function () {
         $scope.hasError = false;
         $scope.deviceIneligible = false;
@@ -56,9 +54,6 @@
                     $scope.hasError = true;
                     $scope.deviceIneligible = true;
                     analytics.sendVariables(17, $scope.phoneOptions.imeiNumber);
-                    analytics.sendTags({
-                        'IMEI': $scope.phoneOptions.imeiNumber
-                    });
                     if(data.verifyEsnResponseCode) {
                         $scope.deviceIneligibleMessage = _.find($scope.esnValidationMessages, function (message) { 
                                 return message.code.toLowerCase() == data.verifyEsnResponseCode.toLowerCase();
@@ -73,6 +68,9 @@
                         }
                     }
                 } else {
+                    analytics.sendTags({
+                        IMEI: $scope.phoneOptions.imeiNumber,
+                    });
                     if (data.provider == 'att') {
                         $scope.phoneVerified = false;
                         $scope.hasError = true;

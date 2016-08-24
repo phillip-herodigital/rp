@@ -120,6 +120,14 @@ ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$location', '$f
             provider = "AGLC";
         }
         analytics.sendVariables(1, $scope.data.serviceLocation.address.postalCode5, 2, provider, 5, $scope.data.isNewService ? "Move In" : "Switch");
+        analytics.sendTags({
+            EnrollmentZipCode: $scope.data.serviceLocation.address.postalCode5,
+            EnrollmentCity: $scope.data.serviceLocation.address.city,
+            EnrollmentState: $scope.data.serviceLocation.address.stateAbbreviation === "GA" ? "Georgia" : "Texas",
+            EnrollmentProvider: provider,
+            EnrollmentType: $scope.data.isNewService ? "New" : "Switch",
+            EnrollmentChannel: "mystream.com"
+        });
     };
 
 }]);
