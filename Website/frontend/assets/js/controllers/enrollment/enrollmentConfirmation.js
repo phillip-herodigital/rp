@@ -112,7 +112,10 @@ ngApp.controller('EnrollmentConfirmationCtrl', ['$scope', '$window', 'enrollment
 
             $timeout(function () {
                 analytics.sendVariables(11, $scope.confirmationSuccess ? "Confirmed" : "Submitted");
-
+                analytics.sendTags({
+                    EnrollmentFinalized: $scope.confirmationSuccess ? "Confirmed" : "Submitted",
+                    EnrollmentProductTypeEnrolled: $scope.cartHasUtility() ? $scope.cartHasTxLocation() ? "TexasElectricity": "GeorgiaGas" : "Mobile"
+                });
                 _(enrollmentCartService.services).map(function (l) {
                     return l.offerInformationByType[0].key
                 }).uniq().each(function (t) {

@@ -2,7 +2,7 @@
  *
  * This is used to control aspects of complete order on enrollment page.
  */
-ngApp.controller('EnrollmentCompleteOrderCtrl', ['$scope', 'enrollmentService', 'enrollmentCartService', '$modal', '$timeout', 'enrollmentStepsService', function ($scope, enrollmentService, enrollmentCartService, $modal, $timeout, enrollmentStepsService) {
+ngApp.controller('EnrollmentCompleteOrderCtrl', ['$scope', 'enrollmentService', 'enrollmentCartService', '$modal', '$timeout', 'enrollmentStepsService', 'analytics', function ($scope, enrollmentService, enrollmentCartService, $modal, $timeout, enrollmentStepsService, analytics) {
 
     $scope.completeOrder = {
         additionalAuthorizations: {},
@@ -10,7 +10,6 @@ ngApp.controller('EnrollmentCompleteOrderCtrl', ['$scope', 'enrollmentService', 
         creditCard: {},
         autopay: true,
     };
-
     $scope.w9BusinessData = {};
     $scope.getCartCount = enrollmentCartService.getCartCount;
     $scope.getCartItems = enrollmentCartService.getCartItems;  
@@ -82,6 +81,42 @@ ngApp.controller('EnrollmentCompleteOrderCtrl', ['$scope', 'enrollmentService', 
         }).flatten().filter().value();
 
         var setConfirmOrder = function (paymentInfo) {
+            if (!enrollmentService.hitKIQ) analytics.sendTags({
+                KIQ: false,
+            });
+
+            if (_.some(enrollmentCartService.services, function (service) {
+                return _.some(service.offerInformationByType[0].value.offerSelections, function (selection) {
+                    return _.some(selection.payments.requiredAmounts, function (amount) {
+                        return amount.dollarAmount != 0;
+                    });
+                });
+            })) {
+                analytics.sendTags({
+                    DepositRequired: true
+                });
+                angular.forEach(depositAlternatives, function (da) {
+                    analytics.sendTags({
+                        DepositResolution: "Deposit Alternative"
+                    });
+                });
+                angular.forEach(depositWaivers, function (da) {
+                    analytics.sendTags({
+                        DepositResolution: "Deposit Waiver"
+                    });
+                });
+                for (var i = 0; i < enrollmentCartService.getServiceCount() - depositAlternatives.length - depositWaivers.length; i++) {
+                    analytics.sendTags({
+                        DepositResolution: "Paid"
+                    });
+                }
+            }
+            else {
+                analytics.sendTags({
+                    DepositRequired: false
+                });
+            }
+
             enrollmentService.setConfirmOrder({
                 autopay: $scope.completeOrder.autopay && !enrollmentCartService.cartHasUtility(),
                 additionalAuthorizations: $scope.completeOrder.additionalAuthorizations,

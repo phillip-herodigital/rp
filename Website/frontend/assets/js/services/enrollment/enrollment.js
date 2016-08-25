@@ -24,6 +24,7 @@
     };
     service.loggedInAccountDetails = [];
     service.identityQuestions = [];
+    service.hitKIQ = false;
     service.paymentError = false;
     service.editPhoneIMEI = "";
 
@@ -82,6 +83,8 @@
 
         // set the identity questions from the server
         service.identityQuestions = result.identityQuestions;
+
+        if (result.identityQuestions) service.hitKIQ = true;
 
         // show an error message if there is an problem processing payemnt
         service.paymentError = result.paymentError;

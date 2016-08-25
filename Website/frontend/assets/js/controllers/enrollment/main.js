@@ -1,7 +1,7 @@
 ﻿/* Enrollment Main Controller
  * This is the main controller for Enrollments. It will keep track of the enrollment state, as well as all fields that will need to be collected.
  */
-ngApp.controller('EnrollmentMainCtrl', ['$scope', '$anchorScroll', '$location', 'enrollmentStepsService', 'enrollmentService', 'mobileEnrollmentService', 'scrollService', '$timeout', 'enrollmentCartService', '$filter', function ($scope, $anchorScroll, $location, enrollmentStepsService, enrollmentService, mobileEnrollmentService, scrollService, $timeout, enrollmentCartService, $filter) {
+ngApp.controller('EnrollmentMainCtrl', ['$scope', '$anchorScroll', '$location', 'enrollmentStepsService', 'enrollmentService', 'mobileEnrollmentService', 'scrollService', '$timeout', 'enrollmentCartService', '$filter', 'analytics', function ($scope, $anchorScroll, $location, enrollmentStepsService, enrollmentService, mobileEnrollmentService, scrollService, $timeout, enrollmentCartService, $filter, analytics) {
     $scope.validations = enrollmentService.validations;
     $scope.stepsService = enrollmentStepsService;
     $scope.mobileEnrollmentService = mobileEnrollmentService;
@@ -22,7 +22,9 @@ ngApp.controller('EnrollmentMainCtrl', ['$scope', '$anchorScroll', '$location', 
         renewalType: getParameterByName('renewalType'),
         esiId: getParameterByName('esiid'),
     };
-
+    analytics.sendTags({
+        EnrollmentSessionID: window.ASPNET_SessionId,
+    });
     $scope.$watch(function () { return enrollmentService.isLoading; }, function (newValue) {
         if (!isLoadingOverride) $scope.isLoading = newValue;
     });
