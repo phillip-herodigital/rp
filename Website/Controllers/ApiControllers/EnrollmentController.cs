@@ -332,7 +332,8 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             stateHelper.Context.ContactInfo = account.Details.ContactInfo;
             stateHelper.Context.AddLineAccountNumber = account.AccountNumber;
             stateHelper.Context.AddLineSubAccounts = account.SubAccounts;
-            stateHelper.Context.MailingAddress = account.Details.BillingAddress; 
+            stateHelper.Context.MailingAddress = account.Details.BillingAddress;
+            stateHelper.Context.PreviousAddress = account.Details.BillingAddress;
             
             if (stateMachine.Context.ContactInfo != null && stateMachine.Context.ContactInfo.Phone != null)
             {

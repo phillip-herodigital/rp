@@ -97,6 +97,8 @@ ngApp.controller('EnrollmentConfirmationCtrl', ['$scope', '$window', 'enrollment
             $scope.accountInformation.mailingAddress = result.mailingAddress || {};
             $scope.autopay = result.enrolledInAutoPay;
             $scope.autoPayDiscount = result.autoPayDiscount;
+            $scope.isAddLine = enrollmentService.isAddLine;
+            $scope.addLineSubAccounts = enrollmentService.addLineSubAccounts;
 
             // set the customer type, since we're no longer using the enrollment main controller
             $scope.customerType = $scope.getCartItems()[0].location.capabilities[2].customerType;
