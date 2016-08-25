@@ -789,9 +789,9 @@ article.service-tabs {
                     background-color: #e6e7e8;
                 }
             }
-            }
+        }
         @include breakpoint(small) {
-            // display: block;
+            display: block;
             position: relative;
             width: 100%;
             border-top: 3px solid #f59a42;
@@ -804,6 +804,7 @@ article.service-tabs {
         display: block;
     }
 }
+
 article.contact {
     .request {
         p {
@@ -864,18 +865,18 @@ article.contact-state {
                     font-size: 18px;
                 }
             }
-			.chat {
-				padding-left: 50px;
-				background-image: url('../i/icon/chat.png');
-				background-repeat: no-repeat;
+            .chat {
+                padding-left: 50px;
+                background-image: url('../i/icon/chat.png');
+                background-repeat: no-repeat;
                 background-position: top left;
-				h2 {
-					font-size: 22px;
-				}
-				p {
-					margin: 0px;
-				}
-			}
+                h2 {
+                    font-size: 22px;
+                }
+                p {
+                    margin: 0px;
+                }
+            }
         }
     }
     .emergency {
@@ -2847,12 +2848,12 @@ article.mobile-pricing-plans {
             margin-bottom: 25px;
             //margin: 0 30px;
             background: 0px 0px no-repeat;
-			&.tools {
-				padding: 0px 70px 0px 90px;
-			}
-			&.overview {
-				padding-left: 120px;
-			}
+            &.tools {
+                padding: 0px 70px 0px 90px;
+            }
+            &.overview {
+                padding-left: 120px;
+            }
             h3 {
                 color: #3c535c;
                 font-weight: 600;
@@ -3015,74 +3016,89 @@ article.mobile-pricing-plans {
         font-size: 22px;
         font-weight: 300;
     }
-	h4 {
-		color: #2d454f;
-		font-weight: 600;
-	}
+    h4 {
+        color: #2d454f;
+        font-weight: 600;
+    }
     p.intro {
         margin: 0 0 1em;
         font-size: 20px;
     }
-	ul {
+    ul {
         padding-left: 20px;
-		li {
-			list-style-image: url("../i/marketing/redesign/blue-check.png");
-		}
+        li {
+            list-style-image: url("../i/marketing/redesign/blue-check.png");
+        }
     }
-	.wrapper-background, &.wrapper-background {
-		background: image-url('marketing/redesign/modules/module_background.png') center top no-repeat;
-		padding-top: 25px;
-		background-size: 560px;
-	}
-	p.footnote {
-		font-size: 14px;
-	}
-	.box {
-		background-color: #f9fafa;
-		padding: 20px;
-	}
-	a strong {
-		color: #0a97d6;
-	}
+    .wrapper-background, &.wrapper-background {
+        background: image-url('marketing/redesign/modules/module_background.png') center top no-repeat;
+        padding-top: 25px;
+        background-size: 560px;
+    }
+    p.footnote {
+        font-size: 14px;
+    }
+    .box {
+        background-color: #f9fafa;
+        padding: 20px;
+    }
+    a strong {
+        color: #0a97d6;
+    }
+    .local-wire-companies {
+        padding: 0px 0px 30px 40px;
+        p {
+            margin: .5em 0px 0px 0px;
+        }
+        .grid .col {
+            &.company {
+                width: 70%;
+            }
+            &.outage-info {
+                width: 30%;
+            }
+            margin-bottom: 20px;
+        }
+    }
 }
 
 .global-header {
-	background-image: url('../i/icon/global.png?1440631906');
-	background-position: 95% 50%;
-	background-repeat: no-repeat;
-	padding-right: 100px;
+    background-image: url('../i/icon/global.png?1440631906');
+    background-position: 95% 50%;
+    background-repeat: no-repeat;
+    padding-right: 100px;
 }
 
 .swap-it-modal {
     .col {
         @include retina-background("swapit.png", "icon");
-		background-position: left top;
-		background-repeat: no-repeat;
-		padding-left: 100px;
-		margin-bottom: 20px;
-		img {
-			vertical-align: middle;
-		}
+        background-position: left top;
+        background-repeat: no-repeat;
+        padding-left: 100px;
+        margin-bottom: 20px;
+        img {
+            vertical-align: middle;
+        }
     }
 }
 .international-rates-modal {
-	h3 {
-		font-size: 30px;
-		line-height: 1em;
-	}
-	.country-rates {
-		background-color: #f9fafa;
-		margin: 0px -70px 30px -70px;
-		padding: 30px 70px;
-		@include breakpoint(small) {
-			margin: 0px 0px 40px 0px;
-			padding: 30px 5px;
-		}
-		a.button {
-			background-color: #2aa4dc;
-			background-image: linear-gradient(#008cd2,#2aa4dc);
-			padding: 10px 18px;
-		}
+    h3 {
+        font-size: 30px;
+        line-height: 1em;
+    }
+    .country-rates {
+        background-color: #f9fafa;
+        margin: 0px -70px 30px -70px;
+        padding: 30px 70px;
+        @include breakpoint(small) {
+            margin: 0px 0px 40px 0px;
+            padding: 30px 5px;
+        }
+        a.button {
+            background-color: #2aa4dc;
+            background-image: linear-gradient(#008cd2,#2aa4dc);
+            padding: 10px 18px;
+        }
         .select-country {
             background: image-url('marketing/redesign/dropdown_arrow.png') left top no-repeat;
             margin-top: 10px;
@@ -3096,58 +3112,68 @@ article.mobile-pricing-plans {
                 }
             }
         }
-		table {
-			background: image-url('marketing/redesign/international_options_background.png') center top no-repeat;
-			background-size: 100%;
-			margin-top: 40px;
-			tr {
-				th {
-					text-align: center;
-					padding-top: 50px;
-					span {
-						font-weight: 400;
-					}
-					&:first-child {
-						width: 50%;
-						&.country {
-							border: none;
-							text-align: left;
-							padding: 0px 10px 20px 10px;
-							p {
-								font-weight: 400;
-							}
-							h3 {
-								color: #333;
-							}
-						}
-					}
-					&.standard-rate {
-						background-image: url('../i/icon/plan-summary.png');
-						background-repeat: no-repeat;
-						background-position: 50% 10%;
-					}
-					&.plus-rate {
-						background-image: url('../i/marketing/redesign/stream_international_plus.png');
-						background-repeat: no-repeat;
-						background-position: 50% 10%;
-						background-size: 24px;
-						padding: 50px 5px 5px 5px;
-					}
-				}
-				td {
-					padding: 20px 10px;
-					text-align: center;
-					&:first-child {
-						text-align: left;
-					}
-					&:last-child {
-						font-weight: 600;
-						color: #47a0d1;
-					}
-				}
-			}
-		}
-	}
+        table {
+            background: image-url('marketing/redesign/international_options_background.png') center top no-repeat;
+            background-size: 100%;
+            margin-top: 40px;
+            tr {
+                th {
+                    text-align: center;
+                    padding-top: 50px;
+                    span {
+                        font-weight: 400;
+                    }
+                    &:first-child {
+                        width: 50%;
+                        &.country {
+                            border: none;
+                            text-align: left;
+                            padding: 0px 10px 20px 10px;
+                            p {
+                                font-weight: 400;
+                            }
+                            h3 {
+                                color: #333;
+                            }
+                        }
+                    }
+                    &.standard-rate {
+                        background-image: url('../i/icon/plan-summary.png');
+                        background-repeat: no-repeat;
+                        background-position: 50% 10%;
+                    }
+                    &.plus-rate {
+                        background-image: url('../i/marketing/redesign/stream_international_plus.png');
+                        background-repeat: no-repeat;
+                        background-position: 50% 10%;
+                        background-size: 24px;
+                        padding: 50px 5px 5px 5px;
+                    }
+                }
+                td {
+                    padding: 20px 10px;
+                    text-align: center;
+                    &:first-child {
+                        text-align: left;
+                    }
+                    &:last-child {
+                        font-weight: 600;
+                        color: #47a0d1;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.emergency-contacts-header {
+    background-image: url('../i/icon/protection.png');
+    background-position: 95% 50%;
+    background-repeat: no-repeat;
+    padding-right: 100px;
+    &.georgia {
+        padding: 20px 100px 20px 0px;
+    }
 }
 
 .mobile-guides {
@@ -3379,7 +3405,7 @@ article.marketing.mobile.cdma-pricing-plans {
     margin-bottom: 20px;
     .wrapper {
         padding-bottom: 0;
-	}
+    }
     h1 strong {
         color: #f4b60a;
     }
@@ -3404,7 +3430,7 @@ article.marketing.mobile.cdma-pricing-plans {
                 }
             }
         }
-            
+        
         @include breakpoint-min-max(768px, 1100px) {
             width: 49%;
             display: inline-block;
@@ -3418,7 +3444,7 @@ article.marketing.mobile.cdma-pricing-plans {
         .package {
             background-color: #fff;
         }
-            
+        
         .plan-details {
             background: url('../i/marketing/redesign/plan_background.png') top center no-repeat;
             background-color: #fff;
@@ -3673,15 +3699,15 @@ article.marketing.mobile.cdma-pricing-plans {
                 color: #000;
             }
         }
-		.footnote {
-			background: none;
-			clear: both;
-		}
+        .footnote {
+            background: none;
+            clear: both;
+        }
         .add-price {
             width: 30%;
             float: right;
             padding-top: 50px;
-			min-height: 242px;
+            min-height: 242px;
             text-align: center;
             line-height: 1;
             background-image: linear-gradient(#f1f1f1, #fcfcfc);
@@ -3704,50 +3730,53 @@ article.marketing.mobile.cdma-pricing-plans {
             border-top: 1px solid #e1e1e1;
         }
     }
-	&.portal-plans {
-		background-color: #fff;
-		border-radius: 5px;
-		border: 1px solid #e2e1e2;
-		h3 {
-			margin-top: 0px;
-			font-weight: 500;
-		}
-		.col {
-			padding: 0px 15px 0px 0px;
-			@include breakpoint(medium) {
-				padding: 20px;
-			}
-			.plan-details {
-				background-size: initial;
-				text-align: center;
-				padding: 20px 10px 15px 10px;
-				p.data {
-					font-size: 22px;
-				}
-				h2 {
-					text-align: center;
-					font-size: 14px;
-					margin-bottom: 15px;
-				}
-				p.international {
-					text-align: center;
-					margin-top: 0px;
-				}
-				div.international {
-					margin-left: 0px;
-					p {
-						padding-left: 20px;
-					}
-				}
-				p.price {
-					margin: 10px auto 0px auto;
-					span {
-						font-size: 18px;
-					}
-				}
-			}
-		}
-	}
+    &.portal-plans {
+        background-color: #fff;
+        border-radius: 5px;
+        border: 1px solid #e2e1e2;
+        h3 {
+            margin-top: 0px;
+            font-weight: 500;
+        }
+        .col {
+            padding: 0px 15px 0px 0px;
+            @include breakpoint(medium) {
+                padding: 20px;
+            }
+            .plan-details {
+                background-size: initial;
+                text-align: center;
+                padding: 20px 10px 15px 10px;
+                p.data {
+                    font-size: 22px;
+                }
+                h2 {
+                    text-align: center;
+                    font-size: 14px;
+                    margin-bottom: 15px;
+                }
+                p.international {
+                    text-align: center;
+                    margin-top: 0px;
+                }
+                div.international {
+                    margin-left: 0px;
+                    p {
+                        padding-left: 20px;
+                    }
+                }
+                p.price {
+                    margin: 10px auto 0px auto;
+                    span {
+                        font-size: 18px;
+                    }
+                    @include breakpoint(large) {
+                        max-height: 55px;
+                    }
+                }
+            }
+        }
+    }
 }
 
 .mobile-plans-footnote {
@@ -3830,412 +3859,465 @@ article.marketing.mobile.cdma-pricing-plans {
 }
 
 article.marketing.international .wrapper {
-	padding: 10px 0px;
-	h1 {
-		text-align: left;
-	}
+    padding: 10px 0px;
+    h1 {
+        text-align: left;
+    }
 }
 
 article.international-options {
-	background-image: image-url('marketing/redesign/international_options_background.png');
-	background-repeat: no-repeat;
-	background-position: bottom left;
-	background-color: #f3f6f7;
-	.content {
-		margin: 0px auto;
-		width: 65%;
-		text-align: center;
-		h1 span {
-			color: #0996d6;
-		}
-		p.intro {
-			font-size: 24px;
-		}
-		ul li {
-			list-style-image: url("../i/marketing/redesign/blue-check.png");
-			text-align: left;
-		}
-		a.button {
-			background-color: #2aa4dc;
-			background-image: linear-gradient(#008cd2, #2aa4dc);
-			padding: 10px 18px;
-		}
-	}
+    background-image: image-url('marketing/redesign/international_options_background.png');
+    background-repeat: no-repeat;
+    background-position: bottom left;
+    background-color: #f3f6f7;
+    .content {
+        margin: 0px auto;
+        width: 65%;
+        text-align: center;
+        h1 span {
+            color: #0996d6;
+        }
+        p.intro {
+            font-size: 24px;
+        }
+        ul li {
+            list-style-image: url("../i/marketing/redesign/blue-check.png");
+            text-align: left;
+        }
+        a.button {
+            background-color: #2aa4dc;
+            background-image: linear-gradient(#008cd2, #2aa4dc);
+            padding: 10px 18px;
+        }
+    }
 }
 
 article.international-plus {
-	background-image: image-url('marketing/redesign/international_plus_background.png');
-	background-repeat: no-repeat;
-	background-color: #f3f6f7;
-	@include breakpoint(small) {
-		background-image: none;
-	}
-	.content {
-		width: 60%;
-		float: right;
-		@include breakpoint(small) {
-			width: 100%;
-		}
-		ul {
-			padding-left: 20px;
-			li {
-				list-style-image: url("../i/marketing/redesign/blue-check.png");
-				margin-bottom: 10px;
-			}
-		}
-		h2 {
-			font-size: 36px;
-			color: #2d454f;
-			font-weight: 600;
-			margin: 0px;
-		}
-		h5 {
-			margin-bottom: 0px;
-			font-style: italic;
-			color: #0996d6;
-			font-weight: 600;
-		}
-		p {
-			width: 70%;
-		}
-		.limited-offer {
-			background-color: #fff;
-			padding: 20px;
-			position: relative;
-			margin-top: 50px;
-			span {
-				font-size: 14px;
-				padding-left: 20px;
-			}
-			p {
-				width: 100%;
-				margin: 0;
-			}
-			span.banner {
-				background-color: #ff7246;
-				padding: 3px 10px;
-				color: #fff;
-				position: absolute;
-				font-style: italic;
-				top: -25px;
-				left: 0;
-			}
-		}
-	}
+    background-image: image-url('marketing/redesign/international_plus_background.png');
+    background-repeat: no-repeat;
+    background-color: #f3f6f7;
+    @include breakpoint(small) {
+        background-image: none;
+    }
+    .content {
+        width: 60%;
+        float: right;
+        @include breakpoint(small) {
+            width: 100%;
+        }
+        ul {
+            padding-left: 20px;
+            li {
+                list-style-image: url("../i/marketing/redesign/blue-check.png");
+                margin-bottom: 10px;
+            }
+        }
+        h2 {
+            font-size: 36px;
+            color: #2d454f;
+            font-weight: 600;
+            margin: 0px;
+        }
+        h5 {
+            margin-bottom: 0px;
+            font-style: italic;
+            color: #0996d6;
+            font-weight: 600;
+        }
+        p {
+            width: 70%;
+        }
+        .limited-offer {
+            background-color: #fff;
+            padding: 20px;
+            position: relative;
+            margin-top: 50px;
+            span {
+                font-size: 14px;
+                padding-left: 20px;
+            }
+            p {
+                width: 100%;
+                margin: 0;
+            }
+            span.banner {
+                background-color: #ff7246;
+                padding: 3px 10px;
+                color: #fff;
+                position: absolute;
+                font-style: italic;
+                top: -25px;
+                left: 0;
+            }
+        }
+    }
 }
 
 article.global-connect {
-	background-image: image-url('marketing/redesign/global_connect.png');
-	background-repeat: no-repeat;
-	background-position: 5% 50%;
-	@include breakpoint(small) {
-		background-image: none;
-	}
-	.content {
-		width: 60%;
-		float: right;
-		@include breakpoint(medium) {
-			width: 50%;
-		}
-		@include breakpoint(small) {
-			width: 100%;
-		}
-		h2 {
-			color: #2d454f;
-			font-weight: 600;
-			margin-top: 0px;
-		}
-		h5 {
-			margin-bottom: 0px;
-			font-style: italic;
-			color: #0996d6;
-			font-weight: 600;
-		}
-		p.global-info {
-			width: 70%;
-			a {
-				color: #0996d6;
-			}
-			@include breakpoint(small) {
-				width: 100%;
-			}
-		}
-		p span {
-			font-style: italic;
-			color: #2d454f;
-			font-weight: 600;
-			padding-left: 15px;
-		}
-		a.button {
-			background-color: #2aa4dc;
-			background-image: linear-gradient(#008cd2, #2aa4dc);
-			padding: 10px 18px;
-		}
-	}
+    background-image: image-url('marketing/redesign/global_connect.png');
+    background-repeat: no-repeat;
+    background-position: 5% 50%;
+    @include breakpoint(small) {
+        background-image: none;
+    }
+    .content {
+        width: 60%;
+        float: right;
+        @include breakpoint(medium) {
+            width: 50%;
+        }
+        @include breakpoint(small) {
+            width: 100%;
+        }
+        h2 {
+            color: #2d454f;
+            font-weight: 600;
+            margin-top: 0px;
+        }
+        h5 {
+            margin-bottom: 0px;
+            font-style: italic;
+            color: #0996d6;
+            font-weight: 600;
+        }
+        p.global-info {
+            width: 70%;
+            a {
+                color: #0996d6;
+            }
+            @include breakpoint(small) {
+                width: 100%;
+            }
+        }
+        p span {
+            font-style: italic;
+            color: #2d454f;
+            font-weight: 600;
+            padding-left: 15px;
+        }
+        a.button {
+            background-color: #2aa4dc;
+            background-image: linear-gradient(#008cd2, #2aa4dc);
+            padding: 10px 18px;
+        }
+    }
 }
 
 article.international-special-offer {
-	background-color: #f3f6f7;
-	.content {
-		background-color: #fff;
-		box-shadow: 3px 3px 15px #dbe5e9;
-		border: 1px solid #eff3f5;
-		background-image: image-url('marketing/redesign/free_upgrade.png');
-		background-repeat: no-repeat;
-		background-position: 2% 50%;
-		overflow: visible;
-		position: relative;
-		@include breakpoint(small) {
-			background-position: 50% 10%;
-		}
-		.left {
-			width: 70%;
-			float: left;
-			padding-left: 130px;
-			h3 {
-				font-weight: 600;
-				font-size: 24px;
-				margin-bottom: 0px;
-			}
-			p {
-				margin-top: 10px;
-			}
-			@include breakpoint(small) {
-				width: 100%;
-				float: none;
-				padding: 0px;
-				margin-top: 60px;
-			}
-		}
-		.right {
-			width: 30%;
-			float: right;
-			text-align: right;
-			a.button {
-				background-color: #2aa4dc;
-				background-image: linear-gradient(#008cd2, #2aa4dc);
-				padding: 10px 18px;
-			}
-			@include breakpoint(small) {
-				width: 100%;
-				float: none;
-				text-align: left;
-			}
-		}
-		.offer-banner {
-			background-color: #ff7246;
-			padding: 3px 10px;
-			color: #fff;
-			position: absolute;
-			font-style: italic;
-			top: -15px;
-			left: 25px;
-		}
-	}
+    background-color: #f3f6f7;
+    .content {
+        background-color: #fff;
+        box-shadow: 3px 3px 15px #dbe5e9;
+        border: 1px solid #eff3f5;
+        background-image: image-url('marketing/redesign/free_upgrade.png');
+        background-repeat: no-repeat;
+        background-position: 2% 50%;
+        overflow: visible;
+        position: relative;
+        @include breakpoint(small) {
+            background-position: 50% 10%;
+        }
+        .left {
+            width: 70%;
+            float: left;
+            padding-left: 130px;
+            h3 {
+                font-weight: 600;
+                font-size: 24px;
+                margin-bottom: 0px;
+            }
+            p {
+                margin-top: 10px;
+            }
+            @include breakpoint(small) {
+                width: 100%;
+                float: none;
+                padding: 0px;
+                margin-top: 60px;
+            }
+        }
+        .right {
+            width: 30%;
+            float: right;
+            text-align: right;
+            a.button {
+                background-color: #2aa4dc;
+                background-image: linear-gradient(#008cd2, #2aa4dc);
+                padding: 10px 18px;
+            }
+            @include breakpoint(small) {
+                width: 100%;
+                float: none;
+                text-align: left;
+            }
+        }
+        .offer-banner {
+            background-color: #ff7246;
+            padding: 3px 10px;
+            color: #fff;
+            position: absolute;
+            font-style: italic;
+            top: -15px;
+            left: 25px;
+        }
+    }
 }
 
 article.international-footnotes p {
-	margin: 0;
-	font-size: 12px;
-	color: #b8b8b8;
+    margin: 0;
+    font-size: 12px;
+    color: #b8b8b8;
 }
 
 article.international-rates-table {
-	background-color: #f3f6f7;
-	.content {
-		width: 80%;
-		margin: auto;
-		@include breakpoint(small) {
-			width: 100%;
-		}
-	}
-	th {
-		background-color: #0089d1;
-		color: #fff;
-		border: none;
-		&.country {
-			padding-top: 0px;
-		}
-		&.rate {
-			text-align: center;
-		}
-	}
-	tr {
-		border-bottom: 1px solid #dadada;
-		&:nth-child(even) {
-			background: #f3f6f7;
-		}
-		&:nth-child(odd) {
-			background: #f8fafa;
-		}
-	}
-	td {
-		border: none;
-		text-align: center;
-		&.country {
-			text-align: left;
-			font-weight: 600;
-		}
-	}
-	h3 {
-		font-style: italic;
-		color: #2d454f;
-		font-weight: 600;
-		text-align: center;
-	}
+    background-color: #f3f6f7;
+    .content {
+        width: 80%;
+        margin: auto;
+        @include breakpoint(small) {
+            width: 100%;
+        }
+    }
+    th {
+        background-color: #0089d1;
+        color: #fff;
+        border: none;
+        &.country {
+            padding-top: 0px;
+        }
+        &.rate {
+            text-align: center;
+        }
+    }
+    tr {
+        border-bottom: 1px solid #dadada;
+        &:nth-child(even) {
+            background: #f3f6f7;
+        }
+        &:nth-child(odd) {
+            background: #f8fafa;
+        }
+    }
+    td {
+        border: none;
+        text-align: center;
+        &.country {
+            text-align: left;
+            font-weight: 600;
+        }
+    }
+    h3 {
+        font-style: italic;
+        color: #2d454f;
+        font-weight: 600;
+        text-align: center;
+    }
 }
 
 article.protective-module {
-	ul {
-		padding-left: 15px;
-		&.features {
-			list-style-image: url("../i/marketing/redesign/green-check.png");
-		}
-		&.services {
-			float: left;
-		}
-	}
-	p.combine {
-		width: 80%;
-	}
-	p a.button {
-		float: right;
-		margin-top: 80px;
-	}
+    ul {
+        padding-left: 15px;
+        &.features {
+            list-style-image: url("../i/marketing/redesign/green-check.png");
+        }
+        &.services {
+            float: left;
+        }
+    }
+    p.combine {
+        width: 80%;
+    }
+    p a.button {
+        float: right;
+        margin-top: 80px;
+    }
 }
 
 .skydrop {
-	&.save-blue {
-		h1 {
-			margin-top: 0px;
-		}
-		p {
-			text-align: center;
-			&.free-controller {
-				font-size: 20px;
-				text-align: left;
-			}
-		}
-		img {
-			width: auto;
-		}
-	}
-	&.smart {
-		margin-left: 200px;
-		h3 {
-			font-style: italic;
-		}
-		ul {
-			padding-left: 20px;
-			li {
-				list-style-image: url("../i/marketing/redesign/light-green-check.png");
-			}
-		}
-		@include breakpoint(small) {
-			margin-left: 0px;
-		}
-	}
-	h1.save {
-		color: #f98e00;
-	}
-	p.save-paragraph {
-		font-size: 20px;
-	}
-	.footer {
-		text-align: center;
-		h3 {
-			margin: 2em 0 .5em 0;
-			color: #f98e00;
-		}
-		a {
-			color: #f98e00;
-		}
-	}
-	.grid {
-		margin-top: 30px;
-		.col {
-			padding: 90px 25px 0px 0px;
-			background-repeat: no-repeat;
-			background-position: top center;
-			&.self-regulating {
-				background-image: url('../i/marketing/redesign/Modules/self-regulating.png');
-			}
-			&.easy-install {
-				background-image: url('../i/marketing/redesign/Modules/easy-install.png');
-			}
-			&.manage-remotely {
-				background-image: url('../i/marketing/redesign/Modules/manage-remotely.png');
-			}
-			&.curb-appeal {
-				background-image: url('../i/marketing/redesign/Modules/curb-appeal.png');
-			}
-		}
-	}
-	&.skydrop-app {
-		.wrapper {
-			background-image: none;
-			padding-bottom: 0px;
-			padding-top: 10px;
-		}
-		background-color: #78bb2f;
-		.image {
-			float: left;
-			padding-left: 100px;
-			img {
-				margin-bottom: -15px;
-			}
-			@include breakpoint(small) {
-				display: none;
-			}
-			@include breakpoint(medium) {
-				padding-left: 0px;
-			}
-		}
-		.info {
-			h1 {
-				color: #fff;
-				text-align: left;
-				margin-top: 80px;
-			}
-			float: left;
-			width: 570px;
-			color: #000;
-			padding-left: 100px;
-			ul {
-				padding-left: 20px;
-				margin-bottom: 50px;
-				li {
-					list-style-image: url("../i/marketing/redesign/check.png");
-					padding-bottom: 10px;
-				}
-			}
-			@include breakpoint(medium) {
-				width: 395px;
-				padding-left: 0px;
-			}
-		}
-	}
-	&.faqs-heading .heading {
-		color: #78bb2f;
-	}
-	&.skydrop-promo {
-		background-image: image-url('marketing/redesign/Modules/skydrop-module.png');
-		background-repeat: no-repeat;
-		background-position: 80% 20px;
-		.promo-paragraph {
-			width: 25%;
-			@include breakpoint(small) {
-				width: 80%;
-			}
-		}
-		@include breakpoint(medium) {
-			background-size: 60%;
-			background-position: 80% 100%;
-		}
-		@include breakpoint(small) {
-			background-image: none;
-		}
-		a.button {
+    &.banner {
+        min-height: 202px;
+        .inner .wrapper h1 {
+            font-size: 40px;
+            color: #424242;
+        }
+    }
+    &.save-blue {
+        h1 {
+            margin-top: 0px;
+        }
+        p {
+            text-align: center;
+            &.free-controller {
+                font-size: 20px;
+                text-align: left;
+            }
+            u a {
+                color: #6b6b6b;
+            }
+        }
+        img {
+            width: auto;
+        }
+        ul {
+            margin: 40px 0 40px 200px;
+            li {
+                list-style-image: url("../i/marketing/redesign/dark-blue-check.png");
+            }
+            
+            @include breakpoint(small) {
+                margin: 40px 0;
+            }
+
+            @include breakpoint(medium) {
+                margin: 40px 0;
+            }
+        }
+    }
+    &.smart {
+        margin-left: 200px;
+        h3 {
+            font-style: italic;
+        }
+        ul {
+            padding-left: 20px;
+            li {
+                list-style-image: url("../i/marketing/redesign/light-green-check.png");
+            }
+        }
+        @include breakpoint(small) {
+            margin-left: 0px;
+        }
+    }
+    h1.save {
+        color: #f98e00;
+    }
+    p.save-paragraph {
+        font-size: 20px;
+    }
+    .footer {
+        text-align: center;
+        margin-top: 3em;
+        p {
+            color: #f98e00;
+            a {
+                color: #f98e00;
+            }
+        }
+    }
+    .grid {
+        margin-top: 30px;
+        
+        .col {
+            padding: 90px 25px 0px 0px;
+            background-repeat: no-repeat;
+            background-position: top center;
+            &.self-regulating {
+                background-image: url('../i/marketing/redesign/Modules/self-regulating.png');
+            }
+            &.easy-install {
+                background-image: url('../i/marketing/redesign/Modules/easy-install.png');
+            }
+            &.manage-remotely {
+                background-image: url('../i/marketing/redesign/Modules/manage-remotely.png');
+            }
+            &.curb-appeal {
+                background-image: url('../i/marketing/redesign/Modules/curb-appeal.png');
+            }
+        }
+    }
+    &.skydrop-app {
+        .wrapper {
+            background-image: none;
+            background: #0071b9; 
+            padding-bottom: 0px;
+            padding-top: 30px;
+        }
+        .col {
+            padding: 50px 25px 0px 0px;
+        }
+        .col:last-child {
+            padding: 80px 25px 0px 0px;
+        }
+        background-color: #0071b9;
+        .image {
+            float: left;
+            padding-left: 100px;
+            margin-bottom: -16px;
+            img {
+                margin-bottom: -15px;
+            }
+            @include breakpoint(small) {
+                display: none;
+            }
+            @include breakpoint(medium) {
+                padding-left: 0px;
+                padding-right: 40px;
+            }
+        }
+        .info {
+            h1 {
+                text-align: left; 
+                line-height: 30px;
+                color: #fff;
+                text-align: left;
+                margin-top: 60px;
+
+                @include breakpoint(small){
+                    margin-top: 40px;
+                }
+            }
+            p {
+                line-height: 30px;
+            }
+            float: left;
+            width: 500px;
+            color: #fff;
+            padding-left: 100px;
+
+
+            ul {
+                list-style-image: url("../i/marketing/redesign/white-check.png");
+                padding-left: 20px;
+                margin-bottom: 50px;
+                li {
+                    list-style-image: url("../i/marketing/redesign/white-check.png");
+                    padding-bottom: 10px;
+                }
+            }
+
+            @include breakpoint(medium) {
+                width: 100%;
+                max-width: 395px;
+                padding-left: 0px;
+            }
+
+            @include breakpoint(small) {
+                padding-bottom: 60px;
+                width: 100%;
+                padding-left: 0px;
+            }
+        }
+    }
+    &.faqs-heading .heading {
+        color: #f98e00;
+    }
+    &.skydrop-promo {
+        background-image: image-url('marketing/redesign/Modules/skydrop-promo.png');
+        background-repeat: no-repeat;
+        background-position: 60% 115px;
+        .wrapper {
+            padding: 50px 0px 0px 0px;
+        }
+        .content {
+            width: 70%;
+            float: left;
+            .promo-paragraph {
+                width: 37%;
+                @include breakpoint(small) {
+                    width: 80%;
+                }
+            }
+            a.button {
                 background-image: none;
                 background-color: #f87c00;
                 border-radius: 5px;
@@ -4244,5 +4326,24 @@ article.protective-module {
             a.button:hover {
                 background-color: #f79431;
             }
-	}
+            @include breakpoint(small) {
+                width: 100%;
+                float: none;
+            }
+        }
+        .image {
+            float: right;
+            margin-bottom: -6px;
+            @include breakpoint(small) {
+                float: none;
+            }
+        }
+        @include breakpoint(medium) {
+            background-size: 60%;
+            background-position: 60% 100%;
+        }
+        @include breakpoint(small) {
+            background-image: none;
+        }
+    }
 }
