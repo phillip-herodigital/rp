@@ -58,7 +58,7 @@
                                 </div>
                                 <div class="payment-options" credit-card-payment="completeOrder.creditCard" data-val-if="true"></div>
                             </div>
-                            <footer class="autopay-activation" ng-if="cartHasMobile()">
+                            <footer class="autopay-activation" ng-if="cartHasMobile() && (!isAddLine || !addLineAutoPay)">
                                 <h2>@Html.Sitecore().Field("Turn on AutoPay")</h2>
                                 <p>@Html.Sitecore().Field("Turn on AutoPay Details")</p>
                                 <input name="autopay" id="autopay" type="checkbox" ng-model="completeOrder.autopay" /><label for="autopay" class="autopay">@Html.Sitecore().Field("Activate AutoPay Button")</label>
@@ -459,6 +459,14 @@
         </div>
         <div class="rate">
             {{ getOfferPrice(selectedOffer.offerId) | currency }}@Html.Sitecore().Field("Per Month Text")
+        </div>
+    </div>
+    <div class="monthly-product clearfix" ng-repeat="subAccount in addLineSubAccounts">
+        <div class="description">
+            <span class="plan">@Html.Sitecore().Field("Monthly Plan Text Existing")</span>
+        </div>
+        <div class="rate">
+            {{ subAccount.cost | currency }}@Html.Sitecore().Field("Per Month Text")
         </div>
     </div>
 </script>

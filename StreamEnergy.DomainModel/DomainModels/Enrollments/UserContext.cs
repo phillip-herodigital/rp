@@ -23,6 +23,8 @@ namespace StreamEnergy.DomainModels.Enrollments
 
         public ISubAccount[] AddLineSubAccounts { get; set; }
 
+        public bool AddLineAutoPay { get; set; }
+
         public bool IsSinglePage { get; set; }
 
         public Guid LoggedInCustomerId { get; set; }

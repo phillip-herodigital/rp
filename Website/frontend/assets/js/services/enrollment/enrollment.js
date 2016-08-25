@@ -93,6 +93,8 @@
 
         service.isAddLine = result.isAddLine;
         service.addLineAccountNumber = result.addLineAccountNumber;
+        service.addLineSubAccounts = result.addLineSubAccounts;
+        service.addLineAutoPay = result.addLineAutoPay;
         if (result.isAddLine && result.expectedState == "serviceInformation") {
             enrollmentStepsService.setAddLine(result.addLineAccountNumber);
         }

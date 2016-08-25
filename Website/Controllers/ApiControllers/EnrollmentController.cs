@@ -328,6 +328,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             stateHelper.StateMachine.InternalContext.GlobalCustomerId = account.StreamConnectCustomerId;
             stateHelper.State = typeof(ServiceInformationState);
             stateHelper.Context.IsAddLine = true;
+            stateHelper.Context.AddLineAutoPay = account.AutoPay.IsEnabled;
             stateHelper.Context.ContactInfo = account.Details.ContactInfo;
             stateHelper.Context.AddLineAccountNumber = account.AccountNumber;
             stateHelper.Context.AddLineSubAccounts = account.SubAccounts;
@@ -619,7 +620,8 @@ FROM [SwitchBack] WHERE ESIID=@esiId";
                 IsRenewal = stateMachine.Context.IsRenewal,
                 IsAddLine = stateMachine.Context.IsAddLine,
                 AddLineAccountNumber = stateMachine.Context.AddLineAccountNumber,
-                AddLineSubAccounts = stateMachine.Context.IsAddLine? subaccounts.ToArray() : null,
+                AddLineSubAccounts = stateMachine.Context.IsAddLine ? subaccounts.ToArray() : null,
+                AddLineAutoPay = stateMachine.Context.IsAddLine ? stateMachine.Context.AddLineAutoPay : false,
                 IsSinglePage = stateMachine.Context.IsSinglePage,
                 LoggedInCustomerId = stateMachine.Context.LoggedInCustomerId,
                 EnrolledInAutoPay = stateMachine.Context.EnrolledInAutoPay,
