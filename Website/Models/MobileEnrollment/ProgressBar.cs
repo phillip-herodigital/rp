@@ -10,7 +10,5 @@ namespace StreamEnergy.MyStream.Models.MobileEnrollment
         public int StepNumber;
         public string StepTextField;
         public bool HideCart;
-        public string AccountNumber;
-        public string AddLineAccountNumber;
     }
 }

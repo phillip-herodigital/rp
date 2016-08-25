@@ -92,6 +92,7 @@
         }
 
         service.isAddLine = result.isAddLine;
+        service.addLineAccountNumber = result.addLineAccountNumber;
         if (result.isAddLine && result.expectedState == "serviceInformation") {
             enrollmentStepsService.setAddLine(result.addLineAccountNumber);
         }

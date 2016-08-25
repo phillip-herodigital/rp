@@ -9,7 +9,7 @@
         <div class="inner clearfix">
             <div class="step-description" ng-if="!isRenewal || '@Model.StepNumber' != '4'">
                 <div class="stepCount">@item.Fields["Step"].Value @Model.StepNumber</div>
-                @item.Fields[Model.StepTextField].Value
+                @Html.Sitecore().Field(Model.StepTextField, item)
             </div>
             <div class="step-description" ng-if="isRenewal && '@Model.StepNumber' == '4'">
                 <div class="stepCount">@item.Fields["Step 3 Renewal Header Text"].Value</div>
@@ -22,6 +22,7 @@
                 <a class="step step3" ng-click="jumpToStep('accountInformation', stepNumber, 3);"></a>
                 <a class="step step4"></a>
             </div>
+
             <div class="referred-by-section" ng-if="associateInformation && associateInformation.associateName">
                 <img class="associate-image" ng-src="data:image/JPEG;base64,{{associateInformation.associateImage}}" onerror="this.style.display = 'none';" />
                 <div class="ai-right">
@@ -49,6 +50,7 @@
 
             <a href="" class="need-help" ng-click="showModal('instructions/needHelp')">@item.Fields["Need Help Text"].Value</a>
         </div>
+
         <script type="text/ng-template" id="instructions/needHelp">
             <div class="mobile-enrollment-modal">
                 <div class="modal-header">
@@ -62,6 +64,9 @@
         </script>
     </div>
 
-    <h3 ng-if="'@Model.AddLineAccountNumber' != ''">Adding Device To Account Number:  @Model.AddLineAccountNumber</h3>
+    <div ng-if="addLineAccountNumber" class="enrollment_add-line">
+        <div class="wrapper">
+            <h2>@Html.Sitecore().Field("Adding Device Text", item) {{ addLineAccountNumber }}</h2>
+        </div>
+    </div>
 </div>
-
