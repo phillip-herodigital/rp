@@ -752,10 +752,10 @@ FROM [SwitchBack] WHERE ESIID=@esiId";
         }
 
         [HttpPost]
-        public async Task<ClientData> ToggleAutoPay([FromBody]AccountInformation request)
+        public async Task<ClientData> SetAutoPay([FromBody]SetAutoPayRequest request)
         {
             await Initialize();
-
+            stateMachine.Context.EnrolledInAutoPay = request.IsAutoPay;
             if (stateHelper.InternalContext != null)
             {
                 stateHelper.InternalContext.Deposit = null;
@@ -765,6 +765,7 @@ FROM [SwitchBack] WHERE ESIID=@esiId";
             stateHelper.Reset();
             stateHelper.Context = context;
             stateHelper.InternalContext = internalContext;
+
             stateHelper.State = typeof(AccountInformationState);
 
             await stateHelper.EnsureInitialized();
@@ -773,7 +774,9 @@ FROM [SwitchBack] WHERE ESIID=@esiId";
 
             await stateMachine.ContextUpdated();
 
-            MapCartToServices(request);
+            MapCartToServices(new AccountInformation {
+                Cart = request.Cart
+            });
 
             await stateMachine.ContextUpdated();
 
@@ -895,7 +898,10 @@ FROM [SwitchBack] WHERE ESIID=@esiId";
             }
 
             MapCartToServices(request);
-
+            if (request.Cart.Any(CartEntry => CartEntry.OfferInformationByType.Any(offer => offer.Key == "Mobile")))
+            {
+                stateMachine.Context.EnrolledInAutoPay = true;
+            }
             stateMachine.Context.AgreeToTerms = false;
             stateMachine.Context.ContactInfo = request.ContactInfo;
             stateMachine.Context.ContactTitle = request.ContactTitle;
@@ -1030,7 +1036,6 @@ FROM [SwitchBack] WHERE ESIID=@esiId";
             stateMachine.Context.AgreeToTerms = request.AgreeToTerms;
             stateMachine.Context.AgreeToAutoPayTerms = request.AgreeToAutoPayTerms;
             stateMachine.Context.W9BusinessData = request.W9BusinessData;
-            stateMachine.Context.EnrolledInAutoPay = request.AutoPay;
             stateMachine.Context.AutoPayDiscount = Convert.ToDecimal(settings.GetSettingsValue("Mobile Enrollment Options", "AutoPay Discount"));
             
             foreach (var locationService in stateMachine.Context.Services)
