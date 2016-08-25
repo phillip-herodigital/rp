@@ -16,15 +16,14 @@
             <p><a href="" ng-click="backToSupport()" ng-show="searchResults">@categoryContent.Fields["Back to Support"]</a></p>
             <p>
                 <span>@categoryContent.Fields["Showing"] {{resultsPageRange[resultsPage].low + 1}} - {{resultsPageRange[resultsPage].high + 1}} @categoryContent.Fields["of"] {{displayedFAQCount}}</span>
-                <span> @categoryContent.Fields["results for"] “{{searchedData.text}}”</span>
+                <span> @categoryContent.Fields["results for"] “<span ng-bind="searchedData.text"></span>”</span>
                 <span> @categoryContent.Fields["in"] {{searchedData.category.name}}</span>
                 <span ng-show="searchedData.state.name"> - {{searchedData.state.abbreviation}}</span>
             </p>
         </div>
-        <div class="faqs-heading" ng-show="!mobileAcronyms && category.states.length && !searchResults">
-            <h2>FAQs for {{category.name}}<span ng-show="searchData.state.name"> - {{searchData.state.name}}</span></h2>
+        <div class="faqs-heading" ng-show="!mobileAcronyms && !searchResults">
+            <h2>{{category.name}}<span ng-show="searchData.state.name"> - {{searchData.state.name}}</span><span ng-show="subcategoryName"> - {{subcategoryName}}</span></h2>
         </div>
-        <div class="pagination-spacer" ng-hide="searchResults || mobileAcronyms || category.states.length"></div>
         <div class="faqs clearfix" ng-hide="mobileAcronyms">
             <aside class="top">
                 <h4>@categoryContent.Fields["Keyword Heading"]</h4>
