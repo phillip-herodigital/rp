@@ -31,7 +31,8 @@ namespace StreamEnergy.MyStream.Models.Marketing.Support
             createState(SitecoreItem);
         }
 
-        private void createState(Item item) {
+        private void createState(Item item)
+        {
             Name = item.Fields["Name"].Value;
             Abbreviation = item.Fields["Abberviation"].Value;
             Guid = item.ID.ToString();
@@ -40,9 +41,21 @@ namespace StreamEnergy.MyStream.Models.Marketing.Support
             {
                 IconURL = Sitecore.Resources.Media.MediaManager.GetMediaUrl(iconField.MediaItem);
             }
-            EmergencyContactContent = item.Fields["Emergency Contact Content"].Value;
-            ContactPageContent = item.Fields["Contact Page Content"].Value;
-            ContactContent = item.Fields["Contact Contact"].Value;
+            EmergencyContactContent = getValue(item, "Emergency Contact Content", true);
+            ContactPageContent = getValue(item, "Contact Page Content", true);
+            ContactContent = getValue(item, "Contact Contact", true);
+        }
+
+        private string getValue(Item item, string key)
+        {
+            return getValue(item, key, false);
+        }
+
+        private string getValue(Item item, string key, bool encodeValue)
+        {
+            return item.Fields[key] != null ? (encodeValue ? HttpUtility.HtmlEncode(item.Fields[key].Value)
+                                                 : item.Fields[key].Value)
+                 : "";
         }
     }
 }

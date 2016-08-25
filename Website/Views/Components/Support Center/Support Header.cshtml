@@ -16,13 +16,13 @@
         <h1 ng-show="searchResults">@Html.Sitecore().Field("Search Results Heading")</h1>
         <h1 ng-show="mobileAcronyms" class="mobile-acronyms-header">@Html.Sitecore().Field("Mobile Acronyms Heading")</h1>
         <h4 ng-hide="isCategorySupport">@Html.Sitecore().Field("Main Subheading")</h4>
-        <form class="search" name="searchBar" ng-submit="search()" ng-hide="mobileAcronyms">
+        <form class="search" name="searchBar" ng-submit="search(false)" ng-hide="mobileAcronyms">
             <div class="input" ng-click="searchbarClick()">
                 <input type="text" class="search-input" name="searchText" id="seachText"
                        placeholder="{{searchPlaceholder}}"
                        autocomplete="off"
                        typeahead-focus-first="false"
-                       typeahead-on-select="search()"
+                       typeahead-on-select="search(true)"
                        ng-disabled="!searchData.category || (searchData.category.states.length && !searchData.state)"
                        ng-model="searchData.text"
                        typeahead-loading="isSearchLoading"

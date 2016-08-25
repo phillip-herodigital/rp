@@ -8,8 +8,17 @@ using System.Web;
 using System.Web.Mvc;
 using StreamEnergy.MyStream.Models.Marketing.Support;
 using Sitecore.Data.Items;
+using Sitecore.ContentSearch;
+
 using System.Data.SqlClient;
 using System.Data;
+using Sitecore.ContentSearch.SearchTypes;
+using Sitecore.ContentSearch.Security;
+using Sitecore.ContentSearch.LuceneProvider;
+using Sitecore.ContentSearch.Linq.Utilities;
+using Sitecore.Data;
+using Sitecore.ContentSearch.Linq;
+
 namespace StreamEnergy.MyStream.Controllers
 {
     public class SupportCenterController : Controller
@@ -108,29 +117,54 @@ namespace StreamEnergy.MyStream.Controllers
 
         public IEnumerable<FAQ> Search(string query, FaqSearchFilter filter) {
             query = (query ?? "").Trim().ToLower();
-            List<FAQ> matchingFAQS = new List<FAQ>();
-            var categories = GetAllCategories();
-            var subCategories = GetAllSubCategoriesForCategory(filter.Category.Guid);
-            var searchFAQs = (from item in Sitecore.Context.Database.GetItem(FAQsRootItemID).Axes.GetDescendants()
-                              where item.TemplateID.ToString() == FAQsTempalteID || item.TemplateID.ToString() == StateFAQsTempalteID
-                              where item.Fields["FAQ Categories"].Value.Contains(filter.Category.Guid)
-                              where filter.State == null || item.TemplateID.ToString() == FAQsTempalteID ? true : item.Fields["FAQ States"].Value.Contains(filter.State.Guid)
-                              select new FAQ(item)).ToList();
+            List<string> categories = (from c in GetAllCategories() select c.Name).ToList();
+            List<string> subCategories = (from s in GetAllSubCategoriesForCategory(filter.Category.Guid) select s.Name).ToList();
+            var faqsTemplateID = ID.Parse(FAQsTempalteID);
+            var stateFAQsTempalteID = ID.Parse(StateFAQsTempalteID);
+            var filterCategoryID = Sitecore.ContentSearch.Utilities.IdHelper.NormalizeGuid(filter.Category.Guid, true);
 
-            foreach (FAQ faq in searchFAQs)
+            Item repositorySearchItem = Sitecore.Context.Database.GetItem(FAQsRootItemID);
+            ISearchIndex index = ContentSearchManager.GetIndex(new SitecoreIndexableItem(repositorySearchItem));
+            using (IProviderSearchContext context = index.CreateSearchContext(SearchSecurityOptions.EnableSecurityCheck))
             {
-                if (
-                    faq.FAQQuestion.ToLower().Contains(query) ||
-                    faq.FAQAnswer.ToLower().Contains(query) ||
-                    categories.Any(c => c.Name.ToLower().Contains(query)) ||
-                    subCategories.Any(s => s.Name.ToLower().Contains(query)) ||
-                    faq.Keywords.Any(k => k.ToLower().Contains(query))
-                    )
+                var luceneSearchContext = context as LuceneSearchContext;
+
+                // use False because we'll be ANDing this clause together
+                var filterPredicate = PredicateBuilder.True<SearchResultItem>()
+                    .And(item => item.TemplateId == faqsTemplateID || item.TemplateId == stateFAQsTempalteID)
+                    .And(item => item["FAQ Categories"].Contains(filterCategoryID))
+                    .And(item => item.Language == Sitecore.Context.Language.Name);
+                if (filter.State != null)
                 {
-                    matchingFAQS.Add(faq);
+                    filterPredicate = filterPredicate
+                        .And(item => item.TemplateId == faqsTemplateID || item["FAQ States"].Contains(Sitecore.ContentSearch.Utilities.IdHelper.NormalizeGuid(filter.State.Guid, true)));
                 }
+            
+                var terms = query.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+
+                // use False because we'll be ORing this clause together
+                var termPredicate = PredicateBuilder.False<SearchResultItem>();
+
+                foreach (var term in terms)
+                {
+                    termPredicate = termPredicate
+                        .Or(item => item["FAQ Question"].Contains(term)).Boost(3)
+                        .Or(item => item["FAQ Answer"].Contains(term))
+                        .Or(item => item["Keywords"].Contains(term)).Boost(2)
+                        .Or(item => categories.Contains(term)).Boost(1)
+                        .Or(item => subCategories.Contains(term)).Boost(1);
+                }
+
+                if (query != "")
+                {
+                    filterPredicate = filterPredicate.And(termPredicate);
+                }
+
+                var luceneQuery = context.GetQueryable<SearchResultItem>().Where(filterPredicate);
+
+                return (from result in luceneQuery
+                        select new FAQ(result.GetItem())).ToList();
             }
-            return matchingFAQS;
         }
     }
 }

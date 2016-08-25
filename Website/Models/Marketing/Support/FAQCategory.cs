@@ -54,8 +54,9 @@ namespace StreamEnergy.MyStream.Models.Marketing.Support
             DisplayOnContactPage = ContactPageField.Checked;
         }
 
-        private string getValue(string key) {
-            return SitecoreItem.Fields[key].Value;
+        private string getValue(string key)
+        {
+            return HttpUtility.HtmlEncode(SitecoreItem.Fields[key].Value);
         }
     }
 }

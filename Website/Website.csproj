@@ -283,6 +283,18 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Libraries\Sitecore\Sitecore.Buckets.Client.dll</HintPath>
     </Reference>
+    <Reference Include="Sitecore.CES, Version=1.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Libraries\Sitecore\Sitecore.CES.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.CES.GeoIp, Version=1.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Libraries\Sitecore\Sitecore.CES.GeoIp.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.CES.GeoIp.LegacyLocation, Version=1.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Libraries\Sitecore\Sitecore.CES.GeoIp.LegacyLocation.dll</HintPath>
+    </Reference>
     <Reference Include="Sitecore.Cintel">
       <HintPath>..\Libraries\Sitecore\Sitecore.Cintel.dll</HintPath>
     </Reference>
@@ -1115,6 +1127,7 @@
     </Content>
     <Content Include="App_Config\Include\Sitecore.Analytics.Tracking.RobotDetection.config" />
     <Content Include="App_Config\Include\Sitecore.Apps.TagInjection.config" />
+    <Content Include="App_Config\Include\CES\Sitecore.CES.config" />
     <Content Include="App_Config\Include\Channel\Sitecore.Analytics.Channel.config" />
     <Content Include="App_Config\Include\ContentTesting\Sitecore.ContentTesting.config" />
     <Content Include="App_Config\Include\ContentTesting\Sitecore.ContentTesting.Intelligence.config" />
@@ -1224,6 +1237,8 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="_CMP\RazlService.asmx" />
+    <Content Include="App_Config\Include\CES\Sitecore.CES.GeoIp.config" />
+    <Content Include="App_Config\Include\CES\Sitecore.CES.GeoIp.LegacyLocation.config" />
     <None Include="Properties\PublishProfiles\PackageForUpgrade.pubxml" />
     <None Include="Properties\PublishProfiles\Package.pubxml" />
     <None Include="Scripts\_references.js" />
