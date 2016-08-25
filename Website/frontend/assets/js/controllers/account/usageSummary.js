@@ -164,7 +164,8 @@ ngApp.controller('AcctUsageSummaryCtrl', ['$scope', '$rootScope', '$http', '$win
         };
     };
 
-    $scope.setupAddLine = function (mobilePlanId) {
+    $scope.setupAddLine = function () {
+        $scope.addDevice =! $scope.addDevice;
         $scope.isLoading = true;
         var accountData = {
             accountNumber: acct
@@ -174,7 +175,6 @@ ngApp.controller('AcctUsageSummaryCtrl', ['$scope', '$rootScope', '$http', '$win
             if (data.isAddLine) {
                 enrollmentService.setClientData(data);
                 $scope.isLoading = false;
-                $window.location = '/enrollment?ServiceType=Mob&MobilePlanId=' + mobilePlanId;
             } else {
                 // the account is no longer eligible, or something else went wrong
                 $scope.isLoading = false;
@@ -184,6 +184,11 @@ ngApp.controller('AcctUsageSummaryCtrl', ['$scope', '$rootScope', '$http', '$win
             $scope.isLoading = false;
             $scope.streamConnectError = true;
         });
+    };
+
+    $scope.completeStep = function (mobilePlanId) {
+        $scope.isLoading = true;
+        $window.location = '/enrollment?ServiceType=Mob&AddLine=true&MobilePlanId=' + mobilePlanId;
     };
 
 }]);

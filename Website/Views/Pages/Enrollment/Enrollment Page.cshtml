@@ -6,7 +6,7 @@
         state = (!string.IsNullOrEmpty(visitor.Interaction.GeoData.Region) && visitor.Interaction.GeoData.Region != "N/A") ? visitor.Interaction.GeoData.Region : "",
         postalCode5 = (!string.IsNullOrEmpty(visitor.Interaction.GeoData.PostalCode) && visitor.Interaction.GeoData.PostalCode != "N/A") ? visitor.Interaction.GeoData.PostalCode : "",
     };
-    if (Request.QueryString["renewal"] != "true")
+    if (Request.QueryString["renewal"] != "true" && Request.QueryString["addLine"] != "true")
     {
         Html.Action("ResetEnrollment", "Enrollment");
     }

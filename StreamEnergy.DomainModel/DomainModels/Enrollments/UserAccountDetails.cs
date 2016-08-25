@@ -12,6 +12,5 @@ namespace StreamEnergy.DomainModels.Enrollments
         public CustomerContact ContactInfo { get; set; }
         public Address MailingAddress { get; set; }
         public bool MailingAddressSame { get; set; }
-        public string AccountNumber { get; set; }
     }
 }

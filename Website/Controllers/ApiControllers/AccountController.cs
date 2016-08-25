@@ -1280,10 +1280,8 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 currentUser.Accounts = await accountService.GetAccounts(currentUser.StreamConnectCustomerId);
             }
             var target = currentUser.Accounts.First(acct => acct.AccountNumber == request.AccountNumber);
-            var accountDetails = await accountService.GetAccountDetails(target, false);
-
-            await accountService.GetAccountDetails(target, accountDetails);
-
+            await accountService.GetAccountDetails(target);
+            await enrollmentController.Initialize();
             return await enrollmentController.SetupAddLine(target);
         }
         

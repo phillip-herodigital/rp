@@ -91,6 +91,7 @@
             enrollmentStepsService.setRenewal();
         }
 
+        service.isAddLine = result.isAddLine;
         if (result.isAddLine && result.expectedState == "serviceInformation") {
             enrollmentStepsService.setAddLine(result.addLineAccountNumber);
         }

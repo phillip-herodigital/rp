@@ -83,8 +83,8 @@
             </tbody>
         </table>
         <footer ng-if="mobileEnrollmentSettings.allowAddDevice">
-            <div ng-click="addDevice=!addDevice" ng-show="!addDevice">
-                <p><a class="button secondary" href="">@Html.Sitecore().Field("Add Device Button Text")</a></p>
+            <div ng-show="!addDevice">
+                <p><a class="button secondary" href="" ng-click="setupAddLine()">@Html.Sitecore().Field("Add Device Button Text")</a></p>
             </div>
             <div ng-show="addDevice">
                 <h3>@Html.Sitecore().Field("Select Rate Header")</h3>
