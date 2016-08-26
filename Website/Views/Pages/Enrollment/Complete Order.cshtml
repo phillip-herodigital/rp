@@ -61,7 +61,7 @@
                             <footer class="autopay-activation" ng-if="cartHasMobile() && (!isAddLine || !addLineAutoPay)">
                                 <h2>@Html.Sitecore().Field("Turn on AutoPay")</h2>
                                 <p>@Html.Sitecore().Field("Turn on AutoPay Details")</p>
-                                <input name="autopay" id="autopay" type="checkbox" ng-model="completeOrder.autopay" /><label for="autopay" class="autopay">@Html.Sitecore().Field("Activate AutoPay Button")</label>
+                                <input name="autopay" id="autopay" type="checkbox" ng-model="completeOrder.autopay" ng-change="toggleAutoPay()"/><label for="autopay" class="autopay">@Html.Sitecore().Field("Activate AutoPay Button")</label>
                             </footer>
                         </article>
                         <article class="enrollment__box enrollment__business-info" ng-if="customerType == 'commercial' && cartHasMobile()">
@@ -889,6 +889,37 @@
         </div>
         <div class="modal-body scrollable">
             @Html.Sitecore().Field("Content - Get TIN Instructions")
+        </div>
+    </div>
+</script>
+<script type="text/ng-template" id="autopay-warning">
+    <div class="autopay-modal">
+        <div class="modal-header">
+            <h2>@Html.Sitecore().Field("AutoPay - Heading")</h2>
+        </div>
+        <div class="modal-body">
+            <p>@Html.Sitecore().Field("AutoPay - Subheading")</p>            
+            <hr />
+            <div class="line" ng-repeat="item in getCartItems()" ng-init="offer = item.offerInformationByType[0].value.offerSelections[0].offer" ng-show="offer.nonAutoPayID != ''">
+                <h3>@Html.Sitecore().Field("AutoPay - Line Number")</h3>
+                <h3>@Html.Sitecore().Field("AutoPay - Line Name")</h3>
+                <p>@Html.Sitecore().Field("AutoPay - Line Details")</p>
+                <table>
+                    <tr>
+                        <td>@Html.Sitecore().Field("AutoPay - With Discount")</td>
+                        <td class="price">{{offer.rates[0].rateAmount | currency}}@Html.Sitecore().Field("AutoPay - Per Month")</td>
+                    </tr>
+                    <tr>
+                        <td>@Html.Sitecore().Field("AutoPay - Without Discount")</td>
+                        <td class="price">{{offer.rates[0].nonAutoPayPrice | currency}}@Html.Sitecore().Field("AutoPay - Per Month")</td>
+                    </tr>
+                </table>
+            </div>
+            <p class="note">@Html.Sitecore().Field("AutoPay - Note")</p>
+        </div>
+        <div class="modal-footer">
+            <a class="button secondary" href="" ng-click="turnOffAutoPay()">@Html.Sitecore().Field("AutoPay - Button - Turn Off")</a>
+            <a class="button primary" href="" ng-click="keepAutoPay()">@Html.Sitecore().Field("AutoPay - Button - Leave On")</a>
         </div>
     </div>
 </script>

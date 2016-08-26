@@ -1,0 +1,152 @@
+﻿@using StreamEnergy.MyStream.Controllers
+@using StreamEnergy.MyStream.Models.Marketing.Support
+@using Sitecore.Data.Fields
+@{
+    var categoryContent = Sitecore.Context.Database.GetItem("{E507A0DB-A122-406B-862E-6C163BCCA7E7}");
+
+    var modalIconURL = Sitecore.Resources.Media.MediaManager.GetMediaUrl(((ImageField)categoryContent.Fields["Modal Icon"]).MediaItem);
+    var headsetIconURL = Sitecore.Resources.Media.MediaManager.GetMediaUrl(((ImageField)categoryContent.Fields["Headset Icon"]).MediaItem);
+    var mailIconURL = Sitecore.Resources.Media.MediaManager.GetMediaUrl(((ImageField)categoryContent.Fields["Mail Icon"]).MediaItem);
+
+    FAQCategory categoryItem = new FAQCategory(Sitecore.Context.Database.GetItem(Sitecore.Context.Item.Fields["Category"].Value));
+}
+<div class="support-container layout" ng-cloak>
+    <div class="category clearfix" id="pageScroll" ng-init="categoryInit(@StreamEnergy.Json.Stringify(categoryItem), @StreamEnergy.Json.Stringify(Request.QueryString["search"] ?? null))">
+        <div class="pagination-display clearfix" ng-show="searchResults">
+            <p><a href="" ng-click="backToSupport()" ng-show="searchResults">@categoryContent.Fields["Back to Support"]</a></p>
+            <p>
+                <span>@categoryContent.Fields["Showing"] {{resultsPageRange[resultsPage].low + 1}} - {{resultsPageRange[resultsPage].high + 1}} @categoryContent.Fields["of"] {{displayedFAQCount}}</span>
+                <span> @categoryContent.Fields["results for"] “{{searchedData.text}}”</span>
+                <span> @categoryContent.Fields["in"] {{searchedData.category.name}}</span>
+                <span ng-show="searchedData.state.name"> - {{searchedData.state.abbreviation}}</span>
+            </p>
+        </div>
+        <div class="faqs-heading" ng-show="!mobileAcronyms && category.states.length && !searchResults">
+            <h2>FAQs for {{category.name}}<span ng-show="searchData.state.name"> - {{searchData.state.name}}</span></h2>
+        </div>
+        <div class="pagination-spacer" ng-hide="searchResults || mobileAcronyms || category.states.length"></div>
+        <div class="faqs clearfix" ng-hide="mobileAcronyms">
+            <aside class="top">
+                <h4>@categoryContent.Fields["Keyword Heading"]</h4>
+                <div class="keyword">
+                    <p><a href="" ng-class="{selected: noKeywordSelected}" ng-click="toggleKeyword()">@categoryContent.Fields["All"]</a></p>
+                </div>
+                <div ng-repeat="keyword in keywords" class="keyword">
+                    <p ng-class="{selected: keyword.selected}"><a href="" ng-click="toggleKeyword(keyword)">{{keyword.name}}</a></p>
+                </div>
+                <hr />
+            </aside>
+            <article class="marketing">
+                <div class="content">
+                    <div class="faq" ng-repeat="faq in getDisplayedFAQs() track by $index" ng-show="splitFaqFilter($index)" ng-init="isHelpful = ''; helpfulSelected = false; feedback = '';" id="id{{faq.guid}}">
+                        <div class="question clearfix" ng-click="selectFaq($index)">
+                            <div class="plus-minus">
+                                <div class="plus" ng-class="{minus: faq.selected}"></div>
+                            </div>
+                            <a href="">{{faq.faqQuestion}}</a>
+                        </div>
+                        <div ng-if="faq.selected">{{scroll()}}</div>
+                        <div class="answer-container">
+                            <div class="triangle-up"></div>
+                            <div class="answer clearfix" ng-class="{reveal: faq.selected}">
+                                <div class="answer-content" ng-bind-html="faq.faqAnswer"></div>
+                                <div class="helpful">
+                                    <p ng-hide="faq.feedbackSent || faq.feedbackError">
+                                        <label for="helpful">@categoryContent.Fields["Helpful Label"]</label>
+                                        <input type="radio" name="helpful" ng-model="isHelpful" ng-change="helpfulSelected = true" ng-value="true" /> @categoryContent.Fields["Yes"]
+                                        <input type="radio" name="helpful" ng-model="isHelpful" ng-change="helpfulSelected = true" ng-value="false" /> @categoryContent.Fields["No"]
+                                    </p>
+                                    <div class="response" ng-show="faq.feedbackSent">
+                                        <p>@categoryContent.Fields["Feedback Sent Text"]</p>
+                                        <button class="button primary" ng-click="isHelpful = null; helpfulSelected = false; feedback = ''; faq.feedbackError = false; faq.feedbackSent = false">@categoryContent.Fields["Feedback Reset Text"]</button>
+                                    </div>
+                                    <div class="response" ng-show="faq.feedbackError">
+                                        <p>@categoryContent.Fields["Feedback Error Text"]</p>
+                                        <button class="button primary" ng-click="isHelpful = null; helpfulSelected = false; feedback = ''; faq.feedbackError = false; faq.feedbackSent = false">@categoryContent.Fields["Feedback Reset Text"]</button>
+                                    </div>
+                                    <div class="response" ng-show="helpfulSelected && !faq.feedbackSent && !faq.feedbackError">
+                                        <p>@categoryContent.Fields["Thanks for your feedback"]</p>
+                                        <textarea placeholder="@categoryContent.Fields["Comment Placeholder"]" ng-model="feedback"></textarea>
+                                        <button class="button primary" ng-click="sendFeedback(faq, isHelpful, feedback)">@categoryContent.Fields["Submit"]</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="pagination-container">
+                    <div class="pagination clearfix" ng-show="getDisplayedFAQs().length > resultsPerPage">
+                        <div class="back">
+                            <div ng-click="setResultsPage(0)"><a href="" ng-class="{disabled: resultsPage == 0}">@categoryContent.Fields["First"]</a></div>
+                            <div ng-click="setResultsPage(resultsPage - 1)"><a href="" ng-class="{disabled: resultsPage == 0}">@categoryContent.Fields["Previous"]</a></div>
+                        </div>
+                        <div class="page-numbers">
+                            <div class="content clearfix">
+                                <div class="page-number" ng-repeat="page in resultsPageRange" ng-show="pageFilter1($index)" ng-class="{selected: resultsPage == $index}" ng-click="setResultsPage($index)">{{$index + 1}}</div>
+                                <div ng-show="pageFilter2()">...</div>
+                                <div class="page-number" ng-repeat="page in resultsPageRange" ng-show="pageFilter3($index)" ng-class="{selected: resultsPage == $index}" ng-click="setResultsPage($index)">{{$index + 1}}</div>
+                                <div ng-show="pageFilter4()">...</div>
+                                <div class="page-number" ng-repeat="page in resultsPageRange" ng-show="pageFilter5($index)" ng-class="{selected: resultsPage == $index}" ng-click="setResultsPage($index)">{{$index + 1}}</div>
+                            </div>
+                        </div>
+                        <div class="forward">
+                            <div ng-click="setResultsPage(resultsPage + 1)"><a href="" ng-class="{disabled: resultsPage == resultsPages - 1}">@categoryContent.Fields["Next"]</a></div>
+                            <div ng-click="setResultsPage(resultsPageRange.length - 1)"><a href="" ng-class="{disabled: resultsPage == resultsPages - 1}">@categoryContent.Fields["Last"]</a></div>
+                        </div>
+                    </div>
+                </div>
+            </article>
+            <aside class="bottom">
+                <div class="contact" ng-hide="category.states.length && !searchData.state">
+                    <div class="headset">
+                        <img src="@headsetIconURL" />
+                        <h4>@categoryContent.Fields["Still having Issues"]</h4>
+                        <p>@categoryContent.Fields["Please Contact"]</p>
+                    </div>
+                    <div class="contact-info" ng-hide="category.states.length">
+                        <div ng-bind-html="category.contactContent"></div>
+                        <p ng-show="category.name == 'Mobile'"><a href="" ng-click="mobileAcronyms = true">@categoryContent.Fields["Mobile Acronyms"]</a></p>
+                    </div>
+                    <div class="contact-info" ng-show="category.states.length">
+                        <div ng-bind-html="searchData.state.contactContent"></div>
+                        <p><a href="" ng-click="showModal('emergency-contact')">@categoryContent.Fields["Emergency Contacts"]</a></p>
+                    </div>
+                </div>
+            </aside>
+        </div>
+        @Html.Partial("~/Views/Components/Support Center/Mobile Acronyms.cshtml")
+        <div class="address-footer clearfix">
+            <img src="@mailIconURL" />
+            <p>@categoryContent.Fields["Address"]</p>
+        </div>
+        <div class="secondary-footer">
+            <p>@categoryContent.Fields["Contact Link"].Value.AsHtml()</p>
+        </div>
+    </div>
+</div>
+<script type="text/ng-template" id="emergency-contact">
+    <div class="support-modal">
+        <div class="modal-header">
+            <a href="" ng-click="$dismiss()">Close</a>
+            <h2>@categoryContent.Fields["Modal Heading"] - {{category.name}}<span ng-show="searchData.state"> - {{searchData.state.abbreviation}}</span></h2>
+            <p>@categoryItem.EmergencyContactSubheading.AsHtml()</p>
+            <img class="life-preserver" src="@modalIconURL" />
+            <div ng-show="category.states">
+                <span>
+                    @categoryContent.Fields["State Select Label"]
+                    <select ng-model="selectedStateName"
+                            ng-change="selectCategoryByName(category, selectedStateName)"
+                            ng-options="state.name as state.name for state in category.states">
+                        <option disabled value="">@categoryContent.Fields["Select State Text"]</option>
+                    </select>
+                </span>
+            </div>
+        </div>
+        <div class="modal-body">
+            <div class="content" ng-hide="category.states">
+                @categoryItem.EmergencyContactContent.AsHtml()
+            </div>
+            <div ng-bind-html="searchData.state.emergencyContactContent" ng-show="category.states"></div>
+        </div>
+    </div>
+</script>

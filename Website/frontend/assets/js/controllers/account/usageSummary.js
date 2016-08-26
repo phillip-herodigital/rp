@@ -37,12 +37,21 @@ ngApp.controller('AcctUsageSummaryCtrl', ['$scope', '$rootScope', '$http', '$win
 
                 $scope.data.lastBillingDate = new Date($scope.data.billFromDate);
                 $scope.data.nextBillingDate = new Date($scope.data.billToDate);
-            
+                
+                $scope.hasNoSubAccounts = $scope.data.subAccountCount < 1;
+
                 if ($scope.data.nextBillingDate < new Date()) {
                     $scope.data.nextBillingDate = new Date();
                 }
 
-                updateDeviceTotals();
+                try {
+                    updateDeviceTotals();
+                }
+                catch (e) {
+                    $scope.isLoading = false;
+                    $scope.streamConnectError = true;
+                    return;
+                }
 
                 $scope.isLoading = $scope.streamConnectError = false;
             }, function () {

@@ -25,6 +25,10 @@ using Sitecore.Data.Items;
 using System.Text.RegularExpressions;
 using Microsoft.VisualBasic.FileIO;
 using Newtonsoft.Json;
+using StackExchange.Redis;
+using System.Data.SqlClient;
+using System.Configuration;
+using System.Device.Location;
 
 namespace StreamEnergy.MyStream.Controllers.ApiControllers
 {
@@ -305,6 +309,173 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                         FAQItem.Fields["FAQ Answer"].Value = faqAnswer;
                         FAQItem.Appearance.Sortorder = sortOrder;
                         FAQItem.Editing.EndEdit();
+                    }
+                }
+                parser.Close();
+            }
+        }
+
+        [HttpGet]
+        [Route("paymentlocations/{lat}/{lng}/{maxLat}/{maxLon}/{minLat}/{minLon}")]
+        public List<PaymentLocation> Get(string lat, string lng, string maxLat, string maxLon, string minLat, string minLon)
+        {
+            List<PaymentLocation> results = new List<PaymentLocation>();
+            using (SqlConnection connection = new SqlConnection(Sitecore.Configuration.Settings.GetConnectionString("core")))
+            {
+                connection.Open();
+                using (SqlCommand command = connection.CreateCommand())
+                {
+                    command.CommandText = @"
+                        SELECT TOP 50 *, DEGREES(ACOS(COS(RADIANS(@centerLat))
+                                 * COS(RADIANS(Lat))
+                                 * COS(RADIANS(@centerLon - Lon))
+                                 + SIN(RADIANS(@centerLat))
+                                 * SIN(RADIANS(Lat)))) * 69 AS distance_in_mi FROM [paymentLocations] 
+                        WHERE Lat BETWEEN @minLat AND @maxLat
+                        AND Lon BETWEEN @minLon AND @maxLon
+                        ORDER BY distance_in_mi ASC";
+
+                    command.Parameters.AddWithValue("@minLat", minLat);
+                    command.Parameters.AddWithValue("@minLon", minLon);
+                    command.Parameters.AddWithValue("@maxLat", maxLat);
+                    command.Parameters.AddWithValue("@maxLon", maxLon);
+                    command.Parameters.AddWithValue("@centerLat", lat);
+                    command.Parameters.AddWithValue("@centerLon", lng);
+
+                    using (var reader = command.ExecuteReader())
+                    {
+                        if (reader.HasRows)
+                        {
+                            while (reader.Read())
+                            {
+                                PaymentLocation location = new PaymentLocation()
+                                {
+                                    Vender = (string)reader["vendor"],
+                                    Agent = (string)reader["agent"],
+                                    Name = (string)reader["location_name"],
+                                    AddressLine1 = (string)reader["address1"],
+                                    City = (string)reader["city"],
+                                    StateAbbreviation = (string)reader["state"],
+                                    PostalCode5 = (string)reader["zip"],
+                                    PhoneNumber = (string)reader["phone"],
+                                    Hours = (string)reader["hours"],
+                                    PaymentMethods = ((string)reader["pay_methods"]).Split("/".ToCharArray()).ToList(),
+                                    Lat = (double)reader["lat"],
+                                    Lon = (double)reader["lon"],
+                                    Distance = (double)reader["distance_in_mi"],
+                                };
+                                results.Add(location);
+                            }
+                        }
+                    }
+                    return results;
+                }
+            }
+        }
+
+        [HttpGet]
+        [Route("importenergyfaqdata")]
+        public void ImportFAQData(string path)
+        {
+            Item EnergyFAQFolder = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Components/Support/FAQs/Energy FAQs");
+            TemplateItem FAQTemplate = Sitecore.Context.Database.GetTemplate("User Defined/Components/Support/State FAQ");
+            Item EnergySubcategoryFolder = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Components/Support/Subcategories/Energy");
+            String EnergyCategoryGuid = "{D009C153-3D1F-4C58-A984-7C4AC60612B3}";
+            //string GeorgiaGuid = "{CF5BAF5B-35B4-4AE0-8F3A-F9F10F332A55}";
+            //string MarylandGuid = "{62775FBA-8066-4D70-B575-8BA70A9E26D0}";
+            //string NewJerseyGuid = "{AF7168F9-D030-4598-B5D2-7F5459DE3808}";
+            //string NewYorkGuid = "{FD9206D6-844E-4476-AC18-FF833A36F99A}";
+            //string PennsylvaniaGuid = "{7224504C-1989-4410-B8E4-A3D536958E35}";
+            //string TexasGuid = "{C524C6E6-7BEE-402E-BC3F-ACC22E90A8CC}";
+            //string DCGuid = "{55CAD77F-9736-4D3B-94E6-502252A81D9A}";
+
+            string stateGuid = "{C524C6E6-7BEE-402E-BC3F-ACC22E90A8CC}";
+
+            List<Item> EnergySubcategoryItems = new List<Item>();
+            Item FAQItem;
+            bool updated = false;
+            using (new Sitecore.SecurityModel.SecurityDisabler())
+            {
+                //foreach (Item child in EnergyFAQFolder.Children)
+                //{
+                //    child.Delete();
+                //}
+
+                foreach (Item child in EnergySubcategoryFolder.Children)
+                {
+                    EnergySubcategoryItems.Add(child);
+                }
+                TextFieldParser parser = new TextFieldParser(path);
+                parser.TextFieldType = Microsoft.VisualBasic.FileIO.FieldType.Delimited;
+                parser.SetDelimiters(",");
+
+                var Spanish = Sitecore.Globalization.Language.Parse("es");
+                while (!parser.EndOfData)
+                {
+                    string[] fields = parser.ReadFields();
+                    string pattern = @"[^\w\s\-\$]"; // only allow \w, \s, -, and $ for Sitecore Item names
+                    Regex rgx = new Regex(pattern);
+                    string[] faqSubcategoryNames = fields[0].Split("|".ToCharArray());
+                    string faqSubcategory = "";
+
+                    foreach (string faqSubcategoryName in faqSubcategoryNames)
+                    {
+                        faqSubcategory += EnergySubcategoryItems.First(s => s.Fields["Name"].ToString() == faqSubcategoryName).ID.ToString();
+                    }
+                    faqSubcategory.Replace("}{", "}|{");
+                    int sortOrder = Convert.ToInt16(fields[1]);
+                    string faqQuestion = fields[2];
+                    string faqAnswer = fields[3];
+                    string faqQuestionES = "";
+                    string faqAnswerES = "";
+                    if (fields.Length == 6)
+                    {
+                        faqQuestionES = fields[4];
+                        faqAnswerES = fields[5];
+                    }
+                    string faqQuestionItemName = rgx.Replace(faqQuestion, "");
+                    if (faqQuestionItemName.Length > 99)
+                    {
+                        faqQuestionItemName = faqQuestionItemName.Substring(0, 99);
+                    }
+                    updated = false;
+                    foreach (Item child in EnergyFAQFolder.Children)
+                    {
+                        if (!updated && child.Fields["FAQ Question"].Value == faqQuestion && child.Fields["FAQ Answer"].Value == faqAnswer && child.Fields["FAQ Subcategories"].Value == faqSubcategory && child.Fields["FAQ Categories"].Value == EnergyCategoryGuid)
+                        {
+                            FAQItem = child;
+                            FAQItem.Editing.BeginEdit();
+                            FAQItem.Fields["FAQ States"].Value = FAQItem.Fields["FAQ States"].ToString() + "|" + stateGuid;
+                            FAQItem.Editing.EndEdit();
+                            updated = true;
+                        }
+                    }
+                    if (!updated)
+                    {
+                        FAQItem = EnergyFAQFolder.Add(faqQuestionItemName, FAQTemplate);
+                        FAQItem.Editing.BeginEdit();
+                        FAQItem.Fields["FAQ Question"].Value = faqQuestion;
+                        FAQItem.Fields["FAQ Answer"].Value = faqAnswer;
+                        FAQItem.Fields["FAQ Subcategories"].Value = faqSubcategory;
+                        FAQItem.Fields["FAQ Categories"].Value = EnergyCategoryGuid;
+                        FAQItem.Fields["FAQ States"].Value = stateGuid;
+                        FAQItem.Appearance.Sortorder = sortOrder;
+                        FAQItem.Editing.EndEdit();
+                        if (fields.Length == 6) //if spanish content
+                        {
+                            using (new Sitecore.Globalization.LanguageSwitcher("es"))
+                            {
+                                if (FAQItem.Versions.Count == 0)
+                                {
+                                    Item FAQItemES = Sitecore.Context.Database.GetItem(FAQItem.ID, Spanish);
+                                    FAQItemES.Editing.BeginEdit();
+                                    FAQItemES.Versions.AddVersion();
+                                    FAQItemES.Fields["FAQ Question"].Value = faqQuestionES;
+                                    FAQItemES.Fields["FAQ Answer"].Value = faqAnswerES;
+                                    FAQItemES.Editing.EndEdit();
+                                }
+                            }
+                        }
                     }
                 }
                 parser.Close();
