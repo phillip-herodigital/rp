@@ -83,12 +83,27 @@
                                         </div>
                                         <div class="rate">{{ getOfferPrice(selectedOffer.offerId) | currency }}</div>
                                     </div>
-                                    <div class="line-item clearfix" ng-if="selectedOffer.payments.requiredAmounts[0].taxTotal > 0">
+                                    <div class="line-item taxes clearfix" ng-if="selectedOffer.payments.requiredAmounts[0].taxTotal > 0">
                                         <div class="description">
                                             <h3>@Html.Sitecore().Field("Sales Tax Text")</h3>
                                             <p class="note">@Html.Sitecore().Field("Sales Tax Description")</p>
                                         </div>
                                         <div class="rate">{{ selectedOffer.payments.requiredAmounts[0].taxTotal | currency }}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div ng-if="isAddLine">
+                        <div ng-repeat="subAccount in addLineSubAccounts">
+                            <div class="mobile-services">
+                                <div class="plan-summary">
+                                    <div class="line-item clearfix">
+                                        <div class="description">
+                                            <h3 class="subheading">@Html.Sitecore().Field("Text - Existing Plan Description")</h3>
+                                            <div class="details">@Html.Sitecore().Field("Text - Existing Plan Details")</div>
+                                        </div>
+                                        <div class="rate">{{ subAccount.cost | currency }}</div>
                                     </div>
                                 </div>
                             </div>

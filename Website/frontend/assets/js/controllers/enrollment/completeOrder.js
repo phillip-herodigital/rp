@@ -32,6 +32,9 @@ ngApp.controller('EnrollmentCompleteOrderCtrl', ['$scope', 'enrollmentService', 
     $scope.llcClassifcation = '';
     $scope.currentDate = new Date();
     $scope.paymentError = enrollmentService.getPaymentError;
+    $scope.isAddLine = enrollmentService.isAddLine;
+    $scope.addLineSubAccounts = enrollmentService.addLineSubAccounts;
+    $scope.addLineAutoPay = enrollmentService.addLineAutoPay;
 
 
     _.intersectionObjects = _.intersect = function(array) {

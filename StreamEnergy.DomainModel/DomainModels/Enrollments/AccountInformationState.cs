@@ -21,7 +21,7 @@ namespace StreamEnergy.DomainModels.Enrollments
         public override IEnumerable<System.Linq.Expressions.Expression<Func<UserContext, object>>> PreconditionValidations(UserContext data, InternalContext internalContext)
         {
             yield return context => context.Services;
-            if (!data.IsRenewal)
+            if (!data.IsRenewal && !data.IsAddLine)
             {
                 yield return context => context.ContactInfo;
                 yield return context => context.Language;
@@ -42,7 +42,7 @@ namespace StreamEnergy.DomainModels.Enrollments
 
         public override IEnumerable<ValidationResult> AdditionalValidations(UserContext context, InternalContext internalContext)
         {
-            if (!context.IsRenewal && context.SocialSecurityNumber == null && context.TaxId == null)
+            if (!context.IsRenewal && !context.IsAddLine && context.SocialSecurityNumber == null && context.TaxId == null)
             {
                 yield return new ValidationResult("Tax Id or SSN Required", new[] { "SocialSecurityNumber", "TaxId" });
             }

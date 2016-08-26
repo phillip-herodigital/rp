@@ -351,7 +351,7 @@ namespace StreamEnergy.Services.Clients
                                CurrentProvider = context.PreviousProvider,
                                EmailAddress = context.ContactInfo.Email.Address,
                                Accounts = from account in systemOfRecordSet
-                                          select systemOfRecordSet.Key.ToEnrollmentAccount(globalCustomerId, account, context.EnrolledInAutoPay),
+                                          select systemOfRecordSet.Key.ToEnrollmentAccount(globalCustomerId, account, context.EnrolledInAutoPay, context.AddLineAccountNumber),
                                TrustEvCaseId = context.TrustEvCaseId,
                                TrustEvSessionId = context.TrustEvSessionId,
                            }).ToArray();
@@ -685,6 +685,7 @@ namespace StreamEnergy.Services.Clients
                 TrustEvCaseId = context.TrustEvCaseId,
                 ShouldFailOnPaymentFailure =  hasAllMobile,
                 EnableAutoPay = context.EnrolledInAutoPay,
+                AddLineAccountNumber = context.AddLineAccountNumber ?? null
             });
 
             var asyncUrl = response.Headers.Location;

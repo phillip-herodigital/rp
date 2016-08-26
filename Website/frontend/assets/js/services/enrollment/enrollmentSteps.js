@@ -8,7 +8,8 @@ ngApp.factory('enrollmentStepsService', ['$rootScope', 'scrollService', 'jQuery'
     var currentStep = {};
     var initialFlow,
         currentFlow,
-        isRenewal;
+        isRenewal,
+        isAddLine;
 
     //List of steps for the enrollment process
     var steps = {};
@@ -159,6 +160,32 @@ ngApp.factory('enrollmentStepsService', ['$rootScope', 'scrollService', 'jQuery'
             isRenewal = true;
         },
 
+        setAddLine: function (accountNumber) {
+            delete steps.accountInformation;
+            isAddLine = true;
+
+            var accountData = {
+                accountNumber: accountNumber
+            };
+
+            flows.phone = {
+                'serviceInformation': {
+                    name: 'phoneFlowDevices',
+                    previous: []
+                },
+                'deviceSelection': {
+                    name: 'phoneFlowDevices',
+                    previous: []
+                },
+                'planSelection': {
+                    name: 'phoneFlowPlans',
+                    previous: ['phoneFlowDevices']
+                }
+            }
+        },
+        isAddLine: function(){
+            return isAddLine;
+        },
         setInitialFlow: function (flow) {
             initialFlow = flow;
             currentFlow = flow;
@@ -203,7 +230,12 @@ ngApp.factory('enrollmentStepsService', ['$rootScope', 'scrollService', 'jQuery'
             else if (expectedState == 'errorHardStop') {
                 $window.location.href = '/enrollment/please-contact';
             }
-            else if (expectedState == 'planSettings' && isRenewal) {
+            else if (expectedState == 'planSettings' && (isRenewal)) {
+               service.setStep('reviewOrder');
+               service.setMaxStep('reviewOrder');
+                
+            }
+            else if (expectedState == "accountInformation" && isAddLine) {
                 service.setStep('reviewOrder');
                 service.setMaxStep('reviewOrder');
             }
