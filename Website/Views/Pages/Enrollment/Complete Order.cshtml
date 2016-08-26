@@ -414,7 +414,7 @@
         </div>
         <div>
             <div class="description fee">Monthly Plan</div>
-            <div class="rate">{{selectedOffer.payments.requiredAmounts[0].phoneCharge | currency}}</div>
+            <div class="rate">{{getOfferPrice(selectedOffer.offerId) | currency}}</div>
         </div>
         <div ng-if="selectedOffer.payments.requiredAmounts[0].taxTotal > 0">
             <div class="description fee">
@@ -651,7 +651,7 @@
                     <h2>@Html.Sitecore().Field("Text - Plan Description")</h2>
                     <div class="details">@Html.Sitecore().Field("Text - Plan Details")</div>
                 </div>
-                <div class="rate device-price" ng-if="selectedOffer.payments.requiredAmounts[0].phoneCharge > 0">{{ selectedOffer.payments.requiredAmounts[0].phoneCharge | currency }}</div>
+                <div class="rate device-price" ng-if="selectedOffer.payments.requiredAmounts[0].phoneCharge > 0">{{ getOfferPrice(selectedOffer.offerId) | currency }}</div>
             </div>
             <div class="line-item autopay subheading" ng-show="completeOrder.autopay && cartHasMobile()">
                 <div class="description">

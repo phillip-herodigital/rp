@@ -3,7 +3,7 @@
     needing to know which steps are next. This will allow the main controller
     or any other controller to turn on and off steps as needed when new products are added.
 */
-ngApp.factory('enrollmentStepsService', ['$rootScope', 'scrollService','$http', 'jQuery', '$timeout', '$window', '$location', function ($rootScope, scrollService,$http, jQuery, $timeout, $window, $location) {
+ngApp.factory('enrollmentStepsService', ['$rootScope', 'scrollService', 'jQuery', '$timeout', '$window', '$location', 'analytics', function ($rootScope, scrollService, jQuery, $timeout, $window, $location, analytics) {
     //Only currentStep is visible
     var currentStep = {};
     var initialFlow,
@@ -239,8 +239,6 @@ ngApp.factory('enrollmentStepsService', ['$rootScope', 'scrollService','$http', 
                 service.setStep('reviewOrder');
                 service.setMaxStep('reviewOrder');
             }
-
-
             else if (flows[currentFlow] && flows[currentFlow][expectedState]) {
                 for (var i = 0; i < flows[currentFlow][expectedState].previous.length; i++) {
                     var stateName = flows[currentFlow][expectedState].previous[i];
@@ -317,6 +315,9 @@ ngApp.factory('enrollmentStepsService', ['$rootScope', 'scrollService','$http', 
             currentStep = steps[id];
             if (!currentStep)
                 console.log('not found', id);
+            else analytics.sendTags({
+                EnrollmentStep: id
+            });
             currentStep.isCurrent = true;
             service.activateStep(id);
             this.scrollToStep(id, 'fast', function() {

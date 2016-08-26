@@ -187,6 +187,15 @@
             18, $scope.phoneOptions.phoneOS,
             19, $scope.phoneOptions.iccidNumber);
 
+        analytics.sendTags({
+            EnrollmentMobileData: $scope.selectedPlan.data,
+            EnrollmentMobileNewNumber: $scope.phoneOptions.type == "new",
+            EnrollmentPlanID: $scope.selectedPlan.id,
+            EnrollmentPhoneOS: $scope.phoneOptions.phoneOS,
+            ICCID: $scope.phoneOptions.iccidNumber,
+            EnrollmentProductTypeInCart: "Mobile"
+        });
+
         $scope.currentMobileLocationInfo().offerInformationByType[0].value.offerSelections = offerSelections;
         $scope.currentMobileLocationInfo().location.address.line1 = angular.copy($scope.phoneOptions.imeiNumber);
         if (addLine) {
@@ -195,6 +204,9 @@
             enrollmentStepsService.hideStep('phoneFlowPlans');
         }
         else {
+            analytics.sendTags({
+                EnrollmentNumberOfEndpoints: enrollmentCartService.getServiceCount()
+            });
             enrollmentService.setAccountInformation();
             $scope.selectedPlan = {};
         }
@@ -228,6 +240,11 @@
                 enrollmentService.isLoading = false;
                 $scope.showChangeLocation = false;
                 if (data.length != 0) {
+                    analytics.sendTags({
+                        EnrollmentZipCode: $scope.postalCode5,
+                        EnrollmentCity: data[0],
+                        EnrollmentState: data[1]
+                    });
                     $scope.geoLocation = {
                         city: data[0],
                         state: data[1],

@@ -10,7 +10,7 @@
 			<h2>@Html.Sitecore().Field("Header Text")</h2>
 		</header>
         <div class="content" loading-indicator>
-            <form ng-submit="login()" data-val-bind-messages="validations">
+            <form ng-submit="login()" method="post" data-val-bind-messages="validations">
                 <div class="notice alert" ng-show="timeoutMessage" ng-cloak>
                     @Html.Sitecore().Field("Timeout Text")
                 </div>
