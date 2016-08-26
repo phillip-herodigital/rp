@@ -1,7 +1,7 @@
 ﻿/* Account Usage Summary Controller
  *
  */
-ngApp.controller('AcctUsageSummaryCtrl', ['$scope', '$rootScope', '$http', '$window', 'breakpoint', 'jQuery', 'mobileUsageService', 'enrollmentService', function ($scope, $rootScope, $http, $window, breakpoint, jQuery, mobileUsageService, enrollmentService) {
+ngApp.controller('AcctUsageSummaryCtrl', ['$scope', '$rootScope', '$http', '$window', 'breakpoint', 'jQuery', 'mobileUsageService', 'enrollmentService', function ($scope, $rootScope, $http, $window, breakpoint, $, mobileUsageService, enrollmentService) {
 
     var GIGA = 1000000;
 
