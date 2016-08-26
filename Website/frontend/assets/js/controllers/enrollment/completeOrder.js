@@ -83,7 +83,7 @@ ngApp.controller('EnrollmentCompleteOrderCtrl', ['$scope', 'enrollmentService', 
 
             if (_.some(enrollmentCartService.services, function (service) {
                 return _.some(service.offerInformationByType[0].value.offerSelections, function (selection) {
-                    return _.some(selection.payments.requiredAmounts, function (amount) {
+                    return _.some(selection.payments != null && selection.payments.requiredAmounts, function (amount) {
                         return amount.dollarAmount != 0;
                     });
                 });
