@@ -325,7 +325,9 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         [NonAction]
         public async Task<ClientData> SetupAddLine(DomainModels.Accounts.Account account)
         {
-            stateHelper.StateMachine.InternalContext.GlobalCustomerId = account.StreamConnectCustomerId;
+            stateHelper.Reset();
+            await stateHelper.EnsureInitialized().ConfigureAwait(false);
+            //stateHelper.StateMachine.InternalContext.GlobalCustomerId = account.StreamConnectCustomerId;
             stateHelper.State = typeof(ServiceInformationState);
             stateHelper.Context.IsAddLine = true;
             stateHelper.Context.AddLineAutoPay = account.AutoPay.IsEnabled;
