@@ -351,7 +351,7 @@ namespace StreamEnergy.Services.Clients
                                CurrentProvider = context.PreviousProvider,
                                EmailAddress = context.ContactInfo.Email.Address,
                                Accounts = from account in systemOfRecordSet
-                                          select systemOfRecordSet.Key.ToEnrollmentAccount(globalCustomerId, account, context.EnrolledInAutoPay, context.AddLineAccountNumber),
+                                          select systemOfRecordSet.Key.ToEnrollmentAccount(globalCustomerId, account, context.AddLineAccountNumber),
                                TrustEvCaseId = context.TrustEvCaseId,
                                TrustEvSessionId = context.TrustEvSessionId,
                            }).ToArray();
@@ -636,6 +636,10 @@ namespace StreamEnergy.Services.Clients
                                         group new { deposit.Location, deposit.Offer, DollarAmount = (depositAlternative ? amt.DepositAlternativeAmount : amt.DollarAmount) } by new { amt.SystemOfRecord, amt.DepositAccount, InvoiceType = (depositAlternative ? "DepositAlternative" : "Deposit") })
                 {
                     var depositAmount = deposit.Sum(d => d.DollarAmount);
+                    if (context.EnrolledInAutoPay && deposit.Key.SystemOfRecord == "BeQuick")
+                    {
+                        depositAmount = depositAmount - context.AutoPayDiscount;
+                    }
                     if (depositAmount == 0)
                     {
                         continue;

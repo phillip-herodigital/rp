@@ -331,7 +331,7 @@
     * 
     * @return {object}            Promise object returned when API call has successfully completed.
     */
-    service.setAutoPay = function (isAutoPay) {
+    service.toggleAutoPay = function () {
         var data = {};
         data.cart = _.map(enrollmentCartService.services, function (cartItem) {
             return {
@@ -351,8 +351,7 @@
                 })
             };
         });
-        data.isAutoPay = isAutoPay
-        makeCall("setAutoPay", data);
+        makeCall("toggleAutoPay", data);
     };
 
     /**
