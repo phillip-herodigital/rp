@@ -3747,6 +3747,9 @@ article.marketing.mobile.cdma-pricing-plans {
                 background-size: initial;
                 text-align: center;
                 padding: 20px 10px 15px 10px;
+                @include breakpoint(large) {
+                    width: 145px;
+                }
                 p.data {
                     font-size: 22px;
                 }
@@ -3769,6 +3772,9 @@ article.marketing.mobile.cdma-pricing-plans {
                     margin: 10px auto 0px auto;
                     span {
                         font-size: 18px;
+                    }
+                    img {
+                        max-width: 100% !important;
                     }
                     @include breakpoint(large) {
                         max-height: 55px;
