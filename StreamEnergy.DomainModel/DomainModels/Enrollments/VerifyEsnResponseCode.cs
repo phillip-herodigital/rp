@@ -26,5 +26,7 @@ namespace StreamEnergy.DomainModels.Enrollments
         BadFinancialStanding,
         ReCaptchaError,
         SuccessForeignDevice,
+        ForeignDeviceNotCompatible,
+        ForeignDeviceLocked,
     }
 }
