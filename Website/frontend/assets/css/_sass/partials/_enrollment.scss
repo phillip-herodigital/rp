@@ -1689,7 +1689,7 @@
         background-color: #fcfcfc;
     }
 
-    .mobile-services, .energy-services {
+    .mobile-services, .energy-services, .electricity-services, .gas-services {
         .plan-details {
         }
 
@@ -2041,6 +2041,16 @@
         }
     }
 
+    .order-complete-heading {
+        width: auto;
+    }
+
+    .order-complete-date {
+        float: right;
+        width: auto;
+        margin: 10px 0;
+    }
+
     .notice.alert {
         background-image: none;
         @include border-radius(0);
@@ -2053,6 +2063,10 @@
     }
 
     .next-steps {
+
+        .confirmation-number {
+            font-weight: 500;
+        }
 
         .mobile-header-content {
             color: #013c5b;
@@ -2239,6 +2253,24 @@
             @include border-radius(5px);
         }
 
+        .grid {
+            margin-top: 10px;
+
+            .labels {
+                width: 150px;
+                float: left;
+
+                .label {
+                    font-weight: 700;
+                }
+            }
+
+            .info {
+                float: left;
+                width: calc(100% - 150px);
+            }
+        }
+
         .contact {
             float: left;
             width: 100%;
@@ -2260,6 +2292,15 @@
             color: #333;
             font-size: 24px;
         }
+
+        .terms {
+            .term {
+                background: url('../i/icon/gray-check.png') no-repeat left 6px;
+                padding-left: 20px;
+                margin-bottom: 5px;
+            }
+        }
+
         .disclosure-documents {
             float: left;
         }
@@ -2286,7 +2327,7 @@
         background-color: #fff;
     }
 
-    .mobile-services, .energy-services {
+    .mobile-services, .electricity-services, .gas-services {
         .plan-details {
         }
 
@@ -2348,6 +2389,10 @@
             border-bottom: 1px solid #e6e6e6;
             padding-bottom: 30px;
 
+            .plan-info {
+                padding-left: 100px;
+            }
+
             .subheading {
                 font-size: 20px;
                 font-weight: 500;
@@ -2383,6 +2428,7 @@
                         color: #2d9a36;
                     }
                 }
+
                 .rate {
                     color: #2d9a36;
                     font-size: 18px;
@@ -2457,6 +2503,87 @@
             margin: 0 0 5px;
             font-size: 16px;
         }
+    }
+
+    .electricity-services {
+        .plan-summary {
+            padding-left: 0;
+        }
+
+        .plan-info {
+            padding-left: 60px !important;
+        }
+
+        .plan-summary-image {
+            left: 5px;
+        }
+
+        .service-info {
+            margin: 5px 0;
+
+            .label {
+                float: left;
+                width: 140px;
+                min-height: 1px;
+            }
+
+            .info {
+                float: left;
+
+                p {
+                    margin: 0;
+                }
+            }
+        }
+
+        .description {
+            &.sub-charge {
+                width: 200px;
+            }
+        }
+
+        .rate {
+            &.sub-charge {
+                width: auto;
+                font-weight: 300;
+
+                ul {
+                    list-style: none;
+                    padding: 0;
+                    margin: 0;
+
+                    li {
+                        display: inline-block;
+                    }
+                }
+            }
+        }
+
+        .contract-dates {
+            background-color: lightgrey;
+            margin: 10px -20px;
+            padding: 20px;
+
+            .contract-start, .contract-end {
+                width: calc(50% - 6px);
+                float: left;
+                text-align: center;
+
+                .label {
+                    font-weight: 700;
+                }
+            }
+
+            .arrow {
+                width: 12px;
+                height: 22px;
+                float: left;
+                background: url('../i/icon/grey-right-arrow.png') no-repeat center center;
+            }
+        }
+    }
+
+    .gas-services {
     }
 
     .mobile-services {
@@ -3069,6 +3196,7 @@
     Order confirmation page aside boxes
  */
  .enrollment-confirmation {
+
     .confirmation-banner {
         margin-top: -145px;
         margin-bottom: 71px;

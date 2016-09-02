@@ -28,6 +28,14 @@ ngApp.controller('EnrollmentConfirmationCtrl', ['$scope', '$window', 'enrollment
     $scope.totalAutoPaySavings = function () {
         return $scope.autoPayDiscount * $scope.getCartItems().length;
     }
+    var date = new Date();
+
+    $scope.todaysDate = date.getMonth().toString().concat("/", date.getDay(), "/", date.getYear().toString().slice(-2), " at ", date.getHours() < 13 ? date.getHours() : date.getHours() - 12, ":", date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes(), date.getHours() < 13 ? "AM" : "PM");
+
+    $scope.findInfo = function () {
+        var thing = $scope.getCartItems();
+        return enrollmentService;
+    };
 
     $scope.$watch(mobileEnrollmentService.getPhoneData, function (phoneData) {
         allPhones = phoneData;
@@ -93,6 +101,7 @@ ngApp.controller('EnrollmentConfirmationCtrl', ['$scope', '$window', 'enrollment
                 userName = userName.substring(slashPosition + 1);
             }
             $scope.accountInformation.userName = userName;
+            $scope.accountInformation.last4ssn = result.last4SSN;
             $scope.accountInformation.secondaryContactInfo = result.secondaryContactInfo || {};
             $scope.accountInformation.mailingAddress = result.mailingAddress || {};
             $scope.autopay = result.enrolledInAutoPay;

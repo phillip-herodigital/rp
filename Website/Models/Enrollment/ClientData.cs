@@ -19,6 +19,7 @@ namespace StreamEnergy.MyStream.Models.Enrollment
         public CustomerContact ContactInfo { get; set; }
         public Name SecondaryContactInfo { get; set; }
         public DriversLicense DriversLicense { get; set; }
+        public string Last4SSN { get; set; }
         public string Language { get; set; }
 
         // Identity verification

@@ -586,6 +586,7 @@ FROM [SwitchBack] WHERE ESIID=@esiId";
                 PaymentError = stateMachine.Context.PaymentError,
                 NeedsRefresh = isNeedsRefresh,
                 ContactInfo = stateMachine.Context.ContactInfo,
+                Last4SSN = stateMachine.Context.SocialSecurityNumber == null ? "" : stateMachine.Context.SocialSecurityNumber.Substring(5),
                 Language = stateMachine.Context.Language,
                 SecondaryContactInfo = stateMachine.Context.SecondaryContactInfo,
                 MailingAddress = stateMachine.Context.MailingAddress,

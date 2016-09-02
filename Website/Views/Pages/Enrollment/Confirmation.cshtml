@@ -13,7 +13,7 @@
                     <a class="print" href="" ng-click="onPrint()"><i class="icon-printer"></i>@Html.Sitecore().Field("Print")</a>
                 </header>
                 <div class="content">
-                    <p ng-if="customerType != 'commercial' && confirmationSuccess && !isRenewal && !cartHasMobile()">@Html.Sitecore().Field("Confirmation Paragraph")</p>
+                    <p ng-if="customerType != 'commercial' && confirmationSuccess && !isRenewal && !cartHasMobile()">@Html.Sitecore().Field("Confirmation Paragraph") <span class="confirmation-number">{{getCartItems()[0].offerInformationByType[0].value.offerSelections[0].confirmationNumber}}</span>.</p>
                     <p ng-if="customerType != 'commercial' && !confirmationSuccess && !cartHasMobile()">@Html.Sitecore().Field("Submitted Paragraph")</p>
                     <p ng-if="confirmationSuccess && isRenewal">@Html.Sitecore().Field("Renewal Paragraph")</p>
                     <div class="mobile-header-content" ng-if="cartHasMobile()">
@@ -52,7 +52,8 @@
             </article>
             <article class="verify-order enrollment__box">
                 <header>
-                    <h1>@Html.Sitecore().Field("Header - Order Summary")</h1>
+                    <h1 class="order-complete-heading">@Html.Sitecore().Field("Header - Order Summary")</h1>
+                    <p class="order-complete-date">Order Completed on {{todaysDate}}</p>
                 </header>
                 <div class="form content">
                     <div ng-repeat="(id, service) in getCartItems()">
@@ -60,13 +61,13 @@
                             <div ng-include src="'serviceConfirmation/' + offerInformation.key"></div>
                         </div>
                     </div>
-                    <div class="plan-summary" ng-if="getCartTotal() > 0">
-                        <div class="line-item">
-                            <div class="total">
-                                @Html.Sitecore().Field("Order Total Text") <strong>{{ getCartTotal() | currency }}</strong>
+                    @*<div class="plan-summary" ng-if="getCartTotal() > 0">
+                            <div class="line-item">
+                                <div class="total">
+                                    @Html.Sitecore().Field("Order Total Text") <strong>{{ getCartTotal() | currency }}</strong>
+                                </div>
                             </div>
-                        </div>
-                    </div>
+                        </div>*@
                 </div>
             </article>
             <article class="monthly-cost enrollment__box" ng-if="cartHasMobile()">
@@ -112,22 +113,38 @@
             </article>
             <article class="enrollment__box confirm-personal-info" ng-if="!cartHasMobile()">
                 <div class="content">
+                    <h2>@Html.Sitecore().Field("Header - Personal Information")</h2>
                     <div class="grid">
-                        <div class="col">
-                            <h2>@Html.Sitecore().Field("Header - Personal Information")</h2>
+                        <div class="labels">
+                            <div class="label">Name:</div>
+                            <div class="label">Phone:</div>
+                            <div class="label">Email:</div>
+                            <div class="label">Last 4 of SS#:</div>
+                            <div class="label">Billing Address:</div>
+                        </div>
+                        <div class="info">
                             <div class="contact">{{ accountInformation.contactInfo.name.first }} {{ accountInformation.contactInfo.name.last }}</div>
                             <div class="contact">{{ accountInformation.contactInfo.phone[0].number | phone }}</div>
                             <div class="contact">{{ accountInformation.contactInfo.email.address }}</div>
+                            <div class="contact">{{ accountInformation.last4ssn}}</div>
                             <div class="contact">
                                 {{ accountInformation.mailingAddress.line1 }}<span ng-if="accountInformation.mailingAddress.unitNumber">, {{ accountInformation.mailingAddress.unitNumber }}</span><span ng-if="accountInformation.mailingAddress.line2">, {{ accountInformation.mailingAddress.line2 }}</span><br>
                                 {{ accountInformation.mailingAddress.city }}, {{ accountInformation.mailingAddress.stateAbbreviation }} {{ accountInformation.mailingAddress.postalCode5 }}
                             </div>
                             <div class="disclosure-documents" ng-if="isRenewal">@Html.Sitecore().Field("Terms Notice")</div>
                         </div>
-                        <div class="col" ng-if="accountInformation.businessInformationName">
-                            <h2>@Html.Sitecore().Field("Header - Business Information")</h2>
+                    </div>
+                    <div class="grid" ng-if="accountInformation.businessInformationName">
+                        <h2>@Html.Sitecore().Field("Header - Business Information")</h2>
+                        <div class="labels">
+                            <div class="label">Business Name:</div>
+                            <div class="label">SSN:</div>
+                            <div class="label">EIN:</div>
+                            <div class="label">Business Address:</div>
+                        </div>
+                        <div class="info">
                             <div class="contact">{{ accountInformation.businessInformationName }}</div>
-                            <div class="contact" ng-if="businessInformation.socialSecurityNumber">SSN: {{ businessInformation.socialSecurityNumber | maskNumber }}</div>
+                            <div class="contact" ng-if="businessInformation.socialSecurityNumber">{{ businessInformation.socialSecurityNumber | maskNumber }}</div>
                             <div class="contact" ng-if="businessInformation.taxId">EIN: {{ businessInformation.taxId | maskNumber }}</div>
                             <div class="contact" ng-if="!businessInformation.businessAddressSame">
                                 {{ businessInformation.businessAddress.line1 }}<span ng-if="businessInformation.businessAddress.unitNumber">, {{ businessInformation.businessAddress.unitNumber }}</span><br>
@@ -139,6 +156,13 @@
                             </div>
                         </div>
                     </div>
+                    <hr />
+                    <div class="terms">
+                        <div class="term">I have read, understand, and accept Stream’s Terms and Conditions.</div>
+                        <div class="term">I agree to allow Stream to communicate with me about my service by various means of communication.</div>
+                        <div class="term">Lorem ipsum dolor sit amet, consectetur adipisicing elit, nostrud vero accusamus.</div>
+                    </div>
+                    <hr />
                     <div ng-if="customerType == 'residential' && cartHasTxLocation()">@Html.Sitecore().Field("Terms Notice")</div>
                     <div ng-if="customerType == 'residential' && !cartHasTxLocation()&& !cartHasMobile()">@Html.Sitecore().Field("GA Terms Notice")</div>
                 </div>
@@ -146,75 +170,101 @@
         </section>
     </div>
 </div>
-
 <script type="text/ng-template" id="serviceConfirmation/TexasElectricity">
     <div ng-repeat="selectedOffer in offerInformation.value.offerSelections">
+        <button ng-click="findInfo()">Find Info</button>
         <div class="services-header">
             <div class="service-title">
                 @Html.Sitecore().Field("Energy Services Text")
             </div>
-            <div class="service-description">
-                @Html.Sitecore().Field("Service Address Label") {{ service.location.address | address}}
-            </div>
         </div>
-
         <div ng-if="!selectedOffer.confirmationSuccess" ng-cloak>
             <div class="notice alert">
                 @Html.Sitecore().Field("Confirmation Error")
             </div>
         </div>
-        <dl class="clearfix">
-            <dt>@Html.Sitecore().Field("Account Number")</dt>
-            <dd>{{ selectedOffer.confirmationNumber }}</dd>
-        </dl>
-
-        <div class="energy-services">
+        <div class="electricity-services">
             <div ng-repeat="selectedOffer in offerInformation.value.offerSelections">
                 <div class="plan-summary">
-                    <div class="plan-summary-image">
-                        <i class="icon-electricity-blue"></i>
-                    </div>
-                    <div class="line-item clearfix">
-                        <div class="description">
-                            <h2>{{selectedOffer.offer.name}}</h2>
+                    <div class="plan-info">
+                        <div class="plan-summary-image">
+                            <i class="icon-electricity-blue"></i>
                         </div>
-                        <div class="rate">{{selectedOffer.offer.rate}}&cent; @Html.Sitecore().Field("Per kWh")</div>
+                        <div class="line-item clearfix">
+                            <div class="description">
+                                <h2>{{selectedOffer.offer.name}}</h2>
+                            </div>
+                            <div class="rate">{{selectedOffer.offer.rate}}&cent; @Html.Sitecore().Field("Per kWh")</div>
+                        </div>
+                        <div class="included-thermostat" ng-if="selectedOffer.offer.includesThermostat">
+                            @Html.Sitecore().Field("Thermostat Text")
+                        </div>
+                        <div class="included-skydrop" ng-if="selectedOffer.offer.includesSkydrop">
+                            @Html.Sitecore().Field("Skydrop Text")
+                        </div>
+                        <div class="service-info clearfix">
+                            <div class="label">@Html.Sitecore().Field("Service Address Label"):</div>
+                            <div class="info">
+                                <p>{{ service.location.address.line1}}<span ng-if="service.location.address.unitNumber"> unit {{ service.location.address.unitNumber}}</span></p>
+                                <p>{{ service.location.address.city}}, {{ service.location.address.stateAbbreviation}} {{ service.location.address.postalCode5}}<span ng-if="service.location.address.postalCodePlus4">-{{ service.location.address.postalCodePlus4}}</span></p>
+                            </div>
+                        </div>
+                        <div class="service-info clearfix">
+                            <div class="label">ESI ID:</div><div class="info">{{service.location.capabilities[0].esiId}}</div>
+                        </div>
+                        <div class="service-info clearfix">
+                            <div class="label">TDSP:</div><div class="info">{{service.location.capabilities[0].tdu}}</div>
+                        </div>
+                        <div class="service-info clearfix">
+                            <div class="label">Effective Date:</div><div class="info">{{selectedOffer.offerOption.connectDate | date:'M/d/yyyy'}}</div>
+                        </div>
                     </div>
-                    <div class="included-thermostat" ng-if="selectedOffer.offer.includesThermostat">
-                        @Html.Sitecore().Field("Thermostat Text")
-                    </div>
-                    <div class="included-skydrop" ng-if="selectedOffer.offer.includesSkydrop">
-                        @Html.Sitecore().Field("Skydrop Text")
+                    <div class="contract-dates clearfix">
+                        <div class="contract-start" ">
+                            <span class="label">Estimated Contract Start Date: </span>Today
+                        </div>
+                        <div class="arrow"></div>
+                        <div class="contract-end">
+                            <span class="label">Estimated Contract End Date: </span>Tomorrow
+                        </div>
                     </div>
                     <div class="line-item clearfix" ng-if="!isRenewal && selectedOffer.offerOption.connectionFee != null">
-                        <div class="description sub-charge">
-                            <strong>@Html.Sitecore().Field("Installation Fee")  ({{selectedOffer.offerOption.connectDate | date:'M/d/yyyy'}})</strong>
-                        </div>
-                        <div class="rate">{{ selectedOffer.offerOption.connectionFee | currency }}</div>
+                        <div class="description sub-charge">Early Termination Fee</div>
+                        <div class="rate sub-charge">{{ selectedOffer.offer.terminationFee | currency }}</div>
+                    </div>
+                    <div class="line-item clearfix" ng-if="!isRenewal && selectedOffer.offerOption.connectionFee != null">
+                        <div class="description sub-charge">Minimum Usage Fee</div>
+                        <div class="rate sub-charge">{{ selectedOffer.offer.minimumUsageFee }}</div>
                     </div>
                     <div class="line-item clearfix" ng-if="isRenewal && selectedOffer.renewalConfirmation.contractStartDate != null">
                         <div class="description">
                             @Html.Sitecore().Field("Contract Start Date Header")
                         </div>
-                        <div class="rate">{{selectedOffer.renewalConfirmation.contractStartDate | date:'M/d/yyyy'}}</div>
+                        <div class="rate sub-charge">{{selectedOffer.renewalConfirmation.contractStartDate | date:'M/d/yyyy'}}</div>
                     </div>
-                    <div class="line-item clearfix" ng-repeat="payment in selectedOffer.payments.requiredAmounts" ng-if="payment.dollarAmount > 0 && !isRenewal" ng-include src="'payments/' + payment.offerPaymentAmountType"></div>
-                    <div class="plan-documents clearfix">
-                        <div class="description sub-charge"><strong>@Html.Sitecore().Field("Plan Documents Header")</strong></div>
-                        <div class="docs">
+                    <div class="line-item clearfix" ng-if="isRenewal && selectedOffer.renewalConfirmation.contractStartDate != null">
+                        <div class="description">
+                            @Html.Sitecore().Field("Contract Start Date Header")
+                        </div>
+                        <div class="rate sub-charge">{{selectedOffer.renewalConfirmation.contractStartDate | date:'M/d/yyyy'}}</div>
+                    </div>
+                    <div class="line-item clearfix">
+                        <div class="description sub-charge">Plan Documents</div>
+                        <div class="rate sub-charge">
                             <ul>
-                                <li><a ng-href="{{selectedOffer.offer.documents.electricityFactsLabel}}">@Html.Sitecore().Field("Electricity Facts Label Document")</a></li>
-                                <li><a ng-href="{{selectedOffer.offer.documents.termsOfService}}">@Html.Sitecore().Field("Terms Of Service Document")</a></li>
+                                <li><a ng-href="{{selectedOffer.offer.documents.electricityFactsLabel}}">@Html.Sitecore().Field("Electricity Facts Label Document") | </a></li>
+                                <li><a ng-href="{{selectedOffer.offer.documents.termsOfService}}">@Html.Sitecore().Field("Terms Of Service Document") | </a></li>
                                 <li><a ng-href="{{selectedOffer.offer.documents.yourRightsAsACustomer}}">@Html.Sitecore().Field("Your Rights As A Customer Document")</a></li>
                             </ul>
                         </div>
                     </div>
+                    <hr ng-hide="$parent.$parent.$parent.$parent.$last"/>
+                    @*<div class="line-item clearfix" ng-repeat="payment in selectedOffer.payments.requiredAmounts" ng-if="payment.dollarAmount > 0 && !isRenewal" ng-include src="'payments/' + payment.offerPaymentAmountType"></div>*@
                 </div>
             </div>
         </div>
     </div>
 </script>
-
 <script type="text/ng-template" id="serviceConfirmation/GeorgiaGas">
     <div ng-repeat="selectedOffer in offerInformation.value.offerSelections">
         <div class="services-header">
@@ -225,18 +275,12 @@
                 @Html.Sitecore().Field("Service Address Label") {{ service.location.address | address}}
             </div>
         </div>
-
         <div ng-if="!selectedOffer.confirmationSuccess" ng-cloak>
             <div class="notice alert">
                 @Html.Sitecore().Field("Confirmation Error")
             </div>
         </div>
-        <dl class="clearfix">
-            <dt>@Html.Sitecore().Field("Account Number")</dt>
-            <dd>{{ selectedOffer.confirmationNumber }}</dd>
-        </dl>
-
-        <div class="energy-services">
+        <div class="gas-services">
             <div ng-repeat="selectedOffer in offerInformation.value.offerSelections">
                 <div class="plan-summary">
                     <div class="plan-summary-image">
@@ -285,23 +329,21 @@
                 </div>
             </div>
         </div>
+        <hr ng-hide="$parent.$parent.$parent.$last"/>
     </div>
 </script>
-
 <script type="text/ng-template" id="serviceConfirmation/TexasElectricityCommercialQuote">
     <dl class="clearfix" ng-repeat="selectedOffer in offerInformation.value.offerSelections">
         <dt>@Html.Sitecore().Field("Confirmation Number")</dt>
         <dd>{{ selectedOffer.confirmationNumber }}</dd>
     </dl>
 </script>
-
 <script type="text/ng-template" id="serviceConfirmation/GeorgiaGasCommercialQuote">
     <dl class="clearfix" ng-repeat="selectedOffer in offerInformation.value.offerSelections">
         <dt>@Html.Sitecore().Field("Confirmation Number")</dt>
         <dd>{{ selectedOffer.confirmationNumber }}</dd>
     </dl>
 </script>
-
 <script type="text/ng-template" id="serviceConfirmation/Mobile">
     <div class="services-header" ng-if="id == 0">
         <div class="service-title">
@@ -315,7 +357,7 @@
         </div>
     </div>
     <div class="mobile-services" ng-repeat="dataPlan in getCartDataPlan()">
-        <div class="phone-summary"  ng-class="{autopaySpacing: !autopay}" ng-repeat="selectedOffer in offerInformation.value.offerSelections" ng-init="item = getConfirmationDeviceDetails(selectedOffer.offerOption)">
+        <div class="phone-summary" ng-class="{autopaySpacing: !autopay}" ng-repeat="selectedOffer in offerInformation.value.offerSelections" ng-init="item = getConfirmationDeviceDetails(selectedOffer.offerOption)">
             <div class="line-item clearfix">
                 <div class="phone-summary-image">
                     <i class="icon-byod"></i>
@@ -370,7 +412,6 @@
         </div>
     </div>
 </script>
-
 <script type="text/ng-template" id="headerContent/Mobile">
     <div ng-repeat="selectedOffer in offerInformation.value.offerSelections">
         <h3>@Html.Sitecore().Field("Text - New Line")</h3>
@@ -378,7 +419,6 @@
         <div class="details">{{ selectedOffer.payments.requiredAmounts[0].phoneCharge | currency }}@Html.Sitecore().Field("Text - Header Plan Details")</div>
     </div>
 </script>
-
 <script type="text/ng-template" id="payments/Deposit">
     <div ng-if="selectedOffer.depositType == 'Deposit'">
         <div class="description sub-charge">
