@@ -5,8 +5,15 @@ ngApp.controller('OneTimeRenewalCtrl', ['$scope', '$http', '$timeout', '$locatio
     var ctrl = this;
     ctrl.overrideWarnings = [];
 
-    $scope.isLoading = false;
+    $scope.isLoading = true;
     $scope.streamConnectError = false;
+
+    function getParameterByName(name) {
+        name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+        var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+            results = regex.exec(window.location.search);
+        return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+    }
 
     ctrl.lookupAccount = function () {
         ctrl.renewErrorMessage = false;
@@ -14,55 +21,60 @@ ngApp.controller('OneTimeRenewalCtrl', ['$scope', '$http', '$timeout', '$locatio
         ctrl.isCommercialTXMessage = false;
         ctrl.isCommercialGAMessage = false;
         ctrl.isOtherCommericalMessage = false;
-        var accountData = {
-            'AccountNumber': ctrl.accountNumber,
-            'Last4': ctrl.last4SSN
-        };
         $scope.isLoading = true;
-        $http.post('/api/account/setupAnonymousRenewal', accountData)
-                .success(function (data) {
-                    if (data.success) {
-                        if (data.availableForRenewal) {
-                            if (data.isCommercial) {
-                                ctrl.accountNumber = '';
-                                ctrl.last4SSN = '';
-                                $scope.validations = [];
-                                if (data.state == "TX") {
-                                    ctrl.isCommercialTXMessage = true;
-                                    $scope.isLoading = false;
-                                }
-                                if (data.state == "GA") {
-                                    ctrl.isCommercialGAMessage = true;
-                                    $scope.isLoading = false;
-                                }
-                                if (data.state == "") {
-                                    ctrl.isOtherCommericalMessage = true;
-                                    $scope.isLoading = false;
-                                }
+        $http.post('/api/account/setupAnonymousRenewal', {
+            'AccountNumber': ctrl.accountNumber,
+            'Last4': ctrl.last4SSN})
+            .success(function (data) {
+                $scope.isLoading = false;
+                if (data.success) {
+                    if (data.availableForRenewal) {
+                        if (data.isCommercial) {
+                            ctrl.accountNumber = '';
+                            ctrl.last4SSN = '';
+                            $scope.validations = [];
+                            if (data.state == "TX") {
+                                ctrl.isCommercialTXMessage = true;
                             }
-                            else {
-                                if (data.texasOrGeorgia) {
-                                    window.location.assign('/enrollment?renewal=true&renewalType=anon');
-                                }
-                                else {
-                                    $scope.isLoading = false;
-                                    ctrl.TXorGAErrorMessage = true;
-                                }
+                            if (data.state == "GA") {
+                                ctrl.isCommercialGAMessage = true;
+                            }
+                            if (data.state == "") {
+                                ctrl.isOtherCommericalMessage = true;
                             }
                         }
                         else {
-                            $scope.isLoading = false;
-                            ctrl.renewErrorMessage = true;
+                            if (data.texasOrGeorgia) {
+                                $scope.isLoading = true;
+                                window.location.assign('/enrollment?renewal=true&renewalType=anon');
+                            }
+                            else {
+                                ctrl.TXorGAErrorMessage = true;
+                            }
                         }
                     }
                     else {
-                        $scope.isLoading = false;
-                        ctrl.accountErrorMessage = true;
+                        ctrl.renewErrorMessage = true;
                     }
-                })
-                .error(function (error) {
-                    $scope.isLoading = false;
-                    $scope.streamConnectError = true;
-                });
+                }
+                else {
+                    ctrl.accountErrorMessage = true;
+                }
+            })
+            .error(function (error) {
+                $scope.isLoading = false;
+                $scope.streamConnectError = true;
+            });
+    }
+
+    var queryAcctNumber = getParameterByName("AcctNumber");
+    var queryLast4SSN = getParameterByName("Last4SSN");
+    if (queryAcctNumber && queryLast4SSN) {
+        ctrl.accountNumber = queryAcctNumber;
+        ctrl.last4SSN = queryLast4SSN;
+        ctrl.lookupAccount();
+    }
+    else {
+        $scope.isLoading = false;
     }
 }]);
