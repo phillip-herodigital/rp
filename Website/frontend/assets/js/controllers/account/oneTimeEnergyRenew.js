@@ -46,7 +46,12 @@ ngApp.controller('OneTimeRenewalCtrl', ['$scope', '$http', '$timeout', '$locatio
                         else {
                             if (data.texasOrGeorgia) {
                                 $scope.isLoading = true;
-                                window.location.assign('/enrollment?renewal=true&renewalType=anon');
+                                if (queryUtilityPlanId) {
+                                    window.location.assign('/enrollment?renewal=true&renewalType=anon&UtilityPlanId=' + queryUtilityPlanId);
+                                }
+                                else {
+                                    window.location.assign('/enrollment?renewal=true&renewalType=anon');
+                                }
                             }
                             else {
                                 ctrl.TXorGAErrorMessage = true;
@@ -69,6 +74,7 @@ ngApp.controller('OneTimeRenewalCtrl', ['$scope', '$http', '$timeout', '$locatio
 
     var queryAcctNumber = getParameterByName("AcctNumber");
     var queryLast4SSN = getParameterByName("Last4SSN");
+    var queryUtilityPlanId = getParameterByName("UtilityPlanId");
     if (queryAcctNumber && queryLast4SSN) {
         ctrl.accountNumber = queryAcctNumber;
         ctrl.last4SSN = queryLast4SSN;
