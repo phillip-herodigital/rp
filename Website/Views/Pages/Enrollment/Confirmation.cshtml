@@ -115,37 +115,43 @@
                 <div class="content">
                     <h2>@Html.Sitecore().Field("Header - Personal Information")</h2>
                     <div class="grid">
-                        <div class="labels">
+                        <div class="personal-info clearfix">
                             <div class="label">Name:</div>
+                            <div class="info">{{ accountInformation.contactInfo.name.first }} {{ accountInformation.contactInfo.name.last }}</div>
+                            </div>
+                        <div class="personal-info clearfix">
                             <div class="label">Phone:</div>
-                            <div class="label">Email:</div>
-                            <div class="label">Last 4 of SS#:</div>
-                            <div class="label">Billing Address:</div>
+                            <div class="info">{{ accountInformation.contactInfo.phone[0].number | phone }}</div>
                         </div>
-                        <div class="info">
-                            <div class="contact">{{ accountInformation.contactInfo.name.first }} {{ accountInformation.contactInfo.name.last }}</div>
-                            <div class="contact">{{ accountInformation.contactInfo.phone[0].number | phone }}</div>
-                            <div class="contact">{{ accountInformation.contactInfo.email.address }}</div>
-                            <div class="contact">{{ accountInformation.last4ssn}}</div>
-                            <div class="contact">
+                        <div class="personal-info clearfix">
+                            <div class="label">Email:</div>
+                            <div class="info">{{ accountInformation.contactInfo.email.address }}</div>
+                        </div>
+                        <div class="personal-info clearfix">
+                            <div class="label">Last 4 of SS#:</div>
+                            <div class="info">{{ accountInformation.last4ssn}}</div>
+                        </div>
+                        <div class="personal-info clearfix">
+                            <div class="label">Billing Address:</div>
+                            <div class="info">
                                 {{ accountInformation.mailingAddress.line1 }}<span ng-if="accountInformation.mailingAddress.unitNumber">, {{ accountInformation.mailingAddress.unitNumber }}</span><span ng-if="accountInformation.mailingAddress.line2">, {{ accountInformation.mailingAddress.line2 }}</span><br>
                                 {{ accountInformation.mailingAddress.city }}, {{ accountInformation.mailingAddress.stateAbbreviation }} {{ accountInformation.mailingAddress.postalCode5 }}
                             </div>
+                        </div>
+                        <div class="info">
                             <div class="disclosure-documents" ng-if="isRenewal">@Html.Sitecore().Field("Terms Notice")</div>
                         </div>
                     </div>
                     <div class="grid" ng-if="accountInformation.businessInformationName">
                         <h2>@Html.Sitecore().Field("Header - Business Information")</h2>
-                        <div class="labels">
+                        <div class="labels info">
                             <div class="label">Business Name:</div>
-                            <div class="label">SSN:</div>
-                            <div class="label">EIN:</div>
-                            <div class="label">Business Address:</div>
-                        </div>
-                        <div class="info">
                             <div class="contact">{{ accountInformation.businessInformationName }}</div>
+                            <div class="label" ng-if="businessInformation.socialSecurityNumber">SSN:</div>
                             <div class="contact" ng-if="businessInformation.socialSecurityNumber">{{ businessInformation.socialSecurityNumber | maskNumber }}</div>
-                            <div class="contact" ng-if="businessInformation.taxId">EIN: {{ businessInformation.taxId | maskNumber }}</div>
+                            <div class="label" ng-if="businessInformation.taxId">EIN:</div>
+                            <div class="contact" ng-if="businessInformation.taxId">{{ businessInformation.taxId | maskNumber }}</div>
+                            <div class="label">Business Address:</div>
                             <div class="contact" ng-if="!businessInformation.businessAddressSame">
                                 {{ businessInformation.businessAddress.line1 }}<span ng-if="businessInformation.businessAddress.unitNumber">, {{ businessInformation.businessAddress.unitNumber }}</span><br>
                                 {{ businessInformation.businessAddress.city }}, {{ businessInformation.businessAddress.stateAbbreviation }} {{ businessInformation.businessAddress.postalCode5 }}
@@ -158,9 +164,9 @@
                     </div>
                     <hr />
                     <div class="terms">
-                        <div class="term">I have read, understand, and accept Stream’s Terms and Conditions.</div>
-                        <div class="term">I agree to allow Stream to communicate with me about my service by various means of communication.</div>
-                        <div class="term">Lorem ipsum dolor sit amet, consectetur adipisicing elit, nostrud vero accusamus.</div>
+                        <div class="term"><div class="check" ng-class="{background: accountInformation.agreeToTerms}"><span ng-hide="accountInformation.agreeToTerms">x</span></div>I have read, understand, and accept Stream’s Terms and Conditions.</div>
+                        <div class="term"><div class="check" ng-class="{background: accountInformation.agreeToTCPATerms}"><span ng-hide="accountInformation.agreeToTCPATerms">x</span></div>I agree to allow Stream to communicate with me about my service by various means of communication.</div>
+                        <div class="term"><div class="check" ng-class="{background: accountInformation.agreeToAutoPayTerms}"><span ng-hide="accountInformation.agreeToAutoPayTerms">x</span></div>Lorem ipsum dolor sit amet, consectetur adipisicing elit, nostrud vero accusamus.</div>
                     </div>
                     <hr />
                     <div ng-if="customerType == 'residential' && cartHasTxLocation()">@Html.Sitecore().Field("Terms Notice")</div>
@@ -172,7 +178,6 @@
 </div>
 <script type="text/ng-template" id="serviceConfirmation/TexasElectricity">
     <div ng-repeat="selectedOffer in offerInformation.value.offerSelections">
-        <button ng-click="findInfo()">Find Info</button>
         <div class="services-header">
             <div class="service-title">
                 @Html.Sitecore().Field("Energy Services Text")
@@ -229,11 +234,11 @@
                         </div>
                     </div>
                     <div class="line-item clearfix" ng-if="!isRenewal && selectedOffer.offerOption.connectionFee != null">
-                        <div class="description sub-charge">Early Termination Fee</div>
+                        <div class="description sub-charge">Early Termination Fee:</div>
                         <div class="rate sub-charge">{{ selectedOffer.offer.terminationFee | currency }}</div>
                     </div>
                     <div class="line-item clearfix" ng-if="!isRenewal && selectedOffer.offerOption.connectionFee != null">
-                        <div class="description sub-charge">Minimum Usage Fee</div>
+                        <div class="description sub-charge">Minimum Usage Fee:</div>
                         <div class="rate sub-charge">{{ selectedOffer.offer.minimumUsageFee }}</div>
                     </div>
                     <div class="line-item clearfix" ng-if="isRenewal && selectedOffer.renewalConfirmation.contractStartDate != null">
@@ -249,11 +254,11 @@
                         <div class="rate sub-charge">{{selectedOffer.renewalConfirmation.contractStartDate | date:'M/d/yyyy'}}</div>
                     </div>
                     <div class="line-item clearfix">
-                        <div class="description sub-charge">Plan Documents</div>
+                        <div class="description sub-charge">Plan Documents:</div>
                         <div class="rate sub-charge">
                             <ul>
-                                <li><a ng-href="{{selectedOffer.offer.documents.electricityFactsLabel}}">@Html.Sitecore().Field("Electricity Facts Label Document") | </a></li>
-                                <li><a ng-href="{{selectedOffer.offer.documents.termsOfService}}">@Html.Sitecore().Field("Terms Of Service Document") | </a></li>
+                                <li><a ng-href="{{selectedOffer.offer.documents.electricityFactsLabel}}">@Html.Sitecore().Field("Electricity Facts Label Document")</a></li>
+                                <li><a ng-href="{{selectedOffer.offer.documents.termsOfService}}">@Html.Sitecore().Field("Terms Of Service Document")</a></li>
                                 <li><a ng-href="{{selectedOffer.offer.documents.yourRightsAsACustomer}}">@Html.Sitecore().Field("Your Rights As A Customer Document")</a></li>
                             </ul>
                         </div>

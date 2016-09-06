@@ -2065,7 +2065,7 @@
     .next-steps {
 
         .confirmation-number {
-            font-weight: 500;
+            font-weight: 400;
         }
 
         .mobile-header-content {
@@ -2251,23 +2251,35 @@
     .confirm-personal-info {
         .content {
             @include border-radius(5px);
+
+            p:last-child {
+                margin-bottom: 0;
+            }
         }
 
         .grid {
             margin-top: 10px;
 
-            .labels {
-                width: 150px;
-                float: left;
+            .personal-info {
 
                 .label {
+                    width: 150px;
+                    float: left;
                     font-weight: 700;
-                }
-            }
 
-            .info {
-                float: left;
-                width: calc(100% - 150px);
+                    @include breakpoint(small) {
+                        width: 100%;
+                    }
+                }
+
+                .info {
+                    float: left;
+                    width: calc(100% - 150px);
+
+                    @include breakpoint(small) {
+                        width: 100%;
+                    }
+                }
             }
         }
 
@@ -2295,9 +2307,17 @@
 
         .terms {
             .term {
-                background: url('../i/icon/gray-check.png') no-repeat left 6px;
-                padding-left: 20px;
                 margin-bottom: 5px;
+
+                .check {
+                    width: 16px;
+                    height: 24px;
+                    float: left;
+
+                    &.background {
+                        background: url('../i/icon/gray-check.png') no-repeat left 6px;
+                    }
+                }
             }
         }
 
@@ -2357,7 +2377,7 @@
         }
 
         .rate {
-            width: 29%;
+            width: 28%;
             display: inline-block;
             text-align: right;
             font-weight: 600;
@@ -2511,11 +2531,15 @@
         }
 
         .plan-info {
-            padding-left: 60px !important;
+            padding-left: 54px !important;
+
+            @include breakpoint(small) {
+                padding-left: 0 !important;
+            }
         }
 
         .plan-summary-image {
-            left: 5px;
+            left: 0;
         }
 
         .service-info {
@@ -2534,11 +2558,21 @@
                     margin: 0;
                 }
             }
+
+            @include breakpoint(small) {
+                .label {
+                    width: 100%;
+                }
+
+                .info {
+                    margin-left: 30px;
+                }
+            }
         }
 
         .description {
             &.sub-charge {
-                width: 200px;
+                width: 180px;
             }
         }
 
@@ -2554,14 +2588,33 @@
 
                     li {
                         display: inline-block;
+
+                        :after {
+                            content: "|";
+                            margin: 0 5px 0 10px;
+                        }
+
+                        &:last-child {
+                            :after {
+                                content: none;
+                            }
+                        }
+
+                        @include breakpoint(small) {
+                            display: flex;
+
+                            :after {
+                                content: none;
+                            }
+                        }
                     }
                 }
             }
         }
 
         .contract-dates {
-            background-color: lightgrey;
-            margin: 10px -20px;
+            background-color: #f2f2f2;
+            margin: 20px -20px;
             padding: 20px;
 
             .contract-start, .contract-end {
@@ -2572,6 +2625,14 @@
                 .label {
                     font-weight: 700;
                 }
+            }
+
+            .contract-start {
+                padding-right: 6px;
+            }
+
+            .contract-end {
+                padding-left: 6px;
             }
 
             .arrow {

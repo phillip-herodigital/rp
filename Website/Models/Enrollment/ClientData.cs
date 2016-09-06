@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using StreamEnergy.DomainModels;
 using StreamEnergy.DomainModels.Associate;
+using StreamEnergy.DomainModels.Enrollments;
 
 namespace StreamEnergy.MyStream.Models.Enrollment
 {
@@ -21,6 +22,11 @@ namespace StreamEnergy.MyStream.Models.Enrollment
         public DriversLicense DriversLicense { get; set; }
         public string Last4SSN { get; set; }
         public string Language { get; set; }
+
+        // Terms and Conditions
+        public bool AgreeToTerms { get; set; }
+        public bool AgreeToAutoPayTerms { get; set; }
+        public Dictionary<AdditionalAuthorization, bool> AdditionalAuthorizations { get; set; }
 
         // Identity verification
         public DomainModels.Enrollments.IdentityQuestion[] IdentityQuestions { get; set; }
