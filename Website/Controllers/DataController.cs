@@ -119,6 +119,7 @@ namespace StreamEnergy.MyStream.Controllers
                 disableInstallmentPlans = !string.IsNullOrEmpty(item.Fields["Disable Installment Plans"].Value) && Request.QueryString["InstallmentPlans"] != "true",
                 reCaptchaPublicKey = item.Fields["reCaptcha Public Key"].Value,
                 autoPayDiscount = item.Fields["AutoPay Discount"].Value,
+                allowAddDevice = !string.IsNullOrEmpty(item.Fields["Allow Add Device"].Value),
             };
 
             return this.Content(StreamEnergy.Json.Stringify(data));

@@ -24,6 +24,7 @@
     };
     service.loggedInAccountDetails = [];
     service.identityQuestions = [];
+    service.hitKIQ = false;
     service.paymentError = false;
     service.editPhoneIMEI = "";
 
@@ -84,12 +85,22 @@
         // set the identity questions from the server
         service.identityQuestions = result.identityQuestions;
 
+        if (result.identityQuestions) service.hitKIQ = true;
+
         // show an error message if there is an problem processing payemnt
         service.paymentError = result.paymentError;
 
         service.isRenewal = result.isRenewal;
         if (result.isRenewal) {
             enrollmentStepsService.setRenewal();
+        }
+
+        service.isAddLine = result.isAddLine;
+        service.addLineAccountNumber = result.addLineAccountNumber;
+        service.addLineSubAccounts = result.addLineSubAccounts;
+        service.addLineAutoPay = result.addLineAutoPay;
+        if (result.isAddLine && result.expectedState == "serviceInformation") {
+            enrollmentStepsService.setAddLine(result.addLineAccountNumber);
         }
     };
 

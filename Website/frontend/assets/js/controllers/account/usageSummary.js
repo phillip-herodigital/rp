@@ -1,7 +1,7 @@
 ﻿/* Account Usage Summary Controller
  *
  */
-ngApp.controller('AcctUsageSummaryCtrl', ['$scope', '$rootScope', '$http', 'breakpoint', 'jQuery', 'mobileUsageService', function ($scope, $rootScope, $http, breakpoint, $, mobileUsageService) {
+ngApp.controller('AcctUsageSummaryCtrl', ['$scope', '$rootScope', '$http', '$window', 'breakpoint', 'jQuery', 'mobileUsageService', 'enrollmentService', function ($scope, $rootScope, $http, $window, breakpoint, $, mobileUsageService, enrollmentService) {
 
     var GIGA = 1000000;
 
@@ -172,4 +172,32 @@ ngApp.controller('AcctUsageSummaryCtrl', ['$scope', '$rootScope', '$http', 'brea
             'height': $('article.usage-details table').height() + 'px',
         };
     };
+
+    $scope.setupAddLine = function () {
+        $scope.addDevice =! $scope.addDevice;
+        $scope.isLoading = true;
+        var accountData = {
+            accountNumber: acct
+        };
+        $http.post('/api/account/setupAddLine', accountData)
+        .success(function (data) {
+            if (data.isAddLine) {
+                enrollmentService.setClientData(data);
+                $scope.isLoading = false;
+            } else {
+                // the account is no longer eligible, or something else went wrong
+                $scope.isLoading = false;
+            }
+        })
+        .error(function () {
+            $scope.isLoading = false;
+            $scope.streamConnectError = true;
+        });
+    };
+
+    $scope.completeStep = function (mobilePlanId) {
+        $scope.isLoading = true;
+        $window.location = '/enrollment?ServiceType=Mob&AddLine=true&MobilePlanId=' + mobilePlanId;
+    };
+
 }]);

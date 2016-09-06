@@ -14,6 +14,7 @@
     $scope.categories = []; //list of all categories
     $scope.subcategories = []; //list of subcategories for $scope.category
     $scope.subcategory = "{249FF312-DD00-4E9A-BCFC-D5F782FDA700}"; //currently selected subcategory, the "All" guid
+    $scope.subcategoryName = "";
     $scope.faqs = []; //popular faqs on /support page, displayed faqs for category/subcategory on category/subcategory pages
 
     $scope.searchData = { //data for text searches 
@@ -422,6 +423,8 @@
             subcat.selected = false;
         });
         $scope.subcategories[index].selected = true;
+        if (index === 0) $scope.subcategoryName = "";
+        else $scope.subcategoryName = $scope.subcategories[index].name;
         $scope.mobileAcronyms = false;
         paginate();
         buildKeywords();

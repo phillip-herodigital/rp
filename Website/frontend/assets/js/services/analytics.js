@@ -29,6 +29,13 @@
                     }, 2500);
                 }
             } catch(e) {} //just eat any errors;
+        },
+        sendTags: function (tags) {
+            try {
+                var dataLayer = window.dataLayer ? window.dataLayer : [];
+                dataLayer.push(tags);
+            }
+            catch (e) { } //just eat any errors;
         }
     };
 

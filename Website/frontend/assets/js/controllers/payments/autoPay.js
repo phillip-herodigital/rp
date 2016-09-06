@@ -71,7 +71,7 @@ ngApp.controller('AutoPayCtrl', ['$scope', '$rootScope', '$http', '$modal', '$ti
             }
 
             if ($scope.account.systemOfRecord == 'BeQuick') {
-                $scope.newPaymentMethodType = "TokenizedCard";
+                $scope.newPaymentMethodType = "";
             }
 
             if ($scope.account.systemOfRecord == 'ISTA') {

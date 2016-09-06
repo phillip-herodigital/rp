@@ -2219,7 +2219,7 @@
                     margin-left: inherit;
                 }
 
-                .line-item:last-child {
+                .line-item.taxes {
                     margin-left: 15px;
                 }
 
@@ -3803,6 +3803,19 @@ h3.success-message{
         }
     }
 }
+
+.enrollment_add-line {
+        .wrapper {
+            padding-bottom: 0;
+            h2 {
+                margin-bottom: -10px;
+                color: #4f4c4d;
+                font-size: 32px;
+                font-weight: 400;
+            }
+        }
+}
+
 .enrollment_verify-phone {
     .device-error {
         background-color: #fff6c6;

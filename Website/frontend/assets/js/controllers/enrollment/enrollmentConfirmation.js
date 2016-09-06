@@ -109,6 +109,8 @@ ngApp.controller('EnrollmentConfirmationCtrl', ['$scope', '$window', 'enrollment
             $scope.accountInformation.agreeToTCPATerms = result.additionalAuthorizations.tcpa ? result.additionalAuthorizations.tcpa : false;
             $scope.autopay = result.enrolledInAutoPay;
             $scope.autoPayDiscount = result.autoPayDiscount;
+            $scope.isAddLine = enrollmentService.isAddLine;
+            $scope.addLineSubAccounts = enrollmentService.addLineSubAccounts;
 
             // set the customer type, since we're no longer using the enrollment main controller
             $scope.customerType = $scope.getCartItems()[0].location.capabilities[2].customerType;
@@ -124,7 +126,10 @@ ngApp.controller('EnrollmentConfirmationCtrl', ['$scope', '$window', 'enrollment
 
             $timeout(function () {
                 analytics.sendVariables(11, $scope.confirmationSuccess ? "Confirmed" : "Submitted");
-
+                analytics.sendTags({
+                    EnrollmentFinalized: $scope.confirmationSuccess ? "Confirmed" : "Submitted",
+                    EnrollmentProductTypeEnrolled: $scope.cartHasUtility() ? $scope.cartHasTxLocation() ? "TexasElectricity": "GeorgiaGas" : "Mobile"
+                });
                 _(enrollmentCartService.services).map(function (l) {
                     return l.offerInformationByType[0].key
                 }).uniq().each(function (t) {

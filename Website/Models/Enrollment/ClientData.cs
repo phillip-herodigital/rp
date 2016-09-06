@@ -34,6 +34,14 @@ namespace StreamEnergy.MyStream.Models.Enrollment
 
         public bool IsRenewal { get; set; }
 
+        public bool IsAddLine { get; set; }
+
+        public string AddLineAccountNumber { get; set; }
+
+        public AddLineSubaccount[] AddLineSubAccounts { get; set; }
+        
+        public bool AddLineAutoPay { get; set; }
+
         public bool IsSinglePage { get; set; }
 
         public Guid LoggedInCustomerId { get; set; }

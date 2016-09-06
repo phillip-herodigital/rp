@@ -174,11 +174,16 @@ ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', 'enrollmentServi
 
             //Google analytics - track for no associate name.
             analytics.sendVariables(13, 'NO_ASSOCIATE_NAME');
-
+            analytics.sendTags({
+                AssociateBoxFilled: false,
+            });
             $scope.accountInformation.associateName = null;
         } else {
             if (typeof $scope.accountInformation.associateName != 'undefined') {
                 analytics.sendVariables(14, $scope.accountInformation.associateName);
+                analytics.sendTags({
+                    AssociateBoxFilled: true,
+                });
             }
         }
         var addresses = [$scope.accountInformation.mailingAddress];
