@@ -25,7 +25,7 @@ namespace StreamEnergy.DomainModels.Enrollments
 
         public override bool IgnoreValidation(System.ComponentModel.DataAnnotations.ValidationResult validationResult, UserContext context, InternalContext internalContext)
         {
-            if (context.IsRenewal)
+            if (context.IsRenewal || context.IsAddLine)
             {
                 if (validationResult.MemberNames.Any(m => m.StartsWith("ContactInfo")))
                     return true;
@@ -40,14 +40,14 @@ namespace StreamEnergy.DomainModels.Enrollments
                 if (validationResult.MemberNames.Any(m => m.StartsWith("MailingAddress")))
                     return true;
             }
-            if (context.IsRenewal || context.IsSinglePage || context.Services.SelectMany(s => s.Location.Capabilities).OfType<CustomerTypeCapability>().Any(ct => ct.CustomerType == EnrollmentCustomerType.Commercial))
+            if (context.IsRenewal || context.IsAddLine || context.IsSinglePage || context.Services.SelectMany(s => s.Location.Capabilities).OfType<CustomerTypeCapability>().Any(ct => ct.CustomerType == EnrollmentCustomerType.Commercial))
             {
                 if (validationResult.MemberNames.Any(m => m.StartsWith("OnlineAccount")))
                     return true;
                 if (validationResult.MemberNames.Any(m => m.StartsWith("SelectedIdentityAnswers")))
                     return true;
             }
-            if (context.IsRenewal || context.IsSinglePage || !context.Services.SelectMany(svc => svc.Location.Capabilities).OfType<ServiceStatusCapability>().Any(cap => cap.EnrollmentType == EnrollmentType.MoveIn) || !context.Services.SelectMany(s => s.Location.Capabilities).OfType<CustomerTypeCapability>().Any(ct => ct.CustomerType != EnrollmentCustomerType.Commercial))
+            if (context.IsRenewal || context.IsAddLine || context.IsSinglePage || !context.Services.SelectMany(svc => svc.Location.Capabilities).OfType<ServiceStatusCapability>().Any(cap => cap.EnrollmentType == EnrollmentType.MoveIn) || !context.Services.SelectMany(s => s.Location.Capabilities).OfType<CustomerTypeCapability>().Any(ct => ct.CustomerType != EnrollmentCustomerType.Commercial))
             {
                 if (validationResult.MemberNames.Any(m => m.StartsWith("PreviousAddress")))
                     return true;

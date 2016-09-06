@@ -1274,6 +1274,20 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             }
         }
 
+        [HttpPost]
+        public async Task<Models.Enrollment.ClientData> SetupAddLine(SetupAddLineRequest request)
+        {
+            if (currentUser.Accounts == null)
+            {
+                currentUser.Accounts = await accountService.GetAccounts(currentUser.StreamConnectCustomerId);
+            }
+            var target = currentUser.Accounts.First(acct => acct.AccountNumber == request.AccountNumber);
+            await accountService.GetAccountDetails(target);
+            await enrollmentController.Initialize();
+            return await enrollmentController.SetupAddLine(target);
+        }
+        
+
         #endregion
 
         #region Dismiss Interstitial

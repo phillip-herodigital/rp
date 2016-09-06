@@ -914,6 +914,7 @@
     <Compile Include="Models\Account\SetAutoPayResponse.cs" />
     <Compile Include="Models\Account\DismissInterstitialRequest.cs" />
     <Compile Include="Models\Account\DismissInterstitialResponse.cs" />
+    <Compile Include="Models\Account\SetupAddLineRequest.cs" />
     <Compile Include="Models\Account\SetupRenewalRequest.cs" />
     <Compile Include="Models\Account\SetupRenewalResponse.cs" />
     <Compile Include="Models\Account\UpdateAccountInformationRequest.cs" />
@@ -959,7 +960,8 @@
     <Compile Include="Models\Marketing\Support\FaqSubcategory.cs" />
     <Compile Include="Models\Currents\Top10Leader.cs" />
     <Compile Include="Models\Currents\Top10LeaderList.cs" />
-    <Compile Include="Models\Marketing\PaymentLocation.cs" />
+	<Compile Include="Models\Marketing\PaymentLocation.cs" />
+    <Compile Include="Models\Enrollment\AddLineSubaccount.cs" />
     <Compile Include="Models\ReturnForm.cs" />
     <Compile Include="Models\Currents\CalendarEvent.cs" />
     <Compile Include="Models\Currents\CalendarSearchRequest.cs" />
@@ -1453,7 +1455,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="default.htm.sitedown" />
-    <Content Include="Design.config" />
+    <Content Include="Design.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>

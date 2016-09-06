@@ -3,61 +3,70 @@
 @{
     Sitecore.Data.Items.Item item = Sitecore.Context.Database.GetItem("{881C1CD7-90B7-438C-B267-36B0A4167227}"); ///sitecore/content/Data/Components/Mobile Enrollment/Progress Bar
 }
-<div ng-controller="MobileEnrollmentProgressBarCtrl" class="enrollment_progress-bar @string.Format("step{0}", Model.StepNumber)" ng-init="stepNumber = @Model.StepNumber">
-    <div class="inner clearfix">
-        <div class="step-description" ng-if="!isRenewal || '@Model.StepNumber' != '4'">
-            <div class="stepCount">@item.Fields["Step"].Value @Model.StepNumber</div>
-            @Html.Sitecore().Field(Model.StepTextField, item)
-        </div>
-        <div class="step-description" ng-if="isRenewal && '@Model.StepNumber' == '4'">
-            <div class="stepCount">@item.Fields["Step 3 Renewal Header Text"].Value</div>
-            @item.Fields["Step 3 Renewal Description Text"].Value
-        </div>
-        <div class="progress">
-            <div class="bar"></div>
-            <a class="step step1" ng-click="jumpToStep('phoneFlowDevices', stepNumber, 1);"></a>
-            <a class="step step2" ng-click="jumpToStep('phoneFlowPlans', stepNumber, 2);"></a>
-            <a class="step step3" ng-click="jumpToStep('accountInformation', stepNumber, 3);"></a>
-            <a class="step step4"></a>
+
+<div ng-controller="MobileEnrollmentProgressBarCtrl" >
+    <div class="enrollment_progress-bar @string.Format("step{0}", Model.StepNumber)" ng-init="stepNumber = @Model.StepNumber">
+        <div class="inner clearfix">
+            <div class="step-description" ng-if="!isRenewal || '@Model.StepNumber' != '4'">
+                <div class="stepCount">@item.Fields["Step"].Value @Model.StepNumber</div>
+                @Html.Sitecore().Field(Model.StepTextField, item)
+            </div>
+            <div class="step-description" ng-if="isRenewal && '@Model.StepNumber' == '4'">
+                <div class="stepCount">@item.Fields["Step 3 Renewal Header Text"].Value</div>
+                @item.Fields["Step 3 Renewal Description Text"].Value
+            </div>
+            <div class="progress">
+                <div class="bar"></div>
+                <a class="step step1" ng-click="jumpToStep('phoneFlowDevices', stepNumber, 1);"></a>
+                <a class="step step2" ng-click="jumpToStep('phoneFlowPlans', stepNumber, 2);"></a>
+                <a class="step step3" ng-click="jumpToStep('accountInformation', stepNumber, 3);"></a>
+                <a class="step step4"></a>
+            </div>
+
+            <div class="referred-by-section" ng-if="associateInformation && associateInformation.associateName">
+                <img class="associate-image" ng-src="data:image/JPEG;base64,{{associateInformation.associateImage}}" onerror="this.style.display = 'none';" />
+                <div class="ai-right">
+                    <span class="referred-by">@item.Fields["Referred By"].Value</span>
+                    <span class="associate-name">{{ associateInformation.associateName }}</span>
+                    <span class="associate-level">{{ associateInformation.associateLevel }}</span>
+                </div>
+            </div>
+            <div class="referred-by-section" ng-if="associateInformation && !associateInformation.associateName">
+                <div class="ai-right">
+                    <span class="referred-by">@Html.Sitecore().Field("Referred By")</span>
+                    <span class="associate-name">{{ associateInformation.associateId }}</span>
+                </div>
+            </div>
+
+            <div class="progress-bar-cart @(@Model.HideCart ? "hide-cart" : "")">
+                <div class="cart-wrapper" ng-click="openCartOverlay()">
+                    <div ng-include src="'cart-template'"></div>
+                </div>
+                <div class="arrow" ng-show="enrollmentCartService.getCartVisibility()"></div>
+                @Html.Sitecore().Placeholder("ProgressBarCart")
+                <i class="icon-close" ng-click="enrollmentCartService.toggleCart()"></i>
+            </div>
+
+
+            <a href="" class="need-help" ng-click="showModal('instructions/needHelp')">@item.Fields["Need Help Text"].Value</a>
         </div>
 
-        <div class="referred-by-section" ng-if="associateInformation && associateInformation.associateName">
-            <img class="associate-image" ng-src="data:image/JPEG;base64,{{associateInformation.associateImage}}" onerror="this.style.display = 'none';" />
-            <div class="ai-right">
-                <span class="referred-by">@item.Fields["Referred By"].Value</span>
-                <span class="associate-name">{{ associateInformation.associateName }}</span>
-                <span class="associate-level">{{ associateInformation.associateLevel }}</span>
+        <script type="text/ng-template" id="instructions/needHelp">
+            <div class="mobile-enrollment-modal">
+                <div class="modal-header">
+                    <a href="" ng-click="$dismiss()">Close</a>
+                    <h2>@item.Fields["Need Help Text"].Value</h2>
+                </div>
+                <div class="modal-body">
+                    @Html.Raw(@item.Fields["Need Help Modal Text"].Value)
+                </div>
             </div>
-        </div>
-        <div class="referred-by-section" ng-if="associateInformation && !associateInformation.associateName">
-            <div class="ai-right">
-                <span class="referred-by">@Html.Sitecore().Field("Referred By")</span>
-                <span class="associate-name">{{ associateInformation.associateId }}</span>
-            </div>
-        </div>
-        
-        <div class="progress-bar-cart @(@Model.HideCart ? "hide-cart" : "")">
-            <div class="cart-wrapper" ng-click="openCartOverlay()">
-                <div ng-include src="'cart-template'"></div>
-            </div>
-            <div class="arrow" ng-show="enrollmentCartService.getCartVisibility()"></div>
-            @Html.Sitecore().Placeholder("ProgressBarCart")
-            <i class="icon-close" ng-click="enrollmentCartService.toggleCart()"></i>
-        </div>
-        
-        
-        <a href="" class="need-help" ng-click="showModal('instructions/needHelp')">@item.Fields["Need Help Text"].Value</a>
+        </script>
     </div>
 
-    <script type="text/ng-template" id="instructions/needHelp">
-        <div class="mobile-enrollment-modal">
-            <div class="modal-header">
-                <a href="" ng-click="$dismiss()">Close</a>
-                    <h2>@item.Fields["Need Help Text"].Value</h2>
-            </div>
-            <div class="modal-body">
-               @Html.Raw(@item.Fields["Need Help Modal Text"].Value)
-            </div>
+    <div ng-if="addLineAccountNumber" class="enrollment_add-line">
+        <div class="wrapper">
+            <h2>@Html.Sitecore().Field("Adding Device Text", item) {{ addLineAccountNumber }}</h2>
         </div>
-    </script>
+    </div>
 </div>

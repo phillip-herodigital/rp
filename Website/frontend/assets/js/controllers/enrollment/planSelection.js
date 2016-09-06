@@ -56,10 +56,14 @@ ngApp.controller('EnrollmentPlanSelectionCtrl', ['$scope', 'enrollmentService', 
                 key = $scope.currentLocationInfo().offerInformationByType[0].key;
                 if (typeof plan != 'undefined') {
                     $scope.planSelection.selectedOffers[key] = plan.id;
+                    $scope.currentLocationInfo().offerInformationByType[0].sortBy = function (plan) {
+                        if (plan) {
+                            return plan.id.indexOf($scope.utilityEnrollment.requestedPlanId) == -1;
+                        }
+                    };
                 }
             }
         }
-
         updateFootnotes();
     });
 
@@ -168,10 +172,18 @@ ngApp.controller('EnrollmentPlanSelectionCtrl', ['$scope', 'enrollmentService', 
         plan = $scope.currentLocationInfo().offerInformationByType[0].value.availableOffers[i];
 
         analytics.sendVariables(6, plan.rateType == "fixed" ? "Fixed" : "Variable", 7, plan.termMonths, 8, (i+1), 9, plan.id);
+        analytics.sendTags({
+            EnrollmentPlanType: $scope.isRenewal ? "Renewal" : plan.rateType == "fixed" ? "Fixed" : "Variable",
+            EnrollmentPlanTerm: plan.termMonths,
+            EnrollmentPlanIndex: $scope.currentLocationInfo().offerInformationByType[0].value.availableOffers.length - i, //the plans are reversed when displayed
+            EnrollmentPlanID: plan.id,
+            EnrollmentProductTypeInCart: plan.offerType
+        });
     };
     var submitStep = function (addAdditional) {
         var onComplete = function () {
             hasSubmitted = true;
+
             //Move to the next section, this is the last of the utilityAccounts, so
             //If addAdditional, go back to step one else move to the next section
             if (addAdditional) {
@@ -181,8 +193,10 @@ ngApp.controller('EnrollmentPlanSelectionCtrl', ['$scope', 'enrollmentService', 
         };
 
         if (!hasSubmitted || !addAdditional) {
+            if (!addAdditional) analytics.sendTags({
+                EnrollmentNumberOfEndpoints: enrollmentCartService.getServiceCount()
+            });
             var selectedOffersPromise = enrollmentService.setSelectedOffers(addAdditional);
-
             selectedOffersPromise.then(onComplete, function (data) {
                 // error response
             });

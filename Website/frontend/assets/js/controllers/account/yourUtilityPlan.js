@@ -286,6 +286,12 @@ ngApp.controller('AcctYourUtilityPlanCtrl', ['$scope', '$rootScope', '$http', '$
         plan = $scope.currentLocationInfo().offerInformationByType[0].value.availableOffers[i];
 
         analytics.sendVariables(6, plan.rateType == "fixed" ? "Fixed" : "Variable", 7, plan.termMonths, 8, (i + 1), 9, plan.id);
+        analytics.sendTags({
+            EnrollmentPlanType: plan.rateType == "fixed" ? "Fixed" : "Variable",
+            EnrollmentPlanTerm: plan.termMonths,
+            EnrollmentPlanIndex: (i + 1),
+            EnrollmentPlanID: plan.id
+        });
     };
     var submitStep = function (addAdditional) {
         var onComplete = function () {

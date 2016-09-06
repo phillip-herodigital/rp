@@ -102,7 +102,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             {
                 if (enrollmentDpiParameters != null)
                 {
-                    if (!stateHelper.IsDefault && enrollmentDpiParameters["renewal"] != "true")
+                    if (!stateHelper.IsDefault && enrollmentDpiParameters["renewal"] != "true" && !stateHelper.StateMachine.Context.IsAddLine)
                     {
                         stateHelper.Reset();
                         await stateHelper.EnsureInitialized().ConfigureAwait(false);
@@ -320,6 +320,33 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             this.stateMachine = stateHelper.StateMachine;
 
             return ClientData(typeof(DomainModels.Enrollments.PlanSelectionState));
+        }
+
+        [NonAction]
+        public async Task<ClientData> SetupAddLine(DomainModels.Accounts.Account account)
+        {
+            stateHelper.Reset();
+            await stateHelper.EnsureInitialized().ConfigureAwait(false);
+            //stateHelper.StateMachine.InternalContext.GlobalCustomerId = account.StreamConnectCustomerId;
+            stateHelper.State = typeof(ServiceInformationState);
+            stateHelper.Context.IsAddLine = true;
+            stateHelper.Context.AddLineAutoPay = account.AutoPay.IsEnabled;
+            stateHelper.Context.ContactInfo = account.Details.ContactInfo;
+            stateHelper.Context.AddLineAccountNumber = account.AccountNumber;
+            stateHelper.Context.AddLineSubAccounts = account.SubAccounts;
+            stateHelper.Context.MailingAddress = account.Details.BillingAddress;
+            stateHelper.Context.PreviousAddress = account.Details.BillingAddress;
+            
+            if (stateMachine.Context.ContactInfo != null && stateMachine.Context.ContactInfo.Phone != null)
+            {
+                EnsureTypedPhones(stateMachine.Context.ContactInfo.Phone);
+            }
+
+            await stateHelper.StateMachine.Process();
+            await stateHelper.StateMachine.ContextUpdated();
+            this.stateMachine = stateHelper.StateMachine;
+
+            return ClientData(typeof(DomainModels.Enrollments.ServiceInformationState));
         }
 
         /// <summary>
@@ -570,6 +597,23 @@ FROM [SwitchBack] WHERE ESIID=@esiId";
                 Reset();
             }
 
+            var loggedInCustomerID = stateMachine.Context.LoggedInCustomerId;
+            
+            List<AddLineSubaccount> subaccounts = new List<AddLineSubaccount>();
+            if (stateMachine.Context.AddLineSubAccounts != null && stateMachine.Context.AddLineSubAccounts.Count() > 0) {
+                for (int i = 0; i< stateMachine.Context.AddLineSubAccounts.Count(); i++) {
+                    var subaccount = (MobileAccount)stateMachine.Context.AddLineSubAccounts.ElementAt(i);
+
+                    subaccounts.Add(new AddLineSubaccount()
+                    {
+                        PlanID = subaccount.PlanId,
+                        Name = subaccount.PlanName,
+                        Cost = subaccount.PlanPrice,
+                        DataAvailable = subaccount.PlanDataAvailable
+                    });
+                }
+            }
+
             return new ClientData
             {
                 IsTimeout = stateHelper.IsNewSession,
@@ -577,6 +621,10 @@ FROM [SwitchBack] WHERE ESIID=@esiId";
                 Validations = validations,
                 ExpectedState = expectedState,
                 IsRenewal = stateMachine.Context.IsRenewal,
+                IsAddLine = stateMachine.Context.IsAddLine,
+                AddLineAccountNumber = stateMachine.Context.AddLineAccountNumber,
+                AddLineSubAccounts = stateMachine.Context.IsAddLine ? subaccounts.ToArray() : null,
+                AddLineAutoPay = stateMachine.Context.IsAddLine ? stateMachine.Context.AddLineAutoPay : false,
                 IsSinglePage = stateMachine.Context.IsSinglePage,
                 LoggedInCustomerId = stateMachine.Context.LoggedInCustomerId,
                 EnrolledInAutoPay = stateMachine.Context.EnrolledInAutoPay,
@@ -832,7 +880,7 @@ FROM [SwitchBack] WHERE ESIID=@esiId";
 
         private async Task ResetPreAccountInformation()
         {
-            if (stateHelper.Context.IsRenewal || stateHelper.Context.IsSinglePage)
+            if (stateHelper.Context.IsRenewal  || stateMachine.Context.IsAddLine || stateHelper.Context.IsSinglePage)
                 return;
             if (stateHelper.InternalContext != null)
             {
@@ -912,12 +960,14 @@ FROM [SwitchBack] WHERE ESIID=@esiId";
             stateMachine.Context.SecondaryContactInfo = request.SecondaryContactInfo;
             stateMachine.Context.SocialSecurityNumber = request.SocialSecurityNumber;
             stateMachine.Context.PreviousAddress = request.PreviousAddress;
+
             stateMachine.Context.MailingAddress = request.MailingAddress;
 
             stateMachine.Context.TaxId = request.TaxId;
             stateMachine.Context.CompanyName = request.CompanyName;
             stateMachine.Context.DoingBusinessAs = request.DoingBusinessAs;
             stateMachine.Context.PreferredSalesExecutive = request.PreferredSalesExecutive;
+
             stateMachine.Context.PreviousProvider = request.PreviousProvider;
             stateMachine.Context.AssociateName = request.AssociateName;
 
