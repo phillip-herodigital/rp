@@ -2639,7 +2639,9 @@
                 width: 12px;
                 height: 22px;
                 float: left;
-                background: url('../i/icon/grey-right-arrow.png') no-repeat center center;
+                @include retina-background('grey-right-arrow.png', 'icon');
+                background-repeat: no-repeat;
+                background-position: center center;
             }
         }
     }
