@@ -607,7 +607,7 @@ FROM [SwitchBack] WHERE ESIID=@esiId";
                     subaccounts.Add(new AddLineSubaccount()
                     {
                         PlanID = subaccount.PlanId,
-                        IMEI = subaccount.IMEI,
+                        IMEI = subaccount.SerialNumber,
                         Name = subaccount.PlanName,
                         Cost = subaccount.PlanPrice,
                         DataAvailable = subaccount.PlanDataAvailable

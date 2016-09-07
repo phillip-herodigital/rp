@@ -255,7 +255,6 @@ namespace StreamEnergy.Services.Clients
                 PhoneNumber = details.PhoneNumber,
                 SerialNumber = details.SerialNumber,
                 EquipmentId = details.EquipmentId,
-                IMEI = details.IMEI,
                 PlanId = details.Plan.PlanId,
                 PlanPrice = (double)details.Plan.Price,
                 PlanDataAvailable = double.TryParse(productData != null ? productData.Fields["Data"] : "", out dataAvailable) ? dataAvailable : (double?)null,

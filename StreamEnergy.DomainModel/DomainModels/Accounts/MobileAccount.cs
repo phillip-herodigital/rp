@@ -50,7 +50,6 @@ namespace StreamEnergy.DomainModels.Accounts
 
         public string PhoneNumber { get; set; }
         public string SerialNumber { get; set; }
-        public string IMEI { get; set; }
         public string EquipmentId { get; set; }
         public string PlanId { get; set; }
         public double PlanPrice { get; set; }
