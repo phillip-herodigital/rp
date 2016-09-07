@@ -461,7 +461,7 @@
             {{ getOfferPrice(selectedOffer.offerId) | currency }}@Html.Sitecore().Field("Per Month Text")
         </div>
     </div>
-    <div class="monthly-product clearfix" ng-repeat="subAccount in addLineSubAccounts">
+    <div class="monthly-product clearfix" ng-repeat="subAccount in addLineSubAccounts" ng-if="$parent.$parent.$parent.$last">
         <div class="description">
             <span class="plan">@Html.Sitecore().Field("Monthly Plan Text Existing")</span>
         </div>
