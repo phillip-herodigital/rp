@@ -131,7 +131,7 @@ namespace StreamEnergy.Services.Clients
             return capability.AglcPremisesNumber == null;
         }
 
-        dynamic ILocationAdapter.ToEnrollmentAccount(Guid globalCustomerId, EnrollmentAccountDetails account, string ExistingAccountNumber)
+        dynamic ILocationAdapter.ToEnrollmentAccount(Guid globalCustomerId, EnrollmentAccountDetails account, bool IsAutoPayEnabled, string ExistingAccountNumber)
         {
             var georgiaGasOffer = account.Offer.Offer as GeorgiaGas.Offer;
             var georgiaGasService = account.Location.Capabilities.OfType<GeorgiaGas.ServiceCapability>().Single();

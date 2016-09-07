@@ -88,7 +88,7 @@ namespace Cis2AureaAccountImport
             throw new NotImplementedException();
         }
 
-        public dynamic ToEnrollmentAccount(Guid globalCustomerId, EnrollmentAccountDetails account, string ExistingAccountNumber)
+        public dynamic ToEnrollmentAccount(Guid globalCustomerId, EnrollmentAccountDetails account, bool IsAutoPayEnabled, string ExistingAccountNumber)
         {
             throw new NotImplementedException();
         }
