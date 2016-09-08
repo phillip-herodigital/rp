@@ -71,6 +71,7 @@
         service.contactTitle = result.contactTitle;
         service.accountInformation.secondaryContactInfo = result.secondaryContactInfo || {};
         service.accountInformation.language = result.language;
+        service.accountInformation.last4ssn = result.last4SSN;
         service.accountInformation.mailingAddress = result.mailingAddress;
         service.accountInformation.previousAddress = result.previousAddress;
         service.accountInformation.previousProvider = result.previousProvider;
