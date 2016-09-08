@@ -601,12 +601,13 @@ FROM [SwitchBack] WHERE ESIID=@esiId";
             
             List<AddLineSubaccount> subaccounts = new List<AddLineSubaccount>();
             if (stateMachine.Context.AddLineSubAccounts != null && stateMachine.Context.AddLineSubAccounts.Count() > 0) {
-                for (int i = 0; i< stateMachine.Context.AddLineSubAccounts.Count(); i++) {
+                for (int i = 0; i < stateMachine.Context.AddLineSubAccounts.Count(); i++) {
                     var subaccount = (MobileAccount)stateMachine.Context.AddLineSubAccounts.ElementAt(i);
 
                     subaccounts.Add(new AddLineSubaccount()
                     {
                         PlanID = subaccount.PlanId,
+                        IMEI = subaccount.SerialNumber,
                         Name = subaccount.PlanName,
                         Cost = subaccount.PlanPrice,
                         DataAvailable = subaccount.PlanDataAvailable

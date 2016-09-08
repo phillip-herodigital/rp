@@ -174,7 +174,7 @@ ngApp.controller('AcctUsageSummaryCtrl', ['$scope', '$rootScope', '$http', '$win
     };
 
     $scope.setupAddLine = function () {
-        $scope.addDevice =! $scope.addDevice;
+        $scope.addDevice = !$scope.addDevice;
         $scope.isLoading = true;
         var accountData = {
             accountNumber: acct
