@@ -1403,11 +1403,7 @@ article.contact {
 
          &.Energy { 
             position: relative;
-            background: #FEEBD3; /* For browsers that do not support gradients */
-            background: -webkit-linear-gradient(top, #F99D25, #F99D25 8px, #FEEBD3 8px, #FEEBD3); /* For Safari 5.1 to 6.0 */
-            background: -o-linear-gradient(top, #F99D25, #F99D25 8px, #FEEBD3 8px, #FEEBD3); /* For Opera 11.1 to 12.0 */
-            background: -moz-linear-gradient(top, #F99D25, #F99D25 8px, #FEEBD3 8px, #FEEBD3); /* For Firefox 3.6 to 15 */
-            background: linear-gradient(top, #F99D25, #F99D25 8px, #FEEBD3 8px, #FEEBD3); /* Standard syntax */
+            @include background-image(linear-gradient(top, #F99D25, #F99D25 8px, #FEEBD3 8px, #FEEBD3));
 
             :last-child:after, :last-child:before, :first-child:before {
                 display: none;
@@ -1436,12 +1432,7 @@ article.contact {
 
          &.Mobile {
             position: relative; 
-            background: #CCEEF9; /* For browsers that do not support gradients */
-            background: -webkit-linear-gradient(top, #00A8E1, #00A8E1 8px, #CCEEF9 8px, #CCEEF9); /* For Safari 5.1 to 6.0 */
-            background: -o-linear-gradient(top, #00A8E1, #00A8E1 8px, #CCEEF9 8px, #CCEEF9); /* For Opera 11.1 to 12.0 */
-            background: -moz-linear-gradient(top, #00A8E1, #00A8E1 8px, #CCEEF9 8px, #CCEEF9); /* For Firefox 3.6 to 15 */
-            background: linear-gradient(top, #00A8E1, #00A8E1 8px, #CCEEF9 8px, #CCEEF9); /* Standard syntax */
-
+            @include background-image(linear-gradient(top, #00A8E1, #00A8E1 8px, #CCEEF9 8px, #CCEEF9));
 
             :last-child:after, :last-child:before, :first-child:before {
                 display: none;
@@ -1470,11 +1461,7 @@ article.contact {
 
          &.Protective {
             position: relative;
-            background: #D9EFDB; /* For browsers that do not support gradients */
-            background: -webkit-linear-gradient(top, #40AE49, #40AE49 8px, #D9EFDB 8px, #D9EFDB); /* For Safari 5.1 to 6.0 */
-            background: -o-linear-gradient(top, #40AE49, #40AE49 8px, #D9EFDB 8px, #D9EFDB); /* For Opera 11.1 to 12.0 */
-            background: -moz-linear-gradient(top, #40AE49, #40AE49 8px, #D9EFDB 8px, #D9EFDB); /* For Firefox 3.6 to 15 */
-            background: linear-gradient(top, #40AE49, #40AE49 8px, #D9EFDB 8px, #D9EFDB); /* Standard syntax */
+            @include background-image(linear-gradient(top, #40AE49, #40AE49 8px, #D9EFDB 8px, #D9EFDB));
 
             :last-child:after, :last-child:before, :first-child:before {
                 display: none;
@@ -1503,11 +1490,7 @@ article.contact {
 
          &.Home {
             position: relative;
-            background: #E8DBEB; /* For browsers that do not support gradients */
-            background: -webkit-linear-gradient(top, #8E4B9D, #8E4B9D 8px, #E8DBEB 8px, #E8DBEB); /* For Safari 5.1 to 6.0 */
-            background: -o-linear-gradient(top, #8E4B9D, #8E4B9D 8px, #E8DBEB 8px, #E8DBEB); /* For Opera 11.1 to 12.0 */
-            background: -moz-linear-gradient(top, #8E4B9D, #8E4B9D 8px, #E8DBEB 8px, #E8DBEB); /* For Firefox 3.6 to 15 */
-            background: linear-gradient(top, #8E4B9D, #8E4B9D 8px, #E8DBEB 8px, #E8DBEB); /* Standard syntax */
+            @include background-image(linear-gradient(top, #8E4B9D, #8E4B9D 8px, #E8DBEB 8px, #E8DBEB));
 
             :last-child:after, :last-child:before, :first-child:before {
                 display: none;
