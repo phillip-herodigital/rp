@@ -142,6 +142,8 @@ ngApp.controller('AcctBalancesAndPaymentsCtrl', ['$scope', '$rootScope', '$http'
         }
     };
 
+    $scope.currentDate = new Date();
+
     $scope.modalAddPaymentAccount = function (newPaymentMethodType) {
         $scope.isLoading = true;
         if (newPaymentMethodType == 'TokenizedCard') {
