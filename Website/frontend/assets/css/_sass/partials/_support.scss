@@ -1260,7 +1260,11 @@ article.contact {
     &.marketing {
         padding: 0;
     }
-
+  
+    &.request-intro {
+        margin-top: 40px;
+    }
+ 
     h1 {
         width: 75%;
         margin: 0px auto 1em auto;
@@ -1396,6 +1400,139 @@ article.contact {
     }
 
     &.contact-info {
+
+         &.Energy { 
+            position: relative;
+            background: #FEEBD3; /* For browsers that do not support gradients */
+            background: -webkit-linear-gradient(top, #F99D25, #F99D25 8px, #FEEBD3 8px, #FEEBD3); /* For Safari 5.1 to 6.0 */
+            background: -o-linear-gradient(top, #F99D25, #F99D25 8px, #FEEBD3 8px, #FEEBD3); /* For Opera 11.1 to 12.0 */
+            background: -moz-linear-gradient(top, #F99D25, #F99D25 8px, #FEEBD3 8px, #FEEBD3); /* For Firefox 3.6 to 15 */
+            background: linear-gradient(top, #F99D25, #F99D25 8px, #FEEBD3 8px, #FEEBD3); /* Standard syntax */
+
+            :last-child:after, :last-child:before, :first-child:before {
+                display: none;
+            }
+
+            :first-child:after {
+	            bottom: 100%;
+	            left: 13%;
+	            border: solid transparent;
+	            content: " ";
+	            height: 0;
+	            width: 0;
+	            position: absolute;
+	            pointer-events: none;
+	            border-color: rgba(249, 157, 37, 0);
+	            border-bottom-color: #F99D25;
+	            border-width: 30px;
+	            margin-left: -30px;
+
+                @include breakpoint(small) {
+                    display: none;
+                    visibility: hidden;
+                }
+            }
+         }
+
+         &.Mobile {
+            position: relative; 
+            background: #CCEEF9; /* For browsers that do not support gradients */
+            background: -webkit-linear-gradient(top, #00A8E1, #00A8E1 8px, #CCEEF9 8px, #CCEEF9); /* For Safari 5.1 to 6.0 */
+            background: -o-linear-gradient(top, #00A8E1, #00A8E1 8px, #CCEEF9 8px, #CCEEF9); /* For Opera 11.1 to 12.0 */
+            background: -moz-linear-gradient(top, #00A8E1, #00A8E1 8px, #CCEEF9 8px, #CCEEF9); /* For Firefox 3.6 to 15 */
+            background: linear-gradient(top, #00A8E1, #00A8E1 8px, #CCEEF9 8px, #CCEEF9); /* Standard syntax */
+
+
+            :last-child:after, :last-child:before, :first-child:before {
+                display: none;
+            }
+
+            :first-child:after {
+	            bottom: 100%;
+	            left: 38%;
+	            border: solid transparent;
+	            content: " ";
+	            height: 0;
+	            width: 0;
+	            position: absolute;
+	            pointer-events: none;
+	            border-color: rgba(0, 168, 225, 0);
+	            border-bottom-color: #00A8E1;
+	            border-width: 30px;
+	            margin-left: -30px;
+
+                @include breakpoint(small) {
+                    display: none;
+                    visibility: hidden;
+                }
+            }
+         }
+
+         &.Protective {
+            position: relative;
+            background: #D9EFDB; /* For browsers that do not support gradients */
+            background: -webkit-linear-gradient(top, #40AE49, #40AE49 8px, #D9EFDB 8px, #D9EFDB); /* For Safari 5.1 to 6.0 */
+            background: -o-linear-gradient(top, #40AE49, #40AE49 8px, #D9EFDB 8px, #D9EFDB); /* For Opera 11.1 to 12.0 */
+            background: -moz-linear-gradient(top, #40AE49, #40AE49 8px, #D9EFDB 8px, #D9EFDB); /* For Firefox 3.6 to 15 */
+            background: linear-gradient(top, #40AE49, #40AE49 8px, #D9EFDB 8px, #D9EFDB); /* Standard syntax */
+
+            :last-child:after, :last-child:before, :first-child:before {
+                display: none;
+            }
+
+            :first-child:after {
+	            bottom: 100%;
+	            left: 63%;
+	            border: solid transparent;
+	            content: " ";
+	            height: 0;
+	            width: 0;
+	            position: absolute;
+	            pointer-events: none;
+	            border-color: rgba(64, 174, 73, 0);
+	            border-bottom-color: #40AE49;
+	            border-width: 30px;
+	            margin-left: -30px;
+
+                @include breakpoint(small) {
+                    display: none;
+                    visibility: hidden;
+                }
+            }
+         }
+
+         &.Home {
+            position: relative;
+            background: #E8DBEB; /* For browsers that do not support gradients */
+            background: -webkit-linear-gradient(top, #8E4B9D, #8E4B9D 8px, #E8DBEB 8px, #E8DBEB); /* For Safari 5.1 to 6.0 */
+            background: -o-linear-gradient(top, #8E4B9D, #8E4B9D 8px, #E8DBEB 8px, #E8DBEB); /* For Opera 11.1 to 12.0 */
+            background: -moz-linear-gradient(top, #8E4B9D, #8E4B9D 8px, #E8DBEB 8px, #E8DBEB); /* For Firefox 3.6 to 15 */
+            background: linear-gradient(top, #8E4B9D, #8E4B9D 8px, #E8DBEB 8px, #E8DBEB); /* Standard syntax */
+
+            :last-child:after, :last-child:before, :first-child:before {
+                display: none;
+            }
+            
+            :first-child:after {
+	                bottom: 100%;
+	                left: 88%;
+	                border: solid transparent;
+	                content: " ";
+	                height: 0;
+	                width: 0;
+	                position: absolute;
+	                pointer-events: none;
+	                border-color: rgba(142, 75, 157, 0);
+	                border-bottom-color: #8E4B9D;
+	                border-width: 30px;
+	                margin-left: -30px;
+
+                @include breakpoint(small) {
+                    display: none;
+                    visibility: hidden;
+                }
+            }
+         }
 
         .wrapper {
             padding: 0;
