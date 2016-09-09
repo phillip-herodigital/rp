@@ -394,7 +394,7 @@
                     </span>
                     <div class="details">@Html.Sitecore().Field("Text - Plan Details")</div>
                 </div>
-                <div class="rate device-price">{{ selectedOffer.payments.requiredAmounts[0].phoneCharge | currency }}</div>
+                <div class="rate device-price">{{ getOfferPrice(selectedOffer.offerId) | currency }}</div>
             </div>
         </div>
         <div class="phone-summary autopay" ng-if="autopay && cartHasMobile()">
@@ -415,7 +415,7 @@
     <div ng-repeat="selectedOffer in offerInformation.value.offerSelections">
         <h3>@Html.Sitecore().Field("Text - New Line")</h3>
         <div class="details">@Html.Sitecore().Field("Text - Plan Description")</div>
-        <div class="details">{{ selectedOffer.payments.requiredAmounts[0].phoneCharge | currency }}@Html.Sitecore().Field("Text - Header Plan Details")</div>
+        <div class="details">{{ getOfferPrice(selectedOffer.offerId) | currency }}@Html.Sitecore().Field("Text - Header Plan Details")</div>
     </div>
 </script>
 <script type="text/ng-template" id="payments/Deposit">
