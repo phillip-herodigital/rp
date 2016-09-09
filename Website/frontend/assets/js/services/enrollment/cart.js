@@ -334,8 +334,9 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', 'sc
             var total = 0;
             for (var i = 0; i < services.length; i++) {
                 if (services[i].offerInformationByType[0].key == "Mobile") {
-                    total += (services[i].offerInformationByType[0].value.offerSelections[0].payments.requiredAmounts[0].phoneCharge);
-                    //total += (services[i].offerInformationByType[0].value.offerSelections[0].payments.requiredAmounts[0].taxTotal);
+                    total += _.find(services[i].offerInformationByType[0].value.availableOffers, function (availableOffer) {
+                        return services[i].offerInformationByType[0].value.offerSelections[0].offerId === availableOffer.id;
+                    }).rates[0].rateAmount;
                 }
             }
             return total;
