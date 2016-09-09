@@ -1,7 +1,7 @@
 ﻿/* Paperless Billing Controller
  *
  */
-ngApp.controller('PaperlessBillingCtrl', ['$scope', '$rootScope', '$http', 'scrollService', function ($scope, $rootScope, $http, scrollService) {
+ngApp.controller('PaperlessBillingCtrl', ['$scope', '$http', function ($scope, $http) {
     // create a blank object to hold the form information
     $scope.formData = { };
 
@@ -17,8 +17,6 @@ ngApp.controller('PaperlessBillingCtrl', ['$scope', '$rootScope', '$http', 'scro
             })
                 .success(function (data, status, headers, config) {
                     $scope.formData = data;
-                    $scope.formDataOriginal = angular.copy($scope.formData);
-
                     $scope.successMessage = false;
                     $scope.isLoading = false;
                     $scope.paperlessBillingError = false;
@@ -33,28 +31,21 @@ ngApp.controller('PaperlessBillingCtrl', ['$scope', '$rootScope', '$http', 'scro
     // process the form
     $scope.updateAccountInformation = function () {
         // format the request data
-        var requestData = {};
-
         $scope.successMessage = $scope.errorMessage = false;
-
-        requestData.accountNumber = $scope.selectedAccount.accountNumber;
-        requestData.phone = $scope.formData.phone;
-        requestData.email = $scope.formData.email;
-
-        if ($scope.formData.sameAsService) {
-            requestData.billingAddress = $scope.formData.serviceAddress;
-        } else {
-            requestData.billingAddress = $scope.formData.billingAddress;
-        }
-        requestData.disablePrintedInvoices = $scope.formData.disablePrintedInvoices;
-
         $scope.isLoading = true;
 
         // sent the update
         $http({
             method: 'POST',
             url: '/api/account/updateAccountInformation',
-            data: requestData,
+            data: {
+                accountNumber: $scope.selectedAccount.accountNumber,
+                phone: $scope.formData.phone,
+                email: $scope.formData.email,
+                billingAddress: $scope.formData.billingAddress,
+                disablePrintedInvoices: $scope.formData.disablePrintedInvoices
+
+            },
             headers: { 'Content-Type': 'application/JSON' }
         })
             .success(function (data, status, headers, config) {
@@ -67,10 +58,7 @@ ngApp.controller('PaperlessBillingCtrl', ['$scope', '$rootScope', '$http', 'scro
                     $scope.errorMessage = true;
                 } else {
                     // if successful, show the success message
-                    $scope.formDataOriginal = angular.copy($scope.formData);
                     $scope.successMessage = true;
-                    // scroll to the success message
-                    scrollService.scrollTo('successMessage', 0, 0, angular.noop);
                 }
             })
             .error(function (data, status, headers, config) {

@@ -1260,7 +1260,11 @@ article.contact {
     &.marketing {
         padding: 0;
     }
-
+  
+    &.request-intro {
+        margin-top: 40px;
+    }
+ 
     h1 {
         width: 75%;
         margin: 0px auto 1em auto;
@@ -1396,6 +1400,122 @@ article.contact {
     }
 
     &.contact-info {
+
+         &.Energy { 
+            position: relative;
+            @include background-image(linear-gradient(top, #F99D25, #F99D25 8px, #FEEBD3 8px, #FEEBD3));
+
+            :last-child:after, :last-child:before, :first-child:before {
+                display: none;
+            }
+
+            :first-child:after {
+	            bottom: 100%;
+	            left: 12.5%;
+	            border: solid transparent;
+	            content: " ";
+	            height: 0;
+	            width: 0;
+	            position: absolute;
+	            pointer-events: none;
+	            border-color: rgba(249, 157, 37, 0);
+	            border-bottom-color: #F99D25;
+	            border-width: 30px;
+	            margin-left: -30px;
+
+                @include breakpoint(small) {
+                    display: none;
+                    visibility: hidden;
+                }
+            }
+         }
+
+         &.Mobile {
+            position: relative; 
+            @include background-image(linear-gradient(top, #00A8E1, #00A8E1 8px, #CCEEF9 8px, #CCEEF9));
+
+            :last-child:after, :last-child:before, :first-child:before {
+                display: none;
+            }
+
+            :first-child:after {
+	            bottom: 100%;
+	            left: 37.5%;
+	            border: solid transparent;
+	            content: " ";
+	            height: 0;
+	            width: 0;
+	            position: absolute;
+	            pointer-events: none;
+	            border-color: rgba(0, 168, 225, 0);
+	            border-bottom-color: #00A8E1;
+	            border-width: 30px;
+	            margin-left: -30px;
+
+                @include breakpoint(small) {
+                    display: none;
+                    visibility: hidden;
+                }
+            }
+         }
+
+         &.Protective {
+            position: relative;
+            @include background-image(linear-gradient(top, #40AE49, #40AE49 8px, #D9EFDB 8px, #D9EFDB));
+
+            :last-child:after, :last-child:before, :first-child:before {
+                display: none;
+            }
+
+            :first-child:after {
+	            bottom: 100%;
+	            left: 62.5%;
+	            border: solid transparent;
+	            content: " ";
+	            height: 0;
+	            width: 0;
+	            position: absolute;
+	            pointer-events: none;
+	            border-color: rgba(64, 174, 73, 0);
+	            border-bottom-color: #40AE49;
+	            border-width: 30px;
+	            margin-left: -30px;
+
+                @include breakpoint(small) {
+                    display: none;
+                    visibility: hidden;
+                }
+            }
+         }
+
+         &.Home {
+            position: relative;
+            @include background-image(linear-gradient(top, #8E4B9D, #8E4B9D 8px, #E8DBEB 8px, #E8DBEB));
+
+            :last-child:after, :last-child:before, :first-child:before {
+                display: none;
+            }
+            
+            :first-child:after {
+	                bottom: 100%;
+	                left: 87.5%;
+	                border: solid transparent;
+	                content: " ";
+	                height: 0;
+	                width: 0;
+	                position: absolute;
+	                pointer-events: none;
+	                border-color: rgba(142, 75, 157, 0);
+	                border-bottom-color: #8E4B9D;
+	                border-width: 30px;
+	                margin-left: -30px;
+
+                @include breakpoint(small) {
+                    display: none;
+                    visibility: hidden;
+                }
+            }
+         }
 
         .wrapper {
             padding: 0;
