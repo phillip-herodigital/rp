@@ -71,6 +71,7 @@
                         </div>
                     </div>
                 </div>
+                <div class="cart-item" ng-repeat="service in getCartServices()" ng-if="cartHasProtective()"></div>
             </div>
             <footer ng-show="cartHasUtility() || (mobileEnrollmentService.selectedNetwork.value && mobileEnrollment.phoneTypeTab != 'wsa')">
                 <div class="buttons">

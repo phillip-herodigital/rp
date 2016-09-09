@@ -19,6 +19,7 @@ ngApp.controller('EnrollmentCartCtrl', ['$scope', 'enrollmentStepsService', 'enr
     $scope.cartHasTxLocation = enrollmentCartService.cartHasTxLocation;
     $scope.cartHasMobile = enrollmentCartService.cartHasMobile;
     $scope.cartHasUtility = enrollmentCartService.cartHasUtility;
+    $scope.cartHasProtective = enrollmentCartService.cartHasProtective;
     $scope.mobileEnrollmentService = mobileEnrollmentService;
     $scope.getCartDevices = enrollmentCartService.getCartDevices;
     $scope.getDevicesCount = enrollmentCartService.getDevicesCount;

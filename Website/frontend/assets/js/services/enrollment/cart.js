@@ -517,6 +517,13 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', 'sc
                 .intersection(['TexasElectricity', 'TexasElectricityRenewal', 'GeorgiaGas', 'GeorgiaGasRenewal'])
                 .some();
         },
+        cartHasProtective: function () {
+            return _.some(services, function (service) {
+                return _.some(service.location.capabilities, function (capability) {
+                    return _.some(capability.capabilityType === "Protective");
+                });
+            });
+        },
         getUtilityAddresses: function() {
             return _(services)
                 .filter(function(service) { 

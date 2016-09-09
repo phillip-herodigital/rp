@@ -1,10 +1,8 @@
-<div id="protectiveFlowServices" class="enrollment showCart" ng-if="stepsService.isStepVisible('protectiveFlowServices')" ng-controller="protectiveServicesEnrollmentCtrl" ng-init="states = @(Html.Action("States", "Data").ToHtmlString())">    
+<div id="protectiveFlowServices" class="enrollment showCart" ng-if="stepsService.isStepVisible('protectiveFlowServices')" ng-controller="protectiveServicesEnrollmentCtrl" ng-init="init(); states = @(Html.Action("States", "Data").ToHtmlString());">    
     @Html.Partial("~/Views/Components/Protective Services Enrollment/Progress Bar.cshtml", new StreamEnergy.MyStream.Models.MobileEnrollment.ProgressBar { StepNumber = 1, StepTextField = "Step 1 Description Text", HideCart = false })
     <div class="layout">
         <div class="wrapper cols-2 enrollment__protective-services">
             <section>
-                <form data-val-bind-messages="validations" name="protectiveServices" ng-submit="completeStep()">
-                    @Html.ValidationSummary()
                     <article class="enrollment__box form">
                         <header>
                             <h1>Protective Services</h1>
@@ -12,40 +10,47 @@
                         <div class="content">
                             <div class="select-services">
                                 <h4>Select Your Protective Services</h4>
-                                <p>It looks like your in <span class="location">Texas</span>. <span class="select-state">Change State</span></p>
+                                <p>It looks like your in <span class="location">Texas</span>. <a href="" class="select-state" ng-click="showChangeLocation = true;">Change State</a></p>
+                                <form name="lookupZipForm" ng-show="showChangeLocation" ng-submit="lookupZip()">
+                                    <label for="zipCode">Zip Code: </label>
+                                    <input type="text" name="zipCode" data-val="true" data-val-regex data-val-regex-pattern="^[0-9]{5}$" data-val-if="showChangeLocation" data-val-required="" class="zip-code" ng-model="postalCode5" ng-keyup="$event.keyCode == 13 && lookupZip()">
+                                    <a href="" ng-submit>Lookup</a>
+                                </form>
                             </div>
-                            <div class="services">
-                                <div class="service clearfix" ng-repeat="service in services">
-                                    <div class="col-1">
-                                        <a href="" ng-click="service.showDetails = true" ng-hide="service.showDetails">View Details</a>
-                                        <a href="" ng-click="service.showDetails = false" ng-show="service.showDetails">Hide Details</a>
-                                    </div>
-                                    <div class="col-2">
-                                        <p>{{service.name}}</p>
-                                        <p>{{service.description}}</p>
-                                    </div>
-                                    <div class="col-3">
-                                        <a href="" ng-click="service.selected = !service.selected" class="button service" ng-show="!service.selected">Select</a>
-                                        <a href="" ng-click="service.selected = !service.selected" class="button service selected" ng-show="service.selected">Selected</a>
-                                    </div>
-                                    <div class="details clearfix" ng-show="service.showDetails">
-                                        <p>{{service.name}} Includes:</p>
-                                        <ul class="even">
-                                            <li ng-repeat="detail in service.details" ng-if="$even">{{detail}}</li>
-                                        </ul>
-                                        <ul class="odd">
-                                            <li ng-repeat="detail in service.details" ng-if="$odd">{{detail}}</li>
-                                        </ul>
+                            <form data-val-bind-messages="validations" name="protectiveServices" ng-submit="completeStep()">
+                                @Html.ValidationSummary()
+                                <div class="services" ng-hide="showChangeLocation">
+                                    <div class="service clearfix" ng-repeat="service in services">
+                                        <div class="col-1">
+                                            <a href="" ng-click="service.showDetails = true" ng-hide="service.showDetails">View Details</a>
+                                            <a href="" ng-click="service.showDetails = false" ng-show="service.showDetails">Hide Details</a>
+                                        </div>
+                                        <div class="col-2">
+                                            <p>{{service.name}}</p>
+                                            <p>{{service.description}}</p>
+                                        </div>
+                                        <div class="col-3">
+                                            <a href="" ng-click="selectService(service.id)" class="button service" ng-show="!service.selected">Select</a>
+                                            <a href="" ng-click="removeService(service.id)" class="button service selected" ng-show="service.selected">Selected</a>
+                                        </div>
+                                        <div class="details clearfix" ng-show="service.showDetails">
+                                            <p>{{service.name}} Includes:</p>
+                                            <ul class="even">
+                                                <li ng-repeat="detail in service.details" ng-if="$even">{{detail}}</li>
+                                            </ul>
+                                            <ul class="odd">
+                                                <li ng-repeat="detail in service.details" ng-if="$odd">{{detail}}</li>
+                                            </ul>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            </form>
                         </div>
                     </article>                    
                     <div class="buttons">
                         <button type="submit" class="primary" ng-disabled="!isFormValid()" data-val-submit>Continue</button>
                         <button type="submit" class="tertiary" ng-click="resetEnrollment()">Cancel</button>
                     </div>
-                </form>
             </section>
             <aside>
                 <div ng-include ng-if="true" src="'cart-template'"></div>
