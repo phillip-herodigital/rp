@@ -30,12 +30,15 @@ ngApp.controller('EnrollmentMainCtrl', ['$scope', '$anchorScroll', '$location', 
     });
 
     //Set the first step based on query string
-    if ($location.absUrl().toLowerCase().indexOf('servicetype=mob') > 0) {
+    $scope.serviceType = getParameterByName("ServiceType").toLowerCase();
+    if ($scope.serviceType == 'mob') {
         enrollmentStepsService.setInitialFlow('phone');
-    } else {
+    } else if ($scope.serviceType == 'proserv') {
+        enrollmentStepsService.setInitialFlow('protective');
+    }
+    else {
         enrollmentStepsService.setInitialFlow('utility');
     }
-
     $scope.setTimeRemaining = enrollmentStepsService.setTimeRemaining;
 
     /**

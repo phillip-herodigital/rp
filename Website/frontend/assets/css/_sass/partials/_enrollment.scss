@@ -3286,134 +3286,147 @@ h3.success-message{
     }
 
 
-.enrollment_progress-bar{
+.enrollment_progress-bar {
     color: white;
     padding: 35px 0;
     @include retina-background('diamond-background.png');
     background-position: right;
     background-repeat: no-repeat;
-    
+
     @include breakpoint (small-medium) {
         padding-left: 25px;
 
-        .progress{
+        .progress {
             display: none;
         }
     }
-	@include breakpoint (small) {
-		.progress, .need-help{
+
+    @include breakpoint (small) {
+        .progress, .need-help {
             display: none;
         }
-	}
+    }
 
     .progress-bar-cart {
         position: relative;
         color: #333;
-        article{
+
+        article {
             display: none;
+
             &.enrollment_cart, &.hide-sidebar-cart {
                 display: block;
                 border: none;
                 background: none;
                 margin-top: 25px;
                 float: right;
+
                 header {
-                    padding:0;
+                    padding: 0;
                 }
             }
         }
-		.icon-close{
-			display:none;
-		}
-		@include breakpoint (small-medium) {
-			.cart-overlay.open + .icon-close{
-				display: block;
-				position: fixed;
-				top: 15px;
-				right: 15px;
-				z-index: 10001;
-			}
-		}
-        .cart-wrapper{
+
+        .icon-close {
+            display: none;
+        }
+
+        @include breakpoint (small-medium) {
+            .cart-overlay.open + .icon-close {
+                display: block;
+                position: fixed;
+                top: 15px;
+                right: 15px;
+                z-index: 10001;
+            }
+        }
+
+        .cart-wrapper {
             cursor: pointer;
 
-            .cart-items{
+            .cart-items {
                 color: white;
-                .icon-cart{
+
+                .icon-cart {
                     @include retina-background('cart-white.png');
                     background-position: 0;
                 }
             }
-			
-            div.enrollment__cart{
-                margin-bottom: 0;
-                float:right;
 
-                article.enrollment_cart{
+            div.enrollment__cart {
+                margin-bottom: 0;
+                float: right;
+
+                article.enrollment_cart {
                     margin-bottom: 0;
                     margin-top: 15px;
                 }
-                header{
+
+                header {
                     background: none;
                     border: none;
                     padding-top: 0;
                 }
-                h1, .content, footer{
+
+                h1, .content, footer {
                     display: none;
                 }
-
             }
         }
-        .arrow{
-                height: 25px;
-                width: 25px;
-                position: absolute;
-                right: 12px;
-                top: 50px;
-                transform: rotate(45deg);
-                background: white;
-                z-index: 10000;
-            }
 
-        .cart-overlay{
+        .arrow {
+            height: 25px;
+            width: 25px;
+            position: absolute;
+            right: 12px;
+            top: 50px;
+            transform: rotate(45deg);
+            background: white;
+            z-index: 10000;
+        }
+
+        .cart-overlay {
             padding: 0 15px;
             background: white;
             top: 60px;
             right: 0;
             border: 1px solid #e6e6e6;
             border-radius: 5px;
-			 @include breakpoint (small-medium) {
-				left: auto;
-				position: fixed;
-				top: 0;
-				left: 0;
-				right: 0;
-				bottom: 0;
-				background: white;
-				z-index: 10000;
 
-				article{
-					float: none;
-				}
-			 }
-            header{
+            @include breakpoint (small-medium) {
+                left: auto;
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: white;
+                z-index: 10000;
+
+                article {
+                    float: none;
+                }
+            }
+
+            header {
                 background: white;
                 padding-left: 0;
             }
 
-            .cart-items{
+            .cart-items {
                 display: none;
             }
 
-            .content{
+            .content {
                 padding-left: 0;
                 padding-right: 0;
             }
-            footer{
+
+            footer {
                 display: none;
             }
         }
-        
+
         &.hide-cart {
             .cart-items {
                 display: none;
@@ -3436,44 +3449,49 @@ h3.success-message{
         }
     }
 
-    &.step1{
+    &.step1 {
         background-color: $enrollment-progress-bar-step1-color;
 
-        .step{
+        .step {
             background-color: $enrollment-progress-bar-step1-color;
 
-            &.step1{
+            &.step1 {
                 background-color: white;
             }
         }
     }
-    &.step2{
+
+    &.step2 {
         background-color: $enrollment-progress-bar-step2-color;
-        .step{
+
+        .step {
             background-color: $enrollment-progress-bar-step2-color;
 
-            &.step1, &.step2{
+            &.step1, &.step2 {
                 background-color: white;
             }
         }
     }
-    &.step3{
+
+    &.step3 {
         background-color: $enrollment-progress-bar-step3-color;
-        .step{
+
+        .step {
             background-color: $enrollment-progress-bar-step3-color;
 
-            &.step1, &.step2, &.step3{
+            &.step1, &.step2, &.step3 {
                 background-color: white;
             }
         }
     }
-    
-    &.step4{
+
+    &.step4 {
         background-color: $enrollment-progress-bar-step4-color;
-        .step{
+
+        .step {
             background-color: $enrollment-progress-bar-step4-color;
 
-            &.step1, &.step2, &.step3, &.step4{
+            &.step1, &.step2, &.step3, &.step4 {
                 background-color: white;
             }
         }
@@ -3481,52 +3499,58 @@ h3.success-message{
 
     &.step5 {
         background-color: $enrollment-progress-bar-step5-color;
-        .progress, .progress-bar-cart, .need-help{
+
+        .progress, .progress-bar-cart, .need-help {
             display: none;
         }
     }
 
-    &.step3, &.step4{
-        .inner{
-            .need-help{
+    &.step3, &.step4 {
+        .inner {
+            .need-help {
                 background-color: #0a96d7;
             }
         }
     }
 
-    .inner{
+    .inner {
         width: 1040px;
         margin: auto;
         position: relative;
 
-		 @include breakpoint (small-medium) {
-			width: 100%;
-		 }
-        .step-description{
+        @include breakpoint (small-medium) {
+            width: 100%;
+        }
+
+        .step-description {
             float: left;
             width: 373px;
             font-weight: 200;
             font-size: 26px;
-            .stepCount{
+
+            .stepCount {
                 font-weight: 800;
                 font-size: 36px;
                 line-height: 1;
             }
+
             @include breakpoint(small) {
                 width: 100%;
             }
         }
-        
+
         .progress {
             float: left;
             padding-top: 35px;
             position: relative;
             margin-right: 180px;
+
             .bar {
                 width: 200px;
                 height: 1px;
                 background: #fff;
             }
+
             .step {
                 border: 2px solid white;
                 border-radius: 100px;
@@ -3534,22 +3558,26 @@ h3.success-message{
                 position: absolute;
                 top: 23px;
                 width: 25px;
-                cursor :pointer;
+                cursor: pointer;
 
                 &.step2 {
                     left: 30%;
                 }
+
                 &.step3 {
                     right: 30%;
                 }
+
                 &.step4 {
                     right: 0;
                 }
             }
         }
+
         .inner {
             position: relative;
         }
+
         .need-help {
             position: absolute;
             top: -35px;
@@ -3561,8 +3589,10 @@ h3.success-message{
             font-size: 15px;
             font-weight: 600;
         }
+
         .referred-by-section {
             float: left;
+
             .associate-image {
                 float: left;
                 display: inline-block;
@@ -3578,12 +3608,14 @@ h3.success-message{
                 display: block;
                 padding-top: 13px;
                 line-height: 1.2;
+
                 .referred-by {
                     display: block;
                     color: #fff;
                     font-size: 12px;
                     font-weight: 400;
                 }
+
                 .associate-name {
                     display: block;
                     color: #fff;
@@ -3591,6 +3623,7 @@ h3.success-message{
                     font-weight: 600;
                     padding-bottom: 4px;
                 }
+
                 .associate-level {
                     display: block;
                     color: #fff;
@@ -3600,6 +3633,7 @@ h3.success-message{
                     letter-spacing: 3px;
                 }
             }
+
             @include breakpoint(small) {
                 margin-top: 10px;
             }
@@ -3609,8 +3643,68 @@ h3.success-message{
     &.win-back {
         background-color: #0071b9;
         margin-top: -21px;
+
         .step-description {
             width: auto;
+        }
+    }
+
+    &.protective-services {
+        background-color: #0cac94;
+        padding-bottom: 0;
+
+        .step-description {
+            p {
+                margin-top: 0;
+            }
+        }
+
+        &.step1 {
+            background-color: #0cac94;
+
+            .step {
+                background-color: #0cac94;
+
+                &.step1 {
+                    background-color: white;
+                }
+            }
+        }
+
+        &.step2 {
+            background-color: #0cac94;
+
+            .step {
+                background-color: #0cac94;
+
+                &.step1, &.step2 {
+                    background-color: white;
+                }
+            }
+        }
+
+        &.step3 {
+            background-color: #0cac94;
+
+            .step {
+                background-color: #0cac94;
+
+                &.step1, &.step2, &.step3 {
+                    background-color: white;
+                }
+            }
+        }
+
+        &.step4 {
+            background-color: #0cac94;
+
+            .step {
+                background-color: #0cac94;
+
+                &.step1, &.step2, &.step3, &.step4 {
+                    background-color: white;
+                }
+            }
         }
     }
 }
@@ -3625,6 +3719,35 @@ h3.success-message{
                 font-weight: 400;
             }
         }
+}
+
+.enrollment__protective-services {
+    .services {
+        .service {
+            .col-1 {
+                width: 100px;
+                float: left;
+            }
+            .col-2 {
+                width: calc(100% - 250px);
+                float: left;
+            }
+
+            .col-3 {
+                width: 150px;
+                float: left;
+            }
+
+            .details {
+                clear: left;
+
+                .even , .odd{
+                    width: 50%;
+                    float: left;
+                }
+            }
+        }
+    }
 }
 
 .enrollment_verify-phone {

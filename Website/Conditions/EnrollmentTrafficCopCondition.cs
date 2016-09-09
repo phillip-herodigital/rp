@@ -80,7 +80,7 @@ namespace StreamEnergy.MyStream.Conditions
             bool redirect = false;
 
             // Allow only TX, GA, and mobile enrollments to view our enrollment page.
-            redirect = redirect || (dependencies.EnrollmentParameters.State != "TX" && dependencies.EnrollmentParameters.State != "GA" && dependencies.EnrollmentParameters.ServiceType != "MOB");
+            redirect = redirect || (dependencies.EnrollmentParameters.State != "TX" && dependencies.EnrollmentParameters.State != "GA" && dependencies.EnrollmentParameters.ServiceType != "MOB" && dependencies.EnrollmentParameters.ServiceType != "PROSERV");
 
             // "cracked door" - allow less than 100% through to our own enrollment.
             redirect = redirect || useRemoteEnrollment;

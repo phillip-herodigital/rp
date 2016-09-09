@@ -271,12 +271,12 @@
 </div>
 
 
-<div class="coverage-map-container hidden-map">
+<div class="coverage-map-container hidden-map" ng-if="serviceType === 'mob'">
     <div class="inner">
         <div class="modal-header">
             <a class="close" onclick="$('.coverage-map-container').addClass('hidden-map')">X</a>
         </div>
-        <script src="//maps.googleapis.com/maps/api/js?libraries=places&sensor=false"></script>
+        <script src="//maps.googleapis.com/maps/api/js?key=AIzaSyCKwR5gbRNgWMZ84ZxGFPh1Jpvm5nMRuRY&libraries=places"></script>
         <div class="wrapper">
             <article class="coverage-map" ng-controller="MobileEnrollmentConfigureDataCtrl">
                 <div class="form">
@@ -303,7 +303,7 @@
         </div>
     </div>
 </div>
-<div class="coverage-map-fade"></div>
+<div class="coverage-map-fade" ng-if="serviceType === 'mob'"></div>
 
 <script type="text/ng-template" id="indPlanList/Mobile">
     <div class="btn-group btn-group-options mobile-plans">
