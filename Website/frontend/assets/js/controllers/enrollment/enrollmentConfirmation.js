@@ -25,10 +25,6 @@ ngApp.controller('EnrollmentConfirmationCtrl', ['$scope', '$window', 'enrollment
         window.print();
     };
 
-    $scope.totalAutoPaySavings = function () {
-        return $scope.autoPayDiscount * $scope.getCartItems().length;
-    }
-
     $scope.$watch(mobileEnrollmentService.getPhoneData, function (phoneData) {
         allPhones = phoneData;
         confirmationDevices = enrollmentCartService.getConfirmationDevices();
@@ -59,12 +55,7 @@ ngApp.controller('EnrollmentConfirmationCtrl', ['$scope', '$window', 'enrollment
     }
 
     $scope.getCartTotal = function () {
-        if ($scope.autopay) {
-            return enrollmentCartService.calculateConfirmationTotal() - $scope.totalAutoPaySavings();
-        }
-        else {
-            return enrollmentCartService.calculateConfirmationTotal();
-        }
+        return enrollmentCartService.calculateConfirmationTotal();
     }
 
     /**
