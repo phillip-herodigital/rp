@@ -61,6 +61,13 @@
                             <div ng-include src="'serviceConfirmation/' + offerInformation.key"></div>
                         </div>
                     </div>
+                    <div class="plan-summary" ng-if="!cartHasTxLocation() && getCartTotal() > 0">
+                        <div class="line-item">
+                            <div class="total">
+                                @Html.Sitecore().Field("Order Total Text") <strong>{{ getCartTotal() | currency }}</strong>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </article>
             <article class="monthly-cost enrollment__box" ng-if="cartHasMobile()">
