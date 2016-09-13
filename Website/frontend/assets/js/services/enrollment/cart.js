@@ -50,6 +50,10 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', 'sc
             return undefined;
         },
 
+        getCartServices: function() {
+            return services;
+        },
+
         getActiveServiceType: function () {
             if (cart.activeServiceIndex >= 0 && typeof services[cart.activeServiceIndex].offerInformationByType != 'undefined')
                 return services[cart.activeServiceIndex].offerInformationByType[0].key;
@@ -398,17 +402,16 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', 'sc
                 .size();
 
             //Get the count for all mobile products
-            /*
-            var mobileAddresses = enrollmentCartService.getMobileAddresses();
-            var dataPlan = _(mobileAddresses)
+            var mobile = cart.items.length;
+
+            //Get the count for all protective products
+            var protective = _(enrollmentCartService.getProtectiveServices())
                 .pluck('offerInformationByType').flatten().filter()
                 .pluck('value').filter()
                 .pluck('offerSelections').flatten().filter()
                 .size();
-            */
-            var mobile = cart.items.length;
 
-            return utility + mobile;
+            return utility + mobile + protective;
         },
 
         /**
@@ -518,11 +521,9 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', 'sc
                 .some();
         },
         cartHasProtective: function () {
-            return _.some(services, function (service) {
-                return _.some(service.location.capabilities, function (capability) {
-                    return _.some(capability.capabilityType === "Protective");
-                });
-            });
+            return _(services).pluck('location').pluck('capabilities').flatten().pluck('capabilityType')
+                .intersection(['Protective'])
+                .some();
         },
         getUtilityAddresses: function() {
             return _(services)
@@ -532,6 +533,16 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', 'sc
                         .some()) {
                         return service;
                     } 
+                }).value();
+        },
+        getProtectiveServices: function () {
+            return _(services)
+                .filter(function (service) {
+                    if (_(service.offerInformationByType).pluck('key')
+                        .intersection(['Protective'])
+                        .some()) {
+                        return service;
+                    }
                 }).value();
         },
         locationHasService: function (location) {

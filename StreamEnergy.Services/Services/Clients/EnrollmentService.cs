@@ -45,7 +45,33 @@ namespace StreamEnergy.Services.Clients
                     result.Add(location, new LocationOfferSet { OfferSetErrors = { { "Location", "CustomerTypeUnknown" } } });
                     continue;
                 }
-
+                if (location.Capabilities.Any(c => c.CapabilityType == "Protective"))
+                {
+                    var item = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Taxonomy/Products/Protective");
+                    var serviceItems = item.Children;
+                    int sortOrder = 0;
+                    result.Add(location, new DomainModels.Enrollments.LocationOfferSet
+                    {
+                        Offers = (from service in serviceItems
+                                  let canSort = int.TryParse(service.Fields["Sort Order"].Value, out sortOrder)
+                                  select new DomainModels.Enrollments.Protective.Offer {
+                                      Id = service.Fields["ID"].Value,
+                                      Name = service.Fields["Name"].Value,
+                                      Description = service.Fields["Description"].Value,
+                                      Details = service.Fields["Details"].Value.Split('|'),
+                                      SortOrder = canSort ? sortOrder : -1,
+                                      ThreeServiceDiscount = Int32.Parse(Sitecore.Context.Database.GetItem("/sitecore/content/Data/Settings/Protective Enrollment Options").Fields["3 Service Discount"].Value),
+                                      Price = Int32.Parse(service.Fields["Price"].Value),
+                                      GroupOffer = string.IsNullOrEmpty(service.Fields["Group Offer ID"].Value) ? null : new DomainModels.Enrollments.Protective.Offer.SubOffer
+                                      {
+                                          Id = service.Fields["Group Offer ID"].Value,
+                                          Price = Int32.Parse(service.Fields["Group Offer Price"].Value),
+                                          Selected = false
+                                      }
+                                  }).ToArray()
+                    });
+                    return result;
+                }
                 var serviceStatus = location.Capabilities.OfType<ServiceStatusCapability>().Single();
                 var customerType = location.Capabilities.OfType<CustomerTypeCapability>().Single();
 

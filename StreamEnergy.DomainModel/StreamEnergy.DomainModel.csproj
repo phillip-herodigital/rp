@@ -128,6 +128,7 @@
     <Compile Include="DomainModels\Accounts\AccountBalance.cs" />
     <Compile Include="DomainModels\Accounts\AnonymousPaymentMethodAccountCapability.cs" />
     <Compile Include="DomainModels\Accounts\ISubAccountCapability.cs" />
+    <Compile Include="DomainModels\Accounts\ProtectiveAccount.cs" />
     <Compile Include="DomainModels\Accounts\MobileAccountDetails.cs" />
     <Compile Include="DomainModels\Accounts\MobileAccountUsage.cs" />
     <Compile Include="DomainModels\Accounts\AccountUsage.cs" />
@@ -188,6 +189,12 @@
     <Compile Include="DomainModels\Documents\DocumentTypeIndicator.cs" />
     <Compile Include="DomainModels\Documents\IDocumentStore.cs" />
     <Compile Include="DomainModels\Emails\IEmailService.cs" />
+    <Compile Include="DomainModels\Enrollments\Protective\Offer.cs" />
+    <Compile Include="DomainModels\Enrollments\Protective\OfferOption.cs" />
+    <Compile Include="DomainModels\Enrollments\Protective\OfferOptionPolicy.cs" />
+    <Compile Include="DomainModels\Enrollments\Protective\OfferOptionRules.cs" />
+    <Compile Include="DomainModels\Enrollments\Protective\ServiceCapability.cs" />
+    <Compile Include="DomainModels\Enrollments\Protective\TotalPaymentAmount.cs" />
     <Compile Include="DomainModels\Enrollments\UserAccountDetails.cs" />
     <Compile Include="DomainModels\Enrollments\AdditionalAuthorization.cs" />
     <Compile Include="DomainModels\Enrollments\AsyncPlaceOrderState.cs" />

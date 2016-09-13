@@ -8,9 +8,8 @@ namespace StreamEnergy.Services.Clients
     interface ISitecoreProductData
     {
         SitecoreProductInfo GetTexasElectricityProductData(string productCode, string providerName);
-
+        SitecoreProductInfo GetProtectiveProductData(string productId);
         SitecoreProductInfo GetGeorgiaGasProductData(string productCode);
-
         SitecoreProductInfo GetMobileProductData(string productId);
         SitecoreProductInfo GetMobileInventoryData(string inventoryId);
     }

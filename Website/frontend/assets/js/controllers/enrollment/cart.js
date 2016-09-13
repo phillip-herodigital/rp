@@ -26,6 +26,7 @@ ngApp.controller('EnrollmentCartCtrl', ['$scope', 'enrollmentStepsService', 'enr
     $scope.getCartDataPlan = enrollmentCartService.getCartDataPlan;
     $scope.getMobileAddresses = enrollmentCartService.getMobileAddresses;
     $scope.getUtilityAddresses = enrollmentCartService.getUtilityAddresses;
+    $scope.getProtectiveServices = enrollmentCartService.getProtectiveServices;
     $scope.getActiveServiceType = enrollmentCartService.getActiveServiceType;
     $scope.getPlanPrice = enrollmentCartService.getPlanPrice;
     $scope.totalPlanPrice = enrollmentCartService.totalPlanPrice;
@@ -236,6 +237,25 @@ ngApp.controller('EnrollmentCartCtrl', ['$scope', 'enrollmentStepsService', 'enr
             }
         })
     };
+
+    $scope.getProtectiveDiscount = function () {
+        var offerCount = enrollmentCartService.getCartCount();
+        var services = $scope.getProtectiveServices();
+        if (offerCount) {
+            var discount = services[0].offerInformationByType[0].value.availableOffers[0].threeServiceDiscount;
+            angular.forEach(services, function (service) {
+                angular.forEach(service.offerInformationByType[0].value.offerSelections, function (offerSelection) {
+                    if (offerSelection.offer.groupOfferSelected) {
+                        offerCount++;
+                    }
+                });
+            });
+            return offerCount > 2 ? offerCount * discount : 0;
+        }
+        else {
+            return 0;
+        }
+    }
 
     /**
     * Handle the checkout button

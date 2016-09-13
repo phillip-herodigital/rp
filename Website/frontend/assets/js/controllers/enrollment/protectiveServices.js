@@ -1,89 +1,83 @@
 ﻿/* Protective Services Enrollment Controller */
 ngApp.controller('protectiveServicesEnrollmentCtrl', ['$scope', '$http', '$location', 'enrollmentService', 'enrollmentCartService', 'analytics', function ($scope, $http, $location, enrollmentService, enrollmentCartService, analytics) {
-    $scope.services = [
-        {
-            id: 0,
-            name: 'Virtual MD',
-            description: 'Access a doctor',
-            showDetails: false,
-            selected: false,
-            details: ['do thing 1', 'do thing 2', 'do thing 3']
-        },
-        {
-            id: 1,
-            name: 'Roadside',
-            description: 'Access a doctor',
-            showDetails: false,
-            selected: false,
-            details: ['do thing 1', 'do thing 2', 'do thing 3']
-        },
-        {
-            id: 2,
-            name: 'Identity',
-            description: 'Access a doctor',
-            showDetails: false,
-            selected: false,
-            details: ['do thing 1', 'do thing 2', 'do thing 3']
-        },
-        {
-            id: 3,
-            name: 'Credit',
-            description: 'Access a doctor',
-            showDetails: false,
-            selected: false,
-            details: ['do thing 1', 'do thing 2', 'do thing 3']
-        },
-        {
-            id: 4,
-            name: 'Tech Support',
-            description: 'Access a doctor',
-            showDetails: false,
-            selected: false,
-            details: ['do thing 1', 'do thing 2', 'do thing 3']
-        }
-    ];
+    $scope.getCartServices = enrollmentCartService.getCartServices;
     $scope.showChangeLocation = $scope.geoLocation.postalCode5 == '';
-
+    $scope.getActiveService = enrollmentCartService.getActiveService;
+    $scope.showgroupOffers = false;
 
     $scope.init = function () {
-        if (!$scope.showChangeLocation) {
-            $scope.serviceLocation = {};
+        $scope.queryPlanID = getParameterByName('PlanID');
+        addUpdateService().then(function () {
+            if ($scope.queryPlanID) {
+                $scope.selectService($scope.queryPlanID);
+            }
+        }, function () { });
+    }
+
+    $scope.selectOffer = function (offer) {
+        $scope.getActiveService().offerInformationByType[0].value.offerSelections.push({
+            offer: offer,
+            offerId: offer.id
+        });
+        if (offer.groupOffer) $scope.showgroupOffers = true;
+        enrollmentService.setSelectedOffers(false);
+    }
+
+    $scope.removeOffer = function (offerId) {
+        _.remove($scope.getActiveService().offerInformationByType[0].value.offerSelections, function (offerSelection) {
+            return offerSelection.offerId === offerId;
+        });
+        if (_.every($scope.getActiveService().offerInformationByType[0].value.offerSelections, function(offerSelection) {
+            return typeof (offerSelection.offer.groupOffer) === 'undefined';
+        })) $scope.showgroupOffers = false;
+        enrollmentService.setSelectedOffers(false);
+    }
+
+    $scope.offerSelected = function (id) {
+        return _.some($scope.getActiveService().offerInformationByType[0].value.offerSelections, function (offer) {
+            return offer.offerId === id;
+        });
+    }
+
+    $scope.getInfo = function () {
+        return $scope.getCartServices();
+    }
+
+    $scope.completeStep = function () {
+    }
+
+    var addUpdateService = function () {
+        var location = {
+            address: {
+                line1: "",
+                city: $scope.geoLocation.city,
+                stateAbbreviation: $scope.geoLocation.state,
+                postalCode5: $scope.geoLocation.postalCode5
+            },
+            capabilities: [
+                { "capabilityType": "ServiceStatus", "enrollmentType": "moveIn" },
+                { "capabilityType": "CustomerType", "customerType": "residential" },
+                { "capabilityType": "Protective" }]
+        }, activeService = enrollmentCartService.getActiveService();
+        if (activeService) {
+            activeService.location = location;
+            return enrollmentService.setSelectedOffers(false);
+        }
+        else {
             enrollmentCartService.addService({
                 eligibility: "success",
-                location: {
-                    address: {
-                        city: $scope.geoLocation.city,
-                        line1: "",
-                        postalCode5: $scope.geoLocation.postalCode5,
-                        stateAbbreviation: $scope.geoLocation.stateAbbreviation
-                    },
-                    capabilities: $scope.serviceLocation.capabilities
-                },
+                location: location,
                 offerInformationByType: [{
-                    key: "Mobile",
+                    key: "Protective",
                     value: {
-                        availableOffers: $scope.currentMobileLocationInfo().offerInformationByType[0].value.availableOffers,
+                        availableOffers: [],
                         errors: [],
                         offerSelections: []
                     }
                 }]
             });
+            return enrollmentService.setServiceInformation(false);
         }
-        var queryPlanID = getParameterByName('PlanID');
-        if (queryPlanID) {
-            $scope.selectService(queryPlanID);
-        }
-    }
-
-    $scope.selectService = function (id) {
-        angular.forEach($scope.services, function (service) {
-            if (service.id === id) {
-                enrollmentCartService.addService({})
-            }
-        });
-    }
-
-    $scope.completeStep = function () {
     }
 
     $scope.lookupZip = function () {
@@ -93,8 +87,6 @@ ngApp.controller('protectiveServicesEnrollmentCtrl', ['$scope', '$http', '$locat
             $http.get('/api/addresses/lookupZip/' + $scope.postalCode5)
             .success(function (data) {
                 $scope.isLoading = false;
-                $scope.showChangeLocation = false;
-                $scope.serviceLocation = {};
                 if (data.length) {
                     analytics.sendTags({
                         EnrollmentZipCode: $scope.postalCode5,
@@ -106,33 +98,13 @@ ngApp.controller('protectiveServicesEnrollmentCtrl', ['$scope', '$http', '$locat
                         state: data[1],
                         postalCode5: $scope.postalCode5
                     };
-                    $scope.serviceLocation.address = {
-                        line1: "",
-                        city: data[0],
-                        stateAbbreviation: data[1],
-                        postalCode5: $scope.postalCode5
-                    };
-                    $scope.serviceLocation.capabilities = [{ "capabilityType": "ServiceStatus", "enrollmentType": "moveIn" }];
-                    $scope.serviceLocation.capabilities.push({ "capabilityType": "CustomerType", "customerType": "residential" });
-                    $scope.serviceLocation.capabilities.push({ "capabilityType": "Protective" });
-
-                    var activeService = enrollmentCartService.getActiveService();
                     $scope.zipCodeInvalid = false;
-                    if (activeService) {
-                        activeService.location = $scope.serviceLocation;
-                        enrollmentService.setSelectedOffers(true).then(function () {
-                            if ($scope.mobileEnrollment.requestedPlanId != "") {
-                                $scope.selectPlan($scope.mobileEnrollment.requestedPlanId);
-                            }
-                        }, function () {
-                            console.log("no available offers")
-                        });
-                    }
-                    else {
-                        enrollmentCartService.addService({ location: $scope.serviceLocation });
-                        enrollmentService.setServiceInformation(true);
-                        activeService = enrollmentCartService.getActiveService();
-                    }
+                    $scope.showChangeLocation = false;
+                    addUpdateService().then(function () {
+                        if ($scope.queryPlanID) {
+                            $scope.selectService($scope.queryPlanID);
+                        }
+                    }, function () { });
                 }
                 else {
                     $scope.showChangeLocation = true;
