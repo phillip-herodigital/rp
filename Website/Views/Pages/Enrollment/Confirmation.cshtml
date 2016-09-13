@@ -73,6 +73,9 @@
                                     <div class="line-item clearfix">
                                         <div class="description">
                                             <h3 class="subheading">@Html.Sitecore().Field("Text - Plan Description")</h3>
+                                            <span class="international-plan" ng-if="selectedOffer.offer.includesInternational">
+                                                @Html.Sitecore().Field("Plus Stream International Plus")
+                                            </span>
                                             <div class="details">@Html.Sitecore().Field("Text - Plan Details")</div>
                                         </div>
                                         <div class="rate">{{ getOfferPrice(selectedOffer.offerId) | currency }}</div>
@@ -95,6 +98,9 @@
                                     <div class="line-item clearfix">
                                         <div class="description">
                                             <h3 class="subheading">@Html.Sitecore().Field("Text - Existing Plan Description")</h3>
+                                            <span class="international-plan" ng-if="planIncludesInternational(subAccount.planID)">
+                                                @Html.Sitecore().Field("Plus Stream International Plus")
+                                            </span>
                                             <div class="details">@Html.Sitecore().Field("Text - Existing Plan Details")</div>
                                         </div>
                                         <div class="rate">{{ subAccount.cost | currency }}</div>
@@ -112,7 +118,7 @@
                                     @Html.Sitecore().Field("AutoPay Enabled Text")
                                 </div>
                                 <div class="total" ng-class="{'autopay-total' : autopay}">
-                                    @Html.Sitecore().Field("Average Monthly Text") <strong>{{ getCartMonthly() | currency }}</strong>
+                                    @Html.Sitecore().Field("Average Monthly Text") <strong>{{ getCartMonthly(addLineSubAccounts) | currency }}</strong>
                                 </div>
                             </div>
                         </div>

@@ -330,7 +330,7 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', 'sc
             return total + getProratedCost();
         },
 
-        calculateMobileMonthlyTotal: function () {
+        calculateMobileMonthlyTotal: function (addLineSubAccounts) {
             var total = 0;
             for (var i = 0; i < services.length; i++) {
                 if (services[i].offerInformationByType[0].key == "Mobile") {
@@ -338,6 +338,9 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', 'sc
                     total += (services[i].offerInformationByType[0].value.offerSelections[0].payments.requiredAmounts[0].taxTotal);
                 }
             }
+            angular.forEach(addLineSubAccounts, function (subAccount) {
+                total += subAccount.cost;
+            });
             return total;
         },
 

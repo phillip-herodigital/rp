@@ -30,6 +30,16 @@ ngApp.controller('EnrollmentConfirmationCtrl', ['$scope', '$window', '$modal', '
     }
     var date = new Date();
 
+    $scope.planIncludesInternational = function (id) {
+        return _.some(enrollmentCartService.services, function (service) {
+            return _.some(service.offerInformationByType[0].value.availableOffers, function (offer) {
+                if (offer.id === id) {
+                    return offer.includesInternational;
+                }
+            });
+        });
+    }
+
     $scope.todaysDate = date.getMonth().toString().concat("/", date.getDate(), "/", date.getYear().toString().slice(-2), " at ", date.getHours() < 13 ? date.getHours() : date.getHours() - 12, ":", date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes(), date.getHours() < 13 ? "AM" : "PM");
 
     $scope.showModal = function (templateUrl, size) {
