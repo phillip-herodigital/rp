@@ -3,10 +3,6 @@
  * This is used to control aspects of the cart on enrollment page.
  */
 ngApp.controller('EnrollmentCartCtrl', ['$scope', 'enrollmentStepsService', 'enrollmentService', 'mobileEnrollmentService', 'enrollmentCartService', '$modal', '$timeout', function ($scope, enrollmentStepsService, enrollmentService, mobileEnrollmentService, enrollmentCartService, $modal, $timeout) {
-    
-    /*$scope.enrollmentStepsService = enrollmentStepsService;
-    $scope.accountInformationService = accountInformationService;*/
-
 
     $scope.time = function () { return enrollmentStepsService.timeRemaining(); };
     $scope.isRenewal = enrollmentService.isRenewal;
@@ -238,23 +234,58 @@ ngApp.controller('EnrollmentCartCtrl', ['$scope', 'enrollmentStepsService', 'enr
         })
     };
 
-    $scope.getProtectiveDiscount = function () {
-        var offerCount = enrollmentCartService.getCartCount();
-        var services = $scope.getProtectiveServices();
-        if (offerCount) {
-            var discount = services[0].offerInformationByType[0].value.availableOffers[0].threeServiceDiscount;
-            angular.forEach(services, function (service) {
-                angular.forEach(service.offerInformationByType[0].value.offerSelections, function (offerSelection) {
-                    if (offerSelection.offer.groupOfferSelected) {
-                        offerCount++;
-                    }
-                });
-            });
-            return offerCount > 2 ? offerCount * discount : 0;
+    /**
+    * Handle Protective Cart Functions
+    */
+
+    $scope.getProtectiveDiscount = function (offer) {
+        if (offer) {
+            if (offer.groupOffer && offer.groupOffer.selected) {
+                return 2 * offer.threeServiceDiscount;
+            }
+            else {
+                return offer.threeServiceDiscount;
+            }
         }
         else {
-            return 0;
+            var offerCount = enrollmentCartService.getCartCount();
+            if (offerCount) {
+                var discount = $scope.getProtectiveServices()[0].offerInformationByType[0].value.availableOffers[0].threeServiceDiscount;
+                angular.forEach($scope.getProtectiveServices(), function (service) {
+                    angular.forEach(service.offerInformationByType[0].value.offerSelections, function (offerSelection) {
+                        if (offerSelection.offer.groupOffer && offerSelection.offer.groupOffer.selected) {
+                            offerCount++;
+                        }
+                    });
+                });
+                return offerCount > 2 ? offerCount * discount : 0;
+            }
+            else {
+                return 0;
+            }
         }
+    }
+
+    $scope.getProtectiveOfferPrice = function (offer) {
+        if (offer.groupOffer && offer.groupOffer.selected) {
+            return offer.groupOffer.price;
+        }
+        else {
+            return offer.price;
+        }
+    }
+
+    $scope.getProtectiveTotal = function () {
+        var total = 0;
+        angular.forEach($scope.getProtectiveServices()[0].offerInformationByType[0].value.offerSelections, function (offerSelection) {
+            if (offerSelection.offer.groupOffer && offerSelection.offer.groupOffer.selected) {
+                total += offerSelection.offer.groupOffer.price;
+            }
+            else {
+                total += offerSelection.offer.price;
+            }
+        });
+        return total;
     }
 
     /**

@@ -14,6 +14,8 @@ ngApp.controller('protectiveServicesEnrollmentCtrl', ['$scope', '$http', '$locat
         }, function () { });
     }
 
+    $scope.zipCodeRegex = "^[0-9]{5}$";
+
     $scope.selectOffer = function (offer) {
         $scope.getActiveService().offerInformationByType[0].value.offerSelections.push({
             offer: offer,
@@ -41,6 +43,10 @@ ngApp.controller('protectiveServicesEnrollmentCtrl', ['$scope', '$http', '$locat
 
     $scope.getInfo = function () {
         return $scope.getCartServices();
+    }
+
+    $scope.isFormValid = function () {
+        return enrollmentCartService.getCartCount() > 0.
     }
 
     $scope.completeStep = function () {

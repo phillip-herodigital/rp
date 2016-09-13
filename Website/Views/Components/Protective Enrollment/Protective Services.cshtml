@@ -10,19 +10,19 @@
                     </header>
                     <div class="content">
                         <div class="select-services">
-                            <h4>Select Your Protective Services</h4>
+                            <h4 ng-show="geoLocation.state">Select Your Protective Services</h4>
                             <p>
                                 <span ng-show="geoLocation.state">It looks like your in <span class="location">{{geoLocation.state}}</span>. <a href="" class="select-state" ng-click="showChangeLocation = true">Change State</a></span>
                                 <span ng-hide="geoLocation.state">Please enter your zip code</span>
                             </p>
-                            <form name="lookupZipForm" ng-show="showChangeLocation" ng-submit="lookupZip()">
+                            <form name="lookupZipForm" ng-show="showChangeLocation" ng-submit="lookupZip()" novalidate>
                                 <label for="zipCode">Zip Code: </label>
-                                <input type="text" name="zipCode" data-val="true" data-val-regex data-val-regex-pattern="^[0-9]{5}$" data-val-if="showChangeLocation" data-val-required="" class="zip-code" ng-model="postalCode5">
+                                <input type="text" name="zipCode" class="zip-code" ng-model="postalCode5">
                                 <a href="" ng-click="lookupZip()">Lookup</a>
                             </form>
+                            <p class="notice alert" ng-if="zipCodeInvalid">Enter a valid zip code</p>
                         </div>
-                        <form data-val-bind-messages="validations" name="protectiveServices" ng-submit="completeStep()">
-                            @Html.ValidationSummary()
+                        <form name="protectiveServices" ng-submit="completeStep()" novalidate>
                             <div class="services">
                                 <div class="service clearfix" ng-repeat="offer in getActiveService().offerInformationByType[0].value.availableOffers" ng-init="showDetails = false">
                                     <div class="col-1">
@@ -39,8 +39,8 @@
                                     </div>
                                     <div class="col-3" ng-show="offer.groupOffer">
                                         <a href="" ng-click="selectOffer(offer)" class="button service" ng-hide="offerSelected(offer.id)">Select</a>
-                                        <a class="button service selected" ng-show="offerSelected(offer.id) && !offer.groupOffer.selected">Individual</a>
-                                        <a class="button service selected" ng-show="offerSelected(offer.id) && offer.groupOffer.selected">Family</a>
+                                        <a class="button service selected" ng-click="removeOffer(offer.id)" ng-show="offerSelected(offer.id) && !offer.groupOffer.selected">Individual</a>
+                                        <a class="button service selected" ng-click="removeOffer(offer.id)" ng-show="offerSelected(offer.id) && offer.groupOffer.selected">Family</a>
                                     </div>
                                     <div class="details clearfix" ng-show="showDetails">
                                         <p>{{offer.name}} Includes:</p>
@@ -84,14 +84,14 @@
     <div class="options">
         <div class="option">
             <div class="label">
-                <p class="name">Individual</p>
+                <a class="name" href="" ng-click="offer.groupOffer.selected = false">Individual</a>
                 <p class="description">For 1 Member</p>
             </div>
             <div class="amount">{{offerSelection.offer.price | currency}}</div>
         </div>
         <div class="option">
             <div class="label">
-                <p class="name">Family</p>
+                <a class="name" href="" ng-click="offer.groupOffer.selected = true">Family</a>
                 <p class="description">For up to 5 Members of the same household</p>
             </div>
             <div class="amount">{{offerSelection.offer.groupOffer.price | currency}}</div>
