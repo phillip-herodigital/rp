@@ -2317,6 +2317,28 @@
                     &.background {
                         background: url('../i/icon/gray-check.png') no-repeat left 6px;
                     }
+
+                    span {
+                        font-weight: 600;
+                    }
+                }
+
+                .text {
+                    margin-top: 10px;
+                    margin-left: 15px;
+                    height: 100px;
+                    overflow-y: scroll;
+                    padding: 5px;
+                    border: 1px solid #e9e9e9;
+                    @include border-radius(10px);
+
+                    :first-child {
+                        margin-top: 0;
+                    }
+                }
+
+                p {
+                    margin-left: 15px;
                 }
             }
         }

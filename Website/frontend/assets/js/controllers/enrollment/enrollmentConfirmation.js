@@ -1,4 +1,4 @@
-ngApp.controller('EnrollmentConfirmationCtrl', ['$scope', '$window', 'enrollmentService', 'enrollmentStepsService', 'enrollmentCartService', 'mobileEnrollmentService', 'analytics', '$timeout', function ($scope, $window, enrollmentService, enrollmentStepsService, enrollmentCartService, mobileEnrollmentService, analytics, $timeout) {
+ngApp.controller('EnrollmentConfirmationCtrl', ['$scope', '$window', '$modal', 'enrollmentService', 'enrollmentStepsService', 'enrollmentCartService', 'mobileEnrollmentService', 'analytics', '$timeout', function ($scope, $window, $modal, enrollmentService, enrollmentStepsService, enrollmentCartService, mobileEnrollmentService, analytics, $timeout) {
     $scope.accountInformation = {};
     var confirmationDevices = [];
     var allPhones = [];
@@ -27,11 +27,24 @@ ngApp.controller('EnrollmentConfirmationCtrl', ['$scope', '$window', 'enrollment
 
     var date = new Date();
 
-    $scope.todaysDate = date.getMonth().toString().concat("/", date.getDay(), "/", date.getYear().toString().slice(-2), " at ", date.getHours() < 13 ? date.getHours() : date.getHours() - 12, ":", date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes(), date.getHours() < 13 ? "AM" : "PM");
+    $scope.planIncludesInternational = function (id) {
+        return _.some(enrollmentCartService.services, function (service) {
+            return _.some(service.offerInformationByType[0].value.availableOffers, function (offer) {
+                if (offer.id === id) {
+                    return offer.includesInternational;
+                }
+            });
+        });
+    }
 
-    $scope.findInfo = function () {
-        var thing = $scope.getCartItems();
-        return enrollmentService;
+    $scope.todaysDate = date.getMonth().toString().concat("/", date.getDate(), "/", date.getYear().toString().slice(-2), " at ", date.getHours() < 13 ? date.getHours() : date.getHours() - 12, ":", date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes(), date.getHours() < 13 ? "AM" : "PM");
+
+    $scope.showModal = function (templateUrl, size) {
+        $modal.open({
+            'scope': $scope,
+            'templateUrl': templateUrl,
+            'size': size ? size : ''
+        })
     };
 
     $scope.$watch(mobileEnrollmentService.getPhoneData, function (phoneData) {

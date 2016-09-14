@@ -80,6 +80,9 @@
                                     <div class="line-item clearfix">
                                         <div class="description">
                                             <h3 class="subheading">@Html.Sitecore().Field("Text - Plan Description")</h3>
+                                            <span class="international-plan" ng-if="selectedOffer.offer.includesInternational">
+                                                @Html.Sitecore().Field("Plus Stream International Plus")
+                                            </span>
                                             <div class="details">@Html.Sitecore().Field("Text - Plan Details")</div>
                                         </div>
                                         <div class="rate">{{ getOfferPrice(selectedOffer.offerId) | currency }}</div>
@@ -101,6 +104,9 @@
                                     <div class="line-item clearfix">
                                         <div class="description">
                                             <h3 class="subheading">@Html.Sitecore().Field("Text - Existing Plan Description")</h3>
+                                            <span class="international-plan" ng-if="planIncludesInternational(subAccount.planID)">
+                                                @Html.Sitecore().Field("Plus Stream International Plus")
+                                            </span>
                                             <div class="details">@Html.Sitecore().Field("Text - Existing Plan Details")</div>
                                         </div>
                                         <div class="rate">{{ subAccount.cost | currency }}</div>
@@ -118,7 +124,7 @@
                                     @Html.Sitecore().Field("AutoPay Enabled Text")
                                 </div>
                                 <div class="total" ng-class="{'autopay-total' : autopay}">
-                                    @Html.Sitecore().Field("Average Monthly Text") <strong>{{ getCartMonthly() | currency }}</strong>
+                                    @Html.Sitecore().Field("Average Monthly Text") <strong>{{ getCartMonthly(addLineSubAccounts) | currency }}</strong>
                                 </div>
                             </div>
                         </div>
@@ -178,9 +184,15 @@
                     </div>
                     <hr />
                     <div class="terms">
-                        <div class="term"><div class="check" ng-class="{background: accountInformation.agreeToTerms}"><span ng-hide="accountInformation.agreeToTerms">x</span></div>@Html.Sitecore().Field("Stream Terms Text")</div>
-                        <div class="term"><div class="check" ng-class="{background: accountInformation.agreeToTCPATerms}"><span ng-hide="accountInformation.agreeToTCPATerms">x</span></div>@Html.Sitecore().Field("TCPA Terms Text")</div>
-                        <div class="term"><div class="check" ng-class="{background: accountInformation.agreeToAutoPayTerms}"><span ng-hide="accountInformation.agreeToAutoPayTerms">x</span></div>@Html.Sitecore().Field("AutoPay Terms Text")</div>
+                        <div class="term">
+                            <div class="check" ng-class="{background: accountInformation.agreeToTerms}"><span ng-hide="accountInformation.agreeToTerms">x</span></div>
+                            <label for="streamTerms">@Html.Sitecore().Field("Stream Terms Label")</label>
+                            <div class="text" name="streamTerms">@Html.Sitecore().Field("Stream Terms Text")</div>
+                        </div>
+                        <div class="term">
+                            <div class="check" ng-class="{background: accountInformation.agreeToTCPATerms}"><span ng-hide="accountInformation.agreeToTCPATerms">x</span></div>
+                            <p>@Html.Sitecore().Field("TCPA Terms Text")</p>
+                        </div>
                     </div>
                     <hr />
                     <div ng-if="customerType == 'residential' && cartHasTxLocation()">@Html.Sitecore().Field("Terms Notice")</div>
@@ -437,5 +449,14 @@
             <strong>@Html.Sitecore().Field("Deposit Alternative Header")</strong><br>
         </div>
         <div class="rate">{{ payment.depositAlternativeAmount | currency }}</div>
+    </div>
+</script>
+<script type="text/ng-template" id="Terms/Tcpa">
+    <div class="modal-header">
+        <a href="" ng-click="$dismiss()"></a>
+        <h2>@Html.Sitecore().Field("TCPA Modal Header")</h2>
+    </div>
+    <div class="modal-body scrollable">
+        @Html.Sitecore().Field("TCPA Modal Content")
     </div>
 </script>
