@@ -23,6 +23,8 @@ namespace StreamEnergy.DomainModels.Enrollments.Protective
             get { return Offer.Qualifier; }
         }
 
+        public string IconURL { get; set; }
+
         public string Name { get; set; }
 
         public string Description { get; set; }

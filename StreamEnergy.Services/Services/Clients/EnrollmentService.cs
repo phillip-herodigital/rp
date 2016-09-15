@@ -12,6 +12,7 @@ using StreamEnergy.DomainModels;
 using ResponsivePath.Logging;
 using System.Collections.Specialized;
 using StreamEnergy.DomainModels.Accounts;
+using Sitecore.Data.Fields;
 
 namespace StreamEnergy.Services.Clients
 {
@@ -54,6 +55,7 @@ namespace StreamEnergy.Services.Clients
                     {
                         Offers = (from service in serviceItems
                                   let canSort = int.TryParse(service.Fields["Sort Order"].Value, out sortOrder)
+                                  let iconField = new ImageField(service.Fields["Icon"])
                                   select new DomainModels.Enrollments.Protective.Offer {
                                       Id = service.Fields["ID"].Value,
                                       Name = service.Fields["Name"].Value,
@@ -67,7 +69,8 @@ namespace StreamEnergy.Services.Clients
                                           Id = service.Fields["Group Offer ID"].Value,
                                           Price = Int32.Parse(service.Fields["Group Offer Price"].Value),
                                           Selected = false
-                                      }
+                                      },
+                                      IconURL = iconField.MediaItem != null ? Sitecore.Resources.Media.MediaManager.GetMediaUrl(iconField.MediaItem) : ""
                                   }).ToArray()
                     });
                     return result;

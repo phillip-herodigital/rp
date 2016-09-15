@@ -147,9 +147,13 @@ ngApp.factory('enrollmentStepsService', ['$rootScope', 'scrollService', 'jQuery'
                 name: 'protectiveFlowServices',
                 previous: []
             },
-            'planSelection': {
-                name: 'protectiveFlowServices',
-                previous: []
+            //'planSelection': {
+            //    name: 'protectiveFlowServices',
+            //    previous: []
+            //},
+            'planSettings': {
+                name: 'accountInformation',
+                previous: ['protectiveFlowServices']
             }
         }
     }

@@ -205,7 +205,7 @@
     * @return {object}            Promise object returned when API call has successfully completed.
     */
     service.setSelectedOffers = function (overrideServerStep) {
-        if (_(enrollmentCartService.services).pluck('offerInformationByType').flatten().pluck('value').pluck('offerSelections').any(function (selections) { return selections.length > 1; }))
+        if (_(enrollmentCartService.services).pluck('offerInformationByType').flatten().pluck('value').pluck('offerSelections').any(function (selections) { return selections.length > 1; }) && false)
         {
             return service.setAccountInformation(overrideServerStep);
         }
@@ -218,9 +218,9 @@
         angular.forEach(enrollmentCartService.services, function (address) {
             var selectedPlans = [];
             angular.forEach(address.offerInformationByType, function (entry) {
-                if (entry.value.offerSelections.length) {
-                    selectedPlans.push(entry.value.offerSelections[0].offerId);
-                }
+                angular.forEach(entry.value.offerSelections, function (offerSelection) {
+                    selectedPlans.push(offerSelection.offerId);
+                });
             });
 
             data.selection.push({

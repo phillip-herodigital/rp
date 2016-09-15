@@ -77,27 +77,36 @@
                         <div class="empty" ng-show="getCartCount() === 0">
                             <p>Your cart is empty right now.</p>
                         </div>
-                        <div class="services" ng-repeat="service in getProtectiveServices()">
-                            <div class="service" ng-show="getCartCount() > 0" ng-repeat="offerSelection in service.offerInformationByType[0].value.offerSelections">
-                                <div class="name">{{offerSelection.offer.name}}</div>
+                        <div ng-repeat="service in getProtectiveServices()">
+                            <div class="service clearfix" ng-show="getCartCount() > 0" ng-repeat="offerSelection in service.offerInformationByType[0].value.offerSelections">
+                                <div class="name">
+                                    <div class="icon" ng-style="{'background-image': 'URL(' + offerSelection.offer.iconURL + ')'}"></div>
+                                    {{offerSelection.offer.name}}
+                                    <span ng-if="offerSelection.offer.groupOffer">
+                                        <span ng-show="offerSelection.offer.groupOffer.selected"> - Family</span>
+                                        <span ng-hide="offerSelection.offer.groupOffer.selected"> - Individual</span>
+                                    </span>
+                                </div>
                                 <div class="price">
-                                    <div class="full-price">{{getProtectiveOfferPrice(offerSelection.offer) | currency}}</div>
-                                    <div class="discount" ng-show="getProtectiveDiscount()">{{getProtectiveOfferPrice(offerSelection.offer) - getProtectiveDiscount(offerSelection.offer) | currency}}</div>
+                                    <div class="full-price">
+                                        {{getProtectiveOfferPrice(offerSelection.offer) | currency}}/mo
+                                        <div class="slash" ng-show="getProtectiveDiscount()">@Html.Sitecore().Field("Discount Slash")</div>
+                                    </div>
+                                    <div class="discount" ng-show="getProtectiveDiscount()">{{getProtectiveOfferPrice(offerSelection.offer) - getProtectiveDiscount(offerSelection.offer) | currency}}/mo</div>
                                 </div>
                             </div>
                             <div class="monthly-cost-summary" ng-show="getCartCount() > 0">
-                                <hr />
-                                <div class="monthly-cost">
+                                <div class="monthly-cost clearfix">
                                     <div class="label">Montly Service Cost: </div>
-                                    <div class="amount">{{15 * getCartCount() | currency}}</div>
+                                    <div class="amount">{{getProtectiveTotal() | currency}}</div>
                                 </div>
-                                <div class="discount" ng-show="getProtectiveDiscount()">
+                                <div class="discount clearfix" ng-show="getProtectiveDiscount()">
                                     <div class="label">3+ Service Savings: </div>
                                     <div class="amount">{{getProtectiveDiscount() | currency}}</div>
                                 </div>
-                                <div class="total">
+                                <div class="total clearfix">
                                     <div class="label">Order Total: </div>
-                                    <div class="amount">{{getProtectiveTotal() | currency}}</div>
+                                    <div class="amount">{{getProtectiveTotal() - getProtectiveDiscount() | currency}}</div>
                                 </div>
                             </div>
                         </div>

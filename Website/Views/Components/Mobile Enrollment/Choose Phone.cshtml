@@ -4,7 +4,6 @@
     @Html.Partial("~/Views/Components/Mobile Enrollment/Progress Bar.cshtml", new StreamEnergy.MyStream.Models.MobileEnrollment.ProgressBar { StepNumber = 1, StepTextField = "Step 1 Description Text" })
     <div class="layout">
         <div class="wrapper cols-2" id="chooseDevice">
-            <p>{{stepsService.isStepVisible('phoneFlowDevices')}}</p>
             <section>
                 <form name="addDevice" data-val-bind-messages="validations" ng-submit="verifyPhone()">
                     <article class="enrollment__box enrollment_verify-phone form">

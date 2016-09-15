@@ -2571,28 +2571,35 @@
 .enrollment__cart {
     margin-bottom: 15px;
     line-height: 1.35;
+
     .enrollment__box {
         background-color: #fafafa;
     }
+
     header {
         background-color: #fafafa;
         padding: 15px 17px;
     }
+
     .content {
         background-color: #fff;
         padding: 15px 17px;
         @include border-radius(0 0 5px 5px);
+
         .notice.error {
             padding: 10px;
             margin: 15px -5px;
             background-image: none;
             font-size: 13px;
             @include border-radius(5px);
+
             .links {
                 margin: 10px 0;
+
                 .remove-mobile {
                     display: inline-block;
                 }
+
                 button {
                     float: right;
                     width: auto;
@@ -2606,8 +2613,10 @@
             }
         }
     }
+
     footer {
         padding: 10px 17px;
+
         button {
             float: right;
             width: auto;
@@ -2615,21 +2624,26 @@
             @include box-shadow(none);
         }
     }
+
     hr {
         margin: 15px 0;
         //border-top-width: 1px;
     }
+
     h1 {
         font-size: 24px;
         width: auto;
     }
+
     p {
         font-size: 14px;
     }
+
     .cart-items {
         float: right;
         margin-right: 10px;
         position: relative;
+
         .item-num {
             position: absolute;
             font-size: 13px;
@@ -2638,72 +2652,87 @@
             right: 8px;
         }
     }
+
     .empty-cart-phone {
         padding: 10px 0;
         text-align: center;
+
         p {
             color: #cfcfcf;
             font-weight: bold;
             text-transform: uppercase;
         }
     }
+
     .icon-close {
         float: right;
         cursor: pointer;
     }
+
     .documents {
         header {
             border-bottom: none;
         }
     }
+
     .stream-store {
         padding-bottom: 5px;
+
         header {
             padding: 10px 17px 5px;
             text-align: center;
+
             img {
                 max-width: 80%;
             }
         }
+
         .links {
             text-align: center;
             padding: 0 15px;
             margin-bottom: 10px;
+
             .button {
                 margin-bottom: 15px;
             }
         }
+
         .stream-store-content {
             img {
                 max-width: 33%;
                 display: inline-block;
             }
+
             p {
-                max-width: 64%;     
-                display: inline-block;     
-                padding: 0 0 0 20px;        
-                margin-top: 0;     
+                max-width: 64%;
+                display: inline-block;
+                padding: 0 0 0 20px;
+                margin-top: 0;
                 vertical-align: top;
                 font-size: 16px;
             }
         }
     }
+
     .info {
         padding: 0 17px;
         margin: -15px 0 5px;
         background-color: #fafafa;
+
         li {
             border-top: 1px solid #e2e2e3;
             list-style-type: none;
             padding: 10px 20px 8px 35px;
             font-size: 13px;
             font-weight: 600;
-            position: relative;            
+            position: relative;
+
             i {
                 position: absolute;
                 top: 10px;
                 left: 5px;
             }
+
             .footnote {
                 display: block;
                 color: #999;
@@ -2713,23 +2742,29 @@
             }
         }
     }
+
     .outage-information .info li {
         padding-left: 13px;
     }
+
     button, .button {
         width: 100%;
     }
+
     .cart-item {
         margin: 0 -13px;
         padding: 13px;
         background-color: #fff;
         border-bottom: 1px solid #eaeaea;
+
         &:first-child {
             padding-top: 0;
         }
+
         &:last-child {
             border-bottom: 0;
         }
+
         h2 {
             margin-top: 0;
             color: #333;
@@ -2737,39 +2772,128 @@
             font-weight: 600;
             text-transform: none;
         }
+
         .mobile-plan {
             h2 {
                 margin-bottom: 5px;
             }
+
             .plan-type {
                 font-size: 14px;
                 font-weight: 600;
-                color:black;
+                color: black;
 
                 .individual-plan {
                     font-weight: 700;
                 }
             }
 
-            .icon-byod{
-                float:left;
-                margin:5px 15px 0 0;
+            .icon-byod {
+                float: left;
+                margin: 5px 15px 0 0;
             }
         }
+
         .utiltiy-plan {
             .plan-type {
                 font-size: 14px;
                 font-weight: 600;
             }
         }
+
+        .protective-plan {
+            h2 {
+                color: #000;
+            }
+
+            .service {
+                height: 70px;
+
+                .name {
+                    width: calc(100% - 65px);
+                    float: left;
+                    font-weight: 600;
+                    font-size: 14px;
+                    color: #000;
+
+                    .icon {
+                        height: 25px;
+                        width: 25px;
+                        background-repeat: no-repeat;
+                        background-size: contain;
+                        float: left;
+                        margin-right: 7px;
+                    }
+                }
+
+                .price {
+                    width: 65px;
+                    float: right;
+                    text-align: right;
+
+                    .full-price {
+                        color: #818181;
+                        font-size: 14px;
+                        font-weight: 600;
+                        position: relative;
+
+                        .slash {
+                            position: absolute;
+                            top: 0;
+                        }
+                    }
+
+                    .discount {
+                        color: #000;
+                        font-size: 16px;
+                        font-weight: 800;
+                    }
+                }
+            }
+
+            .monthly-cost-summary {
+                border-top: 1px solid #d3d3d3;
+                padding-top: 15px;
+                font-size: 16px;
+                color: #000;
+                
+                .label {
+                    float: left;
+                    width: calc(100% - 70px);
+                    text-align: right;
+                }
+
+                .amount {
+                    float: right;
+                    width: 70px;
+                    text-align: right;
+                }
+
+                .discount {
+                    color: #40ae49;
+                    font-weight: 500;
+                }
+
+                .total {
+                    font-weight: 500;
+                }
+
+                .monthly-cost, .discount, .total {
+                    margin-bottom: 15px;
+                }
+            }
+        }
     }
+
     .cart-product {
         margin: 10px 0;
         padding-top: 10px;
         border-top: 1px solid #eaeaea;
+
         &:last-child {
             margin-bottom: 0;
         }
+
         .byod {
             margin: 0;
             font-weight: 700;
@@ -2778,16 +2902,21 @@
             text-transform: uppercase;
         }
     }
+
     .utility-cart-product {
         margin: 5px 0;
     }
+
     .today-product {
         margin: 10px 0;
+
         &:last-child {
             margin-bottom: 0;
         }
+
         .description {
             font-weight: 600;
+
             &.fee {
                 font-size: 16px;
                 font-weight: 300;
@@ -2796,18 +2925,23 @@
                 clear: left;
             }
         }
+
         .rate {
             font-weight: 400;
         }
     }
+
     .monthly-product {
         margin: 5px 0;
+
         &:last-child {
             margin-bottom: 0;
         }
+
         .description {
             font-weight: 600;
             font-size: 16px;
+
             &.phone {
                 width: 100%;
                 font-size: 12px;
@@ -2815,22 +2949,26 @@
                 color: #737373;
                 margin-top: -2px;
             }
+
             .international-plan {
                 font-weight: normal;
                 font-size: 15px;
                 display: block;
             }
         }
+
         .rate {
             font-weight: 400;
         }
     }
+
     .delete {
         cursor: pointer;
         float: right;
         width: 5%;
         margin-top: 5px;
     }
+
     .rate {
         float: left;
         width: 29%;
@@ -2839,6 +2977,7 @@
         float: right;
         font-size: 14px;
         font-weight: 600;
+
         span.energy-unit {
             display: block;
             text-transform: uppercase;
@@ -2846,71 +2985,80 @@
             font-size: 10px;
         }
     }
-    .cart-product{
-        min-width:245px;
-		.description{
-			max-width:71%;
-		}
-		@include breakpoint(small-medium) {
-			min-width:0;
 
-			.description{
-				float:none;
-				width:100%;
-			}
-			.rate{
-				float:none;
-				width:100%;
+    .cart-product {
+        min-width: 245px;
 
-			}
-		}
+        .description {
+            max-width: 71%;
+        }
+
+        @include breakpoint(small-medium) {
+            min-width: 0;
+
+            .description {
+                float: none;
+                width: 100%;
+            }
+
+            .rate {
+                float: none;
+                width: 100%;
+            }
+        }
     }
+
     .description {
         position: relative;
         float: left;
         width: 71%;
         font-size: 14px;
         font-weight: 400;
-		
-		@include breakpoint(small-medium) {
-			max-width:65%;
 
-			.rate{
-				float:none;
-				text-align:left;
-			}
-		}
-        
-		.icon-electricity, .icon-gas-icon {
+        @include breakpoint(small-medium) {
+            max-width: 65%;
+
+            .rate {
+                float: none;
+                text-align: left;
+            }
+        }
+
+        .icon-electricity, .icon-gas-icon {
             position: absolute;
             top: 4px;
             left: 0;
         }
+
         .links {
             clear: both;
         }
+
         a {
             font-size: 13px;
-            padding-right:5px;
-            margin-right:5px;
-            border-right:1px solid;
+            padding-right: 5px;
+            margin-right: 5px;
+            border-right: 1px solid;
 
-            &:last-of-type{
-                border:0;
+            &:last-of-type {
+                border: 0;
             }
         }
+
         .options {
             clear: both;
             font-size: 15px;
             color: #666;
         }
     }
+
     .condition {
         color: #949494;
         font-size: 10px;
         font-weight: 400;
         text-transform: uppercase;
     }
+
     .fees {
         float: left;
         width: 50%;
@@ -2919,14 +3067,17 @@
         font-weight: 400;
         margin: 3px 0;
     }
+
     .avatar {
         text-align: center;
         margin-bottom: 10px;
     }
+
     address {
         font-style: normal;
         font-size: 14px;
         font-weight: 400;
+
         h3 {
             font-size: 12px;
             color: #333;
@@ -2934,11 +3085,13 @@
             font-weight: 400;
             text-transform: uppercase;
         }
+
         a {
             font-size: 13px;
             font-weight: 400;
         }
     }
+
     .box {
         @include border-radius(4px);
         @include box-shadow(none);
@@ -2946,31 +3099,37 @@
         margin: 15px 0;
         padding: 14px;
         border: 1px solid #ebebeb;
+
         p {
             font-size: 13px;
             margin: 10px 0;
+
             &.alt {
                 color: #9a9a9a;
                 font-size: 15px;
             }
         }
     }
+
     .time {
         position: relative;
         padding-left: 43px;
         min-height: 35px;
+
         .icon-clock {
             position: absolute;
             top: 4px;
             left: 0;
         }
-    }    
+    }
+
     .buttons {
-        .button { 
+        .button {
             display: block;
             width: 100%;
         }
     }
+
     .content .marketing-empty-cart {
         padding: 15px 0 30px;
         text-transform: uppercase;
@@ -2979,16 +3138,19 @@
         font-weight: 600;
         font-size: $font-size-base;
     }
+
     .billed-title {
         color: #848484;
         font-size: 14px;
         font-weight: 600;
         text-transform: uppercase;
         margin-bottom: 20px;
+
         i {
             float: right;
         }
     }
+
     .billed-monthly, .billed-today {
         h3 {
             margin: 10px 0 0;
@@ -2997,20 +3159,24 @@
             color: #6b6b6b;
             text-transform: uppercase;
         }
+
         .offer {
             margin-top: 20px;
             padding-bottom: 10px;
             border-bottom: 1px solid #d3d3d3;
         }
+
         .amount-due {
             margin: 15px 0;
             font-size: 15px;
             text-align: right;
+
             .total {
                 font-weight: 600;
             }
         }
     }
+
     @include breakpoint(small) {
         display: none;
     }
@@ -3722,25 +3888,171 @@ h3.success-message{
 }
 
 .enrollment__protective-services {
+    .header {
+        h1 {
+            color: #013c5b;
+            font-size: 32px;
+            font-weight: 300;
+        }
+    }
+
+    .content {
+        .select-services {
+            h4 {
+                margin: 0 0 5px;
+                color: #013c5b;
+                font-size: 24px;
+                font-weight: 300;
+            }
+
+            p {
+                margin: 0;
+                color: #333333;
+                font-size: 18px;
+
+                .location {
+                    font-weight: 800;
+                }
+            }
+        }
+
+        .location {
+            font-weight: 700;
+        }
+    }
+
     .services {
+        background-color: #fff;
+
         .service {
+            padding: 20px;
+            border-bottom: 1px solid #cecece;
+
+            &:last-of-type {
+                border-bottom: none;
+            }
+
             .col-1 {
-                width: 100px;
+                width: 90px;
+                height: 95px;
                 float: left;
+                padding-top: 70px;
+                background-repeat: no-repeat;
+                background-position: top center;
+                text-align: center;
+
+                .show-details {
+                    a {
+                        color: #828282;
+                        font-size: 12px;
+                    }
+
+                    .triangle {
+                        width: 0;
+                        height: 0;
+                        border-style: solid;
+                        border-width: 7px 7px 0 7px;
+                        border-color: #178fcd transparent transparent transparent;
+                        float: right;
+                        position: relative;
+                        top: 8px;
+                        right: 4px;
+                        -webkit-transition: 0.5s ease-in-out;
+                        -moz-transition: 0.5s ease-in-out;
+                        -o-transition: 0.5s ease-in-out;
+                        transition: 0.5s ease-in-out;
+
+                        &.rotate {
+                            -webkit-transform: rotate(180deg);
+                            -moz-transform: rotate(180deg);
+                            -o-transform: rotate(180deg);
+                            -ms-transform: rotate(180deg);
+                            transform: rotate(180deg);
+                        }
+                    }
+                }
             }
 
             .col-2 {
-                width: calc(100% - 250px);
+                width: calc(100% - 300px);
                 float: left;
+                margin-top: 10px;
+
+                .name {
+                    font-size: 20px;
+                    font-weight: 800;
+                }
+
+                .description {
+                    font-size: 18px;
+                }
+
+                .name, .description {
+                    margin: 0;
+                    color: #333333;
+                }
             }
 
             .col-3 {
-                width: 150px;
+                width: 200px;
                 float: left;
+                height: 95px;
+                padding: 24px 0;
+
+                .button {
+                    border: 1px solid $enrollment-protective-color;
+                    background-color: #fff;
+                    color: $enrollment-protective-color;
+                    background-image: none;
+                    float: right;
+                    font-size: 20px;
+
+                    &.selected {
+                        background-color: $enrollment-protective-color;
+                        color: #fff;
+                        padding-left: 15px;
+                    }
+
+                    &.long {
+                        width: 200px;
+                    }
+
+                    img {
+                        margin-right: 20px;
+                    }
+                }
             }
 
             .details {
                 clear: left;
+                color: #999999;
+                padding-top: 10px;
+
+                p {
+                    font-weight: 600;
+                    font-size: 16px;
+                    margin: 0;
+                }
+
+                ul {
+                    list-style: none;
+
+                    li {
+                        font-size: 16px;
+
+
+                        .circle {
+                            height: 6px;
+                            width: 6px;
+                            border-radius: 3px;
+                            float: left;
+                            top: 8px;
+                            position: relative;
+                            margin-right: 6px;
+                            background-color: $enrollment-protective-color;
+                        }
+                    }
+                }
 
                 .even, .odd {
                     width: 50%;
@@ -3748,9 +4060,8 @@ h3.success-message{
                 }
             }
 
-            .groupOffer {
+            .groupOffer { //
                 clear: left;
-                width: 100%;
 
                 @include breakpoint(medium-large) {
                     display: none;
@@ -3759,9 +4070,87 @@ h3.success-message{
         }
     }
 
-    aside.groupOffers {
+    .groupOffers {
         @include breakpoint(small) {
             display: none;
+        }
+
+        box-shadow: -30px 30px 120px #aaaaaa;
+
+        .groupOffer {
+        }
+    }
+
+    .groupOffer {
+        padding: 20px;
+
+        .select-plan {
+            width: 150px;
+            border-color: $enrollment-protective-color;
+            border-style: solid;
+            border-width: 1px 1px 0 1px;
+            border-radius: 5px 5px 0 0;
+            float: right;
+            padding: 10px;
+            position: relative;
+
+            p {
+                text-align: center;
+                font-size: 20px;
+                color: $enrollment-protective-color;
+                margin: 0;
+                float: left;
+            }
+
+            .triangle {
+                width: 0;
+                height: 0;
+                border-style: solid;
+                border-width: 10px 10px 0 10px;
+                border-color: $enrollment-protective-color transparent transparent transparent;
+                position: absolute;
+                top: 18px;
+                right: 10px;
+            }
+        }
+
+        .options {
+            clear: right;
+            border: 1px solid $enrollment-protective-color;
+            border-radius: 5px 0 5px 5px;
+
+            .option {
+                padding: 10px;
+
+                &:first-child {
+                    border-bottom: 1px solid $enrollment-protective-color;
+                }
+
+                .label {
+                    float: left;
+                    width: 50%;
+                    font-size: 20px;
+
+                    .name {
+                        color: $enrollment-protective-color;
+                    }
+
+                    p {
+                        margin: 0;
+                    }
+                }
+
+                .amount {
+                    float: right;
+                    width: 50%;
+                    text-align: right;
+                }
+
+                .description {
+                    clear: both;
+                    margin: 0;
+                }
+            }
         }
     }
 }
