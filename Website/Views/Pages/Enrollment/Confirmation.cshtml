@@ -220,6 +220,10 @@
                 @Html.Sitecore().Field("Confirmation Error")
             </div>
         </div>
+        <dl ng-if="!selectedOffer.confirmationSuccess" class="clearfix">
+            <dt>@Html.Sitecore().Field("Account Number")</dt>
+            <dd>{{ selectedOffer.confirmationNumber }}</dd>
+        </dl>
         <div class="electricity-services">
             <div ng-repeat="selectedOffer in offerInformation.value.offerSelections">
                 <div class="plan-summary">
@@ -304,6 +308,10 @@
                 @Html.Sitecore().Field("Confirmation Error")
             </div>
         </div>
+        <dl ng-if="!selectedOffer.confirmationSuccess" class="clearfix">
+            <dt>@Html.Sitecore().Field("Account Number")</dt>
+            <dd>{{ selectedOffer.confirmationNumber }}</dd>
+        </dl>
         <div class="gas-services">
             <div ng-repeat="selectedOffer in offerInformation.value.offerSelections">
                 <div class="plan-summary">
