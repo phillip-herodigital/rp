@@ -9,6 +9,15 @@
     .wrapper {
         height: 420px;
         text-align: left;
+
+        @include breakpoint(small) {
+            height: 150px;
+        }
+
+        @include breakpoint(medium) {
+            height: 330px;
+        }
+
         .content {
             width: 50%;
             em {
@@ -64,6 +73,7 @@
         position: relative;
         background-size: cover;
         background-position: 50%;
+        background-repeat: no-repeat;
         @include transition(.6s ease-in-out left);
 
         // WebKit CSS3 transforms for supported devices
