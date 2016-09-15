@@ -37,7 +37,7 @@ ngApp.controller('EnrollmentConfirmationCtrl', ['$scope', '$window', '$modal', '
         });
     }
 
-    $scope.todaysDate = date.getMonth().toString().concat("/", date.getDate(), "/", date.getYear().toString().slice(-2), " at ", date.getHours() < 13 ? date.getHours() : date.getHours() - 12, ":", date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes(), date.getHours() < 13 ? "AM" : "PM");
+    $scope.todaysDate = (date.getMonth() + 1).toString().concat("/", date.getDate(), "/", date.getYear().toString().slice(-2), " at ", date.getHours() < 13 ? date.getHours() : date.getHours() - 12, ":", date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes(), date.getHours() < 13 ? "AM" : "PM");
 
     $scope.showModal = function (templateUrl, size) {
         $modal.open({
