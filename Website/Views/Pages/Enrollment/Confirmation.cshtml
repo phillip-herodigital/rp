@@ -105,6 +105,12 @@
                                         </div>
                                         <div class="rate">{{ subAccount.cost | currency }}</div>
                                     </div>
+                                    <div class="line-item taxes clearfix">
+                                        <div class="description">
+                                            <h3>@Html.Sitecore().Field("Sales Tax Text")</h3>
+                                            <p class="note">@Html.Sitecore().Field("Sales Tax Description")</p>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
