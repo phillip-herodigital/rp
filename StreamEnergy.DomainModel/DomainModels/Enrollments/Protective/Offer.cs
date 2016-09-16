@@ -14,9 +14,9 @@ namespace StreamEnergy.DomainModels.Enrollments.Protective
         
         public string Id { get; set; }
 
-        public int ThreeServiceDiscount { get; set; }
+        public float ThreeServiceDiscount { get; set; }
 
-        public int Price { get; set; }
+        public float Price { get; set; }
 
         public string OfferType
         {
@@ -38,17 +38,10 @@ namespace StreamEnergy.DomainModels.Enrollments.Protective
             return container.Resolve<OfferOptionPolicy>();
         }
 
-        public SubOffer GroupOffer { get; set; }
+        public bool IsGroupOffer { get; set; }
 
-        [Serializable]
-        public class SubOffer
-        {
-            public string Id { get; set; }
+        public bool HasGroupOffer { get; set; }
 
-            public int Price { get; set; }
-
-            public bool Selected { get; set; }
-
-        }
+        public string AssociatedOfferId { get; set; }
     }
 }

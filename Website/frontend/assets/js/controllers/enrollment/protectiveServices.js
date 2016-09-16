@@ -1,22 +1,38 @@
 ﻿/* Protective Services Enrollment Controller */
 ngApp.controller('protectiveServicesEnrollmentCtrl', ['$scope', '$http', '$location', 'enrollmentService', 'enrollmentCartService', 'analytics', function ($scope, $http, $location, enrollmentService, enrollmentCartService, analytics) {
-    $scope.getCartServices = enrollmentCartService.getCartServices;
     $scope.showChangeLocation = $scope.geoLocation.postalCode5 == '';
     $scope.getActiveService = enrollmentCartService.getActiveService;
-    $scope.showgroupOffers = false;
 
     $scope.init = function () {
         $scope.queryPlanID = getParameterByName('PlanID');
         if (!$scope.showChangeLocation) {
-            addUpdateService()
+            addUpdateService();
         }
     }
 
     $scope.getInfo = function () {
-        return $scope.getCartServices();
+        var stuff = $scope.usStates;
+        return $scope.getActiveService();
+    }
+
+    $scope.displayOffer = function (offer) {
+        if (offer.isGroupOffer || offer.hasGroupOffer) {
+            if (offer.hasGroupOffer) {
+                return !$scope.offerSelected(offer.associatedOfferId);
+            }
+            else {
+                return $scope.offerSelected(offer.id);
+            }
+        }
+        else return true;
     }
 
     $scope.selectOffer = function (offer) {
+        if (offer.isGroupOffer || offer.hasGroupOffer) {
+            _.remove($scope.getActiveService().offerInformationByType[0].value.offerSelections, function (offerSelection) {
+                return offerSelection.offerId === offer.associatedOfferId;
+            });
+        }
         $scope.getActiveService().offerInformationByType[0].value.offerSelections.push({
             offer: offer,
             offerId: offer.id,
@@ -24,7 +40,6 @@ ngApp.controller('protectiveServicesEnrollmentCtrl', ['$scope', '$http', '$locat
                 optionType: 'Protective'
             }
         });
-        if (offer.groupOffer) $scope.showgroupOffers = true;
         enrollmentService.setSelectedOffers(true);
     }
 
@@ -32,15 +47,30 @@ ngApp.controller('protectiveServicesEnrollmentCtrl', ['$scope', '$http', '$locat
         _.remove($scope.getActiveService().offerInformationByType[0].value.offerSelections, function (offerSelection) {
             return offerSelection.offerId === offerId;
         });
-        if (_.every($scope.getActiveService().offerInformationByType[0].value.offerSelections, function(offerSelection) {
-            return typeof (offerSelection.offer.groupOffer) === 'undefined';
-        })) $scope.showgroupOffers = false;
         enrollmentService.setSelectedOffers(true);
+    }
+
+    $scope.getOfferPrice = function (offerId) {
+        return _.find($scope.getActiveService().offerInformationByType[0].value.availableOffers, function (offer) {
+            return offer.id === offerId;
+        }).price;
+    }
+
+    $scope.selectAssociatedOffer = function (offer) {
+        $scope.selectOffer(_.find($scope.getActiveService().offerInformationByType[0].value.availableOffers, function (availableOffer) {
+            return availableOffer.id === offer.associatedOfferId;
+        }));
     }
 
     $scope.offerSelected = function (id) {
         return _.some($scope.getActiveService().offerInformationByType[0].value.offerSelections, function (offer) {
             return offer.offerId === id;
+        });
+    }
+
+    $scope.showgroupOffers = function () {
+        return _.every($scope.getActiveService().offerInformationByType[0].value.offerSelections, function (offerSelection) {
+            return typeof (offerSelection.offer.groupOffer) === 'undefined';
         });
     }
 
@@ -65,6 +95,9 @@ ngApp.controller('protectiveServicesEnrollmentCtrl', ['$scope', '$http', '$locat
                 { "capabilityType": "CustomerType", "customerType": "residential" },
                 { "capabilityType": "Protective" }]
         }, activeService = enrollmentCartService.getActiveService();
+        $scope.currentState = _.find($scope.usStates, function (state) {
+            return state.abbreviation === $scope.geoLocation.state;
+        }).display;
         if (activeService) {
             activeService.location = location;
             return enrollmentService.setServiceInformation(true);

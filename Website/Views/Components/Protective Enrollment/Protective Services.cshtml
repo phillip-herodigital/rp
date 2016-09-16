@@ -1,5 +1,5 @@
-<div id="protectiveFlowServices" class="enrollment showCart" ng-if="stepsService.isStepVisible('protectiveFlowServices')" ng-controller="protectiveServicesEnrollmentCtrl" ng-init="init()">    
-    @Html.Partial("~/Views/Components/Protective Enrollment/Progress Bar.cshtml", new StreamEnergy.MyStream.Models.MobileEnrollment.ProgressBar { StepNumber = 1, StepTextField = "Step 1 Description Text", HideCart = false })
+<div id="protectiveFlowServices" class="enrollment showCart" ng-if="stepsService.isStepVisible('protectiveFlowServices')" ng-controller="protectiveServicesEnrollmentCtrl" ng-init="init(); usStates = @(Html.Action("StateNames", "Data").ToHtmlString());">    
+    @Html.Partial("~/Views/Components/Protective Enrollment/Progress Bar.cshtml", new StreamEnergy.MyStream.Models.MobileEnrollment.ProgressBar { StepNumber = 1, StepTextField = "Step 1 Description Text", HideCart = true })
     <div class="layout">
         <div class="wrapper cols-2 enrollment__protective-services">
             <section>
@@ -8,14 +8,10 @@
                         <h1>Protective Services</h1>
                         <a class="button" ng-click="getInfo()">Get Info</a>
                     </header>
-                    <div class="content">
+                    <div class="content" ng-show="showChangeLocation">
                         <div class="select-services">
-                            <h4 ng-show="geoLocation.state">Select Your Protective Services</h4>
-                            <p>
-                                <span ng-show="geoLocation.state">It looks like your in <span class="location">{{geoLocation.state}}</span>. <a href="" class="select-state" ng-click="showChangeLocation = true">Change State</a></span>
-                                <span ng-hide="geoLocation.state">Please enter your zip code</span>
-                            </p>
-                            <form name="lookupZipForm" ng-show="showChangeLocation" ng-submit="lookupZip()" novalidate>
+                            <h4>Please enter your zip code</h4>
+                            <form name="lookupZipForm" ng-submit="lookupZip()">
                                 <label for="zipCode">Zip Code: </label>
                                 <input type="text" name="zipCode" class="zip-code" ng-model="postalCode5">
                                 <a href="" ng-click="lookupZip()">Lookup</a>
@@ -23,8 +19,16 @@
                             <p class="notice alert" ng-if="zipCodeInvalid">Enter a valid zip code</p>
                         </div>
                     </div>
+                    <div class="content" ng-hide="showChangeLocation">
+                        <div class="select-services">
+                            <h4>Select Your Protective Services</h4>
+                            <p>
+                                It looks like your in <span class="location">{{currentState}}</span>. <a href="" class="select-state" ng-click="showChangeLocation = true">Change State</a>
+                            </p>
+                        </div>
+                    </div>
                     <div class="services">
-                        <div class="service clearfix" ng-repeat="offer in getActiveService().offerInformationByType[0].value.availableOffers" ng-init="showDetails = false">
+                        <div class="service clearfix" ng-repeat="offer in getActiveService().offerInformationByType[0].value.availableOffers | filter:displayOffer" ng-init="showDetails = false">
                             <div class="col-1" ng-style="{'background-image': 'URL(' + offer.iconURL + ')'}">
                                 <div class="show-details">
                                     <a href="" ng-click="showDetails = true" ng-hide="showDetails">View Details</a>
@@ -36,16 +40,20 @@
                                 <p class="name">{{offer.name}}</p>
                                 <p class="description">{{offer.description}}</p>
                             </div>
-                            <div class="col-3" ng-hide="offer.groupOffer">
+                            <div class="col-3" ng-hide="offer.isGroupOffer || offer.hasGroupOffer">
                                 <div class="button" ng-click="selectOffer(offer)" ng-hide="offerSelected(offer.id)">Select</div>
                                 <div class="button selected" ng-click="removeOffer(offer.id)" ng-show="offerSelected(offer.id)">
                                     @Html.Sitecore().Field("Button Check")Selected
                                 </div>
                             </div>
-                            <div class="col-3" ng-show="offer.groupOffer">
-                                <a href="" ng-click="selectOffer(offer)" class="button" ng-hide="offerSelected(offer.id)">Select</a>
-                                <a class="button selected long" ng-click="removeOffer(offer.id)" ng-show="offerSelected(offer.id) && !offer.groupOffer.selected">Individual Plan</a>
-                                <a class="button selected long" ng-click="removeOffer(offer.id)" ng-show="offerSelected(offer.id) && offer.groupOffer.selected">Family Plan</a>
+                            <div class="col-3" ng-show="offer.isGroupOffer || offer.hasGroupOffer">
+                                <div class="button" ng-click="selectOffer(offer)" ng-hide="offerSelected(offer.id)">Select</div>
+                                <div class="button selected long" ng-click="removeOffer(offer.id)" ng-show="offerSelected(offer.id) && offer.hasGroupOffer">
+                                    @Html.Sitecore().Field("Button Check")Individual Plan
+                                </div>
+                                <div class="button selected long" ng-click="removeOffer(offer.id)" ng-show="offerSelected(offer.id) && offer.isGroupOffer">
+                                    @Html.Sitecore().Field("Button Check")Family Plan
+                                </div>
                             </div>
                             <div class="details clearfix" ng-show="showDetails">
                                 <p>{{offer.name}} Includes:</p>
@@ -56,7 +64,7 @@
                                     <li ng-repeat="detail in offer.details" class="clearfix" ng-if="$odd"><div class="circle"></div>{{detail}}</li>
                                 </ul>
                             </div>
-                            <div class="groupOffer" ng-show="offerSelected(offer.id) && offer.groupOffer">
+                            <div class="groupOffer" ng-show="offerSelected(offer.id) && offer.isGroupOffer || offer.hasGroupOffer">
                                 <div ng-include src="'groupOffer'"></div>
                             </div>
                         </div>
@@ -71,7 +79,7 @@
                 <div ng-include src="'cart-template'"></div>
             </aside>
             <aside class="groupOffers" ng-if="showgroupOffers">
-                <div class="groupOffer" ng-repeat="offerSelection in getActiveService().offerInformationByType[0].value.offerSelections" ng-init="offer = offerSelection.offer" ng-show="offerSelected(offer.id) && offer.groupOffer">
+                <div class="groupOffer" ng-repeat="offerSelection in getActiveService().offerInformationByType[0].value.offerSelections" ng-init="offer = offerSelection.offer" ng-show="offer.isGroupOffer || offer.hasGroupOffer&& offerSelected(offer.id)">
                     <div ng-include src="'groupOffer'"></div>
                 </div>
             </aside>
@@ -83,19 +91,35 @@
         <p>Select Plan</p>
         <div class="triangle"></div>
     </div>
-    <div class="options">
+    <div class="options" ng-if="offer.hasGroupOffer">
         <div class="option clearfix">
             <div class="label">
-                <a class="name" href="" ng-click="offer.groupOffer.selected = false">Individual</a>
+                <p class="name">Individual</p>
             </div>
-            <div class="amount">{{offerSelection.offer.price | currency}}/mo</div>
+            <div class="amount">{{offer.price | currency}}/mo</div>
             <p class="description">For 1 Member</p>
         </div>
         <div class="option clearfix">
             <div class="label">
-                <a class="name" href="" ng-click="offer.groupOffer.selected = true">Family</a>
+                <a class="name" href="" ng-click="selectAssociatedOffer(offer)">Family</a>
             </div>
-            <div class="amount">{{offerSelection.offer.groupOffer.price | currency}}/mo</div>
+            <div class="amount">{{getOfferPrice(offer.associatedOfferId) | currency}}/mo</div>
+            <p class="description">For up to 5 Members of the same household</p>
+        </div>
+    </div>
+    <div class="options" ng-if="offer.isGroupOffer">
+        <div class="option clearfix">
+            <div class="label">
+                <a class="name" href="" ng-click="selectAssociatedOffer(offer)">Individual</a>
+            </div>
+            <div class="amount">{{getOfferPrice(offer.associatedOfferId) | currency}}/mo</div>
+            <p class="description">For 1 Member</p>
+        </div>
+        <div class="option clearfix">
+            <div class="label">
+                <p class="name">Family</p>
+            </div>
+            <div class="amount">{{offer.price | currency}}/mo</div>
             <p class="description">For up to 5 Members of the same household</p>
         </div>
     </div>

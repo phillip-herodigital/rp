@@ -2824,6 +2824,16 @@
                         float: left;
                         margin-right: 7px;
                     }
+
+                    p {
+                        margin: 0;
+
+                        a {
+                            clear: left;
+                            float: left;
+                            margin-left: 35px;
+                        }
+                    }
                 }
 
                 .price {
@@ -2856,7 +2866,7 @@
                 padding-top: 15px;
                 font-size: 16px;
                 color: #000;
-                
+
                 .label {
                     float: left;
                     width: calc(100% - 70px);
@@ -2870,7 +2880,7 @@
                 }
 
                 .discount {
-                    color: #40ae49;
+                    color: $enrollment-protective-color;
                     font-weight: 500;
                 }
 
@@ -4006,6 +4016,7 @@ h3.success-message{
                     background-image: none;
                     float: right;
                     font-size: 20px;
+                    cursor: pointer;
 
                     &.selected {
                         background-color: $enrollment-protective-color;
@@ -4015,6 +4026,7 @@ h3.success-message{
 
                     &.long {
                         width: 200px;
+                        padding-right: 15px;
                     }
 
                     img {
@@ -4144,6 +4156,9 @@ h3.success-message{
                     float: right;
                     width: 50%;
                     text-align: right;
+                    color: #013c5b;
+                    font-size: 15px;
+                    font-weight: 600;
                 }
 
                 .description {

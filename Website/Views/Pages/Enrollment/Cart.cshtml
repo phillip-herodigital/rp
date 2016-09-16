@@ -81,18 +81,17 @@
                             <div class="service clearfix" ng-show="getCartCount() > 0" ng-repeat="offerSelection in service.offerInformationByType[0].value.offerSelections">
                                 <div class="name">
                                     <div class="icon" ng-style="{'background-image': 'URL(' + offerSelection.offer.iconURL + ')'}"></div>
+                                    <span ng-if="offerSelection.offer.hasGroupOffer">Individual </span>
+                                    <span ng-if="offerSelection.offer.isGroupOffer">Family </span>
                                     {{offerSelection.offer.name}}
-                                    <span ng-if="offerSelection.offer.groupOffer">
-                                        <span ng-show="offerSelection.offer.groupOffer.selected"> - Family</span>
-                                        <span ng-hide="offerSelection.offer.groupOffer.selected"> - Individual</span>
-                                    </span>
+                                    <p><a href="" ng-click="removeProtectiveOffer(offerSelection.offer.id)">remove</a></p>
                                 </div>
                                 <div class="price">
                                     <div class="full-price">
-                                        {{getProtectiveOfferPrice(offerSelection.offer) | currency}}/mo
+                                        {{offerSelection.offer.price | currency}}/mo
                                         <div class="slash" ng-show="getProtectiveDiscount()">@Html.Sitecore().Field("Discount Slash")</div>
                                     </div>
-                                    <div class="discount" ng-show="getProtectiveDiscount()">{{getProtectiveOfferPrice(offerSelection.offer) - getProtectiveDiscount(offerSelection.offer) | currency}}/mo</div>
+                                    <div class="discount" ng-show="getProtectiveDiscount()">{{offerSelection.offer.price - getProtectiveDiscount(offerSelection.offer) | currency}}/mo</div>
                                 </div>
                             </div>
                             <div class="monthly-cost-summary" ng-show="getCartCount() > 0">

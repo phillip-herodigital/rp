@@ -240,7 +240,7 @@ ngApp.controller('EnrollmentCartCtrl', ['$scope', 'enrollmentStepsService', 'enr
 
     $scope.getProtectiveDiscount = function (offer) {
         if (offer) {
-            if (offer.groupOffer && offer.groupOffer.selected) {
+            if (offer.isGroupOffer) {
                 return 2 * offer.threeServiceDiscount;
             }
             else {
@@ -253,7 +253,7 @@ ngApp.controller('EnrollmentCartCtrl', ['$scope', 'enrollmentStepsService', 'enr
                 var discount = $scope.getProtectiveServices()[0].offerInformationByType[0].value.availableOffers[0].threeServiceDiscount;
                 angular.forEach($scope.getProtectiveServices(), function (service) {
                     angular.forEach(service.offerInformationByType[0].value.offerSelections, function (offerSelection) {
-                        if (offerSelection.offer.groupOffer && offerSelection.offer.groupOffer.selected) {
+                        if (offerSelection.offer.isGroupOffer) {
                             offerCount++;
                         }
                     });
@@ -266,24 +266,17 @@ ngApp.controller('EnrollmentCartCtrl', ['$scope', 'enrollmentStepsService', 'enr
         }
     }
 
-    $scope.getProtectiveOfferPrice = function (offer) {
-        if (offer.groupOffer && offer.groupOffer.selected) {
-            return offer.groupOffer.price;
-        }
-        else {
-            return offer.price;
-        }
+    $scope.removeProtectiveOffer = function (offerId) {
+        _.remove(enrollmentCartService.getActiveService().offerInformationByType[0].value.offerSelections, function (offerSelection) {
+            return offerSelection.offerId === offerId;
+        });
+        enrollmentService.setSelectedOffers(true);
     }
 
     $scope.getProtectiveTotal = function () {
         var total = 0;
         angular.forEach($scope.getProtectiveServices()[0].offerInformationByType[0].value.offerSelections, function (offerSelection) {
-            if (offerSelection.offer.groupOffer && offerSelection.offer.groupOffer.selected) {
-                total += offerSelection.offer.groupOffer.price;
-            }
-            else {
-                total += offerSelection.offer.price;
-            }
+            total += offerSelection.offer.price;
         });
         return total;
     }

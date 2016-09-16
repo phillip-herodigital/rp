@@ -48,13 +48,15 @@ namespace StreamEnergy.Services.Clients
                 }
                 if (location.Capabilities.Any(c => c.CapabilityType == "Protective"))
                 {
-                    var item = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Taxonomy/Products/Protective");
-                    var serviceItems = item.Children;
                     int sortOrder = 0;
+                    float threeServiceDiscount = 0;
+                    float.TryParse(Sitecore.Context.Database.GetItem("/sitecore/content/Data/Settings/Protective Enrollment Options").Fields["3 Service Discount"].Value, out threeServiceDiscount);
+                    float price = 0;
                     result.Add(location, new DomainModels.Enrollments.LocationOfferSet
                     {
-                        Offers = (from service in serviceItems
+                        Offers = (from service in Sitecore.Context.Database.GetItem("/sitecore/content/Data/Taxonomy/Products/Protective").Children
                                   let canSort = int.TryParse(service.Fields["Sort Order"].Value, out sortOrder)
+                                  let hasPrice = float.TryParse(service.Fields["Price"].Value, out price)
                                   let iconField = new ImageField(service.Fields["Icon"])
                                   select new DomainModels.Enrollments.Protective.Offer {
                                       Id = service.Fields["ID"].Value,
@@ -62,14 +64,11 @@ namespace StreamEnergy.Services.Clients
                                       Description = service.Fields["Description"].Value,
                                       Details = service.Fields["Details"].Value.Split('|'),
                                       SortOrder = canSort ? sortOrder : -1,
-                                      ThreeServiceDiscount = Int32.Parse(Sitecore.Context.Database.GetItem("/sitecore/content/Data/Settings/Protective Enrollment Options").Fields["3 Service Discount"].Value),
-                                      Price = Int32.Parse(service.Fields["Price"].Value),
-                                      GroupOffer = string.IsNullOrEmpty(service.Fields["Group Offer ID"].Value) ? null : new DomainModels.Enrollments.Protective.Offer.SubOffer
-                                      {
-                                          Id = service.Fields["Group Offer ID"].Value,
-                                          Price = Int32.Parse(service.Fields["Group Offer Price"].Value),
-                                          Selected = false
-                                      },
+                                      ThreeServiceDiscount = threeServiceDiscount,
+                                      Price = hasPrice ? price : -1,
+                                      HasGroupOffer = service.Fields["Has Group Offer"].Value == "1",
+                                      IsGroupOffer = service.Fields["Is Group Offer"].Value == "1",
+                                      AssociatedOfferId = service.Fields["Associated Offer ID"].Value,
                                       IconURL = iconField.MediaItem != null ? Sitecore.Resources.Media.MediaManager.GetMediaUrl(iconField.MediaItem) : ""
                                   }).ToArray()
                     });
