@@ -247,6 +247,20 @@
                         <div class="service-info clearfix" ng-if="selectedOffer.offerOption.connectDate">
                             <div class="label">@Html.Sitecore().Field("Effective Date")</div><div class="info">{{selectedOffer.offerOption.connectDate | date:'M/d/yyyy'}}</div>
                         </div>
+                        <div class="line-item clearfix" ng-if="!isRenewal && selectedOffer.offerOption.connectionFee != null">
+                            <div class="description sub-charge">
+                                <strong>@Html.Sitecore().Field("Installation Fee")  ({{selectedOffer.offerOption.connectDate | date:'M/d/yyyy'}})</strong>
+                            </div>
+                            <div class="rate">{{ selectedOffer.offerOption.connectionFee | currency }}</div>
+                        </div>
+                        <div class="line-item clearfix" ng-repeat="payment in selectedOffer.payments.requiredAmounts" ng-if="payment.dollarAmount > 0 && !isRenewal" ng-include src="'payments/' + payment.offerPaymentAmountType"></div>
+                        <div class="plan-summary" ng-if="getCartTotal() > 0">
+                            <div class="line-item">
+                                <div class="total">
+                                    @Html.Sitecore().Field("Order Total Text") <strong>{{ getCartTotal() | currency }}</strong>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="contract-dates clearfix" ng-if="isRenewal && selectedOffer.renewalConfirmation.contractStartDate != null">
                         <div class="contract-start">
