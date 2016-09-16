@@ -133,15 +133,15 @@
                             <div class="label">@Html.Sitecore().Field("Name Text")</div>
                             <div class="info">{{ accountInformation.contactInfo.name.first }} {{ accountInformation.contactInfo.name.last }}</div>
                             </div>
-                        <div class="personal-info clearfix">
+                        <div class="personal-info clearfix" ng-show="accountInformation.contactInfo.phone[0].number">
                             <div class="label">@Html.Sitecore().Field("Phone Text")</div>
                             <div class="info">{{ accountInformation.contactInfo.phone[0].number | phone }}</div>
                         </div>
-                        <div class="personal-info clearfix">
+                        <div class="personal-info clearfix" ng-show="accountInformation.contactInfo.email.address">
                             <div class="label">@Html.Sitecore().Field("Email Text")</div>
                             <div class="info">{{ accountInformation.contactInfo.email.address }}</div>
                         </div>
-                        <div class="personal-info clearfix">
+                        <div class="personal-info clearfix" ng-show="accountInformation.last4ssn">
                             <div class="label">@Html.Sitecore().Field("Last 4 SSN Text")</div>
                             <div class="info">{{ accountInformation.last4ssn}}</div>
                         </div>
