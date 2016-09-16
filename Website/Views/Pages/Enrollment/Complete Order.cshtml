@@ -469,6 +469,9 @@
             {{ subAccount.cost | currency }}@Html.Sitecore().Field("Per Month Text")
         </div>
     </div>
+    <div class="tax clearfix">
+        <p>@Html.Sitecore().Field("Monthly Sales Tax Text")</p>
+    </div>
 </script>
 
 <script type="text/ng-template" id="completeOrderCartToday/TexasElectricityCommercialQuote">

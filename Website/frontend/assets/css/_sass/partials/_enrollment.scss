@@ -2784,28 +2784,35 @@
 .enrollment__cart {
     margin-bottom: 15px;
     line-height: 1.35;
+
     .enrollment__box {
         background-color: #fafafa;
     }
+
     header {
         background-color: #fafafa;
         padding: 15px 17px;
     }
+
     .content {
         background-color: #fff;
         padding: 15px 17px;
         @include border-radius(0 0 5px 5px);
+
         .notice.error {
             padding: 10px;
             margin: 15px -5px;
             background-image: none;
             font-size: 13px;
             @include border-radius(5px);
+
             .links {
                 margin: 10px 0;
+
                 .remove-mobile {
                     display: inline-block;
                 }
+
                 button {
                     float: right;
                     width: auto;
@@ -2819,8 +2826,10 @@
             }
         }
     }
+
     footer {
         padding: 10px 17px;
+
         button {
             float: right;
             width: auto;
@@ -2828,21 +2837,26 @@
             @include box-shadow(none);
         }
     }
+
     hr {
         margin: 15px 0;
         //border-top-width: 1px;
     }
+
     h1 {
         font-size: 24px;
         width: auto;
     }
+
     p {
         font-size: 14px;
     }
+
     .cart-items {
         float: right;
         margin-right: 10px;
         position: relative;
+
         .item-num {
             position: absolute;
             font-size: 13px;
@@ -2851,72 +2865,87 @@
             right: 8px;
         }
     }
+
     .empty-cart-phone {
         padding: 10px 0;
         text-align: center;
+
         p {
             color: #cfcfcf;
             font-weight: bold;
             text-transform: uppercase;
         }
     }
+
     .icon-close {
         float: right;
         cursor: pointer;
     }
+
     .documents {
         header {
             border-bottom: none;
         }
     }
+
     .stream-store {
         padding-bottom: 5px;
+
         header {
             padding: 10px 17px 5px;
             text-align: center;
+
             img {
                 max-width: 80%;
             }
         }
+
         .links {
             text-align: center;
             padding: 0 15px;
             margin-bottom: 10px;
+
             .button {
                 margin-bottom: 15px;
             }
         }
+
         .stream-store-content {
             img {
                 max-width: 33%;
                 display: inline-block;
             }
+
             p {
-                max-width: 64%;     
-                display: inline-block;     
-                padding: 0 0 0 20px;        
-                margin-top: 0;     
+                max-width: 64%;
+                display: inline-block;
+                padding: 0 0 0 20px;
+                margin-top: 0;
                 vertical-align: top;
                 font-size: 16px;
             }
         }
     }
+
     .info {
         padding: 0 17px;
         margin: -15px 0 5px;
         background-color: #fafafa;
+
         li {
             border-top: 1px solid #e2e2e3;
             list-style-type: none;
             padding: 10px 20px 8px 35px;
             font-size: 13px;
             font-weight: 600;
-            position: relative;            
+            position: relative;
+
             i {
                 position: absolute;
                 top: 10px;
                 left: 5px;
             }
+
             .footnote {
                 display: block;
                 color: #999;
@@ -2926,23 +2955,29 @@
             }
         }
     }
+
     .outage-information .info li {
         padding-left: 13px;
     }
+
     button, .button {
         width: 100%;
     }
+
     .cart-item {
         margin: 0 -13px;
         padding: 13px;
         background-color: #fff;
         border-bottom: 1px solid #eaeaea;
+
         &:first-child {
             padding-top: 0;
         }
+
         &:last-child {
             border-bottom: 0;
         }
+
         h2 {
             margin-top: 0;
             color: #333;
@@ -2950,25 +2985,28 @@
             font-weight: 600;
             text-transform: none;
         }
+
         .mobile-plan {
             h2 {
                 margin-bottom: 5px;
             }
+
             .plan-type {
                 font-size: 14px;
                 font-weight: 600;
-                color:black;
+                color: black;
 
                 .individual-plan {
                     font-weight: 700;
                 }
             }
 
-            .icon-byod{
-                float:left;
-                margin:5px 15px 0 0;
+            .icon-byod {
+                float: left;
+                margin: 5px 15px 0 0;
             }
         }
+
         .utiltiy-plan {
             .plan-type {
                 font-size: 14px;
@@ -2976,13 +3014,16 @@
             }
         }
     }
+
     .cart-product {
         margin: 10px 0;
         padding-top: 10px;
         border-top: 1px solid #eaeaea;
+
         &:last-child {
             margin-bottom: 0;
         }
+
         .byod {
             margin: 0;
             font-weight: 700;
@@ -2991,16 +3032,21 @@
             text-transform: uppercase;
         }
     }
+
     .utility-cart-product {
         margin: 5px 0;
     }
+
     .today-product {
         margin: 10px 0;
+
         &:last-child {
             margin-bottom: 0;
         }
+
         .description {
             font-weight: 600;
+
             &.fee {
                 font-size: 16px;
                 font-weight: 300;
@@ -3009,18 +3055,23 @@
                 clear: left;
             }
         }
+
         .rate {
             font-weight: 400;
         }
     }
+
     .monthly-product {
         margin: 5px 0;
+
         &:last-child {
             margin-bottom: 0;
         }
+
         .description {
             font-weight: 600;
             font-size: 16px;
+
             &.phone {
                 width: 100%;
                 font-size: 12px;
@@ -3028,22 +3079,32 @@
                 color: #737373;
                 margin-top: -2px;
             }
+
             .international-plan {
                 font-weight: normal;
                 font-size: 15px;
                 display: block;
             }
         }
+
         .rate {
             font-weight: 400;
         }
     }
+
+    .tax {
+        p {
+            margin: 0;
+        }
+    }
+
     .delete {
         cursor: pointer;
         float: right;
         width: 5%;
         margin-top: 5px;
     }
+
     .rate {
         float: left;
         width: 29%;
@@ -3052,6 +3113,7 @@
         float: right;
         font-size: 14px;
         font-weight: 600;
+
         span.energy-unit {
             display: block;
             text-transform: uppercase;
@@ -3059,71 +3121,80 @@
             font-size: 10px;
         }
     }
-    .cart-product{
-        min-width:245px;
-		.description{
-			max-width:71%;
-		}
-		@include breakpoint(small-medium) {
-			min-width:0;
 
-			.description{
-				float:none;
-				width:100%;
-			}
-			.rate{
-				float:none;
-				width:100%;
+    .cart-product {
+        min-width: 245px;
 
-			}
-		}
+        .description {
+            max-width: 71%;
+        }
+
+        @include breakpoint(small-medium) {
+            min-width: 0;
+
+            .description {
+                float: none;
+                width: 100%;
+            }
+
+            .rate {
+                float: none;
+                width: 100%;
+            }
+        }
     }
+
     .description {
         position: relative;
         float: left;
         width: 71%;
         font-size: 14px;
         font-weight: 400;
-		
-		@include breakpoint(small-medium) {
-			max-width:65%;
 
-			.rate{
-				float:none;
-				text-align:left;
-			}
-		}
-        
-		.icon-electricity, .icon-gas-icon {
+        @include breakpoint(small-medium) {
+            max-width: 65%;
+
+            .rate {
+                float: none;
+                text-align: left;
+            }
+        }
+
+        .icon-electricity, .icon-gas-icon {
             position: absolute;
             top: 4px;
             left: 0;
         }
+
         .links {
             clear: both;
         }
+
         a {
             font-size: 13px;
-            padding-right:5px;
-            margin-right:5px;
-            border-right:1px solid;
+            padding-right: 5px;
+            margin-right: 5px;
+            border-right: 1px solid;
 
-            &:last-of-type{
-                border:0;
+            &:last-of-type {
+                border: 0;
             }
         }
+
         .options {
             clear: both;
             font-size: 15px;
             color: #666;
         }
     }
+
     .condition {
         color: #949494;
         font-size: 10px;
         font-weight: 400;
         text-transform: uppercase;
     }
+
     .fees {
         float: left;
         width: 50%;
@@ -3132,14 +3203,17 @@
         font-weight: 400;
         margin: 3px 0;
     }
+
     .avatar {
         text-align: center;
         margin-bottom: 10px;
     }
+
     address {
         font-style: normal;
         font-size: 14px;
         font-weight: 400;
+
         h3 {
             font-size: 12px;
             color: #333;
@@ -3147,11 +3221,13 @@
             font-weight: 400;
             text-transform: uppercase;
         }
+
         a {
             font-size: 13px;
             font-weight: 400;
         }
     }
+
     .box {
         @include border-radius(4px);
         @include box-shadow(none);
@@ -3159,31 +3235,37 @@
         margin: 15px 0;
         padding: 14px;
         border: 1px solid #ebebeb;
+
         p {
             font-size: 13px;
             margin: 10px 0;
+
             &.alt {
                 color: #9a9a9a;
                 font-size: 15px;
             }
         }
     }
+
     .time {
         position: relative;
         padding-left: 43px;
         min-height: 35px;
+
         .icon-clock {
             position: absolute;
             top: 4px;
             left: 0;
         }
-    }    
+    }
+
     .buttons {
-        .button { 
+        .button {
             display: block;
             width: 100%;
         }
     }
+
     .content .marketing-empty-cart {
         padding: 15px 0 30px;
         text-transform: uppercase;
@@ -3192,16 +3274,19 @@
         font-weight: 600;
         font-size: $font-size-base;
     }
+
     .billed-title {
         color: #848484;
         font-size: 14px;
         font-weight: 600;
         text-transform: uppercase;
         margin-bottom: 20px;
+
         i {
             float: right;
         }
     }
+
     .billed-monthly, .billed-today {
         h3 {
             margin: 10px 0 0;
@@ -3210,20 +3295,24 @@
             color: #6b6b6b;
             text-transform: uppercase;
         }
+
         .offer {
             margin-top: 20px;
             padding-bottom: 10px;
             border-bottom: 1px solid #d3d3d3;
         }
+
         .amount-due {
             margin: 15px 0;
             font-size: 15px;
             text-align: right;
+
             .total {
                 font-weight: 600;
             }
         }
     }
+
     @include breakpoint(small) {
         display: none;
     }
