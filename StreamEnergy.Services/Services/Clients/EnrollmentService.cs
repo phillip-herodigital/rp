@@ -13,6 +13,7 @@ using ResponsivePath.Logging;
 using System.Collections.Specialized;
 using StreamEnergy.DomainModels.Accounts;
 using Sitecore.Data.Fields;
+using Sitecore.Data.Items;
 
 namespace StreamEnergy.Services.Clients
 {
@@ -49,23 +50,27 @@ namespace StreamEnergy.Services.Clients
                 if (location.Capabilities.Any(c => c.CapabilityType == "Protective"))
                 {
                     int sortOrder = 0;
-                    float threeServiceDiscount = 0;
-                    float.TryParse(Sitecore.Context.Database.GetItem("/sitecore/content/Data/Settings/Protective Enrollment Options").Fields["3 Service Discount"].Value, out threeServiceDiscount);
                     float price = 0;
+                    float discount = 0;
                     result.Add(location, new DomainModels.Enrollments.LocationOfferSet
                     {
                         Offers = (from service in Sitecore.Context.Database.GetItem("/sitecore/content/Data/Taxonomy/Products/Protective").Children
                                   let canSort = int.TryParse(service.Fields["Sort Order"].Value, out sortOrder)
                                   let hasPrice = float.TryParse(service.Fields["Price"].Value, out price)
+                                  let hasDiscount = float.TryParse(service.Fields["Three Service Discount"].Value, out discount)
                                   let iconField = new ImageField(service.Fields["Icon"])
                                   select new DomainModels.Enrollments.Protective.Offer {
                                       Id = service.Fields["ID"].Value,
                                       Name = service.Fields["Name"].Value,
+                                      ExcludedStates = (from Abbreviation in service.Fields["Excluded States"].Value.Split(',')
+                                                        select Abbreviation.Trim()).ToArray(),
+                                      VideoConferenceStates = (from Abbreviation in service.Fields["Video Conference States"].Value.Split(',')
+                                                               select Abbreviation.Trim()).ToArray(),
                                       Description = service.Fields["Description"].Value,
                                       Details = service.Fields["Details"].Value.Split('|'),
                                       SortOrder = canSort ? sortOrder : -1,
-                                      ThreeServiceDiscount = threeServiceDiscount,
                                       Price = hasPrice ? price : -1,
+                                      ThreeServiceDiscount = hasDiscount ? discount : -1,
                                       HasGroupOffer = service.Fields["Has Group Offer"].Value == "1",
                                       IsGroupOffer = service.Fields["Is Group Offer"].Value == "1",
                                       AssociatedOfferId = service.Fields["Associated Offer ID"].Value,

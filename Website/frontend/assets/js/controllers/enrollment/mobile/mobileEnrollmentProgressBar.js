@@ -5,6 +5,7 @@
     $scope.enrollmentStepsService = enrollmentStepsService;
     $scope.associateInformation = enrollmentService.associateInformation;
     $scope.addLineAccountNumber = enrollmentService.addLineAccountNumber;
+    $scope.cartHasMobile = enrollmentCartService.cartHasMobile;
 
     $scope.showModal = function (templateUrl) {
         $modal.open({

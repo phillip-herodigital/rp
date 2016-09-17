@@ -237,40 +237,24 @@ ngApp.controller('EnrollmentCartCtrl', ['$scope', 'enrollmentStepsService', 'enr
     /**
     * Handle Protective Cart Functions
     */
-
-    $scope.getProtectiveDiscount = function (offer) {
-        if (offer) {
-            if (offer.isGroupOffer) {
-                return 2 * offer.threeServiceDiscount;
-            }
-            else {
-                return offer.threeServiceDiscount;
-            }
-        }
-        else {
-            var offerCount = enrollmentCartService.getCartCount();
-            if (offerCount) {
-                var discount = $scope.getProtectiveServices()[0].offerInformationByType[0].value.availableOffers[0].threeServiceDiscount;
-                angular.forEach($scope.getProtectiveServices(), function (service) {
-                    angular.forEach(service.offerInformationByType[0].value.offerSelections, function (offerSelection) {
-                        if (offerSelection.offer.isGroupOffer) {
-                            offerCount++;
-                        }
-                    });
-                });
-                return offerCount > 2 ? offerCount * discount : 0;
-            }
-            else {
-                return 0;
-            }
-        }
-    }
-
     $scope.removeProtectiveOffer = function (offerId) {
-        _.remove(enrollmentCartService.getActiveService().offerInformationByType[0].value.offerSelections, function (offerSelection) {
+        _.remove($scope.getProtectiveServices()[0].offerInformationByType[0].value.offerSelections, function (offerSelection) {
             return offerSelection.offerId === offerId;
         });
         enrollmentService.setSelectedOffers(true);
+    }
+
+    $scope.getProtectiveDiscount = function () {
+        if (enrollmentCartService.getCartCount() > 2) {
+            var discount = 0;
+            angular.forEach($scope.getProtectiveServices()[0].offerInformationByType[0].value.offerSelections, function (offerSelection) {
+                discount += offerSelection.offer.threeServiceDiscount;
+            });
+            return discount;
+        }
+        else {
+            return 0;
+        }
     }
 
     $scope.getProtectiveTotal = function () {

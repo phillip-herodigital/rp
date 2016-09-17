@@ -4,7 +4,7 @@
     Sitecore.Data.Items.Item item = Sitecore.Context.Database.GetItem("{881C1CD7-90B7-438C-B267-36B0A4167227}"); ///sitecore/content/Data/Components/Mobile Enrollment/Progress Bar
 }
 
-<div ng-controller="MobileEnrollmentProgressBarCtrl" >
+<div ng-controller="MobileEnrollmentProgressBarCtrl" ng-if="cartHasMobile()">
     <div class="enrollment_progress-bar @string.Format("step{0}", Model.StepNumber)" ng-init="stepNumber = @Model.StepNumber">
         <div class="inner clearfix">
             <div class="step-description" ng-if="!isRenewal || '@Model.StepNumber' != '4'">

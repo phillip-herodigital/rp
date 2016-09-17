@@ -6,8 +6,9 @@ ngApp.controller('protectiveServicesEnrollmentCtrl', ['$scope', '$http', '$locat
     $scope.init = function () {
         $scope.queryPlanID = getParameterByName('PlanID');
         if (!$scope.showChangeLocation) {
-            addUpdateService();
+            $scope.currentState = $scope.geoLocation.state;
         }
+        addUpdateService();
     }
 
     $scope.getInfo = function () {
@@ -24,7 +25,31 @@ ngApp.controller('protectiveServicesEnrollmentCtrl', ['$scope', '$http', '$locat
                 return $scope.offerSelected(offer.id);
             }
         }
-        else return true;
+        else {
+            return true;
+        }
+    }
+
+    $scope.isExcludedState = function (offer) {
+        if (_.some(offer.excludedStates, function (excludedState) {
+            return excludedState === $scope.geoLocation.state;
+        })) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    $scope.isVideoConferenceState = function (offer) {
+        if (_.some(offer.videoConferenceStates, function (videoConferenceState) {
+            return videoConferenceState === $scope.geoLocation.state;
+        })) {
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 
     $scope.selectOffer = function (offer) {
@@ -95,9 +120,6 @@ ngApp.controller('protectiveServicesEnrollmentCtrl', ['$scope', '$http', '$locat
                 { "capabilityType": "CustomerType", "customerType": "residential" },
                 { "capabilityType": "Protective" }]
         }, activeService = enrollmentCartService.getActiveService();
-        $scope.currentState = _.find($scope.usStates, function (state) {
-            return state.abbreviation === $scope.geoLocation.state;
-        }).display;
         if (activeService) {
             activeService.location = location;
             return enrollmentService.setServiceInformation(true);
@@ -142,6 +164,7 @@ ngApp.controller('protectiveServicesEnrollmentCtrl', ['$scope', '$http', '$locat
                         state: data[1],
                         postalCode5: $scope.postalCode5
                     };
+                    $scope.currentState = data[2];
                     $scope.zipCodeInvalid = false;
                     $scope.showChangeLocation = false;
                     addUpdateService();

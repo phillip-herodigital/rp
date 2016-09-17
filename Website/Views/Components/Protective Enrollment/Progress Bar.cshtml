@@ -4,7 +4,7 @@
     Sitecore.Data.Items.Item item = Sitecore.Context.Database.GetItem("{E91EFBC7-E43D-4482-9844-86C645D81AEF}"); ///sitecore/content/Data/Components/Enrollment/Protective Services Progress Bar
 }
 
-<div ng-controller="ProtectiveEnrollmentProgressBarCtrl" >
+<div ng-controller="ProtectiveEnrollmentProgressBarCtrl" ng-if="cartHasProtective() || true">
     <div class="enrollment_progress-bar @string.Format("step{0}", Model.StepNumber) protective-services" ng-init="stepNumber = @Model.StepNumber">
         <div class="inner clearfix">
             <div class="step-description" ng-if="'@Model.StepNumber' != '4'">

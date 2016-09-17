@@ -3915,6 +3915,10 @@ h3.success-message{
                 font-weight: 300;
             }
 
+            form {
+                margin-top: 20px;
+            }
+
             p {
                 margin: 0;
                 color: #333333;
@@ -3997,7 +4001,11 @@ h3.success-message{
                     font-size: 18px;
                 }
 
-                .name, .description {
+                .video-required {
+                    font-size: 14px;
+                }
+
+                .name, .description, .video-required {
                     margin: 0;
                     color: #333333;
                 }

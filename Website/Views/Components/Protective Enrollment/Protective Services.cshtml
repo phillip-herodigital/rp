@@ -1,4 +1,4 @@
-<div id="protectiveFlowServices" class="enrollment showCart" ng-if="stepsService.isStepVisible('protectiveFlowServices')" ng-controller="protectiveServicesEnrollmentCtrl" ng-init="init(); usStates = @(Html.Action("StateNames", "Data").ToHtmlString());">    
+<div id="protectiveFlowServices" class="enrollment showCart" ng-if="stepsService.isStepVisible('protectiveFlowServices')" ng-controller="protectiveServicesEnrollmentCtrl" ng-init="init()">    
     @Html.Partial("~/Views/Components/Protective Enrollment/Progress Bar.cshtml", new StreamEnergy.MyStream.Models.MobileEnrollment.ProgressBar { StepNumber = 1, StepTextField = "Step 1 Description Text", HideCart = true })
     <div class="layout">
         <div class="wrapper cols-2 enrollment__protective-services">
@@ -22,9 +22,7 @@
                     <div class="content" ng-hide="showChangeLocation">
                         <div class="select-services">
                             <h4>Select Your Protective Services</h4>
-                            <p>
-                                It looks like your in <span class="location">{{currentState}}</span>. <a href="" class="select-state" ng-click="showChangeLocation = true">Change State</a>
-                            </p>
+                            <p>It looks like your in <span class="location">{{currentState}}</span>. <a href="" class="select-state" ng-click="showChangeLocation = true">Change State</a></p>
                         </div>
                     </div>
                     <div class="services">
@@ -39,20 +37,28 @@
                             <div class="col-2">
                                 <p class="name">{{offer.name}}</p>
                                 <p class="description">{{offer.description}}</p>
+                                <p class="video-required" ng-show="isVideoConferenceState(offer)">*Video conference required</p>
                             </div>
-                            <div class="col-3" ng-hide="offer.isGroupOffer || offer.hasGroupOffer">
-                                <div class="button" ng-click="selectOffer(offer)" ng-hide="offerSelected(offer.id)">Select</div>
-                                <div class="button selected" ng-click="removeOffer(offer.id)" ng-show="offerSelected(offer.id)">
-                                    @Html.Sitecore().Field("Button Check")Selected
+                            <div ng-hide="isExcludedState(offer)">
+                                <div class="col-3" ng-hide="offer.isGroupOffer || offer.hasGroupOffer">
+                                    <div class="button" ng-click="selectOffer(offer)" ng-hide="offerSelected(offer.id)">Select</div>
+                                    <div class="button selected" ng-click="removeOffer(offer.id)" ng-show="offerSelected(offer.id)">
+                                        @Html.Sitecore().Field("Button Check")Selected
+                                    </div>
+                                </div>
+                                <div class="col-3" ng-show="offer.isGroupOffer || offer.hasGroupOffer">
+                                    <div class="button" ng-click="selectOffer(offer)" ng-hide="offerSelected(offer.id)">Select</div>
+                                    <div class="button selected long" ng-click="removeOffer(offer.id)" ng-show="offerSelected(offer.id) && offer.hasGroupOffer">
+                                        @Html.Sitecore().Field("Button Check")Individual Plan
+                                    </div>
+                                    <div class="button selected long" ng-click="removeOffer(offer.id)" ng-show="offerSelected(offer.id) && offer.isGroupOffer">
+                                        @Html.Sitecore().Field("Button Check")Family Plan
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-3" ng-show="offer.isGroupOffer || offer.hasGroupOffer">
-                                <div class="button" ng-click="selectOffer(offer)" ng-hide="offerSelected(offer.id)">Select</div>
-                                <div class="button selected long" ng-click="removeOffer(offer.id)" ng-show="offerSelected(offer.id) && offer.hasGroupOffer">
-                                    @Html.Sitecore().Field("Button Check")Individual Plan
-                                </div>
-                                <div class="button selected long" ng-click="removeOffer(offer.id)" ng-show="offerSelected(offer.id) && offer.isGroupOffer">
-                                    @Html.Sitecore().Field("Button Check")Family Plan
+                            <div ng-show="isExcludedState(offer)">
+                                <div class="col-3">
+                                    <p>This service is not available in your area.</p>
                                 </div>
                             </div>
                             <div class="details clearfix" ng-show="showDetails">

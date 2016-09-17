@@ -2,6 +2,7 @@
     $scope.enrollmentCartService = enrollmentCartService;
     $scope.enrollmentStepsService = enrollmentStepsService;
     $scope.associateInformation = enrollmentService.associateInformation;
+    $scope.cartHasProtective = enrollmentCartService.cartHasProtective;
 
     $scope.showModal = function (templateUrl) {
         $modal.open({

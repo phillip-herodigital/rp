@@ -91,7 +91,7 @@
                                         {{offerSelection.offer.price | currency}}/mo
                                         <div class="slash" ng-show="getProtectiveDiscount()">@Html.Sitecore().Field("Discount Slash")</div>
                                     </div>
-                                    <div class="discount" ng-show="getProtectiveDiscount()">{{offerSelection.offer.price - getProtectiveDiscount(offerSelection.offer) | currency}}/mo</div>
+                                    <div class="discount" ng-show="getProtectiveDiscount()">{{offerSelection.offer.price - offerSelection.offer.threeServiceDiscount | currency}}/mo</div>
                                 </div>
                             </div>
                             <div class="monthly-cost-summary" ng-show="getCartCount() > 0">
