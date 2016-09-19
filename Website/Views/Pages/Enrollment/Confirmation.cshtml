@@ -141,7 +141,7 @@
                             <div class="label">@Html.Sitecore().Field("Email Text")</div>
                             <div class="info">{{ accountInformation.contactInfo.email.address }}</div>
                         </div>
-                        <div class="personal-info clearfix" ng-show="accountInformation.last4ssn">
+                        <div class="personal-info clearfix" ng-show="accountInformation.last4ssn && cartHasTxLocation()">
                             <div class="label">@Html.Sitecore().Field("Last 4 SSN Text")</div>
                             <div class="info">{{ accountInformation.last4ssn}}</div>
                         </div>
@@ -176,8 +176,8 @@
                             </div>
                         </div>
                     </div>
-                    <hr />
-                    <div class="terms">
+                    <hr ng-if="cartHasTxLocation()" />
+                    <div class="terms" ng-if="cartHasTxLocation()">
                         <div class="term">
                             <div class="check" ng-class="{background: accountInformation.agreeToTerms}"><span ng-hide="accountInformation.agreeToTerms">x</span></div>
                             <label for="streamTerms">@Html.Sitecore().Field("Stream Terms Label")</label>
