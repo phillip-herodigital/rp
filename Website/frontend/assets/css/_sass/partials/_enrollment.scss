@@ -2596,6 +2596,7 @@
         .description {
             &.sub-charge {
                 width: 180px;
+                float: left;
             }
         }
 
@@ -2603,6 +2604,7 @@
             &.sub-charge {
                 width: auto;
                 font-weight: 300;
+                float: left;
 
                 ul {
                     list-style: none;

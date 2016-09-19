@@ -111,6 +111,7 @@ ngApp.controller('EnrollmentConfirmationCtrl', ['$scope', '$window', '$modal', '
             $scope.accountInformation.mailingAddress = result.mailingAddress || {};
             $scope.accountInformation.agreeToTerms = result.agreeToTerms;
             $scope.accountInformation.agreeToAutoPayTerms = result.agreeToAutoPayTerms;
+            $scope.accountInformation.renewalESIID = result.renewalESIID;
             $scope.accountInformation.agreeToTCPATerms = result.additionalAuthorizations.tcpa ? result.additionalAuthorizations.tcpa : false;
             $scope.autopay = result.enrolledInAutoPay;
             $scope.autoPayDiscount = result.autoPayDiscount;

@@ -1012,7 +1012,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                         if (subAccount.ServiceAddress.StateAbbreviation == "TX" || subAccount.ServiceAddress.StateAbbreviation == "GA")
                         {
                             await enrollmentController.Initialize();
-                            await enrollmentController.SetupRenewal(acct, subAccount);
+                            await enrollmentController.SetupRenewal(acct, subAccount, request.Last4);
                             return new AccountForOneTimeRenewalResponse
                             {
                                 Success = true,
@@ -1266,7 +1266,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             if (isEligibile && subAccount.Capabilities.OfType<RenewalAccountCapability>().First().IsEligible)
             {
                 await enrollmentController.Initialize();
-                return await enrollmentController.SetupRenewal(target, subAccount);
+                return await enrollmentController.SetupRenewal(target, subAccount, target.Details.SsnLastFour);
             }
             else
             {
