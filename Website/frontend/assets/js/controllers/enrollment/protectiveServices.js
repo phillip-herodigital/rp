@@ -13,6 +13,7 @@ ngApp.controller('protectiveServicesEnrollmentCtrl', ['$scope', '$http', '$locat
 
     $scope.getInfo = function () {
         var stuff = $scope.usStates;
+        var thing = enrollmentCartService;
         return $scope.getActiveService();
     }
 
