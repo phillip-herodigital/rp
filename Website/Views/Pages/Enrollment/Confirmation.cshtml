@@ -50,10 +50,11 @@
                     @Html.Sitecore().Field("Commercial Next Steps")
                 </div>
             </article>
-            <article class="verify-order enrollment__box">
+            <article class="verify-order enrollment__box" ng-show="confirmationSuccess">
                 <header>
                     <h1 class="order-complete-heading">@Html.Sitecore().Field("Header - Order Summary")</h1>
-                    <p class="order-complete-date">@Html.Sitecore().Field("Completed On") {{todaysDate}}</p>
+                    <p class="order-complete-date" ng-show="isRenewal">@Html.Sitecore().Field("Renewal Completed On") {{todaysDate}}</p>
+                    <p class="order-complete-date" ng-hide="isRenewal">@Html.Sitecore().Field("Completed On") {{todaysDate}}</p>
                 </header>
                 <div class="form content">
                     <div ng-repeat="(id, service) in getCartItems()">
@@ -238,11 +239,11 @@
                                 <p>{{ service.location.address.city}}, {{ service.location.address.stateAbbreviation}} {{ service.location.address.postalCode5}}<span ng-if="service.location.address.postalCodePlus4">-{{ service.location.address.postalCodePlus4}}</span></p>
                             </div>
                         </div>
-                        <div class="service-info clearfix" ng-if="service.location.capabilities[0].esiId">
-                            <div class="label">@Html.Sitecore().Field("ESI ID")</div><div class="info">{{service.location.capabilities[0].esiId}}</div>
+                        <div class="service-info clearfix" ng-if="accountInformation.renewalESIID">
+                            <div class="label">@Html.Sitecore().Field("ESI ID")</div><div class="info">{{accountInformation.renewalESIID}}</div>
                         </div>
-                        <div class="service-info clearfix" ng-if="service.location.capabilities[0].tdu">
-                            <div class="label">@Html.Sitecore().Field("TDSP")</div><div class="info">{{service.location.capabilities[0].tdu}}</div>
+                        <div class="service-info clearfix" ng-if="selectedOffer.offer.tdu">
+                            <div class="label">@Html.Sitecore().Field("TDSP")</div><div class="info">{{selectedOffer.offer.tdu}}</div>
                         </div>
                         <div class="service-info clearfix" ng-if="selectedOffer.offerOption.connectDate">
                             <div class="label">@Html.Sitecore().Field("Effective Date")</div><div class="info">{{selectedOffer.offerOption.connectDate | date:'M/d/yyyy'}}</div>
@@ -271,11 +272,11 @@
                             <span class="label">@Html.Sitecore().Field("Estimated End Date") </span>{{selectedOffer.renewalConfirmation.contractEndDate | date:'M/d/yyyy'}}
                         </div>
                     </div>
-                    <div class="line-item clearfix" ng-if="!isRenewal && selectedOffer.offerOption.connectionFee != null">
+                    <div class="line-item clearfix" ng-if="selectedOffer.offer.terminationFee">
                         <div class="description sub-charge">@Html.Sitecore().Field("ETF Text")</div>
                         <div class="rate sub-charge">{{ selectedOffer.offer.terminationFee | currency }}</div>
                     </div>
-                    <div class="line-item clearfix" ng-if="!isRenewal && selectedOffer.offerOption.connectionFee != null">
+                    <div class="line-item clearfix" ng-if="selectedOffer.offer.minimumUsageFee">
                         <div class="description sub-charge">@Html.Sitecore().Field("Minimum Usage Fee Text")</div>
                         <div class="rate sub-charge">{{ selectedOffer.offer.minimumUsageFee }}</div>
                     </div>

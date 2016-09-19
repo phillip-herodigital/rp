@@ -297,13 +297,15 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         }
 
         [NonAction]
-        public async Task<ClientData> SetupRenewal(DomainModels.Accounts.Account account, DomainModels.Accounts.ISubAccount subAccount)
+        public async Task<ClientData> SetupRenewal(DomainModels.Accounts.Account account, DomainModels.Accounts.ISubAccount subAccount, string last4ssn)
         {
             stateHelper.StateMachine.InternalContext.GlobalCustomerId = account.StreamConnectCustomerId;
             stateHelper.State = typeof(PlanSelectionState);
             stateHelper.Context.IsRenewal = true;
             stateHelper.Context.ContactInfo = account.Details.ContactInfo;
             stateHelper.Context.MailingAddress = account.Details.BillingAddress;
+            stateHelper.Context.RenewalESIID = account.Details.BillingAddress.StateAbbreviation == "TX" ? subAccount.Id : null;
+            stateHelper.Context.SocialSecurityNumber = string.IsNullOrEmpty(stateMachine.Context.SocialSecurityNumber) ? string.Concat("00000", last4ssn) : stateMachine.Context.SocialSecurityNumber;
             stateHelper.Context.Services = new LocationServices[]
             {
                 new LocationServices 
@@ -634,6 +636,7 @@ FROM [SwitchBack] WHERE ESIID=@esiId";
                 AutoPayDiscount = stateMachine.Context.AutoPayDiscount,
                 NewAccountUserName = stateMachine.Context.OnlineAccount == null ? "" : stateMachine.Context.OnlineAccount.Username,
                 LoggedInAccountDetails = stateMachine.Context.LoggedInAccountDetails,
+                RenewalESIID = stateMachine.Context.RenewalESIID,
                 PaymentError = stateMachine.Context.PaymentError,
                 NeedsRefresh = isNeedsRefresh,
                 ContactInfo = stateMachine.Context.ContactInfo,
