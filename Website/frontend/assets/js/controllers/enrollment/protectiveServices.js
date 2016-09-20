@@ -1,12 +1,22 @@
 ﻿/* Protective Services Enrollment Controller */
 ngApp.controller('protectiveServicesEnrollmentCtrl', ['$scope', '$http', '$location', 'enrollmentService', 'enrollmentCartService', 'analytics', function ($scope, $http, $location, enrollmentService, enrollmentCartService, analytics) {
-    $scope.showChangeLocation = $scope.geoLocation.postalCode5 == '';
+    $scope.showChangeLocation = $scope.geoLocation.country == '';
     $scope.getActiveService = enrollmentCartService.getActiveService;
 
     $scope.init = function () {
         $scope.queryPlanID = getParameterByName('PlanID');
         if (!$scope.showChangeLocation) {
-            $scope.currentState = $scope.geoLocation.state;
+            if ($scope.geoLocation.country === "CA") {
+                $scope.currentState = "Canada";
+            }
+            else if ($scope.geoLocation.country === "PR") {
+                $scope.currentState = "Puerto Rico";
+            }
+            else {
+                $scope.currentState = _.find($scope.stateNames, function (state) {
+                    return state.abbreviation === $scope.geoLocation.state;
+                }).display;
+            }
         }
         addUpdateService();
     }
@@ -66,14 +76,12 @@ ngApp.controller('protectiveServicesEnrollmentCtrl', ['$scope', '$http', '$locat
                 optionType: 'Protective'
             }
         });
-        enrollmentService.setSelectedOffers(true);
     }
 
     $scope.removeOffer = function (offerId) {
         _.remove($scope.getActiveService().offerInformationByType[0].value.offerSelections, function (offerSelection) {
             return offerSelection.offerId === offerId;
         });
-        enrollmentService.setSelectedOffers(true);
     }
 
     $scope.getOfferPrice = function (offerId) {
@@ -105,7 +113,7 @@ ngApp.controller('protectiveServicesEnrollmentCtrl', ['$scope', '$http', '$locat
     }
 
     $scope.completeStep = function () {
-        enrollmentService.setAccountInformation();
+        enrollmentService.setSelectedOffers(true).then(enrollmentService.setAccountInformation());
     }
 
     var addUpdateService = function () {
@@ -123,7 +131,7 @@ ngApp.controller('protectiveServicesEnrollmentCtrl', ['$scope', '$http', '$locat
         }, activeService = enrollmentCartService.getActiveService();
         if (activeService) {
             activeService.location = location;
-            return enrollmentService.setServiceInformation(true);
+            enrollmentService.setServiceInformation(true);
         }
         else {
             enrollmentCartService.addService({

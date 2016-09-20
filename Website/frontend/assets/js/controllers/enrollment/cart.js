@@ -241,15 +241,18 @@ ngApp.controller('EnrollmentCartCtrl', ['$scope', 'enrollmentStepsService', 'enr
         _.remove($scope.getProtectiveServices()[0].offerInformationByType[0].value.offerSelections, function (offerSelection) {
             return offerSelection.offerId === offerId;
         });
-        enrollmentService.setSelectedOffers(true);
+        //enrollmentService.setSelectedOffers(true);
     }
 
     $scope.getProtectiveDiscount = function () {
-        if (enrollmentCartService.getCartCount() > 2) {
-            var discount = 0;
-            angular.forEach($scope.getProtectiveServices()[0].offerInformationByType[0].value.offerSelections, function (offerSelection) {
-                discount += offerSelection.offer.threeServiceDiscount;
-            });
+        var count = 0;
+        var discount = 0;
+        angular.forEach($scope.getProtectiveServices()[0].offerInformationByType[0].value.offerSelections, function (offerSelection) {
+            discount += offerSelection.offer.threeServiceDiscount;
+            if (offerSelection.offer.isGroupOffer) count += 2;
+            else count++;
+        });
+        if (count > 2) {
             return discount;
         }
         else {

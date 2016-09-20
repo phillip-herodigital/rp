@@ -2807,31 +2807,28 @@
             }
 
             .service {
-                height: 70px;
+                margin-bottom: 10px;
+
+                .icon {
+                    height: 50px;
+                    width: 25px;
+                    background-repeat: no-repeat;
+                    background-size: contain;
+                    float: left;
+                    margin-right: 7px;
+                }
 
                 .name {
-                    width: calc(100% - 65px);
+                    width: calc(100% - 97px);
                     float: left;
                     font-weight: 600;
                     font-size: 14px;
                     color: #000;
 
-                    .icon {
-                        height: 25px;
-                        width: 25px;
-                        background-repeat: no-repeat;
-                        background-size: contain;
-                        float: left;
-                        margin-right: 7px;
-                    }
-
                     p {
                         margin: 0;
 
                         a {
-                            clear: left;
-                            float: left;
-                            margin-left: 35px;
                         }
                     }
                 }
@@ -2888,7 +2885,7 @@
                     font-weight: 500;
                 }
 
-                .monthly-cost, .discount, .total {
+                .monthly-cost, .discount {
                     margin-bottom: 15px;
                 }
             }
@@ -4016,6 +4013,7 @@ h3.success-message{
                 float: left;
                 height: 95px;
                 padding: 24px 0;
+                position: relative;
 
                 .button {
                     border: 1px solid $enrollment-protective-color;
@@ -4041,6 +4039,16 @@ h3.success-message{
                         margin-right: 20px;
                     }
                 }
+
+                &.options {
+                    padding-bottom: 0;
+                    height: 235px;
+
+                    .button {
+                        border-radius: 5px 5px 0 0;
+                        border-bottom: none;
+                    }
+                }
             }
 
             .details {
@@ -4054,124 +4062,158 @@ h3.success-message{
                     margin: 0;
                 }
 
-                ul {
-                    list-style: none;
+                .lists {
+                    margin: 0 20px;
 
-                    li {
-                        font-size: 16px;
+                    @include breakpoint(small) {
+                        margin: 0 10px;
+                    }
 
+                    ul {
+                        list-style: none;
+                        padding-left: 0;
 
-                        .circle {
-                            height: 6px;
-                            width: 6px;
-                            border-radius: 3px;
+                        li {
+                            font-size: 16px;
+
+                            .circle {
+                                height: 6px;
+                                width: 6px;
+                                border-radius: 3px;
+                                float: left;
+                                top: 8px;
+                                position: relative;
+                                margin-right: 6px;
+                                background-color: $enrollment-protective-color;
+                            }
+                        }
+                    }
+
+                    .even, .odd {
+                        width: 50%;
+                        float: left;
+                    }
+                }
+            }
+
+            .select-plan {
+                width: 175px;
+                position: relative;
+                padding-left: 15px;
+
+                p {
+                    text-align: center;
+                    font-size: 20px;
+                    color: $enrollment-protective-color;
+                    margin: 0;
+                    float: left;
+                }
+
+                .triangle {
+                    width: 0;
+                    height: 0;
+                    border-style: solid;
+                    border-width: 10px 10px 0 10px;
+                    border-color: $enrollment-protective-color transparent transparent transparent;
+                    position: absolute;
+                    top: 18px;
+                    right: 10px;
+                    -webkit-transition: 0.5s ease-in-out;
+                    -moz-transition: 0.5s ease-in-out;
+                    -o-transition: 0.5s ease-in-out;
+                    transition: 0.5s ease-in-out;
+
+                    &.rotate {
+                        -webkit-transform: rotate(180deg);
+                        -moz-transform: rotate(180deg);
+                        -o-transform: rotate(180deg);
+                        -ms-transform: rotate(180deg);
+                        transform: rotate(180deg);
+                    }
+                }
+            }
+
+            .groupOffer {
+                clear: left;
+
+                .options {
+                    float: right;
+                    border: 1px solid $enrollment-protective-color;
+                    background-color: #fff;
+                    border-radius: 5px 0 5px 5px;
+                    width: 230px;
+
+                    .option {
+                        padding: 10px;
+
+                        &:first-child {
+                            border-bottom: 1px solid $enrollment-protective-color;
+                        }
+
+                        .label {
                             float: left;
-                            top: 8px;
-                            position: relative;
-                            margin-right: 6px;
-                            background-color: $enrollment-protective-color;
+                            width: 50%;
+                            font-size: 20px;
+
+                            .name {
+                                color: $enrollment-protective-color;
+                            }
+
+                            p {
+                                margin: 0;
+                            }
+
+                            a {
+                                font-size: 20px;
+                            }
+                        }
+
+                        .amount {
+                            float: right;
+                            width: 50%;
+                            text-align: right;
+                            color: #013c5b;
+                            font-size: 15px;
+                            font-weight: 600;
+                        }
+
+                        .description {
+                            clear: both;
+                            margin: 0;
+                            color: #013c5b;
                         }
                     }
                 }
-
-                .even, .odd {
-                    width: 50%;
-                    float: left;
-                }
             }
 
-            .groupOffer { //
-                clear: left;
-
-                @include breakpoint(medium-large) {
-                    display: none;
-                }
-            }
-        }
-    }
-
-    .groupOffers {
-        @include breakpoint(small) {
-            display: none;
-        }
-
-        box-shadow: -30px 30px 120px #aaaaaa;
-
-        .groupOffer {
-        }
-    }
-
-    .groupOffer {
-        padding: 20px;
-
-        .select-plan {
-            width: 150px;
-            border-color: $enrollment-protective-color;
-            border-style: solid;
-            border-width: 1px 1px 0 1px;
-            border-radius: 5px 5px 0 0;
-            float: right;
-            padding: 10px;
-            position: relative;
-
-            p {
-                text-align: center;
-                font-size: 20px;
-                color: $enrollment-protective-color;
-                margin: 0;
-                float: left;
-            }
-
-            .triangle {
-                width: 0;
-                height: 0;
-                border-style: solid;
-                border-width: 10px 10px 0 10px;
-                border-color: $enrollment-protective-color transparent transparent transparent;
-                position: absolute;
-                top: 18px;
-                right: 10px;
-            }
-        }
-
-        .options {
-            clear: right;
-            border: 1px solid $enrollment-protective-color;
-            border-radius: 5px 0 5px 5px;
-
-            .option {
+            @include breakpoint(small) {
                 padding: 10px;
 
-                &:first-child {
-                    border-bottom: 1px solid $enrollment-protective-color;
+                .col-1 {
                 }
 
-                .label {
-                    float: left;
-                    width: 50%;
-                    font-size: 20px;
+                .col-2 {
+                    width: calc(100% - 90px);
+                }
 
-                    .name {
-                        color: $enrollment-protective-color;
+                .col-3 {
+                    width: 100%;
+                    text-align: center;
+
+                    .button {
+                        float: none;
+
+                        &.select-plan, &.long {
+                            float: right;
+                            margin-right: 20px;
+                        }
                     }
 
-                    p {
-                        margin: 0;
+                    .groupOffer {
+                        .options {
+                            margin-right: 20px;
+                        }
                     }
-                }
-
-                .amount {
-                    float: right;
-                    width: 50%;
-                    text-align: right;
-                    color: #013c5b;
-                    font-size: 15px;
-                    font-weight: 600;
-                }
-
-                .description {
-                    clear: both;
-                    margin: 0;
                 }
             }
         }

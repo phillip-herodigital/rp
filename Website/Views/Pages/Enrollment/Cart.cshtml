@@ -79,12 +79,12 @@
                         </div>
                         <div ng-repeat="service in getProtectiveServices()">
                             <div class="service clearfix" ng-show="getCartCount() > 0" ng-repeat="offerSelection in service.offerInformationByType[0].value.offerSelections">
+                                <div class="icon" ng-style="{'background-image': 'URL(' + offerSelection.offer.iconURL + ')'}"></div>
                                 <div class="name">
-                                    <div class="icon" ng-style="{'background-image': 'URL(' + offerSelection.offer.iconURL + ')'}"></div>
                                     <span ng-if="offerSelection.offer.hasGroupOffer">Individual </span>
                                     <span ng-if="offerSelection.offer.isGroupOffer">Family </span>
                                     {{offerSelection.offer.name}}
-                                    <p><a href="" ng-click="removeProtectiveOffer(offerSelection.offer.id)">remove</a></p>
+                                    <p class="clearfix"><a href="" ng-click="removeProtectiveOffer(offerSelection.offer.id)">Remove</a></p>
                                 </div>
                                 <div class="price">
                                     <div class="full-price">
@@ -100,12 +100,12 @@
                                     <div class="amount">{{getProtectiveTotal() | currency}}</div>
                                 </div>
                                 <div class="discount clearfix" ng-show="getProtectiveDiscount()">
-                                    <div class="label">3+ Service Savings: </div>
-                                    <div class="amount">{{getProtectiveDiscount() | currency}}</div>
+                                    <div class="label"><strong>3+ Service Savings: </strong></div>
+                                    <div class="amount"><strong>{{getProtectiveDiscount() | currency}}</strong></div>
                                 </div>
                                 <div class="total clearfix">
-                                    <div class="label">Order Total: </div>
-                                    <div class="amount">{{getProtectiveTotal() - getProtectiveDiscount() | currency}}</div>
+                                    <div class="label"><strong>Order Total: </strong></div>
+                                    <div class="amount"><strong>{{getProtectiveTotal() - getProtectiveDiscount() | currency}}</strong></div>
                                 </div>
                             </div>
                         </div>
