@@ -62,7 +62,8 @@
                             <div ng-include src="'serviceConfirmation/' + offerInformation.key"></div>
                         </div>
                     </div>
-                    <div class="plan-summary" ng-if="!cartHasTxLocation() && getCartTotal() > 0">
+                    <hr ng-if="cartHasTxLocation() && getCartTotal() > 0" />
+                    <div class="plan-summary" ng-if="getCartTotal() > 0">
                         <div class="line-item">
                             <div class="total">
                                 @Html.Sitecore().Field("Order Total Text") <strong>{{ getCartTotal() | currency }}</strong>
@@ -145,7 +146,7 @@
                         <div class="personal-info clearfix">
                             <div class="label">@Html.Sitecore().Field("Name Text")</div>
                             <div class="info">{{ accountInformation.contactInfo.name.first }} {{ accountInformation.contactInfo.name.last }}</div>
-                            </div>
+                        </div>
                         <div class="personal-info clearfix" ng-show="accountInformation.contactInfo.phone[0].number">
                             <div class="label">@Html.Sitecore().Field("Phone Text")</div>
                             <div class="info">{{ accountInformation.contactInfo.phone[0].number | phone }}</div>
@@ -267,13 +268,7 @@
                             <div class="rate">{{ selectedOffer.offerOption.connectionFee | currency }}</div>
                         </div>
                         <div class="line-item clearfix" ng-repeat="payment in selectedOffer.payments.requiredAmounts" ng-if="payment.dollarAmount > 0 && !isRenewal" ng-include src="'payments/' + payment.offerPaymentAmountType"></div>
-                        <div class="plan-summary" ng-if="getCartTotal() > 0">
-                            <div class="line-item">
-                                <div class="total">
-                                    @Html.Sitecore().Field("Order Total Text") <strong>{{ getCartTotal() | currency }}</strong>
-                                </div>
-                            </div>
-                        </div>
+
                     </div>
                     <div class="contract-dates clearfix" ng-if="isRenewal && selectedOffer.renewalConfirmation.contractStartDate != null">
                         <div class="contract-start">
@@ -302,7 +297,7 @@
                             </ul>
                         </div>
                     </div>
-                    <hr ng-hide="$parent.$parent.$parent.$parent.$last"/>
+                    <hr ng-hide="$parent.$parent.$parent.$parent.$last" />
                 </div>
             </div>
         </div>
@@ -376,7 +371,7 @@
                 </div>
             </div>
         </div>
-        <hr ng-hide="$parent.$parent.$parent.$last"/>
+        <hr ng-hide="$parent.$parent.$parent.$last" />
     </div>
 </script>
 <script type="text/ng-template" id="serviceConfirmation/TexasElectricityCommercialQuote">
