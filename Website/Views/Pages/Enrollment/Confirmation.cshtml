@@ -50,11 +50,11 @@
                     @Html.Sitecore().Field("Commercial Next Steps")
                 </div>
             </article>
-            <article class="verify-order enrollment__box" ng-show="confirmationSuccess">
+            <article class="verify-order enrollment__box">
                 <header>
                     <h1 class="order-complete-heading">@Html.Sitecore().Field("Header - Order Summary")</h1>
-                    <p class="order-complete-date" ng-show="isRenewal">@Html.Sitecore().Field("Renewal Completed On") {{todaysDate}}</p>
-                    <p class="order-complete-date" ng-hide="isRenewal">@Html.Sitecore().Field("Completed On") {{todaysDate}}</p>
+                    <p class="order-complete-date" ng-show="isRenewal && confirmationSuccess">@Html.Sitecore().Field("Renewal Completed On") {{todaysDate}}</p>
+                    <p class="order-complete-date" ng-show="!isRenewal && confirmationSuccess">@Html.Sitecore().Field("Completed On") {{todaysDate}}</p>
                 </header>
                 <div class="form content">
                     <div ng-repeat="(id, service) in getCartItems()">
@@ -251,8 +251,11 @@
                                 <p>{{ service.location.address.city}}, {{ service.location.address.stateAbbreviation}} {{ service.location.address.postalCode5}}<span ng-if="service.location.address.postalCodePlus4">-{{ service.location.address.postalCodePlus4}}</span></p>
                             </div>
                         </div>
-                        <div class="service-info clearfix" ng-if="accountInformation.renewalESIID">
+                        <div class="service-info clearfix" ng-if="isRenewal && accountInformation.renewalESIID">
                             <div class="label">@Html.Sitecore().Field("ESI ID")</div><div class="info">{{accountInformation.renewalESIID}}</div>
+                        </div>
+                        <div class="service-info clearfix" ng-repeat="capability in service.location.capabilities" ng-if="!isRenewal && capability.esiId">
+                            <div class="label">@Html.Sitecore().Field("ESI ID")</div><div class="info">{{capability.esiId}}</div>
                         </div>
                         <div class="service-info clearfix" ng-if="selectedOffer.offer.tdu">
                             <div class="label">@Html.Sitecore().Field("TDSP")</div><div class="info">{{selectedOffer.offer.tdu}}</div>
