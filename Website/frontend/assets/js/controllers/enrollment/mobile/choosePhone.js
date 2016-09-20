@@ -36,6 +36,12 @@
             $scope.hasError = true;
             $scope.duplicateDevice = true;
         }
+        if (_.some(enrollmentService.addLineSubAccounts, function (acct) {
+            return acct.imei === $scope.phoneOptions.imeiNumber;
+        })) {
+            $scope.hasError = true;
+            $scope.existingDevice = true;
+        }
         if (!$scope.hasError) {
             enrollmentService.isLoading = true;
             var convertedImei = null;
