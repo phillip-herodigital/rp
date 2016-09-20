@@ -165,9 +165,6 @@
                                 {{ accountInformation.mailingAddress.city }}, {{ accountInformation.mailingAddress.stateAbbreviation }} {{ accountInformation.mailingAddress.postalCode5 }}
                             </div>
                         </div>
-                        <div class="info">
-                            <div class="disclosure-documents" ng-if="isRenewal">@Html.Sitecore().Field("Terms Notice")</div>
-                        </div>
                     </div>
                     <div class="grid" ng-if="accountInformation.businessInformationName">
                         <h2>@Html.Sitecore().Field("Header - Business Information")</h2>
@@ -202,7 +199,7 @@
                         </div>
                     </div>
                     <hr />
-                    <div ng-if="customerType == 'residential' && cartHasTxLocation()">@Html.Sitecore().Field("Terms Notice")</div>
+                    <div ng-if="customerType != 'commercial' && cartHasTxLocation()">@Html.Sitecore().Field("Terms Notice")</div>
                     <div ng-if="customerType == 'residential' && !cartHasTxLocation()&& !cartHasMobile()">@Html.Sitecore().Field("GA Terms Notice")</div>
                 </div>
             </article>
@@ -260,8 +257,8 @@
                         <div class="service-info clearfix" ng-if="selectedOffer.offer.tdu">
                             <div class="label">@Html.Sitecore().Field("TDSP")</div><div class="info">{{selectedOffer.offer.tdu}}</div>
                         </div>
-                        <div class="service-info clearfix" ng-if="selectedOffer.offerOption.connectDate">
-                            <div class="label">@Html.Sitecore().Field("Effective Date")</div><div class="info">{{selectedOffer.offerOption.connectDate | date:'M/d/yyyy'}}</div>
+                        <div class="service-info clearfix" ng-if="selectedOffer.renewalConfirmation.renewalDate">
+                            <div class="label">@Html.Sitecore().Field("Effective Date")</div><div class="info">{{selectedOffer.renewalConfirmation.renewalDate | date:'M/d/yyyy'}}</div>
                         </div>
                         <div class="line-item clearfix" ng-if="!isRenewal && selectedOffer.offerOption.connectionFee != null">
                             <div class="description sub-charge">
