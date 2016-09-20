@@ -494,12 +494,9 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', 'sc
                }).contains(tdu);
         },
         cartHasTxLocation: function () {
-            return _(services)
-               .map(function (l) {
-                   if (_(l.location.capabilities).filter({ capabilityType: "TexasElectricity" }).size() != 0) {
-                       return l.location.address.stateAbbreviation;
-                   }
-               }).contains('TX');
+            return _(services).pluck('location').pluck('capabilities').flatten().pluck('capabilityType')
+                .intersection(['TexasElectricity', 'TexasElectricityRenewal'])
+                .some();
         },
         cartHasMobile: function () {
             return _(services).pluck('location').pluck('capabilities').flatten().pluck('capabilityType')
