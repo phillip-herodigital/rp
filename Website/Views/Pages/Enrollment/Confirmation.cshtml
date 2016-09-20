@@ -153,9 +153,6 @@
                                 {{ accountInformation.mailingAddress.city }}, {{ accountInformation.mailingAddress.stateAbbreviation }} {{ accountInformation.mailingAddress.postalCode5 }}
                             </div>
                         </div>
-                        <div class="info">
-                            <div class="disclosure-documents" ng-if="isRenewal">@Html.Sitecore().Field("Terms Notice")</div>
-                        </div>
                     </div>
                     <div class="grid" ng-if="accountInformation.businessInformationName">
                         <h2>@Html.Sitecore().Field("Header - Business Information")</h2>
@@ -190,7 +187,7 @@
                         </div>
                     </div>
                     <hr />
-                    <div ng-if="customerType == 'residential' && cartHasTxLocation()">@Html.Sitecore().Field("Terms Notice")</div>
+                    <div ng-if="customerType != 'commercial' && cartHasTxLocation()">@Html.Sitecore().Field("Terms Notice")</div>
                     <div ng-if="customerType == 'residential' && !cartHasTxLocation()&& !cartHasMobile()">@Html.Sitecore().Field("GA Terms Notice")</div>
                 </div>
             </article>
