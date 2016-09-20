@@ -91,10 +91,9 @@
                                     </div>
                                     <div class="line-item taxes clearfix" ng-if="selectedOffer.payments.requiredAmounts[0].taxTotal > 0">
                                         <div class="description">
-                                            <h3>@Html.Sitecore().Field("Sales Tax Text")</h3>
-                                            <p class="note">@Html.Sitecore().Field("Sales Tax Description")</p>
+                                            <h3>@Html.Sitecore().Field("Monthly Sales Tax Text")</h3>
+                                            <p class="note">@Html.Sitecore().Field("Monthly Sales Tax Description")</p>
                                         </div>
-                                        <div class="rate">{{ selectedOffer.payments.requiredAmounts[0].taxTotal | currency }}</div>
                                     </div>
                                 </div>
                             </div>
@@ -113,6 +112,12 @@
                                             <div class="details">@Html.Sitecore().Field("Text - Existing Plan Details")</div>
                                         </div>
                                         <div class="rate">{{ subAccount.cost | currency }}</div>
+                                    </div>
+                                    <div class="line-item taxes clearfix">
+                                        <div class="description">
+                                            <h3>@Html.Sitecore().Field("Monthly Sales Tax Text")</h3>
+                                            <p class="note">@Html.Sitecore().Field("Monthly Sales Tax Description")</p>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -141,7 +146,7 @@
                         <div class="personal-info clearfix">
                             <div class="label">@Html.Sitecore().Field("Name Text")</div>
                             <div class="info">{{ accountInformation.contactInfo.name.first }} {{ accountInformation.contactInfo.name.last }}</div>
-                            </div>
+                        </div>
                         <div class="personal-info clearfix" ng-show="accountInformation.contactInfo.phone[0].number">
                             <div class="label">@Html.Sitecore().Field("Phone Text")</div>
                             <div class="info">{{ accountInformation.contactInfo.phone[0].number | phone }}</div>
@@ -263,6 +268,7 @@
                             <div class="rate">{{ selectedOffer.offerOption.connectionFee | currency }}</div>
                         </div>
                         <div class="line-item clearfix" ng-repeat="payment in selectedOffer.payments.requiredAmounts" ng-if="payment.dollarAmount > 0 && !isRenewal" ng-include src="'payments/' + payment.offerPaymentAmountType"></div>
+
                     </div>
                     <div class="contract-dates clearfix" ng-if="isRenewal && selectedOffer.renewalConfirmation.contractStartDate != null">
                         <div class="contract-start">
@@ -291,7 +297,7 @@
                             </ul>
                         </div>
                     </div>
-                    <hr ng-hide="$parent.$parent.$parent.$parent.$last"/>
+                    <hr ng-hide="$parent.$parent.$parent.$parent.$last" />
                 </div>
             </div>
         </div>
@@ -365,7 +371,7 @@
                 </div>
             </div>
         </div>
-        <hr ng-hide="$parent.$parent.$parent.$last"/>
+        <hr ng-hide="$parent.$parent.$parent.$last" />
     </div>
 </script>
 <script type="text/ng-template" id="serviceConfirmation/TexasElectricityCommercialQuote">
@@ -431,7 +437,7 @@
                     </span>
                     <div class="details">@Html.Sitecore().Field("Text - Plan Details")</div>
                 </div>
-                <div class="rate device-price">{{ selectedOffer.payments.requiredAmounts[0].phoneCharge | currency }}</div>
+                <div class="rate device-price">{{ getOfferPrice(selectedOffer.offerId) | currency }}</div>
             </div>
         </div>
         <div class="phone-summary autopay" ng-if="autopay && cartHasMobile()">
@@ -452,7 +458,7 @@
     <div ng-repeat="selectedOffer in offerInformation.value.offerSelections">
         <h3>@Html.Sitecore().Field("Text - New Line")</h3>
         <div class="details">@Html.Sitecore().Field("Text - Plan Description")</div>
-        <div class="details">{{ selectedOffer.payments.requiredAmounts[0].phoneCharge | currency }}@Html.Sitecore().Field("Text - Header Plan Details")</div>
+        <div class="details">{{ getOfferPrice(selectedOffer.offerId) | currency }}@Html.Sitecore().Field("Text - Header Plan Details")</div>
     </div>
 </script>
 <script type="text/ng-template" id="payments/Deposit">
