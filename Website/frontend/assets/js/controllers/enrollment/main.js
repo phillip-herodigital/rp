@@ -33,7 +33,7 @@ ngApp.controller('EnrollmentMainCtrl', ['$scope', '$anchorScroll', '$location', 
     $scope.serviceType = getParameterByName("ServiceType").toLowerCase();
     if ($scope.serviceType == 'mob') {
         enrollmentStepsService.setInitialFlow('phone');
-    } else if ($scope.serviceType == 'proserv') {
+    } else if ($scope.serviceType == 'pro') {
         enrollmentStepsService.setInitialFlow('protective');
     }
     else {

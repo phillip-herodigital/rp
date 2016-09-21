@@ -4134,7 +4134,7 @@ h3.success-message{
             }
 
             .groupOffer {
-                clear: left;
+                clear: both;
 
                 .options {
                     float: right;
@@ -4202,16 +4202,18 @@ h3.success-message{
 
                     .button {
                         float: none;
-
-                        &.select-plan, &.long {
-                            float: right;
-                            margin-right: 20px;
-                        }
                     }
 
                     .groupOffer {
+                        position: relative;
+                        width: 100%;
+                        text-align: left;
+
                         .options {
-                            margin-right: 20px;
+                            position: absolute;
+                            left: 50%;
+                            transform: translate(-50%, -6px);
+                            border-radius: 5px;
                         }
                     }
                 }
