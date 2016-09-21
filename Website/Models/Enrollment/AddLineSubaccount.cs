@@ -11,5 +11,6 @@ namespace StreamEnergy.MyStream.Models.Enrollment
         public double Cost { get; set; }
         public string PlanID { get; set; } 
         public double? DataAvailable { get; set; }
+        public string IMEI { get; set; }
     }
 }

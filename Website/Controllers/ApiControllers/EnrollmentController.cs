@@ -297,13 +297,15 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
         }
 
         [NonAction]
-        public async Task<ClientData> SetupRenewal(DomainModels.Accounts.Account account, DomainModels.Accounts.ISubAccount subAccount)
+        public async Task<ClientData> SetupRenewal(DomainModels.Accounts.Account account, DomainModels.Accounts.ISubAccount subAccount, string last4ssn)
         {
             stateHelper.StateMachine.InternalContext.GlobalCustomerId = account.StreamConnectCustomerId;
             stateHelper.State = typeof(PlanSelectionState);
             stateHelper.Context.IsRenewal = true;
             stateHelper.Context.ContactInfo = account.Details.ContactInfo;
             stateHelper.Context.MailingAddress = account.Details.BillingAddress;
+            stateHelper.Context.RenewalESIID = account.Details.BillingAddress.StateAbbreviation == "TX" ? subAccount.Id : null;
+            stateHelper.Context.SocialSecurityNumber = string.IsNullOrEmpty(stateMachine.Context.SocialSecurityNumber) ? string.Concat("00000", last4ssn) : stateMachine.Context.SocialSecurityNumber;
             stateHelper.Context.Services = new LocationServices[]
             {
                 new LocationServices 
@@ -601,12 +603,13 @@ FROM [SwitchBack] WHERE ESIID=@esiId";
             
             List<AddLineSubaccount> subaccounts = new List<AddLineSubaccount>();
             if (stateMachine.Context.AddLineSubAccounts != null && stateMachine.Context.AddLineSubAccounts.Count() > 0) {
-                for (int i = 0; i< stateMachine.Context.AddLineSubAccounts.Count(); i++) {
+                for (int i = 0; i < stateMachine.Context.AddLineSubAccounts.Count(); i++) {
                     var subaccount = (MobileAccount)stateMachine.Context.AddLineSubAccounts.ElementAt(i);
 
                     subaccounts.Add(new AddLineSubaccount()
                     {
                         PlanID = subaccount.PlanId,
+                        IMEI = subaccount.SerialNumber,
                         Name = subaccount.PlanName,
                         Cost = subaccount.PlanPrice,
                         DataAvailable = subaccount.PlanDataAvailable
@@ -627,13 +630,18 @@ FROM [SwitchBack] WHERE ESIID=@esiId";
                 AddLineAutoPay = stateMachine.Context.IsAddLine ? stateMachine.Context.AddLineAutoPay : false,
                 IsSinglePage = stateMachine.Context.IsSinglePage,
                 LoggedInCustomerId = stateMachine.Context.LoggedInCustomerId,
+                AgreeToTerms = stateMachine.Context.AgreeToTerms,
+                AdditionalAuthorizations = stateMachine.Context.AdditionalAuthorizations,
+                AgreeToAutoPayTerms = stateMachine.Context.AgreeToAutoPayTerms,
                 EnrolledInAutoPay = stateMachine.Context.EnrolledInAutoPay,
                 AutoPayDiscount = stateMachine.Context.AutoPayDiscount,
                 NewAccountUserName = stateMachine.Context.OnlineAccount == null ? "" : stateMachine.Context.OnlineAccount.Username,
                 LoggedInAccountDetails = stateMachine.Context.LoggedInAccountDetails,
+                RenewalESIID = stateMachine.Context.RenewalESIID,
                 PaymentError = stateMachine.Context.PaymentError,
                 NeedsRefresh = isNeedsRefresh,
                 ContactInfo = stateMachine.Context.ContactInfo,
+                Last4SSN = string.IsNullOrEmpty(stateMachine.Context.SocialSecurityNumber) ? "" : stateMachine.Context.SocialSecurityNumber.Substring(5),
                 Language = stateMachine.Context.Language,
                 SecondaryContactInfo = stateMachine.Context.SecondaryContactInfo,
                 MailingAddress = stateMachine.Context.MailingAddress,
@@ -800,10 +808,10 @@ FROM [SwitchBack] WHERE ESIID=@esiId";
         }
 
         [HttpPost]
-        public async Task<ClientData> ToggleAutoPay([FromBody]AccountInformation request)
+        public async Task<ClientData> SetAutoPay([FromBody]SetAutoPayRequest request)
         {
             await Initialize();
-
+            stateMachine.Context.EnrolledInAutoPay = request.IsAutoPay;
             if (stateHelper.InternalContext != null)
             {
                 stateHelper.InternalContext.Deposit = null;
@@ -813,6 +821,7 @@ FROM [SwitchBack] WHERE ESIID=@esiId";
             stateHelper.Reset();
             stateHelper.Context = context;
             stateHelper.InternalContext = internalContext;
+
             stateHelper.State = typeof(AccountInformationState);
 
             await stateHelper.EnsureInitialized();
@@ -821,7 +830,9 @@ FROM [SwitchBack] WHERE ESIID=@esiId";
 
             await stateMachine.ContextUpdated();
 
-            MapCartToServices(request);
+            MapCartToServices(new AccountInformation {
+                Cart = request.Cart
+            });
 
             await stateMachine.ContextUpdated();
 
@@ -943,7 +954,10 @@ FROM [SwitchBack] WHERE ESIID=@esiId";
             }
 
             MapCartToServices(request);
-
+            if (request.Cart.Any(CartEntry => CartEntry.OfferInformationByType.Any(offer => offer.Key == "Mobile")))
+            {
+                stateMachine.Context.EnrolledInAutoPay = true;
+            }
             stateMachine.Context.AgreeToTerms = false;
             stateMachine.Context.ContactInfo = request.ContactInfo;
             stateMachine.Context.ContactTitle = request.ContactTitle;
@@ -1080,7 +1094,6 @@ FROM [SwitchBack] WHERE ESIID=@esiId";
             stateMachine.Context.AgreeToTerms = request.AgreeToTerms;
             stateMachine.Context.AgreeToAutoPayTerms = request.AgreeToAutoPayTerms;
             stateMachine.Context.W9BusinessData = request.W9BusinessData;
-            stateMachine.Context.EnrolledInAutoPay = request.AutoPay;
             stateMachine.Context.AutoPayDiscount = Convert.ToDecimal(settings.GetSettingsValue("Mobile Enrollment Options", "AutoPay Discount"));
             
             foreach (var locationService in stateMachine.Context.Services)

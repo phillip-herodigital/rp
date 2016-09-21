@@ -116,6 +116,8 @@
                                 <dd>{{ totalCharge | currency }}</dd>
                                 <dt>@Html.Sitecore().Field("Payment Method Text"):</dt>
                                 <dd>{{ getPaymentMethod(selectedPaymentMethod) }}</dd>
+                                <dt>@Html.Sitecore().Field("Payment Date Text")</dt>
+                                <dd>{{ currentDate | date:'MM/dd/yyyy' }}</dd>
                             </dl>
                         </div>
                     </div>
@@ -153,6 +155,8 @@
                                 <dd ng-show="false && selectedAccount.accountType != 'Mobile' && selectedAccount.systemOfRecord != 'CIS1'">@Html.Sitecore().Field("GA Convenience Fee Amount")</dd>
                                 <dt>@Html.Sitecore().Field("Total Payment Text")</dt>
                                 <dd>{{ totalCharge | currency }}</dd>
+                                <dt>@Html.Sitecore().Field("Payment Date Text")</dt>
+                                <dd>{{ currentDate | date:'MM/dd/yyyy' }}</dd>
                             </dl>
                         </div>
                     </div>

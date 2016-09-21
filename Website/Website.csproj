@@ -818,6 +818,7 @@
     <Compile Include="Conditions\EnrollmentTrafficCopCondition.cs" />
     <Compile Include="Conditions\HasThermostatPlanCondition.cs" />
     <Compile Include="Conditions\MaintenanceModeCondition.cs" />
+    <Compile Include="Models\Enrollment\SetAutoPayRequest.cs" />
     <Compile Include="Models\Marketing\Support\InitResponse.cs" />
     <Compile Include="Controllers\ApiControllers\CurrentsController.cs" />
     <Compile Include="Controllers\ApiControllers\LogRecorderController.cs" />
