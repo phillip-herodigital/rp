@@ -1,25 +1,43 @@
-﻿@model StreamEnergy.MyStream.Models.MobileEnrollment.ProgressBar
+﻿@model StreamEnergy.MyStream.Models.Enrollment.ProgressBar
 
 @{
-    Sitecore.Data.Items.Item item = Sitecore.Context.Database.GetItem("{E91EFBC7-E43D-4482-9844-86C645D81AEF}"); ///sitecore/content/Data/Components/Enrollment/Protective Services Progress Bar
+    Sitecore.Data.Items.Item item = Sitecore.Context.Database.GetItem("{881C1CD7-90B7-438C-B267-36B0A4167227}"); ///sitecore/content/Data/Components/Mobile Enrollment/Progress Bar
+    if (Request.QueryString["ServiceType"].ToLower() == "pro")
+    {
+        item = Sitecore.Context.Database.GetItem("{E91EFBC7-E43D-4482-9844-86C645D81AEF}"); ///sitecore/content/Data/Components/Enrollment/Protective Services Progress Bar
+    }
 }
 
-<div ng-controller="ProtectiveEnrollmentProgressBarCtrl" ng-show="cartHasProtective()">
-    <div class="enrollment_progress-bar @string.Format("step{0}", Model.StepNumber) protective-services" ng-init="stepNumber = @Model.StepNumber">
+<div ng-controller="EnrollmentProgressBarCtrl">
+    <div class="enrollment_progress-bar @string.Format("step{0}", Model.StepNumber)" ng-class="{protective: cartHasProtective()}" ng-init="stepNumber = @Model.StepNumber">
         <div class="inner clearfix">
-            <div class="step-description" ng-if="'@Model.StepNumber' != '4'">
+            <div class="step-description" ng-if="!isRenewal || '@Model.StepNumber' != '4'">
                 <div class="stepCount">@item.Fields["Step"].Value @Model.StepNumber</div>
                 @Html.Sitecore().Field(Model.StepTextField, item)
             </div>
-            <div class="step-description" ng-if="'@Model.StepNumber' == '4'">
+            <div class="step-description" ng-if="isRenewal && '@Model.StepNumber' == '4'">
                 <div class="stepCount">@item.Fields["Step 3 Renewal Header Text"].Value</div>
                 @item.Fields["Step 3 Renewal Description Text"].Value
             </div>
-            <div class="progress">
+            <div class="progress" ng-if="cartHasMobile()">
                 <div class="bar"></div>
-                <a class="step step1" ng-click="jumpToStep('protectiveFlowServices', stepNumber, 1);"></a>
-                <a class="step step2" ng-click="jumpToStep('accountInformation', stepNumber, 2);"></a>
-                <a class="step step3" ng-click="jumpToStep('verifyIdentity', stepNumber, 3);"></a>
+                <a class="step step1" ng-click="jumpToStep('phoneFlowDevices', stepNumber, 1)"></a>
+                <a class="step step2" ng-click="jumpToStep('phoneFlowPlans', stepNumber, 2)"></a>
+                <a class="step step3" ng-click="jumpToStep('accountInformation', stepNumber, 3)"></a>
+                <a class="step step4"></a>
+            </div>
+            <div class="progress" ng-if="cartHasProtective()">
+                <div class="bar"></div>
+                <a class="step step1" ng-click="jumpToStep('protectiveFlowServices', stepNumber, 1)"></a>
+                <a class="step step2" ng-click="jumpToStep('accountInformation', stepNumber, 2)"></a>
+                <a class="step step3" ng-click="jumpToStep('verifyIdentity', stepNumber, 3)"></a>
+                <a class="step step4"></a>
+            </div>
+            <div class="progress" ng-if="cartHasUtility()">
+                <div class="bar"></div>
+                <a class="step step1" ng-click="jumpToStep('utilityFlowService', stepNumber, 1)"></a>
+                <a class="step step2" ng-click="jumpToStep('utilityFlowPlans', stepNumber, 2)"></a>
+                <a class="step step3" ng-click="jumpToStep('accountInformation', stepNumber, 3)"></a>
                 <a class="step step4"></a>
             </div>
             <div class="referred-by-section" ng-if="associateInformation && associateInformation.associateName">
@@ -57,5 +75,10 @@
                 </div>
             </div>
         </script>
+    </div>
+    <div ng-if="addLineAccountNumber" class="enrollment_add-line">
+        <div class="wrapper">
+            <h2>@Html.Sitecore().Field("Adding Device Text", item) {{ addLineAccountNumber }}</h2>
+        </div>
     </div>
 </div>

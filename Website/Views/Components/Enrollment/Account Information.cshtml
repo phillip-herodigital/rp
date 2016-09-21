@@ -3,12 +3,20 @@
 @using StreamEnergy.DomainModels.Enrollments
 @using TexasElectricity = StreamEnergy.DomainModels.Enrollments.TexasElectricity
 @using GeorgiaGas = StreamEnergy.DomainModels.Enrollments.GeorgiaGas
+@{ 
+    int progressBarStep = 3;
+    bool hideCart = true;
+    if (Request.QueryString["ServiceType"].ToLower() == "pro")
+    {
+        progressBarStep = 2;
+        hideCart = false;
+    }
+}
 
 @using (new Sitecore.Data.Items.ContextItemSwitcher(Html.Sitecore().CurrentItem))
 {
 <div id="accountInformation" class="enrollment showCart" ng-if="stepsService.isStepVisible('accountInformation')" ng-controller="EnrollmentAccountInformationCtrl" ng-init="usStates = @(Html.Action("States", "Data").ToHtmlString()); phoneTypes = @(Html.Action("PhoneCategories", "Data").ToHtmlString()); previousProviders = @(Html.Action("PreviousProviders", "Data").ToHtmlString()); previousProvidersGeorgia = @(Html.Action("PreviousProvidersGeorgia", "Data").ToHtmlString()); setTimeRemaining('accountInformation', '@Html.Sitecore().Field("Remaining Minutes Number")');">    
-    @Html.Partial("~/Views/Components/Mobile Enrollment/Progress Bar.cshtml", new StreamEnergy.MyStream.Models.MobileEnrollment.ProgressBar { StepNumber = 3, StepTextField = "Step 3 Description Text", HideCart = true })
-    @Html.Partial("~/Views/Components/Protective Enrollment/Progress Bar.cshtml", new StreamEnergy.MyStream.Models.MobileEnrollment.ProgressBar { StepNumber = 2, StepTextField = "Step 2 Description Text", HideCart = true })
+    @Html.Partial("~/Views/Components/Enrollment/Progress Bar.cshtml", new StreamEnergy.MyStream.Models.Enrollment.ProgressBar { StepNumber = progressBarStep, StepTextField = string.Format("Step {0} Description Text", progressBarStep.ToString()), HideCart = hideCart })
     <div class="layout">
         <div class="wrapper cols-2 enrollment__account-information">
             <section>

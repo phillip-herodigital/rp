@@ -10,6 +10,7 @@ using Sitecore.Data.Items;
 using Sitecore.Data.Fields;
 using StreamEnergy.DomainModels.MobileEnrollment;
 using StreamEnergy.MyStream.Models.MobileEnrollment;
+using StreamEnergy.MyStream.Models.Enrollment;
 
 namespace StreamEnergy.MyStream.Controllers
 {
@@ -189,7 +190,7 @@ namespace StreamEnergy.MyStream.Controllers
 
         public ActionResult ProgressBar()
         {
-            return View("~/Views/Components/Mobile Enrollment/Progress Bar.cshtml", new ProgressBar{
+            return View("~/Views/Components/Enrollment/Progress Bar.cshtml", new ProgressBar{
                 StepNumber = 1
             });
         }
@@ -252,7 +253,7 @@ namespace StreamEnergy.MyStream.Controllers
                 })
             });
 
-            return View("~/Views/Components/Mobile Enrollment/Choose Phone.cshtml", new ChoosePhone
+            return View("~/Views/Components/Enrollment/Mobile/Choose Phone.cshtml", new ChoosePhone
             {
                 MobilePhones = data
             });
@@ -273,7 +274,7 @@ namespace StreamEnergy.MyStream.Controllers
 
         public ActionResult ConfigureData()
         {
-            return View("~/Views/Components/Mobile Enrollment/Configure Data.cshtml");
+            return View("~/Views/Components/Enrollment/Mobile/Configure Data.cshtml");
         }
 
         public ActionResult CompleteOrder()
@@ -288,7 +289,7 @@ namespace StreamEnergy.MyStream.Controllers
 
         public ActionResult Cart()
         {
-            return View("~/Views/Components/Mobile Enrollment/Cart.cshtml");
+            return View("~/Views/Components/Enrollment/Cart.cshtml");
         }
 
         public ActionResult OrderSummary()

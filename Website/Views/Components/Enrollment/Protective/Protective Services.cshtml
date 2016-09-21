@@ -1,5 +1,5 @@
 <div id="protectiveFlowServices" class="enrollment showCart" ng-if="stepsService.isStepVisible('protectiveFlowServices')" ng-controller="protectiveServicesEnrollmentCtrl" ng-init="stateNames = @(Html.Action("StateNames", "Data").ToHtmlString()); init();">    
-    @Html.Partial("~/Views/Components/Protective Enrollment/Progress Bar.cshtml", new StreamEnergy.MyStream.Models.MobileEnrollment.ProgressBar { StepNumber = 1, StepTextField = "Step 1 Description Text", HideCart = true })
+    @Html.Partial("~/Views/Components/Enrollment/Progress Bar.cshtml", new StreamEnergy.MyStream.Models.Enrollment.ProgressBar { StepNumber = 1, StepTextField = "Step 1 Description Text", HideCart = true })
     <div class="layout">
         <div class="wrapper cols-2 enrollment__protective-services">
             <section>
@@ -62,14 +62,14 @@
                                                 <div class="label" ng-hide="offerSelected(offer.id) && offer.isGroupOffer">
                                                     <a class="name" href="" ng-click="selectOffer(offer); showGroupOfferOptions = false;">@Html.Sitecore().Field("Individual")</a>
                                                 </div>
-                                                <div class="amount">{{getOfferPrice(offer.associatedOfferId) | currency}}@Html.Sitecore().Field("Per Month Text")</div>
+                                                <div class="amount">{{offer.price | currency}}@Html.Sitecore().Field("Per Month Text")</div>
                                                 <p class="description">@Html.Sitecore().Field("Individual Details Text")</p>
                                             </div>
                                             <div class="option clearfix">
                                                 <div class="label" ng-hide="offerSelected(offer.id) && offer.isGroupOffer">
                                                     <a class="name" href="" ng-click="selectAssociatedOffer(offer); showGroupOfferOptions = false;" >@Html.Sitecore().Field("Family")</a>
                                                 </div>
-                                                <div class="amount">{{offer.price | currency}}@Html.Sitecore().Field("Per Month Text")</div>
+                                                <div class="amount">{{getOfferPrice(offer.associatedOfferId) | currency}}@Html.Sitecore().Field("Per Month Text")</div>
                                                 <p class="description">@Html.Sitecore().Field("Group Details Text")</p>
                                             </div>
                                         </div>

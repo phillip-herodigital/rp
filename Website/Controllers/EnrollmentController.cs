@@ -73,32 +73,37 @@ namespace StreamEnergy.MyStream.Controllers
 
         public ActionResult PlanSelection()
         {
-            return View("~/Views/Pages/Enrollment/Plan Selection.cshtml");
+            return View("~/Views/Components/Enrollment/Utility/Plan Selection.cshtml");
         }
 
         public ActionResult AccountInformation()
         {
-            return View("~/Views/Pages/Enrollment/Account Information.cshtml");
+            return View("~/Views/Components/Enrollment/Account Information.cshtml");
         }
 
         public ActionResult CompleteOrder()
         {
-            return View("~/Views/Pages/Enrollment/Complete Order.cshtml");
+            return View("~/Views/Components/Enrollment/Complete Order.cshtml");
         }
 
         public ActionResult ServiceInformation()
         {
-            return View("~/Views/Pages/Enrollment/Service Information.cshtml");
+            return View("~/Views/Components/Enrollment/Utility/Service Information.cshtml");
         }
 
         public ActionResult VerifyIdentity()
         {
-            return View("~/Views/Pages/Enrollment/Verify Identity.cshtml");
+            return View("~/Views/Components/Enrollment/Verify Identity.cshtml");
         }
 
         public ActionResult SinglePageEnrollment()
         {
             return View("~/Views/Pages/Enrollment/Single Page Enrollment.cshtml");
+        }
+
+        public ActionResult ProtectiveServices()
+        {
+            return View("~/Views/Components/Enrollment/Protective/Protective Services.cshtml");
         }
     }
 }
