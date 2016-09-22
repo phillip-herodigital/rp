@@ -50,6 +50,13 @@
     var navItem2 = ((Sitecore.Data.Fields.LinkField)blogDataSourceItem.Fields["Navigation Link 2"]);
     var navItem3 = ((Sitecore.Data.Fields.LinkField)blogDataSourceItem.Fields["Navigation Link 3"]);
     var navItem4 = ((Sitecore.Data.Fields.LinkField)blogDataSourceItem.Fields["Navigation Link 4"]);
+    var navItem5 = ((Sitecore.Data.Fields.LinkField)blogDataSourceItem.Fields["Navigation Link 5"]);
+
+    var navMenu1 = Sitecore.Context.Database.GetItem(((Sitecore.Data.Fields.LinkField)blogDataSourceItem.Fields["Navigation Menu 1"]).Value);
+    var navMenu2 = Sitecore.Context.Database.GetItem(((Sitecore.Data.Fields.LinkField)blogDataSourceItem.Fields["Navigation Menu 2"]).Value);
+    var navMenu3 = Sitecore.Context.Database.GetItem(((Sitecore.Data.Fields.LinkField)blogDataSourceItem.Fields["Navigation Menu 3"]).Value);
+    var navMenu4 = Sitecore.Context.Database.GetItem(((Sitecore.Data.Fields.LinkField)blogDataSourceItem.Fields["Navigation Menu 4"]).Value);
+    var navMenu5 = Sitecore.Context.Database.GetItem(((Sitecore.Data.Fields.LinkField)blogDataSourceItem.Fields["Navigation Menu 5"]).Value);
 
     if (Sitecore.Context.Item.TemplateName == "Blog Post")
     {
@@ -78,6 +85,7 @@
                 <li>@Html.Sitecore().Field("Navigation Link 2", blogDataSourceItem)</li>
                 <li>@Html.Sitecore().Field("Navigation Link 3", blogDataSourceItem)</li>
                 <li>@Html.Sitecore().Field("Navigation Link 4", blogDataSourceItem)</li>
+                <li>@Html.Sitecore().Field("Navigation Link 5", blogDataSourceItem)</li>
                 @if (alternateLanguageItem != null && alternateLanguageItem.Versions.Count > 0)
                 {
                     <li><a href="@languageLinkUrl" hreflang="@languageLinkUrlLanguage" lang="@languageLinkUrlLanguage" translate="no">@languageLinkText</a></li>
@@ -99,10 +107,136 @@
         <a href="" class="nav-toggle icon-hamburger" ng-click="toggleSidebar()">Toggle Nav</a>
         <nav class="main-nav currents-nav">
             <ul class="wrapper">
-                <li class="nav-events" ng-class="{ current: '@category' == 'events' }"><a href="@Sitecore.Links.LinkManager.GetItemUrl(navItem1.TargetItem)"><span class="color-block"></span>@navItem1.Text</a></li>
-                <li class="nav-promotions" ng-class="{ current: '@category' == 'promotions' }"><a href="@Sitecore.Links.LinkManager.GetItemUrl(navItem2.TargetItem)"><span class="color-block"></span>@navItem2.Text</a></li>
-                <li class="nav-recognition" ng-class="{ current: '@category' == 'recognition' }"><a href="@Sitecore.Links.LinkManager.GetItemUrl(navItem3.TargetItem)"><span class="color-block"></span>@navItem3.Text</a></li>
-                <li class="nav-training" ng-class="{ current: '@category' == 'training' }"><a href="@Sitecore.Links.LinkManager.GetItemUrl(navItem4.TargetItem)"><span class="color-block"></span>@navItem4.Text</a></li>
+                <li class="nav-news has-subnav nav-1 news" ng-mouseover="showSubnav(1)" ng-mouseout="hideSubnav()" ng-class="{ selected: subnav==1 }">
+                    <a href="@Sitecore.Links.LinkManager.GetItemUrl(navItem1.TargetItem)"><span class="color-block"></span>@navItem1.Text</a>
+                    <div class="sub-nav" sub-nav="1" ng-cloak ng-class="{ hidden: subnav != 1 }" ng-mouseover="showSubnav(1)" ng-mouseout="hideSubnav()">
+                        <div class="sub-nav-list">
+                            @Html.Sitecore().Field("Subnav Link List", navMenu1)
+                        </div>
+                        @foreach (var featuredPostID in ((Sitecore.Data.Fields.MultilistField)navMenu1.Fields["Featured Posts"]).TargetIDs)
+                        {
+                            BlogPost featurePost = XBlogHelper.ItemExtensions.CreateAs<BlogPost>(Sitecore.Context.Database.GetItem(featuredPostID));
+
+                            ImageField imageField = (ImageField)featurePost.InnerItem.Fields["Square"];
+                            string title = featurePost.Title;
+                            string postDate = featurePost.PublishDate.DateTime.ToString(settingsItem.BlogListingDateFormat);
+                            string blogSummary =featurePost.Summary;
+                            string blogCategory = featurePost.Categories.Any() ? featurePost.Categories.FirstOrDefault().Name.ToLower() : "";
+                            
+                            <div class="featured-post @blogCategory">
+                                <img src="@Sitecore.Resources.Media.MediaManager.GetMediaUrl(imageField.MediaItem)">
+                                <span>@Html.Raw(title)</span>
+                                <span>@Html.Raw(postDate)</span>
+                                <span>@Html.Raw(blogSummary)</span>
+                            </div>
+                            
+                        }
+                    </div>
+                </li>
+                <li class="nav-events has-subnav nav-2 events" ng-mouseover="showSubnav(2)" ng-mouseout="hideSubnav()" ng-class="{ selected: subnav==2 }">
+                    <a href="@Sitecore.Links.LinkManager.GetItemUrl(navItem2.TargetItem)"><span class="color-block"></span>@navItem2.Text</a>
+                    <div class="sub-nav" sub-nav="2" ng-cloak ng-class="{ hidden: subnav != 2 }" ng-mouseover="showSubnav(2)" ng-mouseout="hideSubnav()">
+                        <div class="sub-nav-list">
+                            @Html.Sitecore().Field("Subnav Link List", navMenu2)
+                        </div>
+                        @foreach (var featuredPostID in ((Sitecore.Data.Fields.MultilistField)navMenu2.Fields["Featured Posts"]).TargetIDs)
+                        {
+                            BlogPost featurePost = XBlogHelper.ItemExtensions.CreateAs<BlogPost>(Sitecore.Context.Database.GetItem(featuredPostID));
+
+                            ImageField imageField = (ImageField)featurePost.InnerItem.Fields["Square"];
+                            string title = featurePost.Title;
+                            string postDate = featurePost.PublishDate.DateTime.ToString(settingsItem.BlogListingDateFormat);
+                            string blogSummary = featurePost.Summary;
+                            string blogCategory = featurePost.Categories.Any() ? featurePost.Categories.FirstOrDefault().Name.ToLower() : "";
+
+                            <div class="featured-post @blogCategory">
+                                <img src="@Sitecore.Resources.Media.MediaManager.GetMediaUrl(imageField.MediaItem)">
+                                <span>@Html.Raw(title)</span>
+                                <span>@Html.Raw(postDate)</span>
+                                <span>@Html.Raw(blogSummary)</span>
+                            </div>
+
+                        }
+                    </div>
+                </li>
+                <li class="nav-promotions has-subnav nav-3 promotions" ng-mouseover="showSubnav(3)" ng-mouseout="hideSubnav()" ng-class="{ selected: subnav==3 }">
+                    <a href="@Sitecore.Links.LinkManager.GetItemUrl(navItem3.TargetItem)"><span class="color-block"></span>@navItem3.Text</a>
+                    <div class="sub-nav" sub-nav="3" ng-cloak ng-class="{ hidden: subnav != 3 }" ng-mouseover="showSubnav(3)" ng-mouseout="hideSubnav()">
+                        <div class="sub-nav-list">
+                            @Html.Sitecore().Field("Subnav Link List", navMenu3)
+                        </div>
+                        @foreach (var featuredPostID in ((Sitecore.Data.Fields.MultilistField)navMenu3.Fields["Featured Posts"]).TargetIDs)
+                        {
+                            BlogPost featurePost = XBlogHelper.ItemExtensions.CreateAs<BlogPost>(Sitecore.Context.Database.GetItem(featuredPostID));
+
+                            ImageField imageField = (ImageField)featurePost.InnerItem.Fields["Square"];
+                            string title = featurePost.Title;
+                            string postDate = featurePost.PublishDate.DateTime.ToString(settingsItem.BlogListingDateFormat);
+                            string blogSummary = featurePost.Summary;
+                            string blogCategory = featurePost.Categories.Any() ? featurePost.Categories.FirstOrDefault().Name.ToLower() : "";
+
+                            <div class="featured-post @blogCategory">
+                                <img src="@Sitecore.Resources.Media.MediaManager.GetMediaUrl(imageField.MediaItem)">
+                                <span>@Html.Raw(title)</span>
+                                <span>@Html.Raw(postDate)</span>
+                                <span>@Html.Raw(blogSummary)</span>
+                            </div>
+
+                        }
+                    </div>
+                </li>
+                <li class="nav-recognition has-subnav nav-4 recognition" ng-mouseover="showSubnav(4)" ng-mouseout="hideSubnav()" ng-class="{ selected: subnav==4 }">
+                    <a href="@Sitecore.Links.LinkManager.GetItemUrl(navItem4.TargetItem)"><span class="color-block"></span>@navItem4.Text</a>
+                    <div class="sub-nav" sub-nav="4" ng-cloak ng-class="{ hidden: subnav != 4 }" ng-mouseover="showSubnav(4)" ng-mouseout="hideSubnav()">
+                        <div class="sub-nav-list">
+                            @Html.Sitecore().Field("Subnav Link List", navMenu4)
+                        </div>
+                        @foreach (var featuredPostID in ((Sitecore.Data.Fields.MultilistField)navMenu4.Fields["Featured Posts"]).TargetIDs)
+                        {
+                            BlogPost featurePost = XBlogHelper.ItemExtensions.CreateAs<BlogPost>(Sitecore.Context.Database.GetItem(featuredPostID));
+
+                            ImageField imageField = (ImageField)featurePost.InnerItem.Fields["Square"];
+                            string title = featurePost.Title;
+                            string postDate = featurePost.PublishDate.DateTime.ToString(settingsItem.BlogListingDateFormat);
+                            string blogSummary = featurePost.Summary;
+                            string blogCategory = featurePost.Categories.Any() ? featurePost.Categories.FirstOrDefault().Name.ToLower() : "";
+
+                            <div class="featured-post @blogCategory">
+                                <img src="@Sitecore.Resources.Media.MediaManager.GetMediaUrl(imageField.MediaItem)">
+                                <span>@Html.Raw(title)</span>
+                                <span>@Html.Raw(postDate)</span>
+                                <span>@Html.Raw(blogSummary)</span>
+                            </div>
+
+                        }
+                    </div>
+                </li>
+                <li class="nav-training has-subnav nav-5 training" ng-mouseover="showSubnav(5)" ng-mouseout="hideSubnav()" ng-class="{ selected: subnav==5 }">
+                    <a href="@Sitecore.Links.LinkManager.GetItemUrl(navItem5.TargetItem)"><span class="color-block"></span>@navItem5.Text</a>
+                    <div class="sub-nav" sub-nav="5" ng-cloak ng-class="{ hidden: subnav != 5 }" ng-mouseover="showSubnav(5)" ng-mouseout="hideSubnav()">
+                        <div class="sub-nav-list">
+                            @Html.Sitecore().Field("Subnav Link List", navMenu5)
+                        </div>
+                        @foreach (var featuredPostID in ((Sitecore.Data.Fields.MultilistField)navMenu5.Fields["Featured Posts"]).TargetIDs)
+                        {
+                            BlogPost featurePost = XBlogHelper.ItemExtensions.CreateAs<BlogPost>(Sitecore.Context.Database.GetItem(featuredPostID));
+
+                            ImageField imageField = (ImageField)featurePost.InnerItem.Fields["Square"];
+                            string title = featurePost.Title;
+                            string postDate = featurePost.PublishDate.DateTime.ToString(settingsItem.BlogListingDateFormat);
+                            string blogSummary = featurePost.Summary;
+                            string blogCategory = featurePost.Categories.Any() ? featurePost.Categories.FirstOrDefault().Name.ToLower() : "";
+
+                            <div class="featured-post @blogCategory">
+                                <img src="@Sitecore.Resources.Media.MediaManager.GetMediaUrl(imageField.MediaItem)">
+                                <span>@Html.Raw(title)</span>
+                                <span>@Html.Raw(postDate)</span>
+                                <span>@Html.Raw(blogSummary)</span>
+                            </div>
+
+                        }
+                    </div>
+                </li>
             </ul>
         </nav>
         <div class="right-nav">

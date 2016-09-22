@@ -1,6 +1,7 @@
 /*
     Generic styling for Currents blog
  */
+$news-color: #38e3fd;
 $events-color: #00a3e0;
 $promotions-color: #97c93d;
 $recognition-color: #f99d25;
@@ -121,7 +122,7 @@ $local-meeting-color: #00a8e1;
             max-height: 86px !important;
             display: table-cell !important;
             vertical-align: bottom !important;
-            padding: 0 2% 0 33px !important;
+            padding: 0 2% 0 15px !important;
             background-repeat: no-repeat;
             background-position: 0 88%;
             a {
@@ -139,8 +140,28 @@ $local-meeting-color: #00a8e1;
                     @include transition(background-color 0.2s linear);
                 }
             }
+            &.nav-news {
+                a {
+                    .color-block {
+                        border-bottom: 5px solid $news-color;
+                    }
+                    &:hover {
+                        color: $news-color !important;
+                        .color-block {
+                            background-color: $news-color;
+                        }
+                    } 
+                }
+                &.current {
+                    a {
+                        color: $news-color !important;
+                    }
+                    .color-block {
+                        background-color: $news-color;
+                    }
+                } 
+            }
             &.nav-events {
-                @include retina-background('currents-events.png', 'icon');
                 a {
                     .color-block {
                         border-bottom: 5px solid $events-color;
@@ -162,7 +183,6 @@ $local-meeting-color: #00a8e1;
                 } 
             }
             &.nav-promotions {
-                @include retina-background('currents-promotions.png', 'icon');
                 a {
                     .color-block {
                         border-bottom: 5px solid $promotions-color;
@@ -184,7 +204,6 @@ $local-meeting-color: #00a8e1;
                 } 
             }
             &.nav-recognition {
-                @include retina-background('currents-recognition.png', 'icon');
                 a {
                     .color-block {
                         border-bottom: 5px solid $recognition-color;
@@ -206,7 +225,6 @@ $local-meeting-color: #00a8e1;
                 } 
             }
             &.nav-training {
-                @include retina-background('currents-training.png', 'icon');
                 a {
                     .color-block {
                         border-bottom: 5px solid $training-color;
