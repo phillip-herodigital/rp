@@ -6,3 +6,207 @@ article.protective-intro {
 		text-align: left;
 	}
 }
+
+
+article.protective {
+	border: none;
+	margin: 20px 0;
+	.wrapper {
+		background: none;
+		p {
+			font-size: 18px;
+			&.introduction { 
+				width: 79%;
+				font-size: 56px;
+				font-weight: 100;
+				text-align: left;
+				color: #bebebe;
+				margin-top: 10px;
+				line-height: 1;
+			}
+		}
+		h2 {
+			font-size: 40px;
+			color: #555;
+			font-weight: 800;
+			margin: .25em 0px;
+		}
+		h3 {
+			font-size: 22px;
+			font-style: italic;
+			color: #40ae40;
+			font-weight: 800;
+		}
+	}
+	&.intro {
+		background-image: image-url('marketing/redesign/Modules/Services/triangles-background.png');
+		background-repeat: no-repeat;
+		background-position: bottom left;
+	}
+
+	p.protective-intro {
+	    margin-bottom: 50px;
+		width: 70%;
+		font-size: 18px
+	}
+
+	a.button-large {
+		background-image: linear-gradient(#1582c9, #0c7fc3);
+		background: image-url('icon/white-arrow.png') no-repeat 75% center;
+		background-color: #1481c8;
+		border: 1px solid #0889ce;
+		box-shadow: 0px 4px #e4eaec;
+		border-radius: 8px;
+		font-size: 22px;
+		color: #fff;
+		padding: 13px 80px 13px 60px;
+	}
+}
+
+article.protective-services-comparison {
+	border: none;
+	border-radius: 0px;
+	background-color: #f8f9fa;
+	padding: 50px 0 150px 0;
+	position: relative;
+	table {
+		position: relative;
+	}
+	.stream-background {
+		height: 720px;
+		width: 300px;
+		background-color: #fff;
+		position: absolute;
+		left: 650px;
+		top: 25px;
+		border-radius: 0px;
+		box-shadow: 0px 0px 10px #f0f1f2;
+		p a.button-large {
+			position: absolute;
+			bottom: 20px;
+			left: 25px;
+		}
+	}
+	table tr th, td {
+		border-top: none;
+		border-right: none;
+		border-left: none;
+		padding: 8px 0px;
+	}
+	table tr td {
+		font-size: 18px;
+		color: #0a3b5a;
+	}
+	tr th {
+		&.protective-service {
+			background-image: image-url('marketing/redesign/Modules/Services/Virtual-MD-icon.png');
+			background-repeat: no-repeat;
+			background-position: 50% 0%;
+			padding-top: 60px;
+			font-size: 22px;
+			width: 400px;
+			color: #0a3b5a;
+			text-align: center;
+		}
+		&.competitor {
+			background-image: image-url('marketing/redesign/Modules/Services/teladoc.png');
+			background-repeat: no-repeat;
+			background-position: 50% 50%;
+		}
+	}
+	tr td {
+		&:nth-child(2), &:nth-child(3) {
+			text-align: center;
+			font-weight: 700;
+		}
+		&:nth-child(3) {
+			color: #a0abb5;
+		}
+		&.stream-price {
+			font-size: 42px;
+			font-weight: 800;
+			color: #40ae49;
+			font-weight: 600;
+			background-image: image-url('marketing/redesign/Modules/Services/stream-price-underline.png');
+			background-repeat: no-repeat;
+			background-position: 50% 85%;
+			span {
+				font-size: 18px;
+			}
+		}
+		&.competitor-price {
+			font-size: 32px;
+			color: #a0abb5;
+			font-weight: 800;
+			span {
+				font-size: 18px;
+			}
+		}
+	}
+}
+
+article.protective-services-info {
+	background-image: image-url('http://placehold.it/600x350');
+	background-repeat: no-repeat;
+	background-position: top right;
+	ul {
+		list-style-image: url('../i/icon/check-green.png');
+		padding: 0 0 0 25px;
+		li {
+			padding: 0 0 10px 10px;
+			font-size: 18px;
+		}
+	}
+	p {
+		width: 80%;
+		a.view-all {
+			background-image: image-url('marketing/redesign/Modules/Services/view-all-icon.png');
+			background-repeat: no-repeat;
+			background-position: center right;
+			padding-right: 30px;
+		}
+	}
+}
+
+article.protective-services-pricing {
+	.wrapper {
+		padding: 0px;
+	}
+	background-image: image-url('marketing/redesign/Modules/Services/pricing-banner.jpg');
+	background-repeat: no-repeat;
+	background-position: center top;
+	.grid p {
+		text-align: center;
+		font-size: 28px;
+		color: #fff;
+		span.price {
+			font-size: 60px;
+		}
+		&.additional-services-price {
+			margin-top: -12px;
+		}
+		&.promo-price {
+			margin-top: 5px;
+		}
+	}
+	.three-services {
+		.best-deal {
+            color: #fff;
+            position: absolute;
+            display: block;
+            left: calc(50% + 110px);
+            top: -10px;
+            padding: 2px 12px;
+            font-style: italic;
+            font-size: 16px;
+            font-weight: 600;
+            background: #46c0ff;
+        }
+	}
+	p.footnote {
+		color: #bebebe;
+		text-align: center;
+		font-size: 14px;
+		margin-top: 30px;
+	}
+}
