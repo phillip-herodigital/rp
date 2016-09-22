@@ -395,10 +395,49 @@
 </script>
 
 <script type="text/ng-template" id="serviceConfirmation/Protective">
-    <div>serviceConfirmation/Protective</div>
-</script>
-<script type="text/ng-template" id="headerContent/Protective">
-    <div>headerContent/Protective</div>
+    <h1>My Protective Services</h1>
+    <div class="offer-info">
+        <div class="member-id">Member ID: 123456</div>
+        <div class="info">Jordan Campbell</div>
+        <div class="info">310-310-3103</div>
+        <div class="info">1234 56th St.</div>
+        <div class="info">City State ZipCode</div>
+        <p class="modify-offer">To modify your plan, please call Protective Services Support at 877-743-5893.</p>
+    </div>
+    <div class="service" ng-repeat="offerSelection in offerInformation.value.offerSelections">
+        <div class="col-1" ng-style="{'background-image': 'URL(' + offerSelection.offer.iconURL + ')'}"></div>
+        <div class="col-2">
+            <p class="name">{{offerSelection.offer.name}}</p>
+            <p class="description">{{offerSelection.offer.description}}</p>
+            <p class="video-required" ng-show="isVideoConferenceState(offerSelection.offer)">@Html.Sitecore().Field("Video Conference Text")</p>
+        </div>
+        <div class="col-3">
+            <div class="full-price">
+                {{offerSelection.offer.price | currency}}/mo
+                <div class="slash" ng-show="getProtectiveDiscount()">@Html.Sitecore().Field("Discount Slash")</div>
+            </div>
+            <div class="discount" ng-show="getProtectiveDiscount()">{{offerSelection.offer.price - offerSelection.offer.threeServiceDiscount | currency}}/mo</div>
+        </div>
+    </div>
+    <div class="discount" ng-if="getProtectiveDiscount()">
+        <div class="rectangle">
+            <p>3+ Service Promation Applied</p>
+        </div>
+        <div class="circle">
+            <p>You're Saving</p>
+            <p>{{getProtectiveDiscount() | currency}}</p>
+            <p>/month</p>
+        </div>
+    </div>
+    <div class="paid-today">
+        <div class="label">Total Paid by Credit Card Today:</div>
+        <div class="value">{{getProtectiveTotal() | currency}}</div>
+    </div>
+    <div class="paid-monthly">
+        <div class="icon"></div>
+        <div class="label">Total Due Monthly:</div>
+        <div class="value">{{getProtectiveTotal() | currency}}</div>
+    </div>
 </script>
 
 <script type="text/ng-template" id="payments/Deposit">

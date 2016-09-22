@@ -34,6 +34,9 @@ ngApp.controller('EnrollmentCartCtrl', ['$scope', 'enrollmentStepsService', 'enr
     $scope.getCurrentStep = enrollmentStepsService.getCurrentStep;
     $scope.services = enrollmentCartService.services;
     $scope.getServicesCount = enrollmentCartService.getServicesCount;
+    $scope.removeProtectiveOffer = enrollmentCartService.removeProtectiveOffer;
+    $scope.getProtectiveDiscount = enrollmentCartService.getProtectiveDiscount;
+    $scope.getProtectiveTotal = enrollmentCartService.getProtectiveTotal;
     /**
     * Show IMEI Instructions Modal
     */
@@ -233,40 +236,6 @@ ngApp.controller('EnrollmentCartCtrl', ['$scope', 'enrollmentStepsService', 'enr
             }
         })
     };
-
-    /**
-    * Handle Protective Cart Functions
-    */
-    $scope.removeProtectiveOffer = function (offerId) {
-        _.remove($scope.getProtectiveServices()[0].offerInformationByType[0].value.offerSelections, function (offerSelection) {
-            return offerSelection.offerId === offerId;
-        });
-        //enrollmentService.setSelectedOffers(true);
-    }
-
-    $scope.getProtectiveDiscount = function () {
-        var count = 0;
-        var discount = 0;
-        angular.forEach($scope.getProtectiveServices()[0].offerInformationByType[0].value.offerSelections, function (offerSelection) {
-            discount += offerSelection.offer.threeServiceDiscount;
-            if (offerSelection.offer.isGroupOffer) count += 2;
-            else count++;
-        });
-        if (count > 2) {
-            return discount;
-        }
-        else {
-            return 0;
-        }
-    }
-
-    $scope.getProtectiveTotal = function () {
-        var total = 0;
-        angular.forEach($scope.getProtectiveServices()[0].offerInformationByType[0].value.offerSelections, function (offerSelection) {
-            total += offerSelection.offer.price;
-        });
-        return total;
-    }
 
     /**
     * Handle the checkout button

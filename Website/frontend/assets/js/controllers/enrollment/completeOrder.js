@@ -42,7 +42,9 @@ ngApp.controller('EnrollmentCompleteOrderCtrl', ['$scope', 'enrollmentService', 
     $scope.isAddLine = enrollmentService.isAddLine;
     $scope.addLineSubAccounts = enrollmentService.addLineSubAccounts;
     $scope.addLineAutoPay = enrollmentService.addLineAutoPay;
-
+    $scope.removeProtectiveOffer = enrollmentCartService.removeProtectiveOffer;
+    $scope.getProtectiveDiscount = enrollmentCartService.getProtectiveDiscount;
+    $scope.getProtectiveTotal = enrollmentCartService.getProtectiveTotal;
 
     _.intersectionObjects = _.intersect = function(array) {
     var slice = Array.prototype.slice;

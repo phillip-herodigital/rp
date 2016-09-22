@@ -346,6 +346,39 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', 'sc
         },
 
         /**
+        * Handle Protective Cart Functions
+        */
+        removeProtectiveOffer: function (offerId) {
+            _.remove(enrollmentCartService.getActiveService().offerInformationByType[0].value.offerSelections, function (offerSelection) {
+                return offerSelection.offerId === offerId;
+            });
+        },
+
+        getProtectiveDiscount: function () {
+            var count = 0;
+            var discount = 0;
+            angular.forEach(enrollmentCartService.getActiveService().offerInformationByType[0].value.offerSelections, function (offerSelection) {
+                discount += offerSelection.offer.threeServiceDiscount;
+                if (offerSelection.offer.isGroupOffer) count += 2;
+                else count++;
+            });
+            if (count > 2) {
+                return discount;
+            }
+            else {
+                return 0;
+            }
+        },
+
+        getProtectiveTotal: function () {
+            var total = 0;
+            angular.forEach(enrollmentCartService.getActiveService().offerInformationByType[0].value.offerSelections, function (offerSelection) {
+                total += offerSelection.offer.price;
+            });
+            return total;
+        },
+
+        /**
 		 * Set the plan for the current service based on the offer type
 		 * @param  {[type]} plan
 		 */
