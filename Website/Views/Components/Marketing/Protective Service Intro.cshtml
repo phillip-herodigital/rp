@@ -1,7 +1,18 @@
-﻿<article class="protective protective-services-info">
+﻿<article class="protective protective-services-info" ng-controller="protectiveMarketingCtrl">
+    <div class="sticky-nav clearfix" id="navBar">
+        <div class="service" id="virtualMDNav" ng-click="scrollTo('virtualMD', -75)"><p>Virtual MD</p></div>
+        <div class="service" id="roadsideNav" ng-click="scrollTo('roadside', -75)"><p>Roadside Assistance</p></div>
+        <div class="service" id="identityNav" ng-click="scrollTo('identity', -75)"><p>Identity Protection</p></div>
+        <div class="service" id="creditNav" ng-click="scrollTo('credit', -75)"><p>Credit Monitoring</p></div>
+        <div class="service" id="techNav" ng-click="scrollTo('tech', -75)"><p>Tech Support</p></div>
+        <div class="get-started">
+            <a class="button">Get Started</a>
+            <p><a href="">Need Help?</a></p>
+        </div>
+    </div>
     <div class="wrapper">
-        <div class="grid">
-            <div class="col">
+        <div class="grid" id="virtualMD" ng-init="viewFeatures = false">
+            <div class="col left">
                 <h2>Virtual MD</h2>
                 <p class="introduction">Access a doctor online--anytime, anywhere.</p>
                 <p>With Virtual MD, you have unlimited, 24/7 access to a U.S. Board Certified physician (MD) for you and your family's non-emergency medical needs, right from your home via phone or online video!</p>
@@ -11,8 +22,12 @@
                     <li>Free psychologist consultations</li>
                     <li>Prescription savings &amp; discounts</li>
                 </ul>
-                <p><a>View All Features <i class="icon-view-all"></i></a></p>
-                <ul>
+                <p>
+                    <a ng-click="viewFeatures = true" ng-hide="viewFeatures" href="">View All Features</a>
+                    <a ng-click="viewFeatures = false" ng-show="viewFeatures" href="">View Less Features</a>
+                    <i class="icon-view-all" ng-class="{rotate: viewFeatures}"></i>
+                </p>
+                <ul ng-show="viewFeatures">
                     <li>Free Doctor Consultations</li>
                     <li>Free psychologist consultations</li>
                     <li>Prescription savings &amp; discounts</li>
@@ -23,9 +38,120 @@
                     <li>Free psychologist consultations</li>
                     <li>Prescription savings &amp; discounts</li>
                 </ul>
-                <p><a>View Less Features <i class="icon-view-all"></i></a></p>
             </div>
-            <div class="col">
+            <div class="col right">
+            </div>
+        </div>
+        <div class="grid" id="roadside">
+            <div class="col left">
+                <h2>Roadside Assistance</h2>
+                <p class="introduction">Access a doctor online--anytime, anywhere.</p>
+                <p>With Virtual MD, you have unlimited, 24/7 access to a U.S. Board Certified physician (MD) for you and your family's non-emergency medical needs, right from your home via phone or online video!</p>
+                <h3>FEATURES INCLUDE:</h3>
+                <ul>
+                    <li>Free Doctor Consultations</li>
+                    <li>Free psychologist consultations</li>
+                    <li>Prescription savings &amp; discounts</li>
+                </ul>
+                <p><a ng-click="viewFeatures1 = true" ng-hide="viewFeatures1" href="">View All Features <i class="icon-view-all"></i></a></p>
+                <p><a ng-click="viewFeatures1 = false" ng-show="viewFeatures1" href="">View Less Features <i class="icon-view-all"></i></a></p>
+                <ul ng-show="viewFeatures1">
+                    <li>Free Doctor Consultations</li>
+                    <li>Free psychologist consultations</li>
+                    <li>Prescription savings &amp; discounts</li>
+                    <li>Free Doctor Consultations</li>
+                    <li>Free psychologist consultations</li>
+                    <li>Prescription savings &amp; discounts</li>
+                    <li>Free Doctor Consultations</li>
+                    <li>Free psychologist consultations</li>
+                    <li>Prescription savings &amp; discounts</li>
+                </ul>
+            </div>
+            <div class="col right">
+            </div>
+        </div>
+        <div class="grid" id="identity">
+            <div class="col left">
+                <h2>Identity Protection</h2>
+                <p class="introduction">Access a doctor online--anytime, anywhere.</p>
+                <p>With Virtual MD, you have unlimited, 24/7 access to a U.S. Board Certified physician (MD) for you and your family's non-emergency medical needs, right from your home via phone or online video!</p>
+                <h3>FEATURES INCLUDE:</h3>
+                <ul>
+                    <li>Free Doctor Consultations</li>
+                    <li>Free psychologist consultations</li>
+                    <li>Prescription savings &amp; discounts</li>
+                </ul>
+                <p><a ng-click="viewFeatures2 = true" ng-hide="viewFeatures2" href="">View All Features <i class="icon-view-all"></i></a></p>
+                <p><a ng-click="viewFeatures2 = false" ng-show="viewFeatures2" href="">View Less Features <i class="icon-view-all"></i></a></p>
+                <ul ng-show="viewFeatures2">
+                    <li>Free Doctor Consultations</li>
+                    <li>Free psychologist consultations</li>
+                    <li>Prescription savings &amp; discounts</li>
+                    <li>Free Doctor Consultations</li>
+                    <li>Free psychologist consultations</li>
+                    <li>Prescription savings &amp; discounts</li>
+                    <li>Free Doctor Consultations</li>
+                    <li>Free psychologist consultations</li>
+                    <li>Prescription savings &amp; discounts</li>
+                </ul>
+            </div>
+            <div class="col right">
+            </div>
+        </div>
+        <div class="grid" id="credit">
+            <div class="col left">
+                <h2>Credit Monitoring</h2>
+                <p class="introduction">Access a doctor online--anytime, anywhere.</p>
+                <p>With Virtual MD, you have unlimited, 24/7 access to a U.S. Board Certified physician (MD) for you and your family's non-emergency medical needs, right from your home via phone or online video!</p>
+                <h3>FEATURES INCLUDE:</h3>
+                <ul>
+                    <li>Free Doctor Consultations</li>
+                    <li>Free psychologist consultations</li>
+                    <li>Prescription savings &amp; discounts</li>
+                </ul>
+                <p><a ng-click="viewFeatures3 = true" ng-hide="viewFeatures3" href="">View All Features <i class="icon-view-all"></i></a></p>
+                <p><a ng-click="viewFeatures3 = false" ng-show="viewFeatures3" href="">View Less Features <i class="icon-view-all"></i></a></p>
+                <ul ng-show="viewFeatures3">
+                    <li>Free Doctor Consultations</li>
+                    <li>Free psychologist consultations</li>
+                    <li>Prescription savings &amp; discounts</li>
+                    <li>Free Doctor Consultations</li>
+                    <li>Free psychologist consultations</li>
+                    <li>Prescription savings &amp; discounts</li>
+                    <li>Free Doctor Consultations</li>
+                    <li>Free psychologist consultations</li>
+                    <li>Prescription savings &amp; discounts</li>
+                </ul>
+            </div>
+            <div class="col right">
+            </div>
+        </div>
+        <div class="grid" id="tech">
+            <div class="col left">
+                <h2>Tech Support</h2>
+                <p class="introduction">Access a doctor online--anytime, anywhere.</p>
+                <p>With Virtual MD, you have unlimited, 24/7 access to a U.S. Board Certified physician (MD) for you and your family's non-emergency medical needs, right from your home via phone or online video!</p>
+                <h3>FEATURES INCLUDE:</h3>
+                <ul>
+                    <li>Free Doctor Consultations</li>
+                    <li>Free psychologist consultations</li>
+                    <li>Prescription savings &amp; discounts</li>
+                </ul>
+                <p><a ng-click="viewFeatures4 = true" ng-hide="viewFeatures4" href="">View All Features <i class="icon-view-all"></i></a></p>
+                <p><a ng-click="viewFeatures4 = false" ng-show="viewFeatures4" href="">View Less Features <i class="icon-view-all"></i></a></p>
+                <ul ng-show="viewFeatures4">
+                    <li>Free Doctor Consultations</li>
+                    <li>Free psychologist consultations</li>
+                    <li>Prescription savings &amp; discounts</li>
+                    <li>Free Doctor Consultations</li>
+                    <li>Free psychologist consultations</li>
+                    <li>Prescription savings &amp; discounts</li>
+                    <li>Free Doctor Consultations</li>
+                    <li>Free psychologist consultations</li>
+                    <li>Prescription savings &amp; discounts</li>
+                </ul>
+            </div>
+            <div class="col right">
             </div>
         </div>
     </div>

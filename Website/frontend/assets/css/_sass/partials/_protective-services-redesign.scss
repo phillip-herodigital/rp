@@ -146,26 +146,98 @@ article.protective-services-comparison {
 }
 
 article.protective-services-info {
-	background-image: image-url('http://placehold.it/600x350');
-	background-repeat: no-repeat;
-	background-position: top right;
-	ul {
-		list-style-image: url('../i/icon/check-green.png');
-		padding: 0 0 0 25px;
-		li {
-			padding: 0 0 10px 10px;
-			font-size: 18px;
-		}
-	}
-	p {
-		width: 80%;
-		a.view-all {
-			background-image: image-url('marketing/redesign/Modules/Services/view-all-icon.png');
-			background-repeat: no-repeat;
-			background-position: center right;
-			padding-right: 30px;
-		}
-	}
+    .sticky-nav {
+        width: 100%;
+        height: 100px;
+        background-color: #e3e7e8;
+        padding: 0 120px;
+        max-width: 1280px;
+        margin-bottom: -100px;
+        border-radius: 0;
+
+        &.fixed {
+            position: fixed;
+            top: 0;
+        }
+
+        .service {
+            height: 100px;
+            width: 140px;
+            float: left;
+            position: relative;
+            cursor: pointer;
+
+            &.highlight {
+                background-color: #40ae49;
+                color: #fff;
+            }
+
+            p {
+                position: absolute;
+                bottom: 0;
+            }
+        }
+
+        .get-started {
+            height: 100px;
+            float: right;
+            text-align: center;
+            position: relative;
+
+            .button {
+                margin-top: 15px;
+            }
+
+            .p {
+                position: absolute;
+                bottom: 0;
+            }
+        }
+    }
+
+    .grid {
+        .col {
+            &.right {
+                background-image: image-url('http://placehold.it/600x350');
+                background-repeat: no-repeat;
+                background-position: top right;
+            }
+
+            ul {
+                list-style-image: url('../i/icon/check-green.png');
+                padding: 0 0 0 25px;
+
+                li {
+                    padding: 0 0 10px 10px;
+                    font-size: 18px;
+                }
+            }
+
+            p {
+                width: 80%;
+
+                a.view-all {
+                    background-image: image-url('marketing/redesign/Modules/Services/view-all-icon.png');
+                    background-repeat: no-repeat;
+                    background-position: center right;
+                    padding-right: 30px;
+                }
+
+                .icon-view-all {
+                    -moz-transition: 0.5s ease-in-out;
+                    -webkit-transition: 0.5s ease-in-out;
+                    transition: 0.5s ease-in-out;
+
+                    &.rotate {
+                        -ms-transform: rotate(180deg);
+                        -moz-transform: rotate(180deg);
+                        -webkit-transform: rotate(180deg);
+                        transform: rotate(180deg);
+                    }
+                }
+            }
+        }
+    }
 }
 
 article.protective-services-pricing {
