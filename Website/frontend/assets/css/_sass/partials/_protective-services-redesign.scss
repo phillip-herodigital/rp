@@ -63,118 +63,104 @@ article.protective {
 	}
 }
 
-article.protective-services-comparison {
-	border: none;
-	border-radius: 0px;
-	background-color: #f8f9fa;
-	padding: 50px 0 150px 0;
-	position: relative;
-	table {
-		position: relative;
-	}
-	.stream-background {
-		height: 720px;
-		width: 300px;
-		background-color: #fff;
-		position: absolute;
-		left: 650px;
-		top: 25px;
-		border-radius: 0px;
-		box-shadow: 0px 0px 10px #f0f1f2;
-		p a.button-large {
-			position: absolute;
-			bottom: 20px;
-			left: 25px;
-		}
-	}
-	table tr th, td {
-		border-top: none;
-		border-right: none;
-		border-left: none;
-		padding: 8px 0px;
-	}
-	table tr td {
-		font-size: 18px;
-		color: #0a3b5a;
-	}
-	tr th {
-		&.protective-service {
-			background-image: image-url('marketing/redesign/Modules/Services/Virtual-MD-icon.png');
-			background-repeat: no-repeat;
-			background-position: 50% 0%;
-			padding-top: 60px;
-			font-size: 22px;
-			width: 400px;
-			color: #0a3b5a;
-			text-align: center;
-		}
-		&.competitor {
-			background-image: image-url('marketing/redesign/Modules/Services/teladoc.png');
-			background-repeat: no-repeat;
-			background-position: 50% 50%;
-		}
-	}
-	tr td {
-		&:nth-child(2), &:nth-child(3) {
-			text-align: center;
-			font-weight: 700;
-		}
-		&:nth-child(3) {
-			color: #a0abb5;
-		}
-		&.stream-price {
-			font-size: 42px;
-			font-weight: 800;
-			color: #40ae49;
-			font-weight: 600;
-			background-image: image-url('marketing/redesign/Modules/Services/stream-price-underline.png');
-			background-repeat: no-repeat;
-			background-position: 50% 85%;
-			span {
-				font-size: 18px;
-			}
-		}
-		&.competitor-price {
-			font-size: 32px;
-			color: #a0abb5;
-			font-weight: 800;
-			span {
-				font-size: 18px;
-			}
-		}
-	}
-}
-
 article.protective-services-info {
     .sticky-nav {
         width: 100%;
-        height: 100px;
-        background-color: #e3e7e8;
-        padding: 0 120px;
         max-width: 1280px;
-        margin-bottom: -100px;
+        background-color: #e3e7e8;
         border-radius: 0;
+        z-index: 500;
 
         &.fixed {
             position: fixed;
             top: 0;
         }
 
-        .service {
-            height: 100px;
+        .nav-service {
+            min-height: 100px;
             width: 140px;
             float: left;
-            position: relative;
             cursor: pointer;
+            color: #767676;
+            height: 100%;
+
+            .icon {
+                width: 100%;
+                height: 50px;
+                background-repeat: no-repeat;
+                background-position: bottom center;
+            }
+
+            &#virtualMDNav {
+                .icon {
+                    background-image: image-url("marketing/redesign/Modules/Services/Virtual-MD-floating-nav-icon.png");
+                }
+            }
+
+            &#roadsideNav {
+                .icon {
+                    background-image: image-url("marketing/redesign/Modules/Services/Roadside-Assistance-floating-nav-icon.png");
+                }
+            }
+
+            &#identityNav {
+                .icon {
+                    background-image: image-url("marketing/redesign/Modules/Services/Identity-Protection-floating-nav-icon.png");
+                }
+            }
+
+            &#creditNav {
+                .icon {
+                    background-image: image-url("marketing/redesign/Modules/Services/Credit-Monitoring-floating-nav-icon.png");
+                }
+            }
+
+            &#techNav {
+                .icon {
+                    background-image: image-url("marketing/redesign/Modules/Services/Tech-Support-floating-nav-icon.png");
+                }
+            }
 
             &.highlight {
                 background-color: #40ae49;
                 color: #fff;
+
+                &#virtualMDNav {
+                    .icon {
+                        background-image: image-url("marketing/redesign/Modules/Services/virtual-md-floating-nav-icon-selected.png");
+                    }
+                }
+
+                &#roadsideNav {
+                    .icon {
+                        background-image: image-url("marketing/redesign/Modules/Services/Roadside-Assistance-floating-nav-icon-selected.png");
+                    }
+                }
+
+                &#identityNav {
+                    .icon {
+                        background-image: image-url("marketing/redesign/Modules/Services/Identity-Protection-floating-nav-icon-selected.png");
+                    }
+                }
+
+                &#creditNav {
+                    .icon {
+                        background-image: image-url("marketing/redesign/Modules/Services/Credit-Monitoring-floating-nav-icon-selected.png");
+                    }
+                }
+
+                &#techNav {
+                    .icon {
+                        background-image: image-url("marketing/redesign/Modules/Services/Tech-Support-floating-nav-icon-selected.png");
+                    }
+                }
             }
 
             p {
-                position: absolute;
-                bottom: 0;
+                margin: 10px 0;
+                width: 100%;
+                text-align: center;
+                font-size: 22px;
             }
         }
 
@@ -182,7 +168,6 @@ article.protective-services-info {
             height: 100px;
             float: right;
             text-align: center;
-            position: relative;
 
             .button {
                 margin-top: 15px;
@@ -193,48 +178,284 @@ article.protective-services-info {
                 bottom: 0;
             }
         }
+
+        @include breakpoint(small-medium) {
+            padding: 0;
+        }
+
+        @include breakpoint(medium) {
+            .service, .get-started {
+                width: 16%;
+            }
+        }
+
+        @include breakpoint(small) {
+            &.fixed {
+                top: 57px;
+            }
+
+            .service {
+                width: 20%;
+                height: 50px;
+                min-height: 0;
+
+                .icon {
+                    background-position: center center;
+                }
+
+                p {
+                    display: none;
+                }
+            }
+
+            .get-started {
+                height: 50px;
+                width: 100%;
+
+                .button {
+                    float: left;
+                    margin-top: 0;
+                    margin: 8px;
+                }
+
+                p {
+                    float: right;
+                    margin-right: 15px;
+                }
+            }
+        }
     }
 
-    .grid {
-        .col {
-            &.right {
+    .spacer {
+        width: 100%;
+        height: 0;
+    }
+
+    .service {
+        padding-top: 90px;
+
+        .wrapper {
+            width: 1100px;
+        }
+
+        .service-info {
+
+            .intro, .features {
+                width: calc(100% - 600px);
+                float: left;
+
+                @include breakpoint(medium) {
+                    width: calc(100% - 400px);
+                }
+            }
+
+            .banner {
+                width: 600px;
+                min-height: 350px;
+                height: 100%;
                 background-image: image-url('http://placehold.it/600x350');
                 background-repeat: no-repeat;
                 background-position: top right;
-            }
+                background-size: contain;
+                float: right;
 
-            ul {
-                list-style-image: url('../i/icon/check-green.png');
-                padding: 0 0 0 25px;
-
-                li {
-                    padding: 0 0 10px 10px;
-                    font-size: 18px;
+                @include breakpoint(medium) {
+                    width: 400px;
                 }
             }
 
-            p {
-                width: 80%;
+            .features {
+                clear: left;
 
-                a.view-all {
-                    background-image: image-url('marketing/redesign/Modules/Services/view-all-icon.png');
-                    background-repeat: no-repeat;
-                    background-position: center right;
-                    padding-right: 30px;
-                }
+                ul {
+                    list-style-image: url('../i/icon/check-green.png');
+                    padding: 0 0 0 25px;
 
-                .icon-view-all {
-                    -moz-transition: 0.5s ease-in-out;
-                    -webkit-transition: 0.5s ease-in-out;
-                    transition: 0.5s ease-in-out;
-
-                    &.rotate {
-                        -ms-transform: rotate(180deg);
-                        -moz-transform: rotate(180deg);
-                        -webkit-transform: rotate(180deg);
-                        transform: rotate(180deg);
+                    li {
+                        padding: 0 0 10px 10px;
+                        font-size: 18px;
                     }
                 }
+
+                p {
+                    width: 80%;
+
+                    a.view-all {
+                        background-image: image-url('marketing/redesign/Modules/Services/view-all-icon.png');
+                        background-repeat: no-repeat;
+                        background-position: center right;
+                        padding-right: 30px;
+                    }
+
+                    .icon-view-all {
+                        -moz-transition: 0.5s ease-in-out;
+                        -webkit-transition: 0.5s ease-in-out;
+                        transition: 0.5s ease-in-out;
+
+                        &.rotate {
+                            -ms-transform: rotate(180deg);
+                            -moz-transform: rotate(180deg);
+                            -webkit-transform: rotate(180deg);
+                            transform: rotate(180deg);
+                        }
+                    }
+                }
+            }
+        }
+
+        .comparison {
+            border: none;
+            border-radius: 0px;
+            background-color: #f8f9fa;
+            padding: 50px 0 0;
+
+            table {
+                thead {
+                    tr {
+                        height: 160px;
+
+                        th {
+                            background-color: #f8f9fa;
+
+                            &.protective-service {
+                                background-image: image-url('marketing/redesign/Modules/Services/Virtual-MD-icon.png');
+                                background-repeat: no-repeat;
+                                background-position: 50% 30px;
+                                position: relative;
+                                box-shadow: #f7f7f7 10px 0;
+
+                                p {
+                                    position: absolute;
+                                    width: 100%;
+                                    bottom: 0;
+                                    font-size: 22px;
+                                    font-weight: 800;
+                                    color: #0a3b5a;
+                                }
+                            }
+
+                            &.competitor {
+                                background-image: image-url('marketing/redesign/Modules/Services/teladoc.png');
+                                background-repeat: no-repeat;
+                                background-position: 50% 50%;
+                            }
+                        }
+                    }
+                }
+
+                th, td {
+                    border-top: none;
+                    border-right: none;
+                    border-left: none;
+                    padding: 8px 0px;
+
+                    &:nth-child(1) {
+                        width: calc(100% - 665px);
+                    }
+
+                    &:nth-child(2) {
+                        width: 415px;
+                        text-align: center;
+                        background-color: #fff;
+                    }
+
+                    &:nth-child(3) {
+                        width: 250px;
+                    }
+
+                    @include breakpoint(medium) {
+                        &:nth-child(1) {
+                            width: calc(100% - 525px);
+                        }
+
+                        &:nth-child(2) {
+                            width: 275px;
+                        }
+
+                        &:nth-child(3) {
+                            width: 250px;
+                        }
+                    }
+
+                    @include breakpoint(small) {
+                        &:nth-child(1) {
+                            width: 100%;
+                            clear: both;
+                        }
+
+                        &:nth-child(2) {
+                            width: 50%;
+                            float: left;
+                        }
+
+                        &:nth-child(3) {
+                            width: 50%;
+                            float: left;
+                        }
+                    }
+                }
+
+                tbody {
+                    td {
+                        font-size: 18px;
+                        color: #0a3b5a;
+
+                        &:nth-child(2), &:nth-child(3) {
+                            text-align: center;
+                            font-weight: 700;
+                        }
+
+                        &:nth-child(3) {
+                            color: #a0abb5;
+                        }
+
+                        &.stream-price {
+                            font-size: 42px;
+                            font-weight: 800;
+                            color: #40ae49;
+                            font-weight: 600;
+                            background-image: image-url('marketing/redesign/Modules/Services/stream-price-underline.png');
+                            background-repeat: no-repeat;
+                            background-position: 50% 85%;
+
+                            span {
+                                font-size: 18px;
+                            }
+                        }
+
+                        &.competitor-price {
+                            font-size: 32px;
+                            color: #a0abb5;
+                            font-weight: 800;
+
+                            span {
+                                font-size: 18px;
+                            }
+                        }
+                    }
+                }
+
+                tfoot {
+                    tr {
+                        height: 145px;
+                    }
+                }
+            }
+        }
+
+        .back-to-top {
+            width: 100%;
+            background-color: #f8f9fa;
+            padding-bottom: 50px;
+
+            .icon {
+                width: 47px;
+                height: 47px;
+                float: right;
+                cursor: pointer;
+                background-image: image-url('marketing/redesign/Modules/Services/to-top-icon.png');
+                background-repeat: no-repeat;
+                background-position: right center;
             }
         }
     }
