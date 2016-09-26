@@ -15,8 +15,8 @@ article.protective {
 		background: none;
 		p {
 			font-size: 18px;
+
 			&.introduction { 
-				width: 79%;
 				font-size: 56px;
 				font-weight: 100;
 				text-align: left;
@@ -78,7 +78,8 @@ article.protective-services-info {
 
         .nav-service {
             min-height: 100px;
-            width: 140px;
+            width: 16%;
+            max-width: 140px;
             float: left;
             cursor: pointer;
             color: #767676;
@@ -194,7 +195,7 @@ article.protective-services-info {
                 top: 57px;
             }
 
-            .service {
+            .nav-service {
                 width: 20%;
                 height: 50px;
                 min-height: 0;
@@ -235,7 +236,9 @@ article.protective-services-info {
         padding-top: 90px;
 
         .wrapper {
-            width: 1100px;
+            @include breakpoint(large) {
+                width: 1100px;
+            }
         }
 
         .service-info {
@@ -247,6 +250,14 @@ article.protective-services-info {
                 @include breakpoint(medium) {
                     width: calc(100% - 400px);
                 }
+
+                @include breakpoint(small) {
+                    width: 100%;
+                }
+            }
+
+            .intro {
+                padding-right: 40px;
             }
 
             .banner {
@@ -261,6 +272,12 @@ article.protective-services-info {
 
                 @include breakpoint(medium) {
                     width: 400px;
+                }
+
+                @include breakpoint(small) {
+                    width: 100%;
+                    min-height: 165px;
+                    background-position: center;
                 }
             }
 
@@ -314,6 +331,18 @@ article.protective-services-info {
                 thead {
                     tr {
                         height: 160px;
+
+                        /*&.regular {
+                            @include breakpoint(small) {
+                                display: none;
+                            }
+                        }
+
+                        &.small {
+                            @include breakpoint(medium-large) {
+                                display: none;
+                            }
+                        }*/
 
                         th {
                             background-color: #f8f9fa;
@@ -463,28 +492,44 @@ article.protective-services-info {
 }
 
 article.protective-services-pricing {
-	.wrapper {
-		padding: 0px;
-	}
-	background-image: image-url('marketing/redesign/Modules/Services/pricing-banner.jpg');
-	background-repeat: no-repeat;
-	background-position: center top;
-	.grid p {
-		text-align: center;
-		font-size: 28px;
-		color: #fff;
-		span.price {
-			font-size: 60px;
-		}
-		&.additional-services-price {
-			margin-top: -12px;
-		}
-		&.promo-price {
-			margin-top: 5px;
-		}
-	}
-	.three-services {
-		.best-deal {
+    .wrapper {
+        padding: 0px;
+    }
+
+    background-image: image-url('marketing/redesign/Modules/Services/pricing-banner.jpg');
+    background-repeat: no-repeat;
+    background-position: center top;
+    background-size: contain;
+
+    .grid {
+        width: 89%;
+        margin: 0 auto;
+
+        p {
+            text-align: center;
+            font-size: 28px;
+            color: #fff;
+
+            &:first-of-type {
+                margin-top: 0;
+            }
+
+            span.price {
+                font-size: 60px;
+            }
+
+            &.additional-services-price {
+                margin-top: -12px;
+            }
+
+            &.promo-price {
+                margin-top: 5px;
+            }
+        }
+    }
+
+    .three-services {
+        .best-deal {
             color: #fff;
             position: absolute;
             display: block;
@@ -496,11 +541,12 @@ article.protective-services-pricing {
             font-weight: 600;
             background: #46c0ff;
         }
-	}
-	p.footnote {
-		color: #bebebe;
-		text-align: center;
-		font-size: 14px;
-		margin-top: 30px;
-	}
+    }
+
+    p.footnote {
+        color: #bebebe;
+        text-align: center;
+        font-size: 14px;
+        margin-top: 30px;
+    }
 }

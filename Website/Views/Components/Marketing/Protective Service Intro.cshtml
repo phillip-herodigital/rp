@@ -52,8 +52,15 @@
             <div class="wrapper">
                 <table>
                     <thead>
-                        <tr>
+                        <tr class="regular">
                             <th><h3>DARE TO COMPARE!</h3><h2>Virtual MD</h2></th>
+                            <th class="protective-service"><p>Virtual MD</p></th>
+                            <th class="competitor"></th>
+                        </tr>
+                        <tr class="small">
+                            <th><h3>DARE TO COMPARE!</h3><h2>Virtual MD</h2></th>
+                        </tr>
+                        <tr class="small">
                             <th class="protective-service"><p>Virtual MD</p></th>
                             <th class="competitor"></th>
                         </tr>
@@ -126,124 +133,456 @@
             </div>
         </div>
     </div>
-    <div class="grid" id="roadside">
-        <div class="col left">
-            <h2>Roadside Assistance</h2>
-            <p class="introduction">Access a doctor online--anytime, anywhere.</p>
-            <p>With Virtual MD, you have unlimited, 24/7 access to a U.S. Board Certified physician (MD) for you and your family's non-emergency medical needs, right from your home via phone or online video!</p>
-            <h3>FEATURES INCLUDE:</h3>
-            <ul>
-                <li>Free Doctor Consultations</li>
-                <li>Free psychologist consultations</li>
-                <li>Prescription savings &amp; discounts</li>
-            </ul>
-            <ul ng-show="viewFeatures1">
-                <li>Free Doctor Consultations</li>
-                <li>Free psychologist consultations</li>
-                <li>Prescription savings &amp; discounts</li>
-                <li>Free Doctor Consultations</li>
-                <li>Free psychologist consultations</li>
-                <li>Prescription savings &amp; discounts</li>
-                <li>Free Doctor Consultations</li>
-                <li>Free psychologist consultations</li>
-                <li>Prescription savings &amp; discounts</li>
-            </ul>
-            <p ng-click="viewFeatures1 = !viewFeatures1">
-                <a ng-hide="viewFeatures1" href="">View All Features</a>
-                <a ng-show="viewFeatures1" href="">View Less Features</a>
-                <i class="icon-view-all" ng-class="{rotate: viewFeatures1}"></i>
-            </p>
+    <div class="service" id="roadside">
+        <div class="service-info clearfix">
+            <div class="wrapper">
+                <div class="intro">
+                    <h2>Roadside Assistance</h2>
+                    <p class="introduction">Access a doctor online--anytime, anywhere.</p>
+                    <p>With Virtual MD, you have unlimited, 24/7 access to a U.S. Board Certified physician (MD) for you and your family's non-emergency medical needs, right from your home via phone or online video!</p>
+                </div>
+                <div class="banner"></div>
+                <div class="features">
+                    <h3>FEATURES INCLUDE:</h3>
+                    <ul>
+                        <li>Free Doctor Consultations</li>
+                        <li>Free psychologist consultations</li>
+                        <li>Prescription savings &amp; discounts</li>
+                    </ul>
+                    <ul ng-show="viewFeatures">
+                        <li>Free Doctor Consultations</li>
+                        <li>Free psychologist consultations</li>
+                        <li>Prescription savings &amp; discounts</li>
+                        <li>Free Doctor Consultations</li>
+                        <li>Free psychologist consultations</li>
+                        <li>Prescription savings &amp; discounts</li>
+                        <li>Free Doctor Consultations</li>
+                        <li>Free psychologist consultations</li>
+                        <li>Prescription savings &amp; discounts</li>
+                    </ul>
+                    <p ng-click="viewFeatures = !viewFeatures">
+                        <a ng-hide="viewFeatures" href="">View All Features</a>
+                        <a ng-show="viewFeatures" href="">View Less Features</a>
+                        <i class="icon-view-all" ng-class="{rotate: viewFeatures}"></i>
+                    </p>
+                </div>
+            </div>
         </div>
-        <div class="col right"></div>
+        <div class="comparison">
+            <div class="wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th><h3>DARE TO COMPARE!</h3><h2>Roadside Assistance</h2></th>
+                            <th class="protective-service"><p>Roadside Assistance</p></th>
+                            <th class="competitor"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Yearly Cost</td>
+                            <td class="stream-price">$120<span>/year*</span></td>
+                            <td class="competitor-price">$360<span>/year**</span></td>
+                        </tr>
+                        <tr>
+                            <td>Co-pay required</td>
+                            <td>No</td>
+                            <td>Varies</td>
+                        </tr>
+                        <tr>
+                            <td>Available for every member of your family</td>
+                            <td><i class="icon-check-green"></i></td>
+                            <td><i class="icon-check-grey"></i></td>
+                        </tr>
+                        <tr>
+                            <td>Prescriptions immediately sent to your pharmacy</td>
+                            <td><i class="icon-check-green"></i></td>
+                            <td><i class="icon-check-grey"></i></td>
+                        </tr>
+                        <tr>
+                            <td>Free doctor consultations</td>
+                            <td><i class="icon-check-green"></i></td>
+                            <td><i class="icon-check-grey"></i></td>
+                        </tr>
+                        <tr>
+                            <td>Free psychologist consultations</td>
+                            <td><i class="icon-check-green"></i></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>Prescriptions savings &amp; discounts</td>
+                            <td><i class="icon-check-green"></i></td>
+                            <td><i class="icon-check-grey"></i></td>
+                        </tr>
+                        <tr>
+                            <td>U.S. board-certified physicians</td>
+                            <td><i class="icon-check-green"></i></td>
+                            <td><i class="icon-check-grey"></i></td>
+                        </tr>
+                        <tr>
+                            <td>Free psychologist consultations</td>
+                            <td><i class="icon-check-green"></i></td>
+                            <td><i class="icon-check-grey"></i></td>
+                        </tr>
+                        <tr>
+                            <td>Prescription savings &amp; discounts</td>
+                            <td><i class="icon-check-green"></i></td>
+                            <td><i class="icon-check-grey"></i></td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td></td>
+                            <td><a class="button-large">Get Started</a></td>
+                            <td></td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+        <div class="back-to-top">
+            <div class="wrapper">
+                <div ng-click="scrollToTop()" class="icon"></div>
+            </div>
+        </div>
     </div>
-    <div class="grid" id="identity">
-        <div class="col left">
-            <h2>Identity Protection</h2>
-            <p class="introduction">Access a doctor online--anytime, anywhere.</p>
-            <p>With Virtual MD, you have unlimited, 24/7 access to a U.S. Board Certified physician (MD) for you and your family's non-emergency medical needs, right from your home via phone or online video!</p>
-            <h3>FEATURES INCLUDE:</h3>
-            <ul>
-                <li>Free Doctor Consultations</li>
-                <li>Free psychologist consultations</li>
-                <li>Prescription savings &amp; discounts</li>
-            </ul>
-            <ul ng-show="viewFeatures2">
-                <li>Free Doctor Consultations</li>
-                <li>Free psychologist consultations</li>
-                <li>Prescription savings &amp; discounts</li>
-                <li>Free Doctor Consultations</li>
-                <li>Free psychologist consultations</li>
-                <li>Prescription savings &amp; discounts</li>
-                <li>Free Doctor Consultations</li>
-                <li>Free psychologist consultations</li>
-                <li>Prescription savings &amp; discounts</li>
-            </ul>
-            <p ng-click="viewFeatures2 = !viewFeatures2">
-                <a ng-hide="viewFeatures2" href="">View All Features</a>
-                <a ng-show="viewFeatures2" href="">View Less Features</a>
-                <i class="icon-view-all" ng-class="{rotate: viewFeatures2}"></i>
-            </p>
+    <div class="service" id="identity">
+        <div class="service-info clearfix">
+            <div class="wrapper">
+                <div class="intro">
+                    <h2>Identity Protection</h2>
+                    <p class="introduction">Access a doctor online--anytime, anywhere.</p>
+                    <p>With Virtual MD, you have unlimited, 24/7 access to a U.S. Board Certified physician (MD) for you and your family's non-emergency medical needs, right from your home via phone or online video!</p>
+                </div>
+                <div class="banner"></div>
+                <div class="features">
+                    <h3>FEATURES INCLUDE:</h3>
+                    <ul>
+                        <li>Free Doctor Consultations</li>
+                        <li>Free psychologist consultations</li>
+                        <li>Prescription savings &amp; discounts</li>
+                    </ul>
+                    <ul ng-show="viewFeatures">
+                        <li>Free Doctor Consultations</li>
+                        <li>Free psychologist consultations</li>
+                        <li>Prescription savings &amp; discounts</li>
+                        <li>Free Doctor Consultations</li>
+                        <li>Free psychologist consultations</li>
+                        <li>Prescription savings &amp; discounts</li>
+                        <li>Free Doctor Consultations</li>
+                        <li>Free psychologist consultations</li>
+                        <li>Prescription savings &amp; discounts</li>
+                    </ul>
+                    <p ng-click="viewFeatures = !viewFeatures">
+                        <a ng-hide="viewFeatures" href="">View All Features</a>
+                        <a ng-show="viewFeatures" href="">View Less Features</a>
+                        <i class="icon-view-all" ng-class="{rotate: viewFeatures}"></i>
+                    </p>
+                </div>
+            </div>
         </div>
-        <div class="col right"></div>
+        <div class="comparison">
+            <div class="wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th><h3>DARE TO COMPARE!</h3><h2>Identity Protection</h2></th>
+                            <th class="protective-service"><p>Identity Protection</p></th>
+                            <th class="competitor"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Yearly Cost</td>
+                            <td class="stream-price">$120<span>/year*</span></td>
+                            <td class="competitor-price">$360<span>/year**</span></td>
+                        </tr>
+                        <tr>
+                            <td>Co-pay required</td>
+                            <td>No</td>
+                            <td>Varies</td>
+                        </tr>
+                        <tr>
+                            <td>Available for every member of your family</td>
+                            <td><i class="icon-check-green"></i></td>
+                            <td><i class="icon-check-grey"></i></td>
+                        </tr>
+                        <tr>
+                            <td>Prescriptions immediately sent to your pharmacy</td>
+                            <td><i class="icon-check-green"></i></td>
+                            <td><i class="icon-check-grey"></i></td>
+                        </tr>
+                        <tr>
+                            <td>Free doctor consultations</td>
+                            <td><i class="icon-check-green"></i></td>
+                            <td><i class="icon-check-grey"></i></td>
+                        </tr>
+                        <tr>
+                            <td>Free psychologist consultations</td>
+                            <td><i class="icon-check-green"></i></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>Prescriptions savings &amp; discounts</td>
+                            <td><i class="icon-check-green"></i></td>
+                            <td><i class="icon-check-grey"></i></td>
+                        </tr>
+                        <tr>
+                            <td>U.S. board-certified physicians</td>
+                            <td><i class="icon-check-green"></i></td>
+                            <td><i class="icon-check-grey"></i></td>
+                        </tr>
+                        <tr>
+                            <td>Free psychologist consultations</td>
+                            <td><i class="icon-check-green"></i></td>
+                            <td><i class="icon-check-grey"></i></td>
+                        </tr>
+                        <tr>
+                            <td>Prescription savings &amp; discounts</td>
+                            <td><i class="icon-check-green"></i></td>
+                            <td><i class="icon-check-grey"></i></td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td></td>
+                            <td><a class="button-large">Get Started</a></td>
+                            <td></td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+        <div class="back-to-top">
+            <div class="wrapper">
+                <div ng-click="scrollToTop()" class="icon"></div>
+            </div>
+        </div>
     </div>
-    <div class="grid" id="credit">
-        <div class="col left">
-            <h2>Credit Monitoring</h2>
-            <p class="introduction">Access a doctor online--anytime, anywhere.</p>
-            <p>With Virtual MD, you have unlimited, 24/7 access to a U.S. Board Certified physician (MD) for you and your family's non-emergency medical needs, right from your home via phone or online video!</p>
-            <h3>FEATURES INCLUDE:</h3>
-            <ul>
-                <li>Free Doctor Consultations</li>
-                <li>Free psychologist consultations</li>
-                <li>Prescription savings &amp; discounts</li>
-            </ul>
-            <ul ng-show="viewFeatures3">
-                <li>Free Doctor Consultations</li>
-                <li>Free psychologist consultations</li>
-                <li>Prescription savings &amp; discounts</li>
-                <li>Free Doctor Consultations</li>
-                <li>Free psychologist consultations</li>
-                <li>Prescription savings &amp; discounts</li>
-                <li>Free Doctor Consultations</li>
-                <li>Free psychologist consultations</li>
-                <li>Prescription savings &amp; discounts</li>
-            </ul>
-            <p ng-click="viewFeatures3 = !viewFeatures3">
-                <a ng-hide="viewFeatures3" href="">View All Features</a>
-                <a ng-show="viewFeatures3" href="">View Less Features</a>
-                <i class="icon-view-all" ng-class="{rotate: viewFeatures3}"></i>
-            </p>
+    <div class="service" id="credit">
+        <div class="service-info clearfix">
+            <div class="wrapper">
+                <div class="intro">
+                    <h2>Credit Monitoring</h2>
+                    <p class="introduction">Access a doctor online--anytime, anywhere.</p>
+                    <p>With Virtual MD, you have unlimited, 24/7 access to a U.S. Board Certified physician (MD) for you and your family's non-emergency medical needs, right from your home via phone or online video!</p>
+                </div>
+                <div class="banner"></div>
+                <div class="features">
+                    <h3>FEATURES INCLUDE:</h3>
+                    <ul>
+                        <li>Free Doctor Consultations</li>
+                        <li>Free psychologist consultations</li>
+                        <li>Prescription savings &amp; discounts</li>
+                    </ul>
+                    <ul ng-show="viewFeatures">
+                        <li>Free Doctor Consultations</li>
+                        <li>Free psychologist consultations</li>
+                        <li>Prescription savings &amp; discounts</li>
+                        <li>Free Doctor Consultations</li>
+                        <li>Free psychologist consultations</li>
+                        <li>Prescription savings &amp; discounts</li>
+                        <li>Free Doctor Consultations</li>
+                        <li>Free psychologist consultations</li>
+                        <li>Prescription savings &amp; discounts</li>
+                    </ul>
+                    <p ng-click="viewFeatures = !viewFeatures">
+                        <a ng-hide="viewFeatures" href="">View All Features</a>
+                        <a ng-show="viewFeatures" href="">View Less Features</a>
+                        <i class="icon-view-all" ng-class="{rotate: viewFeatures}"></i>
+                    </p>
+                </div>
+            </div>
         </div>
-        <div class="col right"></div>
+        <div class="comparison">
+            <div class="wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th><h3>DARE TO COMPARE!</h3><h2>Credit Monitoring</h2></th>
+                            <th class="protective-service"><p>Credit Monitoring</p></th>
+                            <th class="competitor"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Yearly Cost</td>
+                            <td class="stream-price">$120<span>/year*</span></td>
+                            <td class="competitor-price">$360<span>/year**</span></td>
+                        </tr>
+                        <tr>
+                            <td>Co-pay required</td>
+                            <td>No</td>
+                            <td>Varies</td>
+                        </tr>
+                        <tr>
+                            <td>Available for every member of your family</td>
+                            <td><i class="icon-check-green"></i></td>
+                            <td><i class="icon-check-grey"></i></td>
+                        </tr>
+                        <tr>
+                            <td>Prescriptions immediately sent to your pharmacy</td>
+                            <td><i class="icon-check-green"></i></td>
+                            <td><i class="icon-check-grey"></i></td>
+                        </tr>
+                        <tr>
+                            <td>Free doctor consultations</td>
+                            <td><i class="icon-check-green"></i></td>
+                            <td><i class="icon-check-grey"></i></td>
+                        </tr>
+                        <tr>
+                            <td>Free psychologist consultations</td>
+                            <td><i class="icon-check-green"></i></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>Prescriptions savings &amp; discounts</td>
+                            <td><i class="icon-check-green"></i></td>
+                            <td><i class="icon-check-grey"></i></td>
+                        </tr>
+                        <tr>
+                            <td>U.S. board-certified physicians</td>
+                            <td><i class="icon-check-green"></i></td>
+                            <td><i class="icon-check-grey"></i></td>
+                        </tr>
+                        <tr>
+                            <td>Free psychologist consultations</td>
+                            <td><i class="icon-check-green"></i></td>
+                            <td><i class="icon-check-grey"></i></td>
+                        </tr>
+                        <tr>
+                            <td>Prescription savings &amp; discounts</td>
+                            <td><i class="icon-check-green"></i></td>
+                            <td><i class="icon-check-grey"></i></td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td></td>
+                            <td><a class="button-large">Get Started</a></td>
+                            <td></td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+        <div class="back-to-top">
+            <div class="wrapper">
+                <div ng-click="scrollToTop()" class="icon"></div>
+            </div>
+        </div>
     </div>
-    <div class="grid" id="tech">
-        <div class="col left">
-            <h2>Tech Support</h2>
-            <p class="introduction">Access a doctor online--anytime, anywhere.</p>
-            <p>With Virtual MD, you have unlimited, 24/7 access to a U.S. Board Certified physician (MD) for you and your family's non-emergency medical needs, right from your home via phone or online video!</p>
-            <h3>FEATURES INCLUDE:</h3>
-            <ul>
-                <li>Free Doctor Consultations</li>
-                <li>Free psychologist consultations</li>
-                <li>Prescription savings &amp; discounts</li>
-            </ul>
-            <ul ng-show="viewFeatures4">
-                <li>Free Doctor Consultations</li>
-                <li>Free psychologist consultations</li>
-                <li>Prescription savings &amp; discounts</li>
-                <li>Free Doctor Consultations</li>
-                <li>Free psychologist consultations</li>
-                <li>Prescription savings &amp; discounts</li>
-                <li>Free Doctor Consultations</li>
-                <li>Free psychologist consultations</li>
-                <li>Prescription savings &amp; discounts</li>
-            </ul>
-            <p ng-click="viewFeatures4 = !viewFeatures4">
-                <a ng-hide="viewFeatures4" href="">View All Features</a>
-                <a ng-show="viewFeatures4" href="">View Less Features</a>
-                <i class="icon-view-all" ng-class="{rotate: viewFeatures4}"></i>
-            </p>
+    <div class="service" id="tech">
+        <div class="service-info clearfix">
+            <div class="wrapper">
+                <div class="intro">
+                    <h2>Tech Support</h2>
+                    <p class="introduction">Access a doctor online--anytime, anywhere.</p>
+                    <p>With Virtual MD, you have unlimited, 24/7 access to a U.S. Board Certified physician (MD) for you and your family's non-emergency medical needs, right from your home via phone or online video!</p>
+                </div>
+                <div class="banner"></div>
+                <div class="features">
+                    <h3>FEATURES INCLUDE:</h3>
+                    <ul>
+                        <li>Free Doctor Consultations</li>
+                        <li>Free psychologist consultations</li>
+                        <li>Prescription savings &amp; discounts</li>
+                    </ul>
+                    <ul ng-show="viewFeatures">
+                        <li>Free Doctor Consultations</li>
+                        <li>Free psychologist consultations</li>
+                        <li>Prescription savings &amp; discounts</li>
+                        <li>Free Doctor Consultations</li>
+                        <li>Free psychologist consultations</li>
+                        <li>Prescription savings &amp; discounts</li>
+                        <li>Free Doctor Consultations</li>
+                        <li>Free psychologist consultations</li>
+                        <li>Prescription savings &amp; discounts</li>
+                    </ul>
+                    <p ng-click="viewFeatures = !viewFeatures">
+                        <a ng-hide="viewFeatures" href="">View All Features</a>
+                        <a ng-show="viewFeatures" href="">View Less Features</a>
+                        <i class="icon-view-all" ng-class="{rotate: viewFeatures}"></i>
+                    </p>
+                </div>
+            </div>
         </div>
-        <div class="col right"></div>
+        <div class="comparison">
+            <div class="wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th><h3>DARE TO COMPARE!</h3><h2>Tech Support</h2></th>
+                            <th class="protective-service"><p>Tech Support</p></th>
+                            <th class="competitor"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Yearly Cost</td>
+                            <td class="stream-price">$120<span>/year*</span></td>
+                            <td class="competitor-price">$360<span>/year**</span></td>
+                        </tr>
+                        <tr>
+                            <td>Co-pay required</td>
+                            <td>No</td>
+                            <td>Varies</td>
+                        </tr>
+                        <tr>
+                            <td>Available for every member of your family</td>
+                            <td><i class="icon-check-green"></i></td>
+                            <td><i class="icon-check-grey"></i></td>
+                        </tr>
+                        <tr>
+                            <td>Prescriptions immediately sent to your pharmacy</td>
+                            <td><i class="icon-check-green"></i></td>
+                            <td><i class="icon-check-grey"></i></td>
+                        </tr>
+                        <tr>
+                            <td>Free doctor consultations</td>
+                            <td><i class="icon-check-green"></i></td>
+                            <td><i class="icon-check-grey"></i></td>
+                        </tr>
+                        <tr>
+                            <td>Free psychologist consultations</td>
+                            <td><i class="icon-check-green"></i></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>Prescriptions savings &amp; discounts</td>
+                            <td><i class="icon-check-green"></i></td>
+                            <td><i class="icon-check-grey"></i></td>
+                        </tr>
+                        <tr>
+                            <td>U.S. board-certified physicians</td>
+                            <td><i class="icon-check-green"></i></td>
+                            <td><i class="icon-check-grey"></i></td>
+                        </tr>
+                        <tr>
+                            <td>Free psychologist consultations</td>
+                            <td><i class="icon-check-green"></i></td>
+                            <td><i class="icon-check-grey"></i></td>
+                        </tr>
+                        <tr>
+                            <td>Prescription savings &amp; discounts</td>
+                            <td><i class="icon-check-green"></i></td>
+                            <td><i class="icon-check-grey"></i></td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td></td>
+                            <td><a class="button-large">Get Started</a></td>
+                            <td></td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+        <div class="back-to-top">
+            <div class="wrapper">
+                <div ng-click="scrollToTop()" class="icon"></div>
+            </div>
+        </div>
     </div>
 </article>
