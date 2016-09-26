@@ -2819,7 +2819,7 @@
                 }
 
                 .name {
-                    width: calc(100% - 97px);
+                    width: calc(100% - 135px);
                     float: left;
                     font-weight: 600;
                     font-size: 14px;
@@ -2834,7 +2834,7 @@
                 }
 
                 .price {
-                    width: 65px;
+                    width: 85px;
                     float: right;
                     text-align: right;
 
@@ -2847,6 +2847,7 @@
                         .slash {
                             position: absolute;
                             top: 0;
+                            left: 9px;
                         }
                     }
 
@@ -3936,7 +3937,7 @@ h3.success-message{
         background-color: #fff;
 
         .service {
-            padding: 20px;
+            padding: 20px 20px 10px 20px;
             border-bottom: 1px solid #cecece;
 
             &:last-of-type {
@@ -3945,42 +3946,15 @@ h3.success-message{
 
             .col-1 {
                 width: 90px;
-                height: 95px;
+                height: 70px;
                 float: left;
-                padding-top: 70px;
+                margin-top: 10px;
                 background-repeat: no-repeat;
-                background-position: top center;
-                text-align: center;
+                background-position: top left;
 
-                .show-details {
-                    a {
-                        color: #828282;
-                        font-size: 12px;
-                    }
-
-                    .triangle {
-                        width: 0;
-                        height: 0;
-                        border-style: solid;
-                        border-width: 7px 7px 0 7px;
-                        border-color: #178fcd transparent transparent transparent;
-                        float: right;
-                        position: relative;
-                        top: 8px;
-                        right: 4px;
-                        -webkit-transition: 0.5s ease-in-out;
-                        -moz-transition: 0.5s ease-in-out;
-                        -o-transition: 0.5s ease-in-out;
-                        transition: 0.5s ease-in-out;
-
-                        &.rotate {
-                            -webkit-transform: rotate(180deg);
-                            -moz-transform: rotate(180deg);
-                            -o-transform: rotate(180deg);
-                            -ms-transform: rotate(180deg);
-                            transform: rotate(180deg);
-                        }
-                    }
+                @include breakpoint(small) {
+                    width: 75px;
+                    background-size: contain;
                 }
             }
 
@@ -4011,8 +3985,8 @@ h3.success-message{
             .col-3 {
                 width: 200px;
                 float: left;
-                height: 95px;
-                padding: 24px 0;
+                height: 70px;
+                padding: 21px 0 0 0;
                 position: relative;
 
                 .button {
@@ -4023,20 +3997,22 @@ h3.success-message{
                     float: right;
                     font-size: 20px;
                     cursor: pointer;
+                    width: auto;
+                    max-width: 200px;
 
                     &.selected {
                         background-color: $enrollment-protective-color;
                         color: #fff;
                         padding-left: 15px;
+                        padding-right: 25px;
                     }
 
                     &.long {
-                        width: 200px;
                         padding-right: 15px;
                     }
 
                     img {
-                        margin-right: 20px;
+                        margin-right: 10px;
                     }
                 }
 
@@ -4047,6 +4023,41 @@ h3.success-message{
                     .button {
                         border-radius: 5px 5px 0 0;
                         border-bottom: none;
+                    }
+                }
+            }
+
+            .show-details {
+                width: 113px;
+                margin-left: 90px;
+                clear: both;
+
+                a {
+                    color: #828282;
+                    font-size: 16px;
+                }
+
+                .triangle {
+                    width: 0;
+                    height: 0;
+                    border-style: solid;
+                    border-width: 7px 7px 0 7px;
+                    border-color: #178fcd transparent transparent transparent;
+                    float: right;
+                    position: relative;
+                    top: 8px;
+                    right: 4px;
+                    -webkit-transition: 0.5s ease-in-out;
+                    -moz-transition: 0.5s ease-in-out;
+                    -o-transition: 0.5s ease-in-out;
+                    transition: 0.5s ease-in-out;
+
+                    &.rotate {
+                        -webkit-transform: rotate(180deg);
+                        -moz-transform: rotate(180deg);
+                        -o-transform: rotate(180deg);
+                        -ms-transform: rotate(180deg);
+                        transform: rotate(180deg);
                     }
                 }
             }
@@ -4064,10 +4075,6 @@ h3.success-message{
 
                 .lists {
                     margin: 0 20px;
-
-                    @include breakpoint(small) {
-                        margin: 0 10px;
-                    }
 
                     ul {
                         list-style: none;
@@ -4097,7 +4104,8 @@ h3.success-message{
             }
 
             .select-plan {
-                width: 175px;
+                width: auto;
+                max-width: 210px;
                 position: relative;
                 padding-left: 15px;
 
@@ -4186,14 +4194,23 @@ h3.success-message{
                 }
             }
 
+            @include breakpoint(small-medium) {
+                .show-details {
+                    padding: 10px 0;
+                }
+            }
+
             @include breakpoint(small) {
                 padding: 10px;
 
                 .col-1 {
+                    width: 55px;
+                    background-size: contain;
                 }
 
                 .col-2 {
-                    width: calc(100% - 90px);
+                    width: calc(100% - 55px);
+                    padding-left: 10px;
                 }
 
                 .col-3 {
@@ -4215,6 +4232,17 @@ h3.success-message{
                             transform: translate(-50%, -6px);
                             border-radius: 5px;
                         }
+                    }
+                }
+
+                .show-details {
+                    padding-top: 10px;
+                    margin: 0 auto;
+                }
+
+                .details {
+                    .lists {
+                        margin: 0;
                     }
                 }
             }

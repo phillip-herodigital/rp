@@ -26,13 +26,7 @@
                     </div>
                     <div class="services">
                         <div class="service clearfix" ng-repeat="offer in getActiveService().offerInformationByType[0].value.availableOffers | filter:displayOffer" ng-init="showDetails = false; showGroupOfferOptions = false;">
-                            <div class="col-1" ng-style="{'background-image': 'URL(' + offer.iconURL + ')'}">
-                                <div class="show-details">
-                                    <a href="" ng-click="showDetails = true" ng-hide="showDetails">@Html.Sitecore().Field("View Details")</a>
-                                    <a href="" ng-click="showDetails = false" ng-show="showDetails">@Html.Sitecore().Field("Hide Details")</a>
-                                    <div class="triangle" ng-class="{rotate: showDetails}"></div>
-                                </div>
-                            </div>
+                            <div class="col-1" ng-style="{'background-image': 'URL(' + offer.iconURL + ')'}"></div>
                             <div class="col-2">
                                 <p class="name">{{offer.name}}</p>
                                 <p class="description">{{offer.description}}</p>
@@ -80,6 +74,11 @@
                                 <div class="col-3">
                                     <p>@Html.Sitecore().Field("Service Not Available Text")</p>
                                 </div>
+                            </div>
+                            <div class="show-details" ng-click="showDetails = !showDetails">
+                                <a href="" ng-hide="showDetails">@Html.Sitecore().Field("View Details")</a>
+                                <a href="" ng-show="showDetails">@Html.Sitecore().Field("Hide Details")</a>
+                                <div class="triangle" ng-class="{rotate: showDetails}"></div>
                             </div>
                             <div class="details" ng-show="showDetails">
                                 <p>{{offer.name}} @Html.Sitecore().Field("Includes")</p>
