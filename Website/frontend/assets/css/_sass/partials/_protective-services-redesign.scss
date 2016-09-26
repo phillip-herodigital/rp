@@ -504,3 +504,55 @@ article.protective-services-pricing {
 		margin-top: 30px;
 	}
 }
+
+article.protective-services-header {
+	background-size: cover;
+	margin: 0px;
+	border-radius: 0px;
+	.play-video {
+		float: right;
+		margin-right: -20px;
+		margin-top: 100px;
+	}
+	.wrapper {
+		.header-content {
+			width: 45%;
+			margin-top: 50px;
+		}
+		h2 {
+			color: #fff;
+			text-align: left;
+		}
+		p.introduction {
+			color: #fff;
+			font-size: 78px;
+			background-image: image-url('marketing/redesign/Modules/Services/header-underline.png');
+			background-repeat: no-repeat;
+			background-position: bottom left;
+			width: 100%;
+		}
+		.grid .col {
+			background-repeat: no-repeat;
+			background-position: top center;
+			padding: 60px 0 20px 0;
+			text-align: center;
+			color: #fff;
+
+			&.virtual-md {
+				background-image: image-url('marketing/redesign/Modules/Services/virtual-md.png');
+			}
+			&.roadside-assistance {
+				background-image: image-url('marketing/redesign/Modules/Services/roadside-assistance.png');
+			}
+			&.identity-protection {
+				background-image: image-url('marketing/redesign/Modules/Services/identity-protection.png');
+			}
+			&.credit-monitoring {
+				background-image: image-url('marketing/redesign/Modules/Services/credit-monitoring.png');
+			}
+			&.tech-support {
+				background-image: image-url('marketing/redesign/Modules/Services/tech-support.png');
+			}
+		}
+	}
+}
