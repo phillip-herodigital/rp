@@ -120,9 +120,9 @@
                             ImageField imageField = (ImageField)featurePost.InnerItem.Fields["Square"];
                             string title = featurePost.Title;
                             string postDate = featurePost.PublishDate.DateTime.ToString(settingsItem.BlogListingDateFormat);
-                            string blogSummary =featurePost.Summary;
+                            string blogSummary = featurePost.Summary.Any() ? featurePost.Summary : "";
                             string blogCategory = featurePost.Categories.Any() ? featurePost.Categories.FirstOrDefault().Name.ToLower() : "";
-                            
+
                             <div class="featured-post @blogCategory">
                                 <img src="@Sitecore.Resources.Media.MediaManager.GetMediaUrl(imageField.MediaItem)">
                                 <span>@Html.Raw(title)</span>
@@ -146,7 +146,7 @@
                             ImageField imageField = (ImageField)featurePost.InnerItem.Fields["Square"];
                             string title = featurePost.Title;
                             string postDate = featurePost.PublishDate.DateTime.ToString(settingsItem.BlogListingDateFormat);
-                            string blogSummary = featurePost.Summary;
+                            string blogSummary = featurePost.Summary.Any() ? featurePost.Summary : "";
                             string blogCategory = featurePost.Categories.Any() ? featurePost.Categories.FirstOrDefault().Name.ToLower() : "";
 
                             <div class="featured-post @blogCategory">
@@ -172,7 +172,7 @@
                             ImageField imageField = (ImageField)featurePost.InnerItem.Fields["Square"];
                             string title = featurePost.Title;
                             string postDate = featurePost.PublishDate.DateTime.ToString(settingsItem.BlogListingDateFormat);
-                            string blogSummary = featurePost.Summary;
+                            string blogSummary = featurePost.Summary.Any() ? featurePost.Summary : "";
                             string blogCategory = featurePost.Categories.Any() ? featurePost.Categories.FirstOrDefault().Name.ToLower() : "";
 
                             <div class="featured-post @blogCategory">
@@ -198,7 +198,7 @@
                             ImageField imageField = (ImageField)featurePost.InnerItem.Fields["Square"];
                             string title = featurePost.Title;
                             string postDate = featurePost.PublishDate.DateTime.ToString(settingsItem.BlogListingDateFormat);
-                            string blogSummary = featurePost.Summary;
+                            string blogSummary = featurePost.Summary.Any() ? featurePost.Summary : "";
                             string blogCategory = featurePost.Categories.Any() ? featurePost.Categories.FirstOrDefault().Name.ToLower() : "";
 
                             <div class="featured-post @blogCategory">
@@ -224,7 +224,7 @@
                             ImageField imageField = (ImageField)featurePost.InnerItem.Fields["Square"];
                             string title = featurePost.Title;
                             string postDate = featurePost.PublishDate.DateTime.ToString(settingsItem.BlogListingDateFormat);
-                            string blogSummary = featurePost.Summary;
+                            string blogSummary = featurePost.Summary.Any() ? featurePost.Summary : "";
                             string blogCategory = featurePost.Categories.Any() ? featurePost.Categories.FirstOrDefault().Name.ToLower() : "";
 
                             <div class="featured-post @blogCategory">
