@@ -216,7 +216,7 @@ article.protective-services-info {
                 .button {
                     float: left;
                     margin-top: 0;
-                    margin: 8px;
+                    margin: 8px 8px 8px 0;
                 }
 
                 p {
@@ -241,12 +241,6 @@ article.protective-services-info {
 
 
         &#virtualMD {
-        }
-
-        .wrapper {
-            @include breakpoint(large) {
-                width: 1100px;
-            }
         }
 
         .service-info {
@@ -276,7 +270,7 @@ article.protective-services-info {
                 background-repeat: no-repeat;
                 background-position: top right;
                 background-size: contain;
-                float: right;
+                float: left;
 
                 @include breakpoint(medium) {
                     width: 400px;
@@ -284,7 +278,6 @@ article.protective-services-info {
 
                 @include breakpoint(small) {
                     width: 100%;
-                    min-height: 165px;
                     background-position: center;
                 }
             }
@@ -392,6 +385,8 @@ article.protective-services-info {
 
                                     .background {
                                         background-size: contain;
+                                        max-width: 140px;
+                                        margin: 0 auto;
                                     }
                                 }
                             }
@@ -427,6 +422,16 @@ article.protective-services-info {
                                         background-color: #f8f9fa;
                                     }
                                 }
+                            }
+                        }
+                    }
+
+                    tfoot {
+                        tr {
+                            height: 125px;
+
+                            td {
+                                text-align: center;
                             }
                         }
                     }
@@ -617,7 +622,6 @@ article.protective-services-pricing {
 
     .grid {
         width: 82%;
-        height: 200px;
         margin: 0 auto;
 
         @include breakpoint(small) {
@@ -645,6 +649,7 @@ article.protective-services-pricing {
 
                 &:nth-child(1), &:nth-child(3) {
                     width: 100%;
+                    height: 200px;
                     background-position: 50%, 0px;
                     background-image: image-url('marketing/redesign/Modules/Services/pricing-banner.jpg');
 
@@ -706,6 +711,7 @@ article.protective-services-pricing {
 
                 @include breakpoint(small) {
                     top: 0;
+                    left: calc(50% + 70px);
                 }
             }
 
