@@ -17,32 +17,20 @@
         <div class="service-info clearfix">
             <div class="wrapper">
                 <div class="intro">
-                    <h2>Virtual MD</h2>
-                    <p class="introduction">Access a doctor online--anytime, anywhere.</p>
-                    <p>With Virtual MD, you have unlimited, 24/7 access to a U.S. Board Certified physician (MD) for you and your family's non-emergency medical needs, right from your home via phone or online video!</p>
+                    <h2>@Html.Sitecore().Field("Virtual MD Header")</h2>
+                    <p class="introduction">@Html.Sitecore().Field("Virtual MD Intro")</p>
+                    <p>@Html.Sitecore().Field("Virtual MD Paragraph")</p>
                 </div>
-                <div class="banner"></div>
+                <div class="banner">
+                    @Html.Sitecore().Field("Virtual MD Image")
+                </div>
                 <div class="features">
-                    <h3>FEATURES INCLUDE:</h3>
-                    <ul>
-                        <li>Free Doctor Consultations</li>
-                        <li>Free psychologist consultations</li>
-                        <li>Prescription savings &amp; discounts</li>
-                    </ul>
-                    <ul ng-show="viewFeatures">
-                        <li>Free Doctor Consultations</li>
-                        <li>Free psychologist consultations</li>
-                        <li>Prescription savings &amp; discounts</li>
-                        <li>Free Doctor Consultations</li>
-                        <li>Free psychologist consultations</li>
-                        <li>Prescription savings &amp; discounts</li>
-                        <li>Free Doctor Consultations</li>
-                        <li>Free psychologist consultations</li>
-                        <li>Prescription savings &amp; discounts</li>
-                    </ul>
+                    <h3>@Html.Sitecore().Field("Features Header")</h3>
+                    @Html.Sitecore().Field("Virtual MD Few Features")
+                    @Html.Sitecore().Field("Virtual MD All Features")
                     <p ng-click="viewFeatures = !viewFeatures">
-                        <a ng-hide="viewFeatures" href="">View All Features</a>
-                        <a ng-show="viewFeatures" href="">View Less Features</a>
+                        <a ng-hide="viewFeatures" href="">@Html.Sitecore().Field("All Features Link")</a>
+                        <a ng-show="viewFeatures" href="">@Html.Sitecore().Field("Fewer Features Link")</a>
                         <i class="icon-view-all" ng-class="{rotate: viewFeatures}"></i>
                     </p>
                 </div>
@@ -50,162 +38,8 @@
         </div>
         <div class="comparison">
             <div class="wrapper">
-                <table class="regular">
-                    <thead>
-                        <tr>
-                            <th><h3>DARE TO COMPARE!</h3><h2>Virtual MD</h2></th>
-                            <th class="protective-service"><p>Virtual MD</p></th>
-                            <th class="competitor"><div class="background"></div></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Yearly Cost</td>
-                            <td class="stream-price">$120<span>/year*</span></td>
-                            <td class="competitor-price">$360<span>/year**</span></td>
-                        </tr>
-                        <tr>
-                            <td>Co-pay required</td>
-                            <td>No</td>
-                            <td>Varies</td>
-                        </tr>
-                        <tr>
-                            <td>Available for every member of your family</td>
-                            <td><i class="icon-check-green"></i></td>
-                            <td><i class="icon-check-grey"></i></td>
-                        </tr>
-                        <tr>
-                            <td>Prescriptions immediately sent to your pharmacy</td>
-                            <td><i class="icon-check-green"></i></td>
-                            <td><i class="icon-check-grey"></i></td>
-                        </tr>
-                        <tr>
-                            <td>Free doctor consultations</td>
-                            <td><i class="icon-check-green"></i></td>
-                            <td><i class="icon-check-grey"></i></td>
-                        </tr>
-                        <tr>
-                            <td>Free psychologist consultations</td>
-                            <td><i class="icon-check-green"></i></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Prescriptions savings &amp; discounts</td>
-                            <td><i class="icon-check-green"></i></td>
-                            <td><i class="icon-check-grey"></i></td>
-                        </tr>
-                        <tr>
-                            <td>U.S. board-certified physicians</td>
-                            <td><i class="icon-check-green"></i></td>
-                            <td><i class="icon-check-grey"></i></td>
-                        </tr>
-                        <tr>
-                            <td>Free psychologist consultations</td>
-                            <td><i class="icon-check-green"></i></td>
-                            <td><i class="icon-check-grey"></i></td>
-                        </tr>
-                        <tr>
-                            <td>Prescription savings &amp; discounts</td>
-                            <td><i class="icon-check-green"></i></td>
-                            <td><i class="icon-check-grey"></i></td>
-                        </tr>
-                    </tbody>
-                    <tfoot>
-                        <tr>
-                            <td></td>
-                            <td><a class="button-large">Get Started</a></td>
-                            <td></td>
-                        </tr>
-                    </tfoot>
-                </table>
-                <table class="small">
-                    <thead>
-                        <tr>
-                            <th colspan="2"><h3>DARE TO COMPARE!</h3><h2>Virtual MD</h2></th>
-                        </tr>
-                        <tr>
-                            <th class="protective-service"><p>Virtual MD</p></th>
-                            <th class="competitor"><div class="background"></div></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td colspan="2">Yearly Cost</td>
-                        </tr>
-                        <tr>
-                            <td class="stream-price">$120<span>/year*</span></td>
-                            <td class="competitor-price">$360<span>/year**</span></td>
-                        </tr>
-                        <tr>
-                            <td colspan="2">Co-pay required</td>
-                        </tr>
-                        <tr>
-                            <td>No</td>
-                            <td>Varies</td>
-                        </tr>
-                        <tr>
-                            <td colspan="2">Available for every member of your family</td>
-                        </tr>
-                        <tr>
-                            <td><i class="icon-check-green"></i></td>
-                            <td><i class="icon-check-grey"></i></td>
-                        </tr>
-                        <tr>
-                            <td colspan="2">Prescriptions immediately sent to your pharmacy</td>
-                        </tr>
-                        <tr>
-                            <td><i class="icon-check-green"></i></td>
-                            <td><i class="icon-check-grey"></i></td>
-                        </tr>
-                        <tr>
-                            <td colspan="2">Free doctor consultations</td>
-                        </tr>
-                        <tr>
-                            <td><i class="icon-check-green"></i></td>
-                            <td><i class="icon-check-grey"></i></td>
-                        </tr>
-                        <tr>
-                            <td colspan="2">Free psychologist consultations</td>
-                        </tr>
-                        <tr>
-                            <td><i class="icon-check-green"></i></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td colspan="2">Prescriptions savings &amp; discounts</td>
-                        </tr>
-                        <tr>
-                            <td><i class="icon-check-green"></i></td>
-                            <td><i class="icon-check-grey"></i></td>
-                        </tr>
-                        <tr>
-                            <td colspan="2">U.S. board-certified physicians</td>
-                        </tr>
-                        <tr>
-                            <td><i class="icon-check-green"></i></td>
-                            <td><i class="icon-check-grey"></i></td>
-                        </tr>
-                        <tr>
-                            <td colspan="2">Free psychologist consultations</td>
-                        </tr>
-                        <tr>
-                            <td><i class="icon-check-green"></i></td>
-                            <td><i class="icon-check-grey"></i></td>
-                        </tr>
-                        <tr>
-                            <td colspan="2">Prescription savings &amp; discounts</td>
-                        </tr>
-                        <tr>
-                            <td><i class="icon-check-green"></i></td>
-                            <td><i class="icon-check-grey"></i></td>
-                        </tr>
-                    </tbody>
-                    <tfoot>
-                        <tr>
-                            <td colspan="2"><a class="button-large">Get Started</a></td>
-                        </tr>
-                    </tfoot>
-                </table>
+                @Html.Sitecore().Field("Virtual MD Comparison Table")
+                @Html.Sitecore().Field("Virtual MD Mobile Comparison Table")
             </div>
         </div>
         <div class="back-to-top">
@@ -218,107 +52,29 @@
         <div class="service-info clearfix">
             <div class="wrapper">
                 <div class="intro">
-                    <h2>Roadside Assistance</h2>
-                    <p class="introduction">Access a doctor online--anytime, anywhere.</p>
-                    <p>With Virtual MD, you have unlimited, 24/7 access to a U.S. Board Certified physician (MD) for you and your family's non-emergency medical needs, right from your home via phone or online video!</p>
+                    <h2>@Html.Sitecore().Field("Roadside Assistance Header")</h2>
+                    <p class="introduction">@Html.Sitecore().Field("Roadside Assistance Intro")</p>
+                    <p>@Html.Sitecore().Field("Roadside Assistance Paragraph")</p>
                 </div>
-                <div class="banner"></div>
+                <div class="banner">
+                    @Html.Sitecore().Field("Roadside Assistance Image")
+                </div>
                 <div class="features">
-                    <h3>FEATURES INCLUDE:</h3>
-                    <ul>
-                        <li>Free Doctor Consultations</li>
-                        <li>Free psychologist consultations</li>
-                        <li>Prescription savings &amp; discounts</li>
-                    </ul>
-                    <ul ng-show="viewFeatures">
-                        <li>Free Doctor Consultations</li>
-                        <li>Free psychologist consultations</li>
-                        <li>Prescription savings &amp; discounts</li>
-                        <li>Free Doctor Consultations</li>
-                        <li>Free psychologist consultations</li>
-                        <li>Prescription savings &amp; discounts</li>
-                        <li>Free Doctor Consultations</li>
-                        <li>Free psychologist consultations</li>
-                        <li>Prescription savings &amp; discounts</li>
-                    </ul>
-                    <p ng-click="viewFeatures = !viewFeatures">
-                        <a ng-hide="viewFeatures" href="">View All Features</a>
-                        <a ng-show="viewFeatures" href="">View Less Features</a>
-                        <i class="icon-view-all" ng-class="{rotate: viewFeatures}"></i>
+                    <h3>@Html.Sitecore().Field("Features Header")</h3>
+                    @Html.Sitecore().Field("Roadside Assistance Few Features")
+                    @Html.Sitecore().Field("Roadside Assistance All Features")
+                    <p ng-click="viewFeatures1 = !viewFeatures1">
+                        <a ng-hide="viewFeatures1" href="">@Html.Sitecore().Field("All Features Link")</a>
+                        <a ng-show="viewFeatures1" href="">@Html.Sitecore().Field("Fewer Features Link")</a>
+                        <i class="icon-view-all" ng-class="{rotate: viewFeatures1}"></i>
                     </p>
                 </div>
             </div>
         </div>
         <div class="comparison">
             <div class="wrapper">
-                <table>
-                    <thead>
-                        <tr>
-                            <th><h3>DARE TO COMPARE!</h3><h2>Roadside Assistance</h2></th>
-                            <th class="protective-service"><p>Roadside Assistance</p></th>
-                            <th class="competitor"></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Yearly Cost</td>
-                            <td class="stream-price">$120<span>/year*</span></td>
-                            <td class="competitor-price">$360<span>/year**</span></td>
-                        </tr>
-                        <tr>
-                            <td>Co-pay required</td>
-                            <td>No</td>
-                            <td>Varies</td>
-                        </tr>
-                        <tr>
-                            <td>Available for every member of your family</td>
-                            <td><i class="icon-check-green"></i></td>
-                            <td><i class="icon-check-grey"></i></td>
-                        </tr>
-                        <tr>
-                            <td>Prescriptions immediately sent to your pharmacy</td>
-                            <td><i class="icon-check-green"></i></td>
-                            <td><i class="icon-check-grey"></i></td>
-                        </tr>
-                        <tr>
-                            <td>Free doctor consultations</td>
-                            <td><i class="icon-check-green"></i></td>
-                            <td><i class="icon-check-grey"></i></td>
-                        </tr>
-                        <tr>
-                            <td>Free psychologist consultations</td>
-                            <td><i class="icon-check-green"></i></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Prescriptions savings &amp; discounts</td>
-                            <td><i class="icon-check-green"></i></td>
-                            <td><i class="icon-check-grey"></i></td>
-                        </tr>
-                        <tr>
-                            <td>U.S. board-certified physicians</td>
-                            <td><i class="icon-check-green"></i></td>
-                            <td><i class="icon-check-grey"></i></td>
-                        </tr>
-                        <tr>
-                            <td>Free psychologist consultations</td>
-                            <td><i class="icon-check-green"></i></td>
-                            <td><i class="icon-check-grey"></i></td>
-                        </tr>
-                        <tr>
-                            <td>Prescription savings &amp; discounts</td>
-                            <td><i class="icon-check-green"></i></td>
-                            <td><i class="icon-check-grey"></i></td>
-                        </tr>
-                    </tbody>
-                    <tfoot>
-                        <tr>
-                            <td></td>
-                            <td><a class="button-large">Get Started</a></td>
-                            <td></td>
-                        </tr>
-                    </tfoot>
-                </table>
+                @Html.Sitecore().Field("Roadside Assistance Comparison Table")
+                @Html.Sitecore().Field("Roadside Assistance Mobile Comparison Table")
             </div>
         </div>
         <div class="back-to-top">
@@ -331,107 +87,29 @@
         <div class="service-info clearfix">
             <div class="wrapper">
                 <div class="intro">
-                    <h2>Identity Protection</h2>
-                    <p class="introduction">Access a doctor online--anytime, anywhere.</p>
-                    <p>With Virtual MD, you have unlimited, 24/7 access to a U.S. Board Certified physician (MD) for you and your family's non-emergency medical needs, right from your home via phone or online video!</p>
+                    <h2>@Html.Sitecore().Field("Identity Protection Header")</h2>
+                    <p class="introduction">@Html.Sitecore().Field("Identity Protection Intro")</p>
+                    <p>@Html.Sitecore().Field("Identity Protection Paragraph")</p>
                 </div>
-                <div class="banner"></div>
+                <div class="banner">
+                    @Html.Sitecore().Field("Identity Protection Image")
+                </div>
                 <div class="features">
-                    <h3>FEATURES INCLUDE:</h3>
-                    <ul>
-                        <li>Free Doctor Consultations</li>
-                        <li>Free psychologist consultations</li>
-                        <li>Prescription savings &amp; discounts</li>
-                    </ul>
-                    <ul ng-show="viewFeatures">
-                        <li>Free Doctor Consultations</li>
-                        <li>Free psychologist consultations</li>
-                        <li>Prescription savings &amp; discounts</li>
-                        <li>Free Doctor Consultations</li>
-                        <li>Free psychologist consultations</li>
-                        <li>Prescription savings &amp; discounts</li>
-                        <li>Free Doctor Consultations</li>
-                        <li>Free psychologist consultations</li>
-                        <li>Prescription savings &amp; discounts</li>
-                    </ul>
-                    <p ng-click="viewFeatures = !viewFeatures">
-                        <a ng-hide="viewFeatures" href="">View All Features</a>
-                        <a ng-show="viewFeatures" href="">View Less Features</a>
-                        <i class="icon-view-all" ng-class="{rotate: viewFeatures}"></i>
+                    <h3>@Html.Sitecore().Field("Features Header")</h3>
+                    @Html.Sitecore().Field("Identity Protection Few Features")
+                    @Html.Sitecore().Field("Identity Protection All Features")
+                    <p ng-click="viewFeatures2 = !viewFeatures2">
+                        <a ng-hide="viewFeatures2" href="">@Html.Sitecore().Field("All Features Link")</a>
+                        <a ng-show="viewFeatures2" href="">@Html.Sitecore().Field("Fewer Features Link")</a>
+                        <i class="icon-view-all" ng-class="{rotate: viewFeatures2}"></i>
                     </p>
                 </div>
             </div>
         </div>
         <div class="comparison">
             <div class="wrapper">
-                <table>
-                    <thead>
-                        <tr>
-                            <th><h3>DARE TO COMPARE!</h3><h2>Identity Protection</h2></th>
-                            <th class="protective-service"><p>Identity Protection</p></th>
-                            <th class="competitor"></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Yearly Cost</td>
-                            <td class="stream-price">$120<span>/year*</span></td>
-                            <td class="competitor-price">$360<span>/year**</span></td>
-                        </tr>
-                        <tr>
-                            <td>Co-pay required</td>
-                            <td>No</td>
-                            <td>Varies</td>
-                        </tr>
-                        <tr>
-                            <td>Available for every member of your family</td>
-                            <td><i class="icon-check-green"></i></td>
-                            <td><i class="icon-check-grey"></i></td>
-                        </tr>
-                        <tr>
-                            <td>Prescriptions immediately sent to your pharmacy</td>
-                            <td><i class="icon-check-green"></i></td>
-                            <td><i class="icon-check-grey"></i></td>
-                        </tr>
-                        <tr>
-                            <td>Free doctor consultations</td>
-                            <td><i class="icon-check-green"></i></td>
-                            <td><i class="icon-check-grey"></i></td>
-                        </tr>
-                        <tr>
-                            <td>Free psychologist consultations</td>
-                            <td><i class="icon-check-green"></i></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Prescriptions savings &amp; discounts</td>
-                            <td><i class="icon-check-green"></i></td>
-                            <td><i class="icon-check-grey"></i></td>
-                        </tr>
-                        <tr>
-                            <td>U.S. board-certified physicians</td>
-                            <td><i class="icon-check-green"></i></td>
-                            <td><i class="icon-check-grey"></i></td>
-                        </tr>
-                        <tr>
-                            <td>Free psychologist consultations</td>
-                            <td><i class="icon-check-green"></i></td>
-                            <td><i class="icon-check-grey"></i></td>
-                        </tr>
-                        <tr>
-                            <td>Prescription savings &amp; discounts</td>
-                            <td><i class="icon-check-green"></i></td>
-                            <td><i class="icon-check-grey"></i></td>
-                        </tr>
-                    </tbody>
-                    <tfoot>
-                        <tr>
-                            <td></td>
-                            <td><a class="button-large">Get Started</a></td>
-                            <td></td>
-                        </tr>
-                    </tfoot>
-                </table>
+                @Html.Sitecore().Field("Identity Protection Comparison Table")
+                @Html.Sitecore().Field("Identity Protection Mobile Comparison Table")
             </div>
         </div>
         <div class="back-to-top">
@@ -444,107 +122,29 @@
         <div class="service-info clearfix">
             <div class="wrapper">
                 <div class="intro">
-                    <h2>Credit Monitoring</h2>
-                    <p class="introduction">Access a doctor online--anytime, anywhere.</p>
-                    <p>With Virtual MD, you have unlimited, 24/7 access to a U.S. Board Certified physician (MD) for you and your family's non-emergency medical needs, right from your home via phone or online video!</p>
+                    <h2>@Html.Sitecore().Field("Credit Monitoring Header")</h2>
+                    <p class="introduction">@Html.Sitecore().Field("Credit Monitoring Intro")</p>
+                    <p>@Html.Sitecore().Field("Credit Monitoring Paragraph")</p>
                 </div>
-                <div class="banner"></div>
+                <div class="banner">
+                    @Html.Sitecore().Field("Credit Monitoring Image")
+                </div>
                 <div class="features">
-                    <h3>FEATURES INCLUDE:</h3>
-                    <ul>
-                        <li>Free Doctor Consultations</li>
-                        <li>Free psychologist consultations</li>
-                        <li>Prescription savings &amp; discounts</li>
-                    </ul>
-                    <ul ng-show="viewFeatures">
-                        <li>Free Doctor Consultations</li>
-                        <li>Free psychologist consultations</li>
-                        <li>Prescription savings &amp; discounts</li>
-                        <li>Free Doctor Consultations</li>
-                        <li>Free psychologist consultations</li>
-                        <li>Prescription savings &amp; discounts</li>
-                        <li>Free Doctor Consultations</li>
-                        <li>Free psychologist consultations</li>
-                        <li>Prescription savings &amp; discounts</li>
-                    </ul>
-                    <p ng-click="viewFeatures = !viewFeatures">
-                        <a ng-hide="viewFeatures" href="">View All Features</a>
-                        <a ng-show="viewFeatures" href="">View Less Features</a>
-                        <i class="icon-view-all" ng-class="{rotate: viewFeatures}"></i>
+                    <h3>@Html.Sitecore().Field("Features Header")</h3>
+                    @Html.Sitecore().Field("Credit Monitoring Few Features")
+                    @Html.Sitecore().Field("Credit Monitoring All Features")
+                    <p ng-click="viewFeatures3 = !viewFeatures3">
+                        <a ng-hide="viewFeatures3" href="">@Html.Sitecore().Field("All Features Link")</a>
+                        <a ng-show="viewFeatures3" href="">@Html.Sitecore().Field("Fewer Features Link")</a>
+                        <i class="icon-view-all" ng-class="{rotate: viewFeatures3}"></i>
                     </p>
                 </div>
             </div>
         </div>
         <div class="comparison">
             <div class="wrapper">
-                <table>
-                    <thead>
-                        <tr>
-                            <th><h3>DARE TO COMPARE!</h3><h2>Credit Monitoring</h2></th>
-                            <th class="protective-service"><p>Credit Monitoring</p></th>
-                            <th class="competitor"></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Yearly Cost</td>
-                            <td class="stream-price">$120<span>/year*</span></td>
-                            <td class="competitor-price">$360<span>/year**</span></td>
-                        </tr>
-                        <tr>
-                            <td>Co-pay required</td>
-                            <td>No</td>
-                            <td>Varies</td>
-                        </tr>
-                        <tr>
-                            <td>Available for every member of your family</td>
-                            <td><i class="icon-check-green"></i></td>
-                            <td><i class="icon-check-grey"></i></td>
-                        </tr>
-                        <tr>
-                            <td>Prescriptions immediately sent to your pharmacy</td>
-                            <td><i class="icon-check-green"></i></td>
-                            <td><i class="icon-check-grey"></i></td>
-                        </tr>
-                        <tr>
-                            <td>Free doctor consultations</td>
-                            <td><i class="icon-check-green"></i></td>
-                            <td><i class="icon-check-grey"></i></td>
-                        </tr>
-                        <tr>
-                            <td>Free psychologist consultations</td>
-                            <td><i class="icon-check-green"></i></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Prescriptions savings &amp; discounts</td>
-                            <td><i class="icon-check-green"></i></td>
-                            <td><i class="icon-check-grey"></i></td>
-                        </tr>
-                        <tr>
-                            <td>U.S. board-certified physicians</td>
-                            <td><i class="icon-check-green"></i></td>
-                            <td><i class="icon-check-grey"></i></td>
-                        </tr>
-                        <tr>
-                            <td>Free psychologist consultations</td>
-                            <td><i class="icon-check-green"></i></td>
-                            <td><i class="icon-check-grey"></i></td>
-                        </tr>
-                        <tr>
-                            <td>Prescription savings &amp; discounts</td>
-                            <td><i class="icon-check-green"></i></td>
-                            <td><i class="icon-check-grey"></i></td>
-                        </tr>
-                    </tbody>
-                    <tfoot>
-                        <tr>
-                            <td></td>
-                            <td><a class="button-large">Get Started</a></td>
-                            <td></td>
-                        </tr>
-                    </tfoot>
-                </table>
+                @Html.Sitecore().Field("Credit Monitoring Comparison Table")
+                @Html.Sitecore().Field("Credit Monitoring Mobile Comparison Table")
             </div>
         </div>
         <div class="back-to-top">
@@ -557,107 +157,30 @@
         <div class="service-info clearfix">
             <div class="wrapper">
                 <div class="intro">
-                    <h2>Tech Support</h2>
-                    <p class="introduction">Access a doctor online--anytime, anywhere.</p>
-                    <p>With Virtual MD, you have unlimited, 24/7 access to a U.S. Board Certified physician (MD) for you and your family's non-emergency medical needs, right from your home via phone or online video!</p>
+                    <h2>@Html.Sitecore().Field("Tech Support Header")</h2>
+                    <p class="introduction">@Html.Sitecore().Field("Tech Support Intro")</p>
+                    <p>@Html.Sitecore().Field("Tech Support Paragraph")</p>
                 </div>
-                <div class="banner"></div>
+                <div class="banner">
+                    @Html.Sitecore().Field("Tech Support Image")
+                </div>
                 <div class="features">
-                    <h3>FEATURES INCLUDE:</h3>
-                    <ul>
-                        <li>Free Doctor Consultations</li>
-                        <li>Free psychologist consultations</li>
-                        <li>Prescription savings &amp; discounts</li>
-                    </ul>
-                    <ul ng-show="viewFeatures">
-                        <li>Free Doctor Consultations</li>
-                        <li>Free psychologist consultations</li>
-                        <li>Prescription savings &amp; discounts</li>
-                        <li>Free Doctor Consultations</li>
-                        <li>Free psychologist consultations</li>
-                        <li>Prescription savings &amp; discounts</li>
-                        <li>Free Doctor Consultations</li>
-                        <li>Free psychologist consultations</li>
-                        <li>Prescription savings &amp; discounts</li>
-                    </ul>
-                    <p ng-click="viewFeatures = !viewFeatures">
-                        <a ng-hide="viewFeatures" href="">View All Features</a>
-                        <a ng-show="viewFeatures" href="">View Less Features</a>
-                        <i class="icon-view-all" ng-class="{rotate: viewFeatures}"></i>
+                    <h3>@Html.Sitecore().Field("Features Header")</h3>
+                    @Html.Sitecore().Field("Tech Support Few Features")
+                    @Html.Sitecore().Field("Tech Support All Features")
+
+                    <p ng-click="viewFeatures4 = !viewFeatures4">
+                        <a ng-hide="viewFeatures4" href="">@Html.Sitecore().Field("All Features Link")</a>
+                        <a ng-show="viewFeatures4" href="">@Html.Sitecore().Field("Fewer Features Link")</a>
+                        <i class="icon-view-all" ng-class="{rotate: viewFeatures4}"></i>
                     </p>
                 </div>
             </div>
         </div>
         <div class="comparison">
             <div class="wrapper">
-                <table>
-                    <thead>
-                        <tr>
-                            <th><h3>DARE TO COMPARE!</h3><h2>Tech Support</h2></th>
-                            <th class="protective-service"><p>Tech Support</p></th>
-                            <th class="competitor"></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Yearly Cost</td>
-                            <td class="stream-price">$120<span>/year*</span></td>
-                            <td class="competitor-price">$360<span>/year**</span></td>
-                        </tr>
-                        <tr>
-                            <td>Co-pay required</td>
-                            <td>No</td>
-                            <td>Varies</td>
-                        </tr>
-                        <tr>
-                            <td>Available for every member of your family</td>
-                            <td><i class="icon-check-green"></i></td>
-                            <td><i class="icon-check-grey"></i></td>
-                        </tr>
-                        <tr>
-                            <td>Prescriptions immediately sent to your pharmacy</td>
-                            <td><i class="icon-check-green"></i></td>
-                            <td><i class="icon-check-grey"></i></td>
-                        </tr>
-                        <tr>
-                            <td>Free doctor consultations</td>
-                            <td><i class="icon-check-green"></i></td>
-                            <td><i class="icon-check-grey"></i></td>
-                        </tr>
-                        <tr>
-                            <td>Free psychologist consultations</td>
-                            <td><i class="icon-check-green"></i></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Prescriptions savings &amp; discounts</td>
-                            <td><i class="icon-check-green"></i></td>
-                            <td><i class="icon-check-grey"></i></td>
-                        </tr>
-                        <tr>
-                            <td>U.S. board-certified physicians</td>
-                            <td><i class="icon-check-green"></i></td>
-                            <td><i class="icon-check-grey"></i></td>
-                        </tr>
-                        <tr>
-                            <td>Free psychologist consultations</td>
-                            <td><i class="icon-check-green"></i></td>
-                            <td><i class="icon-check-grey"></i></td>
-                        </tr>
-                        <tr>
-                            <td>Prescription savings &amp; discounts</td>
-                            <td><i class="icon-check-green"></i></td>
-                            <td><i class="icon-check-grey"></i></td>
-                        </tr>
-                    </tbody>
-                    <tfoot>
-                        <tr>
-                            <td></td>
-                            <td><a class="button-large">Get Started</a></td>
-                            <td></td>
-                        </tr>
-                    </tfoot>
-                </table>
+                @Html.Sitecore().Field("Tech Support Comparison Table")
+                @Html.Sitecore().Field("Tech Support Mobile Comparison Table")
             </div>
         </div>
         <div class="back-to-top">
