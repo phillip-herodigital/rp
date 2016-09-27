@@ -1,0 +1,32 @@
+﻿@using Sitecore.Data.Fields
+@{
+    ImageField backgroundField = Html.Sitecore().CurrentItem.Fields["Background"];
+    string backgroundURL = Sitecore.Resources.Media.MediaManager.GetMediaUrl(backgroundField.MediaItem);
+    }
+
+<article class="protective protective-services-header" ng-style="{'background-image': 'URL(@backgroundURL)'}" ng-controller="protectiveMarketingCtrl">
+    <div class="play-video"><a ng-click="showLightbox('protective-services-video')"><img src="/frontend/assets/i/marketing/redesign/Modules/Services/Watch-Overview.png"></a></div>
+    <div class="wrapper">
+        <div class="header-content">
+            <h2>@Html.Sitecore().Field("Header")</h2>
+            <p class="introduction">@Html.Sitecore().Field("Intro")</p>
+        </div>
+        <div class="grid five">
+            <div class="col virtual-md" ng-click="scrollTo('virtualMD', -95)">
+                <p>@Html.Sitecore().Field("Virtual MD")</p>
+            </div>
+            <div class="col roadside-assistance" ng-click="scrollTo('roadside', -95)">
+                <p>@Html.Sitecore().Field("Roadside Assistance")</p>
+            </div>
+            <div class="col identity-protection" ng-click="scrollTo('identity', -95)">
+                <p>@Html.Sitecore().Field("Identity Protection")</p>
+            </div>
+            <div class="col credit-monitoring" ng-click="scrollTo('credit', -95)">
+                <p>@Html.Sitecore().Field("Credit Monitoring")</p>
+            </div>
+            <div class="col tech-support" ng-click="scrollTo('tech', -95)">
+                <p>@Html.Sitecore().Field("Tech Support")</p>
+            </div>
+        </div>
+    </div>
+</article>
