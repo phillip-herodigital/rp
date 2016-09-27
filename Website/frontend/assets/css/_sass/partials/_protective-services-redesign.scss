@@ -266,11 +266,12 @@ article.protective-services-info {
                 width: 600px;
                 min-height: 350px;
                 height: 100%;
-                background-image: image-url('http://placehold.it/600x350');
-                background-repeat: no-repeat;
-                background-position: top right;
-                background-size: contain;
-                float: left;
+                float: right;
+
+				img {
+					width: 100%;
+					height: auto;
+				}
 
                 @include breakpoint(medium) {
                     width: 400px;
