@@ -401,6 +401,13 @@ article.protective-services-info {
                                 &.stream-price, &.competitor-price {
                                     padding: 8px;
                                 }
+								&.stream-price img {
+									right: -25px;
+									top: -10px;
+								}
+								&.competitor-price {
+									padding-left: 20px;
+								}
                             }
 
                             &:nth-child(2n+1) {
@@ -560,10 +567,20 @@ article.protective-services-info {
                             background-image: image-url('marketing/redesign/Modules/Services/stream-price-underline.png');
                             background-repeat: no-repeat;
                             background-position: 50% 85%;
+							position: relative;
 
                             span {
                                 font-size: 18px;
                             }
+
+							img {
+								position: absolute;
+								right: -15px;
+								bottom: 0px;
+								@include breakpoint(medium) {
+									right: -50px;
+								}
+							}
                         }
 
                         &.competitor-price {
