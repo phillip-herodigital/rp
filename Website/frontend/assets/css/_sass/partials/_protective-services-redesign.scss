@@ -235,6 +235,14 @@ article.protective-services-info {
     .service {
         padding-top: 90px;
 
+        @include breakpoint(small) {
+            padding-top: 45px;
+        }
+
+
+        &#virtualMD {
+        }
+
         .wrapper {
             @include breakpoint(large) {
                 width: 1100px;
@@ -327,22 +335,106 @@ article.protective-services-info {
             background-color: #f8f9fa;
             padding: 50px 0 0;
 
+            @include breakpoint(small) {
+                padding-top: 20px;
+            }
+
             table {
+
+                &.regular {
+                    @include breakpoint(small) {
+                        display: none;
+                    }
+
+                    thead {
+                        tr {
+                            th {
+                            }
+                        }
+                    }
+
+                    td, td {
+                    }
+
+                    tbody {
+                        tr {
+                            td {
+                            }
+                        }
+                    }
+                }
+
+                &.small {
+                    @include breakpoint(medium-large) {
+                        display: none;
+                    }
+
+                    thead {
+                        tr {
+                            height: 120px;
+
+                            th {
+                                height: 120px;
+                                text-align: center;
+
+                                &.protective-service {
+                                    background-color: #fff;
+                                    background-position: 50% 20px;
+                                    padding-top: 95px;
+
+                                    p {
+                                        margin: 10px 0;
+                                    }
+                                }
+
+                                &.competitor {
+                                    background-color: #f8f9fa;
+
+                                    .background {
+                                        background-size: contain;
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    tbody {
+                        tr {
+                            td {
+                                text-align: center;
+
+                                &.stream-price, &.competitor-price {
+                                    padding: 8px;
+                                }
+                            }
+
+                            &:nth-child(2n+1) {
+                                td {
+                                    width: 100%;
+                                    font-weight: 700;
+                                }
+                            }
+
+                            &:nth-child(2n) {
+                                td {
+                                    width: 50%;
+
+                                    &:first-child {
+                                        background-color: #fff;
+                                    }
+
+                                    &:nth-child(2) {
+                                        background-color: #f8f9fa;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
                 thead {
                     tr {
                         height: 160px;
-
-                        /*&.regular {
-                            @include breakpoint(small) {
-                                display: none;
-                            }
-                        }
-
-                        &.small {
-                            @include breakpoint(medium-large) {
-                                display: none;
-                            }
-                        }*/
 
                         th {
                             background-color: #f8f9fa;
@@ -351,13 +443,10 @@ article.protective-services-info {
                                 background-image: image-url('marketing/redesign/Modules/Services/Virtual-MD-icon.png');
                                 background-repeat: no-repeat;
                                 background-position: 50% 30px;
-                                position: relative;
                                 box-shadow: #f7f7f7 10px 0;
+                                padding-top: 100px;
 
                                 p {
-                                    position: absolute;
-                                    width: 100%;
-                                    bottom: 0;
                                     font-size: 22px;
                                     font-weight: 800;
                                     color: #0a3b5a;
@@ -365,9 +454,14 @@ article.protective-services-info {
                             }
 
                             &.competitor {
-                                background-image: image-url('marketing/redesign/Modules/Services/teladoc.png');
-                                background-repeat: no-repeat;
-                                background-position: 50% 50%;
+                                padding: 0 10px;
+
+                                .background {
+                                    background-image: image-url('marketing/redesign/Modules/Services/teladoc.png');
+                                    background-repeat: no-repeat;
+                                    background-position: 50% 50%;
+                                    height: 100%;
+                                }
                             }
                         }
                     }
@@ -377,9 +471,8 @@ article.protective-services-info {
                     border-top: none;
                     border-right: none;
                     border-left: none;
-                    padding: 8px 0px;
 
-                    &:nth-child(1) {
+                    &:first-child {
                         width: calc(100% - 665px);
                     }
 
@@ -394,7 +487,7 @@ article.protective-services-info {
                     }
 
                     @include breakpoint(medium) {
-                        &:nth-child(1) {
+                        &:first-child {
                             width: calc(100% - 525px);
                         }
 
@@ -406,29 +499,13 @@ article.protective-services-info {
                             width: 250px;
                         }
                     }
-
-                    @include breakpoint(small) {
-                        &:nth-child(1) {
-                            width: 100%;
-                            clear: both;
-                        }
-
-                        &:nth-child(2) {
-                            width: 50%;
-                            float: left;
-                        }
-
-                        &:nth-child(3) {
-                            width: 50%;
-                            float: left;
-                        }
-                    }
                 }
 
                 tbody {
                     td {
                         font-size: 18px;
                         color: #0a3b5a;
+                        padding: 8px 0px;
 
                         &:nth-child(2), &:nth-child(3) {
                             text-align: center;
@@ -493,6 +570,7 @@ article.protective-services-info {
 
 article.protective-services-pricing {
     .wrapper {
+        width: 100%;
         padding: 0px;
     }
 
@@ -501,9 +579,64 @@ article.protective-services-pricing {
     background-position: center top;
     background-size: contain;
 
+    @include breakpoint(small-medium) {
+        background-image: none;
+        padding: 0px;
+    }
+
     .grid {
-        width: 89%;
+        width: 82%;
+        height: 200px;
         margin: 0 auto;
+
+        @include breakpoint(small) {
+            width: 100%;
+
+            .col {
+                width: 100%;
+                margin: 10px 0;
+                padding-top: 10px;
+                background-position: calc(50% + 137px), 0px;
+                background-image: image-url('marketing/redesign/Modules/Services/pricing-banner.jpg');
+            }
+        }
+
+        @include breakpoint(medium) {
+            width: 100%;
+
+            .col {
+                margin: 10px 0;
+                padding-top: 10px;
+
+                p {
+                    margin: 0;
+                }
+
+                &:nth-child(1), &:nth-child(3) {
+                    width: 100%;
+                    background-position: 50%, 0px;
+                    background-image: image-url('marketing/redesign/Modules/Services/pricing-banner.jpg');
+
+                    div {
+                        width: 250px;
+                        position: absolute;
+                        right: 50%;
+                    }
+                }
+
+                &:nth-child(2), &:nth-child(4) {
+                    width: calc(50% - 15px);
+                    position: absolute;
+                    right: 0;
+
+                    div {
+                        width: 250px;
+                        position: absolute;
+                        left: 0;
+                    }
+                }
+            }
+        }
 
         p {
             text-align: center;
@@ -517,29 +650,43 @@ article.protective-services-pricing {
             span.price {
                 font-size: 60px;
             }
+        }
 
-            &.additional-services-price {
-                margin-top: -12px;
+        .col {
+            position: relative;
+            height: 100%;
+            display: inline-block;
+        }
+
+        .three-services {
+
+            .best-deal {
+                color: #fff;
+                position: absolute;
+                width: 92px;
+                left: 70%;
+                transform: translate(-50%, -50%);
+                top: -10px;
+                padding: 2px 12px;
+                font-style: italic;
+                font-size: 16px;
+                font-weight: 600;
+                background: #46c0ff;
+
+                @include breakpoint(small) {
+                    top: 0;
+                }
             }
 
-            &.promo-price {
+            .promo-price {
                 margin-top: 5px;
             }
         }
-    }
 
-    .three-services {
-        .best-deal {
-            color: #fff;
-            position: absolute;
-            display: block;
-            left: calc(50% + 110px);
-            top: -10px;
-            padding: 2px 12px;
-            font-style: italic;
-            font-size: 16px;
-            font-weight: 600;
-            background: #46c0ff;
+        .additional-services {
+            .additional-services-price {
+                margin-top: -12px;
+            }
         }
     }
 

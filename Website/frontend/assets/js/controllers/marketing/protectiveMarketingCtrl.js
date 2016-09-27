@@ -47,7 +47,11 @@
     $(window).scroll(function () {
         scrollTop = $(this).scrollTop();
         navBarHeight = navBar.height();
-        if (scrollTop >= navBarOffset - 38) {
+        var mobileOffset = 0;
+        if ($(this).width() < 767) {
+            mobileOffset = 75;
+        }
+        if (scrollTop >= (navBarOffset - mobileOffset)) {
             navBar.addClass("fixed");
             spacer.css('height', navBarHeight + 'px');
         }
