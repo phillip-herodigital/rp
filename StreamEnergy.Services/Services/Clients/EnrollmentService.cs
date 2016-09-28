@@ -51,8 +51,7 @@ namespace StreamEnergy.Services.Clients
                 {
                     result.Add(location, new DomainModels.Enrollments.LocationOfferSet
                     {
-                        Offers = (from product in Sitecore.Context.Database.GetItem("/sitecore/content/Data/Taxonomy/Products/Protective").Children
-                                  where product.TemplateID.ToString() == "{2435BB90-E224-403E-B37B-4872C4F279F7}" //	/sitecore/templates/User Defined/Taxonomy/Products/Protective Product
+                        Offers = (from product in Sitecore.Context.Database.SelectItems("/sitecore/content/Data/Taxonomy/Products/Protective//*[@@templateid='{2435BB90-E224-403E-B37B-4872C4F279F7}']")
                                   select new DomainModels.Enrollments.Protective.Offer {
                                       Id = product.Fields["ID"].Value,
                                       SubOfferGuids = product.Fields["Services"].Value.Split('|')

@@ -361,6 +361,26 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', 'sc
             _.remove(enrollmentCartService.getActiveService().offerInformationByType[0].value.offerSelections[0].subOffers, function (subOffer) {
                 return subOffer.offerId === offerId;
             });
+            if (enrollmentCartService.getActiveService().offerInformationByType[0].value.offerSelections[0].subOffers.length != 0) {
+                enrollmentCartService.getActiveService().offerInformationByType[0].value.offerSelections[0].offerId = enrollmentCartService.findProtectiveProduct().id;
+            }
+            else {
+                enrollmentStepsService.setStep("protectiveFlowServices");
+                enrollmentStepsService.hideStep("accountInformation");
+            }
+        },
+
+        findProtectiveProduct: function () {
+            return _.find(enrollmentCartService.getActiveService().offerInformationByType[0].value.availableOffers, function (availableOffer) {
+                if (availableOffer.subOfferGuids.length === enrollmentCartService.getActiveService().offerInformationByType[0].value.offerSelections[0].subOffers.length) {
+                    return _.every(enrollmentCartService.getActiveService().offerInformationByType[0].value.offerSelections[0].subOffers, function (subOffer) {
+                        return _.some(availableOffer.subOfferGuids, function (subOfferGuid) {
+                            return subOfferGuid === subOffer.offer.guid;
+                        });
+                    });
+                }
+                else return false
+            });
         },
 
         getProtectiveDiscount: function () {
