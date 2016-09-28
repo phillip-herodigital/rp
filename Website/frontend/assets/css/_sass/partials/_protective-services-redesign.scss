@@ -619,6 +619,10 @@ article.protective-services-info {
                 background-position: right center;
             }
         }
+		.wrapper .footnote {
+		    color: #bebebe;
+			font-size: 14px;
+		}
     }
 }
 
@@ -823,4 +827,17 @@ article.protective-services-header {
 .protective-services-video iframe {
 	width: 100%;
 	height: 372px;
+}
+.protective-services-banner {
+	background-color: #f8f9fa;
+}
+
+article.marketing.protective-services-disclaimers {
+	>.wrapper {
+		background: none;
+		p {
+			color: #bebebe;
+			font-size: 14px;	
+		}
+	}
 }
