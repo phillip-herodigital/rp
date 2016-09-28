@@ -44,11 +44,20 @@
         }, '500');
     }
 
+    $(window).resize(function () {
+        navBarOffset = navBar.offset().top;
+        scrollFunction();
+    });
+
     $(window).scroll(function () {
-        scrollTop = $(this).scrollTop();
+        scrollFunction();
+    });
+
+    var scrollFunction = function () {
+        scrollTop = $(window).scrollTop();
         navBarHeight = navBar.height();
         var mobileOffset = 0;
-        if ($(this).width() < 767) {
+        if ($(window).width() < 767) {
             mobileOffset = 75;
         }
         if (scrollTop >= (navBarOffset - mobileOffset)) {
@@ -79,5 +88,5 @@
             virtualMDNav.addClass("highlight");
             removeOtherHighlights(virtualMDNav);
         }
-    });
+    };
 }]);

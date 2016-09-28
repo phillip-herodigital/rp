@@ -9,58 +9,106 @@ article.protective-intro {
 
 
 article.protective {
-	border: none;
-	margin: 20px 0;
-	.wrapper {
-		background: none;
-		p {
-			font-size: 18px;
+    border: none;
+    margin: 20px 0;
 
-			&.introduction { 
-				font-size: 56px;
-				font-weight: 100;
-				text-align: left;
-				color: #bebebe;
-				margin-top: 10px;
-				line-height: 1;
-			}
-		}
-		h2 {
-			font-size: 40px;
-			color: #555;
-			font-weight: 800;
-			margin: .25em 0px;
-		}
-		h3 {
-			font-size: 22px;
-			font-style: italic;
-			color: #40ae40;
-			font-weight: 800;
-		}
-	}
-	&.intro {
-		background-image: image-url('marketing/redesign/Modules/Services/triangles-background.png');
-		background-repeat: no-repeat;
-		background-position: bottom left;
-	}
+    .wrapper {
+        background: none;
 
-	p.protective-intro {
-	    margin-bottom: 50px;
-		width: 70%;
-		font-size: 18px
-	}
+        p {
+            font-size: 18px;
 
-	a.button-large {
-		background-image: linear-gradient(#1582c9, #0c7fc3);
-		background: image-url('icon/white-arrow.png') no-repeat 75% center;
-		background-color: #1481c8;
-		border: 1px solid #0889ce;
-		box-shadow: 0px 4px #e4eaec;
-		border-radius: 8px;
-		font-size: 22px;
-		color: #fff;
-		padding: 13px 80px 13px 60px;
-	}
+            &.introduction {
+                font-size: 56px;
+                font-weight: 100;
+                text-align: left;
+                color: #bebebe;
+                margin-top: 10px;
+                line-height: 1;
+            }
+        }
+
+        h2 {
+            font-size: 40px;
+            color: #555;
+            font-weight: 800;
+            margin: .25em 0px;
+        }
+
+        h3 {
+            font-size: 22px;
+            font-style: italic;
+            color: #40ae40;
+            font-weight: 800;
+        }
+    }
+
+    &.intro {
+        background-image: image-url('marketing/redesign/Modules/Services/triangles-background.png');
+        background-repeat: no-repeat;
+        background-position: bottom left;
+
+        .wrapper {
+            min-height: 450px;
+
+            .grid {
+                .col {
+                    &:first-of-type {
+                        p {
+                            margin-right: 40px;
+                        }
+                    }
+
+                    &:last-of-type {
+                        p, h2 {
+                            margin-left: 40px;
+                        }
+                    }
+
+                    @include breakpoint(small) {
+                        &:first-of-type {
+                            p {
+                                margin-right: 0;
+                            }
+                        }
+
+                        &:last-of-type {
+                            margin-top: 15px;
+
+                            p, h2 {
+                                margin-left: auto;
+                                margin: 0 auto;
+                                text-align: center;
+                            }
+
+                            p.protective-intro {
+                                text-align: left;
+                                margin: 15px auto 40px;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    p.protective-intro {
+        margin-bottom: 50px;
+        width: 70%;
+        font-size: 18px;
+    }
+
+    a.button-large {
+        background-image: linear-gradient(#1582c9, #0c7fc3);
+        background: image-url('icon/white-arrow.png') no-repeat 75% center;
+        background-color: #1481c8;
+        border: 1px solid #0889ce;
+        box-shadow: 0px 4px #e4eaec;
+        border-radius: 8px;
+        font-size: 22px;
+        color: #fff;
+        padding: 13px 80px 13px 60px;
+    }
 }
 
 article.protective-services-info {
@@ -268,10 +316,10 @@ article.protective-services-info {
                 height: 100%;
                 float: right;
 
-				img {
-					width: 100%;
-					height: auto;
-				}
+                img {
+                    width: 100%;
+                    height: auto;
+                }
 
                 @include breakpoint(medium) {
                     width: 400px;
@@ -339,23 +387,6 @@ article.protective-services-info {
                     @include breakpoint(small) {
                         display: none;
                     }
-
-                    thead {
-                        tr {
-                            th {
-                            }
-                        }
-                    }
-
-                    td, td {
-                    }
-
-                    tbody {
-                        tr {
-                            td {
-                            }
-                        }
-                    }
                 }
 
                 &.small {
@@ -402,13 +433,15 @@ article.protective-services-info {
                                 &.stream-price, &.competitor-price {
                                     padding: 8px;
                                 }
-								&.stream-price img {
-									right: -25px;
-									top: -10px;
-								}
-								&.competitor-price {
-									padding-left: 20px;
-								}
+
+                                &.stream-price img {
+                                    right: -25px;
+                                    top: -10px;
+                                }
+
+                                &.competitor-price {
+                                    padding-left: 20px;
+                                }
                             }
 
                             &:nth-child(2n+1) {
@@ -424,6 +457,7 @@ article.protective-services-info {
 
                                     &:first-child {
                                         background-color: #fff;
+                                        font-weight: 700;
                                     }
 
                                     &:nth-child(2) {
@@ -464,21 +498,26 @@ article.protective-services-info {
                                     font-weight: 800;
                                     color: #0a3b5a;
                                 }
-								&.virtual-md {
-									background-image: image-url('marketing/redesign/Modules/Services/Virtual-MD-icon.png');
-								}
-								&.roadside-assistance {
-									background-image: image-url('marketing/redesign/Modules/Services/roadside-assistance-icon.png');
-								}
-								&.identity-protection {
-									background-image: image-url('marketing/redesign/Modules/Services/identity-protection-icon.png');
-								}
-								&.credit-monitoring {
-									background-image: image-url('marketing/redesign/Modules/Services/credit-monitoring-icon.png');
-								}
-								&.tech-support {
-									background-image: image-url('marketing/redesign/Modules/Services/tech-support-icon.png');
-								}
+
+                                &.virtual-md {
+                                    background-image: image-url('marketing/redesign/Modules/Services/Virtual-MD-icon.png');
+                                }
+
+                                &.roadside-assistance {
+                                    background-image: image-url('marketing/redesign/Modules/Services/roadside-assistance-icon.png');
+                                }
+
+                                &.identity-protection {
+                                    background-image: image-url('marketing/redesign/Modules/Services/identity-protection-icon.png');
+                                }
+
+                                &.credit-monitoring {
+                                    background-image: image-url('marketing/redesign/Modules/Services/credit-monitoring-icon.png');
+                                }
+
+                                &.tech-support {
+                                    background-image: image-url('marketing/redesign/Modules/Services/tech-support-icon.png');
+                                }
                             }
 
                             &.competitor {
@@ -490,21 +529,25 @@ article.protective-services-info {
                                     background-position: 50% 50%;
                                     height: 100px;
 
-									&.teladoc {
-										background-image: image-url('marketing/redesign/Modules/Services/teladoc.png');
-									}
-									&.aaa {
-										background-image: image-url('marketing/redesign/Modules/Services/aaa-plus.png');
-									}
-									&.lifelock {
-										background-image: image-url('marketing/redesign/Modules/Services/lifelock.png');
-									}
-									&.experian {
-										background-image: image-url('marketing/redesign/Modules/Services/experian.png');
-									}
-									&.geeksquad {
-										background-image: image-url('marketing/redesign/Modules/Services/geek-squad.png');
-									}
+                                    &.teladoc {
+                                        background-image: image-url('marketing/redesign/Modules/Services/teladoc.png');
+                                    }
+
+                                    &.aaa {
+                                        background-image: image-url('marketing/redesign/Modules/Services/aaa-plus.png');
+                                    }
+
+                                    &.lifelock {
+                                        background-image: image-url('marketing/redesign/Modules/Services/lifelock.png');
+                                    }
+
+                                    &.experian {
+                                        background-image: image-url('marketing/redesign/Modules/Services/experian.png');
+                                    }
+
+                                    &.geeksquad {
+                                        background-image: image-url('marketing/redesign/Modules/Services/geek-squad.png');
+                                    }
                                 }
                             }
                         }
@@ -568,20 +611,21 @@ article.protective-services-info {
                             background-image: image-url('marketing/redesign/Modules/Services/stream-price-underline.png');
                             background-repeat: no-repeat;
                             background-position: 50% 85%;
-							position: relative;
+                            position: relative;
 
                             span {
                                 font-size: 18px;
                             }
 
-							img {
-								position: absolute;
-								right: -15px;
-								bottom: 0px;
-								@include breakpoint(medium) {
-									right: -50px;
-								}
-							}
+                            img {
+                                position: absolute;
+                                right: -15px;
+                                bottom: 0px;
+
+                                @include breakpoint(medium) {
+                                    right: -50px;
+                                }
+                            }
                         }
 
                         &.competitor-price {
@@ -619,10 +663,11 @@ article.protective-services-info {
                 background-position: right center;
             }
         }
-		.wrapper .footnote {
-		    color: #bebebe;
-			font-size: 14px;
-		}
+
+        .wrapper .footnote {
+            color: #bebebe;
+            font-size: 14px;
+        }
     }
 }
 
@@ -653,8 +698,27 @@ article.protective-services-pricing {
                 width: 100%;
                 margin: 10px 0;
                 padding-top: 10px;
-                background-position: calc(50% + 137px), 0px;
+                background-position: calc(50% + -20px), 0px;
                 background-image: image-url('marketing/redesign/Modules/Services/pricing-banner.jpg');
+
+                div {
+                    min-width: 320px;
+                    max-width: 520px;
+                    margin: 0 auto;
+                }
+
+                p {
+                    &:first-of-type {
+                        width: calc(50% - 10px);
+                    }
+
+                    &:last-of-type {
+                        margin-top: 0;
+                        width: calc(50% + 10px);
+                    }
+
+                    float: left;
+                }
             }
         }
 
@@ -758,70 +822,116 @@ article.protective-services-pricing {
 }
 
 article.protective-services-header {
- 	background-size: cover;
- 	margin: 0px;
- 	border-radius: 0px;
- 	.play-video {
- 		float: right;
- 		margin-right: -20px;
- 		margin-top: 100px;
-		@include breakpoint(small) {
-			margin-top: 0px;
-		}
-		img {
-			max-width: 100%;
-		}
- 	}
- 	.wrapper {
- 		.header-content {
- 			width: 45%;
- 			margin-top: 50px;
-			@include breakpoint(small) {
-				width: 100%;
-			}
-			h2 {
- 				color: #fff;
- 				text-align: left;
- 			}
- 			p.introduction {
- 				color: #fff;
- 				font-size: 78px;
- 				background-image: image-url('marketing/redesign/Modules/Services/header-underline.png');
- 				background-repeat: no-repeat;
- 				background-position: bottom left;
- 				width: 100%;
-				@include breakpoint(small) {
-					font-size: 44px;
-				}
- 			}
- 		}
- 		.grid .col {
- 			background-repeat: no-repeat;
- 			background-position: top center;
- 			padding: 60px 0 20px 0;
- 			text-align: center;
- 			color: #fff;
- 
- 			&.virtual-md {
- 				background-image: image-url('marketing/redesign/Modules/Services/virtual-md.png');
- 			}
- 			&.roadside-assistance {
- 				background-image: image-url('marketing/redesign/Modules/Services/roadside-assistance.png');
- 			}
- 			&.identity-protection {
- 				background-image: image-url('marketing/redesign/Modules/Services/identity-protection.png');
- 			}
- 			&.credit-monitoring {
- 				background-image: image-url('marketing/redesign/Modules/Services/credit-monitoring.png');
- 			}
- 			&.tech-support {
- 				background-image: image-url('marketing/redesign/Modules/Services/tech-support.png');
- 			}
-			@include breakpoint(small) {
-				display: none;
-			}
- 		}
-	}
+    background-size: cover;
+    margin: 0px;
+    border-radius: 0px;
+
+    .wrapper {
+
+        .header-content {
+            width: calc(100% - 650px);
+            float: left;
+            margin-top: 50px;
+
+            @include breakpoint(small-medium) {
+                width: 100%;
+            }
+
+            h2 {
+                color: #fff;
+                text-align: left;
+            }
+
+            p.introduction {
+                color: #fff;
+                font-size: 78px;
+
+                span {
+                    background-image: image-url('marketing/redesign/Modules/Services/header-underline.png');
+                    background-repeat: no-repeat;
+                    background-position: 50% 80px;
+                    background-size: contain;
+
+                    @include breakpoint(small-medium) {
+                        background-position: 50% 44px;
+                    }
+                }
+
+                @include breakpoint(small-medium) {
+                    font-size: 44px;
+                    margin-bottom: 0;
+                }
+            }
+        }
+
+        .play-video {
+            float: right;
+            width: 650px;
+            height: 236px;
+            margin-top: 100px;
+            padding-left: 130px;
+            cursor: pointer;
+            background-image: image-url('marketing/redesign/Modules/Services/Watch-Overview.png');
+            background-repeat: no-repeat;
+            background-position: left center;
+
+            p {
+                color: #f7f7f7;
+                font-size: 30px;
+                font-weight: 800;
+                margin: 95px 0;
+
+                @include breakpoint(small) {
+                    font-size: 24px;
+                    margin: 100px 0;
+                }
+            }
+
+            @include breakpoint(small-medium) {
+                margin-top: 0;
+            }
+
+            @include breakpoint(small) {
+                width: 650px;
+                max-width: 100%;
+                padding-left: 25%;
+                background-size: contain;
+            }
+        }
+
+        .grid .col {
+            background-repeat: no-repeat;
+            background-position: top center;
+            padding: 60px 0 20px 0;
+            text-align: center;
+            color: #fff;
+            cursor: pointer;
+
+            &.virtual-md {
+                background-image: image-url('marketing/redesign/Modules/Services/virtual-md.png');
+            }
+
+            &.roadside-assistance {
+                background-image: image-url('marketing/redesign/Modules/Services/roadside-assistance.png');
+            }
+
+            &.identity-protection {
+                background-image: image-url('marketing/redesign/Modules/Services/identity-protection.png');
+            }
+
+            &.credit-monitoring {
+                background-image: image-url('marketing/redesign/Modules/Services/credit-monitoring.png');
+            }
+
+            &.tech-support {
+                background-image: image-url('marketing/redesign/Modules/Services/tech-support.png');
+            }
+
+            @include breakpoint(small) {
+                display: none;
+            }
+        }
+    }
 }
 
 .protective-services-video iframe {

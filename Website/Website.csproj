@@ -1740,6 +1740,7 @@
     <Content Include="Views\Components\Marketing\Comparison Table.cshtml" />
     <Content Include="Views\Components\Marketing\Protective Service Intro.cshtml" />
     <Content Include="Views\Components\Marketing\Win Back Landing.cshtml" />
+    <Content Include="Views\Components\Marketing\Protective Service Header.cshtml" />
     <None Include="Web.Azure-Production Sitecore.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>
