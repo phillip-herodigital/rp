@@ -69,22 +69,93 @@
     <script id="mobileNav" type="text/ng-template">
         <nav class="mobile-nav" mobile-nav="@selectedNavItem">
             <ul>
-                <li>@Html.Sitecore().Field("Navigation Link 1", blogDataSourceItem)</li>
-                <li>@Html.Sitecore().Field("Navigation Link 2", blogDataSourceItem)</li>
-                <li>@Html.Sitecore().Field("Navigation Link 3", blogDataSourceItem)</li>
-                <li>@Html.Sitecore().Field("Navigation Link 4", blogDataSourceItem)</li>
-                <li>@Html.Sitecore().Field("Navigation Link 5", blogDataSourceItem)</li>
+                <li ng-class="{ opened: subnav == 2 }">
+                    <span>
+                        <span class="arrow" ng-click="toggleSubnav(2)"><i ng-class="{'icon-nav-arrow-expanded': subnav == 2, 'icon-nav-arrow-collapsed': subnav != 2}"></i></span>
+                        <span ng-click="toggleSubnav(2)">@Html.Sitecore().Field("Navigation Link 1", blogDataSourceItem)</span>
+                    </span>
+                    @for (var i = 1; i <= 1; i++)
+                    {
+                        var navMenu = Sitecore.Context.Database.GetItem(((Sitecore.Data.Fields.LinkField)blogDataSourceItem.Fields["Navigation Menu " + @i]).Value);
+                        <span class="mobile-sub-nav" sub-nav="@i" ng-cloak ng-class="{ hidden: subnav != 2 }">
+                            <span class="subnav-1" ng-class="{ subnav == 2 }">
+                                @Html.Sitecore().Field("Subnav Link List", navMenu)
+                            </span>
+                        </span>
+                    }
+                </li>
+                <li ng-class="{ opened: subnav == 3 }">
+                    <span>
+                        <span class="arrow" ng-click="toggleSubnav(3)"><i ng-class="{'icon-nav-arrow-expanded': subnav == 3, 'icon-nav-arrow-collapsed': subnav != 3}"></i></span>
+                        <span ng-click="toggleSubnav(3)">@Html.Sitecore().Field("Navigation Link 2", blogDataSourceItem)</span>
+                    </span>
+                    @for (var i = 2; i <= 2; i++)
+                    {
+                        var navMenu = Sitecore.Context.Database.GetItem(((Sitecore.Data.Fields.LinkField)blogDataSourceItem.Fields["Navigation Menu " + @i]).Value);
+                        <span class="mobile-sub-nav" sub-nav="@i" ng-cloak ng-class="{ hidden: subnav != 3 }">
+                            <span class="subnav-2" ng-class="{ subnav == 3 }">
+                                @Html.Sitecore().Field("Subnav Link List", navMenu)
+                            </span>
+                        </span>
+                    }
+                </li>
+                <li ng-class="{ opened: subnav == 4 }">
+                    <span>
+                        <span class="arrow" ng-click="toggleSubnav(4)"><i ng-class="{'icon-nav-arrow-expanded': subnav == 4, 'icon-nav-arrow-collapsed': subnav != 4}"></i></span>
+                        <span ng-click="toggleSubnav(4)">@Html.Sitecore().Field("Navigation Link 3", blogDataSourceItem)</span>
+                    </span>
+                    @for (var i = 3; i <= 3; i++)
+                    {
+                        var navMenu = Sitecore.Context.Database.GetItem(((Sitecore.Data.Fields.LinkField)blogDataSourceItem.Fields["Navigation Menu " + @i]).Value);
+                        <span class="mobile-sub-nav" sub-nav="@i" ng-cloak ng-class="{ hidden: subnav != 4 }">
+                            <span class="subnav-3" ng-class="{ subnav == 4 }">
+                                @Html.Sitecore().Field("Subnav Link List", navMenu)
+                            </span>
+                        </span>
+                    }
+                </li>
+                <li ng-class="{ opened: subnav == 5 }">
+                    <span>
+                        <span class="arrow" ng-click="toggleSubnav(5)"><i ng-class="{'icon-nav-arrow-expanded': subnav == 5, 'icon-nav-arrow-collapsed': subnav != 5}"></i></span>
+                        <span ng-click="toggleSubnav(5)">@Html.Sitecore().Field("Navigation Link 4", blogDataSourceItem)</span>
+                    </span>
+                    @for (var i = 4; i <= 4; i++)
+                    {
+                        var navMenu = Sitecore.Context.Database.GetItem(((Sitecore.Data.Fields.LinkField)blogDataSourceItem.Fields["Navigation Menu " + @i]).Value);
+                        <span class="mobile-sub-nav" sub-nav="@i" ng-cloak ng-class="{ hidden: subnav != 5 }">
+                            <span class="subnav-4" ng-class="{ subnav == 5 }">
+                                @Html.Sitecore().Field("Subnav Link List", navMenu)
+                            </span>
+                        </span>
+                    }
+                </li>
+                <li ng-class="{ opened: subnav == 6 }">
+                    <span>
+                        <span class="arrow" ng-click="toggleSubnav(6)"><i ng-class="{'icon-nav-arrow-expanded': subnav == 6, 'icon-nav-arrow-collapsed': subnav != 6}"></i></span>
+                        <span ng-click="toggleSubnav(6)">@Html.Sitecore().Field("Navigation Link 5", blogDataSourceItem)</span>
+                    </span>
+                    @for (var i = 5; i <= 5; i++)
+                    {
+                        var navMenu = Sitecore.Context.Database.GetItem(((Sitecore.Data.Fields.LinkField)blogDataSourceItem.Fields["Navigation Menu " + @i]).Value);
+                        <span class="mobile-sub-nav" sub-nav="@i" ng-cloak ng-class="{ hidden: subnav != 6 }">
+                            <span class="subnav-5" ng-class="{ subnav == 6 }">
+                                @Html.Sitecore().Field("Subnav Link List", navMenu)
+                            </span>
+                        </span>
+                    }
+                </li>
                 @if (alternateLanguageItem != null && alternateLanguageItem.Versions.Count > 0)
                 {
                     <li><a href="@languageLinkUrl" hreflang="@languageLinkUrlLanguage" lang="@languageLinkUrlLanguage" translate="no">@languageLinkText</a></li>
                 }
+                
+                
                 <li ng-class="{ opened: subnav == 1 }">
                     <span>
                         <span class="arrow" ng-click="toggleSubnav(1)"><i ng-class="{'icon-nav-arrow-expanded': subnav == 1, 'icon-nav-arrow-collapsed': subnav != 1}"></i></span>
                         <a href="" ng-click="toggleSubnav(1)">@Html.Sitecore().Field("Rates Text", blogDataSourceItem)</a>
                     </span>
-                    @Html.Sitecore().Field("Mobile Rates Dropdown", blogDataSourceItem)
-                </li>
+                    <span ng-class="{ subnav == 1 }">@Html.Sitecore().Field("Mobile Rates Dropdown", blogDataSourceItem)</span></li>
                 @Html.Sitecore().Field("Header Links", blogDataSourceItem)
             </ul>
         </nav>
@@ -101,7 +172,8 @@
                     var navMenu = Sitecore.Context.Database.GetItem(((Sitecore.Data.Fields.LinkField)blogDataSourceItem.Fields["Navigation Menu " + @i]).Value);
                     <li class="nav-@navItem.Text.ToLower() has-subnav nav-@i @navItem.Text.ToLower()" ng-mouseover="showSubnav(@i)" ng-mouseout="hideSubnav()" ng-class="{ selected: subnav==@i, current: '@category' == '@navItem.Text.ToLower()'}">
                         <a href="@Sitecore.Links.LinkManager.GetItemUrl(navItem.TargetItem)"><span class="color-block"></span>@navItem.Text</a>
-                        <div class="sub-nav" sub-nav="@i" ng-cloak ng-class="{ hidden: subnav != @i }" ng-mouseover="showSubnav(@i)" ng-mouseout="hideSubnav()">
+                        <div class="sub-nav @navItem.Text.ToLower()" sub-nav="@i" ng-cloak ng-class="{ hidden: subnav != @i }" ng-mouseover="showSubnav(@i)" ng-mouseout="hideSubnav()">
+                            <div class="sub-nav-title @navItem.Text.ToLower()">Top @navItem.Text.ToLower() Posts</div>
                             <div class="sub-nav-list">
                                 @Html.Sitecore().Field("Subnav Link List", navMenu)
                             </div>
@@ -117,10 +189,14 @@
                             
 
                                 <div class="featured-post @blogCategory">
-                                    <img src="@Sitecore.Resources.Media.MediaManager.GetMediaUrl(imageField.MediaItem)">
-                                    <span>@Html.Raw(title)</span>
-                                    <span>@Html.Raw(postDate)</span>
-                                    <span>@Html.Raw(blogSummary)</span>
+                                    <div class="featured-post-image">
+                                        <img src="@Sitecore.Resources.Media.MediaManager.GetMediaUrl(imageField.MediaItem)">
+                                    </div>
+                                    <div class="featured-post-content">
+                                        <span class="date">@Html.Raw(postDate)</span>
+                                        <span class="title">@Html.Raw(title)</span>
+                                        <span class="summary">@Html.Raw(blogSummary)</span>
+                                    </div>
                                 </div>
                             
                             }
