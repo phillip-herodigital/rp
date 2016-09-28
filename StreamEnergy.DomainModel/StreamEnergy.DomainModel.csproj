@@ -189,6 +189,7 @@
     <Compile Include="DomainModels\Documents\DocumentTypeIndicator.cs" />
     <Compile Include="DomainModels\Documents\IDocumentStore.cs" />
     <Compile Include="DomainModels\Emails\IEmailService.cs" />
+    <Compile Include="DomainModels\Enrollments\Protective\Service.cs" />
     <Compile Include="DomainModels\Enrollments\Protective\Offer.cs" />
     <Compile Include="DomainModels\Enrollments\Protective\OfferOption.cs" />
     <Compile Include="DomainModels\Enrollments\Protective\OfferOptionPolicy.cs" />

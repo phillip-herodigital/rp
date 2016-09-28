@@ -49,32 +49,13 @@ namespace StreamEnergy.Services.Clients
                 }
                 if (location.Capabilities.Any(c => c.CapabilityType == "Protective"))
                 {
-                    int sortOrder = 0;
-                    float price = 0;
-                    float discount = 0;
                     result.Add(location, new DomainModels.Enrollments.LocationOfferSet
                     {
-                        Offers = (from service in Sitecore.Context.Database.GetItem("/sitecore/content/Data/Taxonomy/Products/Protective").Children
-                                  let canSort = int.TryParse(service.Fields["Sort Order"].Value, out sortOrder)
-                                  let hasPrice = float.TryParse(service.Fields["Price"].Value, out price)
-                                  let hasDiscount = float.TryParse(service.Fields["Three Service Discount"].Value, out discount)
-                                  let iconField = new ImageField(service.Fields["Icon"])
+                        Offers = (from product in Sitecore.Context.Database.GetItem("/sitecore/content/Data/Taxonomy/Products/Protective").Children
+                                  where product.TemplateID.ToString() == "{2435BB90-E224-403E-B37B-4872C4F279F7}" //	/sitecore/templates/User Defined/Taxonomy/Products/Protective Product
                                   select new DomainModels.Enrollments.Protective.Offer {
-                                      Id = service.Fields["ID"].Value,
-                                      Name = service.Fields["Name"].Value,
-                                      ExcludedStates = (from Abbreviation in service.Fields["Excluded States"].Value.Split(',')
-                                                        select Abbreviation.Trim()).ToArray(),
-                                      VideoConferenceStates = (from Abbreviation in service.Fields["Video Conference States"].Value.Split(',')
-                                                               select Abbreviation.Trim()).ToArray(),
-                                      Description = service.Fields["Description"].Value,
-                                      Details = service.Fields["Details"].Value.Split('|'),
-                                      SortOrder = canSort ? sortOrder : -1,
-                                      Price = hasPrice ? price : -1,
-                                      ThreeServiceDiscount = hasDiscount ? discount : -1,
-                                      HasGroupOffer = service.Fields["Has Group Offer"].Value == "1",
-                                      IsGroupOffer = service.Fields["Is Group Offer"].Value == "1",
-                                      AssociatedOfferId = service.Fields["Associated Offer ID"].Value,
-                                      IconURL = iconField.MediaItem != null ? Sitecore.Resources.Media.MediaManager.GetMediaUrl(iconField.MediaItem) : ""
+                                      Id = product.Fields["ID"].Value,
+                                      SubOfferGuids = product.Fields["Services"].Value.Split('|')
                                   }).ToArray()
                     });
                     return result;

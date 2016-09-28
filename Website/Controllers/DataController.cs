@@ -1,4 +1,5 @@
-﻿using Sitecore.Data.Items;
+﻿using Sitecore.Data.Fields;
+using Sitecore.Data.Items;
 using StreamEnergy.Interpreters;
 using System;
 using System.Collections.Generic;
@@ -199,5 +200,37 @@ namespace StreamEnergy.MyStream.Controllers
             return this.Content(StreamEnergy.Json.Stringify(data));
         }
 
+        public ActionResult GetProtectiveServices()
+        {
+            int sortOrder = 0;
+            float price = 0;
+            float discount = 0;
+            var data = (from service in Sitecore.Context.Database.GetItem("/sitecore/content/Data/Taxonomy/Products/Protective/Services").Children
+                        //let canSort = int.TryParse(service.Fields["Sort Order"].Value, out sortOrder)
+                        //let hasPrice = float.TryParse(service.Fields["Price"].Value, out price)
+                        //let hasDiscount = float.TryParse(service.Fields["Three Service Discount"].Value, out discount)
+                        let iconField = new ImageField(service.Fields["Icon"])
+                        select new DomainModels.Enrollments.Protective.Service
+                        {
+                            Id = service.Fields["ID"].Value,
+                            Name = service.Fields["Name"].Value,
+                            Guid = service.ID.ToString(),
+                            ExcludedStates = (from Abbreviation in service.Fields["Excluded States"].Value.Split(',')
+                                              select Abbreviation.Trim()).ToArray(),
+                            VideoConferenceStates = (from Abbreviation in service.Fields["Video Conference States"].Value.Split(',')
+                                                     select Abbreviation.Trim()).ToArray(),
+                            Description = service.Fields["Description"].Value,
+                            Details = service.Fields["Details"].Value.Split('|'),
+                            SortOrder = int.TryParse(service.Fields["Sort Order"].Value, out sortOrder) ? sortOrder : -1,
+                            Price = float.TryParse(service.Fields["Price"].Value, out price) ? price : -1,
+                            ThreeServiceDiscount = float.TryParse(service.Fields["Three Service Discount"].Value, out discount) ? discount : -1,
+                            HasGroupOffer = service.Fields["Has Group Offer"].Value == "1",
+                            IsGroupOffer = service.Fields["Is Group Offer"].Value == "1",
+                            AssociatedOfferId = service.Fields["Associated Offer ID"].Value,
+                            IconURL = iconField.MediaItem != null ? Sitecore.Resources.Media.MediaManager.GetMediaUrl(iconField.MediaItem) : ""
+                        }).ToArray();
+
+            return this.Content(StreamEnergy.Json.Stringify(data));
+        }
     }
 }

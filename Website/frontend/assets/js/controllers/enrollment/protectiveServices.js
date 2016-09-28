@@ -6,17 +6,9 @@ ngApp.controller('protectiveServicesEnrollmentCtrl', ['$scope', '$http', '$locat
     $scope.init = function () {
         $scope.queryPlanID = getParameterByName('PlanID');
         if (!$scope.showChangeLocation) {
-            if ($scope.geoLocation.country === "CA") {
-                $scope.currentState = "Canada";
-            }
-            else if ($scope.geoLocation.country === "PR") {
-                $scope.currentState = "Puerto Rico";
-            }
-            else {
-                $scope.currentState = _.find($scope.stateNames, function (state) {
-                    return state.abbreviation === $scope.geoLocation.state;
-                }).display;
-            }
+            $scope.currentState = _.find($scope.stateNames, function (state) {
+                return state.abbreviation === $scope.geoLocation.state;
+            }).display;
         }
         addUpdateService();
     }
@@ -42,50 +34,42 @@ ngApp.controller('protectiveServicesEnrollmentCtrl', ['$scope', '$http', '$locat
     }
 
     $scope.isExcludedState = function (offer) {
-        if (_.some(offer.excludedStates, function (excludedState) {
+        return _.some(offer.excludedStates, function (excludedState) {
             return excludedState === $scope.geoLocation.state;
-        })) {
-            return true;
-        }
-        else {
-            return false;
-        }
-    }
-
-    $scope.isVideoConferenceState = function (offer) {
-        if (_.some(offer.videoConferenceStates, function (videoConferenceState) {
-            return videoConferenceState === $scope.geoLocation.state;
-        })) {
-            return true;
-        }
-        else {
-            return false;
-        }
-    }
-
-    $scope.selectOffer = function (offer) {
-        if (offer.isGroupOffer || offer.hasGroupOffer) {
-            _.remove($scope.getActiveService().offerInformationByType[0].value.offerSelections, function (offerSelection) {
-                return offerSelection.offerId === offer.associatedOfferId;
-            });
-        }
-        $scope.getActiveService().offerInformationByType[0].value.offerSelections.push({
-            offer: offer,
-            offerId: offer.id,
-            offerOption: {
-                optionType: 'Protective'
-            }
         });
     }
 
+    $scope.isVideoConferenceState = function (offer) {
+        return _.some(offer.videoConferenceStates, function (videoConferenceState) {
+            return videoConferenceState === $scope.geoLocation.state;
+        });
+    }
+
+    $scope.selectOffer = function (offer) {
+        if ($scope.getActiveService().offerInformationByType[0].value.offerSelections.length && $scope.getActiveService().offerInformationByType[0].value.offerSelections[0].subOffers) {
+            $scope.getActiveService().offerInformationByType[0].value.offerSelections[0].subOffers.push({
+                offer: offer,
+                offerId: offer.id,
+            });
+        }
+        else {
+            $scope.getActiveService().offerInformationByType[0].value.offerSelections[0] = {
+                subOffers: [{
+                    offer: offer,
+                    offerId: offer.id,
+                }]
+            };
+        }
+    }
+
     $scope.removeOffer = function (offerId) {
-        _.remove($scope.getActiveService().offerInformationByType[0].value.offerSelections, function (offerSelection) {
-            return offerSelection.offerId === offerId;
+        _.remove($scope.getActiveService().offerInformationByType[0].value.offerSelections[0].subOffers, function (subOffer) {
+            return subOffer.offerId === offerId;
         });
     }
 
     $scope.getOfferPrice = function (offerId) {
-        return _.find($scope.getActiveService().offerInformationByType[0].value.availableOffers, function (offer) {
+        return _.find($scope.services, function (offer) {
             return offer.id === offerId;
         }).price;
     }
@@ -97,14 +81,17 @@ ngApp.controller('protectiveServicesEnrollmentCtrl', ['$scope', '$http', '$locat
     }
 
     $scope.offerSelected = function (id) {
-        return _.some($scope.getActiveService().offerInformationByType[0].value.offerSelections, function (offer) {
-            return offer.offerId === id;
-        });
+        if ($scope.getActiveService().offerInformationByType[0].value.offerSelections.length) {
+            return _.some($scope.getActiveService().offerInformationByType[0].value.offerSelections[0].subOffers, function (subOffer) {
+                return subOffer.offerId === id;
+            });
+        }
+        else return false;
     }
 
     $scope.showgroupOffers = function () {
-        return _.every($scope.getActiveService().offerInformationByType[0].value.offerSelections, function (offerSelection) {
-            return typeof (offerSelection.offer.groupOffer) === 'undefined';
+        return _.every($scope.getActiveService().offerInformationByType[0].value.offerSelections[0].subOffers, function (subOffer) {
+            return typeof (subOffer.offer.groupOffer) === 'undefined';
         });
     }
 
@@ -113,6 +100,20 @@ ngApp.controller('protectiveServicesEnrollmentCtrl', ['$scope', '$http', '$locat
     }
 
     $scope.completeStep = function () {
+        $scope.getActiveService().offerInformationByType[0].value.offerSelections[0].offerOption = {
+            optionType: 'Protective'
+        };
+        var product = _.find($scope.getActiveService().offerInformationByType[0].value.availableOffers, function (availableOffer) {
+            if (availableOffer.subOfferGuids.length === $scope.getActiveService().offerInformationByType[0].value.offerSelections[0].subOffers.length) {
+                return _.every($scope.getActiveService().offerInformationByType[0].value.offerSelections[0].subOffers, function (subOffer) {
+                    return _.some(availableOffer.subOfferGuids, function (subOfferGuid) {
+                        return subOfferGuid === subOffer.offer.guid;
+                    });
+                });
+            }
+            else return false
+        });
+        $scope.getActiveService().offerInformationByType[0].value.offerSelections[0].offerId = product.id;
         enrollmentService.setSelectedOffers(true).then(enrollmentService.setAccountInformation());
     }
 

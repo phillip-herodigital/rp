@@ -89,6 +89,15 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', 'sc
 		 * @param {Array} cart
 		 */
         updateCart: function (cart) {
+            angular.forEach(this.services, function (service) {
+                angular.forEach(service.offerInformationByType, function (offerInformation) {
+                    angular.forEach(offerInformation.value.offerSelections, function (offerSelection) {
+                        if (typeof offerSelection.subOffers != 'undefined' && offerSelection.subOffers.length != 0) {
+                            cart[0].offerInformationByType[0].value.offerSelections[0].subOffers = offerSelection.subOffers;
+                        }
+                    });
+                });
+            });
             //Map out the location items
             angular.copy(cart, services);
 
@@ -349,19 +358,22 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', 'sc
         * Handle Protective Cart Functions
         */
         removeProtectiveOffer: function (offerId) {
-            _.remove(enrollmentCartService.getActiveService().offerInformationByType[0].value.offerSelections, function (offerSelection) {
-                return offerSelection.offerId === offerId;
+            _.remove(enrollmentCartService.getActiveService().offerInformationByType[0].value.offerSelections[0].subOffers, function (subOffer) {
+                return subOffer.offerId === offerId;
             });
         },
 
         getProtectiveDiscount: function () {
             var count = 0;
             var discount = 0;
-            angular.forEach(enrollmentCartService.getActiveService().offerInformationByType[0].value.offerSelections, function (offerSelection) {
-                discount += offerSelection.offer.threeServiceDiscount;
-                if (offerSelection.offer.isGroupOffer) count += 2;
-                else count++;
-            });
+            if (enrollmentCartService.getActiveService().offerInformationByType[0].value.offerSelections.length) {
+
+                angular.forEach(enrollmentCartService.getActiveService().offerInformationByType[0].value.offerSelections[0].subOffers, function (subOffer) {
+                    discount += subOffer.offer.threeServiceDiscount;
+                    if (subOffer.offer.isGroupOffer) count += 2;
+                    else count++;
+                });
+            }
             if (count > 2) {
                 return discount;
             }
@@ -372,9 +384,11 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', 'sc
 
         getProtectiveTotal: function () {
             var total = 0;
-            angular.forEach(enrollmentCartService.getActiveService().offerInformationByType[0].value.offerSelections, function (offerSelection) {
-                total += offerSelection.offer.price;
-            });
+            if (enrollmentCartService.getActiveService().offerInformationByType[0].value.offerSelections.length) {
+                angular.forEach(enrollmentCartService.getActiveService().offerInformationByType[0].value.offerSelections[0].subOffers, function (subOffer) {
+                    total += subOffer.offer.price;
+                });
+            }
             return total;
         },
 
