@@ -78,7 +78,7 @@
                     {
                         var navMenu = Sitecore.Context.Database.GetItem(((Sitecore.Data.Fields.LinkField)blogDataSourceItem.Fields["Navigation Menu " + @i]).Value);
                         <span class="mobile-sub-nav" sub-nav="@i" ng-cloak ng-class="{ hidden: subnav != 2 }">
-                            <span class="subnav-1" ng-class="{ subnav == 2 }">
+                            <span class="subnav-1">
                                 @Html.Sitecore().Field("Subnav Link List", navMenu)
                             </span>
                         </span>
@@ -93,7 +93,7 @@
                     {
                         var navMenu = Sitecore.Context.Database.GetItem(((Sitecore.Data.Fields.LinkField)blogDataSourceItem.Fields["Navigation Menu " + @i]).Value);
                         <span class="mobile-sub-nav" sub-nav="@i" ng-cloak ng-class="{ hidden: subnav != 3 }">
-                            <span class="subnav-2" ng-class="{ subnav == 3 }">
+                            <span class="subnav-2">
                                 @Html.Sitecore().Field("Subnav Link List", navMenu)
                             </span>
                         </span>
@@ -108,7 +108,7 @@
                     {
                         var navMenu = Sitecore.Context.Database.GetItem(((Sitecore.Data.Fields.LinkField)blogDataSourceItem.Fields["Navigation Menu " + @i]).Value);
                         <span class="mobile-sub-nav" sub-nav="@i" ng-cloak ng-class="{ hidden: subnav != 4 }">
-                            <span class="subnav-3" ng-class="{ subnav == 4 }">
+                            <span class="subnav-3">
                                 @Html.Sitecore().Field("Subnav Link List", navMenu)
                             </span>
                         </span>
@@ -123,7 +123,7 @@
                     {
                         var navMenu = Sitecore.Context.Database.GetItem(((Sitecore.Data.Fields.LinkField)blogDataSourceItem.Fields["Navigation Menu " + @i]).Value);
                         <span class="mobile-sub-nav" sub-nav="@i" ng-cloak ng-class="{ hidden: subnav != 5 }">
-                            <span class="subnav-4" ng-class="{ subnav == 5 }">
+                            <span class="subnav-4">
                                 @Html.Sitecore().Field("Subnav Link List", navMenu)
                             </span>
                         </span>
@@ -138,7 +138,7 @@
                     {
                         var navMenu = Sitecore.Context.Database.GetItem(((Sitecore.Data.Fields.LinkField)blogDataSourceItem.Fields["Navigation Menu " + @i]).Value);
                         <span class="mobile-sub-nav" sub-nav="@i" ng-cloak ng-class="{ hidden: subnav != 6 }">
-                            <span class="subnav-5" ng-class="{ subnav == 6 }">
+                            <span class="subnav-5">
                                 @Html.Sitecore().Field("Subnav Link List", navMenu)
                             </span>
                         </span>
@@ -155,7 +155,7 @@
                         <span class="arrow" ng-click="toggleSubnav(1)"><i ng-class="{'icon-nav-arrow-expanded': subnav == 1, 'icon-nav-arrow-collapsed': subnav != 1}"></i></span>
                         <a href="" ng-click="toggleSubnav(1)">@Html.Sitecore().Field("Rates Text", blogDataSourceItem)</a>
                     </span>
-                    <span ng-class="{ subnav == 1 }">@Html.Sitecore().Field("Mobile Rates Dropdown", blogDataSourceItem)</span></li>
+                    <span>@Html.Sitecore().Field("Mobile Rates Dropdown", blogDataSourceItem)</span></li>
                 @Html.Sitecore().Field("Header Links", blogDataSourceItem)
             </ul>
         </nav>
@@ -189,14 +189,16 @@
                             
 
                                 <div class="featured-post @blogCategory">
-                                    <div class="featured-post-image">
-                                        <img src="@Sitecore.Resources.Media.MediaManager.GetMediaUrl(imageField.MediaItem)">
-                                    </div>
-                                    <div class="featured-post-content">
-                                        <span class="date">@Html.Raw(postDate)</span>
-                                        <span class="title">@Html.Raw(title)</span>
-                                        <span class="summary">@Html.Raw(blogSummary)</span>
-                                    </div>
+                                    <a href="@HttpUtility.HtmlEncode(LinkManager.GetItemUrl(featurePost.InnerItem))">
+                                        <div class="featured-post-image">
+                                            <img src="@Sitecore.Resources.Media.MediaManager.GetMediaUrl(imageField.MediaItem)">
+                                        </div>
+                                        <div class="featured-post-content">
+                                            <span class="date">@Html.Raw(postDate)</span>
+                                            <span class="title">@Html.Raw(title)</span>
+                                            <span class="summary">@Html.Raw(blogSummary)</span>
+                                        </div>
+                                    </a>
                                 </div>
                             
                             }

@@ -581,9 +581,6 @@ nav.mobile-nav {
                     } 
                 }
                 &.current {
-                    a {
-                        color: $events-color !important;
-                    }
                     .color-block {
                         background-color: $events-color;
                     }
