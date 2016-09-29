@@ -26,6 +26,7 @@ $local-meeting-color: #00a8e1;
         min-height: 220px;
         width: 540px;
         padding: 30px;
+
         .publish-time {
             font-size: 14px;
             font-weight: 600;
@@ -167,8 +168,8 @@ nav.mobile-nav {
             }
 
             &.selected {
-					background-position: none !important;
-                    background: none !important;
+                background-position: none !important;
+                background: none !important;
                     
 					&.news > a {
                         
@@ -2601,3 +2602,7 @@ nav.mobile-nav {
         color: #fff !important; 
     }
 }
+
+ .hidden {
+    display: none !important;
+    }
