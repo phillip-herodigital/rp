@@ -720,6 +720,9 @@ article.protective-services-pricing {
 
                     float: left;
                 }
+				&.one-service, &.additional-services {
+					display: none;
+				}
             }
         }
 
