@@ -1,13 +1,13 @@
 ﻿<article class="protective protective-services-info" ng-controller="protectiveMarketingCtrl">
     <div class="sticky-nav clearfix" id="navBar">
         <div class="wrapper">
-            <div class="nav-service" id="virtualMDNav" ng-click="scrollTo('virtualMD', -99)"><div class="icon"></div><p>@Html.Sitecore().Field("Virtual MD Nav Label")</p></div>
-            <div class="nav-service" id="roadsideNav" ng-click="scrollTo('roadside', -99)"><div class="icon"></div><p>@Html.Sitecore().Field("Roadside Nav Label")</p></div>
-            <div class="nav-service" id="identityNav" ng-click="scrollTo('identity', -99)"><div class="icon"></div><p>@Html.Sitecore().Field("Identity Nav Label")</p></div>
-            <div class="nav-service" id="creditNav" ng-click="scrollTo('credit', -99)"><div class="icon"></div><p>@Html.Sitecore().Field("Credit Nav Label")</p></div>
-            <div class="nav-service" id="techNav" ng-click="scrollTo('tech', -99)"><div class="icon"></div><p>@Html.Sitecore().Field("Tech Nav Label")</p></div>
+            <div class="nav-service" id="virtualMDNav" ng-class="{highlight: navHighlightIndex === 0}" ng-click="scrollTo('virtualMD', -99)"><div class="icon"></div><p>@Html.Sitecore().Field("Virtual MD Nav Label")</p></div>
+            <div class="nav-service" id="roadsideNav" ng-class="{highlight: navHighlightIndex === 1}" ng-click="scrollTo('roadside', -99)"><div class="icon"></div><p>@Html.Sitecore().Field("Roadside Nav Label")</p></div>
+            <div class="nav-service" id="identityNav" ng-class="{highlight: navHighlightIndex === 2}" ng-click="scrollTo('identity', -99)"><div class="icon"></div><p>@Html.Sitecore().Field("Identity Nav Label")</p></div>
+            <div class="nav-service" id="creditNav" ng-class="{highlight: navHighlightIndex === 3}" ng-click="scrollTo('credit', -99)"><div class="icon"></div><p>@Html.Sitecore().Field("Credit Nav Label")</p></div>
+            <div class="nav-service" id="techNav" ng-class="{highlight: navHighlightIndex === 4}" ng-click="scrollTo('tech', -99)"><div class="icon"></div><p>@Html.Sitecore().Field("Tech Nav Label")</p></div>
             <div class="get-started">
-                <a class="button">@Html.Sitecore().Field("Get Started Text")</a>
+                <a class="button" href="/enrollment?ServiceType=pro">@Html.Sitecore().Field("Get Started Text")</a>
                 <p><a href="">@Html.Sitecore().Field("Need Help Text")</a></p>
             </div>
         </div>

@@ -4,33 +4,13 @@
         navBarOffset = navBar.offset().top,
         spacer = $("#spacer"),
         virtualMD = $("#virtualMD"),
-        virtualMDNav = $("#virtualMDNav"),
         roadside = $("#roadside"),
-        roadsideNav = $("#roadsideNav"),
         identity = $("#identity"),
-        identityNav = $("#identityNav"),
         credit = $("#credit"),
-        creditNav = $("#creditNav"),
         tech = $("#tech"),
-        techNav = $("#techNav"),
         scrollTop = 0,
-        removeOtherHighlights = function (navItem) {
-            if (navItem != virtualMDNav && virtualMDNav.hasClass("highlight")) {
-                virtualMDNav.removeClass("highlight");
-            }
-            if (navItem != roadsideNav && roadsideNav.hasClass("highlight")) {
-                roadsideNav.removeClass("highlight");
-            }
-            if (navItem != identityNav && identityNav.hasClass("highlight")) {
-                identityNav.removeClass("highlight");
-            }
-            if (navItem != creditNav && creditNav.hasClass("highlight")) {
-                creditNav.removeClass("highlight");
-            }
-            if (navItem != techNav && techNav.hasClass("highlight")) {
-                techNav.removeClass("highlight");
-            }
-        };
+        mobileOffset = 0;
+    $scope.navHighlightIndex = -1;
     $scope.scrollTo = scrollService.scrollTo;
     $scope.viewFeatures = false;
     $scope.viewFeatures1 = false;
@@ -40,6 +20,10 @@
 
     $(window).resize(function () {
         navBarOffset = navBar.offset().top;
+        navBarHeight = navBar.height();
+        if ($(this).width() < 767) {
+            mobileOffset = 57;
+        }
         scrollFunction();
     });
 
@@ -49,12 +33,7 @@
 
     var scrollFunction = function () {
         scrollTop = $(window).scrollTop();
-        navBarHeight = navBar.height();
-        var mobileOffset = 0;
-        if ($(window).width() < 767) {
-            mobileOffset = 75;
-        }
-        if (scrollTop >= (navBarOffset - mobileOffset)) {
+        if (scrollTop > (navBarOffset - mobileOffset)) {
             navBar.addClass("fixed");
             spacer.css('height', navBarHeight + 'px');
         }
@@ -62,25 +41,25 @@
             navBar.removeClass("fixed");
             spacer.css('height', '0');
         }
-        if (scrollTop > tech.offset().top - navBarHeight) {
-            techNav.addClass("highlight");
-            removeOtherHighlights(techNav);
-        }
-        else if (scrollTop > credit.offset().top - navBarHeight) {
-            creditNav.addClass("highlight");
-            removeOtherHighlights(creditNav);
-        }
-        else if (scrollTop > identity.offset().top - navBarHeight) {
-            identityNav.addClass("highlight");
-            removeOtherHighlights(identityNav);
-        }
-        else if (scrollTop > roadside.offset().top - navBarHeight) {
-            roadsideNav.addClass("highlight");
-            removeOtherHighlights(roadsideNav);
-        }
-        else {
-            virtualMDNav.addClass("highlight");
-            removeOtherHighlights(virtualMDNav);
-        }
+        $scope.$apply(function () {
+            if (scrollTop >= tech.offset().top - navBarHeight) {
+                $scope.navHighlightIndex = 4;
+            }
+            else if (scrollTop > credit.offset().top - navBarHeight) {
+                $scope.navHighlightIndex = 3;
+            }
+            else if (scrollTop > identity.offset().top - navBarHeight) {
+                $scope.navHighlightIndex = 2;
+            }
+            else if (scrollTop > roadside.offset().top - navBarHeight) {
+                $scope.navHighlightIndex = 1;
+            }
+            else if (scrollTop > virtualMD.offset().top - navBarHeight) {
+                $scope.navHighlightIndex = 0;
+            }
+            else {
+                $scope.navHighlightIndex = -1;
+            }
+        })
     };
 }]);
