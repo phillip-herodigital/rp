@@ -100,7 +100,9 @@ article.protective {
 
     a.button-large {
         background-image: linear-gradient(#1582c9, #0c7fc3);
-        background: image-url('icon/white-arrow.png') no-repeat 75% center;
+        @include retina-background('white-arrow.png', 'icon');
+		background-repeat: no-repeat;
+		background-position: 75% center;
         background-color: #1481c8;
         border: 1px solid #0889ce;
         box-shadow: 0px 4px #e4eaec;
@@ -487,7 +489,6 @@ article.protective-services-info {
                             background-color: #f8f9fa;
 
                             &.protective-service {
-                                //background-image: image-url('marketing/redesign/Modules/Services/Virtual-MD-icon.png');
                                 background-repeat: no-repeat;
                                 background-position: 50% 30px;
                                 box-shadow: #f7f7f7 10px 0;
