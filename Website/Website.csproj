@@ -961,7 +961,7 @@
     <Compile Include="Models\Marketing\Support\FaqSubcategory.cs" />
     <Compile Include="Models\Currents\Top10Leader.cs" />
     <Compile Include="Models\Currents\Top10LeaderList.cs" />
-	<Compile Include="Models\Marketing\PaymentLocation.cs" />
+    <Compile Include="Models\Marketing\PaymentLocation.cs" />
     <Compile Include="Models\Enrollment\AddLineSubaccount.cs" />
     <Compile Include="Models\ReturnForm.cs" />
     <Compile Include="Models\Currents\CalendarEvent.cs" />
@@ -1738,6 +1738,9 @@
     <Content Include="Views\Components\Account\Sidebar Widgets\FAQs.cshtml" />
     <Content Include="Views\Pages\Currents\10 in 2016.cshtml" />
     <Content Include="Views\Pages\Marketing\Services\Paycenter Locator.cshtml" />
+    <Content Include="Views\Components\Marketing\Protective Service Intro.cshtml" />
+    <Content Include="Views\Components\Marketing\Win Back Landing.cshtml" />
+    <Content Include="Views\Components\Marketing\Protective Service Header.cshtml" />
     <None Include="Web.Azure-Production Sitecore.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>

@@ -1,0 +1,957 @@
+article.protective-intro {
+	background-image: image-url('marketing/redesign/Modules/Services/triangles-background.png');
+	.wrapper .grid .col h1 {
+		font-size: 60px;
+		font-weight: 100;
+		text-align: left;
+	}
+}
+
+
+article.protective {
+    border: none;
+    margin: 20px 0;
+
+    .wrapper {
+        background: none;
+
+        p {
+            font-size: 18px;
+
+            &.introduction {
+                font-size: 56px;
+                font-weight: 100;
+                text-align: left;
+                color: #bebebe;
+                margin-top: 10px;
+                line-height: 1;
+            }
+        }
+
+        h2 {
+            font-size: 40px;
+            color: #555;
+            font-weight: 800;
+            margin: .25em 0px;
+        }
+
+        h3 {
+            font-size: 22px;
+            font-style: italic;
+            color: #40ae40;
+            font-weight: 800;
+        }
+    }
+
+    &.intro {
+        background-image: image-url('marketing/redesign/Modules/Services/triangles-background.png');
+        background-repeat: no-repeat;
+        background-position: bottom left;
+
+        .wrapper {
+            min-height: 450px;
+
+            .grid {
+                .col {
+                    &:first-of-type {
+                        p {
+                            margin-right: 40px;
+                        }
+                    }
+
+                    &:last-of-type {
+                        p, h2 {
+                            margin-left: 40px;
+                        }
+                    }
+
+                    @include breakpoint(small) {
+                        &:first-of-type {
+                            p {
+                                margin-right: 0;
+                            }
+                        }
+
+                        &:last-of-type {
+                            margin-top: 15px;
+
+                            p, h2 {
+                                margin-left: auto;
+                                margin: 0 auto;
+                                text-align: center;
+                            }
+
+                            p.protective-intro {
+                                text-align: left;
+                                margin: 15px auto 40px;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    p.protective-intro {
+        margin-bottom: 50px;
+        width: 70%;
+        font-size: 18px;
+    }
+
+    a.button-large {
+        background-image: linear-gradient(#1582c9, #0c7fc3);
+        @include retina-background('white-arrow.png', 'icon');
+		background-repeat: no-repeat;
+		background-position: 75% center;
+        background-color: #1481c8;
+        border: 1px solid #0889ce;
+        box-shadow: 0px 4px #e4eaec;
+        border-radius: 8px;
+        font-size: 22px;
+        color: #fff;
+        padding: 13px 80px 13px 60px;
+    }
+}
+
+article.protective-services-info {
+    .sticky-nav {
+        width: 100%;
+        max-width: 1280px;
+        background-color: #e3e7e8;
+        border-radius: 0;
+        z-index: 500;
+
+        &.fixed {
+            position: fixed;
+            top: 0;
+        }
+
+        .nav-service {
+            min-height: 100px;
+            width: 16%;
+            max-width: 140px;
+            float: left;
+            cursor: pointer;
+            color: #767676;
+            height: 100%;
+
+            .icon {
+                width: 100%;
+                height: 50px;
+                background-repeat: no-repeat;
+                background-position: bottom center;
+            }
+
+            &#virtualMDNav {
+                .icon {
+                    background-image: image-url("marketing/redesign/Modules/Services/Virtual-MD-floating-nav-icon.png");
+                }
+            }
+
+            &#roadsideNav {
+                .icon {
+                    background-image: image-url("marketing/redesign/Modules/Services/Roadside-Assistance-floating-nav-icon.png");
+                }
+            }
+
+            &#identityNav {
+                .icon {
+                    background-image: image-url("marketing/redesign/Modules/Services/Identity-Protection-floating-nav-icon.png");
+                }
+            }
+
+            &#creditNav {
+                .icon {
+                    background-image: image-url("marketing/redesign/Modules/Services/Credit-Monitoring-floating-nav-icon.png");
+                }
+            }
+
+            &#techNav {
+                .icon {
+                    background-image: image-url("marketing/redesign/Modules/Services/Tech-Support-floating-nav-icon.png");
+                }
+            }
+
+            &.highlight {
+                background-color: #40ae49;
+                color: #fff;
+
+                &#virtualMDNav {
+                    .icon {
+                        background-image: image-url("marketing/redesign/Modules/Services/virtual-md-floating-nav-icon-selected.png");
+                    }
+                }
+
+                &#roadsideNav {
+                    .icon {
+                        background-image: image-url("marketing/redesign/Modules/Services/Roadside-Assistance-floating-nav-icon-selected.png");
+                    }
+                }
+
+                &#identityNav {
+                    .icon {
+                        background-image: image-url("marketing/redesign/Modules/Services/Identity-Protection-floating-nav-icon-selected.png");
+                    }
+                }
+
+                &#creditNav {
+                    .icon {
+                        background-image: image-url("marketing/redesign/Modules/Services/Credit-Monitoring-floating-nav-icon-selected.png");
+                    }
+                }
+
+                &#techNav {
+                    .icon {
+                        background-image: image-url("marketing/redesign/Modules/Services/Tech-Support-floating-nav-icon-selected.png");
+                    }
+                }
+            }
+
+            p {
+                margin: 10px 0;
+                width: 100%;
+                text-align: center;
+                font-size: 22px;
+            }
+        }
+
+        .get-started {
+            height: 100px;
+            float: right;
+            text-align: center;
+
+            .button {
+                margin-top: 15px;
+            }
+
+            .p {
+                position: absolute;
+                bottom: 0;
+            }
+        }
+
+        @include breakpoint(small-medium) {
+            padding: 0;
+        }
+
+        @include breakpoint(medium) {
+            .service, .get-started {
+                width: 16%;
+            }
+        }
+
+        @include breakpoint(small) {
+            &.fixed {
+                top: 57px;
+            }
+
+            .nav-service {
+                width: 20%;
+                height: 50px;
+                min-height: 0;
+
+                .icon {
+                    background-position: center center;
+                }
+
+                p {
+                    display: none;
+                }
+            }
+
+            .get-started {
+                height: 50px;
+                width: 100%;
+
+                .button {
+                    float: left;
+                    margin-top: 0;
+                    margin: 8px 8px 8px 0;
+                }
+
+                p {
+                    float: right;
+                    margin-right: 15px;
+                }
+            }
+        }
+    }
+
+    .spacer {
+        width: 100%;
+        height: 0;
+    }
+
+    .service {
+        padding-top: 90px;
+
+        @include breakpoint(small) {
+            padding-top: 45px;
+        }
+
+
+        &#virtualMD {
+        }
+
+        .service-info {
+
+            .intro, .features {
+                width: calc(100% - 600px);
+                float: left;
+
+                @include breakpoint(medium) {
+                    width: calc(100% - 400px);
+                }
+
+                @include breakpoint(small) {
+                    width: 100%;
+                }
+            }
+
+            .intro {
+                padding-right: 40px;
+            }
+
+            .banner {
+                width: 600px;
+                min-height: 350px;
+                height: 100%;
+                float: right;
+
+                img {
+                    width: 100%;
+                    height: auto;
+                }
+
+                @include breakpoint(medium) {
+                    width: 400px;
+                }
+
+                @include breakpoint(small) {
+                    width: 100%;
+                    background-position: center;
+                }
+            }
+
+            .features {
+                clear: left;
+
+                ul {
+                    list-style-image: url('../i/icon/check-green.png');
+                    padding: 0 0 0 25px;
+                    margin: 0px;
+
+                    li {
+                        padding: 0 0 10px 10px;
+                        font-size: 18px;
+                    }
+                }
+
+                p {
+                    width: 80%;
+
+                    a.view-all {
+                        background-image: image-url('marketing/redesign/Modules/Services/view-all-icon.png');
+                        background-repeat: no-repeat;
+                        background-position: center right;
+                        padding-right: 30px;
+                    }
+
+                    .icon-view-all {
+                        -moz-transition: 0.5s ease-in-out;
+                        -webkit-transition: 0.5s ease-in-out;
+                        transition: 0.5s ease-in-out;
+
+                        &.rotate {
+                            -ms-transform: rotate(180deg);
+                            -moz-transform: rotate(180deg);
+                            -webkit-transform: rotate(180deg);
+                            transform: rotate(180deg);
+                        }
+                    }
+                }
+            }
+        }
+
+        .comparison {
+            border: none;
+            border-radius: 0px;
+            background-color: #f8f9fa;
+            padding: 50px 0 0;
+
+            @include breakpoint(small) {
+                padding-top: 20px;
+            }
+
+            table {
+
+                &.regular {
+                    @include breakpoint(small) {
+                        display: none;
+                    }
+                }
+
+                &.small {
+                    @include breakpoint(medium-large) {
+                        display: none;
+                    }
+
+                    thead {
+                        tr {
+                            height: 120px;
+
+                            th {
+                                height: 120px;
+                                text-align: center;
+
+                                &.protective-service {
+                                    background-color: #fff;
+                                    background-position: 50% 20px;
+                                    padding-top: 95px;
+
+                                    p {
+                                        margin: 10px 0;
+                                    }
+                                }
+
+                                &.competitor {
+                                    background-color: #f8f9fa;
+
+                                    .background {
+                                        background-size: contain;
+                                        max-width: 140px;
+                                        margin: 0 auto;
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    tbody {
+                        tr {
+                            td {
+                                text-align: center;
+
+                                &.stream-price, &.competitor-price {
+                                    padding: 8px;
+                                }
+
+                                &.stream-price img {
+                                    right: -25px;
+                                    top: -10px;
+                                }
+
+                                &.competitor-price {
+                                    padding-left: 20px;
+                                }
+                            }
+
+                            &:nth-child(2n+1) {
+                                td {
+                                    width: 100%;
+                                    font-weight: 700;
+                                }
+                            }
+
+                            &:nth-child(2n) {
+                                td {
+                                    width: 50%;
+
+                                    &:first-child {
+                                        background-color: #fff;
+                                        font-weight: 700;
+                                    }
+
+                                    &:nth-child(2) {
+                                        background-color: #f8f9fa;
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    tfoot {
+                        tr {
+                            height: 125px;
+
+                            td {
+                                text-align: center;
+                            }
+                        }
+                    }
+                }
+
+                thead {
+                    tr {
+                        height: 160px;
+
+                        th {
+                            background-color: #f8f9fa;
+
+                            &.protective-service {
+                                background-repeat: no-repeat;
+                                background-position: 50% 30px;
+                                box-shadow: #f7f7f7 10px 0;
+                                padding-top: 100px;
+
+                                p {
+                                    font-size: 22px;
+                                    font-weight: 800;
+                                    color: #0a3b5a;
+                                }
+
+                                &.virtual-md {
+                                    background-image: image-url('marketing/redesign/Modules/Services/Virtual-MD-icon.png');
+                                }
+
+                                &.roadside-assistance {
+                                    background-image: image-url('marketing/redesign/Modules/Services/roadside-assistance-icon.png');
+                                }
+
+                                &.identity-protection {
+                                    background-image: image-url('marketing/redesign/Modules/Services/identity-protection-icon.png');
+                                }
+
+                                &.credit-monitoring {
+                                    background-image: image-url('marketing/redesign/Modules/Services/credit-monitoring-icon.png');
+                                }
+
+                                &.tech-support {
+                                    background-image: image-url('marketing/redesign/Modules/Services/tech-support-icon.png');
+                                }
+                            }
+
+                            &.competitor {
+                                padding: 0 10px;
+
+                                .background {
+                                    background-image: image-url('marketing/redesign/Modules/Services/teladoc.png');
+                                    background-repeat: no-repeat;
+                                    background-position: 50% 50%;
+                                    height: 100px;
+
+                                    &.teladoc {
+                                        background-image: image-url('marketing/redesign/Modules/Services/teladoc.png');
+                                    }
+
+                                    &.aaa {
+                                        background-image: image-url('marketing/redesign/Modules/Services/aaa-plus.png');
+                                    }
+
+                                    &.lifelock {
+                                        background-image: image-url('marketing/redesign/Modules/Services/lifelock.png');
+                                    }
+
+                                    &.experian {
+                                        background-image: image-url('marketing/redesign/Modules/Services/experian.png');
+                                    }
+
+                                    &.geeksquad {
+                                        background-image: image-url('marketing/redesign/Modules/Services/geek-squad.png');
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                th, td {
+                    border-top: none;
+                    border-right: none;
+                    border-left: none;
+
+                    &:first-child {
+                        width: calc(100% - 665px);
+                    }
+
+                    &:nth-child(2) {
+                        width: 415px;
+                        text-align: center;
+                        background-color: #fff;
+                    }
+
+                    &:nth-child(3) {
+                        width: 250px;
+                    }
+
+                    @include breakpoint(medium) {
+                        &:first-child {
+                            width: calc(100% - 525px);
+                        }
+
+                        &:nth-child(2) {
+                            width: 275px;
+                        }
+
+                        &:nth-child(3) {
+                            width: 250px;
+                        }
+                    }
+                }
+
+                tbody {
+                    td {
+                        font-size: 18px;
+                        color: #0a3b5a;
+                        padding: 8px 0px;
+
+                        &:nth-child(2), &:nth-child(3) {
+                            text-align: center;
+                            font-weight: 700;
+                        }
+
+                        &:nth-child(3) {
+                            color: #a0abb5;
+                        }
+
+                        &.stream-price {
+                            font-size: 42px;
+                            font-weight: 800;
+                            color: #40ae49;
+                            font-weight: 600;
+                            background-image: image-url('marketing/redesign/Modules/Services/stream-price-underline.png');
+                            background-repeat: no-repeat;
+                            background-position: 50% 85%;
+                            position: relative;
+
+                            span {
+                                font-size: 18px;
+                            }
+
+                            img {
+                                position: absolute;
+                                right: -15px;
+                                bottom: 0px;
+
+                                @include breakpoint(medium) {
+                                    right: -50px;
+                                }
+                            }
+                        }
+
+                        &.competitor-price {
+                            font-size: 32px;
+                            color: #a0abb5;
+                            font-weight: 800;
+
+                            span {
+                                font-size: 18px;
+                            }
+                        }
+                    }
+                }
+
+                tfoot {
+                    tr {
+                        height: 145px;
+                    }
+                }
+            }
+        }
+
+        .back-to-top {
+            width: 100%;
+            background-color: #f8f9fa;
+            padding-bottom: 50px;
+
+            .icon {
+                width: 47px;
+                height: 47px;
+                float: right;
+                cursor: pointer;
+                background-image: image-url('marketing/redesign/Modules/Services/to-top-icon.png');
+                background-repeat: no-repeat;
+                background-position: right center;
+            }
+        }
+
+        .wrapper .footnote {
+            color: #bebebe;
+            font-size: 14px;
+        }
+    }
+}
+
+article.protective-services-pricing {
+    .wrapper {
+        width: 100%;
+        padding: 0px;
+    }
+
+    background-image: image-url('marketing/redesign/Modules/Services/pricing-banner.jpg');
+    background-repeat: no-repeat;
+    background-position: center top;
+    background-size: contain;
+
+    @include breakpoint(small-medium) {
+        background-image: none;
+        padding: 0px;
+    }
+
+    .grid {
+        width: 82%;
+        margin: 0 auto;
+
+        @include breakpoint(small) {
+            width: 100%;
+
+            .col {
+                width: 100%;
+                margin: 10px 0;
+                padding-top: 10px;
+                background-position: calc(50% + -20px), 0px;
+                background-image: image-url('marketing/redesign/Modules/Services/pricing-banner.jpg');
+
+                div {
+                    min-width: 320px;
+                    max-width: 520px;
+                    margin: 0 auto;
+                }
+
+                p {
+                    &:first-of-type {
+                        width: calc(50% - 10px);
+                    }
+
+                    &:last-of-type {
+                        margin-top: 0;
+                        width: calc(50% + 10px);
+                    }
+
+                    float: left;
+                }
+				&.one-service, &.additional-services {
+					display: none;
+				}
+            }
+        }
+
+        @include breakpoint(medium) {
+            width: 100%;
+
+            .col {
+                margin: 10px 0;
+                padding-top: 10px;
+
+                p {
+                    margin: 0;
+                }
+
+                &:nth-child(1), &:nth-child(3) {
+                    width: 100%;
+                    height: 200px;
+                    background-position: 50%, 0px;
+                    background-image: image-url('marketing/redesign/Modules/Services/pricing-banner.jpg');
+
+                    div {
+                        width: 250px;
+                        position: absolute;
+                        right: 50%;
+                    }
+                }
+
+                &:nth-child(2), &:nth-child(4) {
+                    width: calc(50% - 15px);
+                    position: absolute;
+                    right: 0;
+
+                    div {
+                        width: 250px;
+                        position: absolute;
+                        left: 0;
+                    }
+                }
+            }
+        }
+
+        p {
+            text-align: center;
+            font-size: 28px;
+            color: #fff;
+
+            &:first-of-type {
+                margin-top: 0;
+            }
+
+            span.price {
+                font-size: 60px;
+            }
+        }
+
+        .col {
+            position: relative;
+            height: 100%;
+            display: inline-block;
+        }
+
+        .three-services {
+
+            .best-deal {
+                color: #fff;
+                position: absolute;
+                width: 92px;
+                left: 70%;
+                transform: translate(-50%, -50%);
+                top: -10px;
+                padding: 2px 12px;
+                font-style: italic;
+                font-size: 16px;
+                font-weight: 600;
+                background: #46c0ff;
+
+                @include breakpoint(small) {
+                    top: 0;
+                    left: calc(50% + 70px);
+                }
+            }
+
+            .promo-price {
+                margin-top: 5px;
+            }
+        }
+
+        .additional-services {
+            .additional-services-price {
+                margin-top: -12px;
+            }
+        }
+    }
+
+    p.footnote {
+        color: #bebebe;
+        text-align: center;
+        font-size: 14px;
+        margin-top: 30px;
+    }
+}
+
+article.protective-services-header {
+    background-size: cover;
+    margin: 0px;
+    border-radius: 0px;
+
+    .wrapper {
+
+        .header-content {
+            width: calc(100% - 650px);
+            float: left;
+            margin-top: 50px;
+
+            @include breakpoint(small-medium) {
+                width: 100%;
+            }
+
+            h2 {
+                color: #fff;
+                text-align: left;
+            }
+
+            p.introduction {
+                color: #fff;
+                font-size: 78px;
+
+                span {
+                    background-image: image-url('marketing/redesign/Modules/Services/header-underline.png');
+                    background-repeat: no-repeat;
+                    background-position: 50% 80px;
+                    background-size: contain;
+
+                    @include breakpoint(small-medium) {
+                        background-position: 50% 44px;
+                    }
+                }
+
+                @include breakpoint(small-medium) {
+                    font-size: 44px;
+                    margin-bottom: 0;
+                }
+            }
+        }
+
+        .play-video {
+            float: right;
+            width: 650px;
+            height: 236px;
+            margin-top: 100px;
+            padding-left: 130px;
+            cursor: pointer;
+            background-image: image-url('marketing/redesign/Modules/Services/Watch-Overview.png');
+            background-repeat: no-repeat;
+            background-position: left center;
+
+            p {
+                color: #f7f7f7;
+                font-size: 30px;
+                font-weight: 800;
+                margin: 95px 0;
+
+                @include breakpoint(small) {
+                    font-size: 24px;
+                    margin: 100px 0;
+                }
+            }
+
+            @include breakpoint(small-medium) {
+                margin-top: 0;
+            }
+
+            @include breakpoint(small) {
+                width: 650px;
+                max-width: 100%;
+                padding-left: 25%;
+                background-size: contain;
+            }
+        }
+
+        .grid .col {
+            background-repeat: no-repeat;
+            background-position: top center;
+            padding: 60px 0 20px 0;
+            text-align: center;
+            color: #fff;
+            cursor: pointer;
+
+            &.virtual-md {
+                background-image: image-url('marketing/redesign/Modules/Services/virtual-md.png');
+            }
+
+            &.roadside-assistance {
+                background-image: image-url('marketing/redesign/Modules/Services/roadside-assistance.png');
+            }
+
+            &.identity-protection {
+                background-image: image-url('marketing/redesign/Modules/Services/identity-protection.png');
+            }
+
+            &.credit-monitoring {
+                background-image: image-url('marketing/redesign/Modules/Services/credit-monitoring.png');
+            }
+
+            &.tech-support {
+                background-image: image-url('marketing/redesign/Modules/Services/tech-support.png');
+            }
+
+            @include breakpoint(small) {
+                display: none;
+            }
+        }
+    }
+}
+
+.protective-services-video iframe {
+	width: 100%;
+	height: 372px;
+}
+.protective-services-banner {
+	background-color: #f8f9fa;
+}
+
+article.marketing.protective-services-disclaimers {
+	>.wrapper {
+		background: none;
+		p {
+			color: #bebebe;
+			font-size: 14px;	
+		}
+	}
+}
