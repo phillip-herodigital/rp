@@ -37,12 +37,6 @@
     $scope.viewFeatures2 = false;
     $scope.viewFeatures3 = false;
     $scope.viewFeatures4 = false;
-    
-    $scope.scrollToTop = function () {
-        jQuery('html, body').animate({
-            scrollTop: 0
-        }, '500');
-    }
 
     $(window).resize(function () {
         navBarOffset = navBar.offset().top;
