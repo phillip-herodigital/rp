@@ -20,7 +20,7 @@ module.exports = function(grunt) {
 				}
 			},
 			css: {
-				files: ['assets/css/*.css'],
+				files: ['assets/css/global.css'],
 				options: {
 					livereload: true,
 				},
