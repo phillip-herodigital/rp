@@ -13,9 +13,6 @@ $conference-calls-color: #033c5a;
 $webinars-color: #97c93d;
 $local-meeting-color: #00a8e1;
 
-.page-content {
-    margin-top: -60px;
-}
 .currents {
     position: relative;
     background-color: transparent;
@@ -781,6 +778,7 @@ nav.mobile-nav {
         left: 0;
         width: 100%; 
         z-index: 9200;
+        margin-top: 0 !important;
         border-bottom: 1px solid $dark-border-color;
         @include box-shadow(0 0 3px rgba(0, 0, 0, .1));
         > .layout {
@@ -887,7 +885,7 @@ nav.mobile-nav {
     }
 }
 .currents__carousel {
-    margin-top: 180px;
+    margin-top: 120px;
     padding-top: 0px;
     z-index: 9;
 
@@ -903,12 +901,12 @@ nav.mobile-nav {
 }
 
 .currents__banner {
-    margin-top: 180px !important;
-    padding-top: 180px;
+    margin-top: 120px !important;
+    padding-top: 120px;
     width: 100%;
     margin-bottom: 0px;
     height: 20vw;
-    max-height: 350px;
+    max-height: 300px !important;
     border-color: $default-color;
     &.events {
         border-color: $events-color;
@@ -926,7 +924,8 @@ nav.mobile-nav {
         max-height: none;
     }
     @include breakpoint(small) {
-        margin-top: 0;
+        margin-top: 0 !important;
+        padding-top: 0 !important;
     }
 }
 
@@ -1160,6 +1159,10 @@ Generic Styling for all Currents <article> elements
 .currents__box {
     padding-top: 40px;
     border: none;
+
+    @include breakpoint(small){
+        padding-top: 0 !important;
+    }
     @include border-radius(none);
     img {
         max-width: 100%;
