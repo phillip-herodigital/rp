@@ -678,7 +678,6 @@ article.protective-services-pricing {
         padding: 0px;
     }
 
-    background-image: image-url('marketing/redesign/Modules/Services/pricing-banner.jpg');
     background-repeat: no-repeat;
     background-position: center top;
     background-size: contain;
@@ -689,7 +688,7 @@ article.protective-services-pricing {
     }
 
     .grid {
-        width: 82%;
+        width: 42%;
         margin: 0 auto;
 
         @include breakpoint(small) {
@@ -725,8 +724,7 @@ article.protective-services-pricing {
 				}
             }
         }
-
-        @include breakpoint(medium) {
+        @include breakpoint(medium-large) {
             width: 100%;
 
             .col {
