@@ -363,6 +363,7 @@ nav.mobile-nav {
 
                         .featured-post-content {
                             border-right: none !important;
+                            max-width: 140px !important;
                         }
                     }
                 }
@@ -383,6 +384,8 @@ nav.mobile-nav {
 
                         .featured-post-content {
                             border-right: none !important;
+                            max-width: 140px !important;
+
                             span {
                                 width: 150% !important;
                                 font-size: 15px !important;
