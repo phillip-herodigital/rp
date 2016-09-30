@@ -13,6 +13,9 @@ $conference-calls-color: #033c5a;
 $webinars-color: #97c93d;
 $local-meeting-color: #00a8e1;
 
+.page-content {
+    margin-top: -60px;
+}
 .currents {
     position: relative;
     background-color: transparent;
@@ -122,8 +125,9 @@ nav.mobile-nav {
     background: image-url('bg/currents-header-bg.png') top center no-repeat;
     position: fixed;
     width: 100%;
-    height: 300px;
+    height: 120px;
     z-index: 9000;
+    margin-top: -120px;
 
     .layout {
         background-color: transparent;
@@ -294,6 +298,13 @@ nav.mobile-nav {
                 font-size: 15px !important;
                 font-weight: 500 !important;
                 padding: 0 0 4px !important;
+
+                @include breakpoint-min-max(0px, 1024px) {
+                    float: none !important;
+                    display: block !important;
+                    padding: 0 1px !important;
+                }
+                
                 .color-block {
                     height: 60px;
                     display: block;
@@ -876,7 +887,8 @@ nav.mobile-nav {
     }
 }
 .currents__carousel {
-    padding-top: 120px;
+    margin-top: 180px;
+    padding-top: 0px;
     z-index: 9;
 
     @include breakpoint-min-max(0px, 768px) {
@@ -891,10 +903,12 @@ nav.mobile-nav {
 }
 
 .currents__banner {
-    margin-top: -180px;
+    margin-top: 180px !important;
+    padding-top: 180px;
     width: 100%;
+    margin-bottom: 0px;
     height: 20vw;
-    max-height: 300px;
+    max-height: 350px;
     border-color: $default-color;
     &.events {
         border-color: $events-color;
