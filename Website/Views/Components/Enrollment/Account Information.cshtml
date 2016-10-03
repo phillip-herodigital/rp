@@ -15,7 +15,7 @@
 
 @using (new Sitecore.Data.Items.ContextItemSwitcher(Html.Sitecore().CurrentItem))
 {
-<div id="accountInformation" class="enrollment showCart" ng-if="stepsService.isStepVisible('accountInformation')" ng-controller="EnrollmentAccountInformationCtrl" ng-init="usStates = @(Html.Action("States", "Data").ToHtmlString()); phoneTypes = @(Html.Action("PhoneCategories", "Data").ToHtmlString()); previousProviders = @(Html.Action("PreviousProviders", "Data").ToHtmlString()); previousProvidersGeorgia = @(Html.Action("PreviousProvidersGeorgia", "Data").ToHtmlString()); setTimeRemaining('accountInformation', '@Html.Sitecore().Field("Remaining Minutes Number")');">    
+<div id="accountInformation" class="enrollment showCart" ng-if="stepsService.isStepVisible('accountInformation')" ng-controller="EnrollmentAccountInformationCtrl" ng-init="usStates = @(Html.Action("States", "Data").ToHtmlString()); phoneTypes = @(Html.Action("PhoneCategories", "Data").ToHtmlString()); previousProviders = @(Html.Action("PreviousProviders", "Data").ToHtmlString()); previousProvidersGeorgia = @(Html.Action("PreviousProvidersGeorgia", "Data").ToHtmlString()); setTimeRemaining('accountInformation', '@Html.Sitecore().Field("Remaining Minutes Number")'); protectiveEnrollmentSettings(@(Html.Action("ProtectiveEnrollmentSettings", "Data").ToHtmlString()));">    
     @Html.Partial("~/Views/Components/Enrollment/Progress Bar.cshtml", new StreamEnergy.MyStream.Models.Enrollment.ProgressBar { StepNumber = progressBarStep, StepTextField = string.Format("Step {0} Description Text", progressBarStep.ToString()), HideCart = hideCart })
     <div class="layout">
         <div class="wrapper cols-2 enrollment__account-information">

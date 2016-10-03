@@ -23,6 +23,8 @@ namespace StreamEnergy.MyStream.Models.Enrollment
 
         public string Gender { get; set; }
 
+        public bool KIQFailOption { get; set; }
+
         public IEnumerable<CartEntry> Cart { get; set; }
 
         public OnlineAccount OnlineAccount { get; set; }

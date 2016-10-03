@@ -49,6 +49,7 @@ namespace StreamEnergy.DomainModels.Enrollments
 
         public DateTime DOB { get; set; }
         public string Gender { get; set; }
+        public bool KIQFailOption { get; set; }
 
         [Required(ErrorMessage = "Services Required")]
         [EnumerableRequired(ErrorMessage = "Services Required")]

@@ -127,6 +127,17 @@ namespace StreamEnergy.MyStream.Controllers
             return this.Content(StreamEnergy.Json.Stringify(data));
         }
 
+        public ActionResult ProtectiveEnrollmentSettings()
+        {
+            var item = settings.GetSettingsItem("Protective Enrollment Options");
+            var data = new
+            {
+                KIQFailOption = !string.IsNullOrEmpty(item.Fields["KIQ Fail Option"].Value),
+            };
+
+            return this.Content(StreamEnergy.Json.Stringify(data));
+        }
+
         public ActionResult SimActivationSettings()
         {
             var item = settings.GetSettingsItem("SIM Activation Options");
