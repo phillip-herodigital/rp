@@ -95,7 +95,7 @@ namespace StreamEnergy.Services.Clients
             return new LocationOfferSet
             {
                 Offers = (from product in streamConnectProductResponse.Products
-                              // Only supporting $/kwh for Texas enrollments, at least for now. Making sure that our `* 100` below doesn't cause a bug...
+                          // Only supporting $/kwh for Texas enrollments, at least for now. Making sure that our `* 100` below doesn't cause a bug...
                           where ((IEnumerable<dynamic>)product.Rates).All(r => r.Unit == "$/kwh")
                           where texasService is TexasElectricity.RenewalCapability || product.Provider["Name"].ToString() == providerName
                           group product by product.ProductCode into products
@@ -106,7 +106,7 @@ namespace StreamEnergy.Services.Clients
                           {
                               Id = product.Provider["Name"].ToString() + "/" + product.ProductId,
                               Provider = product.Provider.ToString(),
-                              Tdu = product.Provider["Name"].ToString(),
+                              Tdu =  product.Provider["Name"].ToString() ,
 
                               EnrollmentType = serviceStatus.EnrollmentType,
 
@@ -128,7 +128,7 @@ namespace StreamEnergy.Services.Clients
 
                               Footnotes = productData.Footnotes,
 
-                              Documents = new Dictionary<string, Uri>
+                              Documents = new Dictionary<string, Uri> 
                               {
                                   { "ElectricityFactsLabel", new Uri(productData.Fields["Energy Facts Label"], UriKind.Relative) },
                                   { "TermsOfService", new Uri(productData.Fields["Terms Of Service"], UriKind.Relative) },
@@ -238,7 +238,7 @@ namespace StreamEnergy.Services.Clients
         {
             List<Sitecore.Data.Items.Item> products = Sitecore.Context.Database.GetItem("{59E32706-A8B5-4E47-9918-D3DE64E2C7F8}").Children.ToList(); // /sitecore/content/Data/Taxonomy/Products/Texas
             Sitecore.Data.Items.Item product = products.FirstOrDefault(a => a.Name == productId);
-
+ 
             return product != null ? !string.IsNullOrEmpty(product.Fields["Includes Skydrop"].Value) : false;
         }
 
@@ -283,21 +283,21 @@ namespace StreamEnergy.Services.Clients
                 depositAlternative = (decimal)entry.Premise.DepositAlternative.DepositAlternativeAmount.Value;
                 depositAlternativeEligible = (bool)entry.Premise.DepositAlternative.DepositAlternativeEligible.Value;
             }
-
+                
             return new OfferPayment
-            {
-                EnrollmentAccountNumber = entry.EnrollmentAccountNumber,
-                OngoingAmounts = new IOfferPaymentAmount[]
+                    {
+                        EnrollmentAccountNumber = entry.EnrollmentAccountNumber,
+                        OngoingAmounts = new IOfferPaymentAmount[] 
                         {
                         },
-                RequiredAmounts = new IOfferPaymentAmount[]
+                        RequiredAmounts = new IOfferPaymentAmount[] 
                         {
                             new DepositOfferPaymentAmount { DollarAmount = deposit, SystemOfRecord = entry.Key.SystemOfRecord, DepositAccount = entry.Key.SystemOfRecordId, DepositAlternativeEligible = depositAlternativeEligible, DepositAlternativeAmount = depositAlternative }
                         },
-                PostBilledAmounts = optionRules.GetPostBilledPayments(option),
-                AvailablePaymentMethods = (from type in (IEnumerable<dynamic>)entry.AcceptedEnrollmentPaymentAccountTypes
-                                           select new AvailablePaymentMethod { PaymentMethodType = type }).ToList(),
-            };
+                        PostBilledAmounts = optionRules.GetPostBilledPayments(option),
+                        AvailablePaymentMethods = (from type in (IEnumerable<dynamic>)entry.AcceptedEnrollmentPaymentAccountTypes
+                            select new AvailablePaymentMethod { PaymentMethodType = type }).ToList(),
+                    };
         }
 
 

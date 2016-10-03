@@ -162,13 +162,13 @@ namespace StreamEnergy.Services.Clients
 
             // The "supportedInventoryTypes" are configured on BeQuick's system. If one doesn't match, then we can't offer the installment plan for this product.
             var installmentPlans = (from inventoryType in supportedInventoryTypes
-                                    where mandatoryIds.Contains((string)inventoryType.Id)
-                                    select inventoryType).ToDictionary(it => (string)it.Id, inventoryType => new Mobile.MobileInventory
-                                    {
-                                        Id = (string)inventoryType.Id,
-                                        TypeId = (string)inventoryType.TypeId,
-                                        Price = Convert.ToDecimal(inventoryType.Price.ToString()),
-                                    });
+                                              where mandatoryIds.Contains((string)inventoryType.Id)
+                                              select inventoryType).ToDictionary(it => (string)it.Id, inventoryType => new Mobile.MobileInventory
+                                              {
+                                                  Id = (string)inventoryType.Id,
+                                                  TypeId = (string)inventoryType.TypeId,
+                                                  Price = Convert.ToDecimal(inventoryType.Price.ToString()),
+                                              });
             var isInstallmentPlanAvailable = !mandatoryIds.Except(installmentPlans.Keys).Any();
             return new InstallmentPlanDetails
             {
@@ -306,7 +306,7 @@ namespace StreamEnergy.Services.Clients
                 OngoingAmounts = new DomainModels.Enrollments.IOfferPaymentAmount[0],
                 PostBilledAmounts = new DomainModels.Enrollments.IOfferPaymentAmount[0],
                 AvailablePaymentMethods = (from type in (IEnumerable<dynamic>)streamAccountDetails.AcceptedEnrollmentPaymentAccountTypes
-                                           select new AvailablePaymentMethod { PaymentMethodType = type }).ToList(),
+                    select new AvailablePaymentMethod { PaymentMethodType = type }).ToList(),
             };
         }
 
@@ -316,9 +316,9 @@ namespace StreamEnergy.Services.Clients
             {
                 return new DomainModels.Enrollments.IOfferPaymentAmount[0];
             }
-            return new[]
-            {
-                new Mobile.TotalPaymentAmount
+            return new[] 
+            {  
+                new Mobile.TotalPaymentAmount 
                 {
                     DollarAmount = Convert.ToDecimal(streamConnectFees.Single(fee => (string)fee.Name == "Total").Amount.ToString()),
                     TaxTotal = Convert.ToDecimal(streamConnectFees.Single(fee => (string)fee.Name == "Tax Total").Amount.ToString()),

@@ -16,7 +16,8 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', 'sc
             if (offerSelection.optionRules && !offerSelection.offerOption) {
                 offerSelection.offerOption = { optionType: offerSelection.optionRules.optionRulesType };
             }
-            if (offerSelection.payments && offerSelection.payments.requiredAmounts) {
+            if (offerSelection.payments && offerSelection.payments.requiredAmounts)
+            {
                 _(offerSelection.payments.requiredAmounts).forEach(function (payment) {
                     payment.depositOption = payment.depositOption !== undefined ? payment.depositOption : 'deposit';
                 });
@@ -27,15 +28,15 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', 'sc
     var enrollmentCartService = {
         services: services,
 
-        getActiveServiceIndex: function () {
+        getActiveServiceIndex: function() {
             return cart.activeServiceIndex;
         },
 
-        toggleCart: function () {
+        toggleCart: function() {
             cart.isCartOpen = !cart.isCartOpen;
         },
 
-        getCartVisibility: function () {
+        getCartVisibility: function() {
             return cart.isCartOpen;
         },
 
@@ -49,7 +50,7 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', 'sc
             return undefined;
         },
 
-        getCartServices: function () {
+        getCartServices: function() {
             return services;
         },
 
@@ -74,7 +75,7 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', 'sc
             services.push(service);
         },
 
-        getServiceCount: function () {
+        getServiceCount: function() {
             return services.length;
         },
 
@@ -107,42 +108,42 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', 'sc
             return result;
         },
 
-        getCartDevices: function () {
+        getCartDevices: function() {
             return cart.items;
         },
 
-        getConfirmationDevices: function () {
+        getConfirmationDevices: function() {
             return _(services)
             .pluck('offerInformationByType').flatten().filter(function (offer) {
-                if (typeof offer != 'undefined' && _(offer.key).intersection(['Mobile'])) {
-                    return offer;
-                }
-            })
+                    if (typeof offer != 'undefined' && _(offer.key).intersection(['Mobile'])) {
+                        return offer;
+                    }
+                })
             .pluck('value').flatten().pluck('offerSelections').flatten().filter()
             .pluck('offerOption').flatten().filter().pluck('inventoryItemId').flatten().filter();
         },
 
-        getConfirmationTransfers: function () {
+        getConfirmationTransfers: function() {
             return _(services)
             .pluck('offerInformationByType').flatten().filter(function (offer) {
-                if (typeof offer != 'undefined' && _(offer.key).intersection(['Mobile'])) {
-                    return offer;
-                }
-            })
+                    if (typeof offer != 'undefined' && _(offer.key).intersection(['Mobile'])) {
+                        return offer;
+                    }
+                })
             .pluck('value').flatten().pluck('offerSelections').flatten().filter()
             .pluck('offerOption').flatten().filter().pluck('transferInfo');
         },
 
-        getCartDataPlan: function () {
+        getCartDataPlan: function() {
             var dataPlan = [];
             var selectedPlan = _(services)
             .pluck('offerInformationByType').flatten().filter(function (offer) {
-                if (typeof offer != 'undefined' && _(offer.key).intersection(['Mobile'])) {
-                    return offer;
-                }
-            })
+                    if (typeof offer != 'undefined' && _(offer.key).intersection(['Mobile'])) {
+                        return offer;
+                    }
+                })
             .pluck('value').flatten().pluck('offerSelections').first();
-
+            
             if (typeof selectedPlan != 'undefined' && selectedPlan.length > 0) {
                 dataPlan.push(_(services).pluck('offerInformationByType').flatten().filter(function (offer) {
                     if (typeof offer != 'undefined' && _(offer.key).intersection(['Mobile'])) {
@@ -153,7 +154,7 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', 'sc
             return dataPlan;
         },
 
-        getPlanPrice: function (serviceIndex) {
+        getPlanPrice: function(serviceIndex) {
             if (serviceIndex && serviceIndex < services.length) {
                 var plan = services[serviceIndex];
                 return plan.offerInformationByType[0].value.offerSelections[0].rates[0].rateAmount;
@@ -166,13 +167,13 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', 'sc
         totalPlanPrice: function (plan, plans) {
             plan = plan || enrollmentCartService.getCartDataPlan();
             plans = plans || _(services).pluck('offerInformationByType').flatten().filter(function (offer) {
-                if (typeof offer != 'undefined' && _(offer.key).intersection(['Mobile'])) {
-                    return offer;
-                }
-            }).pluck('value').flatten().pluck('availableOffers').flatten().value();
+                    if (typeof offer != 'undefined' && _(offer.key).intersection(['Mobile'])) {
+                        return offer;
+                    }
+                }).pluck('value').flatten().pluck('availableOffers').flatten().value();
 
             var childPlan = _.find(plans, function (childPlan) { return childPlan.id == plan.childOfferId; });
-
+            
             var devicesCount = enrollmentCartService.getDevicesCount();
             if (devicesCount == 0) {
                 return null;
@@ -183,11 +184,11 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', 'sc
             }
         },
 
-        getDevicesCount: function () {
+        getDevicesCount: function() {
             return cart.items.length;
         },
 
-        getConfirmationDevicesCount: function () {
+        getConfirmationDevicesCount: function() {
             var mobileAddresses = enrollmentCartService.getMobileAddresses();
             return _(mobileAddresses)
                 .pluck('offerInformationByType').flatten().filter()
@@ -196,37 +197,37 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', 'sc
                 .size();
         },
 
-        addDeviceToCart: function (item) {
+        addDeviceToCart: function(item) {
             cart.items.push(item);
         },
 
-        removeDeviceFromCart: function (item) {
+        removeDeviceFromCart: function(item) {
             var i = _(cart.items).indexOf(item);
             cart.items.splice(i, 1);
         },
 
-        getOfferData: function (offerId) {
+        getOfferData: function(offerId) {
             if (offerId != undefined) {
-                return _(services)
-                .pluck('offerInformationByType').flatten().filter(function (offer) {
+            return _(services)
+            .pluck('offerInformationByType').flatten().filter(function (offer) {
                     if (typeof offer != 'undefined' && _(offer.key).intersection(['Mobile'])) {
                         return offer;
                     }
                 })
-                .pluck('value').flatten().pluck('availableOffers').flatten().filter({ id: offerId }).first().data;
+            .pluck('value').flatten().pluck('availableOffers').flatten().filter({ id: offerId }).first().data;
             }
             else {
                 return null;
             }
         },
 
-        getOfferPrice: function (offerId) {
+        getOfferPrice: function(offerId) {
             return _(services)
             .pluck('offerInformationByType').flatten().filter(function (offer) {
-                if (typeof offer != 'undefined' && _(offer.key).intersection(['Mobile'])) {
-                    return offer;
-                }
-            })
+                    if (typeof offer != 'undefined' && _(offer.key).intersection(['Mobile'])) {
+                        return offer;
+                    }
+                })
             .pluck('value').flatten().pluck('availableOffers').flatten().filter({ id: offerId }).first().rates[0].rateAmount;
         },
 
@@ -235,8 +236,8 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', 'sc
             return _(activeService)
                 .pluck('offerInformationByType').flatten().filter()
                 .pluck('value').filter().pluck('offerSelections').flatten()
-                .filter(function (offer) {
-                    if (offer.offerOption.inventoryItemId == deviceId) {
+                .filter(function(offer){
+                    if (offer.offerOption.inventoryItemId == deviceId){ 
                         return offer
                     }
                 }).pluck('payments').filter().pluck('requiredAmounts').flatten().filter()
@@ -248,8 +249,8 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', 'sc
             return _(services)
                 .pluck('offerInformationByType').flatten().filter()
                 .pluck('value').filter().pluck('offerSelections').flatten()
-                .filter(function (offer) {
-                    if (offer.offerOption.inventoryItemId == deviceId) {
+                .filter(function(offer){
+                    if (offer.offerOption.inventoryItemId == deviceId){ 
                         return offer
                     }
                 }).first().offerOption.useInstallmentPlan;
@@ -260,8 +261,8 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', 'sc
             return _(activeService)
                 .pluck('offerInformationByType').flatten().filter()
                 .pluck('value').filter().pluck('offerSelections').flatten()
-                .filter(function (offer) {
-                    if (offer.offerOption.inventoryItemId == deviceId) {
+                .filter(function(offer){
+                    if (offer.offerOption.inventoryItemId == deviceId){ 
                         return offer
                     }
                 }).pluck('payments').filter().pluck('requiredAmounts').flatten().filter()
@@ -273,8 +274,8 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', 'sc
             return _(services)
                 .pluck('offerInformationByType').flatten().filter()
                 .pluck('value').filter().pluck('offerSelections').flatten()
-                .filter(function (offer) {
-                    if (offer.offerOption.inventoryItemId == deviceId) {
+                .filter(function(offer){
+                    if (offer.offerOption.inventoryItemId == deviceId){ 
                         return offer
                     }
                 }).pluck('payments').filter().pluck('requiredAmounts').flatten().filter()
@@ -291,15 +292,15 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', 'sc
             }
         },
 
-        getProratedCost: function () {
+        getProratedCost: function() {
             var plan = enrollmentCartService.getCartDataPlan();
             // a and b are javascript Date objects
-            var dateDiffInDays = function (a, b) {
+            var dateDiffInDays = function(a, b) {
                 var _MS_PER_DAY = 1000 * 60 * 60 * 24;
                 // Discard the time and time-zone information.
                 var utc1 = Date.UTC(a.getFullYear(), a.getMonth(), a.getDate());
                 var utc2 = Date.UTC(b.getFullYear(), b.getMonth(), b.getDate());
-
+                
                 return Math.floor((utc1 - utc2) / _MS_PER_DAY);
             };
             var billingCycleEnds = 24;
@@ -317,14 +318,14 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', 'sc
 
         },
 
-        getTotalFees: function () {
+        getTotalFees: function() {
             var plan = enrollmentCartService.getCartDataPlan();
             return 0;//parseFloat(plan[0].fees.salesUseTax, 10) + parseFloat(plan[0].fees.federalAccessCharge, 10) + parseFloat(plan[0].fees.streamLineCharge, 10);
         },
 
-        getTotalDueToday: function () {
+        getTotalDueToday: function() {
             var total = 0;
-            for (var i = 0; i < cart.items.length; i++) {
+            for (var i=0; i<cart.items.length; i++) {
                 total += (typeof cart.items[i].price != 'undefined') ? parseFloat(cart.items[i].price, 10) : 0;
                 total += (typeof cart.items[i].activationFee != 'undefined') ? parseFloat(cart.items[i].activationFee, 10) : 0;
                 total += (typeof cart.items[i].salesTax != 'undefined') ? parseFloat(cart.items[i].salesTax, 10) : 0;
@@ -518,17 +519,17 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', 'sc
             var depositType = '';
             return _(services)
                 .pluck('offerInformationByType').flatten().filter()
-                .pluck('value').filter().pluck('offerSelections').flatten().filter(function (offerSelection) {
+                .pluck('value').filter().pluck('offerSelections').flatten().filter(function(offerSelection){
                     if (typeof offerSelection.depositType != 'undefined')
                         depositType = offerSelection.depositType;
                     if (typeof offerSelection.depositType != 'undefined' && offerSelection.depositType != 'DepositWaived')
                         return offerSelection;
                 })
                 .pluck('payments').filter().pluck('requiredAmounts').flatten()
-                .map(function (payment) {
-                    if (payment.depositOption == 'deposit' && depositType != 'DepositAlternative')
+                .map(function(payment){ 
+                    if (payment.depositOption == 'deposit' && depositType != 'DepositAlternative') 
                         return payment.dollarAmount;
-                    if (payment.depositOption == 'depositAlternative' || depositType == 'DepositAlternative')
+                    if (payment.depositOption == 'depositAlternative' || depositType == 'DepositAlternative') 
                         return payment.depositAlternativeAmount;
                 })
                 .filter()
@@ -538,18 +539,18 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', 'sc
             var depositType = '';
             return _(services)
                 .pluck('offerInformationByType').flatten().filter()
-                .pluck('value').filter().pluck('offerSelections').flatten().filter(function (offerSelection) {
+                .pluck('value').filter().pluck('offerSelections').flatten().filter(function(offerSelection){
                     if (typeof offerSelection.depositType != 'undefined' && offerSelection.depositType != 'DepositWaived')
                         return offerSelection;
-                }).map(function (offerSelection) {
+                }).map(function(offerSelection){ 
                     if (typeof offerSelection.depositType != 'undefined' && typeof offerSelection.payments != 'undefined') {
-                        if (offerSelection.depositType == 'Deposit')
+                        if (offerSelection.depositType == 'Deposit') 
                             return _(offerSelection.payments.requiredAmounts).pluck('dollarAmount').flatten().filter().reduce();
-                        if (offerSelection.depositType == 'DepositAlternative')
+                        if (offerSelection.depositType == 'DepositAlternative') 
                             return _(offerSelection.payments.requiredAmounts).pluck('depositAlternativeAmount').flatten().filter().reduce();
                     }
                 }).filter()
-                .reduce(sum, 0);
+                .reduce(sum,0);
         },
         cartHasTDU: function (tdu) {
             return _(services)
@@ -569,14 +570,14 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', 'sc
                 .intersection(['Mobile'])
                 .some();
         },
-        getMobileAddresses: function () {
+        getMobileAddresses: function() {
             return _(services)
-                .filter(function (service) {
+                .filter(function(service) { 
                     if (_(service.offerInformationByType).pluck('key')
                         .intersection(['Mobile'])
                         .some()) {
                         return service;
-                    }
+                    } 
                 }).value();
         },
         cartHasUtility: function () {
@@ -589,14 +590,14 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', 'sc
                 .intersection(['Protective'])
                 .some();
         },
-        getUtilityAddresses: function () {
+        getUtilityAddresses: function() {
             return _(services)
-                .filter(function (service) {
+                .filter(function(service) { 
                     if (_(service.offerInformationByType).pluck('key')
                         .intersection(['TexasElectricity', 'TexasElectricityRenewal', 'GeorgiaGas', 'GeorgiaGasRenewal'])
                         .some()) {
                         return service;
-                    }
+                    } 
                 }).value();
         },
         getProtectiveServices: function () {

@@ -161,7 +161,7 @@ namespace StreamEnergy.Services.Clients
                 OngoingAmounts = new DomainModels.Enrollments.IOfferPaymentAmount[0],
                 PostBilledAmounts = new DomainModels.Enrollments.IOfferPaymentAmount[0],
                 AvailablePaymentMethods = (from type in (IEnumerable<dynamic>)streamAccountDetails.AcceptedEnrollmentPaymentAccountTypes
-                                           select new AvailablePaymentMethod { PaymentMethodType = type }).ToList(),
+                    select new AvailablePaymentMethod { PaymentMethodType = type }).ToList(),
             };
         }
 
@@ -195,9 +195,9 @@ namespace StreamEnergy.Services.Clients
             }
             if (offerCount > 2) total -= totalDiscount;
 
-            return new[]
-            {
-                new Protective.TotalPaymentAmount
+            return new[] 
+            {  
+                new Protective.TotalPaymentAmount 
                 {
                     DollarAmount = Convert.ToDecimal(total),
                     TaxTotal = 0,
