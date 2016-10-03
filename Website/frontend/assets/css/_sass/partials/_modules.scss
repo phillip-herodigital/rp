@@ -2941,6 +2941,35 @@ aside {
                 padding-top: 10px;
             }
         }
+        &.protective-next-steps {
+            font-size: 18px;
+            h3 {
+                color: #013c5b;
+                font-size: 30px;
+                font-weight: 300;
+                margin: -10px 10px 0;
+                padding-bottom: 10px;
+                background-image: image-url("marketing/redesign/Modules/Services/green-arrow-down.png");
+            }
+            .green {
+                background-color: #40ae49;
+                color: #fff;
+                padding: 10px 26px;
+                margin: 10px -15px;
+            }
+            .description {
+                padding: 10px 26px;
+                margin: 10px -15px;
+            }
+            .button {
+                width: 245px;
+                height: 45px;
+                font-size: 18px;
+                font-weight: 300;
+                padding-top: 10px;
+                margin: 20px 10px 5px;
+            }
+        }
     }
     article.promo2 {
         position:relative;
