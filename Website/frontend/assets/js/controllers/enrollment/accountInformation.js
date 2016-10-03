@@ -9,7 +9,7 @@ ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', 'enrollmentServi
     if (typeof $scope.contacts.options != 'undefined' && $scope.contacts.options.length == 1) {
         $scope.accountInformation = $scope.contacts.options[0];
     }
-    
+
     var sci = $scope.accountInformation.secondaryContactInfo;
     $scope.additionalInformation = {
         showSecondaryContact: (sci && sci.first != undefined && sci.first != "" && sci.last != undefined && sci.last != ""),
@@ -52,15 +52,15 @@ ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', 'enrollmentServi
     }, true);
 
     // create a filter so that the same phone type can't be selected twice
-    $scope.filter1 = function(item){
+    $scope.filter1 = function (item) {
         return (!($scope.accountInformation.contactInfo.phone.length > 1 && $scope.accountInformation.contactInfo.phone[1].category) || item.name != $scope.accountInformation.contactInfo.phone[1].category);
     };
 
-    $scope.filter2 = function(item){
+    $scope.filter2 = function (item) {
         return (!($scope.accountInformation.contactInfo.phone.length > 0 && $scope.accountInformation.contactInfo.phone[0].category) || item.name != $scope.accountInformation.contactInfo.phone[0].category);
     };
 
-    $scope.filterCustomerType = function(item){
+    $scope.filterCustomerType = function (item) {
         if ($scope.customerType != 'commercial') {
             return (item.name != 'work');
         } else {
@@ -83,7 +83,7 @@ ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', 'enrollmentServi
         if ($scope.cartHasProtective()) {
             return _.some(enrollmentCartService.services[0].offerInformationByType[0].value.offerSelections, function (offerSelection) {
                 return _.some(offerSelection.offer.suboffers, function (subOffer) {
-                    return (subOffer.guid === "{0F25180B-5470-4558-9E8F-3D73275A1083}" || subOffer.guid === "{9B4D2D0A-7207-4DBD-8065-8722DC8E76EA}") ;
+                    return (subOffer.guid === "{0F25180B-5470-4558-9E8F-3D73275A1083}" || subOffer.guid === "{9B4D2D0A-7207-4DBD-8065-8722DC8E76EA}");
                 });
             });
         }
@@ -101,16 +101,16 @@ ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', 'enrollmentServi
         else return false;
     }
 
-    $scope.mailingAddressSameChanged = function() {
-            if (!$scope.accountInformation.mailingAddressSame) {
-                if ($scope.utilityAddresses().length == 1)
-                    $scope.accountInformation.mailingAddress = $scope.utilityAddresses()[0].location.address;
-            } else if ($scope.cartHasUtility()) {
-                    $scope.accountInformation.mailingAddress = {};
-            }
-        };
+    $scope.mailingAddressSameChanged = function () {
+        if (!$scope.accountInformation.mailingAddressSame) {
+            if ($scope.utilityAddresses().length == 1)
+                $scope.accountInformation.mailingAddress = $scope.utilityAddresses()[0].location.address;
+        } else if ($scope.cartHasUtility()) {
+            $scope.accountInformation.mailingAddress = {};
+        }
+    };
 
-    $scope.showAdditionalPhoneNumberChanged = function() {
+    $scope.showAdditionalPhoneNumberChanged = function () {
         if ($scope.accountInformation.showAdditionalPhoneNumber) {
             $scope.accountInformation.contactInfo.phone[1] = {};
         } else {
@@ -223,13 +223,13 @@ ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', 'enrollmentServi
             enrollmentService.setAccountInformation().then(function (data) {
                 $scope.validations = data.validations;
             });
-            
+
         }
 
         if ($scope.accountInfo.$valid && $scope.isFormValid()) {
             enrollmentService.cleanseAddresses(addresses).then(function (data) {
                 if ((data.length > 0 && data[0].length) || (data.length > 0 && typeof data[1] != 'undefined' && data[1].length)) {
-                    var addressOptions = { };
+                    var addressOptions = {};
                     if (data[0] && data[0].length) {
                         data[0].unshift($scope.accountInformation.mailingAddress);
                         addressOptions.mailingAddress = data[0];
@@ -261,9 +261,9 @@ ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', 'enrollmentServi
                 }
             });
         } else {
-            validation.showValidationSummary = true; 
+            validation.showValidationSummary = true;
             validation.cancelSuppress($scope);
         }
-        
+
     };
 }]);

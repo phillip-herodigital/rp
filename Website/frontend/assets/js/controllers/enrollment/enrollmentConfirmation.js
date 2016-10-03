@@ -5,13 +5,13 @@ ngApp.controller('EnrollmentConfirmationCtrl', ['$scope', '$window', '$modal', '
     var selectedDevices = [];
 
     $scope.mobileEnrollmentService = mobileEnrollmentService;
-    $scope.getCartItems = enrollmentCartService.getCartItems;  
+    $scope.getCartItems = enrollmentCartService.getCartItems;
     $scope.getCartMonthly = enrollmentCartService.calculateMobileMonthlyTotal;
     $scope.customerType = '';
     $scope.confirmationSuccess = false;
     $scope.cartHasTxLocation = enrollmentCartService.cartHasTxLocation;
     $scope.cartHasUtility = enrollmentCartService.cartHasUtility;
-    $scope.cartHasMobile = enrollmentCartService.cartHasMobile;  
+    $scope.cartHasMobile = enrollmentCartService.cartHasMobile;
     $scope.getCartDataPlan = enrollmentCartService.getCartDataPlan;
     $scope.getProratedCost = enrollmentCartService.getProratedCost;
     $scope.getOfferData = enrollmentCartService.getOfferData;
@@ -25,7 +25,7 @@ ngApp.controller('EnrollmentConfirmationCtrl', ['$scope', '$window', '$modal', '
     $scope.cartHasProtective = enrollmentCartService.cartHasProtective;
     $scope.currentDate = new Date();
 
-    $scope.onPrint = function() {
+    $scope.onPrint = function () {
         window.print();
     };
 
@@ -55,21 +55,21 @@ ngApp.controller('EnrollmentConfirmationCtrl', ['$scope', '$window', '$modal', '
         allPhones = phoneData;
         confirmationDevices = enrollmentCartService.getConfirmationDevices();
         confirmationTransfers = enrollmentCartService.getConfirmationTransfers();
-        selectedDevices = _(confirmationDevices).map(function(device) { 
-            var selected = _(allPhones).find(function(phone) { 
-                if ( _(phone.models).pluck('sku').flatten().filter().contains(device) ) { 
+        selectedDevices = _(confirmationDevices).map(function (device) {
+            var selected = _(allPhones).find(function (phone) {
+                if (_(phone.models).pluck('sku').flatten().filter().contains(device)) {
                     return phone;
-                } 
-            }); 
-            var model = (device == '7') ? null : _(selected.models).where({'sku': device}).first(); 
-            return { 
+                }
+            });
+            var model = (device == '7') ? null : _(selected.models).where({ 'sku': device }).first();
+            return {
                 'id': device,
-                'device':  (device == '7') ? null : selected, 
-                'imageFront': (device == '7') ? null : selected.imageFront, 
-                'size': (device == '7') ? null : model.size, 
+                'device': (device == '7') ? null : selected,
+                'imageFront': (device == '7') ? null : selected.imageFront,
+                'size': (device == '7') ? null : model.size,
                 'color': (device == '7') ? null : model.color,
-                'type': (device == '7') ? 'existing' : 'new' 
-            } 
+                'type': (device == '7') ? 'existing' : 'new'
+            }
         }).value();
         $scope.sprintByod = $scope.getCartDataPlan()[0].provider == 'Sprint' && _.some(selectedDevices, { 'id': '7' });
         $scope.sprintByodNew = $scope.sprintByod && _(confirmationTransfers).contains(undefined);
@@ -87,7 +87,7 @@ ngApp.controller('EnrollmentConfirmationCtrl', ['$scope', '$window', '$modal', '
         }).suboffers;
     }
 
-    $scope.getConfirmationDeviceDetails = function(deviceId) {
+    $scope.getConfirmationDeviceDetails = function (deviceId) {
         return _.find(selectedDevices, { id: deviceId });
     }
 
@@ -149,7 +149,7 @@ ngApp.controller('EnrollmentConfirmationCtrl', ['$scope', '$window', '$modal', '
                 analytics.sendVariables(11, $scope.confirmationSuccess ? "Confirmed" : "Submitted");
                 analytics.sendTags({
                     EnrollmentFinalized: $scope.confirmationSuccess ? "Confirmed" : "Submitted",
-                    EnrollmentProductTypeEnrolled: $scope.cartHasUtility() ? $scope.cartHasTxLocation() ? "TexasElectricity": "GeorgiaGas" : "Mobile"
+                    EnrollmentProductTypeEnrolled: $scope.cartHasUtility() ? $scope.cartHasTxLocation() ? "TexasElectricity" : "GeorgiaGas" : "Mobile"
                 });
                 _(enrollmentCartService.services).map(function (l) {
                     return l.offerInformationByType[0].key

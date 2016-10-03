@@ -23,7 +23,7 @@ namespace StreamEnergy.Services.Clients
 
         bool ILocationAdapter.IsFor(IEnumerable<DomainModels.IServiceCapability> capabilities)
         {
-            return capabilities.OfType<GeorgiaGas.ServiceCapability>().Any();            
+            return capabilities.OfType<GeorgiaGas.ServiceCapability>().Any();
         }
 
         bool ILocationAdapter.IsFor(IEnumerable<IServiceCapability> capabilities, IOffer offer)
@@ -241,16 +241,16 @@ namespace StreamEnergy.Services.Clients
             return new OfferPayment
             {
                 EnrollmentAccountNumber = entry.EnrollmentAccountNumber,
-                OngoingAmounts = new IOfferPaymentAmount[] 
+                OngoingAmounts = new IOfferPaymentAmount[]
                         {
                         },
-                RequiredAmounts = new IOfferPaymentAmount[] 
+                RequiredAmounts = new IOfferPaymentAmount[]
                         {
                             new DepositOfferPaymentAmount { DollarAmount = deposit, SystemOfRecord = entry.Key.SystemOfRecord, DepositAccount = entry.Key.SystemOfRecordId }
                         },
                 PostBilledAmounts = optionRules.GetPostBilledPayments(option),
                 AvailablePaymentMethods = (from type in (IEnumerable<dynamic>)entry.AcceptedEnrollmentPaymentAccountTypes
-                    select new AvailablePaymentMethod { PaymentMethodType = type }).ToList(),
+                                           select new AvailablePaymentMethod { PaymentMethodType = type }).ToList(),
             };
         }
 

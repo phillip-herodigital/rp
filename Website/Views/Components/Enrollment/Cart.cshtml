@@ -14,7 +14,7 @@
                 <span class="associate-name">{{ associateInformation.associateId }}</span>
             </div>
         </article>
-        <article class="enrollment__box enrollment_cart" scroll-anchor="scrollFix"  ng-class="{'hide-sidebar-cart' : getCurrentStep().id == 'phoneFlowDevices' || getCurrentStep().id == 'phoneFlowPlans'}">
+        <article class="enrollment__box enrollment_cart" scroll-anchor="scrollFix" ng-class="{'hide-sidebar-cart' : getCurrentStep().id == 'phoneFlowDevices' || getCurrentStep().id == 'phoneFlowPlans'}">
             <header>
                 <div class="cart-items">
                     <i class="icon-cart"></i>
@@ -47,7 +47,7 @@
                                 <div ng-if="$index == $parent.$index && service.offerInformationByType[0].value" ng-include src="'cart/Mobile'"></div>
                             </div>
                             <div ng-include src="'cart/MobileDevices'"></div>
-                            <hr ng-if="!$last"/>
+                            <hr ng-if="!$last" />
                         </div>
                     </div>
                 </div>
@@ -88,9 +88,9 @@
                     <button ng-click="cartCheckout()">@Html.Sitecore().Field("Checkout Button Text")</button>
                 </div>
                 @*<div class="time">
-                    <i class="icon-clock"></i>
-                    @Html.Sitecore().Field("Time Remaining").Format(new { time = "{{time()}}" })
-                </div>*@
+                        <i class="icon-clock"></i>
+                        @Html.Sitecore().Field("Time Remaining").Format(new { time = "{{time()}}" })
+                    </div>*@
             </footer>
         </article>
         <article class="enrollment__box documents" ng-if="false && customerType != 'commercial' && !isRenewal && getCartLocationsCount() > 0 && cartHasUtility()">
@@ -105,7 +105,7 @@
                 <li ng-if="cartHasMobile() && mobileEnrollmentService.selectedNetwork.value == 'sprint' && mobileEnrollmentSettings.sprintByod"><i class="icon-imei"></i> @Html.Sitecore().Field("Documents ESN Number")</li>
                 <li ng-if="cartHasMobile() && mobileEnrollmentService.hasLTEDevice"><i class="icon-imei"></i> @Html.Sitecore().Field("Documents ICCID Number")</li>
                 <!--<li><i class="icon-bill"></i>  @Html.Sitecore().Field("Documents Billing Account Number")</a></li>
-            <li><i class="icon-utility-provider"></i> @Html.Sitecore().Field("Documents Utility Provider")</li>-->
+                <li><i class="icon-utility-provider"></i> @Html.Sitecore().Field("Documents Utility Provider")</li>-->
             </ul>
         </article>
         <article class="enrollment__box outage-information" ng-if="customerType != 'commercial' && !isRenewal && cartHasUtility() && cartHasTxLocation()">
@@ -130,13 +130,12 @@
             <div class="content stream-store-content">
                 @Html.Sitecore().Field("Stream Store Content General")
             </div>
-
             @*<div class="content stream-store-content" ng-if="mobileEnrollmentService.selectedNetwork.value == 'att'">
-                @Html.Sitecore().Field("Stream Store Content GSM")
-            </div>
-            <div class="content stream-store-content" ng-if="mobileEnrollmentService.selectedNetwork.value == 'sprint'">
-                @Html.Sitecore().Field("Stream Store Content CDMA")
-            </div>*@
+                    @Html.Sitecore().Field("Stream Store Content GSM")
+                </div>
+                <div class="content stream-store-content" ng-if="mobileEnrollmentService.selectedNetwork.value == 'sprint'">
+                    @Html.Sitecore().Field("Stream Store Content CDMA")
+                </div>*@
             <div class="links">
                 <a href="" class="button primary" ng-click="showModal('cart/shopPhones', 'lg')">@Html.Sitecore().Field("Shop Phones")</a>
                 <a href="" ng-click="showModal('cart/howItWorks')">@Html.Sitecore().Field("How it works")</a>
@@ -191,7 +190,6 @@
         </div>
     </div>
 </script>
-
 <script type="text/ng-template" id="cart/GeorgiaGas">
     <div class="utility-cart-product clearfix" ng-repeat="selectedOffer in offerInformation.value.offerSelections">
         <div class="description">
@@ -213,7 +211,6 @@
         </div>
     </div>
 </script>
-
 <script type="text/ng-template" id="cart/Mobile">
     <div class="icon-byod"></div>
     <div class="description plan-description">
@@ -232,7 +229,6 @@
         </div>
     </div>
 </script>
-
 <script type="text/ng-template" id="cart/Protective">
     <div ng-repeat="offerSelection in offerInformation.value.offerSelections">
         <div class="service clearfix" ng-repeat="suboffer in offerSelection.offer.suboffers">
@@ -267,7 +263,6 @@
         </div>
     </div>
 </script>
-
 <script type="text/ng-template" id="cart/MobileDevices">
     <div class="cart-product clearfix">
         <p class="byod">@Html.Sitecore().Field("Bring Your Own Device")</p>
@@ -280,13 +275,10 @@
         </div>
     </div>
 </script>
-
 <script type="text/ng-template" id="cart/TexasElectricityCommercialQuote">
 </script>
-
 <script type="text/ng-template" id="cart/GeorgiaGasCommercialQuote">
 </script>
-
 <script type="text/ng-template" id="confirmAddressDeleteModal">
     <div>
         <div class="modal-header">
@@ -302,7 +294,6 @@
         </div>
     </div>
 </script>
-
 <script type="text/ng-template" id="showBillAccountModal">
     <div>
         <div class="modal-header">
@@ -317,7 +308,6 @@
         </div>
     </div>
 </script>
-
 <script type="text/ng-template" id="showUtilityProviderModal">
     <div>
         <div class="modal-header">

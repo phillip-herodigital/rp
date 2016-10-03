@@ -112,11 +112,11 @@ ngApp.controller('protectiveServicesEnrollmentCtrl', ['$scope', '$http', '$locat
                     }
                 }]
             });
-            enrollmentService.setServiceInformation(true).then(function success () {
+            enrollmentService.setServiceInformation(true).then(function success() {
                 if ($scope.queryPlanID) {
                     $scope.selectService($scope.queryPlanID);
                 }
-            }, function error () {
+            }, function error() {
                 //handle errors
             });
         }
