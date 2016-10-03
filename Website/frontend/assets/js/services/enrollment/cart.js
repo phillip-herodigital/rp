@@ -50,6 +50,10 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', 'sc
             return undefined;
         },
 
+        getCartServices: function() {
+            return services;
+        },
+
         getActiveServiceType: function () {
             if (cart.activeServiceIndex >= 0 && typeof services[cart.activeServiceIndex].offerInformationByType != 'undefined')
                 return services[cart.activeServiceIndex].offerInformationByType[0].key;
@@ -85,6 +89,15 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', 'sc
 		 * @param {Array} cart
 		 */
         updateCart: function (cart) {
+            angular.forEach(this.services, function (service) {
+                angular.forEach(service.offerInformationByType, function (offerInformation) {
+                    angular.forEach(offerInformation.value.offerSelections, function (offerSelection) {
+                        if (typeof offerSelection.suboffers != 'undefined' && offerSelection.suboffers.length != 0) {
+                            cart[0].offerInformationByType[0].value.offerSelections[0].suboffers = offerSelection.suboffers;
+                        }
+                    });
+                });
+            });
             //Map out the location items
             angular.copy(cart, services);
 
@@ -346,6 +359,77 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', 'sc
         },
 
         /**
+        * Handle Protective Cart Functions
+        */
+        removeProtectiveOffer: function (offerId) {
+            _.remove(enrollmentCartService.getActiveService().offerInformationByType[0].value.offerSelections[0].suboffers, function (suboffer) {
+                return suboffer.offerId === offerId;
+            });
+            if (enrollmentCartService.getActiveService().offerInformationByType[0].value.offerSelections[0].suboffers.length != 0) {
+                enrollmentCartService.getActiveService().offerInformationByType[0].value.offerSelections[0].offerId = enrollmentCartService.findProtectiveProduct().id;
+            }
+            else {
+                enrollmentStepsService.setStep("protectiveFlowServices");
+                enrollmentStepsService.hideStep("accountInformation");
+            }
+        },
+
+        findProtectiveProduct: function () {
+            if (enrollmentCartService.services[0].offerInformationByType[0].value.offerSelections.length) {
+                if (enrollmentCartService.services[0].offerInformationByType[0].value.offerSelections[0].suboffers) {
+                    return _.find(enrollmentCartService.services[0].offerInformationByType[0].value.availableOffers, function (availableOffer) {
+                        if (availableOffer.suboffers.length === enrollmentCartService.services[0].offerInformationByType[0].value.offerSelections[0].suboffers.length) {
+                            return _.every(enrollmentCartService.services[0].offerInformationByType[0].value.offerSelections[0].suboffers, function (suboffer) {
+                                return _.some(availableOffer.suboffers, function (availableSuboffer) {
+                                    if (suboffer.guid) return suboffer.guid === availableSuboffer.guid;
+                                    else if (suboffer.offer) return suboffer.offer.guid === availableSuboffer.guid;
+                                    else return false;
+                                });
+                            });
+                        }
+                        else return false
+                    });
+                }
+                else {
+                    return {
+                        suboffers: enrollmentCartService.services[0].offerInformationByType[0].value.offerSelections[0].offer.suboffers
+                    }
+                }
+            }
+            else return {};
+        },
+
+        getProtectiveDiscount: function () {
+            var count = 0;
+            var discount = 0;
+            var selectedOffer = enrollmentCartService.findProtectiveProduct();
+            if (selectedOffer) {
+                angular.forEach(selectedOffer.suboffers, function (suboffer) {
+                    discount += suboffer.threeServiceDiscount;
+                    if (suboffer.isGroupOffer) count += 2;
+                    else count++;
+                });
+            }
+            if (count > 2) {
+                return discount;
+            }
+            else {
+                return 0;
+            }
+        },
+
+        getProtectiveTotal: function () {
+            var total = 0;
+            var selectedOffer = enrollmentCartService.findProtectiveProduct();
+            if (selectedOffer) {
+                angular.forEach(selectedOffer.suboffers, function (suboffer) {
+                    total += suboffer.price;
+                });
+            }
+            return total;
+        },
+
+        /**
 		 * Set the plan for the current service based on the offer type
 		 * @param  {[type]} plan
 		 */
@@ -402,17 +486,16 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', 'sc
                 .size();
 
             //Get the count for all mobile products
-            /*
-            var mobileAddresses = enrollmentCartService.getMobileAddresses();
-            var dataPlan = _(mobileAddresses)
+            var mobile = cart.items.length;
+
+            //Get the count for all protective products
+            var protective = _(enrollmentCartService.getProtectiveServices())
                 .pluck('offerInformationByType').flatten().filter()
                 .pluck('value').filter()
                 .pluck('offerSelections').flatten().filter()
                 .size();
-            */
-            var mobile = cart.items.length;
 
-            return utility + mobile;
+            return utility + mobile + protective;
         },
 
         /**
@@ -518,6 +601,11 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', 'sc
                 .intersection(['TexasElectricity', 'TexasElectricityRenewal', 'GeorgiaGas', 'GeorgiaGasRenewal'])
                 .some();
         },
+        cartHasProtective: function () {
+            return _(services).pluck('location').pluck('capabilities').flatten().pluck('capabilityType')
+                .intersection(['Protective'])
+                .some();
+        },
         getUtilityAddresses: function() {
             return _(services)
                 .filter(function(service) { 
@@ -526,6 +614,16 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', 'sc
                         .some()) {
                         return service;
                     } 
+                }).value();
+        },
+        getProtectiveServices: function () {
+            return _(services)
+                .filter(function (service) {
+                    if (_(service.offerInformationByType).pluck('key')
+                        .intersection(['Protective'])
+                        .some()) {
+                        return service;
+                    }
                 }).value();
         },
         locationHasService: function (location) {

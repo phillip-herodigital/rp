@@ -63,7 +63,7 @@
                         </div>
                     </div>
                     <hr ng-if="cartHasTxLocation() && getCartTotal() > 0" />
-                    <div class="plan-summary" ng-if="getCartTotal() > 0">
+                    <div class="plan-summary" ng-if="getCartTotal() > 0 && !cartHasProtective()">
                         <div class="line-item">
                             <div class="total">
                                 @Html.Sitecore().Field("Order Total Text") <strong>{{ getCartTotal() | currency }}</strong>
@@ -112,11 +112,11 @@
                                             <div class="details">@Html.Sitecore().Field("Text - Existing Plan Details")</div>
                                         </div>
                                         <div class="rate">{{ subAccount.cost | currency }}</div>
-                                    </div>
-                                    <div class="line-item taxes clearfix">
-                                        <div class="description">
-                                            <h3>@Html.Sitecore().Field("Monthly Sales Tax Text")</h3>
-                                            <p class="note">@Html.Sitecore().Field("Monthly Sales Tax Description")</p>
+                                        <div class="line-item taxes clearfix">
+                                            <div class="description">
+                                                <h3>@Html.Sitecore().Field("Monthly Sales Tax Text")</h3>
+                                                <p class="note">@Html.Sitecore().Field("Monthly Sales Tax Description")</p>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -139,7 +139,7 @@
                     </div>
                 </div>
             </article>
-            <article class="enrollment__box confirm-personal-info" ng-if="!cartHasMobile()">
+            <article class="enrollment__box confirm-personal-info" ng-if="!cartHasMobile() && !cartHasProtective()">
                 <div class="content">
                     <h2>@Html.Sitecore().Field("Header - Personal Information")</h2>
                     <div class="grid">
@@ -459,6 +459,51 @@
         <h3>@Html.Sitecore().Field("Text - New Line")</h3>
         <div class="details">@Html.Sitecore().Field("Text - Plan Description")</div>
         <div class="details">{{ getOfferPrice(selectedOffer.offerId) | currency }}@Html.Sitecore().Field("Text - Header Plan Details")</div>
+    </div>
+</script>
+<script type="text/ng-template" id="serviceConfirmation/Protective">
+    <div class="protective-services">
+        <h1>@Html.Sitecore().Field("Protective Header")</h1>
+        <div class="member-info">
+            <div class="member-id"><p><span>@Html.Sitecore().Field("Member ID Text")</span> 123456</p></div>
+            <div class="info">Jordan Campbell</div>
+            <div class="info">310-310-3103</div>
+            <div class="info">1234 56th St.</div>
+            <div class="info">City State ZipCode</div>
+            <p class="modify-offer">@Html.Sitecore().Field("Support Text")</p>
+        </div>
+        <div class="service clearfix" ng-repeat="suboffer in getProtectiveServices()">
+            <div class="col-1" ng-style="{'background-image': 'URL(' + suboffer.iconURL + ')'}"></div>
+            <div class="col-2">
+                <p class="name">{{suboffer.name}}</p>
+                <p class="description">{{suboffer.description}}</p>
+                <p class="start-date">@Html.Sitecore().Field("Start Date Text") {{ currentDate | date:'MMMM d, yyyy'}}</p>
+            </div>
+            <div class="col-3">
+                <div class="full-price">
+                    {{suboffer.price | currency}}@Html.Sitecore().Field("Per Mo Text")
+                    <div class="slash" ng-show="getProtectiveDiscount()">@Html.Sitecore().Field("Discount Slash")</div>
+                </div>
+                <div class="discount" ng-show="getProtectiveDiscount()">{{suboffer.price - suboffer.threeServiceDiscount | currency}}@Html.Sitecore().Field("Per Mo Text")</div>
+            </div>
+        </div>
+        <div class="promotion-discount clearfix" ng-if="getProtectiveDiscount()">
+            <div class="rectangle">
+                <p>@Html.Sitecore().Field("Service Promotion Text")</p>
+            </div>
+            <div class="circle">
+                <p>@Html.Sitecore().Field("Youre Saving Text")</p>
+                <p class="discount-amount">{{getProtectiveDiscount() | currency}}</p>
+                <p>@Html.Sitecore().Field("Per Month Text")</p>
+            </div>
+        </div>
+        <div class="paid-today clearfix">
+            <p>@Html.Sitecore().Field("Due Today Text") <span>{{getProtectiveTotal() - getProtectiveDiscount() | currency}}</span></p>
+        </div>
+        <div class="paid-monthly clearfix">
+            <p>@Html.Sitecore().Field("Due Monthly Text") <span>{{getProtectiveTotal() - getProtectiveDiscount() | currency}}</span></p>
+            <div class="icon"></div>
+        </div>
     </div>
 </script>
 <script type="text/ng-template" id="payments/Deposit">

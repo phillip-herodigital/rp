@@ -3,10 +3,6 @@
  * This is used to control aspects of the cart on enrollment page.
  */
 ngApp.controller('EnrollmentCartCtrl', ['$scope', 'enrollmentStepsService', 'enrollmentService', 'mobileEnrollmentService', 'enrollmentCartService', '$modal', '$timeout', function ($scope, enrollmentStepsService, enrollmentService, mobileEnrollmentService, enrollmentCartService, $modal, $timeout) {
-    
-    /*$scope.enrollmentStepsService = enrollmentStepsService;
-    $scope.accountInformationService = accountInformationService;*/
-
 
     $scope.time = function () { return enrollmentStepsService.timeRemaining(); };
     $scope.isRenewal = enrollmentService.isRenewal;
@@ -19,12 +15,14 @@ ngApp.controller('EnrollmentCartCtrl', ['$scope', 'enrollmentStepsService', 'enr
     $scope.cartHasTxLocation = enrollmentCartService.cartHasTxLocation;
     $scope.cartHasMobile = enrollmentCartService.cartHasMobile;
     $scope.cartHasUtility = enrollmentCartService.cartHasUtility;
+    $scope.cartHasProtective = enrollmentCartService.cartHasProtective;
     $scope.mobileEnrollmentService = mobileEnrollmentService;
     $scope.getCartDevices = enrollmentCartService.getCartDevices;
     $scope.getDevicesCount = enrollmentCartService.getDevicesCount;
     $scope.getCartDataPlan = enrollmentCartService.getCartDataPlan;
     $scope.getMobileAddresses = enrollmentCartService.getMobileAddresses;
     $scope.getUtilityAddresses = enrollmentCartService.getUtilityAddresses;
+    $scope.getProtectiveServices = enrollmentCartService.getProtectiveServices;
     $scope.getActiveServiceType = enrollmentCartService.getActiveServiceType;
     $scope.getPlanPrice = enrollmentCartService.getPlanPrice;
     $scope.totalPlanPrice = enrollmentCartService.totalPlanPrice;
@@ -36,6 +34,9 @@ ngApp.controller('EnrollmentCartCtrl', ['$scope', 'enrollmentStepsService', 'enr
     $scope.getCurrentStep = enrollmentStepsService.getCurrentStep;
     $scope.services = enrollmentCartService.services;
     $scope.getServicesCount = enrollmentCartService.getServicesCount;
+    $scope.removeProtectiveOffer = enrollmentCartService.removeProtectiveOffer;
+    $scope.getProtectiveDiscount = enrollmentCartService.getProtectiveDiscount;
+    $scope.getProtectiveTotal = enrollmentCartService.getProtectiveTotal;
     /**
     * Show IMEI Instructions Modal
     */

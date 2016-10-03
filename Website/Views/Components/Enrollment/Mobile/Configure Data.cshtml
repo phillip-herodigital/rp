@@ -6,7 +6,7 @@
 }
 
 <div id="phoneFlowPlans" class="enrollment" ng-show="enrollmentStepsService.isStepVisible('phoneFlowPlans')" ng-controller="MobileEnrollmentConfigureDataCtrl" ng-init="setTimeRemaining('phoneFlowPlans', '@Html.Sitecore().Field("Remaining Minutes Number")'); previousServiceProviders = @(Html.Action("PreviousServiceProviders", "MobileEnrollment").ToHtmlString()); mobileEnrollmentSettings = @(Html.Action("MobileEnrollmentSettings", "Data").ToHtmlString())">
-    @Html.Partial("~/Views/Components/Mobile Enrollment/Progress Bar.cshtml", new StreamEnergy.MyStream.Models.MobileEnrollment.ProgressBar { StepNumber = 2, StepTextField = "Step 2 Description Text" })
+    @Html.Partial("~/Views/Components/Enrollment/Progress Bar.cshtml", new StreamEnergy.MyStream.Models.Enrollment.ProgressBar { StepNumber = 2, StepTextField = "Step 2 Description Text" })
     @* Two-column layout for Configure Data *@
     <div class="layout plan-selection">
         <div class="wrapper cols-2">
@@ -271,12 +271,12 @@
 </div>
 
 
-<div class="coverage-map-container hidden-map">
+<div class="coverage-map-container hidden-map" ng-if="serviceType === 'mob'">
     <div class="inner">
         <div class="modal-header">
             <a class="close" onclick="$('.coverage-map-container').addClass('hidden-map')">X</a>
         </div>
-        <script src="//maps.googleapis.com/maps/api/js?libraries=places&sensor=false"></script>
+        <script src="//maps.googleapis.com/maps/api/js?key=AIzaSyCKwR5gbRNgWMZ84ZxGFPh1Jpvm5nMRuRY&libraries=places"></script>
         <div class="wrapper">
             <article class="coverage-map" ng-controller="MobileEnrollmentConfigureDataCtrl">
                 <div class="form">
@@ -303,7 +303,7 @@
         </div>
     </div>
 </div>
-<div class="coverage-map-fade"></div>
+<div class="coverage-map-fade" ng-if="serviceType === 'mob'"></div>
 
 <script type="text/ng-template" id="indPlanList/Mobile">
     <div class="btn-group btn-group-options mobile-plans">
@@ -334,6 +334,8 @@
 <script type="text/ng-template" id="indPlanList/TexasElectricity">
 </script>
 <script type="text/ng-template" id="indPlanList/GeorgiaGas">
+</script>
+<script type="text/ng-template" id="indPlanList/Protective">
 </script>
 <script type="text/ng-template" id="searchbox.tpl.html">
     <input type="text" id="gmap-search-input" placeholder="" />

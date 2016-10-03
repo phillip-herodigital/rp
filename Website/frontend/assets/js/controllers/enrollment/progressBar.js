@@ -1,10 +1,13 @@
-﻿ngApp.controller('MobileEnrollmentProgressBarCtrl', ['$scope', '$filter', '$modal', '$http', '$sce', 'enrollmentService', 'mobileEnrollmentService', 'enrollmentStepsService', 'enrollmentCartService', 'scrollService', 'analytics', function ($scope, $filter, $modal, $http, $sce, enrollmentService, mobileEnrollmentService, enrollmentStepsService, enrollmentCartService, scrollService, analytics) {
+﻿ngApp.controller('EnrollmentProgressBarCtrl', ['$scope', '$modal', 'enrollmentService', 'mobileEnrollmentService', 'enrollmentStepsService', 'enrollmentCartService', function ($scope, $modal, enrollmentService, mobileEnrollmentService, enrollmentStepsService, enrollmentCartService) {
     $scope.mobileEnrollmentService = mobileEnrollmentService;
     $scope.mobileEnrollmentService.cartItemCountText = '';
     $scope.enrollmentCartService = enrollmentCartService;
     $scope.enrollmentStepsService = enrollmentStepsService;
     $scope.associateInformation = enrollmentService.associateInformation;
     $scope.addLineAccountNumber = enrollmentService.addLineAccountNumber;
+    $scope.cartHasMobile = enrollmentCartService.cartHasMobile;
+    $scope.cartHasProtective = enrollmentCartService.cartHasProtective;
+    $scope.cartHasUtility = enrollmentCartService.cartHasUtility;
 
     $scope.showModal = function (templateUrl) {
         $modal.open({

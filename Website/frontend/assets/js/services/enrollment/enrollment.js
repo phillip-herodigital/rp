@@ -219,9 +219,9 @@
         angular.forEach(enrollmentCartService.services, function (address) {
             var selectedPlans = [];
             angular.forEach(address.offerInformationByType, function (entry) {
-                if (entry.value.offerSelections.length) {
-                    selectedPlans.push(entry.value.offerSelections[0].offerId);
-                }
+                angular.forEach(entry.value.offerSelections, function (offerSelection) {
+                    selectedPlans.push(offerSelection.offerId);
+                });
             });
 
             data.selection.push({
@@ -291,6 +291,8 @@
             companyName: service.accountInformation.companyName,
             doingBusinessAs: service.accountInformation.doingBusinessAs,
             socialSecurityNumber: service.accountInformation.socialSecurityNumber,
+            DOB: service.accountInformation.DOB,
+            gender: service.accountInformation.gender,
             secondaryContactInfo: service.accountInformation.secondaryContactInfo,
             onlineAccount: service.accountInformation.onlineAccount,
             mailingAddress: service.accountInformation.mailingAddress,
@@ -405,6 +407,13 @@
 
         return makeCall('singlePageOrder', data);
     };
+
+    //for protective enrollments
+    service.isVideoConferenceState = function (offer, geoLocation) {
+        return _.some(offer.videoConferenceStates, function (videoConferenceState) {
+            return videoConferenceState === geoLocation.state;
+        });
+    }
 
     /**
     * Set verify identity

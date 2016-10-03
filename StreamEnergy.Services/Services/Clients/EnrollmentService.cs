@@ -12,6 +12,8 @@ using StreamEnergy.DomainModels;
 using ResponsivePath.Logging;
 using System.Collections.Specialized;
 using StreamEnergy.DomainModels.Accounts;
+using Sitecore.Data.Fields;
+using Sitecore.Data.Items;
 
 namespace StreamEnergy.Services.Clients
 {
@@ -45,7 +47,45 @@ namespace StreamEnergy.Services.Clients
                     result.Add(location, new LocationOfferSet { OfferSetErrors = { { "Location", "CustomerTypeUnknown" } } });
                     continue;
                 }
-
+                if (location.Capabilities.Any(c => c.CapabilityType == "Protective"))
+                {
+                    int sortOrder = 0;
+                    float price = 0;
+                    float discount = 0;
+                    var availableOffers = (from service in Sitecore.Context.Database.GetItem("/sitecore/content/Data/Taxonomy/Products/Protective/Services").Children
+                                           let iconField = new ImageField(service.Fields["Icon"])
+                                           select new DomainModels.Enrollments.Protective.Service
+                                           {
+                                               Id = service.Fields["ID"].Value,
+                                               Name = service.Fields["Name"].Value,
+                                               Guid = service.ID.ToString(),
+                                               ExcludedStates = (from Abbreviation in service.Fields["Excluded States"].Value.Split(',')
+                                                                 select Abbreviation.Trim()).ToArray(),
+                                               VideoConferenceStates = (from Abbreviation in service.Fields["Video Conference States"].Value.Split(',')
+                                                                        select Abbreviation.Trim()).ToArray(),
+                                               Description = service.Fields["Description"].Value,
+                                               Details = service.Fields["Details"].Value.Split('|'),
+                                               SortOrder = int.TryParse(service.Fields["Sort Order"].Value, out sortOrder) ? sortOrder : -1,
+                                               Price = float.TryParse(service.Fields["Price"].Value, out price) ? price : -1,
+                                               ThreeServiceDiscount = float.TryParse(service.Fields["Three Service Discount"].Value, out discount) ? discount : -1,
+                                               HasGroupOffer = service.Fields["Has Group Offer"].Value == "1",
+                                               IsGroupOffer = service.Fields["Is Group Offer"].Value == "1",
+                                               AssociatedOfferId = service.Fields["Associated Offer ID"].Value,
+                                               IconURL = iconField.MediaItem != null ? Sitecore.Resources.Media.MediaManager.GetMediaUrl(iconField.MediaItem) : ""
+                                           }).ToArray();
+                    result.Add(location, new DomainModels.Enrollments.LocationOfferSet
+                    {
+                        Offers = (from product in Sitecore.Context.Database.SelectItems("/sitecore/content/Data/Taxonomy/Products/Protective//*[@@templateid='{2435BB90-E224-403E-B37B-4872C4F279F7}']")
+                                  select new DomainModels.Enrollments.Protective.Offer {
+                                      Id = product.Fields["ID"].Value,
+                                      Suboffers = (from offer in availableOffers
+                                                   where product.Fields["Services"].Value.Split('|').Contains(offer.Guid)
+                                                   select offer).ToArray()
+                                      //SubOfferGuids = product.Fields["Services"].Value.Split('|')
+                                  }).ToArray()
+                    });
+                    return result;
+                }
                 var serviceStatus = location.Capabilities.OfType<ServiceStatusCapability>().Single();
                 var customerType = location.Capabilities.OfType<CustomerTypeCapability>().Single();
 
@@ -348,6 +388,8 @@ namespace StreamEnergy.Services.Clients
                                CellPhone = context.ContactInfo.Phone.OfType<TypedPhone>().Where(p => p.Category == PhoneCategory.Mobile).Select(p => p.Number).SingleOrDefault(),
                                WorkPhone = context.ContactInfo.Phone.OfType<TypedPhone>().Where(p => p.Category == PhoneCategory.Work).Select(p => p.Number).SingleOrDefault(),
                                SSN = context.SocialSecurityNumber,
+                               DOB = context.DOB.ToString("yyyy-MM-dd"),
+                               Gender = context.Gender,
                                CurrentProvider = context.PreviousProvider,
                                EmailAddress = context.ContactInfo.Email.Address,
                                Accounts = from account in systemOfRecordSet
@@ -355,6 +397,7 @@ namespace StreamEnergy.Services.Clients
                                TrustEvCaseId = context.TrustEvCaseId,
                                TrustEvSessionId = context.TrustEvSessionId,
                            }).ToArray();
+
             var response = await streamConnectClient.PutAsJsonAsync("/api/v1-1/customers/" + globalCustomerId.ToString() + "/enrollments", request);
             response.EnsureSuccessStatusCode();
 

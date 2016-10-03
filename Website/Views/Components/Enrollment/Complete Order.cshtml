@@ -1,10 +1,8 @@
 @model StreamEnergy.DomainModels.Enrollments.UserContext
-
 @using (new Sitecore.Data.Items.ContextItemSwitcher(Html.Sitecore().CurrentItem))
 {
     <div id="reviewOrder" class="enrollment showCart" ng-show="stepsService.isStepVisible('reviewOrder')" ng-controller="EnrollmentCompleteOrderCtrl" ng-init="setTimeRemaining('reviewOrder', '@Html.Sitecore().Field("Remaining Minutes Number")');">
-        @Html.Partial("~/Views/Components/Mobile Enrollment/Progress Bar.cshtml", new StreamEnergy.MyStream.Models.MobileEnrollment.ProgressBar { StepNumber = 4, StepTextField = "Step 4 Description Text", HideCart = true })
-
+        @Html.Partial("~/Views/Components/Enrollment/Progress Bar.cshtml", new StreamEnergy.MyStream.Models.Enrollment.ProgressBar { StepNumber = 4, StepTextField = "Step 4 Description Text", HideCart = true })
         <div class="layout">
             <div class="wrapper cols-2 enrollment__review-order">
                 <section>
@@ -24,8 +22,12 @@
                                 </div>
                             </div>
                             <footer ng-if="getCartTotal() > 0 && !cartHasMobile()">
-                                <div class="total">
+                                <div class="total" ng-if="!cartHasProtective()">
                                     @Html.Sitecore().Field("Total Due Now") <strong>{{ getCartTotal() | currency }}</strong>
+                                </div>
+                                <div class="total clearfix protective" ng-if="cartHasProtective()">
+                                    <p>@Html.Sitecore().Field("Total Due Monthly") <span>{{getProtectiveTotal() - getProtectiveDiscount() | currency}}</span></p>
+                                    <div class="icon"></div>
                                 </div>
                             </footer>
                         </article>
@@ -61,7 +63,7 @@
                             <footer class="autopay-activation" ng-if="cartHasMobile() && (!isAddLine || !addLineAutoPay)">
                                 <h2>@Html.Sitecore().Field("Turn on AutoPay")</h2>
                                 <p>@Html.Sitecore().Field("Turn on AutoPay Details")</p>
-                                <input name="autopay" id="autopay" type="checkbox" ng-model="completeOrder.autopay" ng-change="toggleAutoPay()"/><label for="autopay" class="autopay">@Html.Sitecore().Field("Activate AutoPay Button")</label>
+                                <input name="autopay" id="autopay" type="checkbox" ng-model="completeOrder.autopay" ng-change="toggleAutoPay()" /><label for="autopay" class="autopay">@Html.Sitecore().Field("Activate AutoPay Button")</label>
                             </footer>
                         </article>
                         <article class="enrollment__box enrollment__business-info" ng-if="customerType == 'commercial' && cartHasMobile()">
@@ -269,7 +271,6 @@
                                 </div>
                             </div>
                         </article>
-
                         <article class="enrollment__box">
                             <header>
                                 <h1>@Html.Sitecore().Field("Terms Header")</h1>
@@ -324,7 +325,6 @@
                             </div>
                         </article>
                         <div class="form terms-agreement">
-
                         </div>
                         <div class="buttons">
                             <button type="submit" class="primary" ng-if="(customerType != 'commercial' || cartHasMobile()) && !isRenewal" ng-click="completeOrder.nonExisting = true" ng-disabled="!completeOrder.agreeToTerms || (completeOrder.autopay && cartHasMobile() && !completeOrder.agreeToAutoPayTerms)" data-val-submit>@Html.Sitecore().Field("Button")</button>
@@ -355,7 +355,7 @@
                                     <div class="billed-title">@Html.Sitecore().Field("Billed Today Text")<i class="icon-billed-today"></i></div>
                                     <div ng-repeat="(id, location) in getCartItems()">
                                         <div ng-repeat="offerInformation in location.offerInformationByType" ng-show="offerInformation.value.offerSelections.length" class="offer">
-                                            <h3 ng-if="offerInformation.key != 'Mobile'">@Html.Sitecore().Field("Energy Services Text")</h3>
+                                            <h3 ng-if="offerInformation.key == 'TexasElectricity' || offerInformation.key == 'GeorgiaGas'">@Html.Sitecore().Field("Energy Services Text")</h3>
                                             <h3 ng-if="offerInformation.key == 'Mobile' && id==0">@Html.Sitecore().Field("Mobile Services Text")</h3>
                                             <div ng-include src="'completeOrderCartToday/' + offerInformation.key"></div>
                                         </div>
@@ -364,8 +364,8 @@
                                         @Html.Sitecore().Field("Due Today Text") <span class="total">{{ getCartTotal() | currency }}</span>
                                     </div>
                                 </div>
-                                <hr ng-if="!isRenewal && getCartTotal() > 0">
-                                <div class="billed-monthly">
+                                <hr ng-if="!isRenewal && !cartHasProtective() && getCartTotal() > 0">
+                                <div class="billed-monthly" ng-if="!cartHasProtective()">
                                     <div class="billed-title">@Html.Sitecore().Field("Billed Monthly Text")<i class="icon-billed-monthly"></i></div>
                                     <div ng-repeat="(id, location) in getCartItems()">
                                         <div ng-repeat="offerInformation in location.offerInformationByType" ng-show="offerInformation.value.offerSelections.length">
@@ -385,22 +385,18 @@
     </div>
 }
 
-
-
 <script type="text/ng-template" id="completeOrderCartToday/TexasElectricity">
     <dl class="clearfix" ng-repeat="selectedOffer in offerInformation.value.offerSelections">
         <dt>{{selectedOffer.offer.name}}</dt>
         <dd>{{selectedOffer.offer.rate | currency}} kWh</dd>
     </dl>
 </script>
-
 <script type="text/ng-template" id="completeOrderCartToday/GeorgiaGas">
     <dl class="clearfix" ng-repeat="selectedOffer in offerInformation.value.offerSelections">
         <dt>{{selectedOffer.offer.name}}</dt>
         <dd>{{selectedOffer.offer.rate | currency}}</dd>
     </dl>
 </script>
-
 <script type="text/ng-template" id="completeOrderCartToday/Mobile">
     <div class="today-product clearfix" ng-repeat="selectedOffer in offerInformation.value.offerSelections" ng-init="selectedOffer = offerInformation.value.offerSelections[0]; item = getDeviceDetails(selectedOffer.offerOption);">
         <div class="description">
@@ -424,7 +420,25 @@
         </div>
     </div>
 </script>
-
+<script type="text/ng-template" id="completeOrderCartToday/Protective">
+    <div class="protective" ng-repeat="offerSelection in offerInformation.value.offerSelections">
+        <div class="service clearfix" ng-repeat="suboffer in offerSelection.suboffers">
+            <div class="icon" ng-style="{'background-image': 'URL(' + suboffer.offer.iconURL + ')'}"></div>
+            <div class="name">
+                <span ng-if="suboffer.offer.hasGroupOffer">@Html.Sitecore().Field("Individual Text") </span>
+                <span ng-if="suboffer.offer.isGroupOffer">@Html.Sitecore().Field("Family Text") </span>
+                {{suboffer.offer.name}}
+            </div>
+            <div class="price">
+                <div class="full-price">
+                    {{suboffer.offer.price | currency}}@Html.Sitecore().Field("Per Month Text")
+                    <div class="slash" ng-show="getProtectiveDiscount()">@Html.Sitecore().Field("Discount Slash")</div>
+                </div>
+                <div class="discount" ng-show="getProtectiveDiscount()">{{suboffer.offer.price - suboffer.offer.threeServiceDiscount | currency}}@Html.Sitecore().Field("Per Month Text")</div>
+            </div>
+        </div>
+    </div>
+</script>
 <script type="text/ng-template" id="completeOrderCartMonthly/TexasElectricity">
     <div class="monthly-product clearfix" ng-repeat="selectedOffer in offerInformation.value.offerSelections">
         <div class="description">
@@ -436,7 +450,6 @@
         </div>
     </div>
 </script>
-
 <script type="text/ng-template" id="completeOrderCartMonthly/GeorgiaGas">
     <div class="monthly-product clearfix" ng-repeat="selectedOffer in offerInformation.value.offerSelections">
         <div class="description">
@@ -448,7 +461,6 @@
         </div>
     </div>
 </script>
-
 <script type="text/ng-template" id="completeOrderCartMonthly/Mobile">
     <div class="monthly-product clearfix" ng-repeat="selectedOffer in offerInformation.value.offerSelections">
         <div class="description">
@@ -476,6 +488,9 @@
         <p>@Html.Sitecore().Field("Monthly Sales Tax Text")</p>
     </div>
 </script>
+<script type="text/ng-template" id="completeOrderCartMonthly/Protective">
+    <p>completeOrderCartMonthly/Protective</p>
+</script>
 
 <script type="text/ng-template" id="completeOrderCartToday/TexasElectricityCommercialQuote">
     <dl class="clearfix" ng-repeat="selectedOffer in offerInformation.value.offerSelections">
@@ -483,14 +498,12 @@
         <dd>{{selectedOffer.offer.rate | currency}} kWh</dd>
     </dl>
 </script>
-
 <script type="text/ng-template" id="completeOrderCartToday/GeorgiaGasCommercialQuote">
     <dl class="clearfix" ng-repeat="selectedOffer in offerInformation.value.offerSelections">
         <dt>{{selectedOffer.offer.name}}</dt>
         <dd>{{selectedOffer.offer.rate | currency}} kWh</dd>
     </dl>
 </script>
-
 <script type="text/ng-template" id="completeOrderCartMonthly/TexasElectricityCommercialQuote">
     <div ng-repeat="selectedOffer in offerInformation.value.offerSelections">
         <dl class="clearfix">
@@ -498,7 +511,6 @@
         </dl>
     </div>
 </script>
-
 <script type="text/ng-template" id="completeOrderCartMonthly/GeorgiaGasCommercialQuote">
     <div ng-repeat="selectedOffer in offerInformation.value.offerSelections">
         <dl class="clearfix">
@@ -506,14 +518,10 @@
         </dl>
     </div>
 </script>
-
 <script type="text/ng-template" id="paymentsCart/Deposit">
     <dt>@Html.Sitecore().Field("Deposit Due")</dt>
     <dd>{{ payment.dollarAmount | currency }}</dd>
 </script>
-
-
-
 <script type="text/ng-template" id="completeOrder/TexasElectricity">
     <div class="services-header">
         <div class="service-title">
@@ -542,7 +550,6 @@
         </div>
     </div>
 </script>
-
 <script type="text/ng-template" id="completeOrder/GeorgiaGas">
     <div class="services-header">
         <div class="service-title">
@@ -571,7 +578,6 @@
         </div>
     </div>
 </script>
-
 <script type="text/ng-template" id="completeOrder/TexasElectricityCommercialQuote">
     @*<h3>Electricity</h3>*@
     <table class="verify-order-table">
@@ -591,7 +597,6 @@
         </tbody>
     </table>
 </script>
-
 <script type="text/ng-template" id="completeOrder/GeorgiaGasCommercialQuote">
     @*<h3>Electricity</h3>*@
     <table class="verify-order-table">
@@ -611,7 +616,6 @@
         </tbody>
     </table>
 </script>
-
 <script type="text/ng-template" id="completeOrder/Mobile">
     <div class="services-header" ng-show="id == 0">
         <div class="service-title">
@@ -677,7 +681,35 @@
         </div>
     </div>
 </script>
-
+<script type="text/ng-template" id="completeOrder/Protective">
+    <div class="protective-services">
+        <div class="heading clearfix">
+            <h4>@Html.Sitecore().Field("Protective Services Text")</h4>
+            <div class="service-count">{{getCartCount()}} @Html.Sitecore().Field("Monthly Services Text")</div>
+        </div>
+        <div ng-repeat="offerSelection in offerInformation.value.offerSelections">
+            <div class="service clearfix" ng-repeat="suboffer in offerSelection.suboffers">
+                <div class="col-1" ng-style="{'background-image': 'URL(' + suboffer.offer.iconURL + ')'}"></div>
+                <div class="col-2">
+                    <p class="name">{{suboffer.offer.name}}</p>
+                    <p class="description">{{suboffer.offer.description}}</p>
+                    <p class="start-date">@Html.Sitecore().Field("Service Start Date Text") {{ currentDate | date:'MMM. d, yyyy'}}</p>
+                    <p class="video-required" ng-show="isVideoConferenceState(suboffer.offer)">@Html.Sitecore().Field("Video Conference Text")</p>
+                </div>
+                <div class="col-3">
+                    <div class="full-price">
+                        {{suboffer.offer.price | currency}}@Html.Sitecore().Field("Per Month Text")
+                        <div class="slash" ng-show="getProtectiveDiscount()">@Html.Sitecore().Field("Discount Slash")</div>
+                    </div>
+                    <div class="discount" ng-show="getProtectiveDiscount()">{{suboffer.offer.price - suboffer.offer.threeServiceDiscount | currency}}@Html.Sitecore().Field("Per Month Text")</div>
+                </div>
+            </div>
+        </div>
+        <div class="total-today">
+            <p>@Html.Sitecore().Field("Total Due Today") <span>{{getProtectiveTotal() - getProtectiveDiscount() | currency}}</span></p>
+        </div>
+    </div>
+</script>
 <script type="text/ng-template" id="paymentsDue/Deposit">
     <tr ng-if="payment.depositAlternativeEligible">
         <td class="sub-charge">
@@ -710,10 +742,7 @@
             <p class="explanation">@Html.Raw(Html.Sitecore().CurrentItem["Deposit Waiver Expanation"].Format(new { LinkAttributes = "ng-click=\"showDepositWaiver(location.location.address.stateAbbreviation)\"" }))</p>
         </td>
     </tr>
-
 </script>
-
-
 <script type="text/ng-template" id="paymentsDueGA/Deposit">
     <tr>
         <td class="sub-charge">
@@ -737,7 +766,6 @@
         </td>
     </tr>
 </script>
-
 <script type="text/ng-template" id="Terms/Standard">
     <div class="modal-header">
         <a href="" ng-click="$dismiss()"></a>
@@ -750,7 +778,6 @@
         <button ng-click="$close()">@Html.Sitecore().Field("Close Terms and Conditions Button Text")</button>
     </div>
 </script>
-
 <script type="text/ng-template" id="Terms/Tcpa">
     <div class="modal-header">
         <a href="" ng-click="$dismiss()"></a>
@@ -763,7 +790,6 @@
         <button ng-click="$close()">@Html.Sitecore().Field("Close TCPA Terms and Conditions Button Text")</button>
     </div>
 </script>
-
 <script type="text/ng-template" id="DepositWaiver/TX">
     <div class="modal-header">
         <a href="" ng-click="$dismiss()"></a>
@@ -776,7 +802,6 @@
         <button ng-click="$close()">@Html.Sitecore().Field("Deposit Waiver Button Text")</button>
     </div>
 </script>
-
 <script type="text/ng-template" id="DepositWaiver/GA">
     <div class="modal-header">
         <a href="" ng-click="$dismiss()"></a>
@@ -789,7 +814,6 @@
         <button ng-click="$close()">@Html.Sitecore().Field("Deposit Waiver Button Text")</button>
     </div>
 </script>
-
 <script type="text/ng-template" id="CreditCardExample">
     <div class="modal-header">
         <a href="" ng-click="$dismiss()"></a>
@@ -802,7 +826,6 @@
         <button ng-click="$close()">@Html.Sitecore().Field("Credit Card Example Button Text")</button>
     </div>
 </script>
-
 <script type="text/ng-template" id="signature">
     <div class="mobile-enrollment-modal">
         <div class="modal-header">
@@ -904,7 +927,7 @@
             <h2>@Html.Sitecore().Field("AutoPay - Heading")</h2>
         </div>
         <div class="modal-body">
-            <p>@Html.Sitecore().Field("AutoPay - Subheading")</p>            
+            <p>@Html.Sitecore().Field("AutoPay - Subheading")</p>
             <hr />
             <div class="line" ng-repeat="item in getCartItems()" ng-init="offer = item.offerInformationByType[0].value.offerSelections[0].offer" ng-show="offer.nonAutoPayID != ''">
                 <h3>@Html.Sitecore().Field("AutoPay - Line Number")</h3>

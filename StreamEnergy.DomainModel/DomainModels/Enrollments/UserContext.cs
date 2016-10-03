@@ -47,6 +47,12 @@ namespace StreamEnergy.DomainModels.Enrollments
 
         public string ContactTitle { get; set; }
 
+        [Required(ErrorMessage = "Date Of Birth Required")]
+        public DateTime DOB { get; set; }
+
+        [Required(ErrorMessage = "Gender Required")]
+        public string Gender { get; set; }
+
         [Required(ErrorMessage = "Services Required")]
         [EnumerableRequired(ErrorMessage = "Services Required")]
         [ValidateEnumerable(ErrorMessagePrefix = "Service ")]

@@ -102,7 +102,7 @@ namespace StreamEnergy.Services.Clients.SmartyStreets
 
                     locationPieces.Add(l.City);
                     locationPieces.Add(l.StateAbbreviation);
-
+                    locationPieces.Add(l.State);
                     return locationPieces.ToArray();
                 }
                 else

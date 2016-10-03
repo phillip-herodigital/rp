@@ -1,6 +1,15 @@
 @model StreamEnergy.DomainModels.Enrollments.UserContext
+@{
+    int progressBarStep = 4;
+    bool hideCart = true;
+    if (Request.QueryString["ServiceType"].ToLower() == "pro")
+    {
+        progressBarStep = 3;
+        hideCart = false;
+    }
+}
 <div id="verifyIdentity" class="enrollment" ng-show="stepsService.isStepVisible('verifyIdentity')" ng-controller="EnrollmentVerifyIdentityCtrl" ng-init="setTimeRemaining('verifyIdentity', '@Html.Sitecore().Field("Remaining Minutes Number")');">    
-    @Html.Partial("~/Views/Components/Mobile Enrollment/Progress Bar.cshtml", new StreamEnergy.MyStream.Models.MobileEnrollment.ProgressBar { StepNumber = 3, StepTextField = "Verify Identity Text", HideCart = true })
+    @Html.Partial("~/Views/Components/Enrollment/Progress Bar.cshtml", new StreamEnergy.MyStream.Models.Enrollment.ProgressBar { StepNumber = progressBarStep, StepTextField = string.Format("Step {0} Description Text", progressBarStep.ToString()), HideCart = hideCart })
 
     <div class="layout">
         <div class="wrapper cols-2 enrollment__verify-identity">
