@@ -187,14 +187,14 @@
                                 @Html.TextBoxFor(m => m.CompanyName, new { ng_model = "accountInformation.companyName", data_val = "true", data_val_required = "" })
                                 @Html.ValidationMessageFor(m => m.CompanyName)
                             </div>
-                            <div class="item group-col" ng-if="showDOB()" @Html.Validation().ErrorClass(model => model.DOB)>
+                            <div class="item group-col" ng-if="showDOB()" @Html.Validation().ErrorClass(m => m.DOB)>
                                 <label for="DOB">@Html.Sitecore().Field("DOB Label")</label>
-                                <input type="date" id="DOB" ng-model="accountInformation.DOB" data-val="true" data-val-required/>
+                                @Html.TextBoxFor(m => m.DOB, new { ng_model = "accountInformation.DOB", data_val = "true", data_val_required = "", dob_input = "" })
                                 @Html.ValidationMessageFor(m => m.DOB)
                             </div>
                             <div class="item group-col" ng-if="showGender()" @Html.Validation().ErrorClass(model => model.Gender)>
                                 <label for="Gender">@Html.Sitecore().Field("Gender Label")</label>
-                                <select id="Gender" ng-model="accountInformation.gender" data-val="true" data-val-required>
+                                <select id="Gender" ng-model="accountInformation.gender" data-val="true" data-val-required="">
                                     <option ng-value="'M'">@Html.Sitecore().Field("Male Text")</option>
                                     <option ng-value="'F'">@Html.Sitecore().Field("Female Text")</option>
                                 </select>
