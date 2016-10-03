@@ -422,19 +422,19 @@
 </script>
 <script type="text/ng-template" id="completeOrderCartToday/Protective">
     <div class="protective" ng-repeat="offerSelection in offerInformation.value.offerSelections">
-        <div class="service clearfix" ng-repeat="suboffer in offerSelection.suboffers">
-            <div class="icon" ng-style="{'background-image': 'URL(' + suboffer.offer.iconURL + ')'}"></div>
+        <div class="service clearfix" ng-repeat="suboffer in offerSelection.offer.suboffers">
+            <div class="icon" ng-style="{'background-image': 'URL(' + suboffer.iconURL + ')'}"></div>
             <div class="name">
-                <span ng-if="suboffer.offer.hasGroupOffer">@Html.Sitecore().Field("Individual Text") </span>
-                <span ng-if="suboffer.offer.isGroupOffer">@Html.Sitecore().Field("Family Text") </span>
-                {{suboffer.offer.name}}
+                <span ng-if="suboffer.hasGroupOffer">@Html.Sitecore().Field("Individual Text") </span>
+                <span ng-if="suboffer.isGroupOffer">@Html.Sitecore().Field("Family Text") </span>
+                {{suboffer.name}}
             </div>
             <div class="price">
                 <div class="full-price">
-                    {{suboffer.offer.price | currency}}@Html.Sitecore().Field("Per Month Text")
+                    {{suboffer.price | currency}}@Html.Sitecore().Field("Per Month Text")
                     <div class="slash" ng-show="getProtectiveDiscount()">@Html.Sitecore().Field("Discount Slash")</div>
                 </div>
-                <div class="discount" ng-show="getProtectiveDiscount()">{{suboffer.offer.price - suboffer.offer.threeServiceDiscount | currency}}@Html.Sitecore().Field("Per Month Text")</div>
+                <div class="discount" ng-show="getProtectiveDiscount()">{{suboffer.price - suboffer.threeServiceDiscount | currency}}@Html.Sitecore().Field("Per Month Text")</div>
             </div>
         </div>
     </div>
@@ -688,20 +688,20 @@
             <div class="service-count">{{getCartCount()}} @Html.Sitecore().Field("Monthly Services Text")</div>
         </div>
         <div ng-repeat="offerSelection in offerInformation.value.offerSelections">
-            <div class="service clearfix" ng-repeat="suboffer in offerSelection.suboffers">
-                <div class="col-1" ng-style="{'background-image': 'URL(' + suboffer.offer.iconURL + ')'}"></div>
+            <div class="service clearfix" ng-repeat="suboffer in offerSelection.offer.suboffers">
+                <div class="col-1" ng-style="{'background-image': 'URL(' + suboffer.iconURL + ')'}"></div>
                 <div class="col-2">
-                    <p class="name">{{suboffer.offer.name}}</p>
-                    <p class="description">{{suboffer.offer.description}}</p>
+                    <p class="name">{{suboffer.name}}</p>
+                    <p class="description">{{suboffer.description}}</p>
                     <p class="start-date">@Html.Sitecore().Field("Service Start Date Text") {{ currentDate | date:'MMM. d, yyyy'}}</p>
-                    <p class="video-required" ng-show="isVideoConferenceState(suboffer.offer)">@Html.Sitecore().Field("Video Conference Text")</p>
+                    <p class="video-required" ng-show="isVideoConferenceState(suboffer)">@Html.Sitecore().Field("Video Conference Text")</p>
                 </div>
                 <div class="col-3">
                     <div class="full-price">
-                        {{suboffer.offer.price | currency}}@Html.Sitecore().Field("Per Month Text")
+                        {{suboffer.price | currency}}@Html.Sitecore().Field("Per Month Text")
                         <div class="slash" ng-show="getProtectiveDiscount()">@Html.Sitecore().Field("Discount Slash")</div>
                     </div>
-                    <div class="discount" ng-show="getProtectiveDiscount()">{{suboffer.offer.price - suboffer.offer.threeServiceDiscount | currency}}@Html.Sitecore().Field("Per Month Text")</div>
+                    <div class="discount" ng-show="getProtectiveDiscount()">{{suboffer.price - suboffer.threeServiceDiscount | currency}}@Html.Sitecore().Field("Per Month Text")</div>
                 </div>
             </div>
         </div>

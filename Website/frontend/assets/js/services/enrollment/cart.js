@@ -89,15 +89,6 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', 'sc
 		 * @param {Array} cart
 		 */
         updateCart: function (cart) {
-            angular.forEach(this.services, function (service) {
-                angular.forEach(service.offerInformationByType, function (offerInformation) {
-                    angular.forEach(offerInformation.value.offerSelections, function (offerSelection) {
-                        if (typeof offerSelection.suboffers != 'undefined' && offerSelection.suboffers.length != 0) {
-                            cart[0].offerInformationByType[0].value.offerSelections[0].suboffers = offerSelection.suboffers;
-                        }
-                    });
-                });
-            });
             //Map out the location items
             angular.copy(cart, services);
 
@@ -362,10 +353,10 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', 'sc
         * Handle Protective Cart Functions
         */
         removeProtectiveOffer: function (offerId) {
-            _.remove(enrollmentCartService.getActiveService().offerInformationByType[0].value.offerSelections[0].suboffers, function (suboffer) {
-                return suboffer.offerId === offerId;
+            _.remove(enrollmentCartService.getActiveService().offerInformationByType[0].value.offerSelections[0].offer.suboffers, function (suboffer) {
+                return suboffer.id === offerId;
             });
-            if (enrollmentCartService.getActiveService().offerInformationByType[0].value.offerSelections[0].suboffers.length != 0) {
+            if (enrollmentCartService.getActiveService().offerInformationByType[0].value.offerSelections[0].offer.suboffers.length != 0) {
                 enrollmentCartService.getActiveService().offerInformationByType[0].value.offerSelections[0].offerId = enrollmentCartService.findProtectiveProduct().id;
             }
             else {
@@ -376,25 +367,16 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', 'sc
 
         findProtectiveProduct: function () {
             if (enrollmentCartService.services[0].offerInformationByType[0].value.offerSelections.length) {
-                if (enrollmentCartService.services[0].offerInformationByType[0].value.offerSelections[0].suboffers) {
-                    return _.find(enrollmentCartService.services[0].offerInformationByType[0].value.availableOffers, function (availableOffer) {
-                        if (availableOffer.suboffers.length === enrollmentCartService.services[0].offerInformationByType[0].value.offerSelections[0].suboffers.length) {
-                            return _.every(enrollmentCartService.services[0].offerInformationByType[0].value.offerSelections[0].suboffers, function (suboffer) {
-                                return _.some(availableOffer.suboffers, function (availableSuboffer) {
-                                    if (suboffer.guid) return suboffer.guid === availableSuboffer.guid;
-                                    else if (suboffer.offer) return suboffer.offer.guid === availableSuboffer.guid;
-                                    else return false;
-                                });
+                return _.find(enrollmentCartService.services[0].offerInformationByType[0].value.availableOffers, function (availableOffer) {
+                    if (availableOffer.suboffers.length === enrollmentCartService.services[0].offerInformationByType[0].value.offerSelections[0].offer.suboffers.length) {
+                        return _.every(enrollmentCartService.services[0].offerInformationByType[0].value.offerSelections[0].offer.suboffers, function (suboffer) {
+                            return _.some(availableOffer.suboffers, function (availableSuboffer) {
+                                return suboffer.guid === availableSuboffer.guid;
                             });
-                        }
-                        else return false
-                    });
-                }
-                else {
-                    return {
-                        suboffers: enrollmentCartService.services[0].offerInformationByType[0].value.offerSelections[0].offer.suboffers
+                        });
                     }
-                }
+                    else return false
+                });
             }
             else return {};
         },
@@ -493,6 +475,8 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', 'sc
                 .pluck('offerInformationByType').flatten().filter()
                 .pluck('value').filter()
                 .pluck('offerSelections').flatten().filter()
+                .pluck('offer').filter()
+                .pluck('suboffers').flatten().filter()
                 .size();
 
             return utility + mobile + protective;

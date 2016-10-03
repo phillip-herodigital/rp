@@ -33,7 +33,7 @@ a.significant {
         $arrow-size: 5px;
         content: '';
         position: absolute;
-        top: 50%;
+        bottom: 5px;
         right: 0;
         margin-top: $arrow-size * -1;
         width: 0; 

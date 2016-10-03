@@ -95,7 +95,7 @@ namespace StreamEnergy.Services.Clients
             return true;
         }
 
-        dynamic ILocationAdapter.ToEnrollmentAccount(Guid globalCustomerId, EnrollmentAccountDetails account, string ExistingAccountNumber)
+        dynamic ILocationAdapter.ToEnrollmentAccount(Guid globalCustomerId, EnrollmentAccountDetails account, bool IsAutoPayEnabled, string ExistingAccountNumber, DateTime DOB, string Gender)
         {
             var offerOption = (account.Offer.OfferOption as Protective.OfferOption);
             return new
@@ -104,6 +104,8 @@ namespace StreamEnergy.Services.Clients
                 Key = account.EnrollmentAccountKey,
                 RequestUniqueKey = account.RequestUniqueKey,
                 ProductCode = account.Offer.Offer.Id,
+                DOB = DOB.ToString("yyyy-MM-dd"),
+                Gender = Gender,
                 ActivationDate = offerOption.ActivationDate,
                 UseInstallmentPlan = offerOption.UseInstallmentPlan,
                 ExistingAccountNumber = ExistingAccountNumber,
