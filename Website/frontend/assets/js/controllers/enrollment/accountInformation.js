@@ -79,7 +79,18 @@ ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', 'enrollmentServi
         $scope.accountInformation.mailingAddress = $scope.utilityAddresses()[0].location.address;
     }
 
-    $scope.hasVirtualMD = function () {
+    $scope.showDOB = function () {
+        if ($scope.cartHasProtective()) {
+            return _.some(enrollmentCartService.services[0].offerInformationByType[0].value.offerSelections, function (offerSelection) {
+                return _.some(offerSelection.offer.suboffers, function (subOffer) {
+                    return (subOffer.guid === "{0F25180B-5470-4558-9E8F-3D73275A1083}" || subOffer.guid === "{9B4D2D0A-7207-4DBD-8065-8722DC8E76EA}") ;
+                });
+            });
+        }
+        else return false;
+    }
+
+    $scope.showGender = function () {
         if ($scope.cartHasProtective()) {
             return _.some(enrollmentCartService.services[0].offerInformationByType[0].value.offerSelections, function (offerSelection) {
                 return _.some(offerSelection.offer.suboffers, function (subOffer) {

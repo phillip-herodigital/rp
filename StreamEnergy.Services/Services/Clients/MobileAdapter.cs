@@ -188,7 +188,7 @@ namespace StreamEnergy.Services.Clients
             return true;
         }
 
-        dynamic ILocationAdapter.ToEnrollmentAccount(Guid globalCustomerId, EnrollmentAccountDetails account, bool IsAutoPayEnabled, string ExistingAccountNumber)
+        dynamic ILocationAdapter.ToEnrollmentAccount(Guid globalCustomerId, EnrollmentAccountDetails account, bool IsAutoPayEnabled, string ExistingAccountNumber, DateTime DOB, string Gender)
         {
             var offer = (account.Offer.Offer as Mobile.Offer);
             var offerOption = (account.Offer.OfferOption as Mobile.OfferOption);

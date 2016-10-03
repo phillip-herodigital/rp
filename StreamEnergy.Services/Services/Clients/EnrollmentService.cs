@@ -81,7 +81,6 @@ namespace StreamEnergy.Services.Clients
                                       Suboffers = (from offer in availableOffers
                                                    where product.Fields["Services"].Value.Split('|').Contains(offer.Guid)
                                                    select offer).ToArray()
-                                      //SubOfferGuids = product.Fields["Services"].Value.Split('|')
                                   }).ToArray()
                     });
                     return result;
@@ -388,12 +387,10 @@ namespace StreamEnergy.Services.Clients
                                CellPhone = context.ContactInfo.Phone.OfType<TypedPhone>().Where(p => p.Category == PhoneCategory.Mobile).Select(p => p.Number).SingleOrDefault(),
                                WorkPhone = context.ContactInfo.Phone.OfType<TypedPhone>().Where(p => p.Category == PhoneCategory.Work).Select(p => p.Number).SingleOrDefault(),
                                SSN = context.SocialSecurityNumber,
-                               DOB = context.DOB.ToString("yyyy-MM-dd"),
-                               Gender = context.Gender,
                                CurrentProvider = context.PreviousProvider,
                                EmailAddress = context.ContactInfo.Email.Address,
                                Accounts = from account in systemOfRecordSet
-                                          select systemOfRecordSet.Key.ToEnrollmentAccount(globalCustomerId, account, context.EnrolledInAutoPay, context.AddLineAccountNumber),
+                                          select systemOfRecordSet.Key.ToEnrollmentAccount(globalCustomerId, account, context.EnrolledInAutoPay, context.AddLineAccountNumber, context.DOB, context.SocialSecurityNumber),
                                TrustEvCaseId = context.TrustEvCaseId,
                                TrustEvSessionId = context.TrustEvSessionId,
                            }).ToArray();

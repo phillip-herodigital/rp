@@ -81,18 +81,18 @@ ngApp.controller('EnrollmentConfirmationCtrl', ['$scope', '$window', '$modal', '
         return enrollmentService.isVideoConferenceState(offer, $scope.geoLocation);
     }
 
+    $scope.getProtectiveServices = function () {
+        return _.find(enrollmentCartService.services[0].offerInformationByType[0].value.availableOffers, function (availableOffer) {
+            return availableOffer.id === enrollmentCartService.services[0].offerInformationByType[0].value.offerSelections[0].offerId;
+        }).suboffers;
+    }
+
     $scope.getConfirmationDeviceDetails = function(deviceId) {
         return _.find(selectedDevices, { id: deviceId });
     }
 
     $scope.getCartTotal = function () {
         return enrollmentCartService.calculateConfirmationTotal();
-    }
-
-    $scope.getProtectiveServices = function () {
-        return _.find(enrollmentCartService.services[0].offerInformationByType[0].value.availableOffers, function (availableOffer) {
-            return availableOffer.id === enrollmentCartService.services[0].offerInformationByType[0].value.offerSelections[0].offerId;
-        }).suboffers;
     }
 
     /**
