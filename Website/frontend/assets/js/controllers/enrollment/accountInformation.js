@@ -23,6 +23,10 @@ ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', 'enrollmentServi
     $scope.cartHasProtective = enrollmentCartService.cartHasProtective;
     $scope.associateInformation = enrollmentService.associateInformation;
 
+    $scope.protectiveEnrollmentSettings = function (settings) {
+        $scope.accountInformation.KIQFailOption = settings.kiqFailOption;
+    }
+
     $scope.accountInformation.contactInfo.phone[0].category = "mobile";
     $scope.createOnlineAccount = true;
     $scope.hasMoveIn = false;
