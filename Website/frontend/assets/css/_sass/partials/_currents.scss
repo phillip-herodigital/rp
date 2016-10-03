@@ -172,7 +172,7 @@ nav.mobile-nav {
                 background-position: none !important;
                 background: none !important;
 
-                &.news > a {
+                &.nav-1 > a {
 
                     &:before {
                         display: none;
@@ -195,7 +195,7 @@ nav.mobile-nav {
                         z-index: 9999;
                     }
                 }
-                &.events > a {
+                &.nav-2 > a {
 
                     &:before {
                         display: none;
@@ -218,7 +218,7 @@ nav.mobile-nav {
                         z-index: 9999;
                     }
                 }
-                &.promotions > a {
+                &.nav-3 > a {
 
                     &:before {
                         display: none;
@@ -241,7 +241,7 @@ nav.mobile-nav {
                         z-index: 9999;
                     }
                 }
-                &.recognition > a {
+                &.nav-4 > a {
 
                     &:before {
                         display: none;
@@ -264,7 +264,7 @@ nav.mobile-nav {
                         z-index: 9999;
                     }
                 }
-                &.training > a {
+                &.nav-5 > a {
 
                     &:before {
                         display: none;
@@ -325,19 +325,19 @@ nav.mobile-nav {
                     display: block;
                     min-height: 30px;
                     font-weight: bold;
-                    &.news{
+                    &.nav-1{
                         background: $news-color;
                     }
-                    &.events{
+                    &.nav-2{
                         background: $events-color;
                     }
-                    &.promotions{
+                    &.nav-3{
                         background: $promotions-color;
                     }
-                    &.recognition{
+                    &.nav-4{
                         background: $recognition-color;
                     }
-                    &.training{
+                    &.nav-5{
                         background: $training-color;
                     }
                 }
@@ -554,7 +554,7 @@ nav.mobile-nav {
                 }
             }
 
-            &.nav-news {
+            &.nav-1 {
                 a {
                     .color-block {
                         border-bottom: 5px solid $news-color;
@@ -575,7 +575,7 @@ nav.mobile-nav {
                     }
                 } 
             }
-            &.nav-events {
+            &.nav-2 {
                 a {
                     .color-block {
                         border-bottom: 5px solid $events-color;
@@ -593,7 +593,7 @@ nav.mobile-nav {
                     }
                 } 
             }
-            &.nav-promotions {
+            &.nav-3 {
                 a {
                     .color-block {
                         border-bottom: 5px solid $promotions-color;
@@ -614,7 +614,7 @@ nav.mobile-nav {
                     }
                 } 
             }
-            &.nav-recognition {
+            &.nav-4 {
                 a {
                     .color-block {
                         border-bottom: 5px solid $recognition-color;
@@ -635,7 +635,7 @@ nav.mobile-nav {
                     }
                 } 
             }
-            &.nav-training {
+            &.nav-5 {
                 a {
                     .color-block {
                         border-bottom: 5px solid $training-color;
