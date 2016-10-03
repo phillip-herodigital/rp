@@ -345,7 +345,8 @@ nav.mobile-nav {
                 @include breakpoint-min-max(1300px, 10000px) {
                     width: 1300px;
                     max-width: 1300px !important;
-                    right: -65% !important;
+                    right: 0 !important;
+                    left: -400px !important;
                     top: 118px !important;
                 }
 
