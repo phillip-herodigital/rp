@@ -94,7 +94,6 @@
                                             <h3>@Html.Sitecore().Field("Monthly Sales Tax Text")</h3>
                                             <p class="note">@Html.Sitecore().Field("Monthly Sales Tax Description")</p>
                                         </div>
-                                        <div class="rate">{{ selectedOffer.payments.requiredAmounts[0].taxTotal | currency }}</div>
                                     </div>
                                 </div>
                             </div>
@@ -188,7 +187,20 @@
                             </div>
                         </div>
                     </div>
-                    <div ng-if="customerType == 'residential' && cartHasTxLocation()">@Html.Sitecore().Field("Terms Notice")</div>
+                    <hr ng-if="cartHasTxLocation()" />
+                    <div class="terms" ng-if="cartHasTxLocation()">
+                        <div class="term">
+                            <div class="check" ng-class="{background: accountInformation.agreeToTerms}"><span ng-hide="accountInformation.agreeToTerms">x</span></div>
+                            <label for="streamTerms">@Html.Sitecore().Field("Stream Terms Label")</label>
+                            <div class="text" name="streamTerms">@Html.Sitecore().Field("Stream Terms Text")</div>
+                        </div>
+                        <div class="term">
+                            <div class="check" ng-class="{background: accountInformation.agreeToTCPATerms}"><span ng-hide="accountInformation.agreeToTCPATerms">x</span></div>
+                            <p>@Html.Sitecore().Field("TCPA Terms Text")</p>
+                        </div>
+                    </div>
+                    <hr />
+                    <div ng-if="customerType != 'commercial' && cartHasTxLocation()">@Html.Sitecore().Field("Terms Notice")</div>
                     <div ng-if="customerType == 'residential' && !cartHasTxLocation()&& !cartHasMobile()">@Html.Sitecore().Field("GA Terms Notice")</div>
                 </div>
             </article>
@@ -200,9 +212,6 @@
         <div class="services-header">
             <div class="service-title">
                 @Html.Sitecore().Field("Energy Services Text")
-            </div>
-            <div class="service-description">
-                @Html.Sitecore().Field("Service Address Label") {{ service.location.address | address}}
             </div>
         </div>
         <div ng-if="!selectedOffer.confirmationSuccess" ng-cloak>
@@ -445,7 +454,6 @@
         </div>
     </div>
 </script>
-
 <script type="text/ng-template" id="headerContent/Mobile">
     <div ng-repeat="selectedOffer in offerInformation.value.offerSelections">
         <h3>@Html.Sitecore().Field("Text - New Line")</h3>
