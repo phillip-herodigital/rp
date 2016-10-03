@@ -63,7 +63,7 @@ namespace StreamEnergy.DomainModels.Enrollments
                 context.SelectedIdentityAnswers = new Dictionary<string, string>();
 
                 var results = await base.InternalProcess(context, internalContext);
-                if (!internalContext.IdentityCheck.Data.IdentityAccepted && context.Services.Any(service => service.SelectedOffers.Any(so => so.Offer.OfferType == "Protective")))
+                if (context.KIQFailOption && !internalContext.IdentityCheck.Data.IdentityAccepted && context.Services.Any(service => service.SelectedOffers.Any(so => so.Offer.OfferType == "Protective")))
                 {
                     return typeof(IdentityCheckHardStopState);
                 }

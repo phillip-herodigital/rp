@@ -293,6 +293,7 @@
             socialSecurityNumber: service.accountInformation.socialSecurityNumber,
             DOB: service.accountInformation.DOB,
             gender: service.accountInformation.gender,
+            KIQFailOption: service.accountInformation.KIQFailOption,
             secondaryContactInfo: service.accountInformation.secondaryContactInfo,
             onlineAccount: service.accountInformation.onlineAccount,
             mailingAddress: service.accountInformation.mailingAddress,

@@ -15,7 +15,7 @@
 
 @using (new Sitecore.Data.Items.ContextItemSwitcher(Html.Sitecore().CurrentItem))
 {
-<div id="accountInformation" class="enrollment showCart" ng-if="stepsService.isStepVisible('accountInformation')" ng-controller="EnrollmentAccountInformationCtrl" ng-init="usStates = @(Html.Action("States", "Data").ToHtmlString()); phoneTypes = @(Html.Action("PhoneCategories", "Data").ToHtmlString()); previousProviders = @(Html.Action("PreviousProviders", "Data").ToHtmlString()); previousProvidersGeorgia = @(Html.Action("PreviousProvidersGeorgia", "Data").ToHtmlString()); setTimeRemaining('accountInformation', '@Html.Sitecore().Field("Remaining Minutes Number")');">    
+<div id="accountInformation" class="enrollment showCart" ng-if="stepsService.isStepVisible('accountInformation')" ng-controller="EnrollmentAccountInformationCtrl" ng-init="usStates = @(Html.Action("States", "Data").ToHtmlString()); phoneTypes = @(Html.Action("PhoneCategories", "Data").ToHtmlString()); previousProviders = @(Html.Action("PreviousProviders", "Data").ToHtmlString()); previousProvidersGeorgia = @(Html.Action("PreviousProvidersGeorgia", "Data").ToHtmlString()); setTimeRemaining('accountInformation', '@Html.Sitecore().Field("Remaining Minutes Number")'); protectiveEnrollmentSettings(@(Html.Action("ProtectiveEnrollmentSettings", "Data").ToHtmlString()));">    
     @Html.Partial("~/Views/Components/Enrollment/Progress Bar.cshtml", new StreamEnergy.MyStream.Models.Enrollment.ProgressBar { StepNumber = progressBarStep, StepTextField = string.Format("Step {0} Description Text", progressBarStep.ToString()), HideCart = hideCart })
     <div class="layout">
         <div class="wrapper cols-2 enrollment__account-information">
@@ -187,14 +187,14 @@
                                 @Html.TextBoxFor(m => m.CompanyName, new { ng_model = "accountInformation.companyName", data_val = "true", data_val_required = "" })
                                 @Html.ValidationMessageFor(m => m.CompanyName)
                             </div>
-                            <div class="item group-col" ng-if="cartHasProtective() && hasVirtualMD()" @Html.Validation().ErrorClass(model => model.DOB)>
+                            <div class="item group-col" ng-if="showDOB()" @Html.Validation().ErrorClass(m => m.DOB)>
                                 <label for="DOB">@Html.Sitecore().Field("DOB Label")</label>
-                                <input type="date" id="DOB" ng-model="accountInformation.DOB" data-val="true" data-val-required/>
+                                @Html.TextBoxFor(m => m.DOB, new { ng_model = "accountInformation.DOB", data_val = "true", data_val_required = "", dob_input = "" })
                                 @Html.ValidationMessageFor(m => m.DOB)
                             </div>
-                            <div class="item group-col" ng-if="cartHasProtective() && hasVirtualMD()" @Html.Validation().ErrorClass(model => model.Gender)>
+                            <div class="item group-col" ng-if="showGender()" @Html.Validation().ErrorClass(model => model.Gender)>
                                 <label for="Gender">@Html.Sitecore().Field("Gender Label")</label>
-                                <select id="Gender" ng-model="accountInformation.gender" data-val="true" data-val-required>
+                                <select id="Gender" ng-model="accountInformation.gender" data-val="true" data-val-required="">
                                     <option ng-value="'M'">@Html.Sitecore().Field("Male Text")</option>
                                     <option ng-value="'F'">@Html.Sitecore().Field("Female Text")</option>
                                 </select>
