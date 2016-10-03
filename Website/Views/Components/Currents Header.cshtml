@@ -173,7 +173,7 @@
                     <li class="nav-@navItem.Text.ToLower() has-subnav nav-@i @navItem.Text.ToLower()" ng-mouseover="showSubnav(@i)" ng-mouseout="hideSubnav()" ng-class="{ selected: subnav==@i, current: '@category' == '@navItem.Text.ToLower()'}">
                         <a href="@Sitecore.Links.LinkManager.GetItemUrl(navItem.TargetItem)"><span class="color-block"></span>@navItem.Text</a>
                         <div class="sub-nav @navItem.Text.ToLower()" sub-nav="@i" ng-cloak ng-class="{ hidden: subnav != @i }" ng-mouseover="showSubnav(@i)" ng-mouseout="hideSubnav()">
-                            <div class="sub-nav-title @navItem.Text.ToLower()">Top @navItem.Text.ToLower() Posts</div>
+                            <div class="sub-nav-title nav-@i">@Html.Sitecore().Field("Menu Title", navMenu)</div>
                             <div class="sub-nav-list">
                                 @Html.Sitecore().Field("Subnav Link List", navMenu)
                             </div>
@@ -188,7 +188,7 @@
                                 string blogCategory = featurePost.Categories.Any() ? featurePost.Categories.FirstOrDefault().Name.ToLower() : "";
                             
 
-                                <div class="featured-post @blogCategory">
+                                <div class="featured-post nav-@i @blogCategory">
                                     <a href="@HttpUtility.HtmlEncode(LinkManager.GetItemUrl(featurePost.InnerItem))">
                                         <div class="featured-post-image">
                                             <img src="@Sitecore.Resources.Media.MediaManager.GetMediaUrl(imageField.MediaItem)">
@@ -199,8 +199,7 @@
                                             <span class="summary">@Html.Raw(blogSummary)</span>
                                         </div>
                                     </a>
-                                </div>
-                            
+                                </div>  
                             }
                         </div>
                     </li>
