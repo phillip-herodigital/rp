@@ -3571,6 +3571,10 @@ article.marketing.mobile.cdma-pricing-plans {
             padding: 20px;
             box-shadow: 0px 2px 5px #ccc;
             max-width: 200px;
+
+            @include breakpoint(medium) {
+                margin: 10px auto;
+            }
         }
     }
     .plan-features {
@@ -3646,13 +3650,18 @@ article.marketing.mobile.cdma-pricing-plans {
             color: #2aa4dc;
             font-size: 18px;
             font-weight: 500;
+
+            @include breakpoint(medium) {
+                margin: 10px auto;
+            }
+            
             &.coverage {
                 background: url('../i/marketing/redesign/sprint_map.png') 10% 50% no-repeat;
                 background-color: #fff;
                 margin-right: 10px;
                 @include breakpoint(small) {
                     display: block;
-                    margin: 10px;
+                    margin: 10px auto;
                 }
             }
             &.device {
@@ -3661,7 +3670,7 @@ article.marketing.mobile.cdma-pricing-plans {
                 margin-left: 10px;
                 @include breakpoint(small) {
                     display: block;
-                    margin: 10px;
+                    margin: 10px auto;
                 }
             }
         }
@@ -3812,6 +3821,9 @@ article.marketing.mobile.cdma-pricing-plans {
         h1 {
             text-align: left;
         }
+		@include breakpoint(small) {
+			width: 100%;
+		}
     }
 }
 
@@ -3851,6 +3863,13 @@ article.marketing.mobile.cdma-pricing-plans {
             background: image-url('marketing/redesign/phones_check_device.png') center left no-repeat;
             padding: 0px 50px 0px 100px;
         }
+		@include breakpoint(small) {
+			width: 100%;
+			margin-bottom: 20px;
+			.content {
+				padding: 0px 0px 0px 107px;
+			}
+		}
     }
     .shop-device {
         background-color: #f3f6f7;
@@ -3861,6 +3880,12 @@ article.marketing.mobile.cdma-pricing-plans {
             background: image-url('marketing/redesign/phones_shop_devices.png') center left no-repeat;
             padding: 0px 0px 0px 130px;
         }
+		@include breakpoint(small) {
+			width: 100%;
+			.content {
+				padding: 0px 0px 0px 130px;
+			}
+		}
     }
 }
 

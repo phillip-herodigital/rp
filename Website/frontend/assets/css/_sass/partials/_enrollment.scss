@@ -1775,7 +1775,7 @@
         background-color: #fcfcfc;
     }
 
-    .mobile-services, .energy-services {
+    .mobile-services, .energy-services, .electricity-services, .gas-services {
         .plan-details {
         }
 
@@ -2268,6 +2268,16 @@
         }
     }
 
+    .order-complete-heading {
+        width: auto;
+    }
+
+    .order-complete-date {
+        float: right;
+        width: auto;
+        margin: 10px 0;
+    }
+
     .notice.alert {
         background-image: none;
         @include border-radius(0);
@@ -2280,6 +2290,10 @@
     }
 
     .next-steps {
+
+        .confirmation-number {
+            font-weight: 400;
+        }
 
         .mobile-header-content {
             color: #013c5b;
@@ -2464,6 +2478,36 @@
     .confirm-personal-info {
         .content {
             @include border-radius(5px);
+
+            p:last-child {
+                margin-bottom: 0;
+            }
+        }
+
+        .grid {
+            margin-top: 10px;
+
+            .personal-info {
+
+                .label {
+                    width: 150px;
+                    float: left;
+                    font-weight: 700;
+
+                    @include breakpoint(small) {
+                        width: 100%;
+                    }
+                }
+
+                .info {
+                    float: left;
+                    width: calc(100% - 150px);
+
+                    @include breakpoint(small) {
+                        width: 100%;
+                    }
+                }
+            }
         }
 
         .contact {
@@ -2486,6 +2530,44 @@
             margin-top: 0;
             color: #333;
             font-size: 24px;
+        }
+
+        .terms {
+            .term {
+                margin-bottom: 5px;
+
+                .check {
+                    width: 16px;
+                    height: 24px;
+                    float: left;
+
+                    &.background {
+                        background: url('../i/icon/gray-check.png') no-repeat left 6px;
+                    }
+
+                    span {
+                        font-weight: 600;
+                    }
+                }
+
+                .text {
+                    margin-top: 10px;
+                    margin-left: 15px;
+                    height: 100px;
+                    overflow-y: scroll;
+                    padding: 5px;
+                    border: 1px solid #e9e9e9;
+                    @include border-radius(10px);
+
+                    :first-child {
+                        margin-top: 0;
+                    }
+                }
+
+                p {
+                    margin-left: 15px;
+                }
+            }
         }
 
         .disclosure-documents {
@@ -2514,7 +2596,7 @@
         background-color: #fff;
     }
 
-    .mobile-services, .energy-services {
+    .mobile-services, .electricity-services, .gas-services {
         .plan-details {
         }
 
@@ -2544,11 +2626,12 @@
         }
 
         .rate {
-            width: 29%;
+            width: 28%;
             display: inline-block;
             text-align: right;
             font-weight: 600;
             vertical-align: top;
+            float: right;
 
             &.device-price {
                 margin-top: 17px;
@@ -2575,6 +2658,10 @@
             margin: 20px 0 40px;
             border-bottom: 1px solid #e6e6e6;
             padding-bottom: 30px;
+
+            .plan-info {
+                padding-left: 100px;
+            }
 
             .subheading {
                 font-size: 20px;
@@ -2686,6 +2773,132 @@
             margin: 0 0 5px;
             font-size: 16px;
         }
+    }
+
+    .electricity-services {
+        .plan-summary {
+            padding-left: 0;
+        }
+
+        .plan-info {
+            padding-left: 54px !important;
+
+            @include breakpoint(small) {
+                padding-left: 0 !important;
+            }
+        }
+
+        .plan-summary-image {
+            left: 0;
+        }
+
+        .service-info {
+            margin: 5px 0;
+
+            .label {
+                float: left;
+                width: 140px;
+                min-height: 1px;
+            }
+
+            .info {
+                float: left;
+
+                p {
+                    margin: 0;
+                }
+            }
+
+            @include breakpoint(small) {
+                .label {
+                    width: 100%;
+                }
+
+                .info {
+                    margin-left: 30px;
+                }
+            }
+        }
+
+        .description {
+            &.sub-charge {
+                width: 180px;
+                float: left;
+            }
+        }
+
+        .rate {
+            &.sub-charge {
+                width: auto;
+                font-weight: 300;
+                float: left;
+
+                ul {
+                    list-style: none;
+                    padding: 0;
+                    margin: 0;
+
+                    li {
+                        display: inline-block;
+
+                        :after {
+                            content: "|";
+                            margin: 0 5px 0 10px;
+                        }
+
+                        &:last-child {
+                            :after {
+                                content: none;
+                            }
+                        }
+
+                        @include breakpoint(small) {
+                            display: flex;
+
+                            :after {
+                                content: none;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        .contract-dates {
+            background-color: #f2f2f2;
+            margin: 20px -20px;
+            padding: 20px;
+
+            .contract-start, .contract-end {
+                width: calc(50% - 6px);
+                float: left;
+                text-align: center;
+
+                .label {
+                    font-weight: 700;
+                }
+            }
+
+            .contract-start {
+                padding-right: 6px;
+            }
+
+            .contract-end {
+                padding-left: 6px;
+            }
+
+            .arrow {
+                width: 12px;
+                height: 22px;
+                float: left;
+                @include retina-background('grey-right-arrow.png', 'icon');
+                background-repeat: no-repeat;
+                background-position: center center;
+            }
+        }
+    }
+
+    .gas-services {
     }
 
     .mobile-services {
@@ -3398,6 +3611,12 @@
         }
     }
 
+    .tax {
+        p {
+            margin: 0;
+        }
+    }
+
     .delete {
         cursor: pointer;
         float: right;
@@ -3730,6 +3949,7 @@
     Order confirmation page aside boxes
  */
  .enrollment-confirmation {
+
     .confirmation-banner {
         margin-top: -145px;
         margin-bottom: 71px;

@@ -343,14 +343,18 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', 'sc
             return total + getProratedCost();
         },
 
-        calculateMobileMonthlyTotal: function () {
+        calculateMobileMonthlyTotal: function (addLineSubAccounts) {
             var total = 0;
             for (var i = 0; i < services.length; i++) {
                 if (services[i].offerInformationByType[0].key == "Mobile") {
-                    total += (services[i].offerInformationByType[0].value.offerSelections[0].payments.requiredAmounts[0].phoneCharge);
-                    total += (services[i].offerInformationByType[0].value.offerSelections[0].payments.requiredAmounts[0].taxTotal);
+                    total += _.find(services[i].offerInformationByType[0].value.availableOffers, function (availableOffer) {
+                        return services[i].offerInformationByType[0].value.offerSelections[0].offerId === availableOffer.id;
+                    }).rates[0].rateAmount;
                 }
             }
+            angular.forEach(addLineSubAccounts, function (subAccount) {
+                total += subAccount.cost;
+            });
             return total;
         },
 
@@ -573,12 +577,9 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', 'sc
                }).contains(tdu);
         },
         cartHasTxLocation: function () {
-            return _(services)
-               .map(function (l) {
-                   if (_(l.location.capabilities).filter({ capabilityType: "TexasElectricity" }).size() != 0) {
-                       return l.location.address.stateAbbreviation;
-                   }
-               }).contains('TX');
+            return _(services).pluck('location').pluck('capabilities').flatten().pluck('capabilityType')
+                .intersection(['TexasElectricity', 'TexasElectricityRenewal'])
+                .some();
         },
         cartHasMobile: function () {
             return _(services).pluck('location').pluck('capabilities').flatten().pluck('capabilityType')

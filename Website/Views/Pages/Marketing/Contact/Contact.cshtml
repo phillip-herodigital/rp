@@ -33,24 +33,22 @@
             </div>
         </div>
     </article>
-    <article class="marketing contact contact-info" ng-repeat="category in categories" id="categoryContact">
+    <article class="marketing contact contact-info {{category.name}}" ng-repeat="category in categories" id="categoryContact">
         <div class="wrapper" ng-show="pane == category.name">
             <div class="content">
                 <div ng-bind-html="category.contactPageContent"></div>
-                <hr />
             </div>
         </div>
         <div class="wrapper" ng-repeat="state in category.states" ng-show="pane == state.name">
             <div class="content">
                 <div ng-bind-html="state.contactPageContent"></div>
                 <p><a href="" ng-click="showModal('emergency-contact')">Emergency Contacts</a></p>
-                <hr />
             </div>
         </div>
     </article>
     @if (Model == null || !Model.ShowSuccessMessage)
     {
-        <article class="marketing contact">
+        <article class="marketing contact request-intro">
             @Html.Sitecore().Field("Send Request Intro Text")
         </article>
     }

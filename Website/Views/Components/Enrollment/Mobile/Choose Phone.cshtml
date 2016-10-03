@@ -55,6 +55,9 @@
                                 <div ng-show="duplicateDevice">
                                     @Html.Sitecore().Field("Duplicate Device Error Message")
                                 </div>
+                                <div ng-show="existingDevice">
+                                    @Html.Sitecore().Field("Existing Device Message")
+                                </div>
                                 <div ng-show="!phoneOptions.supportsLte">
                                     @Html.Sitecore().Field("Non LTE Message")
                                 </div>

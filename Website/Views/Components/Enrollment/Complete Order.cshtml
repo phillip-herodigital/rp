@@ -374,6 +374,7 @@
                                             <div ng-include src="'completeOrderCartMonthly/' + offerInformation.key"></div>
                                         </div>
                                     </div>
+                                    <div ng-include src="'completeOrderCartMonthlyExisting/Mobile'" ng-if="addLineSubAccounts != null && cartHasMobile()"></div>
                                 </div>
                             </div>
                         </article>
@@ -409,7 +410,7 @@
         </div>
         <div>
             <div class="description fee">Monthly Plan</div>
-            <div class="rate">{{selectedOffer.payments.requiredAmounts[0].phoneCharge | currency}}</div>
+            <div class="rate">{{getOfferPrice(selectedOffer.offerId) | currency}}</div>
         </div>
         <div ng-if="selectedOffer.payments.requiredAmounts[0].taxTotal > 0">
             <div class="description fee">
@@ -472,6 +473,9 @@
             {{ getOfferPrice(selectedOffer.offerId) | currency }}@Html.Sitecore().Field("Per Month Text")
         </div>
     </div>
+</script>
+
+<script type="text/ng-template" id="completeOrderCartMonthlyExisting/Mobile">
     <div class="monthly-product clearfix" ng-repeat="subAccount in addLineSubAccounts">
         <div class="description">
             <span class="plan">@Html.Sitecore().Field("Monthly Plan Text Existing")</span>
@@ -479,6 +483,9 @@
         <div class="rate">
             {{ subAccount.cost | currency }}@Html.Sitecore().Field("Per Month Text")
         </div>
+    </div>
+    <div class="tax clearfix">
+        <p>@Html.Sitecore().Field("Monthly Sales Tax Text")</p>
     </div>
 </script>
 <script type="text/ng-template" id="completeOrderCartMonthly/Protective">
@@ -654,7 +661,7 @@
                     <h2>@Html.Sitecore().Field("Text - Plan Description")</h2>
                     <div class="details">@Html.Sitecore().Field("Text - Plan Details")</div>
                 </div>
-                <div class="rate device-price" ng-if="selectedOffer.payments.requiredAmounts[0].phoneCharge > 0">{{ selectedOffer.payments.requiredAmounts[0].phoneCharge | currency }}</div>
+                <div class="rate device-price" ng-if="selectedOffer.payments.requiredAmounts[0].phoneCharge > 0">{{ getOfferPrice(selectedOffer.offerId) | currency }}</div>
             </div>
             <div class="line-item autopay subheading" ng-show="completeOrder.autopay && cartHasMobile()">
                 <div class="description">

@@ -71,6 +71,7 @@
         service.contactTitle = result.contactTitle;
         service.accountInformation.secondaryContactInfo = result.secondaryContactInfo || {};
         service.accountInformation.language = result.language;
+        service.accountInformation.last4ssn = result.last4SSN;
         service.accountInformation.mailingAddress = result.mailingAddress;
         service.accountInformation.previousAddress = result.previousAddress;
         service.accountInformation.previousProvider = result.previousProvider;
@@ -333,7 +334,7 @@
     * 
     * @return {object}            Promise object returned when API call has successfully completed.
     */
-    service.toggleAutoPay = function () {
+    service.setAutoPay = function (isAutoPay) {
         var data = {};
         data.cart = _.map(enrollmentCartService.services, function (cartItem) {
             return {
@@ -353,7 +354,8 @@
                 })
             };
         });
-        makeCall("toggleAutoPay", data);
+        data.isAutoPay = isAutoPay
+        makeCall("setAutoPay", data);
     };
 
     /**
