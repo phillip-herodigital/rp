@@ -1736,6 +1736,9 @@
     <Content Include="Views\Components\Account\Sidebar Widgets\FAQs.cshtml" />
     <Content Include="Views\Pages\Currents\10 in 2016.cshtml" />
     <Content Include="Views\Pages\Marketing\Services\Paycenter Locator.cshtml" />
+    <Content Include="Views\Components\Marketing\Protective Service Intro.cshtml" />
+    <Content Include="Views\Components\Marketing\Win Back Landing.cshtml" />
+    <Content Include="Views\Components\Marketing\Protective Service Header.cshtml" />
     <Content Include="Views\Components\Enrollment\Protective\Protective Services.cshtml" />
     <Content Include="Views\Pages\Enrollment\Cart Phone.cshtml" />
     <Content Include="Views\Pages\Enrollment\Select Phone.cshtml" />
