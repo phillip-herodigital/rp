@@ -150,20 +150,20 @@
                                 </div>
                             </div>
                             
-                            <div class="item" @Html.Validation().ErrorClass(m => m.ContactInfo.Email.Address)>
+                            <div class="item group-col" @Html.Validation().ErrorClass(m => m.ContactInfo.Email.Address)>
                                 <label for="@Html.IdFor(m => m.ContactInfo.Email.Address)">@Html.Sitecore().Field("Email Address Label")</label>
                                 @Html.TextBoxFor(m => m.ContactInfo.Email.Address, new { type = "email", ng_model = "accountInformation.contactInfo.email.address" })
                                 @Html.ValidationMessageFor(model => model.ContactInfo.Email.Address)
                             </div>
 
-                            <div class="item" ng-if="customerType == 'commercial'">
+                            <div class="item group-col" ng-if="customerType == 'commercial'">
                                 <label>@Html.Sitecore().Field("Social Security Number or Tax ID Number Label")</label>
                                 <ul class="checkbox-list">
                                     <li><input type="radio" name="idType" ng-model="accountInformation.ssnOrTaxid" value="ssn" checked><label for="ssn">@Html.Sitecore().Field("Checkbox List Social Security Number")</label></li>
                                     <li><input type="radio" name="idType" ng-model="accountInformation.ssnOrTaxid" value="taxId"><label for="taxid">@Html.Sitecore().Field("Checkbox List Tax ID")</label></li>
                                 </ul>
                             </div>
-                            <div class="item" ng-if="customerType == 'residential' || accountInformation.ssnOrTaxid == 'ssn'" @Html.Validation().ErrorClass(m => m.SocialSecurityNumber)>
+                            <div class="item group-col" ng-if="customerType == 'residential' || accountInformation.ssnOrTaxid == 'ssn'" @Html.Validation().ErrorClass(m => m.SocialSecurityNumber)>
                                 <label for="@Html.IdFor(m => m.SocialSecurityNumber)">@Html.Sitecore().Field("Social Security Number Label") 
                                     <a ng-if="cartHasUtility() && !cartHasMobile()" href="#" tooltip="@Html.Sitecore().Field("Social Security Number Tooltip")"><i class="icon-tooltip"></i></a>
                                     <a ng-if="!cartHasUtility() && cartHasMobile()" href="#" tooltip="@Html.Sitecore().Field("Social Security Number Tooltip Mobile")"><i class="icon-tooltip"></i></a>
@@ -187,6 +187,20 @@
                                 @Html.TextBoxFor(m => m.CompanyName, new { ng_model = "accountInformation.companyName", data_val = "true", data_val_required = "" })
                                 @Html.ValidationMessageFor(m => m.CompanyName)
                             </div>
+                            <div class="item group-col" ng-if="cartHasProtective() && hasVirtualMD()" @Html.Validation().ErrorClass(model => model.DOB)>
+                                <label for="DOB">@Html.Sitecore().Field("DOB Label")</label>
+                                <input type="date" id="DOB" ng-model="accountInformation.DOB" data-val="true" data-val-required/>
+                                @Html.ValidationMessageFor(m => m.DOB)
+                            </div>
+                            <div class="item group-col" ng-if="cartHasProtective() && hasVirtualMD()" @Html.Validation().ErrorClass(model => model.Gender)>
+                                <label for="Gender">@Html.Sitecore().Field("Gender Label")</label>
+                                <select id="Gender" ng-model="accountInformation.gender" data-val="true" data-val-required>
+                                    <option ng-value="'M'">@Html.Sitecore().Field("Male Text")</option>
+                                    <option ng-value="'F'">@Html.Sitecore().Field("Female Text")</option>
+                                </select>
+                                @Html.ValidationMessageFor(m => m.Gender)
+                            </div>
+
                             <div class="additional-field-item item">
                                 <ul class="checkbox-list">
                                     <li><input type="checkbox" name="secondary-contact" id="secondary-contact" ng-model="additionalInformation.showSecondaryContact" ng-change="showSecondaryContactChanged()"><label for="secondary-contact">@Html.Sitecore().Field("Checkbox Add Secondary Contact")</label></li>
@@ -275,7 +289,7 @@
                                     </div>
                                 }
                             </div>
-                            <div ng-if="!cartHasMobile() && hasMoveIn && customerType != 'commercial'" class="previous-address">
+                            <div ng-if="!cartHasMobile() && !cartHasProtective() && hasMoveIn && customerType != 'commercial'" class="previous-address">
                                 <h3>@Html.Sitecore().Field("Previous Address Header")</h3>
                                 @using (var previousAddress = Html.Shortcut(m => m.PreviousAddress))
                                 {
@@ -471,7 +485,6 @@
     @using (var offer = Html.ClientRepeater(m => m.Services, "{{$parent.$index}}").ClientRepeater(m => m.SelectedOffers, "{{$index}}"))
     {
     <div ng-controller="OfferOptions-TexasElectricityMoveIn">
-        @*<h2>Electricity</h2>*@
         <div class="item group-col datepicker" @offer.Validation().ErrorClass(o => ((TexasElectricity.MoveInOfferOption)o.OfferOption).ConnectDate)>
             <label for="@offer.Fix(h => h.IdFor(o => ((TexasElectricity.MoveInOfferOption)o.OfferOption).ConnectDate))">@Html.Sitecore().Field("Service Start Date Label")</label>
             <span class="calendar">

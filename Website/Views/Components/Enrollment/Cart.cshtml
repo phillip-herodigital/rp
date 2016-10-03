@@ -235,20 +235,20 @@
 
 <script type="text/ng-template" id="cart/Protective">
     <div ng-repeat="offerSelection in offerInformation.value.offerSelections">
-        <div class="service clearfix" ng-repeat="subOffer in offerSelection.subOffers">
-            <div class="icon" ng-style="{'background-image': 'URL(' + subOffer.offer.iconURL + ')'}"></div>
+        <div class="service clearfix" ng-repeat="suboffer in offerSelection.suboffers">
+            <div class="icon" ng-style="{'background-image': 'URL(' + suboffer.offer.iconURL + ')'}"></div>
             <div class="name">
-                <span ng-if="subOffer.offer.hasGroupOffer">Individual </span>
-                <span ng-if="subOffer.offer.isGroupOffer">Family </span>
-                {{subOffer.offer.name}}
-                <p class="clearfix"><a href="" ng-click="removeProtectiveOffer(subOffer.offer.id)">Remove</a></p>
+                <span ng-if="suboffer.offer.hasGroupOffer">Individual </span>
+                <span ng-if="suboffer.offer.isGroupOffer">Family </span>
+                {{suboffer.offer.name}}
+                <p class="clearfix"><a href="" ng-click="removeProtectiveOffer(suboffer.offer.id)">Remove</a></p>
             </div>
             <div class="price">
                 <div class="full-price">
-                    {{subOffer.offer.price | currency}}/mo
+                    {{suboffer.offer.price | currency}}/mo
                     <div class="slash" ng-show="getProtectiveDiscount()">@Html.Sitecore().Field("Discount Slash")</div>
                 </div>
-                <div class="discount" ng-show="getProtectiveDiscount()">{{subOffer.offer.price - subOffer.offer.threeServiceDiscount | currency}}/mo</div>
+                <div class="discount" ng-show="getProtectiveDiscount()">{{suboffer.offer.price - suboffer.offer.threeServiceDiscount | currency}}/mo</div>
             </div>
         </div>
         <div class="monthly-cost-summary" ng-if="getCartCount() > 0">

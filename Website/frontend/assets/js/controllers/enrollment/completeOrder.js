@@ -42,9 +42,9 @@ ngApp.controller('EnrollmentCompleteOrderCtrl', ['$scope', 'enrollmentService', 
     $scope.isAddLine = enrollmentService.isAddLine;
     $scope.addLineSubAccounts = enrollmentService.addLineSubAccounts;
     $scope.addLineAutoPay = enrollmentService.addLineAutoPay;
-    $scope.removeProtectiveOffer = enrollmentCartService.removeProtectiveOffer;
     $scope.getProtectiveDiscount = enrollmentCartService.getProtectiveDiscount;
     $scope.getProtectiveTotal = enrollmentCartService.getProtectiveTotal;
+    $scope.cartHasProtective = enrollmentCartService.cartHasProtective;
 
     _.intersectionObjects = _.intersect = function(array) {
     var slice = Array.prototype.slice;
@@ -269,6 +269,15 @@ ngApp.controller('EnrollmentCompleteOrderCtrl', ['$scope', 'enrollmentService', 
             turnOnAutoPay();
         }
     };
+
+    $scope.removeProtectiveOffer = function (offerId) {
+        enrollmentCartService.removeProtectiveOffer(offerId);
+        enrollmentService.setSelectedOffers(true);
+    }
+
+    $scope.isVideoConferenceState = function (offer) {
+        return enrollmentService.isVideoConferenceState(offer, $scope.geoLocation);
+    }
 
     $scope.editMobileDevice = function (item) {
         //update active service address, send to the correct page

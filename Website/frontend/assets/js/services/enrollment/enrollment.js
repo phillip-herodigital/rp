@@ -290,6 +290,8 @@
             companyName: service.accountInformation.companyName,
             doingBusinessAs: service.accountInformation.doingBusinessAs,
             socialSecurityNumber: service.accountInformation.socialSecurityNumber,
+            DOB: service.accountInformation.DOB,
+            gender: service.accountInformation.gender,
             secondaryContactInfo: service.accountInformation.secondaryContactInfo,
             onlineAccount: service.accountInformation.onlineAccount,
             mailingAddress: service.accountInformation.mailingAddress,
@@ -403,6 +405,13 @@
 
         return makeCall('singlePageOrder', data);
     };
+
+    //for protective enrollments
+    service.isVideoConferenceState = function (offer, geoLocation) {
+        return _.some(offer.videoConferenceStates, function (videoConferenceState) {
+            return videoConferenceState === geoLocation.state;
+        });
+    }
 
     /**
     * Set verify identity

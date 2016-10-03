@@ -19,6 +19,10 @@ namespace StreamEnergy.MyStream.Models.Enrollment
 
         public string SocialSecurityNumber { get; set; }
 
+        public DateTime DOB { get; set; }
+
+        public string Gender { get; set; }
+
         public IEnumerable<CartEntry> Cart { get; set; }
 
         public OnlineAccount OnlineAccount { get; set; }

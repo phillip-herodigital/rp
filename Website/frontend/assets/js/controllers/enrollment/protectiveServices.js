@@ -34,21 +34,19 @@ ngApp.controller('protectiveServicesEnrollmentCtrl', ['$scope', '$http', '$locat
     }
 
     $scope.isVideoConferenceState = function (offer) {
-        return _.some(offer.videoConferenceStates, function (videoConferenceState) {
-            return videoConferenceState === $scope.geoLocation.state;
-        });
+        return enrollmentService.isVideoConferenceState(offer, $scope.geoLocation);
     }
 
     $scope.selectOffer = function (offer) {
-        if ($scope.getActiveService().offerInformationByType[0].value.offerSelections.length && $scope.getActiveService().offerInformationByType[0].value.offerSelections[0].subOffers) {
-            $scope.getActiveService().offerInformationByType[0].value.offerSelections[0].subOffers.push({
+        if ($scope.getActiveService().offerInformationByType[0].value.offerSelections.length && $scope.getActiveService().offerInformationByType[0].value.offerSelections[0].suboffers) {
+            $scope.getActiveService().offerInformationByType[0].value.offerSelections[0].suboffers.push({
                 offer: offer,
                 offerId: offer.id,
             });
         }
         else {
             $scope.getActiveService().offerInformationByType[0].value.offerSelections[0] = {
-                subOffers: [{
+                suboffers: [{
                     offer: offer,
                     offerId: offer.id,
                 }]
@@ -57,8 +55,8 @@ ngApp.controller('protectiveServicesEnrollmentCtrl', ['$scope', '$http', '$locat
     }
 
     $scope.removeOffer = function (offerId) {
-        _.remove($scope.getActiveService().offerInformationByType[0].value.offerSelections[0].subOffers, function (subOffer) {
-            return subOffer.offerId === offerId;
+        _.remove($scope.getActiveService().offerInformationByType[0].value.offerSelections[0].suboffers, function (suboffer) {
+            return suboffer.offerId === offerId;
         });
     }
 
@@ -76,8 +74,8 @@ ngApp.controller('protectiveServicesEnrollmentCtrl', ['$scope', '$http', '$locat
 
     $scope.offerSelected = function (id) {
         if ($scope.getActiveService().offerInformationByType[0].value.offerSelections.length) {
-            return _.some($scope.getActiveService().offerInformationByType[0].value.offerSelections[0].subOffers, function (subOffer) {
-                return subOffer.offerId === id;
+            return _.some($scope.getActiveService().offerInformationByType[0].value.offerSelections[0].suboffers, function (suboffer) {
+                return suboffer.offerId === id;
             });
         }
         else return false;

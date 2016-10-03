@@ -92,8 +92,8 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', 'sc
             angular.forEach(this.services, function (service) {
                 angular.forEach(service.offerInformationByType, function (offerInformation) {
                     angular.forEach(offerInformation.value.offerSelections, function (offerSelection) {
-                        if (typeof offerSelection.subOffers != 'undefined' && offerSelection.subOffers.length != 0) {
-                            cart[0].offerInformationByType[0].value.offerSelections[0].subOffers = offerSelection.subOffers;
+                        if (typeof offerSelection.suboffers != 'undefined' && offerSelection.suboffers.length != 0) {
+                            cart[0].offerInformationByType[0].value.offerSelections[0].suboffers = offerSelection.suboffers;
                         }
                     });
                 });
@@ -358,10 +358,10 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', 'sc
         * Handle Protective Cart Functions
         */
         removeProtectiveOffer: function (offerId) {
-            _.remove(enrollmentCartService.getActiveService().offerInformationByType[0].value.offerSelections[0].subOffers, function (subOffer) {
-                return subOffer.offerId === offerId;
+            _.remove(enrollmentCartService.getActiveService().offerInformationByType[0].value.offerSelections[0].suboffers, function (suboffer) {
+                return suboffer.offerId === offerId;
             });
-            if (enrollmentCartService.getActiveService().offerInformationByType[0].value.offerSelections[0].subOffers.length != 0) {
+            if (enrollmentCartService.getActiveService().offerInformationByType[0].value.offerSelections[0].suboffers.length != 0) {
                 enrollmentCartService.getActiveService().offerInformationByType[0].value.offerSelections[0].offerId = enrollmentCartService.findProtectiveProduct().id;
             }
             else {
@@ -371,26 +371,38 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', 'sc
         },
 
         findProtectiveProduct: function () {
-            return _.find(enrollmentCartService.getActiveService().offerInformationByType[0].value.availableOffers, function (availableOffer) {
-                if (availableOffer.subOfferGuids.length === enrollmentCartService.getActiveService().offerInformationByType[0].value.offerSelections[0].subOffers.length) {
-                    return _.every(enrollmentCartService.getActiveService().offerInformationByType[0].value.offerSelections[0].subOffers, function (subOffer) {
-                        return _.some(availableOffer.subOfferGuids, function (subOfferGuid) {
-                            return subOfferGuid === subOffer.offer.guid;
-                        });
+            if (enrollmentCartService.services[0].offerInformationByType[0].value.offerSelections.length) {
+                if (enrollmentCartService.services[0].offerInformationByType[0].value.offerSelections[0].suboffers) {
+                    return _.find(enrollmentCartService.services[0].offerInformationByType[0].value.availableOffers, function (availableOffer) {
+                        if (availableOffer.suboffers.length === enrollmentCartService.services[0].offerInformationByType[0].value.offerSelections[0].suboffers.length) {
+                            return _.every(enrollmentCartService.services[0].offerInformationByType[0].value.offerSelections[0].suboffers, function (suboffer) {
+                                return _.some(availableOffer.suboffers, function (availableSuboffer) {
+                                    if (suboffer.guid) return suboffer.guid === availableSuboffer.guid;
+                                    else if (suboffer.offer) return suboffer.offer.guid === availableSuboffer.guid;
+                                    else return false;
+                                });
+                            });
+                        }
+                        else return false
                     });
                 }
-                else return false
-            });
+                else {
+                    return {
+                        suboffers: enrollmentCartService.services[0].offerInformationByType[0].value.offerSelections[0].offer.suboffers
+                    }
+                }
+            }
+            else return {};
         },
 
         getProtectiveDiscount: function () {
             var count = 0;
             var discount = 0;
-            if (enrollmentCartService.getActiveService().offerInformationByType[0].value.offerSelections.length) {
-
-                angular.forEach(enrollmentCartService.getActiveService().offerInformationByType[0].value.offerSelections[0].subOffers, function (subOffer) {
-                    discount += subOffer.offer.threeServiceDiscount;
-                    if (subOffer.offer.isGroupOffer) count += 2;
+            var selectedOffer = enrollmentCartService.findProtectiveProduct();
+            if (selectedOffer) {
+                angular.forEach(selectedOffer.suboffers, function (suboffer) {
+                    discount += suboffer.threeServiceDiscount;
+                    if (suboffer.isGroupOffer) count += 2;
                     else count++;
                 });
             }
@@ -404,9 +416,10 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', 'sc
 
         getProtectiveTotal: function () {
             var total = 0;
-            if (enrollmentCartService.getActiveService().offerInformationByType[0].value.offerSelections.length) {
-                angular.forEach(enrollmentCartService.getActiveService().offerInformationByType[0].value.offerSelections[0].subOffers, function (subOffer) {
-                    total += subOffer.offer.price;
+            var selectedOffer = enrollmentCartService.findProtectiveProduct();
+            if (selectedOffer) {
+                angular.forEach(selectedOffer.suboffers, function (suboffer) {
+                    total += suboffer.price;
                 });
             }
             return total;

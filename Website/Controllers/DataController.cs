@@ -206,9 +206,6 @@ namespace StreamEnergy.MyStream.Controllers
             float price = 0;
             float discount = 0;
             var data = (from service in Sitecore.Context.Database.GetItem("/sitecore/content/Data/Taxonomy/Products/Protective/Services").Children
-                        //let canSort = int.TryParse(service.Fields["Sort Order"].Value, out sortOrder)
-                        //let hasPrice = float.TryParse(service.Fields["Price"].Value, out price)
-                        //let hasDiscount = float.TryParse(service.Fields["Three Service Discount"].Value, out discount)
                         let iconField = new ImageField(service.Fields["Icon"])
                         select new DomainModels.Enrollments.Protective.Service
                         {

@@ -61,7 +61,13 @@ namespace StreamEnergy.DomainModels.Enrollments
             else if (!internalContext.IdentityCheck.Data.HardStop.HasValue)
             {
                 context.SelectedIdentityAnswers = new Dictionary<string, string>();
-                return await base.InternalProcess(context, internalContext);
+
+                var results = await base.InternalProcess(context, internalContext);
+                if (!internalContext.IdentityCheck.Data.IdentityAccepted && context.Services.Any(service => service.SelectedOffers.Any(so => so.Offer.OfferType == "Protective")))
+                {
+                    return typeof(IdentityCheckHardStopState);
+                }
+                return results;
             }
 
             // TODO - based on the credit check, we may have a hard stop, etc.

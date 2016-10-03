@@ -14,7 +14,7 @@ namespace StreamEnergy.DomainModels.Enrollments.Protective
         public string Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        public IEnumerable<string> SubOfferGuids { get; set; }
+        public IEnumerable<Service> Suboffers { get; set; }
         public string OfferType
         {
             get { return Offer.Qualifier; }

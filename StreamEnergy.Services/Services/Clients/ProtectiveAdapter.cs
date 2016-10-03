@@ -97,14 +97,13 @@ namespace StreamEnergy.Services.Clients
 
         dynamic ILocationAdapter.ToEnrollmentAccount(Guid globalCustomerId, EnrollmentAccountDetails account, string ExistingAccountNumber)
         {
-            var offer = (account.Offer.Offer as Protective.Offer);
             var offerOption = (account.Offer.OfferOption as Protective.OfferOption);
             return new
             {
                 ServiceType = "Protective",
                 Key = account.EnrollmentAccountKey,
                 RequestUniqueKey = account.RequestUniqueKey,
-                PlanId = account.Offer.Offer.Id,
+                ProductCode = account.Offer.Offer.Id,
                 ActivationDate = offerOption.ActivationDate,
                 UseInstallmentPlan = offerOption.UseInstallmentPlan,
                 ExistingAccountNumber = ExistingAccountNumber,
@@ -156,7 +155,7 @@ namespace StreamEnergy.Services.Clients
             return new DomainModels.Enrollments.OfferPayment
             {
                 EnrollmentAccountNumber = streamAccountDetails.Key.SystemOfRecordId,
-                RequiredAmounts = ToRequiredAmount((IEnumerable<dynamic>)streamAccountDetails.InitialPayments, streamAccountDetails.Key),
+                RequiredAmounts = ToRequiredAmount(streamAccountDetails.ProductCode, streamAccountDetails.Key),
                 OngoingAmounts = new DomainModels.Enrollments.IOfferPaymentAmount[0],
                 PostBilledAmounts = new DomainModels.Enrollments.IOfferPaymentAmount[0],
                 AvailablePaymentMethods = (from type in (IEnumerable<dynamic>)streamAccountDetails.AcceptedEnrollmentPaymentAccountTypes
@@ -164,19 +163,43 @@ namespace StreamEnergy.Services.Clients
             };
         }
 
-        private DomainModels.Enrollments.IOfferPaymentAmount[] ToRequiredAmount(IEnumerable<dynamic> streamConnectFees, dynamic key)
+        private DomainModels.Enrollments.IOfferPaymentAmount[] ToRequiredAmount(dynamic ProductCode, dynamic key)
         {
-            if (!streamConnectFees.Any())
+            string query = "/sitecore/content/Data/Taxonomy/Products/Protective//*[@@templateid='{2435BB90-E224-403E-B37B-4872C4F279F7}' and @ID='" + ProductCode.ToString() + "']";
+            var ProductItem = Sitecore.Context.Database.SelectItems(query).First();
+            var ProductSubofferGuids = ProductItem.Fields["Services"].Value.Split('|');
+            float price = 0;
+            float discount = 0;
+            var Suboffers = (from service in Sitecore.Context.Database.GetItem("/sitecore/content/Data/Taxonomy/Products/Protective/Services").Children
+                             select new Service
+                             {
+                                 Guid = service.ID.ToString(),
+                                 Price = float.TryParse(service.Fields["Price"].Value, out price) ? price : -1,
+                                 ThreeServiceDiscount = float.TryParse(service.Fields["Three Service Discount"].Value, out discount) ? discount : -1,
+                                 IsGroupOffer = service.Fields["Is Group Offer"].Value == "1",
+                             }).ToArray();
+            int offerCount = 0;
+            float total = 0;
+            float totalDiscount = 0;
+            List<Service> ProductSuboffers = new List<Service>();
+            foreach (string guid in ProductSubofferGuids)
             {
-                return new DomainModels.Enrollments.IOfferPaymentAmount[0];
+                var suboffer = Suboffers.First(so => so.Guid == guid);
+                ProductSuboffers.Add(suboffer);
+                if (suboffer.IsGroupOffer) offerCount += 2;
+                else offerCount += 1;
+                total += suboffer.Price;
+                totalDiscount += suboffer.ThreeServiceDiscount;
             }
+            if (offerCount > 2) total -= totalDiscount;
+
             return new[] 
             {  
                 new Protective.TotalPaymentAmount 
                 {
-                    DollarAmount = Convert.ToDecimal(streamConnectFees.Single(fee => (string)fee.Name == "Total").Amount.ToString()),
-                    TaxTotal = Convert.ToDecimal(streamConnectFees.Single(fee => (string)fee.Name == "Tax Total").Amount.ToString()),
-                    SubTotal = Convert.ToDecimal(streamConnectFees.Single(fee => (string)fee.Name == "Sub Total").Amount.ToString()),
+                    DollarAmount = Convert.ToDecimal(total),
+                    TaxTotal = 0,
+                    SubTotal = Convert.ToDecimal(total),
                     SystemOfRecord = key.SystemOfRecord,
                     DepositAccount = key.SystemOfRecordId,
                 }

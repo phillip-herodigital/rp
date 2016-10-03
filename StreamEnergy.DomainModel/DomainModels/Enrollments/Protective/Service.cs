@@ -7,6 +7,7 @@ using Microsoft.Practices.Unity;
 
 namespace StreamEnergy.DomainModels.Enrollments.Protective
 {
+    [Serializable]
     public class Service
     {
         public string Id { get; set; }

@@ -84,10 +84,10 @@
                                 <p>{{offer.name}} @Html.Sitecore().Field("Includes")</p>
                                 <div class="lists clearfix">
                                     <ul class="even">
-                                        <li ng-repeat="detail in offer.details" class="clearfix" ng-if="$even"><div class="circle"></div>{{detail}}</li>
+                                        <li ng-repeat="detail in offer.details" class="clearfix" ng-if="$even"><div class="circle"></div><span>{{detail}}</span></li>
                                     </ul>
                                     <ul class="odd">
-                                        <li ng-repeat="detail in offer.details" class="clearfix" ng-if="$odd"><div class="circle"></div>{{detail}}</li>
+                                        <li ng-repeat="detail in offer.details" class="clearfix" ng-if="$odd"><div class="circle"></div><span>{{detail}}</span></li>
                                     </ul>
                                 </div>
                             </div>

@@ -22,8 +22,12 @@
                                 </div>
                             </div>
                             <footer ng-if="getCartTotal() > 0 && !cartHasMobile()">
-                                <div class="total">
+                                <div class="total" ng-if="!cartHasProtective()">
                                     @Html.Sitecore().Field("Total Due Now") <strong>{{ getCartTotal() | currency }}</strong>
+                                </div>
+                                <div class="total clearfix protective" ng-if="cartHasProtective()">
+                                    <p>@Html.Sitecore().Field("Total Due Monthly") <span>{{getProtectiveTotal() - getProtectiveDiscount() | currency}}</span></p>
+                                    <div class="icon"></div>
                                 </div>
                             </footer>
                         </article>
@@ -360,7 +364,7 @@
                                         @Html.Sitecore().Field("Due Today Text") <span class="total">{{ getCartTotal() | currency }}</span>
                                     </div>
                                 </div>
-                                <hr ng-if="!isRenewal && getCartTotal() > 0">
+                                <hr ng-if="!isRenewal && !cartHasProtective() && getCartTotal() > 0">
                                 <div class="billed-monthly" ng-if="!cartHasProtective()">
                                     <div class="billed-title">@Html.Sitecore().Field("Billed Monthly Text")<i class="icon-billed-monthly"></i></div>
                                     <div ng-repeat="(id, location) in getCartItems()">
@@ -416,24 +420,22 @@
     </div>
 </script>
 <script type="text/ng-template" id="completeOrderCartToday/Protective">
-    <div class="service clearfix" ng-repeat="offerSelection in offerInformation.value.offerSelections">
-        <div class="icon" ng-style="{'background-image': 'URL(' + offerSelection.offer.iconURL + ')'}"></div>
-        <div class="name">
-            <span ng-if="offerSelection.offer.hasGroupOffer">Individual </span>
-            <span ng-if="offerSelection.offer.isGroupOffer">Family </span>
-            {{offerSelection.offer.name}}
-        </div>
-        <div class="price">
-            <div class="full-price">
-                {{offerSelection.offer.price | currency}}/mo
-                <div class="slash" ng-show="getProtectiveDiscount()">@Html.Sitecore().Field("Discount Slash")</div>
+    <div class="protective" ng-repeat="offerSelection in offerInformation.value.offerSelections">
+        <div class="service clearfix" ng-repeat="suboffer in offerSelection.suboffers">
+            <div class="icon" ng-style="{'background-image': 'URL(' + suboffer.offer.iconURL + ')'}"></div>
+            <div class="name">
+                <span ng-if="suboffer.offer.hasGroupOffer">@Html.Sitecore().Field("Individual Text") </span>
+                <span ng-if="suboffer.offer.isGroupOffer">@Html.Sitecore().Field("Family Text") </span>
+                {{suboffer.offer.name}}
             </div>
-            <div class="discount" ng-show="getProtectiveDiscount()">{{offerSelection.offer.price - offerSelection.offer.threeServiceDiscount | currency}}/mo</div>
+            <div class="price">
+                <div class="full-price">
+                    {{suboffer.offer.price | currency}}@Html.Sitecore().Field("Per Month Text")
+                    <div class="slash" ng-show="getProtectiveDiscount()">@Html.Sitecore().Field("Discount Slash")</div>
+                </div>
+                <div class="discount" ng-show="getProtectiveDiscount()">{{suboffer.offer.price - suboffer.offer.threeServiceDiscount | currency}}@Html.Sitecore().Field("Per Month Text")</div>
+            </div>
         </div>
-    </div>
-    <div class="total clearfix">
-        <div class="label"><strong>Due Today: </strong></div>
-        <div class="amount"><strong>{{getProtectiveTotal() - getProtectiveDiscount() | currency}}</strong></div>
     </div>
 </script>
 <script type="text/ng-template" id="completeOrderCartMonthly/TexasElectricity">
@@ -673,30 +675,32 @@
     </div>
 </script>
 <script type="text/ng-template" id="completeOrder/Protective">
-    <div class="heading">
-        <h4>Protective Services</h4>
-        <div class="service-count">{{getCartCount()}} Monthly Services</div>
-    </div>
-    <div class="service" ng-repeat="offerSelection in offerInformation.value.offerSelections">
-        <div class="col-1" ng-style="{'background-image': 'URL(' + offerSelection.offer.iconURL + ')'}"></div>
-        <div class="col-2">
-            <p class="name">{{offerSelection.offer.name}}</p>
-            <p class="description">{{offerSelection.offer.description}}</p>
-            <p class="video-required" ng-show="isVideoConferenceState(offerSelection.offer)">@Html.Sitecore().Field("Video Conference Text")</p>
+    <div class="protective-services">
+        <div class="heading clearfix">
+            <h4>@Html.Sitecore().Field("Protective Services Text")</h4>
+            <div class="service-count">{{getCartCount()}} @Html.Sitecore().Field("Monthly Services Text")</div>
         </div>
-        <div class="col-3">
-            <div class="full-price">
-                {{offerSelection.offer.price | currency}}/mo
-                <div class="slash" ng-show="getProtectiveDiscount()">@Html.Sitecore().Field("Discount Slash")</div>
+        <div ng-repeat="offerSelection in offerInformation.value.offerSelections">
+            <div class="service clearfix" ng-repeat="suboffer in offerSelection.suboffers">
+                <div class="col-1" ng-style="{'background-image': 'URL(' + suboffer.offer.iconURL + ')'}"></div>
+                <div class="col-2">
+                    <p class="name">{{suboffer.offer.name}}</p>
+                    <p class="description">{{suboffer.offer.description}}</p>
+                    <p class="start-date">@Html.Sitecore().Field("Service Start Date Text") {{ currentDate | date:'MMM. d, yyyy'}}</p>
+                    <p class="video-required" ng-show="isVideoConferenceState(suboffer.offer)">@Html.Sitecore().Field("Video Conference Text")</p>
+                </div>
+                <div class="col-3">
+                    <div class="full-price">
+                        {{suboffer.offer.price | currency}}@Html.Sitecore().Field("Per Month Text")
+                        <div class="slash" ng-show="getProtectiveDiscount()">@Html.Sitecore().Field("Discount Slash")</div>
+                    </div>
+                    <div class="discount" ng-show="getProtectiveDiscount()">{{suboffer.offer.price - suboffer.offer.threeServiceDiscount | currency}}@Html.Sitecore().Field("Per Month Text")</div>
+                </div>
             </div>
-            <div class="discount" ng-show="getProtectiveDiscount()">{{offerSelection.offer.price - offerSelection.offer.threeServiceDiscount | currency}}/mo</div>
         </div>
-    </div>
-    <div class="total-today">
-        <p>Total Due Today: {{getProtectiveTotal() - getProtectiveDiscount() | currency}}</p>
-    </div>
-    <div class="total-monthly">
-        <p>Total Due Monthly: {{getProtectiveTotal() - getProtectiveDiscount() | currency}}</p>
+        <div class="total-today">
+            <p>@Html.Sitecore().Field("Total Due Today") <span>{{getProtectiveTotal() - getProtectiveDiscount() | currency}}</span></p>
+        </div>
     </div>
 </script>
 <script type="text/ng-template" id="paymentsDue/Deposit">
