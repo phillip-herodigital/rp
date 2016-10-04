@@ -796,6 +796,9 @@ article.protective-services-pricing {
                 font-size: 16px;
                 font-weight: 600;
                 background: #46c0ff;
+				&.spanish {
+					width: 145px;
+				}
 
                 @include breakpoint(small) {
                     top: 0;
