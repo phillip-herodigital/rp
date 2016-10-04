@@ -238,7 +238,7 @@
         <div class="service clearfix" ng-repeat="suboffer in offerSelection.offer.suboffers">
             <div class="icon" ng-style="{'background-image': 'URL(' + suboffer.iconURL + ')'}"></div>
             <div class="name">
-                <span ng-if="suboffer.hasGroupOffer">@Html.Sitecore().Field("Individual Text")/span>
+                <span ng-if="suboffer.hasGroupOffer">@Html.Sitecore().Field("Individual Text")</span>
                 <span ng-if="suboffer.isGroupOffer">@Html.Sitecore().Field("Family Text")</span>
                 {{suboffer.name}}
                 <p class="clearfix"><a href="" ng-click="removeProtectiveOffer(suboffer.id)">@Html.Sitecore().Field("Remove Text")</a></p>
