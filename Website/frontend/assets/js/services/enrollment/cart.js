@@ -89,6 +89,21 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', 'sc
 		 * @param {Array} cart
 		 */
         updateCart: function (cart) {
+            if (cart.length && cart[0].offerInformationByType.length && cart[0].offerInformationByType[0].key == "Protective") {
+                var div = document.createElement('div');
+                var htmlDecode = function (item) {
+                    div.innerHTML = item;
+                    return div.textContent;
+                }
+                if (cart[0].offerInformationByType[0].value.availableOffers.length) {
+                    angular.forEach(cart[0].offerInformationByType[0].value.availableOffers, function (availableOffer, AOIndex) {
+                        angular.forEach(availableOffer.suboffers, function (suboffer, SOIndex) {
+                            cart[0].offerInformationByType[0].value.availableOffers[AOIndex].suboffers[SOIndex].name = htmlDecode(suboffer.name);
+                            cart[0].offerInformationByType[0].value.availableOffers[AOIndex].suboffers[SOIndex].description = htmlDecode(suboffer.description);
+                        });
+                    });
+                }
+            }
             //Map out the location items
             angular.copy(cart, services);
 
