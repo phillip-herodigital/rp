@@ -238,30 +238,30 @@
         <div class="service clearfix" ng-repeat="suboffer in offerSelection.offer.suboffers">
             <div class="icon" ng-style="{'background-image': 'URL(' + suboffer.iconURL + ')'}"></div>
             <div class="name">
-                <span ng-if="suboffer.hasGroupOffer">Individual </span>
-                <span ng-if="suboffer.isGroupOffer">Family </span>
+                <span ng-if="suboffer.hasGroupOffer">@Html.Sitecore().Field("Individual Text")/span>
+                <span ng-if="suboffer.isGroupOffer">@Html.Sitecore().Field("Family Text")</span>
                 {{suboffer.name}}
-                <p class="clearfix"><a href="" ng-click="removeProtectiveOffer(suboffer.id)">Remove</a></p>
+                <p class="clearfix"><a href="" ng-click="removeProtectiveOffer(suboffer.id)">@Html.Sitecore().Field("Remove Text")</a></p>
             </div>
             <div class="price">
                 <div class="full-price">
-                    {{suboffer.price | currency}}/mo
+                    {{suboffer.price | currency}}@Html.Sitecore().Field("Month Text")
                     <div class="slash" ng-show="getProtectiveDiscount()">@Html.Sitecore().Field("Discount Slash")</div>
                 </div>
-                <div class="discount" ng-show="getProtectiveDiscount()">{{suboffer.price - suboffer.threeServiceDiscount | currency}}/mo</div>
+                <div class="discount" ng-show="getProtectiveDiscount()">{{suboffer.price - suboffer.threeServiceDiscount | currency}}@Html.Sitecore().Field("Month Text")</div>
             </div>
         </div>
         <div class="monthly-cost-summary" ng-if="getCartCount() > 0">
             <div class="monthly-cost clearfix">
-                <div class="label">Montly Service Cost: </div>
+                <div class="label">@Html.Sitecore().Field("Monthly Cost Text")</div>
                 <div class="amount">{{getProtectiveTotal() | currency}}</div>
             </div>
             <div class="discount clearfix" ng-show="getProtectiveDiscount()">
-                <div class="label"><strong>3+ Service Savings: </strong></div>
+                <div class="label"><strong>@Html.Sitecore().Field("3 Service Savings Text")</strong></div>
                 <div class="amount"><strong>-{{getProtectiveDiscount() | currency}}</strong></div>
             </div>
             <div class="total clearfix">
-                <div class="label"><strong>Order Total: </strong></div>
+                <div class="label"><strong>@Html.Sitecore().Field("Order Total Text")</strong></div>
                 <div class="amount"><strong>{{getProtectiveTotal() - getProtectiveDiscount() | currency}}</strong></div>
             </div>
         </div>
@@ -290,7 +290,7 @@
 <script type="text/ng-template" id="confirmAddressDeleteModal">
     <div>
         <div class="modal-header">
-            <a href="" ng-click="$dismiss()">Close</a>
+            <a href="" ng-click="$dismiss()">@Html.Sitecore().Field("Modal Close Text")</a>
             <h2>@Html.Sitecore().Field("Confirm Address Deletion Header")</h2>
         </div>
         <div class="modal-body">
@@ -306,7 +306,7 @@
 <script type="text/ng-template" id="showBillAccountModal">
     <div>
         <div class="modal-header">
-            <a href="" ng-click="$dismiss()">Close</a>
+            <a href="" ng-click="$dismiss()">@Html.Sitecore().Field("Modal Close Text")</a>
             <h2>@Html.Sitecore().Field("Bill Account Example Header")</h2>
         </div>
         <div class="modal-body">
@@ -321,7 +321,7 @@
 <script type="text/ng-template" id="showUtilityProviderModal">
     <div>
         <div class="modal-header">
-            <a href="" ng-click="$dismiss()">Close</a>
+            <a href="" ng-click="$dismiss()">@Html.Sitecore().Field("Modal Close Text")</a>
             <h2>@Html.Sitecore().Field("Utility Provider Example Header")</h2>
         </div>
         <div class="modal-body">
