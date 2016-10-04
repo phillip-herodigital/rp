@@ -28,20 +28,7 @@ a.significant {
     padding-right: 10px;
     letter-spacing: 0;
     font-weight: 400;
-
-    &:after {
-        $arrow-size: 5px;
-        content: '';
-        position: absolute;
-        bottom: 5px;
-        right: 0;
-        margin-top: $arrow-size * -1;
-        width: 0; 
-        height: 0; 
-        border-top: $arrow-size solid transparent;
-        border-bottom: $arrow-size solid transparent;
-        border-left: $arrow-size solid $link-primary-color;
-    }
+	background: image-url('icon/arrow-right.png') no-repeat right 5px;
 }
 
 dl.faq {
