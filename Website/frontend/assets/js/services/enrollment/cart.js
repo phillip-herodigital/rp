@@ -368,15 +368,16 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', 'sc
         * Handle Protective Cart Functions
         */
         removeProtectiveOffer: function (offerId) {
-            _.remove(enrollmentCartService.getActiveService().offerInformationByType[0].value.offerSelections[0].offer.suboffers, function (suboffer) {
+            _.remove(enrollmentCartService.services[0].offerInformationByType[0].value.offerSelections[0].offer.suboffers, function (suboffer) {
                 return suboffer.id === offerId;
             });
-            if (enrollmentCartService.getActiveService().offerInformationByType[0].value.offerSelections[0].offer.suboffers.length != 0) {
-                enrollmentCartService.getActiveService().offerInformationByType[0].value.offerSelections[0].offerId = enrollmentCartService.findProtectiveProduct().id;
+            if (enrollmentCartService.services[0].offerInformationByType[0].value.offerSelections[0].offer.suboffers.length != 0) {
+                enrollmentCartService.services[0].offerInformationByType[0].value.offerSelections[0].offerId = enrollmentCartService.findProtectiveProduct().id;
             }
             else {
                 enrollmentStepsService.setStep("protectiveFlowServices");
                 enrollmentStepsService.hideStep("accountInformation");
+                enrollmentStepsService.hideStep("verifyIdentity");
             }
         },
 

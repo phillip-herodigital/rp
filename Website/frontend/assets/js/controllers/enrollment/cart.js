@@ -34,7 +34,6 @@ ngApp.controller('EnrollmentCartCtrl', ['$scope', 'enrollmentStepsService', 'enr
     $scope.getCurrentStep = enrollmentStepsService.getCurrentStep;
     $scope.services = enrollmentCartService.services;
     $scope.getServicesCount = enrollmentCartService.getServicesCount;
-    $scope.removeProtectiveOffer = enrollmentCartService.removeProtectiveOffer;
     $scope.getProtectiveDiscount = enrollmentCartService.getProtectiveDiscount;
     $scope.getProtectiveTotal = enrollmentCartService.getProtectiveTotal;
     /**
@@ -96,6 +95,13 @@ ngApp.controller('EnrollmentCartCtrl', ['$scope', 'enrollmentStepsService', 'enr
         enrollmentCartService.setActiveService(service);
         enrollmentStepsService.setFlow('utility', false).setStep('utilityFlowPlans');
     };
+
+    $scope.removeProtectiveOffer = function (offerId) {
+        enrollmentCartService.removeProtectiveOffer(offerId);
+        if (enrollmentStepsService.getCurrentStep().id === "verifyIdentity") {
+            enrollmentService.setAccountInformation();
+        }
+    }
 
     /**
     * Change Mobile Plan
