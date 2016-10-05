@@ -688,17 +688,30 @@ article.protective-services-pricing {
     }
 
     .grid {
-        width: 42%;
+        width: 100%;
         margin: 0 auto;
 
-        @include breakpoint(small) {
-            width: 100%;
+        .col {
+            margin: 10px 0;
+            padding-top: 10px;
 
+            &.three-services {
+                .cross-out {
+                    font-size: 36px;
+                    opacity: 0.5;
+                }
+
+                img {
+                    width: 165px;
+                    height: 45px;
+                }
+            }
+        }
+
+        @include breakpoint(small) {
             .col {
                 width: 100%;
-                margin: 10px 0;
-                padding-top: 10px;
-                background-position: calc(50% + -20px), 0px;
+                background-position: calc(50% - 20px), 0px;
                 background-image: image-url('marketing/redesign/Modules/Services/pricing-banner.jpg');
 
                 div {
@@ -708,7 +721,7 @@ article.protective-services-pricing {
                 }
 
                 p {
-					font-size: 24px;
+                    font-size: 24px;
 
                     &:first-of-type {
                         width: calc(50% - 20px);
@@ -720,27 +733,22 @@ article.protective-services-pricing {
                     }
 
                     float: left;
-					.price {
-						font-size: 50px;
-					}
+
+                    .price {
+                        font-size: 50px;
+                    }
                 }
-				&.additional-services {
-					display: none;
-				}
             }
         }
-        @include breakpoint(medium-large) {
-            width: 100%;
 
+        @include breakpoint(medium-large) {
             .col {
-                margin: 10px 0;
-                padding-top: 10px;
 
                 p {
                     margin: 0;
                 }
 
-                &:nth-child(1), &:nth-child(3) {
+                &:nth-child(1) {
                     width: 100%;
                     height: 200px;
                     background-position: 50%, 0px;
@@ -753,7 +761,7 @@ article.protective-services-pricing {
                     }
                 }
 
-                &:nth-child(2), &:nth-child(4) {
+                &:nth-child(2) {
                     width: calc(50% - 15px);
                     position: absolute;
                     right: 0;
@@ -801,13 +809,14 @@ article.protective-services-pricing {
                 font-size: 16px;
                 font-weight: 600;
                 background: #46c0ff;
-				&.spanish {
-					width: 145px;
-				}
+
+                &.spanish {
+                    width: 145px;
+                }
 
                 @include breakpoint(small) {
                     top: 0;
-                    left: 50%;
+                    left: 75%;
                 }
             }
 
