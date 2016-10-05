@@ -695,15 +695,29 @@ article.protective-services-pricing {
             margin: 10px 0;
             padding-top: 10px;
 
+            &.one-service {
+                p {
+                    .month {
+                        font-size: 20px;
+                        display: inline-block;
+                        vertical-align: top;
+                        margin-top: 5px;
+                    }
+                }
+            }
+
             &.three-services {
                 .cross-out {
                     font-size: 36px;
-                    opacity: 0.5;
-                }
+                    opacity: 0.75;
+                    position: relative;
+                    margin-bottom: 5px;
 
-                img {
-                    width: 165px;
-                    height: 45px;
+                    img {
+                        position: absolute;
+                        left: 50%;
+                        transform: translate(-50%, 0);
+                    }
                 }
             }
         }
@@ -722,14 +736,11 @@ article.protective-services-pricing {
 
                 p {
                     font-size: 24px;
+                    margin-top: 0;
+                    width: calc(50% + 20px);
 
                     &:first-of-type {
                         width: calc(50% - 20px);
-                    }
-
-                    &:last-of-type {
-                        margin-top: 0;
-                        width: calc(50% + 20px);
                     }
 
                     float: left;
@@ -746,6 +757,7 @@ article.protective-services-pricing {
 
                 p {
                     margin: 0;
+                    line-height: 1.1;
                 }
 
                 &:nth-child(1) {
@@ -782,6 +794,7 @@ article.protective-services-pricing {
 
             &:first-of-type {
                 margin-top: 0;
+                margin-bottom: 15px;
             }
 
             span.price {
