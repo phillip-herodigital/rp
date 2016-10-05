@@ -80,7 +80,7 @@ ngApp.controller('protectiveServicesEnrollmentCtrl', ['$scope', '$http', '$locat
     $scope.completeStep = function () {
         $scope.getActiveService().offerInformationByType[0].value.offerSelections[0].offerOption = { optionType: 'Protective' };
         $scope.getActiveService().offerInformationByType[0].value.offerSelections[0].offerId = enrollmentCartService.findProtectiveProduct().id;
-        enrollmentService.setSelectedOffers(true).then(function (value) { enrollmentService.setAccountInformation() });
+        enrollmentService.setSelectedOffers().then(function (value) { enrollmentService.setAccountInformation() });
     }
 
     var addUpdateService = function () {

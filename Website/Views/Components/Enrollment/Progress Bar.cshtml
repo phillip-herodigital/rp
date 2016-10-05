@@ -2,7 +2,7 @@
 
 @{
     Sitecore.Data.Items.Item item = Sitecore.Context.Database.GetItem("{881C1CD7-90B7-438C-B267-36B0A4167227}"); ///sitecore/content/Data/Components/Mobile Enrollment/Progress Bar
-    if (Request.QueryString["ServiceType"].ToLower() == "pro")
+    if (!string.IsNullOrEmpty(Request.QueryString["ServiceType"]) && Request.QueryString["ServiceType"].ToLower() == "pro")
     {
         item = Sitecore.Context.Database.GetItem("{E91EFBC7-E43D-4482-9844-86C645D81AEF}"); ///sitecore/content/Data/Components/Enrollment/Protective Services Progress Bar
     }

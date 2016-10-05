@@ -2,7 +2,7 @@
 @{
     int progressBarStep = 4;
     bool hideCart = true;
-    if (Request.QueryString["ServiceType"].ToLower() == "pro")
+    if (!string.IsNullOrEmpty(Request.QueryString["ServiceType"]) && Request.QueryString["ServiceType"].ToLower() == "pro")
     {
         progressBarStep = 3;
         hideCart = false;
