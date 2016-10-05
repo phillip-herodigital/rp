@@ -110,6 +110,18 @@
                                 <pre ng-if="showResponse">{{item.data.httpClient.response.Content | json}}</pre>
                             </div>
                         </div>
+                        <div ng-if="item.data.thirdPartyWcf != null">
+                            <div ng-if="item.data.thirdPartyWcf.Request">
+                                <p ng-click="showRequest = !showRequest" style="cursor: pointer;"><strong>Request Content: <i ng-class="{'icon-arrow-expanded': showRequest, 'icon-arrow-collapsed': !showRequest}"></i></strong></p>
+                                <p ng-if="!showRequest" style=" max-height 3.5em; overflow-y hidden; ">{{item.data.thirdPartyWcf.Request | json}}</p>
+                                <pre ng-if="showRequest">{{item.data.thirdPartyWcf.Request | json}}</pre>
+                            </div>
+                            <div ng-if="item.data.thirdPartyWcf.Response">
+                                <p ng-click="showResponse = !showResponse" style="cursor: pointer;"><strong>Response Content: <i ng-class="{'icon-arrow-expanded': showResponse, 'icon-arrow-collapsed': !showResponse}"></i></strong></p>
+                                <p ng-if="!showResponse" style=" max-height 3.5em; overflow-y hidden; ">{{item.data.thirdPartyWcf.Response | json}}</p>
+                                <pre ng-if="showResponse">{{item.data.thirdPartyWcf.Response | json}}</pre>
+                            </div>
+                        </div>
                         <div ng-if="item.exception">
                             <p ng-click="showException = !showException" style="cursor: pointer;"><strong>Exception: <i ng-class="{'icon-arrow-expanded': showException, 'icon-arrow-collapsed': !showException}"></i></strong></p>
                             <p ng-if="!showException" style=" max-height: 3.5em; overflow-y: hidden; ">{{item.exception | json}}</p>
