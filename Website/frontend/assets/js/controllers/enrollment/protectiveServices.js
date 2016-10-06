@@ -40,7 +40,13 @@ ngApp.controller('protectiveServicesEnrollmentCtrl', ['$scope', '$http', '$locat
 
     $scope.selectOffer = function (offer) {
         if ($scope.getActiveService().offerInformationByType[0].value.offerSelections.length && $scope.getActiveService().offerInformationByType[0].value.offerSelections[0].offer) {
-            $scope.getActiveService().offerInformationByType[0].value.offerSelections[0].offer.suboffers.push(offer);
+            var subOffers = angular.copy($scope.getActiveService().offerInformationByType[0].value.offerSelections[0].offer.suboffers);
+            subOffers.push(offer);
+            $scope.getActiveService().offerInformationByType[0].value.offerSelections[0] = {
+                offer: {
+                    suboffers: subOffers
+                }
+            };
         }
         else {
             $scope.getActiveService().offerInformationByType[0].value.offerSelections[0] = {
