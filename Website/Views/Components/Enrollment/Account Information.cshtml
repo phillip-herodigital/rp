@@ -191,14 +191,17 @@
                                 @Html.Sitecore().Field("DOB Label")
                                 <a href="#" tooltip="@Html.Sitecore().Field("DOB Tool Tip")"><i class="icon-tooltip"></i></a>
                             </label>
-                            @Html.TextBoxFor(m => m.DOB, new { ng_model = "accountInformation.DOB", data_val = "true", data_val_required = "", dob_input = "" })
+                            @Html.TextBoxFor(m => m.DOB, new { ng_model = "accountInformation.DOB", data_val = "true", data_val_required = "", dob_input = "", placeholder=Html.Sitecore().Field("DOB Placeholder") })
                             <span class="field-validation-error" ng-show="accountInfo.DOB.$invalid && !accountInfo.DOB.suppressValidationMessages">
                                 <span ng-show="accountInfo.DOB.$error.date">@Html.Sitecore().Field("DOB Invalid Text")</span>
                                 <span ng-show="accountInfo.DOB.$error.required">@Html.Sitecore().Field("DOB Required Text")</span>
                             </span>
                         </div>
                         <div class="item group-col" ng-if="showGender()" ng-class="{error: accountInfo.gender.$invalid && !accountInfo.gender.suppressValidationMessages}">
-                            <label for="gender">@Html.Sitecore().Field("Gender Label")</label>
+                            <label for="gender">
+                                @Html.Sitecore().Field("Gender Label")
+                                <a href="#" tooltip="@Html.Sitecore().Field("Gender Tool Tip")"><i class="icon-tooltip"></i></a>
+                            </label>
                             <select id="gender" name="gender" ng-model="accountInformation.gender" data-val="true" data-val-required>
                                 <option ng-value="'M'">@Html.Sitecore().Field("Male Text")</option>
                                 <option ng-value="'F'">@Html.Sitecore().Field("Female Text")</option>
