@@ -187,7 +187,7 @@
                             @Html.ValidationMessageFor(m => m.CompanyName)
                         </div>
                         <div class="item group-col" ng-if="showDOB()" @Html.Validation().ErrorClass(m => m.DOB) ng-class="{error : accountInfo.DOB.$error.dob && !accountInfo.DOB.suppressValidationMessages}">
-                            <label for="@Html.IdFor(m => m.DOB)">
+                            <label for="@Html.IdFor(m => m.DOB)" class="left-tooltip">
                                 @Html.Sitecore().Field("DOB Label")
                                 <a href="" tooltip="@Html.Sitecore().Field("DOB Tool Tip")"><i class="icon-tooltip"></i></a>
                             </label>
@@ -196,7 +196,7 @@
                             @Html.ValidationMessageFor(m => m.DOB)
                         </div>
                         <div class="item group-col" ng-if="showGender()" @Html.Validation().ErrorClass(m => m.Gender)>
-                            <label for="Gender">
+                            <label for="Gender" class="left-tooltip">
                                 @Html.Sitecore().Field("Gender Label")
                                 <a href="" tooltip="@Html.Sitecore().Field("Gender Tool Tip")"><i class="icon-tooltip"></i></a>
                             </label>
