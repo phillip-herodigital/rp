@@ -100,6 +100,9 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', 'sc
                         angular.forEach(availableOffer.suboffers, function (suboffer, SOIndex) {
                             cart[0].offerInformationByType[0].value.availableOffers[AOIndex].suboffers[SOIndex].name = htmlDecode(suboffer.name);
                             cart[0].offerInformationByType[0].value.availableOffers[AOIndex].suboffers[SOIndex].description = htmlDecode(suboffer.description);
+                            angular.forEach(cart[0].offerInformationByType[0].value.availableOffers[AOIndex].suboffers[SOIndex].details, function (detail, dIndex) {
+                                cart[0].offerInformationByType[0].value.availableOffers[AOIndex].suboffers[SOIndex].details[dIndex] = htmlDecode(detail);
+                            });
                         });
                     });
                 }

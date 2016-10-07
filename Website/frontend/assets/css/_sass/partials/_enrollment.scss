@@ -1590,6 +1590,17 @@
             margin-top: 20px;
         }
     }
+    .left-tooltip {
+        @include breakpoint(small-medium) {
+            .tooltip {
+                left: 0 !important;
+                .tooltip-arrow {
+                    display: none;
+                }
+            }
+        }
+        
+    }
     h3 {
         font-size: 18px;
         font-weight: 400
