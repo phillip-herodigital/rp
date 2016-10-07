@@ -189,7 +189,7 @@
                         <div class="item group-col" ng-if="showDOB()" @Html.Validation().ErrorClass(m => m.DOB) ng-class="{error : accountInfo.DOB.$error.dob && !accountInfo.DOB.suppressValidationMessages}">
                             <label for="@Html.IdFor(m => m.DOB)">
                                 @Html.Sitecore().Field("DOB Label")
-                                <a href="#" tooltip="@Html.Sitecore().Field("DOB Tool Tip")"><i class="icon-tooltip"></i></a>
+                                <a href="" tooltip="@Html.Sitecore().Field("DOB Tool Tip")"><i class="icon-tooltip"></i></a>
                             </label>
                             <input name="DOB" id="DOB" type="text" ng-model="accountInformation.DOB" data-val="true" data-val-required="@Html.Sitecore().Field("DOB Required Text")" dob-input="" placeholder="@Html.Sitecore().Field("DOB Placeholder")" data-date-format="mm/dd/yyyy" />
                             <span class="field-validation-error" ng-if="!accountInfo.DOB.suppressValidationMessages && accountInfo.DOB.$error.dob">@Html.Sitecore().Field("DOB Invalid Text")</span>
@@ -198,7 +198,7 @@
                         <div class="item group-col" ng-if="showGender()" @Html.Validation().ErrorClass(m => m.Gender)>
                             <label for="Gender">
                                 @Html.Sitecore().Field("Gender Label")
-                                <a href="#" tooltip="@Html.Sitecore().Field("Gender Tool Tip")"><i class="icon-tooltip"></i></a>
+                                <a href="" tooltip="@Html.Sitecore().Field("Gender Tool Tip")"><i class="icon-tooltip"></i></a>
                             </label>
                             <select id="Gender" name="Gender" ng-model="accountInformation.gender" data-val="true" data-val-required = "@Html.Sitecore().Field("Gender Required Text")">
                                 <option ng-value="'M'">@Html.Sitecore().Field("Male Text")</option>
