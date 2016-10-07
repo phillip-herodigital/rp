@@ -186,29 +186,25 @@
                             @Html.TextBoxFor(m => m.CompanyName, new { ng_model = "accountInformation.companyName", data_val = "true", data_val_required = "" })
                             @Html.ValidationMessageFor(m => m.CompanyName)
                         </div>
-                        <div class="item group-col" ng-if="showDOB()" ng-class="{error: accountInfo.DOB.$invalid && !accountInfo.DOB.suppressValidationMessages}">
+                        <div class="item group-col" ng-if="showDOB()" @Html.Validation().ErrorClass(m => m.DOB) ng-class="{error : accountInfo.DOB.$error.dob && !accountInfo.DOB.suppressValidationMessages}">
                             <label for="@Html.IdFor(m => m.DOB)">
                                 @Html.Sitecore().Field("DOB Label")
-                                <a href="#" tooltip="@Html.Sitecore().Field("DOB Tool Tip")"><i class="icon-tooltip"></i></a>
+                                <a href="" tooltip="@Html.Sitecore().Field("DOB Tool Tip")"><i class="icon-tooltip"></i></a>
                             </label>
-                            @Html.TextBoxFor(m => m.DOB, new { ng_model = "accountInformation.DOB", data_val = "true", data_val_required = "", dob_input = "", placeholder=Html.Sitecore().Field("DOB Placeholder") })
-                            <span class="field-validation-error" ng-show="accountInfo.DOB.$invalid && !accountInfo.DOB.suppressValidationMessages">
-                                <span ng-show="accountInfo.DOB.$error.date">@Html.Sitecore().Field("DOB Invalid Text")</span>
-                                <span ng-show="accountInfo.DOB.$error.required">@Html.Sitecore().Field("DOB Required Text")</span>
-                            </span>
+                            <input name="DOB" id="DOB" type="text" ng-model="accountInformation.DOB" data-val="true" data-val-required="@Html.Sitecore().Field("DOB Required Text")" dob-input="" placeholder="@Html.Sitecore().Field("DOB Placeholder")" data-date-format="mm/dd/yyyy" />
+                            <span class="field-validation-error" ng-if="!accountInfo.DOB.suppressValidationMessages && accountInfo.DOB.$error.dob">@Html.Sitecore().Field("DOB Invalid Text")</span>
+                            @Html.ValidationMessageFor(m => m.DOB)
                         </div>
-                        <div class="item group-col" ng-if="showGender()" ng-class="{error: accountInfo.gender.$invalid && !accountInfo.gender.suppressValidationMessages}">
-                            <label for="gender">
+                        <div class="item group-col" ng-if="showGender()" @Html.Validation().ErrorClass(m => m.Gender)>
+                            <label for="Gender">
                                 @Html.Sitecore().Field("Gender Label")
-                                <a href="#" tooltip="@Html.Sitecore().Field("Gender Tool Tip")"><i class="icon-tooltip"></i></a>
+                                <a href="" tooltip="@Html.Sitecore().Field("Gender Tool Tip")"><i class="icon-tooltip"></i></a>
                             </label>
-                            <select id="gender" name="gender" ng-model="accountInformation.gender" data-val="true" data-val-required>
+                            <select id="Gender" name="Gender" ng-model="accountInformation.gender" data-val="true" data-val-required = "@Html.Sitecore().Field("Gender Required Text")">
                                 <option ng-value="'M'">@Html.Sitecore().Field("Male Text")</option>
                                 <option ng-value="'F'">@Html.Sitecore().Field("Female Text")</option>
                             </select>
-                            <span class="field-validation-error" ng-show="accountInfo.gender.$invalid && !accountInfo.gender.suppressValidationMessages">
-                                <span>@Html.Sitecore().Field("Gender Required Text")</span>
-                            </span>
+                            @Html.ValidationMessageFor(m => m.Gender)
                         </div>
                         <div class="additional-field-item item">
                             <ul class="checkbox-list">
