@@ -65,7 +65,7 @@ namespace StreamEnergy.Services.Clients
                                                VideoConferenceStates = (from Abbreviation in service.Fields["Video Conference States"].Value.Split(',')
                                                                         select Abbreviation.Trim()).ToArray(),
                                                Description = HttpUtility.HtmlEncode(service.Fields["Description"].Value),
-                                               Details = service.Fields["Details"].Value.Split('|'),
+                                               Details = HttpUtility.HtmlEncode(service.Fields["Details"].Value).Split('|'),
                                                SortOrder = int.TryParse(service.Fields["Sort Order"].Value, out sortOrder) ? sortOrder : -1,
                                                Price = float.TryParse(service.Fields["Price"].Value, out price) ? price : -1,
                                                ThreeServiceDiscount = float.TryParse(service.Fields["Three Service Discount"].Value, out discount) ? discount : -1,
