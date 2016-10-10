@@ -973,6 +973,9 @@ FROM [SwitchBack] WHERE ESIID=@esiId";
             stateMachine.Context.Language = request.Language;
             stateMachine.Context.SecondaryContactInfo = request.SecondaryContactInfo;
             stateMachine.Context.SocialSecurityNumber = request.SocialSecurityNumber;
+            stateMachine.Context.DOB = request.DOB;
+            stateMachine.Context.Gender = request.Gender;
+            stateMachine.Context.KIQFailOption = request.KIQFailOption;
             stateMachine.Context.PreviousAddress = request.PreviousAddress;
 
             stateMachine.Context.MailingAddress = request.MailingAddress;
@@ -1063,7 +1066,6 @@ FROM [SwitchBack] WHERE ESIID=@esiId";
             
             stateMachine.Context.AgreeToTerms = false;
             stateMachine.Context.SelectedIdentityAnswers = request.SelectedIdentityAnswers;
-
             await stateMachine.ContextUpdated();
 
             if (stateMachine.State == typeof(DomainModels.Enrollments.VerifyIdentityState))

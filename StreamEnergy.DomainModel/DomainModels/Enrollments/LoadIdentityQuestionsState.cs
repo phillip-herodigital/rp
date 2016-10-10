@@ -45,6 +45,11 @@ namespace StreamEnergy.DomainModels.Enrollments
         {
             if (context.IsRenewal || context.IsAddLine || context.IsSinglePage || !internalContext.IdentityCheck.Data.HardStop.HasValue)
             {
+                if (context.KIQFailOption && internalContext.IdentityCheck.Data.IdentityQuestions.Length == 0 && context.Services.Any(service => service.SelectedOffers.Any(so => so.Offer.OfferType == "Protective")))
+                {
+                    return typeof(IdentityCheckHardStopState);
+                }
+
                 if (context.IsRenewal || context.IsAddLine || context.IsSinglePage || internalContext.IdentityCheck.Data.IdentityQuestions.Length == 0)
                 {
                     context.SelectedIdentityAnswers = new Dictionary<string, string>();

@@ -224,24 +224,25 @@
         position: relative;
     }
 
-    &.showCart .layout .enrollment_cart, &.showCart .layout .documents, &.showCart .layout .referred-by-section{
-        display:block;
+    &.showCart .layout .enrollment_cart, &.showCart .layout .documents, &.showCart .layout .referred-by-section {
+        display: block;
     }
 
     .hide-sidebar-cart {
         display: none;
     }
 
-     .noticeRenewalAlert {
+    .noticeRenewalAlert {
         border: 2px solid darken($brand-alert, 15%);
         background-color: $brand-alert;
         padding: 15px;
-        border-radius:0px;
+        border-radius: 0px;
         margin-bottom: 30px;
     }
 
     #state-select {
         min-width: 145px;
+
         button {
             border-color: #cfcfcf;
             //text-transform: uppercase;
@@ -251,50 +252,60 @@
             background-size: auto;
             color: #555;
         }
+
         .icon {
             background-position: 10px center;
             background-repeat: no-repeat;
             padding-left: 40px;
         }
+
         .texas {
             @include retina-background('texas-icon.png');
-            
         }
+
         .georgia {
             @include retina-background('georgia-icon.png');
         }
+
         .pennsylvania {
             @include retina-background('pennsylvania-icon.png');
         }
+
         .maryland {
             @include retina-background('maryland-icon.png');
         }
+
         .new-jersey {
             @include retina-background('newjersey-icon.png');
         }
+
         .new-york {
             @include retina-background('newyork-icon.png');
         }
+
         .washington-dc {
             @include retina-background('dc-icon.png');
         }
+
         .dropdown-menu {
             width: 145px;
             min-width: 145px;
             left: 5px;
+
             li {
             }
         }
     }
 
-    .content{
-        background:#fafbfc;
+    .content {
+        background: #fafbfc;
     }
 
     .checkbox-list {
-        li { 
-            margin-bottom : 4px;
+        li {
+            margin-bottom: 4px;
         }
+
         label {
             display: inline;
             font-size: 16px;
@@ -322,19 +333,22 @@
         padding: 10px 40px;
         @include border-radius(5px);
         @include background-image(linear-gradient(to top, #008cd2 0%, #2aa4dc 100%));
+
         &.secondary {
             @include background-image(linear-gradient(to top, #ffffff 0%, #f3f3f3 100%));
             color: $enrollment-secondary-button-color;
             border: 1px solid rgb(199, 199, 199);
             margin-right: 10px;
             text-shadow: none;
-            @include breakpoint(small-medium){
+
+            @include breakpoint(small-medium) {
                 margin-top: 10px;
                 margin-right: 0;
                 float: right;
                 clear: both;
             }
         }
+
         &.tertiary {
             background-color: $enrollment-tertiary-button-background;
             background-image: none;
@@ -357,7 +371,7 @@
     }
 
     .datepicker-input {
-        @include retina-background('calendar.png', 'icon'); 
+        @include retina-background('calendar.png', 'icon');
         background-position: 98% center;
         background-repeat: no-repeat;
         width: 310px;
@@ -369,6 +383,7 @@
 
     form .item.error, .error {
         color: #f20000;
+
         input[type="text"], input[type="password"], select {
             border-color: #f20000;
             color: #f20000;
@@ -378,7 +393,7 @@
     .warning {
         font-size: 13px;
     }
-        
+
     .wrapper {
         position: relative;
         overflow: visible;
@@ -395,6 +410,7 @@
         text-align: center;
         clear: both;
         padding-top: 20px;
+
         .time-remaining {
             text-transform: uppercase;
             font-size: 14px;
@@ -411,6 +427,7 @@
 
     .terms-agreement {
         margin-bottom: 20px;
+
         div.terms {
             margin-top: 10px;
             height: 100px;
@@ -418,6 +435,7 @@
             padding: 5px;
             border: 1px solid #e9e9e9;
             @include border-radius(10px);
+
             :first-child {
                 margin-top: 0;
             }
@@ -425,20 +443,24 @@
     }
 
     .verify-order-table {
-        .sub-charge { 
+        .sub-charge {
             padding-left: 30px;
         }
+
         .rate {
             text-align: right;
         }
-        h4 { 
+
+        h4 {
             margin: 0 0 10px;
         }
+
         th, td {
             border: none;
             padding: 0;
             vertical-align: top;
         }
+
         tr:last-child {
             td {
                 padding-bottom: 0;
@@ -449,19 +471,24 @@
             h4 {
                 margin-bottom: 0;
             }
+
             td {
                 display: block;
             }
+
             .docs {
                 text-align: left;
             }
+
             .sub-charge {
                 padding-left: 0;
                 margin-bottom: 6px;
             }
+
             .description {
                 margin-bottom: 6px;
             }
+
             .rate {
                 margin-bottom: 15px;
                 text-align: left;
@@ -471,6 +498,36 @@
 
     .total {
         text-align: right;
+
+        &.protective {
+            .icon {
+                @include retina-background('calendar.png', 'icon');
+                width: 22px;
+                height: 22px;
+                float: right;
+                margin: 0 1em 0 0;
+                background-size: contain;
+                background-repeat: no-repeat;
+            }
+
+            p {
+                width: auto;
+                float: right;
+                margin: 0;
+                font-size: 18px;
+                font-weight: 300;
+
+                span {
+                    font-weight: 700;
+                }
+            }
+
+            @include breakpoint(small) {
+                p {
+                    max-width: calc(100% - 38px);
+                }
+            }
+        }
     }
 
     hr.content-divider {
@@ -494,39 +551,48 @@
         #state-select {
             margin-top: 5px;
         }
+
         .buttons {
             text-align: center;
+
             button {
                 min-width: 150px;
             }
+
             button + button {
                 margin-top: 8px;
             }
         }
+
         .datepicker-input {
             width: 100%;
-            @include retina-background('calendar.png', 'icon'); 
+            @include retina-background('calendar.png', 'icon');
             background-position: 98% center;
             background-repeat: no-repeat;
-
             //Remove the Clear field (X) in IE10+
             &::-ms-clear {
                 display: none;
             }
         }
+
         .datepicker {
             position: relative;
+
             .pull-right, .pull-left {
                 width: 35px;
             }
+
             table {
                 width: 100%;
                 max-width: 320px;
+
                 td {
                     padding: 2px 3px;
+
                     @include breakpoint(small) {
                         padding: 2px 0;
                     }
+
                     button {
                         @include breakpoint(small) {
                             padding: 5px;
@@ -535,56 +601,67 @@
                 }
             }
         }
+
         .dropdown-menu {
             font-size: 13px;
         }
+
         .time-remaining-mobile {
             margin-top: 10px;
+
             .time-remaining {
                 width: 160px;
                 font-size: 11px;
             }
         }
+
         h1 {
             font-size: 30px;
             line-height: 1.1;
         }
+
         .plan-selection-table {
             tr.details-row {
                 td div {
                     padding: 0 15px;
                 }
             }
+
             .plan-name {
                 position: relative;
                 text-align: left;
             }
+
             .plan-actions {
                 border-left: none;
+
                 button, .button {
                     float: right;
                     min-width: 120px;
-                     &.secondary {
+
+                    &.secondary {
                         @include breakpoint(small) {
                             margin-top: -31px;
                         }
-                     }
+                    }
                 }
             }
+
             .view-details {
                 display: inline;
                 float: left;
                 margin-top: 12px;
             }
         }
-
     }
     /* transferred from mobile */
     .content .filters {
-        margin: -20px;  
+        margin: -20px;
     }
+
     .btn-group-arrow {
         position: relative;
+
         &:after, &:before {
             display: none;
             bottom: -26px;
@@ -603,21 +680,25 @@
             border-width: 15px;
             margin-left: -15px;
         }
+
         &:before {
             border-color: rgba(200, 200, 200, 0);
             border-bottom-color: #e1e1e1;
             border-width: 16px;
             margin-left: -16px;
         }
+
         &.active:before, &.active:after {
             display: block;
             z-index: 1;
         }
     }
+
     .btn-group-options {
         display: table;
         border-spacing: 7px;
-        margin: -7px; 
+        margin: -7px;
+
         .button {
             position: relative;
             color: #333;
@@ -629,18 +710,23 @@
             padding: 7px 18px;
             cursor: pointer;
             @include border-radius(5px);
+
             &.active {
                 border: 2px solid #3189bb;
                 color: #3189bb;
             }
+
             @include box-shadow(none);
         }
+
         .button {
             display: table-cell;
         }
+
         label {
             font-weight: 300 !important;
         }
+
         input[type="text"], select {
             margin: 5px 0;
         }
@@ -1504,6 +1590,17 @@
             margin-top: 20px;
         }
     }
+    .left-tooltip {
+        @include breakpoint(small-medium) {
+            .tooltip {
+                left: 0 !important;
+                .tooltip-arrow {
+                    display: none;
+                }
+            }
+        }
+        
+    }
     h3 {
         font-size: 18px;
         font-weight: 400
@@ -1855,6 +1952,146 @@
         }
     }
 
+    .protective-services {
+        background-color: #fcfcfc;
+
+        .heading, .service {
+            width: 100%;
+            padding: 0 25px;
+
+            @include breakpoint(small) {
+                padding: 0;
+            }
+        }
+
+        .heading {
+            height: 65px;
+
+            h4 {
+                font-size: 24px;
+                font-weight: 600;
+                color: #333333;
+                width: 50%;
+                float: left;
+                margin: 0;
+            }
+
+            .service-count {
+                font-size: 16px;
+                font-weight: 300;
+                color: #225671;
+                text-align: right;
+                margin: 0;
+                width: 50%;
+                float: right;
+            }
+        }
+
+        .service {
+            border-bottom: 1px solid #f5f5f5;
+            min-height: 165px;
+            margin-bottom: 40px;
+            padding-bottom: 40px;
+
+            .col-1 {
+                width: 90px;
+                height: 70px;
+                float: left;
+                margin-top: 10px;
+                background-repeat: no-repeat;
+                background-position: top left;
+
+                @include breakpoint(small) {
+                    width: 40px;
+                    background-size: contain;
+                }
+            }
+
+            .col-2 {
+                width: calc(100% - 175px);
+                float: left;
+                margin-top: 10px;
+
+                .name {
+                    font-size: 20px;
+                    font-weight: 800;
+                }
+
+                .description, start-date {
+                    font-size: 18px;
+                }
+
+                .start-date {
+                    margin-bottom: 0;
+                }
+
+                .video-required {
+                    font-size: 16px;
+                    font-weight: 300;
+                }
+
+                .name, .description, .video-required {
+                    margin: 0;
+                    color: #333333;
+                }
+
+                @include breakpoint(small) {
+                    width: calc(100% - 40px);
+                    padding-left: 10px;
+                }
+            }
+
+            .col-3 {
+                width: 85px;
+                float: right;
+                text-align: right;
+                margin-top: 10px;
+
+                @include breakpoint(small) {
+                    width: 100%;
+                }
+
+                .full-price {
+                    color: #818181;
+                    font-size: 14px;
+                    font-weight: 600;
+                    position: relative;
+
+                    .slash {
+                        position: absolute;
+                        top: 0;
+                        right: -9px;
+                    }
+                }
+
+                .discount {
+                    color: #000;
+                    font-size: 16px;
+                    font-weight: 800;
+                }
+            }
+
+            &:last-of-type {
+                margin-bottom: 0;
+            }
+        }
+
+        .total-today {
+            font-size: 18px;
+            font-weight: 300;
+            text-align: right;
+            width: 100%;
+
+            p {
+                margin-bottom: 0;
+            }
+
+            span {
+                font-weight: 700;
+            }
+        }
+    }
+
     .card-details {
 
         .notice.alert {
@@ -1868,6 +2105,7 @@
             margin: -21px -20px 20px;
             font-size: 18px;
             color: #013c5b;
+
             h3 {
                 font-size: 20px;
                 font-weight: 600;
@@ -1880,7 +2118,6 @@
             background-repeat: no-repeat;
             background-position: 35px -80px;
             background-color: #2d9a36;
-
             padding: 10px 30px 30px;
 
             h2 {
@@ -1894,6 +2131,7 @@
             p {
                 max-width: 400px;
             }
+
             label.autopay {
                 font-size: 22px;
                 font-weight: 400;
@@ -2705,6 +2943,233 @@
         }
     }
 
+    .protective-services {
+        h1 {
+            font-size: 24px;
+            font-weight: 600;
+            color: #333333;
+            margin-bottom: 0;
+        }
+
+        .member-info {
+            border-bottom: 1px solid #f5f5f5;
+
+            .member-id, .info, modify-offer {
+                font-size: 18px;
+                font-weight: 300;
+                color: #474747;
+
+                span {
+                    font-weight: 600;
+                }
+            }
+        }
+
+        .service {
+            border-bottom: 1px solid #f5f5f5;
+            min-height: 165px;
+            margin: 20px 0;
+
+            .col-1 {
+                width: 90px;
+                height: 70px;
+                float: left;
+                margin-top: 10px;
+                background-repeat: no-repeat;
+                background-position: top left;
+
+                @include breakpoint(small) {
+                    width: 40px;
+                    background-size: contain;
+                }
+            }
+
+            .col-2 {
+                width: calc(100% - 175px);
+                float: left;
+                margin-top: 10px;
+
+                .name {
+                    font-size: 20px;
+                    font-weight: 800;
+                }
+
+                .description, start-date {
+                    font-size: 18px;
+                }
+
+                .start-date {
+                    margin-bottom: 0;
+                }
+
+                .name, .description {
+                    margin: 0;
+                    color: #333333;
+                }
+
+                @include breakpoint(small) {
+                    width: calc(100% - 40px);
+                    padding-left: 10px;
+                }
+            }
+
+            .col-3 {
+                width: 85px;
+                float: right;
+                text-align: right;
+                margin-top: 10px;
+
+                @include breakpoint(small) {
+                    width: 100%;
+                }
+
+                .full-price {
+                    color: #818181;
+                    font-size: 14px;
+                    font-weight: 600;
+                    position: relative;
+
+                    .slash {
+                        position: absolute;
+                        top: 0;
+                        right: -9px;
+                    }
+                }
+
+                .discount {
+                    color: #000;
+                    font-size: 16px;
+                    font-weight: 800;
+                }
+            }
+
+            &:last-of-type {
+                margin-bottom: 0;
+            }
+        }
+
+        .promotion-discount {
+            width: 100%;
+            height: 159px;
+            margin-bottom: 15px;
+            position: relative;
+            border-bottom: 1px solid #f5f5f5;
+
+            .triangle {
+                width: 0;
+                height: 0;
+                border-style: solid;
+                border-width: 0 0 100px 25px;
+                border-color: transparent transparent #f2f2f2 transparent;
+                float: right;
+                margin-top: 22px;
+
+                @include breakpoint(small) {
+                    display: none;
+                }
+            }
+
+            .rectangle {
+                max-width: 520px;
+                height: 100px;
+                margin: 22px 72px 22px 0;
+                padding-right: 72px;
+                float: right;
+                background-color: #f2f2f2;
+                font-size: 20px;
+                font-weight: 800;
+
+                p {
+                    margin: 36px;
+                }
+
+                @include breakpoint(medium) {
+                    max-width: 340px;
+
+                    p {
+                        margin: 24px;
+                    }
+                }
+
+                @include breakpoint(small) {
+                    p {
+                        margin: 10px;
+                    }
+                }
+            }
+
+            .circle {
+                width: 144px;
+                height: 144px;
+                position: absolute;
+                top: 0;
+                right: 0;
+                color: #fff;
+                border-radius: 72px;
+                background-color: #40ae49;
+                padding: 30px 0;
+
+                p {
+                    margin: 0;
+                    text-align: center;
+                    font-weight: 800;
+                    font-size: 17px;
+
+                    &.discount-amount {
+                        font-size: 29px;
+                    }
+                }
+            }
+        }
+
+        .paid-today {
+            font-size: 18px;
+            font-weight: 300;
+            text-align: right;
+            width: 100%;
+            margin-bottom: 15px;
+
+            span {
+                font-weight: 700;
+            }
+        }
+
+        .paid-monthly {
+            background-color: #fafafa;
+            margin: 0 -20px -20px -20px;
+            padding: 10px 20px;
+            border-top: 1px solid #f5f5f5;
+
+            .icon {
+                @include retina-background('calendar.png', 'icon');
+                width: 22px;
+                height: 22px;
+                float: right;
+                margin: 1em 1em 1em 0;
+                background-size: contain;
+                background-repeat: no-repeat;
+            }
+
+            p {
+                width: auto;
+                float: right;
+                font-size: 18px;
+                font-weight: 300;
+
+                span {
+                    font-weight: 700;
+                }
+            }
+
+            @include breakpoint(small) {
+                p {
+                    max-width: calc(100% - 38px);
+                }
+            }
+        }
+    }
+
+
     @include breakpoint(small) {
         dl {
             dt, dd {
@@ -3015,6 +3480,97 @@
                 font-weight: 600;
             }
         }
+
+        .protective-plan {
+            h2 {
+                color: #000;
+            }
+
+            .service {
+                margin-bottom: 10px;
+
+                .icon {
+                    height: 50px;
+                    width: 25px;
+                    background-repeat: no-repeat;
+                    background-size: contain;
+                    float: left;
+                    margin-right: 7px;
+                }
+
+                .name {
+                    width: calc(100% - 135px);
+                    float: left;
+                    font-weight: 600;
+                    font-size: 14px;
+                    color: #000;
+
+                    p {
+                        margin: 0;
+
+                        a {
+                        }
+                    }
+                }
+
+                .price {
+                    width: 85px;
+                    float: right;
+                    text-align: right;
+
+                    .full-price {
+                        color: #818181;
+                        font-size: 14px;
+                        font-weight: 600;
+                        position: relative;
+
+                        .slash {
+                            position: absolute;
+                            top: 0;
+                            left: 9px;
+                        }
+                    }
+
+                    .discount {
+                        color: #000;
+                        font-size: 16px;
+                        font-weight: 800;
+                    }
+                }
+            }
+
+            .monthly-cost-summary {
+                border-top: 1px solid #d3d3d3;
+                padding-top: 15px;
+                font-size: 16px;
+                color: #000;
+
+                .label {
+                    float: left;
+                    width: calc(100% - 70px);
+                    text-align: right;
+                }
+
+                .amount {
+                    float: right;
+                    width: 70px;
+                    text-align: right;
+                }
+
+                .discount {
+                    color: $enrollment-protective-color;
+                    font-weight: 500;
+                }
+
+                .total {
+                    font-weight: 500;
+                }
+
+                .monthly-cost, .discount {
+                    margin-bottom: 15px;
+                }
+            }
+        }
     }
 
     .cart-product {
@@ -3305,12 +3861,71 @@
         }
 
         .amount-due {
-            margin: 15px 0;
+            margin: 15px 0 0;
             font-size: 15px;
             text-align: right;
 
             .total {
                 font-weight: 600;
+            }
+        }
+
+        .protective {
+            .service {
+                margin-bottom: 15px;
+
+                &:last-of-type {
+                    margin-bottom: 0;
+                }
+
+                .icon {
+                    height: 25px;
+                    width: 25px;
+                    background-repeat: no-repeat;
+                    background-size: contain;
+                    float: left;
+                    margin-right: 7px;
+                }
+
+                .name {
+                    width: calc(100% - 135px);
+                    float: left;
+                    font-weight: 600;
+                    font-size: 14px;
+                    color: #000;
+
+                    p {
+                        margin: 0;
+
+                        a {
+                        }
+                    }
+                }
+
+                .price {
+                    width: 85px;
+                    float: right;
+                    text-align: right;
+
+                    .full-price {
+                        color: #818181;
+                        font-size: 14px;
+                        font-weight: 600;
+                        position: relative;
+
+                        .slash {
+                            position: absolute;
+                            top: 0;
+                            left: 9px;
+                        }
+                    }
+
+                    .discount {
+                        color: #000;
+                        font-size: 16px;
+                        font-weight: 800;
+                    }
+                }
             }
         }
     }
@@ -3591,134 +4206,147 @@ h3.success-message{
     }
 
 
-.enrollment_progress-bar{
+.enrollment_progress-bar {
     color: white;
     padding: 35px 0;
     @include retina-background('diamond-background.png');
     background-position: right;
     background-repeat: no-repeat;
-    
+
     @include breakpoint (small-medium) {
         padding-left: 25px;
 
-        .progress{
+        .progress {
             display: none;
         }
     }
-	@include breakpoint (small) {
-		.progress, .need-help{
+
+    @include breakpoint (small) {
+        .progress, .need-help {
             display: none;
         }
-	}
+    }
 
     .progress-bar-cart {
         position: relative;
         color: #333;
-        article{
+
+        article {
             display: none;
+
             &.enrollment_cart, &.hide-sidebar-cart {
                 display: block;
                 border: none;
                 background: none;
                 margin-top: 25px;
                 float: right;
+
                 header {
-                    padding:0;
+                    padding: 0;
                 }
             }
         }
-		.icon-close{
-			display:none;
-		}
-		@include breakpoint (small-medium) {
-			.cart-overlay.open + .icon-close{
-				display: block;
-				position: fixed;
-				top: 15px;
-				right: 15px;
-				z-index: 10001;
-			}
-		}
-        .cart-wrapper{
+
+        .icon-close {
+            display: none;
+        }
+
+        @include breakpoint (small-medium) {
+            .cart-overlay.open + .icon-close {
+                display: block;
+                position: fixed;
+                top: 15px;
+                right: 15px;
+                z-index: 10001;
+            }
+        }
+
+        .cart-wrapper {
             cursor: pointer;
 
-            .cart-items{
+            .cart-items {
                 color: white;
-                .icon-cart{
+
+                .icon-cart {
                     @include retina-background('cart-white.png');
                     background-position: 0;
                 }
             }
-			
-            div.enrollment__cart{
-                margin-bottom: 0;
-                float:right;
 
-                article.enrollment_cart{
+            div.enrollment__cart {
+                margin-bottom: 0;
+                float: right;
+
+                article.enrollment_cart {
                     margin-bottom: 0;
                     margin-top: 15px;
                 }
-                header{
+
+                header {
                     background: none;
                     border: none;
                     padding-top: 0;
                 }
-                h1, .content, footer{
+
+                h1, .content, footer {
                     display: none;
                 }
-
             }
         }
-        .arrow{
-                height: 25px;
-                width: 25px;
-                position: absolute;
-                right: 12px;
-                top: 50px;
-                transform: rotate(45deg);
-                background: white;
-                z-index: 10000;
-            }
 
-        .cart-overlay{
+        .arrow {
+            height: 25px;
+            width: 25px;
+            position: absolute;
+            right: 12px;
+            top: 50px;
+            transform: rotate(45deg);
+            background: white;
+            z-index: 10000;
+        }
+
+        .cart-overlay {
             padding: 0 15px;
             background: white;
             top: 60px;
             right: 0;
             border: 1px solid #e6e6e6;
             border-radius: 5px;
-			 @include breakpoint (small-medium) {
-				left: auto;
-				position: fixed;
-				top: 0;
-				left: 0;
-				right: 0;
-				bottom: 0;
-				background: white;
-				z-index: 10000;
 
-				article{
-					float: none;
-				}
-			 }
-            header{
+            @include breakpoint (small-medium) {
+                left: auto;
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: white;
+                z-index: 10000;
+
+                article {
+                    float: none;
+                }
+            }
+
+            header {
                 background: white;
                 padding-left: 0;
             }
 
-            .cart-items{
+            .cart-items {
                 display: none;
             }
 
-            .content{
+            .content {
                 padding-left: 0;
                 padding-right: 0;
             }
-            footer{
+
+            footer {
                 display: none;
             }
         }
-        
+
         &.hide-cart {
             .cart-items {
                 display: none;
@@ -3741,44 +4369,49 @@ h3.success-message{
         }
     }
 
-    &.step1{
+    &.step1 {
         background-color: $enrollment-progress-bar-step1-color;
 
-        .step{
+        .step {
             background-color: $enrollment-progress-bar-step1-color;
 
-            &.step1{
+            &.step1 {
                 background-color: white;
             }
         }
     }
-    &.step2{
+
+    &.step2 {
         background-color: $enrollment-progress-bar-step2-color;
-        .step{
+
+        .step {
             background-color: $enrollment-progress-bar-step2-color;
 
-            &.step1, &.step2{
+            &.step1, &.step2 {
                 background-color: white;
             }
         }
     }
-    &.step3{
+
+    &.step3 {
         background-color: $enrollment-progress-bar-step3-color;
-        .step{
+
+        .step {
             background-color: $enrollment-progress-bar-step3-color;
 
-            &.step1, &.step2, &.step3{
+            &.step1, &.step2, &.step3 {
                 background-color: white;
             }
         }
     }
-    
-    &.step4{
+
+    &.step4 {
         background-color: $enrollment-progress-bar-step4-color;
-        .step{
+
+        .step {
             background-color: $enrollment-progress-bar-step4-color;
 
-            &.step1, &.step2, &.step3, &.step4{
+            &.step1, &.step2, &.step3, &.step4 {
                 background-color: white;
             }
         }
@@ -3786,52 +4419,58 @@ h3.success-message{
 
     &.step5 {
         background-color: $enrollment-progress-bar-step5-color;
-        .progress, .progress-bar-cart, .need-help{
+
+        .progress, .progress-bar-cart, .need-help {
             display: none;
         }
     }
 
-    &.step3, &.step4{
-        .inner{
-            .need-help{
+    &.step3, &.step4 {
+        .inner {
+            .need-help {
                 background-color: #0a96d7;
             }
         }
     }
 
-    .inner{
+    .inner {
         width: 1040px;
         margin: auto;
         position: relative;
 
-		 @include breakpoint (small-medium) {
-			width: 100%;
-		 }
-        .step-description{
+        @include breakpoint (small-medium) {
+            width: 100%;
+        }
+
+        .step-description {
             float: left;
             width: 373px;
             font-weight: 200;
             font-size: 26px;
-            .stepCount{
+
+            .stepCount {
                 font-weight: 800;
                 font-size: 36px;
                 line-height: 1;
             }
+
             @include breakpoint(small) {
                 width: 100%;
             }
         }
-        
+
         .progress {
             float: left;
             padding-top: 35px;
             position: relative;
             margin-right: 180px;
+
             .bar {
                 width: 200px;
                 height: 1px;
                 background: #fff;
             }
+
             .step {
                 border: 2px solid white;
                 border-radius: 100px;
@@ -3839,22 +4478,26 @@ h3.success-message{
                 position: absolute;
                 top: 23px;
                 width: 25px;
-                cursor :pointer;
+                cursor: pointer;
 
                 &.step2 {
                     left: 30%;
                 }
+
                 &.step3 {
                     right: 30%;
                 }
+
                 &.step4 {
                     right: 0;
                 }
             }
         }
+
         .inner {
             position: relative;
         }
+
         .need-help {
             position: absolute;
             top: -35px;
@@ -3866,8 +4509,10 @@ h3.success-message{
             font-size: 15px;
             font-weight: 600;
         }
+
         .referred-by-section {
             float: left;
+
             .associate-image {
                 float: left;
                 display: inline-block;
@@ -3883,12 +4528,14 @@ h3.success-message{
                 display: block;
                 padding-top: 13px;
                 line-height: 1.2;
+
                 .referred-by {
                     display: block;
                     color: #fff;
                     font-size: 12px;
                     font-weight: 400;
                 }
+
                 .associate-name {
                     display: block;
                     color: #fff;
@@ -3896,6 +4543,7 @@ h3.success-message{
                     font-weight: 600;
                     padding-bottom: 4px;
                 }
+
                 .associate-level {
                     display: block;
                     color: #fff;
@@ -3905,6 +4553,7 @@ h3.success-message{
                     letter-spacing: 3px;
                 }
             }
+
             @include breakpoint(small) {
                 margin-top: 10px;
             }
@@ -3914,8 +4563,65 @@ h3.success-message{
     &.win-back {
         background-color: #0071b9;
         margin-top: -21px;
+
         .step-description {
             width: auto;
+        }
+    }
+
+    &.protective {
+        .step-description {
+            p {
+                margin: 0;
+            }
+        }
+
+        &.step1 {
+            background-color: #71b243;
+
+            .step {
+                background-color: #71b243;
+
+                &.step1 {
+                    background-color: white;
+                }
+            }
+        }
+
+        &.step2 {
+            background-color: #033c5a;
+
+            .step {
+                background-color: #033c5a;
+
+                &.step1, &.step2 {
+                    background-color: white;
+                }
+            }
+        }
+
+        &.step3 {
+            background-color: #033c5a;
+
+            .step {
+                background-color: #033c5a;
+
+                &.step1, &.step2, &.step3 {
+                    background-color: white;
+                }
+            }
+        }
+
+        &.step4 {
+            background-color: #033c5a;
+
+            .step {
+                background-color: #033c5a;
+
+                &.step1, &.step2, &.step3, &.step4 {
+                    background-color: white;
+                }
+            }
         }
     }
 }
@@ -3930,6 +4636,381 @@ h3.success-message{
                 font-weight: 400;
             }
         }
+}
+
+.enrollment__protective-services {
+    .header {
+        h1 {
+            color: #013c5b;
+            font-size: 32px;
+            font-weight: 300;
+        }
+    }
+
+    .content {
+        .select-services {
+            h4 {
+                margin: 0 0 5px;
+                color: #013c5b;
+                font-size: 24px;
+                font-weight: 300;
+            }
+
+            form {
+                margin-top: 20px;
+            }
+
+            p {
+                margin: 0;
+                color: #333333;
+                font-size: 18px;
+
+                .location {
+                    font-weight: 800;
+                }
+            }
+        }
+
+        .location {
+            font-weight: 700;
+        }
+    }
+
+    .services {
+        background-color: #fff;
+
+        .service {
+            padding: 20px 20px 10px 20px;
+            border-bottom: 1px solid #cecece;
+
+            &:last-of-type {
+                border-bottom: none;
+            }
+
+            .col-1 {
+                width: 90px;
+                height: 70px;
+                float: left;
+                margin-top: 10px;
+                background-repeat: no-repeat;
+                background-position: top left;
+
+                @include breakpoint(small) {
+                    width: 75px;
+                    background-size: contain;
+                }
+            }
+
+            .col-2 {
+                width: calc(100% - 300px);
+                float: left;
+                margin-top: 10px;
+
+                .name {
+                    font-size: 20px;
+                    font-weight: 800;
+                }
+
+                .description {
+                    font-size: 18px;
+                }
+
+                .video-required {
+                    font-size: 14px;
+                }
+
+                .name, .description, .video-required {
+                    margin: 0;
+                    color: #333333;
+                }
+            }
+
+            .col-3 {
+                width: 200px;
+                float: left;
+                height: 70px;
+                padding: 21px 0 0 0;
+                position: relative;
+
+                .button {
+                    border: 1px solid $enrollment-protective-color;
+                    background-color: #fff;
+                    color: $enrollment-protective-color;
+                    background-image: none;
+                    float: right;
+                    font-size: 20px;
+                    cursor: pointer;
+                    width: auto;
+                    max-width: 200px;
+
+                    &.selected {
+                        background-color: $enrollment-protective-color;
+                        color: #fff;
+                        padding-left: 15px;
+                        padding-right: 25px;
+                    }
+
+                    &.long {
+                        padding-right: 15px;
+                    }
+
+                    img {
+                        margin-right: 10px;
+                    }
+                }
+
+                &.options {
+                    padding-bottom: 0;
+                    height: 235px;
+
+                    .button {
+                        border-radius: 5px 5px 0 0;
+                        border-bottom: none;
+                    }
+                }
+            }
+
+            .show-details {
+                width: 113px;
+                margin-left: 90px;
+                clear: both;
+
+                a {
+                    color: #828282;
+                    font-size: 16px;
+                }
+
+                .triangle {
+                    width: 0;
+                    height: 0;
+                    border-style: solid;
+                    border-width: 7px 7px 0 7px;
+                    border-color: #178fcd transparent transparent transparent;
+                    float: right;
+                    position: relative;
+                    top: 8px;
+                    right: 4px;
+                    -webkit-transition: 0.5s ease-in-out;
+                    -moz-transition: 0.5s ease-in-out;
+                    -o-transition: 0.5s ease-in-out;
+                    transition: 0.5s ease-in-out;
+
+                    &.rotate {
+                        -webkit-transform: rotate(180deg);
+                        -moz-transform: rotate(180deg);
+                        -o-transform: rotate(180deg);
+                        -ms-transform: rotate(180deg);
+                        transform: rotate(180deg);
+                    }
+                }
+            }
+
+            .details {
+                clear: left;
+                color: #999999;
+                padding-top: 10px;
+
+                p {
+                    font-weight: 600;
+                    font-size: 16px;
+                    margin: 0;
+                }
+
+                .lists {
+                    margin: 0 20px;
+
+                    ul {
+                        list-style: none;
+                        padding-left: 0;
+
+                        li {
+                            font-size: 16px;
+
+                            .circle {
+                                height: 6px;
+                                width: 6px;
+                                border-radius: 3px;
+                                float: left;
+                                top: 8px;
+                                position: relative;
+                                margin-right: 6px;
+                                background-color: $enrollment-protective-color;
+                            }
+
+                            span {
+                                width: calc(100% - 12px);
+                                float: right;
+                            }
+                        }
+                    }
+
+                    .even, .odd {
+                        width: 50%;
+                        float: left;
+                    }
+
+                    @include breakpoint(small) {
+                        .even, .odd {
+                            width: 100%;
+                            float: none;
+                        }
+
+                        .even {
+                            margin-bottom: 0;
+                        }
+
+                        .odd {
+                            margin-top: 0;
+                        }
+                    }
+                }
+            }
+
+            .select-plan {
+                width: auto;
+                max-width: 210px;
+                position: relative;
+                padding-left: 15px;
+
+                p {
+                    text-align: center;
+                    font-size: 20px;
+                    color: $enrollment-protective-color;
+                    margin: 0;
+                    float: left;
+                }
+
+                .triangle {
+                    width: 0;
+                    height: 0;
+                    border-style: solid;
+                    border-width: 10px 10px 0 10px;
+                    border-color: $enrollment-protective-color transparent transparent transparent;
+                    position: absolute;
+                    top: 18px;
+                    right: 10px;
+                    -webkit-transition: 0.5s ease-in-out;
+                    -moz-transition: 0.5s ease-in-out;
+                    -o-transition: 0.5s ease-in-out;
+                    transition: 0.5s ease-in-out;
+
+                    &.rotate {
+                        -webkit-transform: rotate(180deg);
+                        -moz-transform: rotate(180deg);
+                        -o-transform: rotate(180deg);
+                        -ms-transform: rotate(180deg);
+                        transform: rotate(180deg);
+                    }
+                }
+            }
+
+            .groupOffer {
+                clear: both;
+
+                .options {
+                    float: right;
+                    border: 1px solid $enrollment-protective-color;
+                    background-color: #fff;
+                    border-radius: 5px 0 5px 5px;
+                    width: 230px;
+
+                    .option {
+                        padding: 10px;
+
+                        &:first-child {
+                            border-bottom: 1px solid $enrollment-protective-color;
+                        }
+
+                        .label {
+                            float: left;
+                            width: 50%;
+                            font-size: 20px;
+
+                            .name {
+                                color: $enrollment-protective-color;
+                            }
+
+                            p {
+                                margin: 0;
+                            }
+
+                            a {
+                                font-size: 20px;
+                            }
+                        }
+
+                        .amount {
+                            float: right;
+                            width: 50%;
+                            text-align: right;
+                            color: #013c5b;
+                            font-size: 15px;
+                            font-weight: 600;
+                        }
+
+                        .description {
+                            clear: both;
+                            margin: 0;
+                            color: #013c5b;
+                        }
+                    }
+                }
+            }
+
+            @include breakpoint(small-medium) {
+                .show-details {
+                    padding: 10px 0;
+                }
+            }
+
+            @include breakpoint(small) {
+                padding: 10px;
+
+                .col-1 {
+                    width: 55px;
+                    background-size: contain;
+                }
+
+                .col-2 {
+                    width: calc(100% - 55px);
+                    padding-left: 10px;
+                }
+
+                .col-3 {
+                    width: 100%;
+                    text-align: center;
+
+                    .button {
+                        float: none;
+                    }
+
+                    .groupOffer {
+                        position: relative;
+                        width: 100%;
+                        text-align: left;
+
+                        .options {
+                            position: absolute;
+                            left: 50%;
+                            transform: translate(-50%, -6px);
+                            border-radius: 5px;
+                        }
+                    }
+                }
+
+                .show-details {
+                    padding-top: 10px;
+                    margin: 0 auto;
+                }
+
+                .details {
+                    .lists {
+                        margin: 0;
+                    }
+                }
+            }
+        }
+    }
 }
 
 .enrollment_verify-phone {

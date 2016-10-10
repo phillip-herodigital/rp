@@ -17,8 +17,6 @@ namespace StreamEnergy.Services.Clients
             this.taxonomy = taxonomy;
         }
 
-
-
         public SitecoreProductInfo GetTexasElectricityProductData(string productCode, string providerName)
         {
 
@@ -118,6 +116,28 @@ namespace StreamEnergy.Services.Clients
             }
         }
 
+        public SitecoreProductInfo GetProtectiveProductData(string productId)
+        {
+            if (taxonomy != null && !string.IsNullOrEmpty(productId))
+            {
+                var item = taxonomy.Axes.GetItem("Modules/Protective/Protective Plans/" + productId);
+
+                if (item != null)
+                {
+                    return new SitecoreProductInfo
+                    {
+                        Fields = new NameValueCollection
+                        {
+                            { "Name", item["Product Name"] },
+                            { "Sort Order", item["Sort Order"] },
+                        },
+                        Footnotes = new KeyValuePair<string, string>[0]
+                    };
+                }
+            }
+
+            return null;
+        }
 
         public SitecoreProductInfo GetMobileProductData(string productId)
         {

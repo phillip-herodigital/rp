@@ -20,6 +20,10 @@ ngApp.controller('EnrollmentConfirmationCtrl', ['$scope', '$window', '$modal', '
     $scope.getDeviceActivationFee = enrollmentCartService.getDeviceActivationFee;
     $scope.getDeviceDeposit = enrollmentCartService.getDeviceDeposit;
     $scope.isDeviceInstallmentPlan = enrollmentCartService.isDeviceInstallmentPlan;
+    $scope.getProtectiveDiscount = enrollmentCartService.getProtectiveDiscount;
+    $scope.getProtectiveTotal = enrollmentCartService.getProtectiveTotal;
+    $scope.cartHasProtective = enrollmentCartService.cartHasProtective;
+    $scope.currentDate = new Date();
 
     $scope.onPrint = function() {
         window.print();
@@ -71,6 +75,17 @@ ngApp.controller('EnrollmentConfirmationCtrl', ['$scope', '$window', '$modal', '
         $scope.sprintByodNew = $scope.sprintByod && _(confirmationTransfers).contains(undefined);
         $scope.sprintByodTransfer = $scope.sprintByod && _(confirmationTransfers).flatten().filter().some('phoneNumber');
     });
+
+    // for protective enrollments
+    $scope.isVideoConferenceState = function (offer) {
+        return enrollmentService.isVideoConferenceState(offer, $scope.geoLocation);
+    }
+
+    $scope.getProtectiveServices = function () {
+        return _.find(enrollmentCartService.services[0].offerInformationByType[0].value.availableOffers, function (availableOffer) {
+            return availableOffer.id === enrollmentCartService.services[0].offerInformationByType[0].value.offerSelections[0].offerId;
+        }).suboffers;
+    }
 
     $scope.getConfirmationDeviceDetails = function(deviceId) {
         return _.find(selectedDevices, { id: deviceId });

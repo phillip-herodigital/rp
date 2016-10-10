@@ -89,6 +89,12 @@ ngApp.factory('enrollmentStepsService', ['$rootScope', 'scrollService', 'jQuery'
             'isFlowSpecific': false,
             'isActive': true,
             'isVisible': false
+        },
+        {
+            'id': 'protectiveFlowServices',
+            'isFlowSpecific': true,
+            'isActive': true,
+            'isVisible': false
         }
     ], function (step, index) { steps[step.id] = step; step.order = index; step.name = 'TRANSLATE ' + step.id; });
 
@@ -135,7 +141,21 @@ ngApp.factory('enrollmentStepsService', ['$rootScope', 'scrollService', 'jQuery'
                     //previous: ['phoneFlowVerifyPhone', 'phoneFlowNetwork', 'phoneFlowDevices', 'phoneFlowPlans']
                     previous: [ 'phoneFlowDevices', 'phoneFlowPlans']
                 }
-             }
+            },
+        'protective': {
+            'serviceInformation': {
+                name: 'protectiveFlowServices',
+                previous: []
+            },
+            'planSelection': {
+                name: 'protectiveFlowServices',
+                previous: []
+            },
+            'planSettings': {
+                name: 'accountInformation',
+                previous: ['protectiveFlowServices']
+            }
+        }
     }
 
     var service = {

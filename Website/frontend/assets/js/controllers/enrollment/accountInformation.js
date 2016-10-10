@@ -20,7 +20,12 @@ ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', 'enrollmentServi
     $scope.modal = {};
     $scope.cartHasUtility = enrollmentCartService.cartHasUtility;
     $scope.cartHasMobile = enrollmentCartService.cartHasMobile;
+    $scope.cartHasProtective = enrollmentCartService.cartHasProtective;
     $scope.associateInformation = enrollmentService.associateInformation;
+
+    $scope.protectiveEnrollmentSettings = function (settings) {
+        $scope.accountInformation.KIQFailOption = settings.kiqFailOption;
+    }
 
     $scope.accountInformation.contactInfo.phone[0].category = "mobile";
     $scope.createOnlineAccount = true;
@@ -76,6 +81,28 @@ ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', 'enrollmentServi
     if (!$scope.accountInformation.mailingAddress && $scope.utilityAddresses()[0]) {
         $scope.accountInformation.mailingAddressSame = true;
         $scope.accountInformation.mailingAddress = $scope.utilityAddresses()[0].location.address;
+    }
+
+    $scope.showDOB = function () {
+        if ($scope.cartHasProtective()) {
+            return _.some(enrollmentCartService.services[0].offerInformationByType[0].value.offerSelections, function (offerSelection) {
+                return _.some(offerSelection.offer.suboffers, function (subOffer) {
+                    return (subOffer.guid === "{0F25180B-5470-4558-9E8F-3D73275A1083}" || subOffer.guid === "{9B4D2D0A-7207-4DBD-8065-8722DC8E76EA}") ;
+                });
+            });
+        }
+        else return false;
+    }
+
+    $scope.showGender = function () {
+        if ($scope.cartHasProtective()) {
+            return _.some(enrollmentCartService.services[0].offerInformationByType[0].value.offerSelections, function (offerSelection) {
+                return _.some(offerSelection.offer.suboffers, function (subOffer) {
+                    return subOffer.guid === "{0F25180B-5470-4558-9E8F-3D73275A1083}";
+                });
+            });
+        }
+        else return false;
     }
 
     $scope.mailingAddressSameChanged = function() {
@@ -194,7 +221,7 @@ ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', 'enrollmentServi
 
         var continueWith = function () {
             // update the cleansed address for mobile
-            if ($scope.cartHasMobile() && typeof $scope.accountInformation.previousAddress == 'undefined') {
+            if (($scope.cartHasMobile() || $scope.cartHasProtective()) && typeof $scope.accountInformation.previousAddress == 'undefined') {
                 $scope.accountInformation.previousAddress = $scope.accountInformation.mailingAddress;
             }
             enrollmentService.setAccountInformation().then(function (data) {
