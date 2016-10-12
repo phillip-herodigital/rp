@@ -77,7 +77,8 @@ namespace StreamEnergy.Services.Clients
                     result.Add(location, new DomainModels.Enrollments.LocationOfferSet
                     {
                         Offers = (from product in Sitecore.Context.Database.SelectItems("/sitecore/content/Data/Taxonomy/Products/Protective//*[@@templateid='{2435BB90-E224-403E-B37B-4872C4F279F7}']")
-                                  select new DomainModels.Enrollments.Protective.Offer {
+                                  select new DomainModels.Enrollments.Protective.Offer
+                                  {
                                       Id = product.Fields["ID"].Value,
                                       Suboffers = (from offer in availableOffers
                                                    where product.Fields["Services"].Value.Split('|').Contains(offer.Guid)
@@ -88,23 +89,26 @@ namespace StreamEnergy.Services.Clients
                 }
                 var serviceStatus = location.Capabilities.OfType<ServiceStatusCapability>().Single();
                 var customerType = location.Capabilities.OfType<CustomerTypeCapability>().Single();
-
-                var locAdapter = enrollmentLocationAdapters.First(adapter => adapter.IsFor(location.Capabilities));
-                
+                var locAdapters = enrollmentLocationAdapters.Where(adapter => adapter.IsFor(location));
                 var response = await streamConnectClient.PostAsJsonAsync("/api/v1-1/products", new
                 {
                     CustomerType = customerType.CustomerType.ToString("g"),
                     EnrollmentType = serviceStatus.EnrollmentType.ToString("g"),
-                    Details = locAdapter.GetProductRequest(location),
+                    Details = locAdapters.FirstOrDefault().GetProductRequest(location),
                 });
-
                 response.EnsureSuccessStatusCode();
                 var streamConnectProductResponse = Json.Read<StreamConnect.ProductResponse>(await response.Content.ReadAsStringAsync());
-
-                var entry = locAdapter.LoadOffers(location, streamConnectProductResponse);
-                if (entry != null)
+                var loadedOffers = new List<IOffer>();
+                foreach (var locAdapter in locAdapters)
                 {
-                    result.Add(location, entry);
+                    loadedOffers.AddRange(locAdapter.LoadOffers(location, streamConnectProductResponse).Offers);
+                }
+                if (loadedOffers.Count > 0)
+                {
+                    result.Add(location, new LocationOfferSet
+                    {
+                        Offers = loadedOffers
+                    });
                 }
             }
             return result;
@@ -118,7 +122,7 @@ namespace StreamEnergy.Services.Clients
 
             var customerType = location.Capabilities.OfType<CustomerTypeCapability>().Single();
 
-            var locAdapter = enrollmentLocationAdapters.First(adapter => adapter.IsFor(location.Capabilities));
+            var locAdapter = enrollmentLocationAdapters.First(adapter => adapter.IsFor(location));
 
             if (locAdapter.SkipPremiseVerification(location))
                 return PremiseVerificationResult.Success;
@@ -186,7 +190,7 @@ namespace StreamEnergy.Services.Clients
 
         async Task<IConnectDatePolicy> IEnrollmentService.LoadConnectDates(Location location, IOffer offer)
         {
-            var locAdapter = enrollmentLocationAdapters.First(adapter => adapter.IsFor(location.Capabilities));
+            var locAdapter = enrollmentLocationAdapters.First(adapter => adapter.IsFor(location));
 
             var parameters = System.Web.HttpUtility.ParseQueryString("");
             parameters["Address.City"] = location.Address.City;
@@ -565,7 +569,7 @@ namespace StreamEnergy.Services.Clients
                         var offer = locationOfferByEnrollmentAccountId[enrollmentAccountId].Offer;
                         var option = services.First(s => s.Location == location).SelectedOffers.First(s => s.Offer.Id == offer.Id).OfferOption;
                         var optionRules = internalContext.OfferOptionRules.First(rule => rule.Location == location && rule.Offer.Id == offer.Id).Details;
-                        var locAdapter = enrollmentLocationAdapters.First(adapter => adapter.IsFor(location.Capabilities));
+                        var locAdapter = enrollmentLocationAdapters.First(adapter => adapter.IsFor(location));
 
                         offerPaymentResults.Add(new LocationOfferDetails<OfferPayment>
                             {
@@ -641,7 +645,7 @@ namespace StreamEnergy.Services.Clients
         async Task<StreamAsync<IEnumerable<LocationOfferDetails<PlaceOrderResult>>>> IEnrollmentService.BeginPlaceOrder(UserContext context, InternalContext internalContext)
         {
             var hasSpecialCommercial = (from service in context.Services
-                                        let locAdapter = enrollmentLocationAdapters.FirstOrDefault(e => e.IsFor(service.Location.Capabilities))
+                                        let locAdapter = enrollmentLocationAdapters.FirstOrDefault(e => e.IsFor(service.Location))
                                         select locAdapter.HasSpecialCommercialEnrollment(service.Location.Capabilities)).Any(e => e);
 
             if (hasSpecialCommercial)
@@ -835,7 +839,7 @@ namespace StreamEnergy.Services.Clients
 
         private async Task<object> ToCommercialPremise(Location location)
         {
-            var locAdapter = enrollmentLocationAdapters.First(adapter => adapter.IsFor(location.Capabilities));
+            var locAdapter = enrollmentLocationAdapters.First(adapter => adapter.IsFor(location));
 
             string commodityType = locAdapter.GetCommodityType();
             string utilityAccountNumber = locAdapter.GetUtilityAccountNumber(location.Capabilities);

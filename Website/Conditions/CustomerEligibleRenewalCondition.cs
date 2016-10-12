@@ -79,9 +79,12 @@ namespace StreamEnergy.MyStream.Conditions
             {
                 if (subAccount is TexasElectricityAccount)
                     productCode = ((TexasElectricityAccount)subAccount).ProductCode;
+                else if (subAccount is NewJerseyElectricityAccount)
+                    productCode = ((NewJerseyElectricityAccount)subAccount).ProductCode;
                 else if (subAccount is GeorgiaGasAccount)
                     productCode = ((GeorgiaGasAccount)subAccount).ProductCode;
-
+                else if (subAccount is NewJerseyGasAccount)
+                    productCode = ((NewJerseyGasAccount)subAccount).ProductCode;
                 if (products.Any(a => a.Name == productCode))
                     return true;
             }

@@ -1018,7 +1018,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                                 Success = true,
                                 AvailableForRenewal = true,
                                 IsCommercial = false,
-                                TexasOrGeorgia = true
+                                HasUtility = true
                             };
                         }
                         else
@@ -1028,7 +1028,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                                 Success = true,
                                 AvailableForRenewal = true,
                                 IsCommercial = false,
-                                TexasOrGeorgia = false
+                                HasUtility = false
                             };
                         }
                     }

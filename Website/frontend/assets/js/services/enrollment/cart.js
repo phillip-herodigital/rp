@@ -601,7 +601,7 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', 'sc
         },
         cartHasUtility: function () {
             return _(services).pluck('location').pluck('capabilities').flatten().pluck('capabilityType')
-                .intersection(['TexasElectricity', 'TexasElectricityRenewal', 'GeorgiaGas', 'GeorgiaGasRenewal'])
+                .intersection(['TexasElectricity', 'TexasElectricityRenewal', 'NewJerseyElectricity', 'NewJerseyElectricityRenewal', 'GeorgiaGas', 'GeorgiaGasRenewal', 'NewJerseyGas', 'NewJerseyGasRenewal'])
                 .some();
         },
         cartHasProtective: function () {
@@ -613,7 +613,7 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', 'sc
             return _(services)
                 .filter(function(service) { 
                     if (_(service.offerInformationByType).pluck('key')
-                        .intersection(['TexasElectricity', 'TexasElectricityRenewal', 'GeorgiaGas', 'GeorgiaGasRenewal'])
+                        .intersection(['TexasElectricity', 'TexasElectricityRenewal', 'NewJerseyElectricity', 'NewJerseyElectricityRenewal', 'GeorgiaGas', 'GeorgiaGasRenewal', 'NewJerseyGas', 'NewJerseyGasRenewal'])
                         .some()) {
                         return service;
                     } 

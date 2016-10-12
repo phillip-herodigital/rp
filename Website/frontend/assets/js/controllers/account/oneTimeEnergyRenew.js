@@ -44,7 +44,7 @@ ngApp.controller('OneTimeRenewalCtrl', ['$scope', '$http', '$timeout', '$locatio
                             }
                         }
                         else {
-                            if (data.texasOrGeorgia) {
+                            if (data.hasUtility) {
                                 $scope.isLoading = true;
                                 if (queryUtilityPlanId) {
                                     window.location.assign('/enrollment?renewal=true&renewalType=anon&UtilityPlanId=' + queryUtilityPlanId);

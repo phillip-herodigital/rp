@@ -56,6 +56,62 @@ namespace StreamEnergy.Services.Clients
             return null;
         }
 
+        public SitecoreProductInfo GetNewJerseyElectricityProductData(string productCode)
+        {
+
+            if (taxonomy != null && !string.IsNullOrEmpty(productCode))
+            {
+                var item = taxonomy.Axes.GetItem("Products/*/" + productCode);
+
+                if (item != null)
+                {
+                    return new SitecoreProductInfo
+                    {
+                        Fields = new NameValueCollection
+                        {
+                            { "Name", item["Product Name"] },
+                            { "Description", item["Product Description"] },
+                            { "Monthly Service Charge", item["Monthly Service Charge"] },
+                            { "Early Termination Fee", item["Early Termination Fee"] },
+                            { "Letter of Agency", ((Sitecore.Data.Fields.FileField)item.Fields["Letter of Agency"]).Src },
+                            { "Terms and Disclosures", ((Sitecore.Data.Fields.FileField)item.Fields["Terms and Disclosures"]).Src },
+                        },
+                        Footnotes = LoadFootnotes(new[] { item }, new[] { "Rate Footnote", "Term Footnote", "Early Termination Fee Footnote" }).ToArray()
+                    };
+                }
+            }
+
+            return null;
+        }
+
+        public SitecoreProductInfo GetNewJerseyGasProductData(string productCode)
+        {
+
+            if (taxonomy != null && !string.IsNullOrEmpty(productCode))
+            {
+                var item = taxonomy.Axes.GetItem("Products/*/" + productCode);
+
+                if (item != null)
+                {
+                    return new SitecoreProductInfo
+                    {
+                        Fields = new NameValueCollection
+                        {
+                            { "Name", item["Product Name"] },
+                            { "Description", item["Product Description"] },
+                            { "Monthly Service Charge", item["Monthly Service Charge"] },
+                            { "Early Termination Fee", item["Early Termination Fee"] },
+                            { "Letter of Agency", ((Sitecore.Data.Fields.FileField)item.Fields["Letter of Agency"]).Src },
+                            { "Terms and Disclosures", ((Sitecore.Data.Fields.FileField)item.Fields["Terms and Disclosures"]).Src },
+                        },
+                        Footnotes = LoadFootnotes(new[] { item }, new[] { "Rate Footnote", "Term Footnote", "Early Termination Fee Footnote" }).ToArray()
+                    };
+                }
+            }
+
+            return null;
+        }
+
         private string LoadProductDescription(string providerName, Sitecore.Data.Items.Item item)
         {
             var desc = item["Product Description"];

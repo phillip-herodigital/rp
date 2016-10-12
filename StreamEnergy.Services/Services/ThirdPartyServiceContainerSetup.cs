@@ -24,6 +24,8 @@ namespace StreamEnergy.Services
             unityContainer.RegisterType<ISet<ILocationAdapter>>(new ContainerControlledLifetimeManager(), new InjectionFactory(uc => new HashSet<ILocationAdapter>
                 {
                     uc.Resolve<TexasAdapter>(),
+                    uc.Resolve<NewJerseyElectricityAdapter>(),
+                    uc.Resolve<NewJerseyGasAdapter>(),
                     uc.Resolve<GeorgiaAdapter>(),
                     uc.Resolve<MobileAdapter>(),
                     uc.Resolve<ProtectiveAdapter>()

@@ -53,9 +53,16 @@ namespace StreamEnergy.MyStream.Conditions
         {
             try
             {
-                if (!(account is TexasElectricityAccount))
+                if (!(account.ProductType == "Electricity"))
                     return false;
-                return ((TexasElectricityAccount)account).IncludesThermostat;
+                if (account is TexasElectricityAccount) {
+                    return ((TexasElectricityAccount)account).IncludesThermostat;
+                }
+                if (account is NewJerseyElectricityAccount)
+                {
+                    return ((NewJerseyElectricityAccount)account).IncludesThermostat;
+                }
+                else return false;
             }
             catch (Exception)
             {

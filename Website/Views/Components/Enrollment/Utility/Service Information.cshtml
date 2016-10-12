@@ -29,19 +29,11 @@
 
                             @using (var currentService = Html.ClientRepeater(m => m.Services, "getActiveServiceIndex()"))
                             {
-
-                                <!--<div class="item customer-type">
-                                <label for="customer-type">@Html.Sitecore().Field("Interest Label")</label>
-                                <select id="customer-type" name="customer-type" ng-model="$parent.customerType" ng-disabled="cartLocationsCount > 0" ng-change="assignStepNames(@(Html.Action("EnrollmentNav", "Enrollment").ToHtmlString()))">
-                                    @Html.Sitecore().Field("Customer Types")
-                                </select>
-                            </div>-->
-
                                 <div class="item full service-address">
                                     <div class="input-group">
-                                        <div class="input-group-control">
-                                            <label for="@currentService.IdFor(s => s.Location)" ng-switch on="data.serviceState">
-                                                <span ng-switch-when="TX">@Html.Sitecore().Field("TX Address Label")</span><span ng-switch-when="GA">@Html.Sitecore().Field("GA Address Label")</span><span ng-switch-default>@Html.Sitecore().Field("Zip Only Label")</span>:
+                                        <div class="input-group-control" ng-if="data.serviceState === 'GA' || data.serviceState === 'TX'">
+                                            <label for="@currentService.IdFor(s => s.Location)" >
+                                                <span ng-show="data.serviceState === 'TX'">@Html.Sitecore().Field("TX Address Label")</span><span ng-show="data.serviceState === 'GA'">@Html.Sitecore().Field("GA Address Label")</span>:
                                             </label>
                                             @currentService.TextBoxFor(s => s.Location, new
                                         {
@@ -55,6 +47,17 @@
                                             autocomplete = "off"
                                         })
                                         </div>
+                                        <div class="input-group-control" ng-if="data.serviceState != 'GA' && data.serviceState != 'TX'">
+                                            <label for="@currentService.IdFor(s => s.Location)">
+                                                <span>@Html.Sitecore().Field("Zip Only Label")</span>:
+                                            </label>
+                                            @currentService.TextBoxFor(s => s.Location, new
+                                       {
+                                           ng_model = "data.serviceLocation.address.postalCode5",
+                                           placeholder = "Enter your zip code",
+                                           ng_disabled = "data.serviceState == ''",
+                                       })
+                                        </div>
                                         <div class="input-group-btn" id="state-select" dropdown-select dropdown-items="supportedUtilityStates" value="data.serviceState" data-alignment="right"></div>
                                         @currentService.ValidationMessageFor(s => s.Location)
                                     </div><!-- /input-group -->
@@ -64,13 +67,12 @@
                                 @Html.Sitecore().Field("Maximum Addresses Message Text")
                             </div>
                             <hr>
-                            <div class="item" ng-if="data.serviceState == 'TX' || data.serviceState == 'GA'">
-                                <label>@Html.Sitecore().Field("Options Label") <a href="#" tooltip="@Html.Sitecore().Field("Options Tooltip")"><i class="icon-tooltip"></i></a></label>
+                            <div class="item">
+                                <label>@Html.Sitecore().Field("Options Label") <a href="" tooltip="@Html.Sitecore().Field("Options Tooltip")"><i class="icon-tooltip"></i></a></label>
                                 <ul class="checkbox-list">
-                                    <li ng-switch on="data.serviceState">
+                                    <li>
                                         <input type="radio" ng-model="data.isNewService" id="switching-providers" ng-value="false">
-                                        <label ng-switch-when="TX" for="switching-providers" class="enroll-options">@Html.Sitecore().Field("Switch Electricity Label")</label>
-                                        <label ng-switch-when="GA" for="switching-providers" class="enroll-options">@Html.Sitecore().Field("Switch Gas Label")</label>
+                                        <label for="switching-providers" class="enroll-options">@Html.Sitecore().Field("Switch Electricity Label")</label>
                                     </li>
                                     <li>
                                         <input type="radio" ng-model="data.isNewService" id="setting-up-new-service" ng-value="true">

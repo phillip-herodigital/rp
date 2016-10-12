@@ -80,7 +80,7 @@ namespace StreamEnergy.MyStream.Conditions
             bool redirect = false;
 
             // Allow only TX, GA, protective and mobile enrollments to view our enrollment page.
-            redirect = redirect || (dependencies.EnrollmentParameters.State != "TX" && dependencies.EnrollmentParameters.State != "GA" && dependencies.EnrollmentParameters.ServiceType != "MOB" && dependencies.EnrollmentParameters.ServiceType != "PRO");
+            redirect = redirect || (dependencies.EnrollmentParameters.ServiceType != "ELE" && dependencies.EnrollmentParameters.ServiceType != "GAS" && dependencies.EnrollmentParameters.ServiceType != "MOB" && dependencies.EnrollmentParameters.ServiceType != "PRO");
 
             // "cracked door" - allow less than 100% through to our own enrollment.
             redirect = redirect || useRemoteEnrollment;
@@ -97,7 +97,7 @@ namespace StreamEnergy.MyStream.Conditions
                 {
                     dependencies.Context.Response.Redirect("/ga-upgrade-faq", false);
                 }
-                else if (dependencies.EnrollmentParameters.State != "TX" && dependencies.EnrollmentParameters.ServiceType != "MOB" && dependencies.EnrollmentParameters.ServiceType != "PRO")
+                else if (dependencies.EnrollmentParameters.ServiceType != "ELE" && dependencies.EnrollmentParameters.ServiceType != "MOB" && dependencies.EnrollmentParameters.ServiceType != "PRO")
                 {
                     dependencies.Context.Response.Redirect("/maintenance", false);
                 }

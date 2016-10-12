@@ -44,7 +44,7 @@ ngApp.controller('EnrollmentPlanSelectionCtrl', ['$scope', 'enrollmentService', 
             angular.forEach(address.offerInformationByType, function (entry) {
                 if (entry.value && !_(entry.key).contains('Mobile') && entry.value.offerSelections && entry.value.offerSelections.length) {
                     $scope.planSelection.selectedOffers[entry.key] = entry.value.offerSelections[0].offerId;
-                } else if (entry.value && !_(entry.key).contains('Mobile') && entry.value.availableOffers.length == 1) {
+                } else if (entry.value && !_(entry.key).contains('Mobile') && entry.value.availableOffers.length == 1 && address.offerInformationByType.length === 1) {
                     $scope.planSelection.selectedOffers[entry.key] = entry.value.availableOffers[0].id;
                 }
             });
@@ -153,7 +153,6 @@ ngApp.controller('EnrollmentPlanSelectionCtrl', ['$scope', 'enrollmentService', 
      */
     $scope.completeStep = function (addAdditional) {
         if (!enrollmentCartService.getActiveService().location.address.line1) {
-
             $modal.open({
                 'scope': $scope,
                 'controller': 'EnrollmentZipToAddressCtrl as modal',
@@ -164,7 +163,10 @@ ngApp.controller('EnrollmentPlanSelectionCtrl', ['$scope', 'enrollmentService', 
             submitStep(addAdditional);
         }
 
-        var planId = ($scope.planSelection.selectedOffers.TexasElectricity || $scope.planSelection.selectedOffers.GeorgiaGas);
+        var planId = ($scope.planSelection.selectedOffers.TexasElectricity ||
+                      $scope.planSelection.selectedOffers.NewJerseyElectricity ||
+                      $scope.planSelection.selectedOffers.GeorgiaGas ||
+                      $scope.planSelection.selectedOffers.NewJerseyGas);
 
         var i = _.findIndex($scope.currentLocationInfo().offerInformationByType[0].value.availableOffers, function (o) {
             return (o.id == planId);

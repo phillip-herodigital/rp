@@ -108,7 +108,7 @@ ngApp.controller('EnrollmentMainCtrl', ['$scope', '$anchorScroll', '$location', 
     };
 
     $scope.assignSupportedUtilityStates = function (supportedStates) {
-        var availableStates = _.filter(supportedStates, function(state){return state.abbreviation == 'TX' || state.abbreviation == 'GA'; });
+        var availableStates = _.filter(supportedStates, function (state) { return state.abbreviation == 'TX' || state.abbreviation == 'NJ' || state.abbreviation == 'GA'; });
         $scope.supportedUtilityStates = _(availableStates).map(function (entry) { return { name: entry.display, value: entry.abbreviation, 'class': 'icon ' + entry.css } }).value();
     };
 

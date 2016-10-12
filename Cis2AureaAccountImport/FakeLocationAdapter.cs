@@ -8,7 +8,7 @@ namespace Cis2AureaAccountImport
 {
     class FakeLocationAdapter : ILocationAdapter
     {
-        public bool IsFor(IEnumerable<StreamEnergy.DomainModels.IServiceCapability> capabilities)
+        public bool IsFor(StreamEnergy.DomainModels.Enrollments.Location location)
         {
             return true;
         }

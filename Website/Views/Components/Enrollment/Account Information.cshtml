@@ -2,8 +2,10 @@
 @using TypedPhone = StreamEnergy.DomainModels.TypedPhone
 @using StreamEnergy.DomainModels.Enrollments
 @using TexasElectricity = StreamEnergy.DomainModels.Enrollments.TexasElectricity
+@using NewJerseyElectricity = StreamEnergy.DomainModels.Enrollments.NewJerseyElectricity
 @using GeorgiaGas = StreamEnergy.DomainModels.Enrollments.GeorgiaGas
-@{ 
+@using NewJerseyGas = StreamEnergy.DomainModels.Enrollments.NewJerseyGas
+@{
     int progressBarStep = 3;
     bool hideCart = true;
     if (!string.IsNullOrEmpty(Request.QueryString["ServiceType"]) && Request.QueryString["ServiceType"].ToLower() == "pro")
@@ -30,20 +32,9 @@
                         <div class="content">
                             <p>@Html.Sitecore().Field("Fill in Information")</p>
                             @* Service Address *@
-                            <div class="item item--no-input" ng-show="item.location.address">
+                            <div class="item item--no-input" ng-show="item.location.address.stateAbbreviation == 'TX' || item.location.address.stateAbbreviation == 'GA'">
                                 <label for="service-address">@Html.Sitecore().Field("Service Address Label")</label>
                                 {{ item.location.address | address }}
-                            </div>
-                            @* Address Input Dropdown *@
-                            <div class="item" ng-if="!item.location.address.line1">
-                                <label for="service-address">@Html.Sitecore().Field("Service Address Label")</label>
-                                <input type="text"
-                                       id="service-address"
-                                       class="typeahead"
-                                       ng-model="item.tempLocation"
-                                       typeahead="location as location.address|address for location in getLocation(item.location.address.stateAbbreviation, $viewValue, true)"
-                                       typeahead-loading="accountInformation.loadingAccountInformationServiceAddress"
-                                       ng-class="{'loading' : accountInformation.loadingAccountInformation}" autocomplete="off" />
                             </div>
                             @* ESI ID *@
                             <div ng-if="item.location.capabilities[0].esiId" class="item item--no-input inline-label location">
@@ -225,8 +216,42 @@
                                 </div>
                             </div>
                         </div>
-
                         <hr class="content-divider">
+                        <div ng-if="cartHasUtility() && !hasMoveIn && customerType != 'commercial'" class="service-address">
+                            <h3>@Html.Sitecore().Field("Service Address Label")</h3>
+                            @using (var serviceAddress = Html.Shortcut(m => m.Services.Last().Location.Address))
+                            {
+                                <div>
+                                    <div class="group">
+                                        <div class="item group-col" @(serviceAddress.Validation().ErrorClass(m => m.Line1))>
+                                            <label for="@serviceAddress.Fix(h => h.IdFor(m => m.Line1))">@Html.Sitecore().Field("Address 1 Label")</label>
+                                            @serviceAddress.Fix(h => h.TextBoxFor(m => m.Line1, new { data_val_if = "hasMoveIn && customerType != 'commercial'", ng_model = "utilityAddresses()[0].location.address.line1" }))
+                                            @serviceAddress.ValidationMessageFor(m => m.Line1)
+                                        </div>
+                                        <div class="item group-col" @serviceAddress.Validation().ErrorClass(m => m.Line2)>
+                                            <label for="@serviceAddress.Fix(h => h.IdFor(m => m.Line2))">@Html.Sitecore().Field("Address 2 Label")</label>
+                                            @serviceAddress.Fix(h => h.TextBoxFor(m => m.Line2, new { data_val_if = "hasMoveIn && customerType != 'commercial'", ng_model = "utilityAddresses()[0].location.address.line2" }))
+                                            @serviceAddress.ValidationMessageFor(m => m.Line2)
+                                        </div>
+                                    </div>
+                                    <div class="group">
+                                        <div class="item group-col" @serviceAddress.Validation().ErrorClass(m => m.City)>
+                                            <label for="@serviceAddress.Fix(h => h.IdFor(m => m.City))">@Html.Sitecore().Field("City Label")</label>
+                                            @serviceAddress.Fix(h => h.TextBoxFor(m => m.City, new { data_val_if = "hasMoveIn && customerType != 'commercial'", ng_model = "utilityAddresses()[0].location.address.city" }))
+                                            @serviceAddress.ValidationMessageFor(m => m.City)
+                                        </div>
+                                        <div class="item" @serviceAddress.Validation().ErrorClass(m => m.StateAbbreviation)>
+                                            <label for="service-address-state">@Html.Sitecore().Field("State Label")</label>
+                                            <p name="service-address-state">{{utilityAddresses()[0].location.address.stateAbbreviation}}</p>
+                                        </div>
+                                        <div class="item zip-code">
+                                            <label for="service-address-zip">@Html.Sitecore().Field("Zip Label")</label>
+                                            <p id="service-address-zip">{{utilityAddresses()[0].location.address.postalCode5}}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
                         <div ng-init="accountInformation.mailingAddressSame = cartHasUtility()">
                             <h3>@Html.Sitecore().Field("Mailing Address Header")</h3>
                             <div class="item" ng-show="cartHasUtility()">
@@ -252,6 +277,7 @@
                                 <label>@Html.Sitecore().Field("Billing Service Address Label")</label>
                                 <strong>{{ utilityAddresses()[0].location.address | address }}</strong>
                             </div>
+                            
                             @using (var mailingAddress = Html.Shortcut(m => m.MailingAddress))
                             {
                                 <div ng-if="!accountInformation.mailingAddressSame" class="mailing-address">
@@ -294,6 +320,7 @@
                                 </div>
                             }
                         </div>
+                        
                         <div ng-if="!cartHasMobile() && !cartHasProtective() && hasMoveIn && customerType != 'commercial'" class="previous-address">
                             <h3>@Html.Sitecore().Field("Previous Address Header")</h3>
                             @using (var previousAddress = Html.Shortcut(m => m.PreviousAddress))
@@ -443,6 +470,20 @@
     }
 </script>
 
+<script type="text/ng-template" id="offerOptions/NewJerseyElectricitySwitch">
+    @using (var offer = Html.ClientRepeater(m => m.Services, "{{$parent.$index}}").ClientRepeater(m => m.SelectedOffers, "{{$index}}"))
+    {
+        <div class="item group-col" @offer.Validation().ErrorClass(o => ((NewJerseyElectricity.SwitchOfferOption)o.OfferOption).PODID)>
+            <h3>For Electricity Account</h3>
+            <label for="@offer.Fix(h => h.IdFor(o => ((NewJerseyElectricity.SwitchOfferOption)o.OfferOption).PODID))">POD ID:</label>
+            @offer.Fix(h => h.TextBoxFor(o => ((NewJerseyElectricity.SwitchOfferOption)o.OfferOption).PODID, new { ng_model = "selectedOffer.offerOption.PODID" }))
+            <a href="" ng-click="showAglcExample()" class="aglc-example">@Html.Sitecore().Field("See Example Link Label")</a>
+            @offer.ValidationMessageFor(o => ((NewJerseyElectricity.SwitchOfferOption)o.OfferOption).PODID)
+        </div>
+    }
+</script>
+
+
 <script type="text/ng-template" id="offerOptions/GeorgiaGasSwitch">
     @using (var offer = Html.ClientRepeater(m => m.Services, "{{$parent.$index}}").ClientRepeater(m => m.SelectedOffers, "{{$index}}"))
     {
@@ -456,15 +497,29 @@
     }
 </script>
 
-<script type="text/ng-template" id="offerOptions/GeorgiaGasRenewal">
-    <div>
+<script type="text/ng-template" id="offerOptions/NewJerseyGasSwitch">
+    @using (var offer = Html.ClientRepeater(m => m.Services, "{{$parent.$index}}").ClientRepeater(m => m.SelectedOffers, "{{$index}}"))
+    {
+        <div class="item group-col" @offer.Validation().ErrorClass(o => ((NewJerseyGas.SwitchOfferOption)o.OfferOption).PODID)>
+            <h3>For Gas Account</h3>
+            <label for="@offer.Fix(h => h.IdFor(o => ((NewJerseyGas.SwitchOfferOption)o.OfferOption).PODID))">POD ID:</label>
+            @offer.Fix(h => h.TextBoxFor(o => ((NewJerseyGas.SwitchOfferOption)o.OfferOption).PODID, new { ng_model = "selectedOffer.offerOption.PODID" }))
+            <a href="" ng-click="showAglcExample()" class="aglc-example">@Html.Sitecore().Field("See Example Link Label")</a>
+            @offer.ValidationMessageFor(o => ((NewJerseyGas.SwitchOfferOption)o.OfferOption).PODID)
+        </div>
+    }
+</script>
 
-    </div>
+<script type="text/ng-template" id="offerOptions/GeorgiaGasRenewal">
+</script>
+
+<script type="text/ng-template" id="offerOptions/NewJerseyGasRenewal">
 </script>
 
 <script type="text/ng-template" id="offerOptions/TexasElectrictyRenewal">
-    <div>
-    </div>
+</script>
+
+<script type="text/ng-template" id="offerOptions/NewJerseyElectrictyRenewal">
 </script>
 
 <script type="text/ng-template" id="template/datepicker/popup.html">
