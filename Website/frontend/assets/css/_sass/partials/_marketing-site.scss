@@ -5329,8 +5329,56 @@ article.marketing.validate-esn {
     margin-bottom: 50px;
     width: auto;
     h1 {
-        margin: 1.5em 0;
+        margin: 1.5em 0 0 0;
+		strong {
+			color: #28ade0;
+		}
     }
+	
+	.grid .col {
+		background-color: #f9f9f9;
+		@include box-shadow(1px 1px 5px 0px rgba(204,204,204,1));
+		.device-header {
+			background: image-url('marketing/redesign/Modules/Services/devices-header-background.jpg') top center no-repeat;
+			background-size: cover;
+			height: 105px;
+			h2 {
+				margin: 0px;
+				padding: 35px 20px 0px 20px;
+				color: #fff;
+			}
+		}
+		.device-content {
+			margin: 0px 20px;
+			img {
+				margin: 30px 0px -30px 0px;
+				height: auto;
+			}
+			.button {
+				font-size: 18px;
+				font-weight: 500;
+				background-color: #2aa4dc;
+				border: 1px solid #229acd;
+				padding: 10px 40px;
+				@include border-radius(5px);
+				@include background-image(linear-gradient(to top, #008cd2 0%, #2aa4dc 100%));
+				margin-top: 10px;
+
+				@include breakpoint(medium) {
+					margin-top: 32px;
+				}
+			}
+			p.devices-button, p.devices-image {
+				text-align: center;
+			}
+			@include breakpoint(small) {
+				padding-bottom: 20px;
+			}
+		}
+		@include breakpoint(small) {
+			margin-bottom: 20px;
+		}
+	}
 
     .device-error, .device-success {
         h2 {
@@ -5391,8 +5439,6 @@ article.marketing.validate-esn {
     .item {
         margin-bottom: 15px;
         display: inline-block;
-        width: 70%;
-        padding: 0 40px;
 
         input {
             height: 46px;
@@ -5473,6 +5519,10 @@ article.marketing.validate-esn {
             @include border-radius(5px);
             @include background-image(linear-gradient(to top, #008cd2 0%, #2aa4dc 100%));
             margin-top: 32px;
+
+			@include breakpoint(medium) {
+				margin-top: 54px;
+			}
 
             @include breakpoint(small) {
                 margin-top: 10px;
