@@ -15,5 +15,6 @@ namespace StreamEnergy.DomainModels.Enrollments.GeorgiaGas
             get { return RenewalOfferOption.Qualifier; }
         }
 
+        public override string PreviousProvider { get; set; }
     }
 }

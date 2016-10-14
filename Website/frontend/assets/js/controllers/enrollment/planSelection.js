@@ -198,6 +198,19 @@ ngApp.controller('EnrollmentPlanSelectionCtrl', ['$scope', 'enrollmentService', 
             if (!addAdditional) analytics.sendTags({
                 EnrollmentNumberOfEndpoints: enrollmentCartService.getServiceCount()
             });
+            var activeService = enrollmentCartService.getActiveService();
+            if (activeService.offerInformationByType.length > 1) {
+                angular.forEach(activeService.offerInformationByType, function (offerInfoByType) {
+                    if (offerInfoByType.value.offerSelections.length === 0) {
+                        _.remove(activeService.location.capabilities, function (capability) {
+                            return capability.capabilityType === offerInfoByType.key;
+                        });
+                    }
+                });
+                _.remove(activeService.offerInformationByType, function (offerInfoByType) {
+                    return offerInfoByType.value.offerSelections.length === 0;
+                });
+            }
             var selectedOffersPromise = enrollmentService.setSelectedOffers(addAdditional);
             selectedOffersPromise.then(onComplete, function (data) {
                 // error response

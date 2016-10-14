@@ -17,7 +17,7 @@
 
 @using (new Sitecore.Data.Items.ContextItemSwitcher(Html.Sitecore().CurrentItem))
 {
-<div id="accountInformation" class="enrollment showCart" ng-if="stepsService.isStepVisible('accountInformation')" ng-controller="EnrollmentAccountInformationCtrl" ng-init="usStates = @(Html.Action("States", "Data").ToHtmlString()); phoneTypes = @(Html.Action("PhoneCategories", "Data").ToHtmlString()); previousProviders = @(Html.Action("PreviousProviders", "Data").ToHtmlString()); previousProvidersGeorgia = @(Html.Action("PreviousProvidersGeorgia", "Data").ToHtmlString()); setTimeRemaining('accountInformation', '@Html.Sitecore().Field("Remaining Minutes Number")'); protectiveEnrollmentSettings(@(Html.Action("ProtectiveEnrollmentSettings", "Data").ToHtmlString()));">    
+<div id="accountInformation" class="enrollment showCart" ng-if="stepsService.isStepVisible('accountInformation')" ng-controller="EnrollmentAccountInformationCtrl" ng-init="usStates = @(Html.Action("States", "Data").ToHtmlString()); phoneTypes = @(Html.Action("PhoneCategories", "Data").ToHtmlString()); setTimeRemaining('accountInformation', '@Html.Sitecore().Field("Remaining Minutes Number")'); protectiveEnrollmentSettings(@(Html.Action("ProtectiveEnrollmentSettings", "Data").ToHtmlString()));">    
     @Html.Partial("~/Views/Components/Enrollment/Progress Bar.cshtml", new StreamEnergy.MyStream.Models.Enrollment.ProgressBar { StepNumber = progressBarStep, StepTextField = string.Format("Step {0} Description Text", progressBarStep.ToString()), HideCart = hideCart })
     <div class="layout">
         <div class="wrapper cols-2 enrollment__account-information">
@@ -371,16 +371,6 @@
                             @Html.TextBoxFor(m => m.PreferredSalesExecutive, new { ng_model = "accountInformation.preferredSalesExecutive" })
                             @Html.ValidationMessageFor(m => m.PreferredSalesExecutive)
                         </div>
-                        <div class="item group-col" ng-if="hasSwitch" @Html.Validation().ErrorClass(m => m.PreviousProvider)>
-                            <label for="@Html.IdFor(m => m.PreviousProvider)">@Html.Sitecore().Field("Previous Provider Label")</label>
-                            @Html.DropDownListFor(m => m.PreviousProvider,
-                                                new SelectListItem[] { new SelectListItem { Text = Html.Sitecore().Field("Select Option Please Choose").ToString(), Value = "" } },
-                                                new
-                                                {
-                                                    ng_model = "accountInformation.previousProvider",
-                                                    ng_options = "type.name as type.display for type in getPreviousProviders()"
-                                                })
-                        </div>
                     </div>
 
                     </article>
@@ -473,8 +463,18 @@
 <script type="text/ng-template" id="offerOptions/NewJerseyElectricitySwitch">
     @using (var offer = Html.ClientRepeater(m => m.Services, "{{$parent.$index}}").ClientRepeater(m => m.SelectedOffers, "{{$index}}"))
     {
+        <h3>For Electricity Account</h3>
+        <div class="item group-col" @offer.Validation().ErrorClass(o => ((NewJerseyElectricity.SwitchOfferOption)o.OfferOption).PreviousProvider) ng-init="setPreviousProviders(selectedOffer.optionRules.optionRulesType, this)">
+            <label for="@offer.Fix(h => h.IdFor(o => ((NewJerseyElectricity.SwitchOfferOption)o.OfferOption).PreviousProvider))">@Html.Sitecore().Field("Previous Provider Label")</label>
+            @offer.Fix(h => h.DropDownListFor(o => ((NewJerseyElectricity.SwitchOfferOption)o.Offer).PreviousProvider,
+                new SelectListItem[] { new SelectListItem { Text = Html.Sitecore().Field("Select Option Please Choose").ToString(), Value = "" } },
+                new
+                {
+                    ng_model = "selectedOffer.offerOption.previousProvider",
+                    ng_options = "type.name as type.display for type in previousProviders"
+                }))
+        </div>
         <div class="item group-col" @offer.Validation().ErrorClass(o => ((NewJerseyElectricity.SwitchOfferOption)o.OfferOption).PODID)>
-            <h3>For Electricity Account</h3>
             <label for="@offer.Fix(h => h.IdFor(o => ((NewJerseyElectricity.SwitchOfferOption)o.OfferOption).PODID))">POD ID:</label>
             @offer.Fix(h => h.TextBoxFor(o => ((NewJerseyElectricity.SwitchOfferOption)o.OfferOption).PODID, new { ng_model = "selectedOffer.offerOption.PODID" }))
             <a href="" ng-click="showAglcExample()" class="aglc-example">@Html.Sitecore().Field("See Example Link Label")</a>
@@ -487,7 +487,17 @@
 <script type="text/ng-template" id="offerOptions/GeorgiaGasSwitch">
     @using (var offer = Html.ClientRepeater(m => m.Services, "{{$parent.$index}}").ClientRepeater(m => m.SelectedOffers, "{{$index}}"))
     {
-
+        <h3>For Gas Account</h3>
+        <div class="item group-col" @offer.Validation().ErrorClass(o => ((GeorgiaGas.SwitchOfferOption)o.OfferOption).PreviousProvider) ng-init="setPreviousProviders(selectedOffer.optionRules.optionRulesType, this)">
+            <label for="@offer.Fix(h => h.IdFor(o => ((GeorgiaGas.SwitchOfferOption)o.OfferOption).PreviousProvider))">@Html.Sitecore().Field("Previous Provider Label")</label>
+            @offer.Fix(h => h.DropDownListFor(o => ((GeorgiaGas.SwitchOfferOption)o.Offer).PreviousProvider,
+                new SelectListItem[] { new SelectListItem { Text = Html.Sitecore().Field("Select Option Please Choose").ToString(), Value = "" } },
+                new
+                {
+                    ng_model = "selectedOffer.offerOption.previousProvider",
+                    ng_options = "type.name as type.display for type in previousProviders"
+                }))
+        </div>
         <div class="item group-col" @offer.Validation().ErrorClass(o => ((GeorgiaGas.SwitchOfferOption)o.OfferOption).AglcNumber)>
             <label for="@offer.Fix(h => h.IdFor(o => ((GeorgiaGas.SwitchOfferOption)o.OfferOption).AglcNumber))">@Html.Sitecore().Field("AGLC Number Label")</label>
             @offer.Fix(h => h.TextBoxFor(o => ((GeorgiaGas.SwitchOfferOption)o.OfferOption).AglcNumber, new { ng_model = "selectedOffer.offerOption.aglcNumber" }))
@@ -500,8 +510,18 @@
 <script type="text/ng-template" id="offerOptions/NewJerseyGasSwitch">
     @using (var offer = Html.ClientRepeater(m => m.Services, "{{$parent.$index}}").ClientRepeater(m => m.SelectedOffers, "{{$index}}"))
     {
+        <h3>For Gas Account</h3>
+        <div class="item group-col" @offer.Validation().ErrorClass(o => ((NewJerseyGas.SwitchOfferOption)o.OfferOption).PreviousProvider) ng-init="setPreviousProviders(selectedOffer.optionRules.optionRulesType, this)">
+            <label for="@offer.Fix(h => h.IdFor(o => ((NewJerseyGas.SwitchOfferOption)o.OfferOption).PreviousProvider))">@Html.Sitecore().Field("Previous Provider Label")</label>
+            @offer.Fix(h => h.DropDownListFor(o => ((NewJerseyGas.SwitchOfferOption)o.Offer).PreviousProvider,
+                new SelectListItem[] { new SelectListItem { Text = Html.Sitecore().Field("Select Option Please Choose").ToString(), Value = "" } },
+                new
+                {
+                    ng_model = "selectedOffer.offerOption.previousProvider",
+                    ng_options = "type.name as type.display for type in previousProviders"
+                }))
+        </div>
         <div class="item group-col" @offer.Validation().ErrorClass(o => ((NewJerseyGas.SwitchOfferOption)o.OfferOption).PODID)>
-            <h3>For Gas Account</h3>
             <label for="@offer.Fix(h => h.IdFor(o => ((NewJerseyGas.SwitchOfferOption)o.OfferOption).PODID))">POD ID:</label>
             @offer.Fix(h => h.TextBoxFor(o => ((NewJerseyGas.SwitchOfferOption)o.OfferOption).PODID, new { ng_model = "selectedOffer.offerOption.PODID" }))
             <a href="" ng-click="showAglcExample()" class="aglc-example">@Html.Sitecore().Field("See Example Link Label")</a>
@@ -512,14 +532,111 @@
 
 <script type="text/ng-template" id="offerOptions/GeorgiaGasRenewal">
 </script>
-
 <script type="text/ng-template" id="offerOptions/NewJerseyGasRenewal">
 </script>
-
+<script type="text/ng-template" id="offerOptions/NewJerseyGasMoveIn">
+    @using (var offer = Html.ClientRepeater(m => m.Services, "{{$parent.$index}}").ClientRepeater(m => m.SelectedOffers, "{{$index}}"))
+    {
+        <div ng-controller="OfferOptions-GeorgiaGasMoveIn">
+            <h3>For Gas Account</h3>
+            <div class="item group-col datepicker" @offer.Validation().ErrorClass(o => ((NewJerseyGas.MoveInOfferOption)o.OfferOption).ConnectDate)>
+                <label for="@offer.Fix(h => h.IdFor(o => ((NewJerseyGas.MoveInOfferOption)o.OfferOption).ConnectDate))">@Html.Sitecore().Field("Service Start Date Label")<a href="#" tooltip="@Html.Sitecore().Field("GA Date Tooltip")"><i class="icon-tooltip"></i></a></label>
+                <span class="calendar">
+                    <input type="text" class="datepicker-input" id="@offer.Fix(h => h.IdFor(o => ((NewJerseyGas.MoveInOfferOption)o.OfferOption).ConnectDate))" ng-model="selectedOffer.offerOption.connectDate"
+                           datepicker-popup is-open="datePickerOpened" ng-click="openDatePicker($event)" min-date="minDate" date-disabled="checkDisabledDate(date, mode)" show-footer="true" datepicker-options="{ 'datepickerDateClass': 'checkDateClass(date)', 'datepickerDateClassScope': $id, 'maxMode': 'day' }" />
+                    <span class="icon" ng-click="openDatePicker($event)"><i class="icon-calendar"></i></span>
+                </span>
+            </div>
+            <div class="item group-col" @offer.Validation().ErrorClass(o => ((NewJerseyGas.MoveInOfferOption)o.OfferOption).ConnectTime)>
+                <ul class="checkbox-list">
+                    <li><input type="checkbox" name="current-active-service" id="current-active-service" ng-model="currentActiveService" ng-change="selectedOffer.offerOption.connectTime = 'AllDay'"><label for="current-active-service">@Html.Sitecore().Field("GA Current Active Service Label")</label></li>
+                </ul>
+                <span class="connect-time">
+                    <select id="@offer.Fix(h => h.IdFor(o => ((NewJerseyGas.MoveInOfferOption)o.OfferOption).ConnectTime))"
+                            name="@offer.Fix(h => h.NameFor(o => ((NewJerseyGas.MoveInOfferOption)o.OfferOption).ConnectTime))"
+                            data-val="true"
+                            data-val-required="@Html.Sitecore().Field("ConnectTime Required")"
+                            ng-model="selectedOffer.offerOption.connectTime"
+                            ng-disabled="currentActiveService">
+                        @Html.Sitecore().Field("GA Connect Time Options")
+                    </select>
+                    @offer.Fix(h => h.ValidationMessageFor(o => ((NewJerseyGas.MoveInOfferOption)o.OfferOption).ConnectTime))
+                </span>
+                <div class="availibility">@Html.Sitecore().Field("Availability Text")</div>
+            </div>
+            <div class="item item--no-input inline-label utility-connect">
+                <label for="utility-connect-fee">@Html.Sitecore().Field("Utility Connect Fee Label")</label>
+                @Html.Sitecore().Field("GA Utility Connect Fee")
+            </div>
+            <div class="item item--no-input inline-label">
+                <label for="stream-connect-fee">@Html.Sitecore().Field("Stream Connect Fee Label")</label>
+                @Html.Sitecore().Field("GA Stream Connect Fee")
+            </div>
+            <div class="item group-col" @offer.Validation().ErrorClass(o => ((NewJerseyGas.MoveInOfferOption)o.OfferOption).PreviousProvider) ng-init="setPreviousProviders(selectedOffer.optionRules.optionRulesType, this)">
+                <label for="@offer.Fix(h => h.IdFor(o => ((NewJerseyGas.MoveInOfferOption)o.OfferOption).PreviousProvider))">@Html.Sitecore().Field("Previous Provider Label")</label>
+                @offer.Fix(h => h.DropDownListFor(o => ((NewJerseyGas.MoveInOfferOption)o.Offer).PreviousProvider,
+                new SelectListItem[] { new SelectListItem { Text = Html.Sitecore().Field("Select Option Please Choose").ToString(), Value = "" } },
+                new
+                {
+                    ng_model = "selectedOffer.offerOption.previousProvider",
+                    ng_options = "type.name as type.display for type in previousProviders"
+                }))
+            </div>
+            <div class="item group-col" @offer.Validation().ErrorClass(o => ((NewJerseyGas.MoveInOfferOption)o.OfferOption).PODID)>
+                <label for="@offer.Fix(h => h.IdFor(o => ((NewJerseyGas.MoveInOfferOption)o.OfferOption).PODID))">POD ID:</label>
+                @offer.Fix(h => h.TextBoxFor(o => ((NewJerseyGas.MoveInOfferOption)o.OfferOption).PODID, new { ng_model = "selectedOffer.offerOption.PODID" }))
+                <a href="" ng-click="showAglcExample()" class="aglc-example">@Html.Sitecore().Field("See Example Link Label")</a>
+                @offer.ValidationMessageFor(o => ((NewJerseyGas.MoveInOfferOption)o.OfferOption).PODID)
+            </div>
+        </div>
+    }
+</script>
 <script type="text/ng-template" id="offerOptions/TexasElectrictyRenewal">
 </script>
-
 <script type="text/ng-template" id="offerOptions/NewJerseyElectrictyRenewal">
+</script>
+<script type="text/ng-template" id="offerOptions/NewJerseyElectricityMoveIn">
+    @using (var offer = Html.ClientRepeater(m => m.Services, "{{$parent.$index}}").ClientRepeater(m => m.SelectedOffers, "{{$index}}"))
+    {
+        <div ng-controller="OfferOptions-TexasElectricityMoveIn">
+            <div class="item group-col datepicker" @offer.Validation().ErrorClass(o => ((NewJerseyElectricity.MoveInOfferOption)o.OfferOption).ConnectDate)>
+                <label for="@offer.Fix(h => h.IdFor(o => ((NewJerseyElectricity.MoveInOfferOption)o.OfferOption).ConnectDate))">@Html.Sitecore().Field("Service Start Date Label")</label>
+                <span class="calendar">
+                    <input type="text" class="datepicker-input" id="@offer.Fix(h => h.IdFor(o => ((TexasElectricity.MoveInOfferOption)o.OfferOption).ConnectDate))" ng-model="selectedOffer.offerOption.connectDate"
+                           datepicker-popup is-open="datePickerOpened" ng-click="openDatePicker($event)" min-date="minDate" date-disabled="checkDisabledDate(date, mode)" show-footer="true" datepicker-options="{ 'datepickerDateClass': 'checkDateClass(date)', 'datepickerDateClassScope': $id, 'maxMode': 'day' }" />
+                    <span class="icon" ng-click="openDatePicker($event)"><i class="icon-calendar"></i></span>
+                </span>
+                <div class="availibility">@Html.Sitecore().Field("Availability Text")</div>
+            </div>
+            <div class="item group-col" @offer.Validation().ErrorClass(o => ((NewJerseyElectricity.MoveInOfferOption)o.OfferOption).ConnectTime)>
+                <ul class="checkbox-list">
+                    <li><input type="checkbox" name="current-active-service" id="current-active-service" ng-model="currentActiveService" ng-change="selectedOffer.offerOption.connectTime = 'AllDay'"><label for="current-active-service">@Html.Sitecore().Field("GA Current Active Service Label")</label></li>
+                </ul>
+                <span class="connect-time">
+                    <select id="@offer.Fix(h => h.IdFor(o => ((NewJerseyElectricity.MoveInOfferOption)o.OfferOption).ConnectTime))"
+                            name="@offer.Fix(h => h.NameFor(o => ((NewJerseyElectricity.MoveInOfferOption)o.OfferOption).ConnectTime))"
+                            data-val="true"
+                            data-val-required="@Html.Sitecore().Field("ConnectTime Required")"
+                            ng-model="selectedOffer.offerOption.connectTime"
+                            ng-disabled="currentActiveService">
+                        @Html.Sitecore().Field("GA Connect Time Options")
+                    </select>
+                    @offer.Fix(h => h.ValidationMessageFor(o => ((NewJerseyElectricity.MoveInOfferOption)o.OfferOption).ConnectTime))
+                </span>
+                <div class="availibility">@Html.Sitecore().Field("Availability Text")</div>
+            </div>
+            <div class="item item--no-input inline-label">
+                <label for="connection-fee">@Html.Sitecore().Field("Connection Fee Label")</label>
+                {{connectionFee | currency}}
+            </div>
+            <div class="item group-col" @offer.Validation().ErrorClass(o => ((NewJerseyElectricity.MoveInOfferOption)o.OfferOption).PODID)>
+                <label for="@offer.Fix(h => h.IdFor(o => ((NewJerseyElectricity.MoveInOfferOption)o.OfferOption).PODID))">POD ID:</label>
+                @offer.Fix(h => h.TextBoxFor(o => ((NewJerseyElectricity.MoveInOfferOption)o.OfferOption).PODID, new { ng_model = "selectedOffer.offerOption.PODID" }))
+                <a href="" ng-click="showAglcExample()" class="aglc-example">@Html.Sitecore().Field("See Example Link Label")</a>
+                @offer.ValidationMessageFor(o => ((NewJerseyElectricity.MoveInOfferOption)o.OfferOption).PODID)
+            </div>
+        </div>
+    }
 </script>
 
 <script type="text/ng-template" id="template/datepicker/popup.html">

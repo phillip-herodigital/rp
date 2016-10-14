@@ -15,6 +15,19 @@ namespace StreamEnergy.DomainModels.Enrollments.NewJerseyGas
         // Note - do not use this fee other than for display; it can be affected by the client
         public decimal ConnectionFee { get; set; }
 
+        public override string PreviousProvider
+        {
+            get
+            {
+                return PreviousProvider;
+            }
+
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+        
         public override string OptionType
         {
             get

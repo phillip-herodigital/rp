@@ -2,7 +2,7 @@
  *
  * This is used to control aspects of account information on enrollment page.
  */
-ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', 'enrollmentService', 'enrollmentCartService', '$modal', 'validation', 'analytics', function ($scope, enrollmentService, enrollmentCartService, $modal, validation, analytics) {
+ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', '$http', 'enrollmentService', 'enrollmentCartService', '$modal', 'validation', 'analytics', function ($scope, $http, enrollmentService, enrollmentCartService, $modal, validation, analytics) {
     $scope.accountInformation = enrollmentService.accountInformation;
     $scope.contacts = {};
     $scope.contacts.options = enrollmentService.loggedInAccountDetails;
@@ -170,15 +170,10 @@ ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', 'enrollmentServi
         });
     };
 
-    $scope.getPreviousProviders = function () {
-        if (_(enrollmentCartService.services)
-            .map(function (l) {
-                return _(l.location.capabilities).filter({ capabilityType: "TexasElectricity" }).first();
-        }).filter().any()) {
-            return $scope.previousProviders;
-        } else {
-            return $scope.previousProvidersGeorgia;
-        }
+    $scope.setPreviousProviders = function (optionRulesType, scope) {
+         $http.get('/api/enrollment/getPreviousProviders', { params: { optionRulesType: optionRulesType } }).then(function success(response) {
+             scope.previousProviders = response.data;
+        });
     };
 
     /**

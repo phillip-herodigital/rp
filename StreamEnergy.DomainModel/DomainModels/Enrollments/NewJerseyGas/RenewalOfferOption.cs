@@ -12,8 +12,20 @@ namespace StreamEnergy.DomainModels.Enrollments.NewJerseyGas
 
         public override string OptionType
         {
-            get { return RenewalOfferOption.Qualifier; }
+            get { return Qualifier; }
         }
 
+        public override string PreviousProvider
+        {
+            get
+            {
+                return PreviousProvider;
+            }
+
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
     }
 }

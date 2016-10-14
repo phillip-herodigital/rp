@@ -17,6 +17,8 @@ namespace StreamEnergy.DomainModels.Enrollments.Protective
             get { return Qualifier; }
         }
 
+        public string PreviousProvider { get; set; }
+
         public void Sanitize()
         {
         }

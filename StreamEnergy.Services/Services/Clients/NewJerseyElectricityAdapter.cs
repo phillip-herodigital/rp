@@ -23,6 +23,10 @@ namespace StreamEnergy.Services.Clients
 
         bool ILocationAdapter.IsFor(Location location)
         {
+            if (location.Capabilities.OfType<StreamEnergy.DomainModels.Enrollments.NewJerseyGas.ServiceCapability>().Any() && !location.Capabilities.OfType<NewJerseyElectricity.ServiceCapability>().Any())
+            {
+                return false;
+            }
             return location.Address.StateAbbreviation == "NJ";
         }
 
@@ -86,10 +90,11 @@ namespace StreamEnergy.Services.Clients
             return new LocationOfferSet
             {
                 Offers = (from product in streamConnectProductResponse.Products
+                          where product.ProductType == "Electricity"
                           group product by product.ProductCode into products
                           let product = products.First()
                           let productData = sitecoreProductData.GetNewJerseyElectricityProductData(product.ProductCode.ToString())
-                          where productData != null && product.ProductType == "Electricity"
+                          where productData != null
                           select new NewJerseyElectricity.Offer
                           {
                               Id = product.Provider["Name"].ToString() + "/" + product.ProductId,
@@ -138,7 +143,7 @@ namespace StreamEnergy.Services.Clients
                     SelectedMoveInDate = (account.Offer.OfferOption is NewJerseyElectricity.MoveInOfferOption) ? ((NewJerseyElectricity.MoveInOfferOption)account.Offer.OfferOption).ConnectDate : DateTime.Now,
                     SelectedTurnOnTime = (account.Offer.OfferOption is NewJerseyElectricity.MoveInOfferOption) ? ((NewJerseyElectricity.MoveInOfferOption)account.Offer.OfferOption).ConnectTime : "Undefined",
                     UtilityProvider = JObject.Parse(NewJerseyElectricityOffer.Provider),
-                    UtilityAccountNumber = (account.Offer.OfferOption is NewJerseyElectricity.SwitchOfferOption) ? ((NewJerseyElectricity.SwitchOfferOption)account.Offer.OfferOption).PODID : NewJerseyElectricityService.PODID,
+                    UtilityAccountNumber = (account.Offer.OfferOption is NewJerseyElectricity.SwitchOfferOption) ? ((NewJerseyElectricity.SwitchOfferOption)account.Offer.OfferOption).PODID : (account.Offer.OfferOption is NewJerseyElectricity.MoveInOfferOption) ? ((NewJerseyElectricity.MoveInOfferOption)account.Offer.OfferOption).PODID : NewJerseyElectricityService.PODID,
                     Product = JObject.Parse(NewJerseyElectricityOffer.Product),
                     ServiceAddress = StreamConnectUtilities.ToStreamConnectAddress(account.Location.Address),
                     ProductType = "Electricity",

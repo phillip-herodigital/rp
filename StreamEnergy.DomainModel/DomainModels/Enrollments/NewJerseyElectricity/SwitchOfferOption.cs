@@ -14,11 +14,14 @@ namespace StreamEnergy.DomainModels.Enrollments.NewJerseyElectricity
 
         public override string OptionType
         {
-            get { return SwitchOfferOption.Qualifier; }
+            get { return Qualifier; }
         }
 
         [Required]
         public string PODID { get; set; }
+
+        [Required]
+        public override string PreviousProvider { get; set; }
 
         protected override void Sanitize()
         {

@@ -351,6 +351,36 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             return ClientData(typeof(DomainModels.Enrollments.ServiceInformationState));
         }
 
+        [HttpGet]
+        public dynamic GetPreviousProviders([FromUri] string optionRulesType)
+        {
+            Item item;
+            switch (optionRulesType)
+            {
+                case "TexasElectricity":
+                    item = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Taxonomy/Previous Providers/TX");
+                    break;
+                case "GeorgiaGasSwitch":
+                    item = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Taxonomy/Previous Providers/GA");
+                    break;
+                case "NewJerseyElectricitySwitch":
+                    item = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Taxonomy/Previous Providers/NJ/Electricity");
+                    break;
+                case "NewJerseyElectricityMoveIn":
+                    item = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Taxonomy/Previous Providers/NJ/Electricity");
+                    break;
+                case "NewJerseyGasSwitch":
+                    item = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Taxonomy/Previous Providers/NJ/Gas");
+                    break;
+                case "NewJerseyGasMoveIn":
+                    item = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Taxonomy/Previous Providers/NJ/Gas");
+                    break;
+                default:
+                    return null;
+            }
+            return item.Children.Select(child => new { Name = child.Name, Display = child.Fields["Display Text"].Value });
+        }
+
         /// <summary>
         /// Gets all the client data for a previous customer for single-page enrollments
         /// </summary>
@@ -646,7 +676,6 @@ FROM [SwitchBack] WHERE ESIID=@esiId";
                 SecondaryContactInfo = stateMachine.Context.SecondaryContactInfo,
                 MailingAddress = stateMachine.Context.MailingAddress,
                 PreviousAddress = stateMachine.Context.PreviousAddress,
-                PreviousProvider = stateMachine.Context.PreviousProvider,
                 AssociateInformation = stateMachine.InternalContext.AssociateInformation,
                 AssociateName = stateMachine.Context.AssociateName,
                 AssociateEmailSent = stateMachine.InternalContext.AssociateEmailSent,
@@ -985,7 +1014,6 @@ FROM [SwitchBack] WHERE ESIID=@esiId";
             stateMachine.Context.DoingBusinessAs = request.DoingBusinessAs;
             stateMachine.Context.PreferredSalesExecutive = request.PreferredSalesExecutive;
 
-            stateMachine.Context.PreviousProvider = request.PreviousProvider;
             stateMachine.Context.AssociateName = request.AssociateName;
 
             stateMachine.Context.TrustEvSessionId = request.TrustEvSessionId;

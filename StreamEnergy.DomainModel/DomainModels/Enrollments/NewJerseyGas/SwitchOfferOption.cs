@@ -20,6 +20,8 @@ namespace StreamEnergy.DomainModels.Enrollments.NewJerseyGas
         [Required]
         public string PODID { get; set; }
 
+        public override string PreviousProvider { get; set; }
+
         protected override void Sanitize()
         {
             if (!string.IsNullOrEmpty(PODID))
@@ -28,5 +30,7 @@ namespace StreamEnergy.DomainModels.Enrollments.NewJerseyGas
             }
             base.Sanitize();
         }
+
+
     }
 }

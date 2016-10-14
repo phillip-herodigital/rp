@@ -18,6 +18,8 @@ namespace StreamEnergy.DomainModels.Enrollments.NewJerseyGas
         [Required]
         public string ConnectTime { get; set; }
 
+        public string PODID { get; set; }
+
         // Note - do not use this fee other than for display; it can be affected by the client
         public decimal ConnectionFee { get; set; }
 
@@ -26,5 +28,6 @@ namespace StreamEnergy.DomainModels.Enrollments.NewJerseyGas
             get { return MoveInOfferOption.Qualifier; }
         }
 
+        public override string PreviousProvider { get; set; }
     }
 }

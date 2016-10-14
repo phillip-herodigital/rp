@@ -190,7 +190,7 @@ namespace StreamEnergy.Services.Clients
 
         async Task<IConnectDatePolicy> IEnrollmentService.LoadConnectDates(Location location, IOffer offer)
         {
-            var locAdapter = enrollmentLocationAdapters.First(adapter => adapter.IsFor(location));
+            var locAdapter = enrollmentLocationAdapters.First(adapter => adapter.IsFor(location.Capabilities, offer));
 
             var parameters = System.Web.HttpUtility.ParseQueryString("");
             parameters["Address.City"] = location.Address.City;
@@ -392,7 +392,7 @@ namespace StreamEnergy.Services.Clients
                                CellPhone = context.ContactInfo.Phone.OfType<TypedPhone>().Where(p => p.Category == PhoneCategory.Mobile).Select(p => p.Number).SingleOrDefault(),
                                WorkPhone = context.ContactInfo.Phone.OfType<TypedPhone>().Where(p => p.Category == PhoneCategory.Work).Select(p => p.Number).SingleOrDefault(),
                                SSN = context.SocialSecurityNumber,
-                               CurrentProvider = context.PreviousProvider,
+                               CurrentProvider = systemOfRecordSet.First().Offer.OfferOption.PreviousProvider,
                                EmailAddress = context.ContactInfo.Email.Address,
                                Accounts = from account in systemOfRecordSet
                                           select systemOfRecordSet.Key.ToEnrollmentAccount(globalCustomerId, account, context.EnrolledInAutoPay, context.AddLineAccountNumber, context.DOB, context.Gender),
@@ -569,7 +569,7 @@ namespace StreamEnergy.Services.Clients
                         var offer = locationOfferByEnrollmentAccountId[enrollmentAccountId].Offer;
                         var option = services.First(s => s.Location == location).SelectedOffers.First(s => s.Offer.Id == offer.Id).OfferOption;
                         var optionRules = internalContext.OfferOptionRules.First(rule => rule.Location == location && rule.Offer.Id == offer.Id).Details;
-                        var locAdapter = enrollmentLocationAdapters.First(adapter => adapter.IsFor(location));
+                        var locAdapter = enrollmentLocationAdapters.First(adapter => adapter.IsFor(location.Capabilities, offer));
 
                         offerPaymentResults.Add(new LocationOfferDetails<OfferPayment>
                             {

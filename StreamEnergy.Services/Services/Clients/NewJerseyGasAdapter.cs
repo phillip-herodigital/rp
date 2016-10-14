@@ -23,6 +23,10 @@ namespace StreamEnergy.Services.Clients
 
         bool ILocationAdapter.IsFor(Location location)
         {
+            if (location.Capabilities.OfType<StreamEnergy.DomainModels.Enrollments.NewJerseyElectricity.ServiceCapability>().Any() && !location.Capabilities.OfType<NewJerseyGas.ServiceCapability>().Any())
+            {
+                return false;
+            }
             return location.Address.StateAbbreviation == "NJ";
         }
 
@@ -33,7 +37,7 @@ namespace StreamEnergy.Services.Clients
 
         bool ILocationAdapter.IsFor(Address serviceAddress, string productType)
         {
-            return serviceAddress.StateAbbreviation == "NJ" && productType == "Electricity";
+            return serviceAddress.StateAbbreviation == "NJ" && productType == "Gas";
         }
 
         bool ILocationAdapter.IsFor(DomainModels.Accounts.ISubAccount subAccount)
@@ -86,10 +90,11 @@ namespace StreamEnergy.Services.Clients
 
             return new LocationOfferSet {
                 Offers = (from product in streamConnectProductResponse.Products
+                          where product.ProductType == "Gas"
                           group product by product.ProductCode into products
                           let product = products.First()
                           let productData = sitecoreProductData.GetNewJerseyGasProductData(product.ProductCode.ToString())
-                          where productData != null && product.ProductType == "Gas"
+                          where productData != null
                           select new NewJerseyGas.Offer
                           {
                               Id = product.Provider["Name"].ToString() + "/" + product.ProductId,
@@ -138,7 +143,7 @@ namespace StreamEnergy.Services.Clients
                     SelectedMoveInDate = (account.Offer.OfferOption is NewJerseyGas.MoveInOfferOption) ? ((NewJerseyGas.MoveInOfferOption)account.Offer.OfferOption).ConnectDate : DateTime.Now,
                     SelectedTurnOnTime = (account.Offer.OfferOption is NewJerseyGas.MoveInOfferOption) ? ((NewJerseyGas.MoveInOfferOption)account.Offer.OfferOption).ConnectTime : "Undefined",
                     UtilityProvider = JObject.Parse(NewJerseyGasOffer.Provider),
-                    UtilityAccountNumber = (account.Offer.OfferOption is NewJerseyGas.SwitchOfferOption) ? ((NewJerseyGas.SwitchOfferOption)account.Offer.OfferOption).PODID : NewJerseyGasService.PODID,
+                    UtilityAccountNumber = (account.Offer.OfferOption is NewJerseyGas.SwitchOfferOption) ? ((NewJerseyGas.SwitchOfferOption)account.Offer.OfferOption).PODID : (account.Offer.OfferOption is NewJerseyGas.MoveInOfferOption) ? ((NewJerseyGas.MoveInOfferOption)account.Offer.OfferOption).PODID : NewJerseyGasService.PODID,
                     Product = JObject.Parse(NewJerseyGasOffer.Product),
                     ServiceAddress = StreamConnectUtilities.ToStreamConnectAddress(account.Location.Address),
                     ProductType = "Gas",

@@ -13,5 +13,6 @@ namespace StreamEnergy.DomainModels.Enrollments.NewJerseyElectricity
             get { return RenewalOfferOption.Qualifier; }
         }
 
+        public override string PreviousProvider { get; set; }
     }
 }

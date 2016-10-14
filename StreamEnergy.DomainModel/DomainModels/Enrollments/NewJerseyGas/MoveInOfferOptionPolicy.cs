@@ -22,13 +22,18 @@ namespace StreamEnergy.DomainModels.Enrollments.NewJerseyGas
 
         public async Task<IOfferOptionRules> GetOptionRules(Location location, IOffer offer)
         {
-            if (location.Capabilities.OfType<ServiceCapability>().Single().PODID == null)
+            var sentDates = false;
+            if (!sentDates)
             {
-                return new MoveInOfferOptionRules { ConnectDates = null };
+                sentDates = true;
+                return new MoveInOfferOptionRules
+                {
+                    ConnectDates = await enrollmentService.LoadConnectDates(location, offer)
+                };
             }
             return new MoveInOfferOptionRules
             {
-                ConnectDates = await enrollmentService.LoadConnectDates(location, offer)
+                ConnectDates = null
             };
         }
     }

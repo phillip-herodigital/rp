@@ -16,6 +16,8 @@ namespace StreamEnergy.DomainModels.Enrollments.NewJerseyGas
             Sanitize();
         }
 
+        public abstract string PreviousProvider { get; set; }
+
         protected virtual void Sanitize()
         {
             throw new NotImplementedException();
