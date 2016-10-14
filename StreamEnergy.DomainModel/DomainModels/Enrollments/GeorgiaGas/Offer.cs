@@ -53,5 +53,8 @@ namespace StreamEnergy.DomainModels.Enrollments.GeorgiaGas
         public IEnumerable<KeyValuePair<string, string>> Footnotes { get; set; }
 
         public string Product { get; set; }
+        public bool IncludesPromo { get; set; }
+        public string PromoIcon { get; set; }
+        public string PromoDescription { get; set; }
     }
 }
