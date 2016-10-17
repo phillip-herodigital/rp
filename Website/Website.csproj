@@ -1242,6 +1242,7 @@
     <Content Include="_CMP\RazlService.asmx" />
     <Content Include="App_Config\Include\CES\Sitecore.CES.GeoIp.config" />
     <Content Include="App_Config\Include\CES\Sitecore.CES.GeoIp.LegacyLocation.config" />
+    <Content Include="Data\stream.map" />
     <None Include="Properties\PublishProfiles\PackageForUpgrade.pubxml" />
     <None Include="Properties\PublishProfiles\Package.pubxml" />
     <None Include="Scripts\_references.js" />
