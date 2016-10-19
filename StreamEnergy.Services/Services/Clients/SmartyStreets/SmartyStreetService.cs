@@ -10,7 +10,7 @@ using Newtonsoft.Json;
 
 namespace StreamEnergy.Services.Clients.SmartyStreets
 {
-    public class SmartyStreetService : StreamEnergy.Services.Clients.SmartyStreets.ISmartyStreetService
+    public class SmartyStreetService : ISmartyStreetService
     {
         private static readonly ILog Log = LogManager.GetLogger(typeof(SmartyStreetService));
 
@@ -56,6 +56,96 @@ namespace StreamEnergy.Services.Clients.SmartyStreets
             {
                 Log.Error("Error calling SmartyStreets!", ex);
                 return Enumerable.Repeat<DomainModels.Address>(null, addresses.Length);
+            }
+        }
+
+        public async Task<IEnumerable<string>> AddressTypeAhead(string input, string stateAbbreviation)
+        {
+            var client = container.Resolve<HttpClient>();
+            var response = await client.GetAsync(string.Concat("https://us-autocomplete.api.smartystreets.com/suggest?auth-id=", authId, "&auth-token=", authToken, "&prefix=", input, string.IsNullOrEmpty(stateAbbreviation) ? "" : "&state_filter=" + stateAbbreviation));
+            if (response.IsSuccessStatusCode)
+            {
+                var result = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                var typeAheadResult = JsonConvert.DeserializeObject<SmartyStreetsTypeAheadResponse>(result, settings);
+                if (typeAheadResult.Suggestions == null)
+                {
+                    return new string[] { };
+                }
+                else
+                {
+                    return from address in typeAheadResult.Suggestions
+                           select address.text;
+                }
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public async Task<AddressLookupResponse> StreetAddressLookup(string input)
+        {
+            var client = container.Resolve<HttpClient>();
+            var response = await client.GetAsync(string.Concat("https://us-street.api.smartystreets.com/street-address?auth-id=", authId, "&auth-token=", authToken, "&street=", input, "&candidates=1"));
+            if (response.IsSuccessStatusCode)
+            {
+                var streetAddressResult = JsonConvert.DeserializeObject<SmartyStreetsAddressLookupResponse[]>(await response.Content.ReadAsStringAsync().ConfigureAwait(false), settings);
+                if (streetAddressResult.Length > 0)
+                {
+                    var capabilities = new List<DomainModels.IServiceCapability>();
+                    switch (streetAddressResult[0].components.state_abbreviation)
+                    {
+                        case "NJ":
+                            capabilities.Add(new DomainModels.Enrollments.NewJerseyElectricity.ServiceCapability {
+                                Zipcode = streetAddressResult[0].components.zipcode
+                            });
+                            capabilities.Add(new DomainModels.Enrollments.NewJerseyGas.ServiceCapability
+                            {
+                                Zipcode = streetAddressResult[0].components.zipcode
+                            });
+                            break;
+                        case "NY":
+                            capabilities.Add(new DomainModels.Enrollments.NewYorkElectricity.ServiceCapability
+                            {
+                                Zipcode = streetAddressResult[0].components.zipcode
+                            });
+                            capabilities.Add(new DomainModels.Enrollments.NewYorkGas.ServiceCapability
+                            {
+                                Zipcode = streetAddressResult[0].components.zipcode
+                            });
+                            break;
+                        default:
+                            break;
+                    }
+                    return new AddressLookupResponse
+                    {
+                        location = new DomainModels.Enrollments.Location
+                        {
+                            Address = new DomainModels.Address
+                            {
+                                Line1 = streetAddressResult[0].delivery_line_1,
+                                City = streetAddressResult[0].components.city_name,
+                                StateAbbreviation = streetAddressResult[0].components.state_abbreviation,
+                                PostalCode5 = streetAddressResult[0].components.zipcode,
+                            },
+                            Capabilities = capabilities
+                        },
+                        metadata = new AddressLookupResponse.Metadata
+                        {
+                            text = streetAddressResult[0].delivery_line_1 + " " + streetAddressResult[0].components.city_name + ", " + streetAddressResult[0].components.state_abbreviation,
+                            rdi = streetAddressResult[0].metadata.rdi,
+                            record_type = streetAddressResult[0].metadata.record_type
+                        }
+                    };
+                }
+                else
+                {
+                    return new AddressLookupResponse();
+                }
+            }
+            else
+            {
+                return null;
             }
         }
 

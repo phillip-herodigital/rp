@@ -10,6 +10,8 @@ namespace StreamEnergy.Services.Clients
         SitecoreProductInfo GetTexasElectricityProductData(string productCode, string providerName);
         SitecoreProductInfo GetNewJerseyElectricityProductData(string productCode);
         SitecoreProductInfo GetNewJerseyGasProductData(string productCode);
+        SitecoreProductInfo GetNewYorkElectricityProductData(string productCode);
+        SitecoreProductInfo GetNewYorkGasProductData(string productCode);
         SitecoreProductInfo GetProtectiveProductData(string productId);
         SitecoreProductInfo GetGeorgiaGasProductData(string productCode);
         SitecoreProductInfo GetMobileProductData(string productId);

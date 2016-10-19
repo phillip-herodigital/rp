@@ -375,6 +375,18 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 case "NewJerseyGasMoveIn":
                     item = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Taxonomy/Previous Providers/NJ/Gas");
                     break;
+                case "NewYorkElectricitySwitch":
+                    item = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Taxonomy/Previous Providers/NY/Electricity");
+                    break;
+                case "NewYorkElectricityMoveIn":
+                    item = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Taxonomy/Previous Providers/NY/Electricity");
+                    break;
+                case "NewYorkGasSwitch":
+                    item = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Taxonomy/Previous Providers/NY/Gas");
+                    break;
+                case "NewYorkGasMoveIn":
+                    item = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Taxonomy/Previous Providers/NY/Gas");
+                    break;
                 default:
                     return null;
             }

@@ -105,6 +105,10 @@ ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', '$http', 'enroll
         else return false;
     }
 
+    $scope.TXorGA = function (service) {
+            return service.location.address.stateAbbreviation === "TX" || service.location.address.stateAbbreviation === "GA";
+    }
+
     $scope.mailingAddressSameChanged = function() {
             if (!$scope.accountInformation.mailingAddressSame) {
                 if ($scope.utilityAddresses().length == 1)

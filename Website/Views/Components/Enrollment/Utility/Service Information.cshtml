@@ -17,6 +17,9 @@
                                 <div class="notice error" ng-if="data.serviceState == 'GA'">
                                     @Html.Sitecore().Field("GA Invalid Address Message Text")
                                 </div>
+                                <div class="notice error" ng-if="data.serviceState != 'GA' && data.serviceState != 'TX'">
+                                    The address you selected is not a valid service address.
+                                </div>
                                 <hr class="content-divider" />
                             </div>
                             <div ng-if="isDuplicateAddress(data.serviceLocation.address)" ng-cloak>
@@ -49,18 +52,36 @@
                                         </div>
                                         <div class="input-group-control" ng-if="data.serviceState != 'GA' && data.serviceState != 'TX'">
                                             <label for="@currentService.IdFor(s => s.Location)">
-                                                <span>@Html.Sitecore().Field("Zip Only Label")</span>:
+                                                <span>Address:</span>
                                             </label>
                                             @currentService.TextBoxFor(s => s.Location, new
                                        {
-                                           ng_model = "data.serviceLocation.address.postalCode5",
-                                           placeholder = "Enter your zip code",
+                                           @class = "typeahead state-select-typeahead",
+                                           ng_model = "typeAheadModel",
+                                           placeholder = Html.Sitecore().CurrentItem.Fields["Address Placeholder"].Value,
+                                           typeahead = "location as location for location in getLocation(data.serviceState, $viewValue)",
                                            ng_disabled = "data.serviceState == ''",
+                                           typeahead_loading = "loadingServiceAddress",
+                                           ng_class = "{'loading' : loadingServiceAddress}",
+                                           typeahead_on_select = "selectTypeAheadAddress($item)",
+                                           autocomplete = "off"
                                        })
                                         </div>
                                         <div class="input-group-btn" id="state-select" dropdown-select dropdown-items="supportedUtilityStates" value="data.serviceState" data-alignment="right"></div>
                                         @currentService.ValidationMessageFor(s => s.Location)
-                                    </div><!-- /input-group -->
+                                    </div>
+                                    <div class="input-group" ng-if="showLine2">
+                                        <div class="input-group-control" ng-if="data.serviceState != 'GA' && data.serviceState != 'TX'">
+                                            <label for="@currentService.IdFor(s => s.Location.Address.Line2)">
+                                                <span>Apt or Unit number</span>
+                                            </label>
+                                            @currentService.TextBoxFor(s => s.Location.Address.Line2, new
+                                       {
+                                           ng_model = "data.serviceLocation.address.line2",
+                                           placeholder = "Apt or Unit number",
+                                       })
+                                        </div>
+                                    </div>
                                 </div>
                             }
                             <div class="item warning" ng-if="isCartFull && isNewServiceAddress">

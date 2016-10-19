@@ -26,6 +26,8 @@ namespace StreamEnergy.Services
                     uc.Resolve<TexasAdapter>(),
                     uc.Resolve<NewJerseyElectricityAdapter>(),
                     uc.Resolve<NewJerseyGasAdapter>(),
+                    uc.Resolve<NewYorkElectricityAdapter>(),
+                    uc.Resolve<NewYorkGasAdapter>(),
                     uc.Resolve<GeorgiaAdapter>(),
                     uc.Resolve<MobileAdapter>(),
                     uc.Resolve<ProtectiveAdapter>()

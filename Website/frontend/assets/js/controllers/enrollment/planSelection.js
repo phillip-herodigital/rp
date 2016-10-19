@@ -165,8 +165,10 @@ ngApp.controller('EnrollmentPlanSelectionCtrl', ['$scope', 'enrollmentService', 
 
         var planId = ($scope.planSelection.selectedOffers.TexasElectricity ||
                       $scope.planSelection.selectedOffers.NewJerseyElectricity ||
+                      $scope.planSelection.selectedOffers.NewYorkElectricity ||
                       $scope.planSelection.selectedOffers.GeorgiaGas ||
-                      $scope.planSelection.selectedOffers.NewJerseyGas);
+                      $scope.planSelection.selectedOffers.NewJerseyGas ||
+                      $scope.planSelection.selectedOffers.NewYorkGas);
 
         var i = _.findIndex($scope.currentLocationInfo().offerInformationByType[0].value.availableOffers, function (o) {
             return (o.id == planId);
@@ -191,6 +193,14 @@ ngApp.controller('EnrollmentPlanSelectionCtrl', ['$scope', 'enrollmentService', 
             if (addAdditional) {
                 enrollmentCartService.setActiveService();
                 enrollmentStepsService.setFlow('utility', true).setFromServerStep('serviceInformation');
+            }
+            else {
+                angular.forEach(enrollmentCartService.services, function (service, index) {
+                    if (service.location.address.line1.indexOf("line1") != -1) {
+                        enrollmentCartService.services[index].location.address.line1 = "";
+                        enrollmentCartService.services[index].location.address.city = "";
+                    }
+                });
             }
         };
 

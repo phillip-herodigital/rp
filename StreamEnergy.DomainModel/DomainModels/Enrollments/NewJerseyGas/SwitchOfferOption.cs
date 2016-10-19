@@ -18,15 +18,16 @@ namespace StreamEnergy.DomainModels.Enrollments.NewJerseyGas
         }
 
         [Required]
-        public string PODID { get; set; }
+        public string PreviousAccountNumber { get; set; }
 
+        [Required]
         public override string PreviousProvider { get; set; }
 
         protected override void Sanitize()
         {
-            if (!string.IsNullOrEmpty(PODID))
+            if (!string.IsNullOrEmpty(PreviousAccountNumber))
             {
-                PODID = PODID.Trim();
+                PreviousAccountNumber = PreviousAccountNumber.Trim();
             }
             base.Sanitize();
         }

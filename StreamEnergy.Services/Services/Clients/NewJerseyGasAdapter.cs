@@ -53,7 +53,7 @@ namespace StreamEnergy.Services.Clients
         string ILocationAdapter.GetUtilityAccountNumber(IEnumerable<IServiceCapability> capabilities)
         {
             var capability = capabilities.OfType<NewJerseyGas.ServiceCapability>().Single();
-            return capability.PODID;
+            return capability.PreviousAccountNumber;
         }
 
         string ILocationAdapter.GetSystemOfRecord()
@@ -143,7 +143,7 @@ namespace StreamEnergy.Services.Clients
                     SelectedMoveInDate = (account.Offer.OfferOption is NewJerseyGas.MoveInOfferOption) ? ((NewJerseyGas.MoveInOfferOption)account.Offer.OfferOption).ConnectDate : DateTime.Now,
                     SelectedTurnOnTime = (account.Offer.OfferOption is NewJerseyGas.MoveInOfferOption) ? ((NewJerseyGas.MoveInOfferOption)account.Offer.OfferOption).ConnectTime : "Undefined",
                     UtilityProvider = JObject.Parse(NewJerseyGasOffer.Provider),
-                    UtilityAccountNumber = (account.Offer.OfferOption is NewJerseyGas.SwitchOfferOption) ? ((NewJerseyGas.SwitchOfferOption)account.Offer.OfferOption).PODID : (account.Offer.OfferOption is NewJerseyGas.MoveInOfferOption) ? ((NewJerseyGas.MoveInOfferOption)account.Offer.OfferOption).PODID : NewJerseyGasService.PODID,
+                    UtilityAccountNumber = (account.Offer.OfferOption is NewJerseyGas.SwitchOfferOption) ? ((NewJerseyGas.SwitchOfferOption)account.Offer.OfferOption).PreviousAccountNumber : (account.Offer.OfferOption is NewJerseyGas.MoveInOfferOption) ? ((NewJerseyGas.MoveInOfferOption)account.Offer.OfferOption).PreviousAccountNumber : NewJerseyGasService.PreviousAccountNumber,
                     Product = JObject.Parse(NewJerseyGasOffer.Product),
                     ServiceAddress = StreamConnectUtilities.ToStreamConnectAddress(account.Location.Address),
                     ProductType = "Gas",

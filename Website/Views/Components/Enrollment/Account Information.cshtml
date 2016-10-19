@@ -3,8 +3,10 @@
 @using StreamEnergy.DomainModels.Enrollments
 @using TexasElectricity = StreamEnergy.DomainModels.Enrollments.TexasElectricity
 @using NewJerseyElectricity = StreamEnergy.DomainModels.Enrollments.NewJerseyElectricity
+@using NewYorkElectricity = StreamEnergy.DomainModels.Enrollments.NewYorkElectricity
 @using GeorgiaGas = StreamEnergy.DomainModels.Enrollments.GeorgiaGas
 @using NewJerseyGas = StreamEnergy.DomainModels.Enrollments.NewJerseyGas
+@using NewYorkGas = StreamEnergy.DomainModels.Enrollments.NewYorkGas
 @{
     int progressBarStep = 3;
     bool hideCart = true;
@@ -32,7 +34,7 @@
                         <div class="content">
                             <p>@Html.Sitecore().Field("Fill in Information")</p>
                             @* Service Address *@
-                            <div class="item item--no-input" ng-show="item.location.address.stateAbbreviation == 'TX' || item.location.address.stateAbbreviation == 'GA'">
+                            <div class="item item--no-input">
                                 <label for="service-address">@Html.Sitecore().Field("Service Address Label")</label>
                                 {{ item.location.address | address }}
                             </div>
@@ -51,6 +53,7 @@
                                 <div ng-repeat="selectedOffer in offerInformation.value.offerSelections">
                                     <div ng-if="selectedOffer.optionRules" ng-include src="'offerOptions/' + selectedOffer.optionRules.optionRulesType"></div>
                                 </div>
+                                <hr ng-hide="$last" />
                             </div>
                         </div>
                     </article>
@@ -155,9 +158,9 @@
                             <div class="item group-col" ng-if="customerType == 'residential' || accountInformation.ssnOrTaxid == 'ssn'" @Html.Validation().ErrorClass(m => m.SocialSecurityNumber)>
                                 <label for="@Html.IdFor(m => m.SocialSecurityNumber)">
                                     @Html.Sitecore().Field("Social Security Number Label")
-                                <a ng-if="cartHasUtility() && !cartHasMobile()" href="#" tooltip="@Html.Sitecore().Field("Social Security Number Tooltip")"><i class="icon-tooltip"></i></a>
-                                <a ng-if="!cartHasUtility() && cartHasMobile()" href="#" tooltip="@Html.Sitecore().Field("Social Security Number Tooltip Mobile")"><i class="icon-tooltip"></i></a>
-                                <a ng-if="cartHasUtility() && cartHasMobile()" href="#" tooltip="@Html.Sitecore().Field("Social Security Number Tooltip Integrated")"><i class="icon-tooltip"></i></a>
+                                <a ng-if="cartHasUtility() && !cartHasMobile()" href="" tooltip="@Html.Sitecore().Field("Social Security Number Tooltip")"><i class="icon-tooltip"></i></a>
+                                <a ng-if="!cartHasUtility() && cartHasMobile()" href="" tooltip="@Html.Sitecore().Field("Social Security Number Tooltip Mobile")"><i class="icon-tooltip"></i></a>
+                                <a ng-if="cartHasUtility() && cartHasMobile()" href="" tooltip="@Html.Sitecore().Field("Social Security Number Tooltip Integrated")"><i class="icon-tooltip"></i></a>
                             </label>
                             @Html.TextBoxFor(m => m.SocialSecurityNumber, new { ng_model = "accountInformation.socialSecurityNumber", @class = "maskField", data_val = "true", data_val_required = "" })
                             @Html.ValidationMessageFor(m => m.SocialSecurityNumber)
@@ -217,41 +220,6 @@
                             </div>
                         </div>
                         <hr class="content-divider">
-                        <div ng-if="cartHasUtility() && !hasMoveIn && customerType != 'commercial'" class="service-address">
-                            <h3>@Html.Sitecore().Field("Service Address Label")</h3>
-                            @using (var serviceAddress = Html.Shortcut(m => m.Services.Last().Location.Address))
-                            {
-                                <div>
-                                    <div class="group">
-                                        <div class="item group-col" @(serviceAddress.Validation().ErrorClass(m => m.Line1))>
-                                            <label for="@serviceAddress.Fix(h => h.IdFor(m => m.Line1))">@Html.Sitecore().Field("Address 1 Label")</label>
-                                            @serviceAddress.Fix(h => h.TextBoxFor(m => m.Line1, new { data_val_if = "hasMoveIn && customerType != 'commercial'", ng_model = "utilityAddresses()[0].location.address.line1" }))
-                                            @serviceAddress.ValidationMessageFor(m => m.Line1)
-                                        </div>
-                                        <div class="item group-col" @serviceAddress.Validation().ErrorClass(m => m.Line2)>
-                                            <label for="@serviceAddress.Fix(h => h.IdFor(m => m.Line2))">@Html.Sitecore().Field("Address 2 Label")</label>
-                                            @serviceAddress.Fix(h => h.TextBoxFor(m => m.Line2, new { data_val_if = "hasMoveIn && customerType != 'commercial'", ng_model = "utilityAddresses()[0].location.address.line2" }))
-                                            @serviceAddress.ValidationMessageFor(m => m.Line2)
-                                        </div>
-                                    </div>
-                                    <div class="group">
-                                        <div class="item group-col" @serviceAddress.Validation().ErrorClass(m => m.City)>
-                                            <label for="@serviceAddress.Fix(h => h.IdFor(m => m.City))">@Html.Sitecore().Field("City Label")</label>
-                                            @serviceAddress.Fix(h => h.TextBoxFor(m => m.City, new { data_val_if = "hasMoveIn && customerType != 'commercial'", ng_model = "utilityAddresses()[0].location.address.city" }))
-                                            @serviceAddress.ValidationMessageFor(m => m.City)
-                                        </div>
-                                        <div class="item" @serviceAddress.Validation().ErrorClass(m => m.StateAbbreviation)>
-                                            <label for="service-address-state">@Html.Sitecore().Field("State Label")</label>
-                                            <p name="service-address-state">{{utilityAddresses()[0].location.address.stateAbbreviation}}</p>
-                                        </div>
-                                        <div class="item zip-code">
-                                            <label for="service-address-zip">@Html.Sitecore().Field("Zip Label")</label>
-                                            <p id="service-address-zip">{{utilityAddresses()[0].location.address.postalCode5}}</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            }
-                        </div>
                         <div ng-init="accountInformation.mailingAddressSame = cartHasUtility()">
                             <h3>@Html.Sitecore().Field("Mailing Address Header")</h3>
                             <div class="item" ng-show="cartHasUtility()">
@@ -277,7 +245,7 @@
                                 <label>@Html.Sitecore().Field("Billing Service Address Label")</label>
                                 <strong>{{ utilityAddresses()[0].location.address | address }}</strong>
                             </div>
-                            
+
                             @using (var mailingAddress = Html.Shortcut(m => m.MailingAddress))
                             {
                                 <div ng-if="!accountInformation.mailingAddressSame" class="mailing-address">
@@ -320,7 +288,6 @@
                                 </div>
                             }
                         </div>
-                        
                         <div ng-if="!cartHasMobile() && !cartHasProtective() && hasMoveIn && customerType != 'commercial'" class="previous-address">
                             <h3>@Html.Sitecore().Field("Previous Address Header")</h3>
                             @using (var previousAddress = Html.Shortcut(m => m.PreviousAddress))
@@ -365,14 +332,12 @@
                                 </div>
                             }
                         </div>
-
                         <div class="item group-col" ng-if="cartHasUtility() && customerType == 'commercial'" @Html.Validation().ErrorClass(m => m.PreferredSalesExecutive)>
                             <label for="@Html.IdFor(m => m.PreferredSalesExecutive)">@Html.Sitecore().Field("Preferred Sales Executive Label")</label>
                             @Html.TextBoxFor(m => m.PreferredSalesExecutive, new { ng_model = "accountInformation.preferredSalesExecutive" })
                             @Html.ValidationMessageFor(m => m.PreferredSalesExecutive)
                         </div>
                     </div>
-
                     </article>
                     @* User Account Creation *@
                     <article class="form enrollment__box enrollment__box--account-creation" ng-if="!isRenewal && cartHasMobile()" id="create-online-account">
@@ -474,11 +439,11 @@
                     ng_options = "type.name as type.display for type in previousProviders"
                 }))
         </div>
-        <div class="item group-col" @offer.Validation().ErrorClass(o => ((NewJerseyElectricity.SwitchOfferOption)o.OfferOption).PODID)>
-            <label for="@offer.Fix(h => h.IdFor(o => ((NewJerseyElectricity.SwitchOfferOption)o.OfferOption).PODID))">POD ID:</label>
-            @offer.Fix(h => h.TextBoxFor(o => ((NewJerseyElectricity.SwitchOfferOption)o.OfferOption).PODID, new { ng_model = "selectedOffer.offerOption.PODID" }))
+        <div class="item group-col" @offer.Validation().ErrorClass(o => ((NewJerseyElectricity.SwitchOfferOption)o.OfferOption).PreviousAccountNumber)>
+            <label for="@offer.Fix(h => h.IdFor(o => ((NewJerseyElectricity.SwitchOfferOption)o.OfferOption).PreviousAccountNumber))">POD ID:</label>
+            @offer.Fix(h => h.TextBoxFor(o => ((NewJerseyElectricity.SwitchOfferOption)o.OfferOption).PreviousAccountNumber, new { ng_model = "selectedOffer.offerOption.PreviousAccountNumber" }))
             <a href="" ng-click="showAglcExample()" class="aglc-example">@Html.Sitecore().Field("See Example Link Label")</a>
-            @offer.ValidationMessageFor(o => ((NewJerseyElectricity.SwitchOfferOption)o.OfferOption).PODID)
+            @offer.ValidationMessageFor(o => ((NewJerseyElectricity.SwitchOfferOption)o.OfferOption).PreviousAccountNumber)
         </div>
     }
 </script>
@@ -521,11 +486,11 @@
                     ng_options = "type.name as type.display for type in previousProviders"
                 }))
         </div>
-        <div class="item group-col" @offer.Validation().ErrorClass(o => ((NewJerseyGas.SwitchOfferOption)o.OfferOption).PODID)>
-            <label for="@offer.Fix(h => h.IdFor(o => ((NewJerseyGas.SwitchOfferOption)o.OfferOption).PODID))">POD ID:</label>
-            @offer.Fix(h => h.TextBoxFor(o => ((NewJerseyGas.SwitchOfferOption)o.OfferOption).PODID, new { ng_model = "selectedOffer.offerOption.PODID" }))
+        <div class="item group-col" @offer.Validation().ErrorClass(o => ((NewJerseyGas.SwitchOfferOption)o.OfferOption).PreviousAccountNumber)>
+            <label for="@offer.Fix(h => h.IdFor(o => ((NewJerseyGas.SwitchOfferOption)o.OfferOption).PreviousAccountNumber))">POD ID:</label>
+            @offer.Fix(h => h.TextBoxFor(o => ((NewJerseyGas.SwitchOfferOption)o.OfferOption).PreviousAccountNumber, new { ng_model = "selectedOffer.offerOption.PreviousAccountNumber" }))
             <a href="" ng-click="showAglcExample()" class="aglc-example">@Html.Sitecore().Field("See Example Link Label")</a>
-            @offer.ValidationMessageFor(o => ((NewJerseyGas.SwitchOfferOption)o.OfferOption).PODID)
+            @offer.ValidationMessageFor(o => ((NewJerseyGas.SwitchOfferOption)o.OfferOption).PreviousAccountNumber)
         </div>
     }
 </script>
@@ -540,7 +505,7 @@
         <div ng-controller="OfferOptions-GeorgiaGasMoveIn">
             <h3>For Gas Account</h3>
             <div class="item group-col datepicker" @offer.Validation().ErrorClass(o => ((NewJerseyGas.MoveInOfferOption)o.OfferOption).ConnectDate)>
-                <label for="@offer.Fix(h => h.IdFor(o => ((NewJerseyGas.MoveInOfferOption)o.OfferOption).ConnectDate))">@Html.Sitecore().Field("Service Start Date Label")<a href="#" tooltip="@Html.Sitecore().Field("GA Date Tooltip")"><i class="icon-tooltip"></i></a></label>
+                <label for="@offer.Fix(h => h.IdFor(o => ((NewJerseyGas.MoveInOfferOption)o.OfferOption).ConnectDate))">@Html.Sitecore().Field("Service Start Date Label")<a href="" tooltip="@Html.Sitecore().Field("GA Date Tooltip")"><i class="icon-tooltip"></i></a></label>
                 <span class="calendar">
                     <input type="text" class="datepicker-input" id="@offer.Fix(h => h.IdFor(o => ((NewJerseyGas.MoveInOfferOption)o.OfferOption).ConnectDate))" ng-model="selectedOffer.offerOption.connectDate"
                            datepicker-popup is-open="datePickerOpened" ng-click="openDatePicker($event)" min-date="minDate" date-disabled="checkDisabledDate(date, mode)" show-footer="true" datepicker-options="{ 'datepickerDateClass': 'checkDateClass(date)', 'datepickerDateClassScope': $id, 'maxMode': 'day' }" />
@@ -582,12 +547,69 @@
                     ng_options = "type.name as type.display for type in previousProviders"
                 }))
             </div>
-            <div class="item group-col" @offer.Validation().ErrorClass(o => ((NewJerseyGas.MoveInOfferOption)o.OfferOption).PODID)>
-                <label for="@offer.Fix(h => h.IdFor(o => ((NewJerseyGas.MoveInOfferOption)o.OfferOption).PODID))">POD ID:</label>
-                @offer.Fix(h => h.TextBoxFor(o => ((NewJerseyGas.MoveInOfferOption)o.OfferOption).PODID, new { ng_model = "selectedOffer.offerOption.PODID" }))
+            <div class="item group-col" @offer.Validation().ErrorClass(o => ((NewJerseyGas.MoveInOfferOption)o.OfferOption).PreviousAccountNumber)>
+                <label for="@offer.Fix(h => h.IdFor(o => ((NewJerseyGas.MoveInOfferOption)o.OfferOption).PreviousAccountNumber))">POD ID:</label>
+                @offer.Fix(h => h.TextBoxFor(o => ((NewJerseyGas.MoveInOfferOption)o.OfferOption).PreviousAccountNumber, new { ng_model = "selectedOffer.offerOption.PreviousAccountNumber" }))
                 <a href="" ng-click="showAglcExample()" class="aglc-example">@Html.Sitecore().Field("See Example Link Label")</a>
-                @offer.ValidationMessageFor(o => ((NewJerseyGas.MoveInOfferOption)o.OfferOption).PODID)
+                @offer.ValidationMessageFor(o => ((NewJerseyGas.MoveInOfferOption)o.OfferOption).PreviousAccountNumber)
             </div>
+        </div>
+    }
+</script>
+<script type="text/ng-template" id="offerOptions/NewYorkGasMoveIn">
+    @using (var offer = Html.ClientRepeater(m => m.Services, "{{$parent.$index}}").ClientRepeater(m => m.SelectedOffers, "{{$index}}"))
+    {
+        <div ng-controller="OfferOptions-GeorgiaGasMoveIn">
+            <h3>For Gas Account</h3>
+            <div class="item group-col datepicker" @offer.Validation().ErrorClass(o => ((NewYorkGas.MoveInOfferOption)o.OfferOption).ConnectDate)>
+                <label for="@offer.Fix(h => h.IdFor(o => ((NewYorkGas.MoveInOfferOption)o.OfferOption).ConnectDate))">@Html.Sitecore().Field("Service Start Date Label")<a href="" tooltip="@Html.Sitecore().Field("GA Date Tooltip")"><i class="icon-tooltip"></i></a></label>
+                <span class="calendar">
+                    <input type="text" class="datepicker-input" id="@offer.Fix(h => h.IdFor(o => ((NewYorkGas.MoveInOfferOption)o.OfferOption).ConnectDate))" ng-model="selectedOffer.offerOption.connectDate"
+                           datepicker-popup is-open="datePickerOpened" ng-click="openDatePicker($event)" min-date="minDate" date-disabled="checkDisabledDate(date, mode)" show-footer="true" datepicker-options="{ 'datepickerDateClass': 'checkDateClass(date)', 'datepickerDateClassScope': $id, 'maxMode': 'day' }" />
+                    <span class="icon" ng-click="openDatePicker($event)"><i class="icon-calendar"></i></span>
+                </span>
+            </div>
+            <div class="item group-col" @offer.Validation().ErrorClass(o => ((NewYorkGas.MoveInOfferOption)o.OfferOption).ConnectTime)>
+                <ul class="checkbox-list">
+                    <li><input type="checkbox" name="current-active-service" id="current-active-service" ng-model="currentActiveService" ng-change="selectedOffer.offerOption.connectTime = 'AllDay'"><label for="current-active-service">@Html.Sitecore().Field("GA Current Active Service Label")</label></li>
+                </ul>
+                <span class="connect-time">
+                    <select id="@offer.Fix(h => h.IdFor(o => ((NewYorkGas.MoveInOfferOption)o.OfferOption).ConnectTime))"
+                            name="@offer.Fix(h => h.NameFor(o => ((NewYorkGas.MoveInOfferOption)o.OfferOption).ConnectTime))"
+                            data-val="true"
+                            data-val-required="@Html.Sitecore().Field("ConnectTime Required")"
+                            ng-model="selectedOffer.offerOption.connectTime"
+                            ng-disabled="currentActiveService">
+                        @Html.Sitecore().Field("GA Connect Time Options")
+                    </select>
+                    @offer.Fix(h => h.ValidationMessageFor(o => ((NewYorkGas.MoveInOfferOption)o.OfferOption).ConnectTime))
+                </span>
+                <div class="availibility">@Html.Sitecore().Field("Availability Text")</div>
+            </div>
+            <div class="item item--no-input inline-label utility-connect">
+                <label for="utility-connect-fee">@Html.Sitecore().Field("Utility Connect Fee Label")</label>
+                @Html.Sitecore().Field("GA Utility Connect Fee")
+            </div>
+            <div class="item item--no-input inline-label">
+                <label for="stream-connect-fee">@Html.Sitecore().Field("Stream Connect Fee Label")</label>
+                @Html.Sitecore().Field("GA Stream Connect Fee")
+            </div>
+            <div class="item group-col" @offer.Validation().ErrorClass(o => ((NewYorkGas.MoveInOfferOption)o.OfferOption).PreviousProvider) ng-init="setPreviousProviders(selectedOffer.optionRules.optionRulesType, this)">
+                <label for="@offer.Fix(h => h.IdFor(o => ((NewYorkGas.MoveInOfferOption)o.OfferOption).PreviousProvider))">@Html.Sitecore().Field("Previous Provider Label")</label>
+                @offer.Fix(h => h.DropDownListFor(o => ((NewYorkGas.MoveInOfferOption)o.Offer).PreviousProvider,
+                new SelectListItem[] { new SelectListItem { Text = Html.Sitecore().Field("Select Option Please Choose").ToString(), Value = "" } },
+                new
+                {
+                    ng_model = "selectedOffer.offerOption.previousProvider",
+                    ng_options = "type.name as type.display for type in previousProviders"
+                }))
+            </div>
+            @*<div class="item group-col" @offer.Validation().ErrorClass(o => ((NewYorkGas.MoveInOfferOption)o.OfferOption).PreviousAccountNumber)>
+                <label for="@offer.Fix(h => h.IdFor(o => ((NewYorkGas.MoveInOfferOption)o.OfferOption).PreviousAccountNumber))">POD ID:</label>
+                @offer.Fix(h => h.TextBoxFor(o => ((NewYorkGas.MoveInOfferOption)o.OfferOption).PreviousAccountNumber, new { ng_model = "selectedOffer.offerOption.PreviousAccountNumber" }))
+                <a href="" ng-click="showAglcExample()" class="aglc-example">@Html.Sitecore().Field("See Example Link Label")</a>
+                @offer.ValidationMessageFor(o => ((NewYorkGas.MoveInOfferOption)o.OfferOption).PreviousAccountNumber)
+            </div>*@
         </div>
     }
 </script>
@@ -598,6 +620,7 @@
 <script type="text/ng-template" id="offerOptions/NewJerseyElectricityMoveIn">
     @using (var offer = Html.ClientRepeater(m => m.Services, "{{$parent.$index}}").ClientRepeater(m => m.SelectedOffers, "{{$index}}"))
     {
+        <h3>For Electricity Account</h3>
         <div ng-controller="OfferOptions-TexasElectricityMoveIn">
             <div class="item group-col datepicker" @offer.Validation().ErrorClass(o => ((NewJerseyElectricity.MoveInOfferOption)o.OfferOption).ConnectDate)>
                 <label for="@offer.Fix(h => h.IdFor(o => ((NewJerseyElectricity.MoveInOfferOption)o.OfferOption).ConnectDate))">@Html.Sitecore().Field("Service Start Date Label")</label>
@@ -629,11 +652,11 @@
                 <label for="connection-fee">@Html.Sitecore().Field("Connection Fee Label")</label>
                 {{connectionFee | currency}}
             </div>
-            <div class="item group-col" @offer.Validation().ErrorClass(o => ((NewJerseyElectricity.MoveInOfferOption)o.OfferOption).PODID)>
-                <label for="@offer.Fix(h => h.IdFor(o => ((NewJerseyElectricity.MoveInOfferOption)o.OfferOption).PODID))">POD ID:</label>
-                @offer.Fix(h => h.TextBoxFor(o => ((NewJerseyElectricity.MoveInOfferOption)o.OfferOption).PODID, new { ng_model = "selectedOffer.offerOption.PODID" }))
+            <div class="item group-col" @offer.Validation().ErrorClass(o => ((NewJerseyElectricity.MoveInOfferOption)o.OfferOption).PreviousAccountNumber)>
+                <label for="@offer.Fix(h => h.IdFor(o => ((NewJerseyElectricity.MoveInOfferOption)o.OfferOption).PreviousAccountNumber))">POD ID:</label>
+                @offer.Fix(h => h.TextBoxFor(o => ((NewJerseyElectricity.MoveInOfferOption)o.OfferOption).PreviousAccountNumber, new { ng_model = "selectedOffer.offerOption.PreviousAccountNumber" }))
                 <a href="" ng-click="showAglcExample()" class="aglc-example">@Html.Sitecore().Field("See Example Link Label")</a>
-                @offer.ValidationMessageFor(o => ((NewJerseyElectricity.MoveInOfferOption)o.OfferOption).PODID)
+                @offer.ValidationMessageFor(o => ((NewJerseyElectricity.MoveInOfferOption)o.OfferOption).PreviousAccountNumber)
             </div>
         </div>
     }
@@ -685,7 +708,7 @@
     {
         <div ng-controller="OfferOptions-GeorgiaGasMoveIn">
             <div class="item group-col datepicker" @offer.Validation().ErrorClass(o => ((GeorgiaGas.MoveInOfferOption)o.OfferOption).ConnectDate)>
-                <label for="@offer.Fix(h => h.IdFor(o => ((GeorgiaGas.MoveInOfferOption)o.OfferOption).ConnectDate))">@Html.Sitecore().Field("Service Start Date Label")<a href="#" tooltip="@Html.Sitecore().Field("GA Date Tooltip")"><i class="icon-tooltip"></i></a></label>
+                <label for="@offer.Fix(h => h.IdFor(o => ((GeorgiaGas.MoveInOfferOption)o.OfferOption).ConnectDate))">@Html.Sitecore().Field("Service Start Date Label")<a href="" tooltip="@Html.Sitecore().Field("GA Date Tooltip")"><i class="icon-tooltip"></i></a></label>
                 <span class="calendar">
                     <input type="text" class="datepicker-input" id="@offer.Fix(h => h.IdFor(o => ((GeorgiaGas.MoveInOfferOption)o.OfferOption).ConnectDate))" ng-model="selectedOffer.offerOption.connectDate"
                            datepicker-popup is-open="datePickerOpened" ng-click="openDatePicker($event)" min-date="minDate" date-disabled="checkDisabledDate(date, mode)" show-footer="true" datepicker-options="{ 'datepickerDateClass': 'checkDateClass(date)', 'datepickerDateClassScope': $id, 'maxMode': 'day' }" />

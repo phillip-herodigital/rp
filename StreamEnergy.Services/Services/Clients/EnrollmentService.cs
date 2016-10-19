@@ -392,13 +392,38 @@ namespace StreamEnergy.Services.Clients
                                CellPhone = context.ContactInfo.Phone.OfType<TypedPhone>().Where(p => p.Category == PhoneCategory.Mobile).Select(p => p.Number).SingleOrDefault(),
                                WorkPhone = context.ContactInfo.Phone.OfType<TypedPhone>().Where(p => p.Category == PhoneCategory.Work).Select(p => p.Number).SingleOrDefault(),
                                SSN = context.SocialSecurityNumber,
-                               CurrentProvider = systemOfRecordSet.First().Offer.OfferOption.PreviousProvider,
+                               CurrentProvider = systemOfRecordSet.Last().Offer.OfferOption.PreviousProvider,
                                EmailAddress = context.ContactInfo.Email.Address,
                                Accounts = from account in systemOfRecordSet
                                           select systemOfRecordSet.Key.ToEnrollmentAccount(globalCustomerId, account, context.EnrolledInAutoPay, context.AddLineAccountNumber, context.DOB, context.Gender),
                                TrustEvCaseId = context.TrustEvCaseId,
                                TrustEvSessionId = context.TrustEvSessionId,
                            }).ToArray();
+
+            //var newRequest = new[] { new {
+            //    GlobalCustomerId = request[0].GlobalCustomerId,
+            //    SystemOfRecord = request[0].SystemOfRecord,
+            //    SalesInfo = request[0].SalesInfo,
+            //    CustomerType = request[0].CustomerType,
+            //    FirstName = request[0].FirstName,
+            //    BillingAddress = request[0].BillingAddress,
+            //    HomePhone = request[0].HomePhone,
+            //    CellPhone = request[0].CellPhone,
+            //    WorkPhone = request[0].WorkPhone,
+            //    SSN = request[0].SSN,
+            //    CurrentProvider = request.First().CurrentProvider,
+            //    EmailAddress = request[0].EmailAddress,
+            //    Accounts = (from entry in request
+            //                let account = entry.Accounts.First()
+            //                select new {
+            //                    ServiceType = account.ServiceType,
+            //                    Key = account.Key,
+            //                    RequestUniqueKey = account.RequestUniqueKey,
+            //                    Premise = account.Premise,
+            //                }).ToArray(),
+            //    TrustEvCaseId = request[0].TrustEvCaseId,
+            //    TrustEvSessionId = request[0].TrustEvSessionId
+            //}};
 
             var response = await streamConnectClient.PutAsJsonAsync("/api/v1-1/customers/" + globalCustomerId.ToString() + "/enrollments", request);
             response.EnsureSuccessStatusCode();

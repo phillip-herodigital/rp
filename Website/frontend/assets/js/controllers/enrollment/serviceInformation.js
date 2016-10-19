@@ -2,10 +2,10 @@
  *
  * This is used to control aspects of let's get started on enrollment page.
  */
-ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$location', '$filter', 'enrollmentService', 'enrollmentCartService', 'enrollmentStepsService', 'analytics', function ($scope, $location, $filter, enrollmentService, enrollmentCartService, enrollmentStepsService, analytics) {
+ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$http', '$location', '$filter', 'enrollmentService', 'enrollmentCartService', 'enrollmentStepsService', 'analytics', function ($scope, $http, $location, $filter, enrollmentService, enrollmentCartService, enrollmentStepsService, analytics) {
 
     if (!$scope.data || !$scope.data.serviceState) {
-        var state = getParameterByName("State")
+        var state = getParameterByName("St")
         if (state) {
             $scope.data = { serviceState: state };
         } else if ($scope.geoLocation.state) {
@@ -23,11 +23,41 @@ ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$location', '$f
     }
 
     $scope.getLocation = function (state, val) {
-        return $scope.$parent.getLocation(state, val).then(function (values) {
-            $scope.errorMessage = !values.length;
-            return values;
+        if (state === "TX" || state === "GA") {
+            return $scope.$parent.getLocation(state, val).then(function (values) {
+                $scope.errorMessage = !values.length;
+                return values;
+            });
+        }
+        else {
+            return $http.get("/api/addresses/TypeAhead/" + val + "/" + state).then(function (value) {
+                $scope.errorMessage = !value.data.length;
+                return value.data;
+            }, function (error) {
+                console.log("typeahead error")
+            });
+        }
+    };
+
+    $scope.selectTypeAheadAddress = function (input) {
+        $scope.isLoading = true;
+        $http.get("/api/addresses/StreetAddressLookup/" + input).then(function (value) {
+            $scope.isLoading = false;
+            $scope.errorMessage = !value.data.location;
+            if (value.data.location) {
+                $scope.commercialAddress = value.data.metadata.rdi != "Residential";
+                if (value.data.metadata.rdi === "Residential")
+                {
+                    $scope.data.serviceLocation = value.data.location;
+                    $scope.showLine2 = value.data.metadata.record_type === "H";
+                }
+            }
+        }, function (error) {
+            $scope.isLoading = false;
+            console.log("address lookup error")
         });
     };
+
     $scope.isDuplicateAddress = $scope.$parent.isDuplicateAddress;
 
     //Checking to see when the active service address has been updated
@@ -73,6 +103,7 @@ ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$location', '$f
 
     $scope.$watch('data.serviceState', function() {
         $scope.data.serviceLocation = null;
+        $scope.typeAheadModel = null;
     });
 
     /**
@@ -87,8 +118,7 @@ ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$location', '$f
                 return typeof $scope.data.serviceLocation === 'object';
             }
             else {
-                var zipCheck = /^\d{5}(-\d{4})?$/.test($scope.data.serviceLocation.address.postalCode5);
-                return zipCheck;
+                return typeof $scope.data.serviceLocation === 'object';
             }
         } else {
             return false;
@@ -106,23 +136,8 @@ ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$location', '$f
             return;
         } 
 
-        if ($scope.data.serviceLocation.capabilities) { //if service got capabilities from the address typeahead, i.e. TX or GA
+        if ($scope.data.serviceLocation.capabilities) {
             $scope.data.serviceLocation.capabilities = _.filter($scope.data.serviceLocation.capabilities, function (cap) { return cap.capabilityType != "ServiceStatus" && cap.capabilityType != "CustomerType"; });
-        }
-        else {
-            $scope.data.serviceLocation = {
-                address: {
-                    line1: "line1",
-                    city: "city",
-                    stateAbbreviation: $scope.data.serviceState,
-                    postalCode5: $scope.data.serviceLocation.address.postalCode5
-                },
-                capabilities: []
-            };
-            if ($scope.data.serviceState === "NJ") {
-                $scope.data.serviceLocation.capabilities.push({ "capabilityType": "NewJerseyElectricity" });
-                $scope.data.serviceLocation.capabilities.push({ "capabilityType": "NewJerseyGas" });
-            }
         }
         $scope.data.serviceLocation.capabilities.push({ "capabilityType": "ServiceStatus", "enrollmentType": $scope.data.isNewService ? 'moveIn' : 'switch' });
         $scope.data.serviceLocation.capabilities.push({ "capabilityType": "CustomerType", "customerType": $scope.customerType });

@@ -13,11 +13,11 @@ namespace StreamEnergy.DomainModels.Enrollments.NewJerseyGas
 
         public virtual string CapabilityType { get { return Qualifier; } }
 
-        public virtual string PODID { get; set; }
+        public virtual string PreviousAccountNumber { get; set; }
 
         string ISearchable.GetUniqueField()
         {
-            return PODID;
+            return PreviousAccountNumber;
         }
 
         public override bool Equals(object obj)
@@ -27,12 +27,12 @@ namespace StreamEnergy.DomainModels.Enrollments.NewJerseyGas
                 return false;
             }
 
-            return PODID == ((ServiceCapability)obj).PODID;
+            return PreviousAccountNumber == ((ServiceCapability)obj).PreviousAccountNumber;
         }
 
         public override int GetHashCode()
         {
-            return Qualifier.GetHashCode() ^ (PODID ?? "").GetHashCode();
+            return Qualifier.GetHashCode() ^ (PreviousAccountNumber ?? "").GetHashCode();
         }
 
         public string Zipcode { get; set; }

@@ -14,7 +14,7 @@ namespace StreamEnergy.DomainModels.Enrollments.NewJerseyElectricity
         public override string CapabilityType { get { return Qualifier; } }
 
         [Newtonsoft.Json.JsonIgnore]
-        public override string PODID
+        public override string PreviousAccountNumber
         {
             get
             {
