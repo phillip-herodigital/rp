@@ -8,6 +8,8 @@
     Sitecore.Data.Fields.ImageField twitterIconField = sc.CurrentItem.Fields["Twitter Icon"];
     Sitecore.Data.Fields.ImageField youtubeIconField = sc.CurrentItem.Fields["Youtube Icon"];
     Sitecore.Data.Fields.ImageField pinterestIconField = sc.CurrentItem.Fields["Pinterest Icon"];
+    Sitecore.Data.Fields.ImageField instagramIconField = sc.CurrentItem.Fields["Instagram Icon"];
+    Sitecore.Data.Fields.ImageField snapchatIconField = sc.CurrentItem.Fields["Snap Chat Icon"];
 
     var footerBgPath = "";
     if(footerBgField.MediaItem != null) {
@@ -72,6 +74,22 @@
                                                                 <div class="imgpop">
                                                                     <a target="_blank" href="@sc.CurrentItem.Fields["Pinterest URL"].Value">
                                                                         <img src="@Sitecore.Resources.Media.MediaManager.GetMediaUrl(pinterestIconField.MediaItem, mediaOptions)" alt="" border="0" width="@pinterestIconField.Width" height="@pinterestIconField.Height" style="@iconstyle">
+                                                                    </a>
+                                                                </div>
+                                                            </td>
+                                                            <td align="right" width="10" style="font-size:1px; line-height:1px;">&nbsp;</td>
+                                                            <td width="25" height="25" align="center">
+                                                                <div class="imgpop">
+                                                                    <a target="_blank" href="@sc.CurrentItem.Fields["Instagram URL"].Value">
+                                                                        <img src="@Sitecore.Resources.Media.MediaManager.GetMediaUrl(instagramIconField.MediaItem, mediaOptions)" alt="" border="0" width="@instagramIconField.Width" height="@instagramIconField.Height" style="@iconstyle">
+                                                                    </a>
+                                                                </div>
+                                                            </td>
+                                                            <td align="right" width="10" style="font-size:1px; line-height:1px;">&nbsp;</td>
+                                                            <td width="25" height="25" align="center">
+                                                                <div class="imgpop">
+                                                                    <a target="_blank" href="@sc.CurrentItem.Fields["Snap Chat URL"].Value">
+                                                                        <img src="@Sitecore.Resources.Media.MediaManager.GetMediaUrl(snapchatIconField.MediaItem, mediaOptions)" alt="" border="0" width="@snapchatIconField.Width" height="@snapchatIconField.Height" style="@iconstyle">
                                                                     </a>
                                                                 </div>
                                                             </td>
