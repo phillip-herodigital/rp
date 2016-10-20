@@ -13,11 +13,11 @@ namespace StreamEnergy.DomainModels.Enrollments.NewYorkGas
 
         public virtual string CapabilityType { get { return Qualifier; } }
 
-        public virtual string LUAN { get; set; }
+        public virtual string PreviousAccountNumber { get; set; }
 
         string ISearchable.GetUniqueField()
         {
-            return LUAN;
+            return PreviousAccountNumber;
         }
 
         public override bool Equals(object obj)
@@ -27,12 +27,12 @@ namespace StreamEnergy.DomainModels.Enrollments.NewYorkGas
                 return false;
             }
 
-            return LUAN == ((ServiceCapability)obj).LUAN;
+            return PreviousAccountNumber == ((ServiceCapability)obj).PreviousAccountNumber;
         }
 
         public override int GetHashCode()
         {
-            return Qualifier.GetHashCode() ^ (LUAN ?? "").GetHashCode();
+            return Qualifier.GetHashCode() ^ (PreviousAccountNumber ?? "").GetHashCode();
         }
 
         public string Zipcode { get; set; }

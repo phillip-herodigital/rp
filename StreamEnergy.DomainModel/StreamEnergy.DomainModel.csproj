@@ -197,9 +197,6 @@
     <Compile Include="DomainModels\Enrollments\NewYorkGas\CommercialQuoteOption.cs" />
     <Compile Include="DomainModels\Enrollments\NewYorkGas\CommercialQuoteOptionPolicy.cs" />
     <Compile Include="DomainModels\Enrollments\NewYorkGas\CommercialQuoteOptionRules.cs" />
-    <Compile Include="DomainModels\Enrollments\NewYorkGas\MoveInOfferOption.cs" />
-    <Compile Include="DomainModels\Enrollments\NewYorkGas\MoveInOfferOptionPolicy.cs" />
-    <Compile Include="DomainModels\Enrollments\NewYorkGas\MoveInOfferOptionRules.cs" />
     <Compile Include="DomainModels\Enrollments\NewYorkGas\Offer.cs" />
     <Compile Include="DomainModels\Enrollments\NewYorkGas\OfferOption.cs" />
     <Compile Include="DomainModels\Enrollments\NewYorkGas\OfferOptionRules.cs" />
@@ -215,9 +212,6 @@
     <Compile Include="DomainModels\Enrollments\NewYorkElectricity\CommercialQuoteOption.cs" />
     <Compile Include="DomainModels\Enrollments\NewYorkElectricity\CommercialQuoteOptionPolicy.cs" />
     <Compile Include="DomainModels\Enrollments\NewYorkElectricity\CommercialQuoteOptionRules.cs" />
-    <Compile Include="DomainModels\Enrollments\NewYorkElectricity\MoveInOfferOption.cs" />
-    <Compile Include="DomainModels\Enrollments\NewYorkElectricity\MoveInOfferOptionPolicy.cs" />
-    <Compile Include="DomainModels\Enrollments\NewYorkElectricity\MoveInOfferOptionRules.cs" />
     <Compile Include="DomainModels\Enrollments\NewYorkElectricity\Offer.cs" />
     <Compile Include="DomainModels\Enrollments\NewYorkElectricity\OfferOption.cs" />
     <Compile Include="DomainModels\Enrollments\NewYorkElectricity\OfferOptionRules.cs" />
@@ -233,9 +227,6 @@
     <Compile Include="DomainModels\Enrollments\NewJerseyElectricity\CommercialQuoteOption.cs" />
     <Compile Include="DomainModels\Enrollments\NewJerseyElectricity\CommercialQuoteOptionPolicy.cs" />
     <Compile Include="DomainModels\Enrollments\NewJerseyElectricity\CommercialQuoteOptionRules.cs" />
-    <Compile Include="DomainModels\Enrollments\NewJerseyElectricity\MoveInOfferOption.cs" />
-    <Compile Include="DomainModels\Enrollments\NewJerseyElectricity\MoveInOfferOptionPolicy.cs" />
-    <Compile Include="DomainModels\Enrollments\NewJerseyElectricity\MoveInOfferOptionRules.cs" />
     <Compile Include="DomainModels\Enrollments\NewJerseyElectricity\Offer.cs" />
     <Compile Include="DomainModels\Enrollments\NewJerseyElectricity\OfferOption.cs" />
     <Compile Include="DomainModels\Enrollments\NewJerseyElectricity\OfferOptionRules.cs" />
@@ -251,9 +242,6 @@
     <Compile Include="DomainModels\Enrollments\NewJerseyGas\CommercialQuoteOption.cs" />
     <Compile Include="DomainModels\Enrollments\NewJerseyGas\CommercialQuoteOptionPolicy.cs" />
     <Compile Include="DomainModels\Enrollments\NewJerseyGas\CommercialQuoteOptionRules.cs" />
-    <Compile Include="DomainModels\Enrollments\NewJerseyGas\MoveInOfferOption.cs" />
-    <Compile Include="DomainModels\Enrollments\NewJerseyGas\MoveInOfferOptionPolicy.cs" />
-    <Compile Include="DomainModels\Enrollments\NewJerseyGas\MoveInOfferOptionRules.cs" />
     <Compile Include="DomainModels\Enrollments\NewJerseyGas\Offer.cs" />
     <Compile Include="DomainModels\Enrollments\NewJerseyGas\OfferOption.cs" />
     <Compile Include="DomainModels\Enrollments\NewJerseyGas\OfferOptionRules.cs" />

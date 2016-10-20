@@ -53,7 +53,7 @@ namespace StreamEnergy.Services.Clients
         string ILocationAdapter.GetUtilityAccountNumber(IEnumerable<IServiceCapability> capabilities)
         {
             var capability = capabilities.OfType<NewYorkGas.ServiceCapability>().Single();
-            return capability.LUAN;
+            return capability.PreviousAccountNumber;
         }
 
         string ILocationAdapter.GetSystemOfRecord()
@@ -140,10 +140,10 @@ namespace StreamEnergy.Services.Clients
                 Premise = new
                 {
                     EnrollmentType = serviceStatus.EnrollmentType.ToString("g"),
-                    SelectedMoveInDate = (account.Offer.OfferOption is NewYorkGas.MoveInOfferOption) ? ((NewYorkGas.MoveInOfferOption)account.Offer.OfferOption).ConnectDate : DateTime.Now,
-                    SelectedTurnOnTime = (account.Offer.OfferOption is NewYorkGas.MoveInOfferOption) ? ((NewYorkGas.MoveInOfferOption)account.Offer.OfferOption).ConnectTime : "Undefined",
+                    SelectedMoveInDate = DateTime.Now,
+                    SelectedTurnOnTime = "Undefined",
                     UtilityProvider = JObject.Parse(NewYorkGasOffer.Provider),
-                    UtilityAccountNumber = (account.Offer.OfferOption is NewYorkGas.SwitchOfferOption) ? ((NewYorkGas.SwitchOfferOption)account.Offer.OfferOption).LUAN : (account.Offer.OfferOption is NewYorkGas.MoveInOfferOption) ? ((NewYorkGas.MoveInOfferOption)account.Offer.OfferOption).LUAN : NewYorkGasService.LUAN,
+                    UtilityAccountNumber = (account.Offer.OfferOption is NewYorkGas.SwitchOfferOption) ? ((NewYorkGas.SwitchOfferOption)account.Offer.OfferOption).PreviousAccountNumber : NewYorkGasService.PreviousAccountNumber,
                     Product = JObject.Parse(NewYorkGasOffer.Product),
                     ServiceAddress = StreamConnectUtilities.ToStreamConnectAddress(account.Location.Address),
                     ProductType = "Gas",

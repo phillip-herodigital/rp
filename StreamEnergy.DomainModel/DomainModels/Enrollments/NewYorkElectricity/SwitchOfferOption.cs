@@ -18,16 +18,16 @@ namespace StreamEnergy.DomainModels.Enrollments.NewYorkElectricity
         }
 
         [Required]
-        public string LUAN { get; set; }
+        public string PreviousAccountNumber { get; set; }
 
         [Required]
         public override string PreviousProvider { get; set; }
 
         protected override void Sanitize()
         {
-            if (!string.IsNullOrEmpty(LUAN))
+            if (!string.IsNullOrEmpty(PreviousAccountNumber))
             {
-                LUAN = LUAN.Trim();
+                PreviousAccountNumber = PreviousAccountNumber.Trim();
             }
             base.Sanitize();
         }

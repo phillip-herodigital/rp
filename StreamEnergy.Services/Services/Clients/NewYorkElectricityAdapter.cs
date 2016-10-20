@@ -53,7 +53,7 @@ namespace StreamEnergy.Services.Clients
         string ILocationAdapter.GetUtilityAccountNumber(IEnumerable<IServiceCapability> capabilities)
         {
             var capability = capabilities.OfType<NewYorkElectricity.ServiceCapability>().Single();
-            return capability.LUAN;
+            return capability.PreviousAccountNumber;
         }
 
         string ILocationAdapter.GetSystemOfRecord()
@@ -140,10 +140,10 @@ namespace StreamEnergy.Services.Clients
                 Premise = new
                 {
                     EnrollmentType = serviceStatus.EnrollmentType.ToString("g"),
-                    SelectedMoveInDate = (account.Offer.OfferOption is NewYorkElectricity.MoveInOfferOption) ? ((NewYorkElectricity.MoveInOfferOption)account.Offer.OfferOption).ConnectDate : DateTime.Now,
-                    SelectedTurnOnTime = (account.Offer.OfferOption is NewYorkElectricity.MoveInOfferOption) ? ((NewYorkElectricity.MoveInOfferOption)account.Offer.OfferOption).ConnectTime : "Undefined",
+                    SelectedMoveInDate =  DateTime.Now,
+                    SelectedTurnOnTime = "Undefined",
                     UtilityProvider = JObject.Parse(NewYorkElectricityOffer.Provider),
-                    UtilityAccountNumber = (account.Offer.OfferOption is NewYorkElectricity.SwitchOfferOption) ? ((NewYorkElectricity.SwitchOfferOption)account.Offer.OfferOption).LUAN : (account.Offer.OfferOption is NewYorkElectricity.MoveInOfferOption) ? ((NewYorkElectricity.MoveInOfferOption)account.Offer.OfferOption).LUAN : NewYorkElectricityService.LUAN,
+                    UtilityAccountNumber = (account.Offer.OfferOption is NewYorkElectricity.SwitchOfferOption) ? ((NewYorkElectricity.SwitchOfferOption)account.Offer.OfferOption).PreviousAccountNumber : NewYorkElectricityService.PreviousAccountNumber,
                     Product = JObject.Parse(NewYorkElectricityOffer.Product),
                     ServiceAddress = StreamConnectUtilities.ToStreamConnectAddress(account.Location.Address),
                     ProductType = "Electricity",

@@ -140,10 +140,10 @@ namespace StreamEnergy.Services.Clients
                 Premise = new
                 {
                     EnrollmentType = serviceStatus.EnrollmentType.ToString("g"),
-                    SelectedMoveInDate = (account.Offer.OfferOption is NewJerseyGas.MoveInOfferOption) ? ((NewJerseyGas.MoveInOfferOption)account.Offer.OfferOption).ConnectDate : DateTime.Now,
-                    SelectedTurnOnTime = (account.Offer.OfferOption is NewJerseyGas.MoveInOfferOption) ? ((NewJerseyGas.MoveInOfferOption)account.Offer.OfferOption).ConnectTime : "Undefined",
+                    SelectedMoveInDate = DateTime.Now,
+                    SelectedTurnOnTime = "Undefined",
                     UtilityProvider = JObject.Parse(NewJerseyGasOffer.Provider),
-                    UtilityAccountNumber = (account.Offer.OfferOption is NewJerseyGas.SwitchOfferOption) ? ((NewJerseyGas.SwitchOfferOption)account.Offer.OfferOption).PreviousAccountNumber : (account.Offer.OfferOption is NewJerseyGas.MoveInOfferOption) ? ((NewJerseyGas.MoveInOfferOption)account.Offer.OfferOption).PreviousAccountNumber : NewJerseyGasService.PreviousAccountNumber,
+                    UtilityAccountNumber =  ((NewJerseyGas.SwitchOfferOption)account.Offer.OfferOption).PreviousAccountNumber,
                     Product = JObject.Parse(NewJerseyGasOffer.Product),
                     ServiceAddress = StreamConnectUtilities.ToStreamConnectAddress(account.Location.Address),
                     ProductType = "Gas",

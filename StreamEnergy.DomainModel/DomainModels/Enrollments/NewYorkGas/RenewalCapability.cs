@@ -14,7 +14,7 @@ namespace StreamEnergy.DomainModels.Enrollments.NewYorkGas
         public override string CapabilityType { get { return Qualifier; } }
 
         [Newtonsoft.Json.JsonIgnore]
-        public override string LUAN
+        public override string PreviousAccountNumber
         {
             get
             {

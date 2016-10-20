@@ -3,12 +3,12 @@
  * This is used to control aspects of let's get started on enrollment page.
  */
 ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$http', '$location', '$filter', 'enrollmentService', 'enrollmentCartService', 'enrollmentStepsService', 'analytics', function ($scope, $http, $location, $filter, enrollmentService, enrollmentCartService, enrollmentStepsService, analytics) {
-
     if (!$scope.data || !$scope.data.serviceState) {
         var state = getParameterByName("St")
         if (state) {
             $scope.data = { serviceState: state };
-        } else if ($scope.geoLocation.state) {
+        }
+        else if ($scope.geoLocation.state) {
             $scope.data = { serviceState: $scope.geoLocation.state };
         }
         else {
@@ -34,7 +34,7 @@ ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$http', '$locat
                 $scope.errorMessage = !value.data.length;
                 return value.data;
             }, function (error) {
-                console.log("typeahead error")
+                console.log("NE enrollment address typeahead error")
             });
         }
     };
@@ -45,11 +45,13 @@ ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$http', '$locat
             $scope.isLoading = false;
             $scope.errorMessage = !value.data.location;
             if (value.data.location) {
-                $scope.commercialAddress = value.data.metadata.rdi != "Residential";
                 if (value.data.metadata.rdi === "Residential")
                 {
                     $scope.data.serviceLocation = value.data.location;
                     $scope.showLine2 = value.data.metadata.record_type === "H";
+                }
+                else {
+                    $scope.errorMessage = $scope.commercialAddress = true;
                 }
             }
         }, function (error) {
@@ -101,7 +103,11 @@ ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$http', '$locat
         $scope.data.serviceLocation = null;
     });
 
-    $scope.$watch('data.serviceState', function() {
+    $scope.$watch('data.serviceState', function (newVal) {
+        if (newVal && newVal != "TX" && newVal != "GA")
+        {
+            $scope.data.isNewService = false;
+        }
         $scope.data.serviceLocation = null;
         $scope.typeAheadModel = null;
     });
@@ -114,13 +120,9 @@ ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$http', '$locat
      */
     $scope.isFormValid = function () {
         if ($scope.data.serviceLocation !== null && $scope.data.isNewService !== undefined && (!$scope.isCartFull || !$scope.isNewServiceAddress) && !$scope.isDuplicateAddress($scope.data.serviceLocation.address)) {
-            if ($scope.data.serviceState === "TX" || $scope.data.serviceState === "GA") {
-                return typeof $scope.data.serviceLocation === 'object';
-            }
-            else {
-                return typeof $scope.data.serviceLocation === 'object';
-            }
-        } else {
+            return typeof $scope.data.serviceLocation === 'object' && $scope.showLine2 ? $scope.data.serviceLocation.address.line2 : true;
+        }
+        else {
             return false;
         }
     };

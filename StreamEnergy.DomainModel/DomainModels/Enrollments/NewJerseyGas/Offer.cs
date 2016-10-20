@@ -26,8 +26,6 @@ namespace StreamEnergy.DomainModels.Enrollments.NewJerseyGas
         public IOfferOptionPolicy GetOfferOptionPolicy(IUnityContainer container)
         {
             switch (EnrollmentType) {
-                case Enrollments.EnrollmentType.MoveIn:
-                    return container.Resolve<MoveInOfferOptionPolicy>(); 
                 case Enrollments.EnrollmentType.Switch:
                     return container.Resolve<SwitchOfferOptionPolicy>();
                 case Enrollments.EnrollmentType.Renewal:

@@ -26,9 +26,9 @@ namespace StreamEnergy.DomainModels
                     { Enrollments.NewYorkGas.ServiceCapability.Qualifier, typeof(Enrollments.NewYorkGas.ServiceCapability) },
                     { Enrollments.NewYorkGas.RenewalCapability.Qualifier, typeof(Enrollments.NewYorkGas.RenewalCapability) },
                     { Enrollments.GeorgiaGas.ServiceCapability.Qualifier, typeof(Enrollments.GeorgiaGas.ServiceCapability) },
+                    { Enrollments.GeorgiaGas.RenewalCapability.Qualifier, typeof(Enrollments.GeorgiaGas.RenewalCapability) },
                     { Enrollments.Mobile.ServiceCapability.Qualifier, typeof(Enrollments.Mobile.ServiceCapability) },
                     { Enrollments.Protective.ServiceCapability.Qualifier, typeof(Enrollments.Protective.ServiceCapability) },
-                    { Enrollments.GeorgiaGas.RenewalCapability.Qualifier, typeof(Enrollments.GeorgiaGas.RenewalCapability) },
                     { Enrollments.ServiceStatusCapability.Qualifier, typeof(Enrollments.ServiceStatusCapability) },
                     { Enrollments.CustomerTypeCapability.Qualifier, typeof(Enrollments.CustomerTypeCapability) },
                 }
@@ -41,19 +41,15 @@ namespace StreamEnergy.DomainModels
                     { Enrollments.TexasElectricity.MoveInOfferOption.Qualifier, typeof(Enrollments.TexasElectricity.MoveInOfferOption) },
                     { Enrollments.TexasElectricity.CommercialQuoteOptionRules.Qualifier, typeof(Enrollments.TexasElectricity.CommercialQuoteOption) },
                     { Enrollments.NewJerseyElectricity.OfferOption.Qualifier, typeof(Enrollments.NewJerseyElectricity.OfferOption) },
-                    { Enrollments.NewJerseyElectricity.MoveInOfferOption.Qualifier, typeof(Enrollments.NewJerseyElectricity.MoveInOfferOption) },
                     { Enrollments.NewJerseyElectricity.SwitchOfferOption.Qualifier, typeof(Enrollments.NewJerseyElectricity.SwitchOfferOption) },
                     { Enrollments.NewJerseyElectricity.CommercialQuoteOptionRules.Qualifier, typeof(Enrollments.NewJerseyElectricity.CommercialQuoteOption) },
                     { Enrollments.NewJerseyGas.OfferOption.Qualifier, typeof(Enrollments.NewJerseyGas.OfferOption) },
-                    { Enrollments.NewJerseyGas.MoveInOfferOption.Qualifier, typeof(Enrollments.NewJerseyGas.MoveInOfferOption) },
                     { Enrollments.NewJerseyGas.SwitchOfferOption.Qualifier, typeof(Enrollments.NewJerseyGas.SwitchOfferOption) },
                     { Enrollments.NewJerseyGas.CommercialQuoteOptionRules.Qualifier, typeof(Enrollments.NewJerseyGas.CommercialQuoteOption) },
                     { Enrollments.NewYorkElectricity.OfferOption.Qualifier, typeof(Enrollments.NewYorkElectricity.OfferOption) },
-                    { Enrollments.NewYorkElectricity.MoveInOfferOption.Qualifier, typeof(Enrollments.NewYorkElectricity.MoveInOfferOption) },
                     { Enrollments.NewYorkElectricity.SwitchOfferOption.Qualifier, typeof(Enrollments.NewYorkElectricity.SwitchOfferOption) },
                     { Enrollments.NewYorkElectricity.CommercialQuoteOptionRules.Qualifier, typeof(Enrollments.NewYorkElectricity.CommercialQuoteOption) },
                     { Enrollments.NewYorkGas.OfferOption.Qualifier, typeof(Enrollments.NewYorkGas.OfferOption) },
-                    { Enrollments.NewYorkGas.MoveInOfferOption.Qualifier, typeof(Enrollments.NewYorkGas.MoveInOfferOption) },
                     { Enrollments.NewYorkGas.SwitchOfferOption.Qualifier, typeof(Enrollments.NewYorkGas.SwitchOfferOption) },
                     { Enrollments.NewYorkGas.CommercialQuoteOptionRules.Qualifier, typeof(Enrollments.NewYorkGas.CommercialQuoteOption) },
                     { Enrollments.GeorgiaGas.SwitchOfferOption.Qualifier, typeof(Enrollments.GeorgiaGas.SwitchOfferOption) },
@@ -80,9 +76,11 @@ namespace StreamEnergy.DomainModels
             {
                 SupportedTypes = {
                     { Accounts.TexasElectricityAccount.Qualifier, typeof(Accounts.TexasElectricityAccount) },
+                    { Accounts.GeorgiaGasAccount.Qualifier, typeof(Accounts.GeorgiaGasAccount) },
                     { Accounts.NewJerseyElectricityAccount.Qualifier, typeof(Accounts.NewJerseyElectricityAccount) },
                     { Accounts.NewJerseyGasAccount.Qualifier, typeof(Accounts.NewJerseyGasAccount) },
-                    { Accounts.GeorgiaGasAccount.Qualifier, typeof(Accounts.GeorgiaGasAccount) }
+                    { Accounts.NewYorkElectricityAccount.Qualifier, typeof(Accounts.NewYorkElectricityAccount) },
+                    { Accounts.NewYorkGasAccount.Qualifier, typeof(Accounts.NewYorkGasAccount) },
                 }
             };
             unityContainer.Resolve<TypeIndicatorJsonConverter>().TypeIndicators.Add(subAccountLookup);

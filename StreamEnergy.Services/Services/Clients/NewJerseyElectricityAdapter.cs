@@ -140,10 +140,10 @@ namespace StreamEnergy.Services.Clients
                 Premise = new
                 {
                     EnrollmentType = serviceStatus.EnrollmentType.ToString("g"),
-                    SelectedMoveInDate = (account.Offer.OfferOption is NewJerseyElectricity.MoveInOfferOption) ? ((NewJerseyElectricity.MoveInOfferOption)account.Offer.OfferOption).ConnectDate : DateTime.Now,
-                    SelectedTurnOnTime = (account.Offer.OfferOption is NewJerseyElectricity.MoveInOfferOption) ? ((NewJerseyElectricity.MoveInOfferOption)account.Offer.OfferOption).ConnectTime : "Undefined",
+                    SelectedMoveInDate = DateTime.Now,
+                    SelectedTurnOnTime = "Undefined",
                     UtilityProvider = JObject.Parse(NewJerseyElectricityOffer.Provider),
-                    UtilityAccountNumber = (account.Offer.OfferOption is NewJerseyElectricity.SwitchOfferOption) ? ((NewJerseyElectricity.SwitchOfferOption)account.Offer.OfferOption).PreviousAccountNumber : (account.Offer.OfferOption is NewJerseyElectricity.MoveInOfferOption) ? ((NewJerseyElectricity.MoveInOfferOption)account.Offer.OfferOption).PreviousAccountNumber : NewJerseyElectricityService.PreviousAccountNumber,
+                    UtilityAccountNumber = (account.Offer.OfferOption is NewJerseyElectricity.SwitchOfferOption) ? ((NewJerseyElectricity.SwitchOfferOption)account.Offer.OfferOption).PreviousAccountNumber : NewJerseyElectricityService.PreviousAccountNumber,
                     Product = JObject.Parse(NewJerseyElectricityOffer.Product),
                     ServiceAddress = StreamConnectUtilities.ToStreamConnectAddress(account.Location.Address),
                     ProductType = "Electricity",
