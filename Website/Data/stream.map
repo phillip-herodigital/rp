@@ -1,0 +1,101 @@
+MAP
+  IMAGETYPE      PNG
+  EXTENT         -110.05386089374997 34.44503147279385 -87.24624370624997 42.9982732505821
+  SIZE           1038 500
+  TRANSPARENT ON
+  
+  PROJECTION
+    "init=epsg:4326"
+  END
+
+  LAYER # States polygon layer begins here
+    NAME         "sprint_voice"
+    STATUS OFF
+  CONNECTIONTYPE OGR
+  CONNECTION "E:/mapfiles/Sprint_1XRTT.tab"
+  #STYLEITEM "AUTO"
+    TYPE         POLYGON
+   PROJECTION
+      "init=epsg:4326"
+    END
+    
+    CLASS
+      STYLE
+        COLOR "#9DC944"
+      END
+    END
+  END # States polygon layer ends here
+
+  LAYER # States polygon layer begins here
+    NAME         "sprint_voice_roam"
+    STATUS OFF
+	CONNECTIONTYPE OGR
+	CONNECTION "E:/mapfiles/VoiceRoaming.tab"
+	#STYLEITEM "AUTO"
+    TYPE         POLYGON
+	 PROJECTION
+		  "init=epsg:4326"
+		END
+    
+    CLASS
+      STYLE
+        COLOR    "#84AF40"
+      END
+    END
+  END # States polygon layer ends here
+
+  LAYER # States polygon layer begins here
+    NAME         "sprint_data_roam"
+    STATUS OFF
+	CONNECTIONTYPE OGR
+	CONNECTION "E:/mapfiles/Sprint_EVDO.tab"
+	#STYLEITEM "AUTO"
+    TYPE         POLYGON
+	 PROJECTION
+		  "init=epsg:4326"
+		END
+    
+    CLASS
+      STYLE
+        COLOR	"#6A963B"
+      END
+    END
+  END # States polygon layer ends here
+
+  LAYER # States polygon layer begins here
+    NAME         "sprint_lte"
+    STATUS OFF
+	CONNECTIONTYPE OGR
+	CONNECTION "E:/mapfiles/Sprint_4G_LTE1900.tab"
+	#STYLEITEM "AUTO"
+    TYPE         POLYGON
+	 PROJECTION
+		  "init=epsg:4326"
+		END
+    
+    CLASS
+      STYLE
+        COLOR    "#367E2C"
+      END
+    END
+  END # States polygon layer ends here
+
+  LAYER # States polygon layer begins here
+    NAME         "sprint_lte_advanced"
+    STATUS OFF
+	CONNECTIONTYPE OGR
+	CONNECTION "E:/mapfiles/Sprint_4G_LTE_2500.tab"
+	#STYLEITEM "AUTO"
+    TYPE         POLYGON
+	 PROJECTION
+		  "init=epsg:4326"
+		END
+    
+    CLASS
+      STYLE
+        COLOR    "#022802"
+      END
+    END
+  END # States polygon layer ends here
+
+END 

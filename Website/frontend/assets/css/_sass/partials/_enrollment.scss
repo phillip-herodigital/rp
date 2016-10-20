@@ -1253,7 +1253,7 @@
                         padding: 5px 12px 5px 30px;
                         border-top: 1px solid #eaeaea;
                     }
-                    div.thermostat-description, div.skydrop-description {
+                    div.thermostat-description, div.skydrop-description, , div.promo-description {
                         border-top: none;
                         padding: 1em 0 0;
                         font-size: 18px;
@@ -1511,7 +1511,7 @@
             }
         }
     }
-    .includes-thermostat, .includes-skydrop {
+    .includes-thermostat, .includes-skydrop, .includes-promo {
         background-color: #f4f8f9;
         margin: 5px -12px 0 -19px;
         padding: 10px 5px 5px;

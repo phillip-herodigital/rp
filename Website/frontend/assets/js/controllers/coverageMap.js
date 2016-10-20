@@ -54,15 +54,12 @@ ngApp.controller('CoverageMapCtrl', ['$scope', '$location', 'uiGmapGoogleMapApi'
     //$scope.selectedNetwork = $location.search().carrier || 'att';
     $scope.selectedNetwork = $location.search().carrier || 'sprint';
     $scope.layers = {
-        att: {
-            att_voice_roam: true,
-            att_data_roam: true,
-            att_lte: true
-        },
         sprint: {
+            sprint_voice: true,
             sprint_voice_roam: true,
             sprint_data_roam: true,
-            sprint_lte: true
+            sprint_lte: true,
+            sprint_lte_advanced: true,
         }
     };
 
@@ -114,8 +111,12 @@ ngApp.controller('CoverageMapCtrl', ['$scope', '$location', 'uiGmapGoogleMapApi'
             $scope.mapInstance.overlayMapTypes.clear();
 
             if (layers.length) {
-                var opacity = .35;
-                if (layers.length == 2) {
+                var opacity = .25;
+                if (layers.length == 4) {
+                    opacity = .30;
+                } else if (layers.length == 3) {
+                    opacity = .35;
+                } else if (layers.length == 2) {
                     opacity = .50;
                 } else if (layers.length == 1) {
                     opacity = .75;

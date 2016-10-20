@@ -242,6 +242,9 @@
                         <div class="included-skydrop" ng-if="selectedOffer.offer.includesSkydrop">
                             @Html.Sitecore().Field("Skydrop Text")
                         </div>
+                        <div class="included-promo" ng-if="selectedOffer.offer.includesPromo">
+                            @Html.Sitecore().Field("Energy Promo Text")
+                        </div>
                         <div class="service-info clearfix">
                             <div class="label">@Html.Sitecore().Field("Service Address Label"):</div>
                             <div class="info">
