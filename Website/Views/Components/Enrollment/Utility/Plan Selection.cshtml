@@ -157,12 +157,12 @@
                             <i class="icon-check"></i>
                         </span>
                         
-                        <!--
+                        
                         <button class="enrollment-btn" data-btn-radio="'{{plan.id}}'" data-uncheckable ng-class="{ 'secondary': planSelection.selectedOffers[typedOffers.key] == plan.id }" ng-model="planSelection.selectedOffers[typedOffers.key]" ng-click="scrollFix()">
                             <span ng-if="planSelection.selectedOffers[typedOffers.key] == plan.id">@Html.Sitecore().Field("Selected Button")<span class="skybell-selected"><br />Includes Silver Skybell</span></span>
                             <span ng-if="planSelection.selectedOffers[typedOffers.key] != plan.id">@Html.Sitecore().Field("Electricity Button")</span>
                         </button>
-                        -->
+                        
 
                         <div ng-class="{options: showGroupOfferOptions}" class="skybell-button" ng-if="planSelection.selectedOffers[typedOffers.key] != plan.id">
                             <div class="button select-plan" ng-click="showGroupOfferOptions = !showGroupOfferOptions" ng-hide="offerSelected(offer.id)">
