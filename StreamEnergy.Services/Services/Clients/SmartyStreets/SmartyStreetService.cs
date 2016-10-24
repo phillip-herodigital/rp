@@ -114,6 +114,32 @@ namespace StreamEnergy.Services.Clients.SmartyStreets
                                 Zipcode = streetAddressResult[0].components.zipcode
                             });
                             break;
+                        case "DC":
+                            capabilities.Add(new DomainModels.Enrollments.DCElectricity.ServiceCapability
+                            {
+                                Zipcode = streetAddressResult[0].components.zipcode
+                            });
+                            break;
+                        case "MD":
+                            capabilities.Add(new DomainModels.Enrollments.MarylandElectricity.ServiceCapability
+                            {
+                                Zipcode = streetAddressResult[0].components.zipcode
+                            });
+                            capabilities.Add(new DomainModels.Enrollments.MarylandGas.ServiceCapability
+                            {
+                                Zipcode = streetAddressResult[0].components.zipcode
+                            });
+                            break;
+                        case "PA":
+                            capabilities.Add(new DomainModels.Enrollments.PennsylvaniaElectricity.ServiceCapability
+                            {
+                                Zipcode = streetAddressResult[0].components.zipcode
+                            });
+                            capabilities.Add(new DomainModels.Enrollments.PennsylvaniaGas.ServiceCapability
+                            {
+                                Zipcode = streetAddressResult[0].components.zipcode
+                            });
+                            break;
                         default:
                             break;
                     }
@@ -127,6 +153,7 @@ namespace StreamEnergy.Services.Clients.SmartyStreets
                                 City = streetAddressResult[0].components.city_name,
                                 StateAbbreviation = streetAddressResult[0].components.state_abbreviation,
                                 PostalCode5 = streetAddressResult[0].components.zipcode,
+                                PostalCodePlus4 = streetAddressResult[0].components.plus4_code
                             },
                             Capabilities = capabilities
                         },

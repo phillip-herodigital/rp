@@ -33,6 +33,7 @@ namespace StreamEnergy.Services.Clients.SmartyStreets
             public string default_city_name { get; set; }
             public string state_abbreviation { get; set; }
             public string zipcode { get; set; }
+            public string plus4_code { get; set; }
             public string delivery_point { get; set; }
             public string delivery_point_check_digit { get; set; }
 

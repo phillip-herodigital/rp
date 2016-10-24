@@ -73,15 +73,15 @@
                                         <div class="input-group-btn" id="state-select" dropdown-select dropdown-items="supportedUtilityStates" value="data.serviceState" data-alignment="right"></div>
                                         @currentService.ValidationMessageFor(s => s.Location)
                                     </div>
-                                    <div class="input-group" ng-if="showLine2">
+                                    <div class="input-group" ng-if="showUnitNumber">
                                         <div class="input-group-control" ng-if="data.serviceState != 'GA' && data.serviceState != 'TX'">
-                                            <label for="@currentService.IdFor(s => s.Location.Address.Line2)">
+                                            <label for="@currentService.IdFor(s => s.Location.Address.UnitNumber)">
                                                 <span>Apt or Unit number</span>
                                             </label>
-                                            @currentService.TextBoxFor(s => s.Location.Address.Line2, new
+                                            @currentService.TextBoxFor(s => s.Location.Address.UnitNumber, new
                                        {
-                                           ng_model = "data.serviceLocation.address.line2",
-                                           ng_required = "showLine2",
+                                           ng_model = "data.serviceLocation.address.unitNumber",
+                                           ng_required = "showUnitNumber",
                                            placeholder = "Apt or Unit number",
                                        })
                                         </div>

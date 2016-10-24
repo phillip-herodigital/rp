@@ -397,19 +397,48 @@
         <dd>{{selectedOffer.offer.rate | currency}} kWh</dd>
     </dl>
 </script>
+<script type="text/ng-template" id="completeOrderCartToday/MarylandElectricity">
+    <dl class="clearfix" ng-repeat="selectedOffer in offerInformation.value.offerSelections">
+        <dt>{{selectedOffer.offer.name}}</dt>
+        <dd>{{selectedOffer.offer.rate | currency}} kWh</dd>
+    </dl>
+</script>
+<script type="text/ng-template" id="completeOrderCartToday/PennsylvaniaElectricity">
+    <dl class="clearfix" ng-repeat="selectedOffer in offerInformation.value.offerSelections">
+        <dt>{{selectedOffer.offer.name}}</dt>
+        <dd>{{selectedOffer.offer.rate | currency}} kWh</dd>
+    </dl>
+</script>
 <script type="text/ng-template" id="completeOrderCartToday/NewYorkElectricity">
     <dl class="clearfix" ng-repeat="selectedOffer in offerInformation.value.offerSelections">
         <dt>{{selectedOffer.offer.name}}</dt>
         <dd>{{selectedOffer.offer.rate | currency}} kWh</dd>
     </dl>
 </script>
-<script type="text/ng-template" id="completeOrderCartToday/GeorgiaGas">
+<script type="text/ng-template" id="completeOrderCartToday/DCElectricity">
+    <dl class="clearfix" ng-repeat="selectedOffer in offerInformation.value.offerSelections">
+        <dt>{{selectedOffer.offer.name}}</dt>
+        <dd>{{selectedOffer.offer.rate | currency}} kWh</dd>
+    </dl>
+</script><script type="text/ng-template" id="completeOrderCartToday/GeorgiaGas">
     <dl class="clearfix" ng-repeat="selectedOffer in offerInformation.value.offerSelections">
         <dt>{{selectedOffer.offer.name}}</dt>
         <dd>{{selectedOffer.offer.rate | currency}}</dd>
     </dl>
 </script>
 <script type="text/ng-template" id="completeOrderCartToday/NewJerseyGas">
+    <dl class="clearfix" ng-repeat="selectedOffer in offerInformation.value.offerSelections">
+        <dt>{{selectedOffer.offer.name}}</dt>
+        <dd>{{selectedOffer.offer.rate | currency}}</dd>
+    </dl>
+</script>
+<script type="text/ng-template" id="completeOrderCartToday/MarylandGas">
+    <dl class="clearfix" ng-repeat="selectedOffer in offerInformation.value.offerSelections">
+        <dt>{{selectedOffer.offer.name}}</dt>
+        <dd>{{selectedOffer.offer.rate | currency}}</dd>
+    </dl>
+</script>
+<script type="text/ng-template" id="completeOrderCartToday/PennsylvaniaGas">
     <dl class="clearfix" ng-repeat="selectedOffer in offerInformation.value.offerSelections">
         <dt>{{selectedOffer.offer.name}}</dt>
         <dd>{{selectedOffer.offer.rate | currency}}</dd>
@@ -485,7 +514,40 @@
         </div>
     </div>
 </script>
+<script type="text/ng-template" id="completeOrderCartMonthly/MarylandElectricity">
+    <div class="monthly-product clearfix" ng-repeat="selectedOffer in offerInformation.value.offerSelections">
+        <div class="description">
+            <span class="plan">{{ selectedOffer.offer.name }}</span>
+        </div>
+        <div class="rate">
+            {{selectedOffer.offer.rate}}&cent;
+            <span class="energy-unit">@Html.Sitecore().Field("Per kWh")</span>
+        </div>
+    </div>
+</script>
+<script type="text/ng-template" id="completeOrderCartMonthly/PennsylvaniaElectricity">
+    <div class="monthly-product clearfix" ng-repeat="selectedOffer in offerInformation.value.offerSelections">
+        <div class="description">
+            <span class="plan">{{ selectedOffer.offer.name }}</span>
+        </div>
+        <div class="rate">
+            {{selectedOffer.offer.rate}}&cent;
+            <span class="energy-unit">@Html.Sitecore().Field("Per kWh")</span>
+        </div>
+    </div>
+</script>
 <script type="text/ng-template" id="completeOrderCartMonthly/NewYorkElectricity">
+    <div class="monthly-product clearfix" ng-repeat="selectedOffer in offerInformation.value.offerSelections">
+        <div class="description">
+            <span class="plan">{{ selectedOffer.offer.name }}</span>
+        </div>
+        <div class="rate">
+            {{selectedOffer.offer.rate}}&cent;
+            <span class="energy-unit">@Html.Sitecore().Field("Per kWh")</span>
+        </div>
+    </div>
+</script>
+<script type="text/ng-template" id="completeOrderCartMonthly/DCElectricity">
     <div class="monthly-product clearfix" ng-repeat="selectedOffer in offerInformation.value.offerSelections">
         <div class="description">
             <span class="plan">{{ selectedOffer.offer.name }}</span>
@@ -508,6 +570,28 @@
     </div>
 </script>
 <script type="text/ng-template" id="completeOrderCartMonthly/NewJerseyGas">
+    <div class="monthly-product clearfix" ng-repeat="selectedOffer in offerInformation.value.offerSelections">
+        <div class="description">
+            <span class="plan">{{ selectedOffer.offer.name }}</span>
+        </div>
+        <div class="rate">
+            ${{selectedOffer.offer.rate}}
+            <span class="energy-unit">@Html.Sitecore().Field("Per Therm")</span>
+        </div>
+    </div>
+</script>
+<script type="text/ng-template" id="completeOrderCartMonthly/MarylandGas">
+    <div class="monthly-product clearfix" ng-repeat="selectedOffer in offerInformation.value.offerSelections">
+        <div class="description">
+            <span class="plan">{{ selectedOffer.offer.name }}</span>
+        </div>
+        <div class="rate">
+            ${{selectedOffer.offer.rate}}
+            <span class="energy-unit">@Html.Sitecore().Field("Per Therm")</span>
+        </div>
+    </div>
+</script>
+<script type="text/ng-template" id="completeOrderCartMonthly/PennsylvaniaGas">
     <div class="monthly-product clearfix" ng-repeat="selectedOffer in offerInformation.value.offerSelections">
         <div class="description">
             <span class="plan">{{ selectedOffer.offer.name }}</span>
@@ -646,7 +730,91 @@
         </div>
     </div>
 </script>
+<script type="text/ng-template" id="completeOrder/MarylandElectricity">
+    <div class="services-header">
+        <div class="service-title">
+            @Html.Sitecore().Field("Energy Services Text")
+        </div>
+        <div class="service-description">
+            @Html.Sitecore().Field("Service Address Label") {{ location.location.address | address}}
+        </div>
+    </div>
+    <div class="energy-services">
+        <div ng-repeat="selectedOffer in offerInformation.value.offerSelections">
+            <div class="plan-summary">
+                <div class="plan-summary-image">
+                    <i class="icon-electricity-blue"></i>
+                </div>
+                <div class="line-item clearfix">
+                    <div class="description">
+                        <h2>{{selectedOffer.offer.name}}</h2>
+                        <p ng-bind-html="selectedOffer.offer.description | unsafe"></p>
+                        <p><a href="" ng-click="changeUtilityPlan(location)">@Html.Sitecore().Field("Edit Plan Link Text")</a></p>
+                    </div>
+                    <div class="rate">{{selectedOffer.offer.rate}}&cent; @Html.Sitecore().Field("Per kWh")</div>
+                    <table ng-repeat="payment in selectedOffer.payments.requiredAmounts" ng-if="payment.dollarAmount > 0" ng-include src="'paymentsDue/' + payment.offerPaymentAmountType"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
+<script type="text/ng-template" id="completeOrder/PennsylvaniaElectricity">
+    <div class="services-header">
+        <div class="service-title">
+            @Html.Sitecore().Field("Energy Services Text")
+        </div>
+        <div class="service-description">
+            @Html.Sitecore().Field("Service Address Label") {{ location.location.address | address}}
+        </div>
+    </div>
+    <div class="energy-services">
+        <div ng-repeat="selectedOffer in offerInformation.value.offerSelections">
+            <div class="plan-summary">
+                <div class="plan-summary-image">
+                    <i class="icon-electricity-blue"></i>
+                </div>
+                <div class="line-item clearfix">
+                    <div class="description">
+                        <h2>{{selectedOffer.offer.name}}</h2>
+                        <p ng-bind-html="selectedOffer.offer.description | unsafe"></p>
+                        <p><a href="" ng-click="changeUtilityPlan(location)">@Html.Sitecore().Field("Edit Plan Link Text")</a></p>
+                    </div>
+                    <div class="rate">{{selectedOffer.offer.rate}}&cent; @Html.Sitecore().Field("Per kWh")</div>
+                    <table ng-repeat="payment in selectedOffer.payments.requiredAmounts" ng-if="payment.dollarAmount > 0" ng-include src="'paymentsDue/' + payment.offerPaymentAmountType"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
 <script type="text/ng-template" id="completeOrder/NewYorkElectricity">
+    <div class="services-header">
+        <div class="service-title">
+            @Html.Sitecore().Field("Energy Services Text")
+        </div>
+        <div class="service-description">
+            @Html.Sitecore().Field("Service Address Label") {{ location.location.address | address}}
+        </div>
+    </div>
+    <div class="energy-services">
+        <div ng-repeat="selectedOffer in offerInformation.value.offerSelections">
+            <div class="plan-summary">
+                <div class="plan-summary-image">
+                    <i class="icon-electricity-blue"></i>
+                </div>
+                <div class="line-item clearfix">
+                    <div class="description">
+                        <h2>{{selectedOffer.offer.name}}</h2>
+                        <p ng-bind-html="selectedOffer.offer.description | unsafe"></p>
+                        <p><a href="" ng-click="changeUtilityPlan(location)">@Html.Sitecore().Field("Edit Plan Link Text")</a></p>
+                    </div>
+                    <div class="rate">{{selectedOffer.offer.rate}}&cent; @Html.Sitecore().Field("Per kWh")</div>
+                    <table ng-repeat="payment in selectedOffer.payments.requiredAmounts" ng-if="payment.dollarAmount > 0" ng-include src="'paymentsDue/' + payment.offerPaymentAmountType"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
+<script type="text/ng-template" id="completeOrder/DCElectricity">
     <div class="services-header">
         <div class="service-title">
             @Html.Sitecore().Field("Energy Services Text")
@@ -703,6 +871,62 @@
     </div>
 </script>
 <script type="text/ng-template" id="completeOrder/NewJerseyGas">
+    <div class="services-header">
+        <div class="service-title">
+            @Html.Sitecore().Field("Energy Services Text")
+        </div>
+        <div class="service-description">
+            @Html.Sitecore().Field("Service Address Label") {{ location.location.address | address}}
+        </div>
+    </div>
+    <div class="energy-services">
+        <div ng-repeat="selectedOffer in offerInformation.value.offerSelections">
+            <div class="plan-summary">
+                <div class="plan-summary-image">
+                    <i class="icon-gas-blue"></i>
+                </div>
+                <div class="line-item clearfix">
+                    <div class="description">
+                        <h2>{{selectedOffer.offer.name}}</h2>
+                        <p ng-bind-html="selectedOffer.offer.description | unsafe"></p>
+                        <p><a href="" ng-click="changeUtilityPlan(location)">@Html.Sitecore().Field("Edit Plan Link Text")</a></p>
+                    </div>
+                    <div class="rate">${{selectedOffer.offer.rate}} @Html.Sitecore().Field("Per Therm")</div>
+                    <table ng-repeat="payment in selectedOffer.payments.requiredAmounts" ng-if="payment.dollarAmount > 0" ng-include src="'paymentsDueGA/' + payment.offerPaymentAmountType"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
+<script type="text/ng-template" id="completeOrder/MarylandGas">
+    <div class="services-header">
+        <div class="service-title">
+            @Html.Sitecore().Field("Energy Services Text")
+        </div>
+        <div class="service-description">
+            @Html.Sitecore().Field("Service Address Label") {{ location.location.address | address}}
+        </div>
+    </div>
+    <div class="energy-services">
+        <div ng-repeat="selectedOffer in offerInformation.value.offerSelections">
+            <div class="plan-summary">
+                <div class="plan-summary-image">
+                    <i class="icon-gas-blue"></i>
+                </div>
+                <div class="line-item clearfix">
+                    <div class="description">
+                        <h2>{{selectedOffer.offer.name}}</h2>
+                        <p ng-bind-html="selectedOffer.offer.description | unsafe"></p>
+                        <p><a href="" ng-click="changeUtilityPlan(location)">@Html.Sitecore().Field("Edit Plan Link Text")</a></p>
+                    </div>
+                    <div class="rate">${{selectedOffer.offer.rate}} @Html.Sitecore().Field("Per Therm")</div>
+                    <table ng-repeat="payment in selectedOffer.payments.requiredAmounts" ng-if="payment.dollarAmount > 0" ng-include src="'paymentsDueGA/' + payment.offerPaymentAmountType"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
+<script type="text/ng-template" id="completeOrder/PennsylvaniaGas">
     <div class="services-header">
         <div class="service-title">
             @Html.Sitecore().Field("Energy Services Text")

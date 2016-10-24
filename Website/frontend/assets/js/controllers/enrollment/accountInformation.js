@@ -105,10 +105,6 @@ ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', '$http', 'enroll
         else return false;
     }
 
-    $scope.TXorGA = function (service) {
-            return service.location.address.stateAbbreviation === "TX" || service.location.address.stateAbbreviation === "GA";
-    }
-
     $scope.mailingAddressSameChanged = function() {
             if (!$scope.accountInformation.mailingAddressSame) {
                 if ($scope.utilityAddresses().length == 1)
@@ -167,18 +163,43 @@ ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', '$http', 'enroll
     };
 
     $scope.showAglcExample = function () {
-
         $modal.open({
             templateUrl: 'AglcExample',
             scope: $scope
         });
     };
 
-    $scope.setPreviousProviders = function (optionRulesType, scope) {
-         $http.get('/api/enrollment/getPreviousProviders', { params: { optionRulesType: optionRulesType } }).then(function success(response) {
-             scope.previousProviders = response.data;
-        });
+    $scope.setPreviousProviders = function (selectedOffer, scope) {
+        if (!selectedOffer.offerOption.previousProvider) {
+            $http.get('/api/enrollment/getPreviousProviders', { params: { optionRulesType: selectedOffer.optionRules.optionRulesType } }).then(function success(response) {
+                scope.previousProviders = response.data;
+            });
+        } 
     };
+
+    $scope.setProvider = function (scope, providerName, accountNumber) {
+        scope.provider = _.find(scope.previousProviders, function (provider) {
+            return provider.name === providerName;
+        });
+        scope.provider.regEx = new RegExp(scope.provider.regEx);
+        $scope.validatePreviousAccountNumber(scope, providerName, accountNumber);
+    };
+
+    $scope.validatePreviousAccountNumber = function (scope, providerName, accountNumber) {
+        if (providerName && accountNumber) {
+            scope.invalidPreviousAccountNumber = !scope.provider.regEx.test(accountNumber);
+        }
+        else {
+            scope.invalidPreviousAccountNumber = false;
+        }
+    };
+
+    $scope.showExample = function (scope) {
+        $modal.open({
+            templateUrl: 'PreviousProviderAccountNumber',
+            scope: scope
+        });
+    }
 
     /**
      * In addition to normal validation, ensure that at least one item is in the shopping cart

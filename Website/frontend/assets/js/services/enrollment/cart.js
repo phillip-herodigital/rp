@@ -604,9 +604,14 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', 'sc
                 .intersection(['TexasElectricity', 'TexasElectricityRenewal',
                     'NewJerseyElectricity', 'NewJerseyElectricityRenewal',
                     'NewYorkElectricity', 'NewYorkElectricityRenewal',
+                    'MarlandElectricity', 'MarlandElectricityRenewal',
+                    'PennsylvaniaElectricity', 'PennsylvaniaElectricityRenewal',
+                    'DCElectricity', 'DCElectricityRenewal',
                     'GeorgiaGas', 'GeorgiaGasRenewal',
                     'NewJerseyGas', 'NewJerseyGasRenewal',
-                    'NewYorkGas', 'NewYorkGasRenewal'])
+                    'NewYorkGas', 'NewYorkGasRenewal',
+                    'MarylandGas', 'MarylandGasRenewal',
+                    'PennsylvaniaGas', 'PennsylvaniaGasRenewal'])
                 .some();
         },
         cartHasProtective: function () {
@@ -621,9 +626,14 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', 'sc
                         .intersection(['TexasElectricity', 'TexasElectricityRenewal',
                         'NewJerseyElectricity', 'NewJerseyElectricityRenewal',
                         'NewYorkElectricity', 'NewYorkElectricityRenewal',
+                        'DCElectricity', 'DCElectricityRenewal',
+                        'MarylandElectricity', 'MarylandElectricityRenewal',
+                        'PennsylvaniaElectricity', 'PennsylvaniaElectricityRenewal',
                         'GeorgiaGas', 'GeorgiaGasRenewal',
                         'NewJerseyGas', 'NewJerseyGasRenewal',
-                        'NewYorkGas', 'NewYorkGasRenewal'])
+                        'NewYorkGas', 'NewYorkGasRenewal',
+                        'MarylandGas', 'MarylandGasRenewal',
+                        'PennsylvaniaGas', 'PennsylvaniaGasRenewal'])
                         .some()) {
                         return service;
                     } 

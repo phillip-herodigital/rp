@@ -366,31 +366,41 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 case "NewJerseyElectricitySwitch":
                     item = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Taxonomy/Previous Providers/NJ/Electricity");
                     break;
-                case "NewJerseyElectricityMoveIn":
-                    item = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Taxonomy/Previous Providers/NJ/Electricity");
-                    break;
                 case "NewJerseyGasSwitch":
-                    item = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Taxonomy/Previous Providers/NJ/Gas");
-                    break;
-                case "NewJerseyGasMoveIn":
                     item = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Taxonomy/Previous Providers/NJ/Gas");
                     break;
                 case "NewYorkElectricitySwitch":
                     item = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Taxonomy/Previous Providers/NY/Electricity");
                     break;
-                case "NewYorkElectricityMoveIn":
-                    item = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Taxonomy/Previous Providers/NY/Electricity");
-                    break;
                 case "NewYorkGasSwitch":
                     item = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Taxonomy/Previous Providers/NY/Gas");
                     break;
-                case "NewYorkGasMoveIn":
-                    item = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Taxonomy/Previous Providers/NY/Gas");
+                case "DCElectricitySwitch":
+                    item = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Taxonomy/Previous Providers/DC");
+                    break;
+                case "MarylandElectricitySwitch":
+                    item = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Taxonomy/Previous Providers/MD/Electricity");
+                    break;
+                case "MarylandGasSwitch":
+                    item = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Taxonomy/Previous Providers/MD/Gas");
+                    break;
+                case "PennsylvaniaElectricitySwitch":
+                    item = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Taxonomy/Previous Providers/PA/Electricity");
+                    break;
+                case "PennsylvaniaGasSwitch":
+                    item = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Taxonomy/Previous Providers/PA/Gas");
                     break;
                 default:
                     return null;
             }
-            return item.Children.Select(child => new { Name = child.Name, Display = child.Fields["Display Text"].Value });
+            return item.Children.Select(child => new {
+                Name = child.Fields["Name"].Value,
+                Display = child.Fields["Display Text"].Value,
+                FieldName = child.Fields["Field Name"].Value,
+                Format = child.Fields["Valid Format"].Value,
+                Example = child.Fields["Example"].Value,
+                RegEx = child.Fields["Account Number RegEx"].Value
+            });
         }
 
         /// <summary>
@@ -413,28 +423,28 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 using (SqlCommand command = connection.CreateCommand())
                 {
                     command.CommandText = @"
-SELECT TOP (1) 
-[ESIID],
-[TDU],
-[FirstName],
-[LastName],
-[ServiceLine1],
-[ServiceLine2],
-[ServiceCity],
-[ServiceStateAbbreviation],
-[ServicePostalCode5],
-[ServicePostalCodePlus4],
-[PrimaryPhoneNumber],
-[PrimaryPhoneType],
-[EmailAddress],
-[SocialSecurityNumber],
-[MailingLine1],
-[MailingLine2],
-[MailingCity],
-[MailingStateAbbreviation],
-[MailingPostalCode5],
-[MailingPostalCodePlus4]
-FROM [SwitchBack] WHERE ESIID=@esiId";
+                        SELECT TOP (1) 
+                        [ESIID],
+                        [TDU],
+                        [FirstName],
+                        [LastName],
+                        [ServiceLine1],
+                        [ServiceLine2],
+                        [ServiceCity],
+                        [ServiceStateAbbreviation],
+                        [ServicePostalCode5],
+                        [ServicePostalCodePlus4],
+                        [PrimaryPhoneNumber],
+                        [PrimaryPhoneType],
+                        [EmailAddress],
+                        [SocialSecurityNumber],
+                        [MailingLine1],
+                        [MailingLine2],
+                        [MailingCity],
+                        [MailingStateAbbreviation],
+                        [MailingPostalCode5],
+                        [MailingPostalCodePlus4]
+                        FROM [SwitchBack] WHERE ESIID=@esiId";
                     command.Parameters.AddWithValue("@esiId", esiId);
                     using (var reader = command.ExecuteReader())
                     {

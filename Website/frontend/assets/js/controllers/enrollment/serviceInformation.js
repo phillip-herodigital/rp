@@ -48,7 +48,7 @@ ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$http', '$locat
                 if (value.data.metadata.rdi === "Residential")
                 {
                     $scope.data.serviceLocation = value.data.location;
-                    $scope.showLine2 = value.data.metadata.record_type === "H";
+                    $scope.showUnitNumber = value.data.metadata.record_type === "H";
                 }
                 else {
                     $scope.errorMessage = $scope.commercialAddress = true;
@@ -120,7 +120,7 @@ ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$http', '$locat
      */
     $scope.isFormValid = function () {
         if ($scope.data.serviceLocation !== null && $scope.data.isNewService !== undefined && (!$scope.isCartFull || !$scope.isNewServiceAddress) && !$scope.isDuplicateAddress($scope.data.serviceLocation.address)) {
-            return typeof $scope.data.serviceLocation === 'object' && $scope.showLine2 ? $scope.data.serviceLocation.address.line2 : true;
+            return typeof $scope.data.serviceLocation === 'object' && $scope.showUnitNumber ? $scope.data.serviceLocation.address.unitNumber : true;
         }
         else {
             return false;

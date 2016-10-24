@@ -52,79 +52,52 @@ namespace StreamEnergy.Services.Clients
 
         public SitecoreProductInfo GetNewJerseyElectricityProductData(string productCode)
         {
-            string query = "/sitecore/content/Data/Taxonomy/Products/New Jersey/*[@Product Code='" + productCode + "']";
-            Sitecore.Data.Items.Item[] items = Sitecore.Context.Database.SelectItems(query);
-            if (items.Count() > 0)
-            {
-                Sitecore.Data.Items.Item item = items.First();
-                return new SitecoreProductInfo
-                {
-                    Fields = new NameValueCollection
-                        {
-                            { "Name", item["Product Name"] },
-                            { "Description", item["Product Description"] },
-                            { "Monthly Service Charge", item["Monthly Service Charge"] },
-                            { "Early Termination Fee", item["Early Termination Fee"] },
-                            { "Letter of Agency", ((Sitecore.Data.Fields.FileField)item.Fields["Letter of Agency"]).Src },
-                            { "Terms and Disclosures", ((Sitecore.Data.Fields.FileField)item.Fields["Terms and Disclosures"]).Src },
-                        },
-                    Footnotes = LoadFootnotes(new[] { item }, new[] { "Rate Footnote", "Term Footnote", "Early Termination Fee Footnote" }).ToArray()
-                };
-            }
-            return null;
+            return GetNEProductData(productCode, "New Jersey");
         }
 
         public SitecoreProductInfo GetNewJerseyGasProductData(string productCode)
         {
-            string query = "/sitecore/content/Data/Taxonomy/Products/New Jersey/*[@Product Code='" + productCode + "']";
-            Sitecore.Data.Items.Item[] items = Sitecore.Context.Database.SelectItems(query);
-            if (items.Count() > 0)
-            {
-                Sitecore.Data.Items.Item item = items.First();
-                return new SitecoreProductInfo
-                {
-                    Fields = new NameValueCollection
-                        {
-                            { "Name", item["Product Name"] },
-                            { "Description", item["Product Description"] },
-                            { "Monthly Service Charge", item["Monthly Service Charge"] },
-                            { "Early Termination Fee", item["Early Termination Fee"] },
-                            { "Letter of Agency", ((Sitecore.Data.Fields.FileField)item.Fields["Letter of Agency"]).Src },
-                            { "Terms and Disclosures", ((Sitecore.Data.Fields.FileField)item.Fields["Terms and Disclosures"]).Src },
-                        },
-                    Footnotes = LoadFootnotes(new[] { item }, new[] { "Rate Footnote", "Term Footnote", "Early Termination Fee Footnote" }).ToArray()
-                };
-            }
-            return null;
+            return GetNEProductData(productCode, "New Jersey");
         }
 
         public SitecoreProductInfo GetNewYorkElectricityProductData(string productCode)
         {
-            string query = "/sitecore/content/Data/Taxonomy/Products/New York/*[@Product Code='" + productCode + "']";
-            Sitecore.Data.Items.Item[] items = Sitecore.Context.Database.SelectItems(query);
-            if (items.Count() > 0)
-            {
-                Sitecore.Data.Items.Item item = items.First();
-                return new SitecoreProductInfo
-                {
-                    Fields = new NameValueCollection
-                        {
-                            { "Name", item["Product Name"] },
-                            { "Description", item["Product Description"] },
-                            { "Monthly Service Charge", item["Monthly Service Charge"] },
-                            { "Early Termination Fee", item["Early Termination Fee"] },
-                            { "Letter of Agency", ((Sitecore.Data.Fields.FileField)item.Fields["Letter of Agency"]).Src },
-                            { "Terms and Disclosures", ((Sitecore.Data.Fields.FileField)item.Fields["Terms and Disclosures"]).Src },
-                        },
-                    Footnotes = LoadFootnotes(new[] { item }, new[] { "Rate Footnote", "Term Footnote", "Early Termination Fee Footnote" }).ToArray()
-                };
-            }
-            return null;
+            return GetNEProductData(productCode, "New York");
         }
 
         public SitecoreProductInfo GetNewYorkGasProductData(string productCode)
         {
-            string query = "/sitecore/content/Data/Taxonomy/Products/New York/*[@Product Code='" + productCode + "']";
+            return GetNEProductData(productCode, "New York");
+        }
+
+        public SitecoreProductInfo GetDCElectricityProductData(string productCode)
+        {
+            return GetNEProductData(productCode, "DC");
+        }
+
+        public SitecoreProductInfo GetMarylandElectricityProductData(string productCode)
+        {
+            return GetNEProductData(productCode, "Maryland");
+        }
+
+        public SitecoreProductInfo GetMarylandGasProductData(string productCode)
+        {
+            return GetNEProductData(productCode, "Maryland");
+        }
+
+        public SitecoreProductInfo GetPennsylvaniaElectricityProductData(string productCode)
+        {
+            return GetNEProductData(productCode, "Pennsylvania");
+        }
+
+        public SitecoreProductInfo GetPennsylvaniaGasProductData(string productCode)
+        {
+            return GetNEProductData(productCode, "Pennsylvania");
+        }
+
+        public SitecoreProductInfo GetNEProductData(string productCode, string state)
+        {
+            string query = "/sitecore/content/Data/Taxonomy/Products/" + state +  "/*[@Product Code='" + productCode + "']";
             Sitecore.Data.Items.Item[] items = Sitecore.Context.Database.SelectItems(query);
             if (items.Count() > 0)
             {
@@ -164,26 +137,7 @@ namespace StreamEnergy.Services.Clients
 
         public SitecoreProductInfo GetGeorgiaGasProductData(string productCode)
         {
-            string query = "/sitecore/content/Data/Taxonomy/Products/Georgia/*[@Product Code='" + productCode + "']";
-            Sitecore.Data.Items.Item[] items = Sitecore.Context.Database.SelectItems(query);
-            if (items.Count() > 0)
-            {
-                Sitecore.Data.Items.Item item = items.First();
-                return new SitecoreProductInfo
-                {
-                    Fields = new NameValueCollection
-                        {
-                            { "Name", item["Product Name"] },
-                            { "Description", item["Product Description"] },
-                            { "Monthly Service Charge", item["Monthly Service Charge"] },
-                            { "Early Termination Fee", item["Early Termination Fee"] },
-                            { "Letter of Agency", ((Sitecore.Data.Fields.FileField)item.Fields["Letter of Agency"]).Src },
-                            { "Terms and Disclosures", ((Sitecore.Data.Fields.FileField)item.Fields["Terms and Disclosures"]).Src },
-                        },
-                    Footnotes = LoadFootnotes(new[] { item }, new[] { "Rate Footnote", "Term Footnote", "Early Termination Fee Footnote" }).ToArray()
-                };
-            }
-            return null;
+            return GetNEProductData(productCode, "Georgia");
         }
 
         private IEnumerable<KeyValuePair<string, string>> LoadFootnotes(Sitecore.Data.Items.Item[] items, string[] fieldNames)
