@@ -5351,7 +5351,7 @@ article.marketing.validate-esn {
 		.device-content {
 			margin: 0px 20px;
 			img {
-				margin: 30px 0px -30px 0px;
+				margin: 10px 0px -30px 0px;
 				height: auto;
 			}
 			.button {
@@ -5362,14 +5362,20 @@ article.marketing.validate-esn {
 				padding: 10px 40px;
 				@include border-radius(5px);
 				@include background-image(linear-gradient(to top, #008cd2 0%, #2aa4dc 100%));
-				margin-top: 10px;
 
 				@include breakpoint(medium) {
 					margin-top: 32px;
 				}
 			}
-			p.devices-button, p.devices-image {
+			p.devices-button {
 				text-align: center;
+			}
+			p.devices-image {
+				text-align: center;
+			}
+			p.devices-disclaimer {
+				font-size: 14px;
+				margin-bottom: 20px;
 			}
 			@include breakpoint(small) {
 				padding-bottom: 20px;

@@ -1,5 +1,5 @@
 ﻿<article class="marketing validate-esn" ng-controller="MobileValidateEsnCtrl" ng-init="esnValidationMessages = @(Html.Action("EsnValidationMessages", "MobileEnrollment").ToHtmlString()); mobileEnrollmentSettings = @(Html.Action("MobileEnrollmentSettings", "Data").ToHtmlString())">
-    @Html.Sitecore().Field("Intro Text")
+    <h1>@Html.Sitecore().Field("Intro Text")</h1>
     <form ng-submit="validateESN()">
         <div class="wrapper">
             <div class="grid">
@@ -11,6 +11,7 @@
                         <p>@Html.Sitecore().Field("Shop Devices Paragraph")</p>
                         <p class="devices-image">@Html.Sitecore().Field("Shop Devices Image")</p>
                         <p class="devices-button">@Html.Sitecore().Field("Shop Devices Button")</p>
+                        <p class="devices-disclaimer">@Html.Sitecore().Field("Shop Devices Disclaimer")</p>
                     </div>
                     
                 </div>
