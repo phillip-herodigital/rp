@@ -129,9 +129,6 @@ ngApp.controller('AcctUsageSummaryCtrl', ['$scope', '$rootScope', '$http', '$win
             
             $scope.deviceTotal.data.limit = $scope.data.dataUsageLimit * GIGA;
             updateDeviceTotals();
-
-            $scope.isIndividualPlan = !data.isGroupPlan;
-            $scope.isGroupPlan = data.isGroupPlan;
         })
         .error(function() {
             $scope.isLoading = false;
