@@ -13,5 +13,6 @@ namespace StreamEnergy.MyStream.Models.Account
         public decimal? DataUsage { get; set; }
         public decimal? MessagesUsage { get; set; }
         public decimal? MinutesUsage { get; set; }
+        public bool isParentGroup { get; set; }
     }
 }

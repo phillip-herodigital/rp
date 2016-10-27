@@ -207,6 +207,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                                   Name = device.EquipmentId,
                                   Number = device.PhoneNumber,
                                   Id = device.Id,
+                                  isParentGroup = device.IsParentGroup,
                                   DataUsage = usage != null ? usage.DataUsage : (decimal?)null,
                                   MessagesUsage = usage != null ? usage.MessagesUsage : (decimal?)null,
                                   MinutesUsage = usage != null ? usage.MinutesUsage : (decimal?)null,

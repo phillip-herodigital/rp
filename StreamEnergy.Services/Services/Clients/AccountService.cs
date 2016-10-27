@@ -508,10 +508,19 @@ namespace StreamEnergy.Services.Clients
             var tcpa = (data.TCPAPreference == "NA" ? (bool?)null : (bool?)(data.TCPAPreference == "Yes"));
             if (data.Account.ServiceType == "Mobile")
             {
+                bool isGroupPlan = false;
+                foreach(var device in data.Account.AccountDetails.Devices)
+                {
+                    if ((bool)device.Plan.IsParentGroup)
+                    {
+                        isGroupPlan = true;
+                    }
+                }
                 account.Details = new MobileAccountDetails()
                 {
                     NextBillDate = (DateTime)data.Account.AccountDetails.NextBillDate,
                     LastBillDate = (DateTime)data.Account.AccountDetails.LastBillDate,
+                    IsGroupPlan = isGroupPlan
                 };
                 account.AccountType = data.Account.ServiceType;
             }
