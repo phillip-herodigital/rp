@@ -34,10 +34,10 @@
                 <tr>
                     <th><div>@Html.Sitecore().Field("Member Header")</div></th>
                     <th>@Html.Sitecore().Field("Data Header")</th>
-                    <th>@Html.Sitecore().Field("Text Header")<br />
-                    <th ng-if="data.isGroupPlan">@Html.Sitecore().Field("Unlimited")</th>
-                    <th>@Html.Sitecore().Field("Talk Header")<br />
-                    <th ng-if="data.isGroupPlan">@Html.Sitecore().Field("Unlimited")</th>
+                    <th>@Html.Sitecore().Field("Text Header")
+                    <span ng-if="data.isGroupPlan"><br />@Html.Sitecore().Field("Unlimited")</span></th>
+                    <th>@Html.Sitecore().Field("Talk Header")
+                    <span ng-if="data.isGroupPlan"><br />@Html.Sitecore().Field("Unlimited")</span></th>
                 </tr>
             </thead>
             <tbody>
