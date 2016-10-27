@@ -34,10 +34,10 @@
                 <tr>
                     <th><div>@Html.Sitecore().Field("Member Header")</div></th>
                     <th>@Html.Sitecore().Field("Data Header")</th>
-                    <th>@Html.Sitecore().Field("Text Header")
-                    <span ng-if="data.isGroupPlan"><br />@Html.Sitecore().Field("Unlimited")</span></th>
-                    <th>@Html.Sitecore().Field("Talk Header")
-                    <span ng-if="data.isGroupPlan"><br />@Html.Sitecore().Field("Unlimited")</span></th>
+                    <th>@Html.Sitecore().Field("Text Header")<br />
+                        @Html.Sitecore().Field("Unlimited")</th>
+                    <th>@Html.Sitecore().Field("Talk Header")<br />
+                        @Html.Sitecore().Field("Unlimited")</th>
                 </tr>
             </thead>
             <tbody>
@@ -65,36 +65,24 @@
                         <div class="device-short">
                             <strong>{{ device.dataUsage | gigabyte:1 }} GB</strong>
                             <span ng-if="!data.isGroupPlan">
-                                <br />of {{device.dataLimit | gigabyte}} GB
+                                <br />@Html.Sitecore().Field("Of") {{device.dataLimit}} GB
                             </span>
                         </div>
                     </td>
                     <td>
                         <div class="device-full">
                             <strong>{{ device.messagesUsage | number }} @Html.Sitecore().Field("Used")</strong>
-                            <span ng-if="!data.isGroupPlan">
-                                <br />of unlimited
-                            </span>
                         </div>
                         <div class="device-short">
                             <strong>{{ device.messagesUsage | number }}</strong>
-                            <span ng-if="!data.isGroupPlan">
-                                <br />of unlimited
-                            </span>
                         </div>
                     </td>
                     <td>
                         <div class="device-full">
                             <strong>{{ device.minutesUsage | number }} @Html.Sitecore().Field("Used")</strong>
-                            <span ng-if="!data.isGroupPlan">
-                                <br />of unlimited
-                            </span>
                         </div>
                         <div class="device-short">
                             <strong>{{ device.minutesUsage | number }}</strong>
-                            <span ng-if="!data.isGroupPlan">
-                                <br />of unlimited
-                            </span>
                         </div>
                     </td>
                 </tr>
