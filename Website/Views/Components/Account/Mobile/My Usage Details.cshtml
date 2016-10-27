@@ -59,13 +59,13 @@
                         <div class="device-full">
                             <strong>{{ device.dataUsage | gigabyte }} GB</strong>
                             <span ng-if="!data.isGroupPlan">
-                                <br />of {{device.dataLimit | gigabyte}} GB
+                                <br />@Html.Sitecore().Field("Of") {{device.dataLimit}}<span ng-if="device.dataLimit != 'Unlimited'"> GB</span>
                             </span>
                         </div>
                         <div class="device-short">
                             <strong>{{ device.dataUsage | gigabyte:1 }} GB</strong>
                             <span ng-if="!data.isGroupPlan">
-                                <br />@Html.Sitecore().Field("Of") {{device.dataLimit}} GB
+                                <br />@Html.Sitecore().Field("Of") {{device.dataLimit}}<span ng-if="device.dataLimit != 'Unlimited'"> GB</span>
                             </span>
                         </div>
                     </td>

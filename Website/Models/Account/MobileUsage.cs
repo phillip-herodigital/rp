@@ -11,7 +11,7 @@ namespace StreamEnergy.MyStream.Models.Account
         public string Number { get; set; }
         public string Id { get; set; }
         public decimal? DataUsage { get; set; }
-        public int? DataLimit { get; set; }
+        public string DataLimit { get; set; }
         public decimal? MessagesUsage { get; set; }
         public decimal? MinutesUsage { get; set; }
     }
