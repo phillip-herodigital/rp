@@ -1,5 +1,4 @@
 ﻿@{
-    var plansParent = Html.Sitecore().LookupItem("Rates Parent");
     var plans = from folder in Html.Sitecore().LookupItem("Rates parent").Children
                 let item = folder.Children.OrderBy(c => c.Fields["Effective Date"]).First()
                 let endingDateField = (Sitecore.Data.Fields.DateField)item.Fields["Ending Date"]
