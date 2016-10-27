@@ -50,6 +50,7 @@
                 convertedImei = convertToMEIDDec($scope.phoneOptions.imeiNumber);
             } else if ($scope.phoneOptions.imeiNumber.length == 15) {
                 convertedImei = convertToMEIDDec($scope.phoneOptions.imeiNumber.substr(0, 14));
+                $scope.phoneOptions.imeiNumber = convertedImei;
             }
             var formData = {
                 imei: convertedImei == null ? $scope.phoneOptions.imeiNumber : convertedImei,
