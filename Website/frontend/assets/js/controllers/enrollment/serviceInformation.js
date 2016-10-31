@@ -30,11 +30,7 @@ ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$location', '$f
                     .replace("north", "n")
                     .replace("south", "s")
                     .replace("east", "e")
-                    .replace("west", "w")
-                    .replace("northeast", "ne")
-                    .replace("northwest", "nw")
-                    .replace("southeast", "se")
-                    .replace("southwest", "sw"))
+                    .replace("west", "w"))
                     .then(function (values) {
                         $scope.errorMessage = !values.length;
                         return values;
