@@ -36,7 +36,6 @@ ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$location', '$f
                         return values;
                     });
             }
-            $scope.errorMessage = !values.length;
             return values;
         });
     };
