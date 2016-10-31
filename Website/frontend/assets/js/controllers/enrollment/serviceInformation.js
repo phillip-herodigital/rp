@@ -20,6 +20,22 @@ ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$location', '$f
 
     $scope.getLocation = function (state, val) {
         return $scope.$parent.getLocation(state, val).then(function (values) {
+            if (!values.length) {
+                return $scope.$parent.getLocation(state,
+                    val.toLowerCase()
+                    .replace("north", "n")
+                    .replace("south", "s")
+                    .replace("east", "e")
+                    .replace("west", "w")
+                    .replace("northeast", "ne")
+                    .replace("northwest", "nw")
+                    .replace("southeast", "se")
+                    .replace("southwest", "sw"))
+                    .then(function (values) {
+                        $scope.errorMessage = !values.length;
+                        return values;
+                    });
+            }
             $scope.errorMessage = !values.length;
             return values;
         });
