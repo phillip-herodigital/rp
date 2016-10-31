@@ -36,10 +36,10 @@ ngApp.controller('OneTimeRenewalCtrl', ['$scope', '$http', '$timeout', '$locatio
                             if (data.state == "TX") {
                                 ctrl.isCommercialTXMessage = true;
                             }
-                            if (data.state == "GA") {
+                            else if (data.state == "GA") {
                                 ctrl.isCommercialGAMessage = true;
                             }
-                            if (data.state == "") {
+                            else if (data.state == "") {
                                 ctrl.isOtherCommericalMessage = true;
                             }
                         }
