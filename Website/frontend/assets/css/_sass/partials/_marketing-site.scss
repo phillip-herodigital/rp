@@ -5391,15 +5391,16 @@ article.marketing.validate-esn {
             color: #00a8e1;
             margin: 0;
         }
-        background-color: #f3f6f7;
-        margin: 0;
+        background-color: #fff;
+		box-shadow: 1px 1px 5px 0px #ccc;
+        margin: 30px 0 0 0;
         line-height: 1.2;
         color: #333;
-        font-size: 20px;
+        font-size: 18px;
         font-weight: 400;
+		padding: 20px;
 
         a {
-            font-size: 20px;
             font-weight: 500;
         }
 
@@ -5414,7 +5415,6 @@ article.marketing.validate-esn {
             padding: 10px 40px;
             @include border-radius(5px);
             @include background-image(linear-gradient(to top, #008cd2 0%, #2aa4dc 100%));
-            margin-left: 20px;
 
             @include breakpoint(small-medium) {
                 margin-left: 0;
@@ -5427,6 +5427,7 @@ article.marketing.validate-esn {
         }
     }
     .cdma {
+
         h2 {
             color: #fcb426;
         }
@@ -5469,11 +5470,7 @@ article.marketing.validate-esn {
         padding: 0 40px;
         vertical-align: top;
     }
-    @include breakpoint(medium) {
-        .device-error, .device-success {
-            margin: 0;
-        }
-    }
+
     @include breakpoint(small-medium) {
         .item {
             width: 100%;
@@ -5484,9 +5481,6 @@ article.marketing.validate-esn {
             display: block;
             width: 100%;
         }
-        .device-error, .device-success {
-            margin: 0;
-        }
     }
 
     @include breakpoint(small) {
@@ -5494,9 +5488,6 @@ article.marketing.validate-esn {
             padding: 0;
         }
 
-        .device-error, .device-success {
-            margin: 0;
-        }
     }
 
     .input-group {
