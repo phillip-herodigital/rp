@@ -20,26 +20,11 @@ ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$location', '$f
 
     $scope.getLocation = function (state, val) {
         return $scope.$parent.getLocation(state, val).then(function (values) {
-            if (!values.length) {
-                return $scope.$parent.getLocation(state,
-                    val.toLowerCase()
-                    .replace("north east", "ne")
-                    .replace("north west", "nw")
-                    .replace("south east", "se")
-                    .replace("south west", "sw")
-                    .replace("north", "n")
-                    .replace("south", "s")
-                    .replace("east", "e")
-                    .replace("west", "w"))
-                    .then(function (values) {
-                        $scope.errorMessage = !values.length;
-                        return values;
-                    });
-            }
             $scope.errorMessage = !values.length;
             return values;
         });
     };
+
     $scope.isDuplicateAddress = $scope.$parent.isDuplicateAddress;
 
     //Checking to see when the active service address has been updated

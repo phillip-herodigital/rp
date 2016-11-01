@@ -41,6 +41,23 @@ namespace StreamEnergy.LuceneServices.Web.Models
             TopScoreDocCollector collector = TopScoreDocCollector.Create(10, true);
             searcher.Search(query, collector);
             ScoreDoc[] hits = collector.TopDocs().ScoreDocs;
+            if (hits.Length == 0)
+            {
+                var newQueryString = queryString
+                    .ToLower()
+                    .Replace("north east", "ne")
+                    .Replace("north west", "nw")
+                    .Replace("south east", "se")
+                    .Replace("south west", "sw")
+                    .Replace("north", "n")
+                    .Replace("south", "s")
+                    .Replace("east", "e")
+                    .Replace("west", "w");
+                exactOrSearchQuery.Add(new TermQuery(new Term("Exact", newQueryString)), Occur.SHOULD);
+                exactOrSearchQuery.Add(new AddressQueryParser("Canonical", analyzer).Parse(newQueryString), Occur.SHOULD);
+                searcher.Search(query, collector);
+                hits = collector.TopDocs().ScoreDocs;
+            }
             for (int i = 0; i < hits.Length; i++)
             {
                 int docId = hits[i].Doc;
