@@ -2789,14 +2789,21 @@ article.coverage-map {
                 display: inline-block;
                 width: 16px;
                 height: 16px;
-                &.voice {
+                
+                &.voice-roam {
                     background-color: rgba(157, 201, 68, 0.5);
+                }
+                &.voice {
+                    background-color: rgba(132, 175, 64, 0.5);
                 }
                 &.data {
                     background-color: rgba(106, 150, 59, 0.5);
                 }
                 &.lte {
-                    background-color: rgba(15, 76, 40, 0.5);
+                    background-color: rgba(54, 126, 44, 0.5);
+                }
+                &.lte-advanced {
+                    background-color: rgba(2, 40, 2, 0.5);
                 }
             }
         }

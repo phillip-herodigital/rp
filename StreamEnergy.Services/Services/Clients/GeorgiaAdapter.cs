@@ -118,12 +118,23 @@ namespace StreamEnergy.Services.Clients
                               {
                                   { "LetterOfAgency", new Uri(productData.Fields["Letter of Agency"], UriKind.Relative) },
                                   { "TermsAndDisclosures", new Uri(productData.Fields["Terms and Disclosures"], UriKind.Relative) },
-                              }
+                              },
+
+                              IncludesPromo = !string.IsNullOrEmpty(productData.Fields["Includes Promo"]),
+                              PromoIcon = productData.Fields["Promo Icon"],
+                              PromoDescription = productData.Fields["Promo Description"],
+
                           }).ToArray()
             };
         }
 
+        private bool IncludesPromo(string productId)
+        {
+            List<Sitecore.Data.Items.Item> products = Sitecore.Context.Database.GetItem("{59E32706-A8B5-4E47-9918-D3DE64E2C7F8}").Children.ToList(); // /sitecore/content/Data/Taxonomy/Products/Texas
+            Sitecore.Data.Items.Item product = products.FirstOrDefault(a => a.Name == productId);
 
+            return product != null ? !string.IsNullOrEmpty(product.Fields["Includes Promo"].Value) : false;
+        }
 
         bool ILocationAdapter.SkipPremiseVerification(Location location)
         {

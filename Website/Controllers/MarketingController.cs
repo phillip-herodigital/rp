@@ -269,7 +269,7 @@ namespace StreamEnergy.MyStream.Controllers
                 Message.From = new MailAddress(fromAddress, Name);
                 Message.ReplyToList.Add(new MailAddress(Email));
                 Message.To.Add(ToEmail);
-                Message.Subject = "New Commerical Quote Request";
+                Message.Subject = "New Commercial Quote Request";
                 Message.IsBodyHtml = true;
                 Message.Body = "First Name: " + FirstName +
                     "<br />Last Name: " + LastName +

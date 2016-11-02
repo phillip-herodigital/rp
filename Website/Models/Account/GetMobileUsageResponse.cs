@@ -10,7 +10,7 @@ namespace StreamEnergy.MyStream.Models.Account
         public DateTime? BillFromDate { get; set; }
         public DateTime? BillToDate { get; set; }
         public string InvoiceId { get; set; }
-
+        public bool IsGroupPlan { get; set; }
         public double DataUsageLimit { get; set; }
         public IEnumerable<MobileUsage> DeviceUsage { get; set; }
 

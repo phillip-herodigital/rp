@@ -124,6 +124,9 @@ namespace StreamEnergy.Services.Clients
                               ThermostatDescription = productData.Fields["Thermostat Description"],
                               IncludesSkydrop = !string.IsNullOrEmpty(productData.Fields["Includes Skydrop"]),
                               SkydropDescription = productData.Fields["Skydrop Description"],
+                              IncludesPromo = !string.IsNullOrEmpty(productData.Fields["Includes Promo"]),
+                              PromoIcon = productData.Fields["Promo Icon"],
+                              PromoDescription = productData.Fields["Promo Description"],
                               IncludesSkybell = !string.IsNullOrEmpty(productData.Fields["Includes Skybell"]),
                               SkybellColor = productData.Fields["Skybell Color"],
                               SkybellDescription = productData.Fields["Skybell Description"],
@@ -223,6 +226,7 @@ namespace StreamEnergy.Services.Clients
 
                 result.IncludesThermostat = IncludesThemostat(result.ProductId);
                 result.IncludesSkydrop = IncludesSkydrop(result.ProductId);
+                result.IncludesPromo = IncludesPromo(result.ProductId);
 
                 result.CustomerType = (details.CustomerType == "Residential") ? EnrollmentCustomerType.Residential : EnrollmentCustomerType.Commercial;
             }
@@ -245,6 +249,14 @@ namespace StreamEnergy.Services.Clients
             Sitecore.Data.Items.Item product = products.FirstOrDefault(a => a.Name == productId);
  
             return product != null ? !string.IsNullOrEmpty(product.Fields["Includes Skydrop"].Value) : false;
+        }
+
+        private bool IncludesPromo(string productId)
+        {
+            List<Sitecore.Data.Items.Item> products = Sitecore.Context.Database.GetItem("{59E32706-A8B5-4E47-9918-D3DE64E2C7F8}").Children.ToList(); // /sitecore/content/Data/Taxonomy/Products/Texas
+            Sitecore.Data.Items.Item product = products.FirstOrDefault(a => a.Name == productId);
+
+            return product != null ? !string.IsNullOrEmpty(product.Fields["Includes Promo"].Value) : false;
         }
 
         string ILocationAdapter.GetProductId(DomainModels.Accounts.ISubAccount subAccount)
