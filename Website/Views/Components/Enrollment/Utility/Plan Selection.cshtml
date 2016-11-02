@@ -164,7 +164,7 @@
                                 <button class="enrollment-btn secondary" data-btn-radio="'{{plan.id}}'" data-uncheckable ng-model="planSelection.selectedOffers[typedOffers.key]" ng-click="scrollFix()">
                                     @Html.Sitecore().Field("Selected Button")
                                 </button>
-                                <p class="skybell-selected">Includes {{plan.skybellColor}} Skybell</p>
+                                <p class="skybell-selected">(Includes {{plan.skybellColor}} Skybell)</p>
                             </div>
                             <div class="button select-plan" ng-class="{options: showOptions}" ng-click="showOptions = !showOptions" ng-hide="planSelection.selectedOffers[typedOffers.key] == plan.id">
                                 @Html.Sitecore().Field("Electricity Button")
@@ -190,38 +190,33 @@
                             <span ng-if="isOpen">@Html.Sitecore().Field("Electricity Hide Details")  <i class="icon-blue-arrow-up"></i></span>
                         </a>
                         <button class="enrollment-btn" ng-if="!plan.includesSkybell" data-btn-radio="'{{plan.id}}'" data-uncheckable ng-model="planSelection.selectedOffers[typedOffers.key]" ng-click="scrollFix()" ng-class="{ 'secondary': planSelection.selectedOffers[typedOffers.key] == plan.id }">
-                            <span ng-if="planSelection.selectedOffers[typedOffers.key] == plan.id">@Html.Sitecore().Field("Selected Button") <span class="skybell-selected"><br />Includes Silver Skybell</span></span>
+                            <span ng-if="planSelection.selectedOffers[typedOffers.key] == plan.id">@Html.Sitecore().Field("Selected Button")</span>
                             <span ng-if="planSelection.selectedOffers[typedOffers.key] != plan.id">@Html.Sitecore().Field("Electricity Button")</span>
                         </button>
-                        <div class="select-plan" ng-if="plan.includesSkybell">
-                            <div ng-class="{options: showGroupOfferOptions}" class="skybell-button" ng-if="planSelection.selectedOffers[typedOffers.key] != plan.id">
-                                <div class="button select-plan" ng-click="showGroupOfferOptions = !showGroupOfferOptions" ng-hide="offerSelected(offer.id)">
-                                    Select
-                                    <div class="triangle" ng-class="{rotate: showGroupOfferOptions}"></div>
+                        <div class="select-plan" ng-if="plan.includesSkybell" ng-init="showOptions = false; associatedPlan = getAssociatedPlan(plan)">
+                            <div ng-if="planSelection.selectedOffers[typedOffers.key] == plan.id" class="clearfix">
+                                <button class="enrollment-btn secondary" data-btn-radio="'{{plan.id}}'" data-uncheckable ng-model="planSelection.selectedOffers[typedOffers.key]" ng-click="scrollFix()">
+                                    @Html.Sitecore().Field("Selected Button")
+                                </button>
+                                <p class="skybell-selected">(Includes {{plan.skybellColor}} Skybell)</p>
+                            </div>
+                            <div ng-class="{options: showOptions}" class="skybell-button" ng-if="planSelection.selectedOffers[typedOffers.key] != plan.id">
+                                <div class="button select-plan" ng-class="{options: showOptions}" ng-click="showOptions = !showOptions" ng-hide="planSelection.selectedOffers[typedOffers.key] == plan.id">
+                                    @Html.Sitecore().Field("Electricity Button")
+                                    <div class="triangle" ng-class="{rotate: showOptions}"></div>
                                 </div>
                                 <div class="groupOffer skybellOptions clearfix">
-                                    <div class="options" ng-show="showGroupOfferOptions">
-                                        <div class="option clearfix">
-                                            <span ng-hide="offerSelected(offer.id) && offer.isGroupOffer">
-                                                <span data-btn-radio="'{{plan.id}}'" data-uncheckable ng-class="{ 'secondary': planSelection.selectedOffers[typedOffers.key] == plan.id }" ng-model="planSelection.selectedOffers[typedOffers.key]" ng-click="scrollFix(); showGroupOfferOptions = false;">
-                                                    <img src="http://placehold.it/50x50">
-                                                    <p>Plan with Silver Skybell</p>
-                                                </span>
-                                            </span>
+                                    <div class="options" ng-show="showOptions">
+                                        <div class="option" data-btn-radio="'{{plan.id}}'" ng-model="planSelection.selectedOffers[typedOffers.key]" ng-click="scrollFix(); showOptions = false;">
+                                            <div class="clearfix" ng-bind-html="plan.skybellDescription | unsafe"></div>
                                         </div>
-                                        <div class="option clearfix">
-                                            <span ng-hide="offerSelected(offer.id) && offer.isGroupOffer">
-                                                <span data-btn-radio="'{{plan.id}}'" data-uncheckable ng-class="{ 'secondary': planSelection.selectedOffers[typedOffers.key] == plan.id }" ng-model="planSelection.selectedOffers[typedOffers.key]" ng-click="scrollFix(); showGroupOfferOptions = false;">
-                                                    <img src="http://placehold.it/50x50">
-                                                    <p>Plan with Bronze Skybell</p>
-                                                </span>
-                                            </span>
+                                        <div class="option" data-btn-radio="'{{associatedPlan.id}}'" ng-model="planSelection.selectedOffers[typedOffers.key]" ng-click="scrollFix(); showOptions = false; selectAssociatedOffer(plan, associatedPlan)">
+                                            <div class="clearfix" ng-bind-html="associatedPlan.skybellDescription | unsafe"></div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-
                     </td>
                 </tr>
                 <tr class="details-row additional-fields ng-cloak" ng-repeat-end>

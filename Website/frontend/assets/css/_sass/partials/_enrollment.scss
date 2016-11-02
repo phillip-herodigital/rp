@@ -1432,6 +1432,13 @@
                 padding: 15px 5px;
             }
 
+            @include breakpoint(small) {
+                float: right;
+            }
+
+            button {
+                float: none;
+            }
 
             .skybell-button {
                 position: relative;
@@ -1439,6 +1446,12 @@
                 .button {
                     padding: 10px 25px;
                     cursor: pointer;
+
+                    @include breakpoint(medium) {
+                        padding: 10px 10px;
+                        min-width: 90px;
+                    }
+
 
                     &.options {
                         border-radius: 5px 5px 0 0;
