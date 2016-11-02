@@ -125,6 +125,7 @@
                         <span ng-show="plan.rateType == 'fixed'" class="fixed">@Html.Sitecore().Field("Electricity Fixed")</span>
                         <span class="variable" ng-show="plan.rateType == 'variable'">@Html.Sitecore().Field("Electricity Variable")</span>
                         <div class="plan-title">{{plan.name}}</div>
+                        <div ng-if="plan.includesPromo" class="includes-promo" ng-bind-html="plan.promoIcon | html"></div>
                         <div ng-if="plan.includesThermostat" class="includes-thermostat">
                             @Html.Sitecore().Field("Thermostat Text")
                         </div>
