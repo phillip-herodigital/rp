@@ -2,7 +2,7 @@
  *
  * This is used to control aspects of plan selection on enrollment page.
  */
-ngApp.controller('EnrollmentPlanSelectionCtrl', ['$scope', 'enrollmentService', 'scrollService', 'enrollmentStepsService', '$modal', '$sce', 'enrollmentCartService', '$parse', '$window', 'analytics', function ($scope, enrollmentService, scrollService, enrollmentStepsService, $modal, $sce, enrollmentCartService, $parse, $window, analytics) {
+ngApp.controller('EnrollmentPlanSelectionCtrl', ['$scope', 'enrollmentService', 'scrollService', 'enrollmentStepsService', '$modal', 'enrollmentCartService', '$parse', '$window', 'analytics', function ($scope, enrollmentService, scrollService, enrollmentStepsService, $modal, enrollmentCartService, $parse, $window, analytics) {
     var hasSubmitted = false;
     $scope.currentLocationInfo = enrollmentCartService.getActiveService;
     $scope.isRenewal = enrollmentService.isRenewal;
