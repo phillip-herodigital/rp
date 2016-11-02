@@ -131,6 +131,7 @@
                         <div ng-if="plan.includesSkydrop" class="includes-skydrop">
                             @Html.Sitecore().Field("Skydrop Text")
                         </div>
+                        <div ng-if="plan.includesPromo" class="includes-promo" ng-bind-html="plan.promoIcon | html"></div>
                         <div ng-if="plan.includesSkybell" class="includes-skybell">
                             @Html.Sitecore().Field("Skybell Text")
                         </div>
