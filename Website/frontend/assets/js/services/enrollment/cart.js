@@ -584,6 +584,11 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', 'sc
                 .intersection(['TexasElectricity', 'TexasElectricityRenewal'])
                 .some();
         },
+        cartHasGaLocation: function () {
+            return _(services).pluck('location').pluck('capabilities').flatten().pluck('capabilityType')
+                .intersection(['GeorgiaGas', 'GeorgiaGasRenewal'])
+                .some();
+        },
         cartHasMobile: function () {
             return _(services).pluck('location').pluck('capabilities').flatten().pluck('capabilityType')
                 .intersection(['Mobile'])
