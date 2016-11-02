@@ -1,6 +1,6 @@
 ﻿<article class="marketing validate-esn" ng-controller="MobileValidateEsnCtrl" ng-init="esnValidationMessages = @(Html.Action("EsnValidationMessages", "MobileEnrollment").ToHtmlString()); mobileEnrollmentSettings = @(Html.Action("MobileEnrollmentSettings", "Data").ToHtmlString())">
     <h1>@Html.Sitecore().Field("Intro Text")</h1>
-    <form ng-submit="validateESN()">
+    <form name="validateESNForm" ng-submit="validateESN()">
         <div class="wrapper">
             <div class="grid">
                 <div class="col">
@@ -32,7 +32,7 @@
                                         <input class="full" name="imeiNumber" type="text" pattern="[0-9]*" ng-model="form.esn" data-val="true" data-val-required placeholder="@Html.Sitecore().Field("Enter Number")" />
                                     </div>
                                     <div class="input-group-btn">
-                                        <button type="submit">@Html.Sitecore().Field("Check Text")</button>
+                                        <button type="submit" ng-disabled="validateESNForm.$invalid">@Html.Sitecore().Field("Check Text")</button>
                                     </div>
                                 </div><!-- /input-group -->
                                 <div class="input-group" ng-if="showCaptcha">
@@ -46,6 +46,9 @@
                                     <div ng-if="networkType == 'GSM'">
                                         @Html.Sitecore().Field("GSM Message")
                                     </div>
+                                    <div ng-if="!supportsLte && networkType == 'CDMA'">
+                                        @Html.Sitecore().Field("Non LTE CDMA Message")
+                                    </div>
                                 </div>
                                 <div ng-show="esnValid && supportsLte && networkType == 'CDMA'" class="device-success" ng-cloak>
                                     @Html.Sitecore().Field("ESN Valid Message")
@@ -56,21 +59,6 @@
                 </div>
             </div>
         </div>
-        <!--
-        <div ng-show="esnError || networkType == 'GSM' || (!supportsLte && networkType == 'CDMA')" class="device-error" ng-cloak>
-            <div class="wrapper">
-                <div compile="esnMessage"></div>
-                <div ng-if="networkType == 'GSM'">
-                    @Html.Sitecore().Field("GSM Message")
-                </div>
-            </div>
-        </div>
-        <div ng-show="esnValid && supportsLte && networkType == 'CDMA'" class="device-success" ng-cloak>
-            <div class="wrapper">
-                @Html.Sitecore().Field("ESN Valid Message")
-            </div>
-        </div>
-        -->
     </form>
 </article>
 
