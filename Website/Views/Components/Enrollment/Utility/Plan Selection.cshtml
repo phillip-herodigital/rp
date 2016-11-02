@@ -125,7 +125,6 @@
                         <span ng-show="plan.rateType == 'fixed'" class="fixed">@Html.Sitecore().Field("Electricity Fixed")</span>
                         <span class="variable" ng-show="plan.rateType == 'variable'">@Html.Sitecore().Field("Electricity Variable")</span>
                         <div class="plan-title">{{plan.name}}</div>
-                        <div ng-if="plan.includesPromo" class="includes-promo" ng-bind-html="plan.promoIcon | html"></div>
                         <div ng-if="plan.includesThermostat" class="includes-thermostat">
                             @Html.Sitecore().Field("Thermostat Text")
                         </div>
@@ -226,7 +225,6 @@
                         <div slide-down-show="isOpen">
                             <div ng-if="plan.includesThermostat" class="thermostat-description" ng-bind-html="plan.thermostatDescription | html"></div>
                             <div ng-if="plan.includesSkydrop" class="skydrop-description" ng-bind-html="plan.skydropDescription | html"></div>
-                            <div ng-if="plan.includesPromo" class="promo-description" ng-bind-html="plan.promoDescription | html"></div>
                             <p ng-bind-html="plan.description | unsafe"></p>
                             <ul class="plan-selection-list clearfix">
                                 <li><a ng-href="{{plan.documents.electricityFactsLabel}}" target="_blank">@Html.Sitecore().Field("Electricity Facts Label Document")</a></li>
@@ -300,6 +298,7 @@
                         <span ng-show="plan.rateType == 'fixed'" class="fixed">@Html.Sitecore().Field("Gas Fixed")</span>
                         <span class="variable" ng-show="plan.rateType == 'variable'">@Html.Sitecore().Field("Gas Variable")</span>
                         <div class="plan-title">{{plan.name}}</div>
+                        <div ng-if="plan.includesPromo" class="includes-promo" ng-bind-html="plan.promoIcon | html"></div>
                         <a class="view-details" href="" ng-click="isOpen = !isOpen" ng-class="{'collapsed': !isOpen}">
                             <span ng-if="!isOpen">@Html.Sitecore().Field("Gas View Details") <i class="icon-blue-arrow-down"></i></span>
                             <span ng-if="isOpen">@Html.Sitecore().Field("Gas Hide Details")  <i class="icon-blue-arrow-up"></i></span>
@@ -342,6 +341,7 @@
                 <tr class="details-row additional-fields ng-cloak" ng-repeat-end>
                     <td colspan="6">
                         <div slide-down-show="isOpen">
+                            <div ng-if="plan.includesPromo" class="promo-description" ng-bind-html="plan.promoDescription | html"></div>
                             <p ng-bind-html="plan.description | unsafe"></p>
                             <ul class="plan-selection-list clearfix">
                                 <li><a ng-href="{{plan.documents.letterOfAgency}}" target="_blank">@Html.Sitecore().Field("Letter of Agency Document")</a></li>
