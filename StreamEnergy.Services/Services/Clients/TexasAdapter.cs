@@ -124,6 +124,11 @@ namespace StreamEnergy.Services.Clients
                               ThermostatDescription = productData.Fields["Thermostat Description"],
                               IncludesSkydrop = !string.IsNullOrEmpty(productData.Fields["Includes Skydrop"]),
                               SkydropDescription = productData.Fields["Skydrop Description"],
+                              IncludesSkybell = !string.IsNullOrEmpty(productData.Fields["Includes Skybell"]),
+                              SkybellColor = productData.Fields["Skybell Color"],
+                              SkybellDescription = productData.Fields["Skybell Description"],
+                              AssociatedPlanID = productData.Fields["Associated PlanID"],
+                              HidePlan = !string.IsNullOrEmpty(productData.Fields["Hide Plan"]),
                               IsDisabled = !string.IsNullOrEmpty(productData.Fields["Is Disabled"]),
 
                               Footnotes = productData.Footnotes,

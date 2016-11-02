@@ -50,6 +50,11 @@ namespace StreamEnergy.DomainModels.Enrollments.TexasElectricity
         public string TduCharges { get; set; }
         public bool IncludesThermostat { get; set; }
         public bool IncludesSkydrop { get; set; }
+        public bool IncludesSkybell { get; set; }
+        public string SkybellColor { get; set; }
+        public string SkybellDescription { get; set; }
+        public bool HidePlan { get; set; }
+        public string AssociatedPlanID { get; set; }
         public bool IsDisabled { get; set; }
         public string ThermostatDescription { get; set; }
         public string SkydropDescription { get; set; }
