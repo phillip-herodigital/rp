@@ -1009,28 +1009,15 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                     var subAccount = acct.SubAccounts.FirstOrDefault(s => s.Capabilities.OfType<RenewalAccountCapability>().Any(c => c.IsEligible) && s.CustomerType.ToString() != "Commercial");
                     if (subAccount != null)
                     {
-                        if (subAccount.ServiceAddress.StateAbbreviation == "TX" || subAccount.ServiceAddress.StateAbbreviation == "GA")
+                        await enrollmentController.Initialize();
+                        await enrollmentController.SetupRenewal(acct, subAccount, request.Last4);
+                        return new AccountForOneTimeRenewalResponse
                         {
-                            await enrollmentController.Initialize();
-                            await enrollmentController.SetupRenewal(acct, subAccount, request.Last4);
-                            return new AccountForOneTimeRenewalResponse
-                            {
-                                Success = true,
-                                AvailableForRenewal = true,
-                                IsCommercial = false,
-                                HasUtility = true
-                            };
-                        }
-                        else
-                        {
-                            return new AccountForOneTimeRenewalResponse
-                            {
-                                Success = true,
-                                AvailableForRenewal = true,
-                                IsCommercial = false,
-                                HasUtility = false
-                            };
-                        }
+                            Success = true,
+                            AvailableForRenewal = true,
+                            IsCommercial = false,
+                            HasUtility = true
+                        };
                     }
                     else
                     {
