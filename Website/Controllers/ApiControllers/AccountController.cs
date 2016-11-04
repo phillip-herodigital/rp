@@ -208,9 +208,9 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                                   Number = device.PhoneNumber,
                                   Id = device.Id,
                                   DataUsage = usage != null ? usage.DataUsage : (decimal?)null,
+                                  DataLimit = usage != null ? usage.DataLimit : null,
                                   MessagesUsage = usage != null ? usage.MessagesUsage : (decimal?)null,
                                   MinutesUsage = usage != null ? usage.MinutesUsage : (decimal?)null,
-
                               } : null,
 
                 SubAccountCount = account.SubAccounts!= null ? account.SubAccounts.Count() : 0

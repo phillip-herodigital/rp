@@ -11,6 +11,7 @@ namespace StreamEnergy.DomainModels.Accounts
         public string PhoneNumber { get; set; }
         public string InvoiceNumber { get; set; }
         public decimal DataUsage { get; set; }
+        public string DataLimit { get; set; }
         public decimal MinutesUsage { get; set; }
         public decimal MessagesUsage { get; set; }
     }

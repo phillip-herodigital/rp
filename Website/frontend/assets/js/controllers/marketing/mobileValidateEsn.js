@@ -17,6 +17,8 @@ ngApp.controller('MobileValidateEsnCtrl', ['$scope', '$http', '$sce', '$modal', 
         // do the hex conversion for CDMA MEID/ESN-DEC
         if ($scope.form.esn.length == 14) {
             convertedImei = convertToMEIDDec($scope.form.esn);
+        } else if ($scope.form.esn.length == 15) {
+            convertedImei = convertToMEIDDec($scope.form.esn.substr(0, 14));
         }
         var formData = {
                 imei: convertedImei == null ? $scope.form.esn : convertedImei,

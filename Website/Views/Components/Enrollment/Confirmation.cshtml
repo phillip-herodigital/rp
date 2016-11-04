@@ -34,7 +34,7 @@
                 </div>
                 @if (Sitecore.Context.IsLoggedIn)
                 {
-                    <footer ng-if="accountInformation.userName && cartHasMobile()">
+                    <footer ng-if="accountInformation.userName  && cartHasMobile()">
                         <div class="border"></div>
                         <h3 class="stream-account">@Html.Sitecore().Field("My Stream Account")</h3>
                         <div class="content">
@@ -241,6 +241,9 @@
                         </div>
                         <div class="included-skydrop" ng-if="selectedOffer.offer.includesSkydrop">
                             @Html.Sitecore().Field("Skydrop Text")
+                        </div>
+                        <div class="included-promo" ng-if="selectedOffer.offer.includesPromo">
+                            @Html.Sitecore().Field("Energy Promo Text")
                         </div>
                         <div class="service-info clearfix">
                             <div class="label">@Html.Sitecore().Field("Service Address Label"):</div>

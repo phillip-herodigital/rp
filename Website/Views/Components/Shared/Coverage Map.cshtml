@@ -22,16 +22,21 @@
         <ui-gmap-google-map center="map.center" zoom="map.zoom" options="map.options" events="map.events">
             <ui-gmap-search-box template="searchbox.template" events="searchbox.events" parentdiv="'gmap-search'"></ui-gmap-search-box>
         </ui-gmap-google-map>
-
         <ul class="layer-toggle">
             <li>
-                <span class="layer-legend voice"></span> <input type="checkbox" id="sprint_voice" ng-model="layers.sprint.sprint_voice_roam" /> <label for="sprint_voice">@Html.Sitecore().Field("Voice")</label>
+                <span class="layer-legend voice-roam"></span> <input type="checkbox" id="sprint_voice_roam" ng-model="layers.sprint_voice_roam" /> <label for="sprint_lte">@Html.Sitecore().Field("Voice Roam")</label>
             </li>
             <li>
-                <span class="layer-legend data"></span> <input type="checkbox" id="sprint_data" ng-model="layers.sprint.sprint_data_roam" /> <label for="sprint_data">@Html.Sitecore().Field("Data")</label>
+                <span class="layer-legend voice"></span> <input type="checkbox" id="sprint_voice" ng-model="layers.sprint_voice" /> <label for="sprint_voice">@Html.Sitecore().Field("Voice")</label>
             </li>
             <li>
-                <span class="layer-legend lte"></span> <input type="checkbox" id="sprint_lte" ng-model="layers.sprint.sprint_lte" /> <label for="sprint_lte">@Html.Sitecore().Field("LTE")</label>
+                <span class="layer-legend data"></span> <input type="checkbox" id="sprint_data" ng-model="layers.sprint_data_roam" /> <label for="sprint_data">@Html.Sitecore().Field("Data")</label>
+            </li>
+            <li>
+                <span class="layer-legend lte"></span> <input type="checkbox" id="sprint_lte" ng-model="layers.sprint_lte" /> <label for="sprint_lte">@Html.Sitecore().Field("LTE")</label>
+            </li>
+            <li>
+                <span class="layer-legend lte-advanced"></span> <input type="checkbox" id="sprint_lte_advanced" ng-model="layers.sprint_lte_advanced" /> <label for="sprint_lte">@Html.Sitecore().Field("LTE Advanced")</label>
             </li>
         </ul>
     </article>
