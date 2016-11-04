@@ -4365,3 +4365,197 @@ article.protective-module {
 		}
 	}
 }
+
+.skybell {
+    &.banner {
+        min-height: 202px;
+
+        .inner .wrapper h1 {
+            font-size: 42px;
+            font-weight: 800;
+
+            p {
+                font-size: 34px;
+                font-weight: 400;
+            }
+        }
+    }
+
+    &.skybell-intro {
+        h1 {
+            strong {
+                color: #ffaf55;
+            }
+        }
+
+        .grid {
+            margin-top: 20px;
+
+            .col {
+                &.image {
+                    width: 300px;
+
+                    @include breakpoint(small) {
+                        width: 100%;
+                    }
+                }
+
+                &.list {
+                    width: calc(100% - 300px);
+
+                    @include breakpoint(small) {
+                        width: 100%;
+                    }
+
+                    li {
+                        text-align: left;
+                        list-style-image: url(../i/marketing/redesign/dark-blue-check.png);
+                    }
+                }
+            }
+        }
+    }
+
+    &.skybell-states-heading {
+        .wrapper {
+            padding: 0;
+
+            .intro {
+                margin-bottom: 0;
+            }
+        }
+    }
+
+    &.state-selector {
+        .button {
+            background-image: none;
+            background-color: #f88500;
+        }
+    }
+
+    &.skybell-app {
+        background-color: #033c5a;
+
+        .wrapper {
+            background-image: none;
+            padding-bottom: 0px;
+            padding-top: 30px;
+        }
+
+        .col {
+            padding: 0;
+
+            &.image {
+                width: 400px;
+
+                img {
+                    float: right;
+                }
+
+                @include breakpoint(small) {
+                    width: 100%;
+                    text-align: center;
+
+                    img {
+                        float: none;
+                    }
+                }
+            }
+
+            &.info {
+                color: #fff;
+                width: calc(100% - 400px);
+
+                h1 {
+                    text-align: left;
+                    line-height: 30px;
+                    color: #fff;
+                    text-align: left;
+                }
+
+                p {
+                    line-height: 30px;
+                }
+
+                ul {
+                    list-style-image: url("../i/marketing/redesign/white-check.png");
+                    padding-left: 20px;
+
+                    li {
+                        list-style-image: url("../i/marketing/redesign/white-check.png");
+                        padding-bottom: 10px;
+                    }
+                }
+
+                @include breakpoint(medium-small) {
+                    padding-left: 0px;
+                }
+
+                @include breakpoint(small) {
+                    width: 100%;
+
+                    h1 {
+                        text-align: center;
+                    }
+                }
+            }
+        }
+    }
+
+    &.faqs-heading {
+        .wrapper {
+            padding-bottom: 0;
+
+            .heading {
+                color: #f98e00;
+                font-size: 36px;
+            }
+        }
+    }
+
+    &.skybell-faqs {
+        dl.faq {
+            color: #6c6c6c;
+            font-size: 20px;
+            width: 100%;
+            max-width: none;
+            border-bottom: 1px solid #d3d3d3;
+            margin-top: 0;
+
+            > dt {
+                font-size: 20px;
+                font-weight: 300;
+                padding: 14px 40px 14px 0;
+                border-top: 1px solid #d3d3d3;
+
+                &:before {
+                    content: image-url('icon/faq-hide.png');
+                    vertical-align: top;
+                    position: absolute;
+                    left: inherit;
+                    right: 15px;
+                }
+
+                &[data-collasped] {
+                    &:before {
+                        content: image-url('icon/faq-show.png');
+                    }
+
+                    + dd {
+                        height: 0;
+                        display: none;
+                        margin-top: 0;
+                    }
+                }
+            }
+
+            > dd {
+                line-height: 1.2;
+                font-size: 14px;
+                margin: 16px 26px 50px;
+                color: #6c6c6c;
+                display: block;
+            }
+        }
+    }
+}

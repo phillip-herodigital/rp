@@ -27,9 +27,11 @@
     {
         selectedState = states.AllKeys.First();
     }
+
+    var classes = item.Fields["CSS Classes"].Value;
 }
 
-<article class="marketing state-tabs states-enroll" state-selector="@selectedState" ng-init='stateEnrollData = @Html.Raw(stateEnrollData.ToString(Formatting.None)); selectedStateKey = "@selectedState";'>
+<article class="marketing state-tabs states-enroll @classes" state-selector="@selectedState" ng-init='stateEnrollData = @Html.Raw(stateEnrollData.ToString(Formatting.None)); selectedStateKey = "@selectedState";'>
     <div class="wrapper grid">
         <div class="col"><h3>@Html.Sitecore().Field("Header")</h3></div>
         <div class="col">
