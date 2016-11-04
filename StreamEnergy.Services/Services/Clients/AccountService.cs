@@ -689,7 +689,7 @@ namespace StreamEnergy.Services.Clients
 
             account.Usage = (from usage in (IEnumerable<dynamic>)data.UsageDetail
                              where usage.StartDate != DateTime.MinValue && usage.EndDate != DateTime.MinValue
-                             let planItem = Sitecore.Context.Database.SelectItems("/sitecore/content/Data/Taxonomy/Modules/Mobile/Mobile Data Plans/*[@Plan ID = \"" + usage.Device.Plan.PlanId + "\"]").FirstOrDefault()
+                             let planItem = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Taxonomy/Modules/Mobile/Mobile Data Plans/" + usage.Device.Plan.PlanId)
                              select new KeyValuePair<ISubAccount, AccountUsage>(CreateSubAccount(account, usage.Device), new MobileAccountUsage()
                              {
                                  StartDate = (DateTime)usage.StartDate,
