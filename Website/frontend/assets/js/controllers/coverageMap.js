@@ -1,28 +1,8 @@
 ﻿/* Coverage Map Controller
  *
  */
-ngApp.controller('CoverageMapCtrl', ['$scope', '$location', 'uiGmapGoogleMapApi', function ($scope, $location, uiGmapGoogleMapApi) {
 
-    var ARCOverlay = function (key, layer, opacity) {
-        return new google.maps.ImageMapType({
-            isPng: true,
-            opacity: opacity,
-            tileSize: new google.maps.Size(256, 256),
-            
-            getTileUrl: function (coord, zoom) {
-                var bounds = $scope.mapInstance.getBounds().toJSON();
-                var output = bounds.west + " " + bounds.south + " " + bounds.east + " " + bounds.north;
-                
-                var url = "/api/mapserver/tile/" + coord.x + "," + coord.y + "," + zoom + "/";
-                var layers = layer.split(",");
-                for (var i = 0; i < layers.length; i++) {
-                    url += (i > 0 ? "," : "") + layers[i];
-                }
-                
-                return url;
-            }
-        });
-    };
+ngApp.controller('CoverageMapCtrl', ['$scope', '$location', 'uiGmapGoogleMapApi', function ($scope, $location, uiGmapGoogleMapApi) {
 
     var pinColor = "00A9E2";
     var pinImage = new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|" + pinColor,
@@ -51,16 +31,12 @@ ngApp.controller('CoverageMapCtrl', ['$scope', '$location', 'uiGmapGoogleMapApi'
         }
     };
 
-    //$scope.selectedNetwork = $location.search().carrier || 'att';
-    $scope.selectedNetwork = $location.search().carrier || 'sprint';
     $scope.layers = {
-        sprint: {
-            sprint_voice: true,
-            sprint_voice_roam: true,
-            sprint_data_roam: true,
-            sprint_lte: true,
-            sprint_lte_advanced: true,
-        }
+        sprint_voice: true,
+        sprint_voice_roam: true,
+        sprint_data_roam: true,
+        sprint_lte: true,
+        sprint_lte_advanced: true,
     };
 
     $scope.map = {
@@ -86,15 +62,26 @@ ngApp.controller('CoverageMapCtrl', ['$scope', '$location', 'uiGmapGoogleMapApi'
         }
     };
 
+    function TileMapType(tileSize, layer, opacity) {
+        this.tileSize = tileSize;
+        this.layer = layer;
+        this.opacity = opacity;
+    }
+
+    TileMapType.prototype.getTile = function(coord, zoom, ownerDocument) {
+        var div = ownerDocument.createElement('div');
+        div.style.width = this.tileSize.width + 'px';
+        div.style.height = this.tileSize.height + 'px';
+        div.style.backgroundImage = 'url(/api/mapserver/tile/' + coord.x + ',' + coord.y + ',' + zoom + '/' + this.layer + ')';
+        div.style.opacity = this.opacity;
+        return div;
+    };
+
     $scope.$watch('mapInstance', function (newVal, oldVal) {
         if (newVal) {
             $scope.updateMapLayers();
         }
     });
-
-    $scope.$watch('selectedNetwork', function (newVal, oldVal) {
-        $scope.updateMapLayers();
-    }, true);
 
     $scope.$watch('layers', function (newVal, oldVal) {
         $scope.updateMapLayers();
@@ -102,7 +89,7 @@ ngApp.controller('CoverageMapCtrl', ['$scope', '$location', 'uiGmapGoogleMapApi'
 
     $scope.updateMapLayers = function () {
         var layers = [];
-        angular.forEach($scope.layers[$scope.selectedNetwork], function (value, key) {
+        angular.forEach($scope.layers, function (value, key) {
             if (value == true) {
                 layers.push(key);
             }
@@ -121,11 +108,10 @@ ngApp.controller('CoverageMapCtrl', ['$scope', '$location', 'uiGmapGoogleMapApi'
                 } else if (layers.length == 1) {
                     opacity = .75;
                 }
-                for (var i = 0, layer; layer = layers[i]; i++) {
-                    $scope.mapInstance.overlayMapTypes.setAt(i, new ARCOverlay('d8bfd6a09d07263c52ecb75b5a470a90', layer, opacity));
-                }
+                angular.forEach(layers, function (layer, i) {
+                    $scope.mapInstance.overlayMapTypes.insertAt(i, new TileMapType(new google.maps.Size(256, 256), layer, opacity));
+                });
             }
         }
     };
-
 }]);

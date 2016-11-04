@@ -34,7 +34,7 @@
                 </div>
                 @if (Sitecore.Context.IsLoggedIn)
                 {
-                    <footer ng-if="accountInformation.userName && cartHasMobile()">
+                    <footer ng-if="accountInformation.userName  && cartHasMobile()">
                         <div class="border"></div>
                         <h3 class="stream-account">@Html.Sitecore().Field("My Stream Account")</h3>
                         <div class="content">
