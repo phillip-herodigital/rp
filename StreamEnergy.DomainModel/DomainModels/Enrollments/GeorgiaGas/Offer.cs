@@ -56,5 +56,10 @@ namespace StreamEnergy.DomainModels.Enrollments.GeorgiaGas
         public bool IncludesPromo { get; set; }
         public string PromoIcon { get; set; }
         public string PromoDescription { get; set; }
+        public bool IncludesSkybell { get; set; }
+        public string SkybellColor { get; set; }
+        public string SkybellDescription { get; set; }
+        public bool HidePlan { get; set; }
+        public string AssociatedPlanID { get; set; }
     }
 }

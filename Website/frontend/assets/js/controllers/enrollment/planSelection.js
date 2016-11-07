@@ -16,8 +16,11 @@ ngApp.controller('EnrollmentPlanSelectionCtrl', ['$scope', 'enrollmentService', 
     };
 
     $scope.getAssociatedPlan = function(plan) {
-        return _.find($scope.currentLocationInfo().offerInformationByType[0].value.availableOffers, function(availableOffer) {
-            return availableOffer.associatedPlanID === plan.id.replace(plan.tdu + "/", "");
+        return _.find($scope.currentLocationInfo().offerInformationByType[0].value.availableOffers, function (availableOffer) {
+            if (plan.tdu) {
+                return availableOffer.associatedPlanID === plan.id.replace(plan.tdu + "/", "");
+            }
+            return availableOffer.associatedPlanID === plan.code;
         });
     }
 
