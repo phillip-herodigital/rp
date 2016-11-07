@@ -4378,6 +4378,20 @@ article.protective-module {
                 font-size: 34px;
                 font-weight: 400;
             }
+
+            .video {
+                margin-top: 40px;
+
+                iframe {
+                    height: 350px;
+                    width: 650px;
+                    float: right;
+
+                    @include breakpoint(small) {
+                        width: 100%;
+                    }
+                }
+            }
         }
     }
 
@@ -4430,6 +4444,12 @@ article.protective-module {
         .button {
             background-image: none;
             background-color: #f88500;
+
+            &.renew {
+                color: #2181c1;
+                border: 1px solid #2181c1;
+                background-color: #fff;
+            }
         }
     }
 
