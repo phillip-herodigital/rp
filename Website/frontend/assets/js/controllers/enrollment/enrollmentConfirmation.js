@@ -23,6 +23,7 @@ ngApp.controller('EnrollmentConfirmationCtrl', ['$scope', '$window', '$modal', '
     $scope.getProtectiveDiscount = enrollmentCartService.getProtectiveDiscount;
     $scope.getProtectiveTotal = enrollmentCartService.getProtectiveTotal;
     $scope.cartHasProtective = enrollmentCartService.cartHasProtective;
+    $scope.cartHasGaLocation = enrollmentCartService.cartHasGaLocation;
     $scope.currentDate = new Date();
 
     $scope.onPrint = function() {
