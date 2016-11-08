@@ -242,6 +242,9 @@
                         <div class="included-skydrop" ng-if="selectedOffer.offer.includesSkydrop">
                             @Html.Sitecore().Field("Skydrop Text")
                         </div>
+                        <div class="included-skybell" ng-if="selectedOffer.offer.includesSkybell">
+                            @Html.Sitecore().Field("Skybell Text")
+                        </div>
                         <div class="included-promo" ng-if="selectedOffer.offer.includesPromo">
                             @Html.Sitecore().Field("Energy Promo Text")
                         </div>
@@ -336,6 +339,9 @@
                             <h2>{{selectedOffer.offer.name}}</h2>
                         </div>
                         <div class="rate">${{selectedOffer.offer.rate}}@Html.Sitecore().Field("Per Therm")</div>
+                        <div class="included-skybell" ng-if="selectedOffer.offer.includesSkybell">
+                            @Html.Sitecore().Field("Skybell Text")
+                        </div>
                     </div>
                     <div class="line-item clearfix" ng-if="isRenewal && selectedOffer.renewalConfirmation.contractStartDate != null">
                         <div class="description">

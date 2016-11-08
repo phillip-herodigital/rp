@@ -1195,15 +1195,18 @@
     padding: 0;
     margin-bottom: 0;
     @include border-radius(0);
-    @include box-shadow(none);    
+    @include box-shadow(none);
+
     .modal {
         margin-left: auto;
         width: auto;
         left: 6%;
         right: 6%;
     }
+
     .plan-selection-table {
         border: none;
+
         thead {
             th {
                 background: #f6f6f6;
@@ -1215,23 +1218,28 @@
                 padding: 10px 15px;
                 border: none;
                 min-width: 85px;
+
                 &.sortable:hover {
-                    cursor: pointer; 
+                    cursor: pointer;
                 }
+
                 &.plan-header {
                     text-align: left;
                     padding-left: 20px;
                 }
+
                 @include breakpoint(medium) {
                     min-width: 0;
                     padding: 10px 5px;
                 }
             }
         }
+
         td, th {
             text-align: center;
             border-bottom: none;
             vertical-align: text-top;
+
             > span, > a {
                 color: #828282;
                 font-size: 13px;
@@ -1241,25 +1249,30 @@
                 font-style: normal;
             }
         }
+
         tr {
             background: transparent;
+
             &.details-row {
                 td {
                     border: none;
                     padding: 0px;
                     text-align: left;
                     text-align: left;
+
                     div {
                         padding: 5px 12px 5px 30px;
                         border-top: 1px solid #eaeaea;
                     }
-                    div.thermostat-description, div.skydrop-description, , div.promo-description {
+                    div.thermostat-description, div.skydrop-description, skybell-description, div.promo-description {
                         border-top: none;
                         padding: 1em 0 0;
                         font-size: 18px;
+
                         img {
                             display: inline-block;
                         }
+
                         span {
                             width: 68%;
                             display: inline-block;
@@ -1267,46 +1280,61 @@
                             padding-top: 25px;
                         }
                     }
+
                     p {
                         font-size: 15px;
                     }
+
                     .plan-footnote {
                         clear: both;
                     }
                 }
             }
+
             &.isOpen {
                 td, th {
                     border-bottom: 1px solid #eaeaea;
                 }
             }
+
             &:last-child {
                 td, th {
                     border-bottom: none;
                 }
             }
-        }        
+        }
+
         button {
             white-space: nowrap;
             background-image: none;
             margin-right: 0 !important;
             width: auto;
-            padding: 10px 25px;
+            padding: 10px;
             min-width: 130px;
+
             &.secondary {
                 color: #5cab0d;
                 border: none;
                 outline: none;
                 background: transparent none;
             }
+
             @include breakpoint(medium) {
                 min-width: 0;
                 padding: 10px 15px;
+
                 &.secondary {
                     padding: 5px;
                 }
             }
         }
+
+        .skybell-selected {
+            font-size: 14px;
+            color: #000;
+            margin: 0;
+        }
+
         .vertical {
             padding: 0;
             height: 120px;
@@ -1314,6 +1342,7 @@
             position: relative;
             border-left: none;
             border-right: none;
+
             .fixed, .variable {
                 position: absolute;
                 top: 40px;
@@ -1325,13 +1354,16 @@
                 margin: 10px 0;
                 @include rotate(-90deg);
             }
+
             .fixed {
                 background: #053d5a;
             }
+
             .variable {
                 background: #79bb4b;
             }
         }
+
         .plan-name {
             .fixed, .variable {
                 text-transform: uppercase;
@@ -1342,53 +1374,156 @@
                 margin: 5px 0;
                 display: inline-block;
             }
+
             .fixed {
                 background: #75bbe7;
             }
+
             .variable {
                 background: #5b95a2;
             }
+
             .plan-title {
                 clear: both;
             }
+
             font-size: 18px;
             font-weight: 600;
             text-align: left;
             border-left: none;
             padding-left: 20px;
             vertical-align: top;
+
             @include breakpoint(small) {
                 padding-right: 45px;
             }
         }
+
         .view-details {
             display: block;
             font-weight: normal;
             margin-top: 15px;
             font-size: 12px;
         }
+
         .rate, .term, .fees {
             width: 100px;
             font-size: 18px;
             font-style: italic;
             font-weight: 600;
             padding: 33px 15px;
+
             span {
                 font-size: 12px;
                 font-weight: 600;
             }
         }
+
         .select-plan {
             position: relative;
             min-width: 130px;
             padding: 15px;
             border-right: none;
             vertical-align: middle;
+
             @include breakpoint(medium) {
                 min-width: 0;
                 padding: 15px 5px;
             }
+
+            @include breakpoint(small) {
+                float: right;
+            }
+
+            button {
+                float: none;
+            }
+
+            .skybell-button {
+                position: relative;
+
+                .button {
+                    padding: 10px 25px;
+                    cursor: pointer;
+
+                    @include breakpoint(medium) {
+                        padding: 10px 10px;
+                        min-width: 90px;
+                    }
+
+
+                    &.options {
+                        border-radius: 5px 5px 0 0;
+                    }
+                }
+
+                .triangle {
+                    width: 0;
+                    height: 0;
+                    border-style: solid;
+                    border-width: 7px 7px 0 7px;
+                    border-color: #fff transparent transparent transparent;
+                    float: right;
+                    position: relative;
+                    top: 10px;
+                    right: 0px;
+                    -webkit-transition: 0.5s ease-in-out;
+                    -moz-transition: 0.5s ease-in-out;
+                    -o-transition: 0.5s ease-in-out;
+                    transition: 0.5s ease-in-out;
+
+                    &.rotate {
+                        -webkit-transform: rotate(180deg);
+                        -moz-transform: rotate(180deg);
+                        -o-transform: rotate(180deg);
+                        -ms-transform: rotate(180deg);
+                        transform: rotate(180deg);
+                    }
+                }
+
+                .skybellOptions {
+                    clear: both;
+                    position: absolute;
+                    top: 45px;
+                    right: 0px;
+                    z-index: 100;
+
+                    .options {
+                        float: right;
+                        border: 1px solid #229acd;
+                        background-color: #fafbfc;
+                        border-radius: 5px 0 5px 5px;
+                        width: 250px;
+
+                        .option {
+                            padding: 10px;
+
+                            div {
+                                cursor: pointer;
+
+                                p {
+                                    color: #000;
+                                    font-size: 16px;
+                                    text-align: left;
+                                }
+                            }
+
+                            &:first-child {
+                                border-bottom: 1px solid #229acd;
+                            }
+
+                            img {
+                                float: left;
+                                padding-right: 7px;
+                                height: auto;
+                                padding-top: 5px;
+                            }
+                        }
+                    }
+                }
+            }
         }
+
         .selected-icon {
             position: absolute;
             top: 0;
@@ -1398,104 +1533,129 @@
             border-style: solid;
             border-width: 0 45px 45px 0;
             border-color: transparent #5cab0d transparent transparent;
+
             i {
                 position: absolute;
                 right: -38px;
                 top: 8px;
             }
+
             font-weight: bold;
             margin-left: 20px;
         }
+
         .details {
             td {
                 border: none;
                 padding: 0px;
             }
+
             div {
                 padding: 5px 12px;
                 border: 0;
                 text-align: left;
                 padding-left: 0;
+
                 p {
                     font-size: 15px;
                 }
+
                 &:first-child {
                     border-bottom: 1px solid #eaeaea;
                 }
             }
         }
+
         &.open {
             td.plan-name {
                 border-bottom: 1px solid #fff;
             }
+
             tr.details {
                 display: table-row;
+
                 td {
                     border-top: 0;
+
                     &:first-child {
                         border-top: 1px solid #fff;
                     }
                 }
             }
         }
+
         .spacer {
             height: 20px;
         }
     }
+
     .plan-selection-list {
         float: left;
         width: 35%;
         padding: 0;
         list-style-type: none;
+
         li {
             margin-right: 10px;
             padding-right: 10px;
             white-space: nowrap;
         }
+
         li:last-child {
             border-right: none;
             margin: 0;
             padding: 0;
         }
     }
+
     .plan-selection-fees {
         width: 64%;
         float: right;
+
         @include breakpoint(small-medium) {
             width: 100%;
             float: none;
+
             dt, dd {
                 width: auto;
             }
         }
+
         @include breakpoint(small) {
             & {
                 clear: both;
             }
+
             dt, dd {
                 float: none;
             }
         }
+
         dt {
             font-weight: 600;
             width: 40%;
-            display: inline-block
+            display: inline-block;
         }
+
         dd {
             width: 80%;
             text-align: left;
-            display: inline-block
+            display: inline-block;
         }
     }
+
     .ga-plan-selection-fees {
         width: 50%;
+
         dt {
             width: 60%;
         }
+
         dd {
             width: auto;
         }
     }
+
     @include breakpoint(small-medium) {
         .plan-selection-table {
             th, td {
@@ -1504,6 +1664,7 @@
             }
         }
     }
+
     @include breakpoint(small) {
         .plan-selection-table {
             .plan-name, .fees, .plan-actions {
@@ -1511,14 +1672,16 @@
             }
         }
     }
-    .includes-thermostat, .includes-skydrop, .includes-promo {
+    .includes-thermostat, .includes-skydrop, .includes-promo, .includes-skybell {
         background-color: #f4f8f9;
         margin: 5px -12px 0 -19px;
         padding: 10px 5px 5px;
         min-width: 200px;
+
         img {
             display: inline-block;
         }
+
         span {
             display: inline-block;
             vertical-align: top;
@@ -1527,12 +1690,14 @@
             margin-left: 12px;
             padding-top: 6px;
         }
+
         @include breakpoint(medium) {
             min-width: 0;
         }
     }
+
     .includes-skydrop {
-        span  {
+        span {
             width: 110px;
             padding-bottom: 10px;
         }
