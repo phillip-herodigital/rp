@@ -485,6 +485,41 @@ article {
                 background-color: #f79431;
             }
         }
+
+		&.smart30-skybell {
+			.wrapper {
+				padding-bottom: 0px;
+				img {
+					width: auto;
+					height: 100%;
+					margin-right: 30%;
+					@include breakpoint(medium) {
+						margin-right: 0px;
+					}
+					@include breakpoint(small) {
+						display: none;
+					}
+				}
+				@include breakpoint(small) {
+					padding-bottom: 80px;
+				}
+				a.button {
+					background-color: #f87c00;
+					background-image: none;
+					&:hover {
+						background-color: #f79431;
+					}
+				}
+			}
+			h2, p {
+				color: #fff;
+			}
+			p.footnote {
+				font-size: 14px;
+				font-style: italic;
+				margin-top: 30px;
+			}
+		}
     }
 
     &.states-enroll {
@@ -4578,4 +4613,34 @@ article.protective-module {
             }
         }
     }
+}
+
+.smart-30-plans {
+	background-color: #f3f6f7;
+	p {
+		width: 85%;
+		margin: auto;
+		text-align: center;
+		&.intro {
+			font-size: 18px;
+		}
+	}
+	.incentives {
+		text-align: center;
+		.col {
+			.button {
+				background-color: #f87c00;
+				background-image: none;
+				&:hover {
+					background-color: #f79431;
+				}
+				@include breakpoint(small) {
+					margin-bottom: 20px;
+				}
+			}
+			img {
+				height: auto;
+			}
+		}
+	}
 }
