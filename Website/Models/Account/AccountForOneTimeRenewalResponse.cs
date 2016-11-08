@@ -10,7 +10,6 @@ namespace StreamEnergy.MyStream.Models.Account
         public bool Success { get; set; }
         public bool IsCommercial { get; set; }
         public bool AvailableForRenewal { get; set; }
-        public bool HasUtility { get; set; }
         public string State { get; set; }
     }
 }

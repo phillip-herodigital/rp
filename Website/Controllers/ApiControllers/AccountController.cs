@@ -1016,7 +1016,6 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                             Success = true,
                             AvailableForRenewal = true,
                             IsCommercial = false,
-                            HasUtility = true
                         };
                     }
                     else

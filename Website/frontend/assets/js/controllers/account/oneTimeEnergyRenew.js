@@ -39,22 +39,17 @@ ngApp.controller('OneTimeRenewalCtrl', ['$scope', '$http', '$timeout', '$locatio
                             else if (data.state == "GA") {
                                 ctrl.isCommercialGAMessage = true;
                             }
-                            else if (data.state == "") {
+                            else {
                                 ctrl.isOtherCommericalMessage = true;
                             }
                         }
                         else {
-                            if (data.hasUtility) {
-                                $scope.isLoading = true;
-                                if (queryUtilityPlanId) {
-                                    window.location.assign('/enrollment?renewal=true&renewalType=anon&UtilityPlanId=' + queryUtilityPlanId);
-                                }
-                                else {
-                                    window.location.assign('/enrollment?renewal=true&renewalType=anon');
-                                }
+                            $scope.isLoading = true;
+                            if (queryUtilityPlanId) {
+                                window.location.assign('/enrollment?renewal=true&renewalType=anon&UtilityPlanId=' + queryUtilityPlanId);
                             }
                             else {
-                                ctrl.TXorGAErrorMessage = true;
+                                window.location.assign('/enrollment?renewal=true&renewalType=anon');
                             }
                         }
                     }
