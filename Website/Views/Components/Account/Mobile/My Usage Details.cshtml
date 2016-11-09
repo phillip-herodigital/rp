@@ -35,9 +35,9 @@
                     <th><div>@Html.Sitecore().Field("Member Header")</div></th>
                     <th>@Html.Sitecore().Field("Data Header")</th>
                     <th>@Html.Sitecore().Field("Text Header")<br />
-                    @Html.Sitecore().Field("Unlimited")</th>
+                        @Html.Sitecore().Field("Unlimited")</th>
                     <th>@Html.Sitecore().Field("Talk Header")<br />
-                    @Html.Sitecore().Field("Unlimited")</th>
+                        @Html.Sitecore().Field("Unlimited")</th>
                 </tr>
             </thead>
             <tbody>
@@ -58,9 +58,15 @@
                     <td>
                         <div class="device-full">
                             <strong>{{ device.dataUsage | gigabyte }} GB</strong>
+                            <span ng-if="!data.isGroupPlan">
+                                <br />@Html.Sitecore().Field("Of") {{device.dataLimit}}<span ng-if="device.dataLimit != 'Unlimited'"> GB</span>
+                            </span>
                         </div>
                         <div class="device-short">
                             <strong>{{ device.dataUsage | gigabyte:1 }} GB</strong>
+                            <span ng-if="!data.isGroupPlan">
+                                <br />@Html.Sitecore().Field("Of") {{device.dataLimit}}<span ng-if="device.dataLimit != 'Unlimited'"> GB</span>
+                            </span>
                         </div>
                     </td>
                     <td>

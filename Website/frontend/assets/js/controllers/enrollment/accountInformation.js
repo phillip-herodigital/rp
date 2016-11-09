@@ -21,6 +21,7 @@ ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', 'enrollmentServi
     $scope.cartHasUtility = enrollmentCartService.cartHasUtility;
     $scope.cartHasMobile = enrollmentCartService.cartHasMobile;
     $scope.cartHasProtective = enrollmentCartService.cartHasProtective;
+    $scope.cartHasGaLocation = enrollmentCartService.cartHasGaLocation;
     $scope.associateInformation = enrollmentService.associateInformation;
 
     $scope.protectiveEnrollmentSettings = function (settings) {

@@ -11,5 +11,7 @@ namespace StreamEnergy.DomainModels.Accounts
         public DateTime LastBillDate { get; set; }
 
         public DateTime NextBillDate { get; set; }
+
+        public bool IsGroupPlan { get; set; }
     }
 }

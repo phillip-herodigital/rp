@@ -1,0 +1,75 @@
+﻿<article class="marketing validate-esn" ng-controller="MobileValidateEsnCtrl" ng-init="esnValidationMessages = @(Html.Action("EsnValidationMessages", "MobileEnrollment").ToHtmlString()); mobileEnrollmentSettings = @(Html.Action("MobileEnrollmentSettings", "Data").ToHtmlString())">
+    <h1>@Html.Sitecore().Field("Intro Text")</h1>
+    <form name="validateESNForm" ng-submit="validateESN()">
+        <div class="wrapper">
+            <div class="grid">
+                <div class="col">
+                    <div class="device-header">
+                        <h2>@Html.Sitecore().Field("Shop Devices Header")</h2>
+                    </div>
+                    <div class="device-content">
+                        <p>@Html.Sitecore().Field("Shop Devices Paragraph")</p>
+                        <p class="devices-image">@Html.Sitecore().Field("Shop Devices Image")</p>
+                        <p class="devices-button">@Html.Sitecore().Field("Shop Devices Button")</p>
+                        <p class="devices-disclaimer">@Html.Sitecore().Field("Shop Devices Disclaimer")</p>
+                    </div>
+                    
+                </div>
+                <div class="col">
+                    <div class="device-header">
+                        <h2>@Html.Sitecore().Field("BYO Devices Header")</h2>
+                    </div>
+                    <div class="device-content">
+                        <p>@Html.Sitecore().Field("BYO Devices Paragraph")</p>
+                        <div loading-indicator>
+                            <div class="item">
+                                <div class="input-group">
+                                    <div class="input-group-control" data-val-error="imeiNumber">
+                                        <label>
+                                            @Html.Sitecore().Field("Enter Number")
+                                            <a href="" ng-click="showModal('instructions/imei');">@Html.Sitecore().Field("What Is This")</a>
+                                        </label>
+                                        <input class="full" name="imeiNumber" type="text" pattern="[0-9]*" ng-model="form.esn" data-val="true" data-val-required placeholder="@Html.Sitecore().Field("Enter Number")" />
+                                    </div>
+                                    <div class="input-group-btn">
+                                        <button type="submit" ng-disabled="validateESNForm.$invalid">@Html.Sitecore().Field("Check Text")</button>
+                                    </div>
+                                </div><!-- /input-group -->
+                                <div class="input-group" ng-if="showCaptcha">
+                                    <div re-captcha ng-model="form.captcha" key="mobileEnrollmentSettings.reCaptchaPublicKey"></div>
+                                </div><!-- /input-group -->
+                                <div>
+                                    <a href="" ng-click="showLightbox('compatible-devices')">@Html.Sitecore().Field("Check Compatible Devices Message")</a>
+                                </div>
+                                <div ng-show="esnError || networkType == 'GSM' || (!supportsLte && networkType == 'CDMA')" class="device-error" ng-cloak>
+                                    <div compile="esnMessage"></div>
+                                    <div ng-if="networkType == 'GSM'">
+                                        @Html.Sitecore().Field("GSM Message")
+                                    </div>
+                                    <div ng-if="!supportsLte && networkType == 'CDMA'">
+                                        @Html.Sitecore().Field("Non LTE CDMA Message")
+                                    </div>
+                                </div>
+                                <div ng-show="esnValid && supportsLte && networkType == 'CDMA'" class="device-success" ng-cloak>
+                                    @Html.Sitecore().Field("ESN Valid Message")
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</article>
+
+<script type="text/ng-template" id="instructions/imei">
+    <div class="mobile-enrollment-modal">
+        <div class="modal-header">
+            <a href="" ng-click="$dismiss()">Close</a>
+            <h2>@Html.Sitecore().Field("Header - IMEI ESN Instructions")</h2>
+        </div>
+        <div class="modal-body">
+            @Html.Sitecore().Field("Content - IMEI ESN Instructions")
+        </div>
+    </div>
+</script>
