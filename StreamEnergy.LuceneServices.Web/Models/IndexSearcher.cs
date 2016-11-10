@@ -41,34 +41,12 @@ namespace StreamEnergy.LuceneServices.Web.Models
             TopScoreDocCollector collector = TopScoreDocCollector.Create(10, true);
             searcher.Search(query, collector);
             ScoreDoc[] hits = collector.TopDocs().ScoreDocs;
-            if (hits.Length == 0)
-            {
-                var newQueryString = queryString
-                    .ToLower()
-                    .Replace("north east", "ne")
-                    .Replace("north west", "nw")
-                    .Replace("south east", "se")
-                    .Replace("south west", "sw")
-                    .Replace("north", "n")
-                    .Replace("south", "s")
-                    .Replace("east", "e")
-                    .Replace("west", "w");
-                exactOrSearchQuery.Add(new TermQuery(new Term("Exact", newQueryString)), Occur.SHOULD);
-                exactOrSearchQuery.Add(new AddressQueryParser("Canonical", analyzer).Parse(newQueryString), Occur.SHOULD);
-                searcher.Search(query, collector);
-                hits = collector.TopDocs().ScoreDocs;
-            }
             for (int i = 0; i < hits.Length; i++)
             {
-                int docId = hits[i].Doc;
-                float score = hits[i].Score;
-
-                Lucene.Net.Documents.Document doc = searcher.Doc(docId);
-
-                yield return Json.Read<StreamEnergy.DomainModels.Enrollments.Location>(doc.Get("Data"));
+                yield return Json.Read<Location>(searcher.Doc(hits[i].Doc).Get("Data"));
 
                 // Simple heuristic to reduce match count when the top choices are a good match and the remaining ones aren't
-                if (state != "GA" && i < hits.Length - 1 && hits[i].Score > 0.5f && hits[i].Score * 0.5f > hits[i + 1].Score)
+                if (i < hits.Length - 1 && hits[i].Score > 0.5f && hits[i].Score * 0.5f > hits[i + 1].Score)
                     break;
             }
         }
