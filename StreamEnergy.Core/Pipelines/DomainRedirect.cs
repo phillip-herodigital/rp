@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Web;
 using Microsoft.Practices.Unity;
-using Sitecore.Data.Fields;
+using System.Linq;
+using System.Collections.Generic;
+using Sitecore.Services.Core.ComponentModel;
 
 namespace StreamEnergy.Pipelines
 {
@@ -20,11 +22,21 @@ namespace StreamEnergy.Pipelines
                 Sitecore.Data.Items.Item settingsItem = settings.GetSettingsItem("Domain Redirect");
                 if (!string.IsNullOrEmpty(settingsItem.Fields["Redirect Enabled"].Value))
                 {
-                    string domain = HttpContext.Current.Request.Url.Host.Replace(".", "_");
-                    var redirects = ((NameValueListField)settingsItem.Fields["Redirects"]).NameValues;
-                    if (!string.IsNullOrEmpty(redirects[domain]))
+                    string domain = HttpContext.Current.Request.Url.Host;
+                    var redirects = (from line in settingsItem.Fields["Redirects"].Value.Split(new string[] { "\r\n", "\n" }, StringSplitOptions.RemoveEmptyEntries)
+                                     let parts = line.Split(new string[] { "=>" }, StringSplitOptions.RemoveEmptyEntries)
+                                     where parts.Length == 2
+                                     select new KeyValuePair<string, string>(parts[0], parts[1])).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+                    if (redirects.ContainsKey(domain))
                     {
-                        HttpContext.Current.Response.RedirectPermanent(HttpUtility.UrlDecode(redirects[domain]));
+                        if (redirects[domain].EndsWith("*"))
+                        {
+                            HttpContext.Current.Response.RedirectPermanent(redirects[domain].Replace("*", "") + HttpContext.Current.Request.Url.PathAndQuery);
+                        }
+                        else
+                        {
+                            HttpContext.Current.Response.RedirectPermanent(redirects[domain]);
+                        }
                     }
                 }
             }
