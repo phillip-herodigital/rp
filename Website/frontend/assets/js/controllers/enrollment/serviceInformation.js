@@ -24,6 +24,7 @@ ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$location', '$f
             return values;
         });
     };
+
     $scope.isDuplicateAddress = $scope.$parent.isDuplicateAddress;
 
     //Checking to see when the active service address has been updated
