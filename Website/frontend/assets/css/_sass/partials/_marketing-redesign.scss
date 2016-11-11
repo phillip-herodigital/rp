@@ -1311,7 +1311,7 @@ article.win-back-2 {
 		color: #58595b;
 		font-size: 18px;
 		text-align: center;
-		margin-bottom: 20px;
+		margin-bottom: 10px;
 		div {
 			background: transparent;
             background-image: none;
@@ -1325,6 +1325,11 @@ article.win-back-2 {
             margin-bottom: 20px;
 		}
 	}
+    .call {
+        font-size: 20px;
+        text-align: center;
+        margin-bottom: 40px;
+    }
     p.rate-disclaimer {
         width: 65%;
         text-align: center;

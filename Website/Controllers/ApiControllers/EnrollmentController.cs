@@ -497,7 +497,7 @@ FROM [SwitchBack] WHERE ESIID=@esiId";
                             stateHelper.Context.ContactInfo = userContext.ContactInfo;
                             stateHelper.Context.SecondaryContactInfo = userContext.SecondaryContactInfo;
                             stateHelper.Context.MailingAddress = userContext.MailingAddress;
-                            stateHelper.Context.SocialSecurityNumber = userContext.SocialSecurityNumber;
+                            stateHelper.Context.SocialSecurityNumber = "00000" + userContext.SocialSecurityNumber;
                             stateHelper.Context.Services = userContext.Services;
                             stateHelper.Context.IsSinglePage = true;
                             await stateMachine.ContextUpdated();
@@ -1152,7 +1152,7 @@ FROM [SwitchBack] WHERE ESIID=@esiId";
             stateHelper.State = typeof(DomainModels.Enrollments.AccountInformationState);
 
             // Verify the SSN
-            if (stateMachine.Context.SocialSecurityNumber != request.SocialSecurityNumber.Substring(request.SocialSecurityNumber.Length - 4)) 
+            if (stateMachine.Context.SocialSecurityNumber.Substring(stateMachine.Context.SocialSecurityNumber.Length - 4) != request.SocialSecurityNumber.Substring(request.SocialSecurityNumber.Length - 4)) 
             {
                 var ineligibleResult = ClientData(typeof(DomainModels.Enrollments.PaymentInfoState));
                 ineligibleResult.Validations = Enumerable.Repeat(new TranslatedValidationResult { MemberName = "SSN Mismatch", Text = "SSN Mismatch" }, 1);
