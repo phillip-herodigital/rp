@@ -267,14 +267,18 @@
                                         <span ng-if="planSelection.selectedOffers[typedOffers.key] == plan.id" class="selected-icon">
                                             <i class="icon-check"></i>
                                         </span>
-                                        {{plan.name}}
+                                        <span ng-if="!plan.partialName">{{plan.name}}</span>
+                                        <span ng-if="plan.partialName">{{plan.partialName}}</span>
                                     </td>
                                 </tr>
                                 <tr ng-hide="plan.hidePlan">
                                     <td class="plan-name hide-small">
                                         <span ng-show="plan.rateType == 'fixed'" class="fixed">@planSelectionItem["Electricity Fixed"]</span>
                                         <span class="variable" ng-show="plan.rateType == 'variable'">@planSelectionItem["Electricity Variable"]</span>
-                                        <div class="plan-title">{{plan.name}}</div>
+                                        <div class="plan-title">
+                                            <span ng-if="!plan.partialName">{{plan.name}}</span>
+                                            <span ng-if="plan.partialName">{{plan.partialName}}</span>
+                                        </div>
                                         <div ng-if="plan.includesThermostat" class="includes-thermostat">
                                             @Html.Raw(@planSelectionItem["Thermostat Text"])
                                         </div>
@@ -381,6 +385,7 @@
                                                 <li><a ng-href="{{plan.documents.electricityFactsLabel}}" target="_blank">@planSelectionItem["Electricity Facts Label Document"]</a></li>
                                                 <li><a ng-href="{{plan.documents.termsOfService}}" target="_blank">@planSelectionItem["Terms Of Service Document"]</a></li>
                                                 <li><a ng-href="{{plan.documents.yourRightsAsACustomer}}" target="_blank">@planSelectionItem["Your Rights As A Customer Document"]</a></li>
+                                                <li ng-if="plan.documents.disclaimer"><a ng-href="{{plan.documents.disclaimer}}" target="_blank">@planSelectionItem["Disclaimer"]</a></li>
                                             </ul>
                                             <dl class="plan-selection-fees">
                                                 <dt>@planSelectionItem["Stream Energy Charge Label"]</dt>
@@ -429,14 +434,18 @@
                                         <span ng-if="planSelection.selectedOffers[typedOffers.key] == plan.id" class="selected-icon">
                                             <i class="icon-check"></i>
                                         </span>
-                                        {{plan.name}}
+                                        <span ng-if="!plan.partialName">{{plan.name}}</span>
+                                        <span ng-if="plan.partialName">{{plan.partialName}}</span>
                                     </td>
                                 </tr>
                                 <tr ng-hide="plan.hidePlan">
                                     <td class="plan-name hide-small">
                                         <span ng-show="plan.rateType == 'fixed'" class="fixed">@planSelectionItem["Gas Fixed"]</span>
                                         <span class="variable" ng-show="plan.rateType == 'variable'">@planSelectionItem["Gas Variable"]</span>
-                                        <div class="plan-title">{{plan.name}}</div>
+                                        <div class="plan-title">
+                                            <span ng-if="!plan.partialName">{{plan.name}}</span>
+                                            <span ng-if="plan.partialName">{{plan.partialName}}</span>
+                                        </div>
                                         <div ng-if="plan.includesSkybell" class="includes-skybell">
                                             @Html.Raw(@planSelectionItem["Skybell Text"])
                                         </div>
@@ -534,6 +543,7 @@
                                             <ul class="plan-selection-list clearfix">
                                                 <li><a ng-href="{{plan.documents.letterOfAgency}}" target="_blank">@planSelectionItem["Letter of Agency Document"]</a></li>
                                                 <li><a ng-href="{{plan.documents.termsAndDisclosures}}" target="_blank">@planSelectionItem["Terms and Disclosures Document"]</a></li>
+                                                <li ng-if="plan.documents.disclaimer"><a ng-href="{{plan.documents.disclaimer}}" target="_blank">@planSelectionItem["Disclaimer"]</a></li>
                                             </ul>
                                             <dl class="plan-selection-fees ga-plan-selection-fees">
                                                 <dt>@planSelectionItem["Monthly Service Charge Label"]</dt>

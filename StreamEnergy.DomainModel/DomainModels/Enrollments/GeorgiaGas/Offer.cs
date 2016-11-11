@@ -39,7 +39,7 @@ namespace StreamEnergy.DomainModels.Enrollments.GeorgiaGas
         public EnrollmentType EnrollmentType { get; set; }
 
         public string Name { get; set; }
-
+        public string PartialName { get; set; }
         public string Description { get; set; }
 
         public RateType RateType { get; set; }
