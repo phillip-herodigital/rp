@@ -112,6 +112,7 @@ namespace StreamEnergy.Services.Clients
                               EnrollmentType = serviceStatus.EnrollmentType,
 
                               Name = productData.Fields["Name"],
+                              PartialName = productData.Fields["Partial Name"],
                               Description = System.Web.HttpUtility.HtmlEncode(productData.Fields["Description"]),
 
                               Rate = ((IEnumerable<dynamic>)product.Rates).First(r => r.EnergyType == "Average").Value * 100,

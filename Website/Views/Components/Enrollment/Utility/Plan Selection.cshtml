@@ -117,14 +117,18 @@
                         <span ng-if="planSelection.selectedOffers[typedOffers.key] == plan.id" class="selected-icon">
                             <i class="icon-check"></i>
                         </span>
-                        {{plan.name}}
+                        <span ng-if="!plan.partialName">{{plan.name}}</span>
+                        <span ng-if="plan.partialName">{{plan.partialName}}</span>
                     </td>
                 </tr>
                 <tr ng-hide="plan.hidePlan">
                     <td class="plan-name hide-small">
                         <span ng-show="plan.rateType == 'fixed'" class="fixed">@Html.Sitecore().Field("Electricity Fixed")</span>
                         <span class="variable" ng-show="plan.rateType == 'variable'">@Html.Sitecore().Field("Electricity Variable")</span>
-                        <div class="plan-title">{{plan.name}}</div>
+                        <div class="plan-title">
+                            <span ng-if="!plan.partialName">{{plan.name}}</span>
+                            <span ng-if="plan.partialName">{{plan.partialName}}</span>
+                        </div>
                         <div ng-if="plan.includesThermostat" class="includes-thermostat">
                             @Html.Sitecore().Field("Thermostat Text")
                         </div>
@@ -290,14 +294,18 @@
                         <span ng-if="planSelection.selectedOffers[typedOffers.key] == plan.id" class="selected-icon">
                             <i class="icon-check"></i>
                         </span>
-                        {{plan.name}}
+                        <span ng-if="!plan.partialName">{{plan.name}}</span>
+                        <span ng-if="plan.partialName">{{plan.partialName}}</span>
                     </td>
                 </tr>
                 <tr ng-hide="plan.hidePlan">
                     <td class="plan-name hide-small">
                         <span ng-show="plan.rateType == 'fixed'" class="fixed">@Html.Sitecore().Field("Gas Fixed")</span>
                         <span class="variable" ng-show="plan.rateType == 'variable'">@Html.Sitecore().Field("Gas Variable")</span>
-                        <div class="plan-title">{{plan.name}}</div>
+                        <div class="plan-title">
+                            <span ng-if="!plan.partialName">{{plan.name}}</span>
+                            <span ng-if="plan.partialName">{{plan.partialName}}</span>
+                        </div>
                         <div ng-if="plan.includesSkybell" class="includes-skybell">
                             @Html.Sitecore().Field("Skybell Text")
                         </div>
@@ -325,7 +333,7 @@
                         </span>
                         <button class="enrollment-btn" data-btn-radio="'{{plan.id}}'" data-uncheckable ng-class="{ 'secondary': planSelection.selectedOffers[typedOffers.key] == plan.id }" ng-model="planSelection.selectedOffers[typedOffers.key]" ng-click="scrollFix()" ng-if="!plan.includesSkybell">
                             <span ng-if="planSelection.selectedOffers[typedOffers.key] == plan.id">@Html.Sitecore().Field("Selected Button")</span>
-                            <span ng-if="planSelection.selectedOffers[typedOffers.key] != plan.id  && !plan.includesSkybell"">@Html.Sitecore().Field("Gas Button")</span>
+                            <span ng-if="planSelection.selectedOffers[typedOffers.key] != plan.id  && !plan.includesSkybell" ">@Html.Sitecore().Field("Gas Button")</span>
                         </button>
                         <div ng-if="plan.includesSkybell" class="skybell-button" ng-init="showOptions = false; associatedPlan = getAssociatedPlan(plan)">
                             <div ng-if="planSelection.selectedOffers[typedOffers.key] == plan.id">

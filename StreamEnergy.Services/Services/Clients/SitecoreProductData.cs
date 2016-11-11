@@ -48,6 +48,7 @@ namespace StreamEnergy.Services.Clients
                                 { "Hide Plan", item["Hide Plan"]},
                                 { "Is Disabled", item["Is Disabled"]},
                                 { "Name", item["Product Name"] },
+                                { "Partial Name", item["Partial Name"] },
                                 { "Description", LoadProductDescription(providerName, item) },
                                 { "Minimum Usage Fee", item["Minimum Usage Fee"] },
                                 { "TDU Charges", item["TDU Charges"] },
@@ -95,6 +96,7 @@ namespace StreamEnergy.Services.Clients
                         Fields = new NameValueCollection
                         {
                             { "Name", item["Product Name"] },
+                            { "Partial Name", item["Partial Name"] },
                             { "Description", item["Product Description"] },
                             { "Monthly Service Charge", item["Monthly Service Charge"] },
                             { "Early Termination Fee", item["Early Termination Fee"] },

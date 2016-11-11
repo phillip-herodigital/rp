@@ -267,14 +267,18 @@
                                         <span ng-if="planSelection.selectedOffers[typedOffers.key] == plan.id" class="selected-icon">
                                             <i class="icon-check"></i>
                                         </span>
-                                        {{plan.name}}
+                                        <span ng-if="!plan.partialName">{{plan.name}}</span>
+                                        <span ng-if="plan.partialName">{{plan.partialName}}</span>
                                     </td>
                                 </tr>
                                 <tr ng-hide="plan.hidePlan">
                                     <td class="plan-name hide-small">
                                         <span ng-show="plan.rateType == 'fixed'" class="fixed">@planSelectionItem["Electricity Fixed"]</span>
                                         <span class="variable" ng-show="plan.rateType == 'variable'">@planSelectionItem["Electricity Variable"]</span>
-                                        <div class="plan-title">{{plan.name}}</div>
+                                        <div class="plan-title">
+                                            <span ng-if="!plan.partialName">{{plan.name}}</span>
+                                            <span ng-if="plan.partialName">{{plan.partialName}}</span>
+                                        </div>
                                         <div ng-if="plan.includesThermostat" class="includes-thermostat">
                                             @Html.Raw(@planSelectionItem["Thermostat Text"])
                                         </div>
@@ -430,14 +434,18 @@
                                         <span ng-if="planSelection.selectedOffers[typedOffers.key] == plan.id" class="selected-icon">
                                             <i class="icon-check"></i>
                                         </span>
-                                        {{plan.name}}
+                                        <span ng-if="!plan.partialName">{{plan.name}}</span>
+                                        <span ng-if="plan.partialName">{{plan.partialName}}</span>
                                     </td>
                                 </tr>
                                 <tr ng-hide="plan.hidePlan">
                                     <td class="plan-name hide-small">
                                         <span ng-show="plan.rateType == 'fixed'" class="fixed">@planSelectionItem["Gas Fixed"]</span>
                                         <span class="variable" ng-show="plan.rateType == 'variable'">@planSelectionItem["Gas Variable"]</span>
-                                        <div class="plan-title">{{plan.name}}</div>
+                                        <div class="plan-title">
+                                            <span ng-if="!plan.partialName">{{plan.name}}</span>
+                                            <span ng-if="plan.partialName">{{plan.partialName}}</span>
+                                        </div>
                                         <div ng-if="plan.includesSkybell" class="includes-skybell">
                                             @Html.Raw(@planSelectionItem["Skybell Text"])
                                         </div>
