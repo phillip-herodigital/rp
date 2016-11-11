@@ -381,6 +381,7 @@
                                                 <li><a ng-href="{{plan.documents.electricityFactsLabel}}" target="_blank">@planSelectionItem["Electricity Facts Label Document"]</a></li>
                                                 <li><a ng-href="{{plan.documents.termsOfService}}" target="_blank">@planSelectionItem["Terms Of Service Document"]</a></li>
                                                 <li><a ng-href="{{plan.documents.yourRightsAsACustomer}}" target="_blank">@planSelectionItem["Your Rights As A Customer Document"]</a></li>
+                                                <li ng-if="plan.documents.disclaimer"><a ng-href="{{plan.documents.disclaimer}}" target="_blank">@planSelectionItem["Disclaimer"]</a></li>
                                             </ul>
                                             <dl class="plan-selection-fees">
                                                 <dt>@planSelectionItem["Stream Energy Charge Label"]</dt>
@@ -534,6 +535,7 @@
                                             <ul class="plan-selection-list clearfix">
                                                 <li><a ng-href="{{plan.documents.letterOfAgency}}" target="_blank">@planSelectionItem["Letter of Agency Document"]</a></li>
                                                 <li><a ng-href="{{plan.documents.termsAndDisclosures}}" target="_blank">@planSelectionItem["Terms and Disclosures Document"]</a></li>
+                                                <li ng-if="plan.documents.disclaimer"><a ng-href="{{plan.documents.disclaimer}}" target="_blank">@planSelectionItem["Disclaimer"]</a></li>
                                             </ul>
                                             <dl class="plan-selection-fees ga-plan-selection-fees">
                                                 <dt>@planSelectionItem["Monthly Service Charge Label"]</dt>

@@ -54,6 +54,7 @@ namespace StreamEnergy.Services.Clients
                                 { "Energy Facts Label", (providerData != null) ? ((Sitecore.Data.Fields.FileField)providerData.Fields["Energy Facts Label"]).Src : null },
                                 { "Terms Of Service", (providerData != null) ? ((Sitecore.Data.Fields.FileField)providerData.Fields["Terms Of Service"]).Src : null },
                                 { "Your Rights As A Customer", (providerData != null) ? ((Sitecore.Data.Fields.FileField)providerData.Fields["Your Rights As A Customer"]).Src : null },
+                                { "Disclaimer", (providerData != null) ? ((Sitecore.Data.Fields.FileField)providerData.Fields["Disclaimer"]).Src : null },
                             },
                             Footnotes = LoadFootnotes(new[] { item, providerData }, new[] { "Rate Footnote", "Term Footnote", "Early Termination Fee Footnote" }).ToArray()
                         };
@@ -107,6 +108,7 @@ namespace StreamEnergy.Services.Clients
                             { "Hide Plan", item["Hide Plan"]},
                             { "Letter of Agency", ((Sitecore.Data.Fields.FileField)item.Fields["Letter of Agency"]).Src },
                             { "Terms and Disclosures", ((Sitecore.Data.Fields.FileField)item.Fields["Terms and Disclosures"]).Src },
+                            { "Disclaimer", ((Sitecore.Data.Fields.FileField)item.Fields["Disclaimer"]).Src },
                         },
                         Footnotes = LoadFootnotes(new[] { item }, new[] { "Rate Footnote", "Term Footnote", "Early Termination Fee Footnote" }).ToArray()
                     };

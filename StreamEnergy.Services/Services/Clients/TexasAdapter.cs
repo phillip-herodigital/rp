@@ -102,6 +102,7 @@ namespace StreamEnergy.Services.Clients
                           let product = products.First()
                           let productData = sitecoreProductData.GetTexasElectricityProductData(product.ProductCode.ToString(), product.Provider.Name.ToString())
                           where productData != null
+                          let hasDisclaimer = !string.IsNullOrEmpty(productData.Fields["Disclaimer"])
                           select new TexasElectricity.Offer
                           {
                               Id = product.Provider["Name"].ToString() + "/" + product.ProductId,
@@ -136,7 +137,13 @@ namespace StreamEnergy.Services.Clients
 
                               Footnotes = productData.Footnotes,
 
-                              Documents = new Dictionary<string, Uri> 
+                              Documents = hasDisclaimer ? new Dictionary<string, Uri>
+                              {
+                                  { "ElectricityFactsLabel", new Uri(productData.Fields["Energy Facts Label"], UriKind.Relative) },
+                                  { "TermsOfService", new Uri(productData.Fields["Terms Of Service"], UriKind.Relative) },
+                                  { "Disclaimer", new Uri(productData.Fields["Disclaimer"], UriKind.Relative) },
+                                  { "YourRightsAsACustomer", new Uri(productData.Fields["Your Rights As A Customer"], UriKind.Relative) },
+                              } : new Dictionary<string, Uri>
                               {
                                   { "ElectricityFactsLabel", new Uri(productData.Fields["Energy Facts Label"], UriKind.Relative) },
                                   { "TermsOfService", new Uri(productData.Fields["Terms Of Service"], UriKind.Relative) },
