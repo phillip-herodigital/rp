@@ -18,6 +18,28 @@ ngApp.controller('AcctYourUtilityPlanCtrl', ['$scope', '$rootScope', '$http', '$
         return !plan.isDisabled;
     };
 
+    $scope.getAssociatedPlan = function (plan) {
+        return _.find($scope.currentLocationInfo().offerInformationByType[0].value.availableOffers, function (availableOffer) {
+            if (plan.tdu) {
+                return availableOffer.associatedPlanID === plan.id.replace(plan.tdu + "/", "");
+            }
+            return availableOffer.associatedPlanID === plan.code;
+        });
+    }
+
+    $scope.selectAssociatedOffer = function (plan, associatedPlan) {
+        plan.hidePlan = true;
+        associatedPlan.hidePlan = false;
+        var planIndex = _.findIndex($scope.currentLocationInfo().offerInformationByType[0].value.availableOffers, function (availableOffer) {
+            return availableOffer.id === plan.id;
+        });
+        var associatedPlanIndex = _.findIndex($scope.currentLocationInfo().offerInformationByType[0].value.availableOffers, function (availableOffer) {
+            return availableOffer.id === associatedPlan.id;
+        });
+        $scope.currentLocationInfo().offerInformationByType[0].value.availableOffers[planIndex] = associatedPlan;
+        $scope.currentLocationInfo().offerInformationByType[0].value.availableOffers[associatedPlanIndex] = plan;
+    }
+
     $http.get('/api/account/getAccounts').success(function (data, status, headers, config) {
         $scope.accounts = _.filter(data, function (acct) {
             return !$scope.filterAccountType || acct.accountType.toLowerCase() == $scope.filterAccountType.toLowerCase();
