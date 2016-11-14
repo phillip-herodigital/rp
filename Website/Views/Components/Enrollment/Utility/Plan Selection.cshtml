@@ -359,7 +359,7 @@
                         </div>
                     </td>
                 </tr>
-                <tr class="hide-medium-large">
+                <tr class="hide-medium-large" ng-hide="plan.hidePlan">
                     <td class="plan-actions" colspan="5">
                         <a class="view-details" href="" ng-click="isOpen = !isOpen" ng-class="{'collapsed': !isOpen}">
                             <span ng-if="!isOpen">@Html.Sitecore().Field("Gas View Details") <i class="icon-blue-arrow-down"></i></span>
