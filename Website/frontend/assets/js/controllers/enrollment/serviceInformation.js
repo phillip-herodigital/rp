@@ -4,7 +4,7 @@
  */
 ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$http', '$location', '$filter', 'enrollmentService', 'enrollmentCartService', 'enrollmentStepsService', 'analytics', function ($scope, $http, $location, $filter, enrollmentService, enrollmentCartService, enrollmentStepsService, analytics) {
     if (!$scope.data || !$scope.data.serviceState) {
-        var state = getParameterByName("St")
+        var state = getParameterByName("State")
         if (state) {
             $scope.data = { serviceState: state };
         }

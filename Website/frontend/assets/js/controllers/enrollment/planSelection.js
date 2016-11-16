@@ -164,10 +164,14 @@ ngApp.controller('EnrollmentPlanSelectionCtrl', ['$scope', 'enrollmentService', 
         }
 
         var planId = ($scope.planSelection.selectedOffers.TexasElectricity ||
-                      $scope.planSelection.selectedOffers.NewJerseyElectricity ||
-                      $scope.planSelection.selectedOffers.NewYorkElectricity ||
                       $scope.planSelection.selectedOffers.GeorgiaGas ||
+                      $scope.planSelection.selectedOffers.NewJerseyElectricity ||
                       $scope.planSelection.selectedOffers.NewJerseyGas ||
+                      $scope.planSelection.selectedOffers.PennsylvaniaGas ||
+                      $scope.planSelection.selectedOffers.PennsylvaniaElectricity ||
+                      $scope.planSelection.selectedOffers.MarylandGas ||
+                      $scope.planSelection.selectedOffers.MarylandElectricity ||
+                      $scope.planSelection.selectedOffers.NewYorkElectricity ||
                       $scope.planSelection.selectedOffers.NewYorkGas);
 
         var i = _.findIndex($scope.currentLocationInfo().offerInformationByType[0].value.availableOffers, function (o) {
