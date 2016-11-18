@@ -704,6 +704,7 @@ namespace StreamEnergy.Services.Clients
             }
             
             bool hasAllMobile = originalSaveState.Results.All(o => o.Offer.OfferType == "Mobile");
+            bool hasAllProtective = originalSaveState.Results.All(o => o.Offer.OfferType == "Protective");
 
             var response = await streamConnectClient.PostAsJsonAsync("/api/v1-1/customers/" + streamCustomerId.ToString() + "/enrollments/finalize", new {
                 GlobalCustomerID = streamCustomerId,
@@ -724,7 +725,7 @@ namespace StreamEnergy.Services.Clients
                 InitialPayments = initialPayments,
                 RequireReview = internalContext.IdentityCheck == null || !internalContext.IdentityCheck.Data.IdentityAccepted,
                 TrustEvCaseId = context.TrustEvCaseId,
-                ShouldFailOnPaymentFailure =  hasAllMobile,
+                ShouldFailOnPaymentFailure =  hasAllMobile || hasAllProtective,
                 EnableAutoPay = context.EnrolledInAutoPay,
                 AddLineAccountNumber = context.AddLineAccountNumber ?? null
             });

@@ -27,9 +27,13 @@
     {
         selectedState = states.AllKeys.First();
     }
+
+    var classes = item.Fields["CSS Classes"].Value;
+
+    var renewLink = string.IsNullOrEmpty(item.Fields["Renew Link"].Value) ? "" : item.Fields["Renew Link"].Value;
 }
 
-<article class="marketing state-tabs states-enroll" state-selector="@selectedState" ng-init='stateEnrollData = @Html.Raw(stateEnrollData.ToString(Formatting.None)); selectedStateKey = "@selectedState";'>
+<article class="marketing state-tabs states-enroll @classes" state-selector="@selectedState" ng-init='stateEnrollData = @Html.Raw(stateEnrollData.ToString(Formatting.None)); selectedStateKey = "@selectedState";'>
     <div class="wrapper grid">
         <div class="col"><h3>@Html.Sitecore().Field("Header")</h3></div>
         <div class="col">
@@ -37,6 +41,10 @@
             <div class="input-group-btn" id="state-select" dropdown-select dropdown-items="stateEnrollData" value="selectedStateKey" data-alignment="right"></div>
             <a class="button" ng-href="{{ selectedState.enrollmentURL }}">@Html.Sitecore().Field("Get Started")</a>
         </div>
+        @if (!string.IsNullOrEmpty(renewLink))
+        {
+            <div class="col">@Html.Sitecore().Field("Exisiting Customers") <a class="button renew" href="@renewLink">@Html.Sitecore().Field("Renew Now")</a></div>
+        }
         <div class="col"><a data-ng-href="{{ selectedState.rateURL }}" target="_blank">@Html.Sitecore().Field("View Rates")</a></div>
     </div>
 </article>

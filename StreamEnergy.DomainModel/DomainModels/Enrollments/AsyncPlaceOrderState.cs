@@ -56,7 +56,8 @@ namespace StreamEnergy.DomainModels.Enrollments
                     internalContext.PlaceOrderResult = internalContext.PlaceOrderAsyncResult.Data;
                     IEnumerable<Account> accounts = Enumerable.Empty<Account>(); 
                     bool hasAllMobile = internalContext.PlaceOrderResult.All(o => o.Offer.OfferType == "Mobile");
-                    if (hasAllMobile && internalContext.PlaceOrderResult.Any(o => o.Details.PaymentConfirmation.Status != "Success"))
+                    bool hasAllProtective = internalContext.PlaceOrderResult.All(o => o.Offer.OfferType == "Protective");
+                    if ((hasAllMobile || hasAllProtective) && internalContext.PlaceOrderResult.Any(o => o.Details.PaymentConfirmation.Status != "Success"))
                     {
                         context.PaymentError = true;
                         return typeof(CompleteOrderState);

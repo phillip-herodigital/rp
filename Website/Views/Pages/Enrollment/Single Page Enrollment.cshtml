@@ -16,7 +16,7 @@
     <div id="utilityFlowService" class="enrollment" ng-controller="EnrollmentServiceInformationCtrl"></div>
     <div id="accountInformation" class="enrollment showCart" ng-controller="EnrollmentSinglePageCtrl" ng-init="utilityEnrollment.requestedPlanId = '@planID';">
         @Html.Sitecore().Placeholder("landing page")
-        <div id="GetStarted" ng-controller="MobileEnrollmentProgressBarCtrl" class="enrollment_progress-bar @Html.Sitecore().Field("Header Class")">
+        <div id="GetStarted" ng-controller="EnrollmentProgressBarCtrl" class="enrollment_progress-bar @Html.Sitecore().Field("Header Class")">
             <div class="inner clearfix">
                 <div class="step-description">
                     <div class="stepCount">@Html.Sitecore().Field("Header Text")</div>

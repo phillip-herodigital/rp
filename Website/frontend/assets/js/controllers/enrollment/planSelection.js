@@ -15,6 +15,28 @@ ngApp.controller('EnrollmentPlanSelectionCtrl', ['$scope', 'enrollmentService', 
         return !plan.isDisabled;
     };
 
+    $scope.getAssociatedPlan = function(plan) {
+        return _.find($scope.currentLocationInfo().offerInformationByType[0].value.availableOffers, function (availableOffer) {
+            if (plan.tdu) {
+                return availableOffer.associatedPlanID === plan.id.replace(plan.tdu + "/", "");
+            }
+            return availableOffer.associatedPlanID === plan.code;
+        });
+    }
+
+    $scope.selectAssociatedOffer = function (plan, associatedPlan) {
+        plan.hidePlan = true;
+        associatedPlan.hidePlan = false;
+        var planIndex = _.findIndex($scope.currentLocationInfo().offerInformationByType[0].value.availableOffers, function (availableOffer) {
+            return availableOffer.id === plan.id;
+        });
+        var associatedPlanIndex = _.findIndex($scope.currentLocationInfo().offerInformationByType[0].value.availableOffers, function (availableOffer) {
+            return availableOffer.id === associatedPlan.id;
+        });
+        $scope.currentLocationInfo().offerInformationByType[0].value.availableOffers[planIndex] = associatedPlan;
+        $scope.currentLocationInfo().offerInformationByType[0].value.availableOffers[associatedPlanIndex] = plan;
+    }
+
     //We need this for the button select model in the ng-repeats
     $scope.$watch(function () {
         var temp = enrollmentCartService.getActiveService();
@@ -128,23 +150,9 @@ ngApp.controller('EnrollmentPlanSelectionCtrl', ['$scope', 'enrollmentService', 
      * @return {Boolean} [description]
      */
     $scope.isFormValid = function () {
-        var isValid = true;
-
-        //Simple check on length first
-        if($scope.sizeOf($scope.planSelection.selectedOffers) == 00) {
-            isValid = false;
-        }
-
-        var allNull = true;
-        //Then check if any values are null in case of deselection
-        angular.forEach($scope.planSelection.selectedOffers, function(value, key) {
-            if(value) {
-                allNull = false;
-            }
+        return $scope.sizeOf($scope.planSelection.selectedOffers) != 00 && _.some($scope.planSelection.selectedOffers, function (value) {
+            return value != null;
         });
-        isValid = isValid && !allNull;
-
-        return isValid;
     };
 
     /**
