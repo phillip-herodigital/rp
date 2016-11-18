@@ -62,6 +62,22 @@ namespace StreamEnergy.MyStream.Conditions
                 {
                     return ((NewJerseyElectricityAccount)account).IncludesThermostat;
                 }
+                if (account is NewYorkElectricityAccount)
+                {
+                    return ((NewYorkElectricityAccount)account).IncludesThermostat;
+                }
+                if (account is DCElectricityAccount)
+                {
+                    return ((DCElectricityAccount)account).IncludesThermostat;
+                }
+                if (account is MarylandElectricityAccount)
+                {
+                    return ((MarylandElectricityAccount)account).IncludesThermostat;
+                }
+                if (account is PennsylvaniaElectricityAccount)
+                {
+                    return ((PennsylvaniaElectricityAccount)account).IncludesThermostat;
+                }
                 else return false;
             }
             catch (Exception)

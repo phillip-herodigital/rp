@@ -18,10 +18,10 @@
                                     @Html.Sitecore().Field("GA Invalid Address Message Text")
                                 </div>
                                 <div class="notice error" ng-if="data.serviceState != 'GA' && data.serviceState != 'TX' && !commercialAddress">
-                                    The address you selected is not a valid service address.
+                                    @Html.Sitecore().Field("NE Invalid Address Message Text")
                                 </div>
                                 <div class="notice alert" ng-if="commercialAddress">
-                                    For commercial enrollments go somewhere else.
+                                    @Html.Sitecore().Field("NE Commercial Address Message Text")
                                 </div>
                                 <hr class="content-divider" />
                             </div>
