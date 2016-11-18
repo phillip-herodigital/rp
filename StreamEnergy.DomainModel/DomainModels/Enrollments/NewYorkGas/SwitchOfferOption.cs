@@ -14,7 +14,7 @@ namespace StreamEnergy.DomainModels.Enrollments.NewYorkGas
         
         public override string OptionType
         {
-            get { return SwitchOfferOption.Qualifier; }
+            get { return Qualifier; }
         }
 
         [Required]
@@ -30,7 +30,5 @@ namespace StreamEnergy.DomainModels.Enrollments.NewYorkGas
             }
             base.Sanitize();
         }
-
-
     }
 }

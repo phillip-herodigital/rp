@@ -32,7 +32,7 @@ namespace StreamEnergy.DomainModels.Enrollments.NewYorkGas
         {
             get
             {
-                return CommercialQuoteOption.Qualifier;
+                return Qualifier;
             }
         }
     }

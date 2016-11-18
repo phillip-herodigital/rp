@@ -8,6 +8,8 @@ namespace StreamEnergy.DomainModels.Enrollments.NewYorkElectricity
     [Serializable]
     public class CommercialQuoteOption : OfferOption
     {
+        public new const string Qualifier = "NewYorkElectricityCommercialQuote";
+
         public DateTime ConnectDate { get; set; }
 
         // Note - do not use this fee other than for display; it can be affected by the client
@@ -17,10 +19,7 @@ namespace StreamEnergy.DomainModels.Enrollments.NewYorkElectricity
 
         public override string OptionType
         {
-            get
-            {
-                return CommercialQuoteOption.Qualifier;
-            }
+            get { return Qualifier; }
         }
     }
 }

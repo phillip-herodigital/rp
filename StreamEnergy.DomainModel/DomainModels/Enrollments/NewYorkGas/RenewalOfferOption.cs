@@ -15,17 +15,6 @@ namespace StreamEnergy.DomainModels.Enrollments.NewYorkGas
             get { return Qualifier; }
         }
 
-        public override string PreviousProvider
-        {
-            get
-            {
-                return PreviousProvider;
-            }
-
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
+        public override string PreviousProvider { get; set; }
     }
 }

@@ -23,10 +23,6 @@ namespace StreamEnergy.DomainModels.Enrollments.NewJerseyGas
             throw new NotImplementedException();
         }
 
-        public abstract string OptionType
-        {
-            get;
-        }
-
+        public abstract string OptionType { get; }
     }
 }

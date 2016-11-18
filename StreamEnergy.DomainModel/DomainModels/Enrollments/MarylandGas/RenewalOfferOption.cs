@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace StreamEnergy.DomainModels.Enrollments.MarylandGas
 {
@@ -15,17 +12,6 @@ namespace StreamEnergy.DomainModels.Enrollments.MarylandGas
             get { return Qualifier; }
         }
 
-        public override string PreviousProvider
-        {
-            get
-            {
-                return PreviousProvider;
-            }
-
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
+        public override string PreviousProvider { get; set; }
     }
 }

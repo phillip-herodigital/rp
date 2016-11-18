@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StreamEnergy.DomainModels.Enrollments.MarylandGas
 {
@@ -23,10 +19,6 @@ namespace StreamEnergy.DomainModels.Enrollments.MarylandGas
             throw new NotImplementedException();
         }
 
-        public abstract string OptionType
-        {
-            get;
-        }
-
+        public abstract string OptionType { get; }
     }
 }

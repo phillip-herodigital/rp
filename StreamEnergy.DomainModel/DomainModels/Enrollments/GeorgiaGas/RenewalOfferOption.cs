@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace StreamEnergy.DomainModels.Enrollments.GeorgiaGas
 {
@@ -12,7 +9,7 @@ namespace StreamEnergy.DomainModels.Enrollments.GeorgiaGas
 
         public override string OptionType
         {
-            get { return RenewalOfferOption.Qualifier; }
+            get { return Qualifier; }
         }
 
         public override string PreviousProvider { get; set; }

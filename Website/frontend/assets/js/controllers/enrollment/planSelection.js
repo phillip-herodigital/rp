@@ -171,6 +171,7 @@ ngApp.controller('EnrollmentPlanSelectionCtrl', ['$scope', 'enrollmentService', 
                       $scope.planSelection.selectedOffers.PennsylvaniaElectricity ||
                       $scope.planSelection.selectedOffers.MarylandGas ||
                       $scope.planSelection.selectedOffers.MarylandElectricity ||
+                      $scope.planSelection.selectedOffers.DCElectricity ||
                       $scope.planSelection.selectedOffers.NewYorkElectricity ||
                       $scope.planSelection.selectedOffers.NewYorkGas);
 

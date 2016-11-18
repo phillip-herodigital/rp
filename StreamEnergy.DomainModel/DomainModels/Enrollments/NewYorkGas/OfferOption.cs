@@ -9,12 +9,11 @@ namespace StreamEnergy.DomainModels.Enrollments.NewYorkGas
     [Serializable]
     public abstract class OfferOption : IOfferOption
     {
-        public const string Qualifier = "NewYorkGas";
-
         void ISanitizable.Sanitize()
         {
             Sanitize();
         }
+        public const string Qualifier = "NewYorkGas";
 
         public abstract string PreviousProvider { get; set; }
 
@@ -23,10 +22,6 @@ namespace StreamEnergy.DomainModels.Enrollments.NewYorkGas
             throw new NotImplementedException();
         }
 
-        public abstract string OptionType
-        {
-            get;
-        }
-
+        public abstract string OptionType { get; }
     }
 }
