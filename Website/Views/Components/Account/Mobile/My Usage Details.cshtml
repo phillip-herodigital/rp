@@ -100,15 +100,13 @@
                             @{
                                 if (!string.IsNullOrEmpty(Html.Sitecore().Field("Best Deal 1", cdmaPlansItem).ToString()))
                                 {
-                                    <span class="best-deal">
-                                        @Html.Sitecore().Field("Best Deal 1", cdmaPlansItem)
-                                    </span>
+                                    @Html.Sitecore().Field("Best Deal 1", cdmaPlansItem)
                                 }
                             }
                             <p class="data">@cdmaPlansItem["Plan 1 GB"]</p>
-                            <p class="lte">@cdmaPlansItem["LTE Data"]</p>
+                            <p class="lte">@cdmaPlansItem["Plan 1 LTE Data"]</p>
                             <h2>@Html.Sitecore().Field("Plan 1 Service", cdmaPlansItem)</h2>
-                            <p class="international">@Html.Sitecore().Field("Add International Service", cdmaPlansItem)</p>
+                            <div>@Html.Sitecore().Field("Plan 1 International Service", cdmaPlansItem)</div>
                             <p class="price no-international">@Html.Sitecore().Field("Plan 1 Price", cdmaPlansItem)</p>
                             <p>@Html.Sitecore().Field("Portal Plan 1 Button", cdmaPlansItem)</p>
                         </div>
@@ -118,15 +116,13 @@
                             @{
                                 if (!string.IsNullOrEmpty(Html.Sitecore().Field("Best Deal 2", cdmaPlansItem).ToString()))
                                 {
-                                    <span class="best-deal">
-                                        @Html.Sitecore().Field("Best Deal 2", cdmaPlansItem)
-                                    </span>
+                                    @Html.Sitecore().Field("Best Deal 2", cdmaPlansItem)
                                 }
                             }
                             <p class="data">@cdmaPlansItem["Plan 2 GB"]</p>
-                            <p class="lte">@cdmaPlansItem["LTE Data"]</p>
+                            <p class="lte">@cdmaPlansItem["Plan 2 LTE Data"]</p>
                             <h2>@Html.Sitecore().Field("Plan 2 Service", cdmaPlansItem)</h2>
-                            <p class="international">@Html.Sitecore().Field("Add International Service", cdmaPlansItem)</p>
+                            <div>@Html.Sitecore().Field("Plan 2 International Service", cdmaPlansItem)</div>
                             <p class="price no-international">@Html.Sitecore().Field("Plan 2 Price", cdmaPlansItem)</p>
                             <p>@Html.Sitecore().Field("Portal Plan 2 Button", cdmaPlansItem)</p>
                         </div>
@@ -136,17 +132,13 @@
                             @{
                                 if (!string.IsNullOrEmpty(Html.Sitecore().Field("Best Deal 3", cdmaPlansItem).ToString()))
                                 {
-                                    <span class="best-deal">
-                                        @Html.Sitecore().Field("Best Deal 3", cdmaPlansItem)
-                                    </span>
+                                    @Html.Sitecore().Field("Best Deal 3", cdmaPlansItem)
                                 }
                             }
                             <p class="data">@cdmaPlansItem["Plan 3 GB"]</p>
-                            <p class="lte">@cdmaPlansItem["LTE Data"]</p>
+                            <p class="lte">@cdmaPlansItem["Plan 3 LTE Data"]</p>
                             <h2>@Html.Sitecore().Field("Plan 3 Service", cdmaPlansItem)</h2>
-                            <div class="international">
-                                <p>@Html.Sitecore().Field("Stream International", cdmaPlansItem)</p>
-                            </div>
+                            <div>@Html.Sitecore().Field("Plan 3 International Service", cdmaPlansItem)</div>
                             <p class="price">@Html.Sitecore().Field("Plan 3 Price", cdmaPlansItem)</p>
                             <p>@Html.Sitecore().Field("Portal Plan 3 Button", cdmaPlansItem)</p>
                         </div>
@@ -156,17 +148,13 @@
                             @{
                                 if (!string.IsNullOrEmpty(Html.Sitecore().Field("Best Deal 4", cdmaPlansItem).ToString()))
                                 {
-                                    <span class="best-deal">
-                                        @Html.Sitecore().Field("Best Deal 4", cdmaPlansItem)
-                                    </span>
+                                    @Html.Sitecore().Field("Best Deal 4", cdmaPlansItem)
                                 }
                             }
                             <p class="data">@Html.Sitecore().Field("Plan 4 GB", cdmaPlansItem)</p>
-                            <p class="lte">@cdmaPlansItem["LTE Data"]</p>
+                            <p class="lte">@cdmaPlansItem["Plan 4 LTE Data"]</p>
                             <h2>@Html.Sitecore().Field("Plan 4 Service", cdmaPlansItem)</h2>
-                            <div class="international">
-                                <p>@Html.Sitecore().Field("Stream International", cdmaPlansItem)</p>
-                            </div>
+                            <div>@Html.Sitecore().Field("Plan 4 International Service", cdmaPlansItem)</div>
                             <p class="price">@Html.Sitecore().Field("Plan 4 Price", cdmaPlansItem)</p>
                             <p>@Html.Sitecore().Field("Portal Plan 4 Button", cdmaPlansItem)</p>
                         </div>
