@@ -4,7 +4,7 @@
 ngApp.controller('OneTimeRenewalCtrl', ['$scope', '$http', '$timeout', '$location', function ($scope, $http, $timeout, $location) {
     var ctrl = this;
     ctrl.overrideWarnings = [];
-
+    ctrl.availableForRenewal = true;
     $scope.isLoading = true;
     $scope.streamConnectError = false;
 
@@ -16,11 +16,9 @@ ngApp.controller('OneTimeRenewalCtrl', ['$scope', '$http', '$timeout', '$locatio
     }
 
     ctrl.lookupAccount = function () {
-        ctrl.renewErrorMessage = false;
         ctrl.accountErrorMessage = false;
-        ctrl.isCommercialTXMessage = false;
-        ctrl.isCommercialGAMessage = false;
-        ctrl.isOtherCommericalMessage = false;
+        ctrl.availableForRenewal = true;
+        ctrl.isCommercial = false;
         $scope.isLoading = true;
         $http.post('/api/account/setupAnonymousRenewal', {
             'AccountNumber': ctrl.accountNumber,
@@ -28,20 +26,14 @@ ngApp.controller('OneTimeRenewalCtrl', ['$scope', '$http', '$timeout', '$locatio
             .success(function (data) {
                 $scope.isLoading = false;
                 if (data.success) {
+                    ctrl.availableForRenewal = data.availableForRenewal;
+                    ctrl.isCommercial = data.isCommercial;
+                    ctrl.state = data.state;
                     if (data.availableForRenewal) {
                         if (data.isCommercial) {
                             ctrl.accountNumber = '';
                             ctrl.last4SSN = '';
                             $scope.validations = [];
-                            if (data.state == "TX") {
-                                ctrl.isCommercialTXMessage = true;
-                            }
-                            else if (data.state == "GA") {
-                                ctrl.isCommercialGAMessage = true;
-                            }
-                            else {
-                                ctrl.isOtherCommericalMessage = true;
-                            }
                         }
                         else {
                             $scope.isLoading = true;
@@ -52,9 +44,6 @@ ngApp.controller('OneTimeRenewalCtrl', ['$scope', '$http', '$timeout', '$locatio
                                 window.location.assign('/enrollment?renewal=true&renewalType=anon');
                             }
                         }
-                    }
-                    else {
-                        ctrl.renewErrorMessage = true;
                     }
                 }
                 else {
