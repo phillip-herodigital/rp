@@ -388,8 +388,8 @@
                             <div ng-if="plan.includesPromo" class="promo-description" ng-bind-html="plan.promoDescription | html"></div>
                             <p ng-bind-html="plan.description | unsafe"></p>
                             <ul class="plan-selection-list clearfix">
-                                <li><a ng-href="{{plan.documents.letterOfAgency}}" target="_blank">@Html.Sitecore().Field("Letter of Agency Document")</a></li>
-                                <li><a ng-href="{{plan.documents.termsAndDisclosures}}" target="_blank">@Html.Sitecore().Field("Terms and Disclosures Document")</a></li>
+                                <li ng-if="plan.documents.letterOfAgency"><a ng-href="{{plan.documents.letterOfAgency}}" target="_blank">@Html.Sitecore().Field("Letter of Agency Document")</a></li>
+                                <li ng-if="plan.documents.termsAndDisclosures"><a ng-href="{{plan.documents.termsAndDisclosures}}" target="_blank">@Html.Sitecore().Field("Terms and Disclosures Document")</a></li>
                                 <li ng-if="plan.documents.disclaimer"><a ng-href="{{plan.documents.disclaimer}}" target="_blank">@Html.Sitecore().Field("Disclaimer")</a></li>
                             </ul>
                             <dl class="plan-selection-fees ga-plan-selection-fees">
@@ -489,8 +489,8 @@
                         <div slide-down-show="isOpen">
                             <p ng-bind-html="plan.description | unsafe"></p>
                             <ul class="plan-selection-list clearfix">
-                                <li><a ng-href="{{plan.documents.letterOfAgency}}" target="_blank">@Html.Sitecore().Field("Letter of Agency Document")</a></li>
-                                <li><a ng-href="{{plan.documents.termsAndDisclosures}}" target="_blank">@Html.Sitecore().Field("Terms and Disclosures Document")</a></li>
+                                <li ng-if="plan.documents.letterOfAgency"><a ng-href="{{plan.documents.letterOfAgency}}" target="_blank">@Html.Sitecore().Field("Letter of Agency Document")</a></li>
+                                <li ng-if="plan.documents.termsAndDisclosures"><a ng-href="{{plan.documents.termsAndDisclosures}}" target="_blank">@Html.Sitecore().Field("Terms and Disclosures Document")</a></li>
                             </ul>
                             <dl class="plan-selection-fees ga-plan-selection-fees">
                                 <dt>@Html.Sitecore().Field("Monthly Service Charge Label")</dt>
@@ -589,8 +589,8 @@
                         <div slide-down-show="isOpen">
                             <p ng-bind-html="plan.description | unsafe"></p>
                             <ul class="plan-selection-list clearfix">
-                                <li><a ng-href="{{plan.documents.letterOfAgency}}" target="_blank">@Html.Sitecore().Field("Letter of Agency Document")</a></li>
-                                <li><a ng-href="{{plan.documents.termsAndDisclosures}}" target="_blank">@Html.Sitecore().Field("Terms and Disclosures Document")</a></li>
+                                <li ng-if="plan.documents.letterOfAgency"><a ng-href="{{plan.documents.letterOfAgency}}" target="_blank">@Html.Sitecore().Field("Letter of Agency Document")</a></li>
+                                <li ng-if="plan.documents.termsAndDisclosures"><a ng-href="{{plan.documents.termsAndDisclosures}}" target="_blank">@Html.Sitecore().Field("Terms and Disclosures Document")</a></li>
                             </ul>
                             <dl class="plan-selection-fees ga-plan-selection-fees">
                                 <dt>@Html.Sitecore().Field("Monthly Service Charge Label")</dt>
@@ -689,8 +689,8 @@
                         <div slide-down-show="isOpen">
                             <p ng-bind-html="plan.description | unsafe"></p>
                             <ul class="plan-selection-list clearfix">
-                                <li><a ng-href="{{plan.documents.letterOfAgency}}" target="_blank">@Html.Sitecore().Field("Letter of Agency Document")</a></li>
-                                <li><a ng-href="{{plan.documents.termsAndDisclosures}}" target="_blank">@Html.Sitecore().Field("Terms and Disclosures Document")</a></li>
+                                <li ng-if="plan.documents.letterOfAgency"><a ng-href="{{plan.documents.letterOfAgency}}" target="_blank">@Html.Sitecore().Field("Letter of Agency Document")</a></li>
+                                <li ng-if="plan.documents.termsAndDisclosures"><a ng-href="{{plan.documents.termsAndDisclosures}}" target="_blank">@Html.Sitecore().Field("Terms and Disclosures Document")</a></li>
                             </ul>
                             <dl class="plan-selection-fees ga-plan-selection-fees">
                                 <dt>@Html.Sitecore().Field("Monthly Service Charge Label")</dt>
@@ -788,8 +788,8 @@
                         <div slide-down-show="isOpen">
                             <p ng-bind-html="plan.description | unsafe"></p>
                             <ul class="plan-selection-list clearfix">
-                                <li><a ng-href="{{plan.documents.letterOfAgency}}" target="_blank">@Html.Sitecore().Field("Letter of Agency Document")</a></li>
-                                <li><a ng-href="{{plan.documents.termsAndDisclosures}}" target="_blank">@Html.Sitecore().Field("Terms and Disclosures Document")</a></li>
+                                <li ng-if="plan.documents.letterOfAgency"><a ng-href="{{plan.documents.letterOfAgency}}" target="_blank">@Html.Sitecore().Field("Letter of Agency Document")</a></li>
+                                <li ng-if="plan.documents.termsAndDisclosures"><a ng-href="{{plan.documents.termsAndDisclosures}}" target="_blank">@Html.Sitecore().Field("Terms and Disclosures Document")</a></li>
                             </ul>
                             <dl class="plan-selection-fees ga-plan-selection-fees">
                                 <dt>@Html.Sitecore().Field("Monthly Service Charge Label")</dt>
