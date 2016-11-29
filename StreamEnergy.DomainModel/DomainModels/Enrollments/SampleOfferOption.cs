@@ -10,6 +10,7 @@ namespace StreamEnergy.DomainModels.Enrollments
     {
         public string OptionType { get; set; }
         public Address BillingAddress { get; set; }
+        public string PreviousProvider { get; set; }
 
         public void Sanitize()
         {
