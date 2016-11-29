@@ -704,6 +704,7 @@ namespace StreamEnergy.Services.Clients
             }
 
             bool hasAllMobile = originalSaveState.Results.All(o => o.Offer.OfferType == "Mobile");
+            bool hasAllProtective = originalSaveState.Results.All(o => o.Offer.OfferType == "Protective");
 
             var response = await streamConnectClient.PostAsJsonAsync("/api/v1-1/customers/" + streamCustomerId.ToString() + "/enrollments/finalize", new
             {

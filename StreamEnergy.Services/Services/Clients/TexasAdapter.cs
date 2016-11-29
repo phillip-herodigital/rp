@@ -102,6 +102,7 @@ namespace StreamEnergy.Services.Clients
                           let product = products.First()
                           let productData = sitecoreProductData.GetTexasElectricityProductData(product.ProductCode.ToString(), product.Provider.Name.ToString())
                           where productData != null
+                          let hasDisclaimer = !string.IsNullOrEmpty(productData.Fields["Disclaimer"])
                           select new TexasElectricity.Offer
                           {
                               Id = product.Provider["Name"].ToString() + "/" + product.ProductId,
@@ -111,6 +112,7 @@ namespace StreamEnergy.Services.Clients
                               EnrollmentType = serviceStatus.EnrollmentType,
 
                               Name = productData.Fields["Name"],
+                              PartialName = productData.Fields["Partial Name"],
                               Description = System.Web.HttpUtility.HtmlEncode(productData.Fields["Description"]),
 
                               Rate = ((IEnumerable<dynamic>)product.Rates).First(r => r.EnergyType == "Average").Value * 100,
@@ -127,11 +129,22 @@ namespace StreamEnergy.Services.Clients
                               IncludesPromo = !string.IsNullOrEmpty(productData.Fields["Includes Promo"]),
                               PromoIcon = productData.Fields["Promo Icon"],
                               PromoDescription = productData.Fields["Promo Description"],
+                              IncludesSkybell = !string.IsNullOrEmpty(productData.Fields["Includes Skybell"]),
+                              SkybellColor = productData.Fields["Skybell Color"],
+                              SkybellDescription = productData.Fields["Skybell Description"],
+                              AssociatedPlanID = productData.Fields["Associated PlanID"],
+                              HidePlan = !string.IsNullOrEmpty(productData.Fields["Hide Plan"]),
                               IsDisabled = !string.IsNullOrEmpty(productData.Fields["Is Disabled"]),
 
                               Footnotes = productData.Footnotes,
 
-                              Documents = new Dictionary<string, Uri> 
+                              Documents = hasDisclaimer ? new Dictionary<string, Uri>
+                              {
+                                  { "ElectricityFactsLabel", new Uri(productData.Fields["Energy Facts Label"], UriKind.Relative) },
+                                  { "TermsOfService", new Uri(productData.Fields["Terms Of Service"], UriKind.Relative) },
+                                  { "Disclaimer", new Uri(productData.Fields["Disclaimer"], UriKind.Relative) },
+                                  { "YourRightsAsACustomer", new Uri(productData.Fields["Your Rights As A Customer"], UriKind.Relative) },
+                              } : new Dictionary<string, Uri>
                               {
                                   { "ElectricityFactsLabel", new Uri(productData.Fields["Energy Facts Label"], UriKind.Relative) },
                                   { "TermsOfService", new Uri(productData.Fields["Terms Of Service"], UriKind.Relative) },

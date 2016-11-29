@@ -43,15 +43,10 @@ namespace StreamEnergy.LuceneServices.Web.Models
             ScoreDoc[] hits = collector.TopDocs().ScoreDocs;
             for (int i = 0; i < hits.Length; i++)
             {
-                int docId = hits[i].Doc;
-                float score = hits[i].Score;
-
-                Lucene.Net.Documents.Document doc = searcher.Doc(docId);
-
-                yield return Json.Read<StreamEnergy.DomainModels.Enrollments.Location>(doc.Get("Data"));
+                yield return Json.Read<Location>(searcher.Doc(hits[i].Doc).Get("Data"));
 
                 // Simple heuristic to reduce match count when the top choices are a good match and the remaining ones aren't
-                if (state != "GA" && i < hits.Length - 1 && hits[i].Score > 0.5f && hits[i].Score * 0.5f > hits[i + 1].Score)
+                if (i < hits.Length - 1 && hits[i].Score > 0.5f && hits[i].Score * 0.5f > hits[i + 1].Score)
                     break;
             }
         }

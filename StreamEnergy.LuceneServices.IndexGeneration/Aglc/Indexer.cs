@@ -169,7 +169,7 @@ namespace StreamEnergy.LuceneServices.IndexGeneration.Aglc
                             {
                                 Address = new Address
                                 {
-                                    Line1 = streetNumber + " " + streetCardinalDirection + " " + streetName + " " + streetDirection,
+                                    Line1 = streetNumber + " " + streetCardinalDirection + " " + streetName + " " + thoroughfare + " " + streetDirection,
                                     Line2 = structure,
                                     City = city,
                                     StateAbbreviation = "GA",

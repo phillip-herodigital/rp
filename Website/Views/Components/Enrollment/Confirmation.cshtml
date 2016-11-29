@@ -242,6 +242,9 @@
                         <div class="included-skydrop" ng-if="selectedOffer.offer.includesSkydrop">
                             @Html.Sitecore().Field("Skydrop Text")
                         </div>
+                        <div class="included-skybell" ng-if="selectedOffer.offer.includesSkybell">
+                            @Html.Sitecore().Field("Skybell Text")
+                        </div>
                         <div class="included-promo" ng-if="selectedOffer.offer.includesPromo">
                             @Html.Sitecore().Field("Energy Promo Text")
                         </div>
@@ -297,6 +300,7 @@
                                 <li><a ng-href="{{selectedOffer.offer.documents.electricityFactsLabel}}">@Html.Sitecore().Field("Electricity Facts Label Document")</a></li>
                                 <li><a ng-href="{{selectedOffer.offer.documents.termsOfService}}">@Html.Sitecore().Field("Terms Of Service Document")</a></li>
                                 <li><a ng-href="{{selectedOffer.offer.documents.yourRightsAsACustomer}}">@Html.Sitecore().Field("Your Rights As A Customer Document")</a></li>
+                                <li ng-if="selectedOffer.offer.documents.disclaimer"><a ng-href="{{selectedOffer.offer.documents.disclaimer}}" target="_blank">@Html.Sitecore().Field("Disclaimer")</a></li>
                             </ul>
                         </div>
                     </div>
@@ -811,6 +815,9 @@
                             <h2>{{selectedOffer.offer.name}}</h2>
                         </div>
                         <div class="rate">${{selectedOffer.offer.rate}}@Html.Sitecore().Field("Per Therm")</div>
+                        <div class="included-skybell" ng-if="selectedOffer.offer.includesSkybell">
+                            @Html.Sitecore().Field("Skybell Text")
+                        </div>
                     </div>
                     <div class="line-item clearfix" ng-if="isRenewal && selectedOffer.renewalConfirmation.contractStartDate != null">
                         <div class="description">
@@ -843,6 +850,7 @@
                             <ul>
                                 <li><a ng-href="{{selectedOffer.offer.documents.letterOfAgency}}" target="_blank">@Html.Sitecore().Field("Letter of Agency Document")</a></li>
                                 <li><a ng-href="{{selectedOffer.offer.documents.termsAndDisclosures}}" target="_blank">@Html.Sitecore().Field("Terms and Disclosures Document")</a></li>
+                                <li ng-if="selectedOffer.offer.documents.disclaimer"><a ng-href="{{selectedOffer.offer.documents.disclaimer}}" target="_blank">@Html.Sitecore().Field("Disclaimer")</a></li>
                             </ul>
                         </div>
                     </div>

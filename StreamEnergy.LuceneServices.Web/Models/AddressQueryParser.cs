@@ -45,31 +45,55 @@ namespace StreamEnergy.LuceneServices.Web.Models
                 for (var index = 0; index < tokens.Count; index++)
                 {
                     var token = tokens[index];
-                    if (index == tokens.Count - 1)
+                    if (IsNumeric(token))
                     {
-                        if (IsNumeric(token))
+                        if (index == tokens.Count - 1)
                         {
-                            if (token.Length > 2)
-                                searchQueryBuilder.Add(new BooleanClause(new PrefixQuery(new Term(field, token)), Occur.MUST));
-                            else
-                                searchQueryBuilder.Add(new BooleanClause(new TermQuery(new Term(field, token)), Occur.SHOULD));
+                            searchQueryBuilder.Add(new BooleanClause(new TermQuery(new Term(field, token)), Occur.SHOULD));
                         }
                         else
                         {
-                            var finalClause = new BooleanQuery();
-                            finalClause.Add(new BooleanClause(new PrefixQuery(new Term(field, token)), Occur.SHOULD));
-                            finalClause.Add(new BooleanClause(new FuzzyQuery(new Term(field, token), 0.5f, 2), Occur.SHOULD));
-                            searchQueryBuilder.Add(finalClause, Occur.MUST);
+                            searchQueryBuilder.Add(new BooleanClause(new TermQuery(new Term(field, token)), Occur.MUST));
                         }
                     }
-                    else if (IsNumeric(token))
-                    {
-                        searchQueryBuilder.Add(new BooleanClause(new TermQuery(new Term(field, token)), Occur.MUST));
-                    }
-                    else if (tokens[index].Length > 4)
-                        searchQueryBuilder.Add(new BooleanClause(new FuzzyQuery(new Term(field, token), 0.5f, 2), Occur.MUST));
                     else
-                        searchQueryBuilder.Add(new BooleanClause(new TermQuery(new Term(field, token)), Occur.MUST));
+                    {
+                        string altToken = token;
+                        switch (token.ToLower())
+                        {
+                            case "north":
+                                altToken = "n";
+                                break;
+                            case "south":
+                                altToken = "s";
+                                break;
+                            case "east":
+                                altToken = "e";
+                                break;
+                            case "west":
+                                altToken = "w";
+                                break;
+                            case "northwest":
+                                altToken = "nw";
+                                break;
+                            case "southwest":
+                                altToken = "sw";
+                                break;
+                            case "northeast":
+                                altToken = "ne";
+                                break;
+                            case "southeast":
+                                altToken = "se";
+                                break;
+                            default:
+                                break;
+                        }
+                        if (altToken != token.ToLower())
+                        {
+                            searchQueryBuilder.Add(new BooleanClause(new FuzzyQuery(new Term(field, altToken), 0.6f, 0), Occur.SHOULD));
+                        }
+                        searchQueryBuilder.Add(new BooleanClause(new FuzzyQuery(new Term(field, token), 0.6f, 1), Occur.SHOULD));
+                    }
                 }
                 return searchQueryBuilder;
             }
