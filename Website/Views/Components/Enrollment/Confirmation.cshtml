@@ -393,9 +393,8 @@
                         <div class="description sub-charge">@Html.Sitecore().Field("Plan Documents")</div>
                         <div class="rate sub-charge">
                             <ul>
-                                <li><a ng-href="{{selectedOffer.offer.documents.electricityFactsLabel}}">@Html.Sitecore().Field("Electricity Facts Label Document")</a></li>
-                                <li><a ng-href="{{selectedOffer.offer.documents.termsOfService}}">@Html.Sitecore().Field("Terms Of Service Document")</a></li>
-                                <li><a ng-href="{{selectedOffer.offer.documents.yourRightsAsACustomer}}">@Html.Sitecore().Field("Your Rights As A Customer Document")</a></li>
+                                <li ng-if="selectedOffer.offer.documents.letterOfAgency"><a ng-href="{{selectedOffer.offer.documents.letterOfAgency}}" target="_blank">@Html.Sitecore().Field("Letter of Agency Document")</a></li>
+                                <li ng-if="selectedOffer.offer.documents.termsAndDisclosures"><a ng-href="{{selectedOffer.offer.documents.termsAndDisclosures}}" target="_blank">@Html.Sitecore().Field("Terms and Disclosures Document")</a></li>
                             </ul>
                         </div>
                     </div>
@@ -488,9 +487,8 @@
                         <div class="description sub-charge">@Html.Sitecore().Field("Plan Documents")</div>
                         <div class="rate sub-charge">
                             <ul>
-                                <li><a ng-href="{{selectedOffer.offer.documents.electricityFactsLabel}}">@Html.Sitecore().Field("Electricity Facts Label Document")</a></li>
-                                <li><a ng-href="{{selectedOffer.offer.documents.termsOfService}}">@Html.Sitecore().Field("Terms Of Service Document")</a></li>
-                                <li><a ng-href="{{selectedOffer.offer.documents.yourRightsAsACustomer}}">@Html.Sitecore().Field("Your Rights As A Customer Document")</a></li>
+                                <li ng-if="selectedOffer.offer.documents.letterOfAgency"><a ng-href="{{selectedOffer.offer.documents.letterOfAgency}}" target="_blank">@Html.Sitecore().Field("Letter of Agency Document")</a></li>
+                                <li ng-if="selectedOffer.offer.documents.termsAndDisclosures"><a ng-href="{{selectedOffer.offer.documents.termsAndDisclosures}}" target="_blank">@Html.Sitecore().Field("Terms and Disclosures Document")</a></li>
                             </ul>
                         </div>
                     </div>
@@ -583,9 +581,8 @@
                         <div class="description sub-charge">@Html.Sitecore().Field("Plan Documents")</div>
                         <div class="rate sub-charge">
                             <ul>
-                                <li><a ng-href="{{selectedOffer.offer.documents.electricityFactsLabel}}">@Html.Sitecore().Field("Electricity Facts Label Document")</a></li>
-                                <li><a ng-href="{{selectedOffer.offer.documents.termsOfService}}">@Html.Sitecore().Field("Terms Of Service Document")</a></li>
-                                <li><a ng-href="{{selectedOffer.offer.documents.yourRightsAsACustomer}}">@Html.Sitecore().Field("Your Rights As A Customer Document")</a></li>
+                                <li ng-if="selectedOffer.offer.documents.letterOfAgency"><a ng-href="{{selectedOffer.offer.documents.letterOfAgency}}" target="_blank">@Html.Sitecore().Field("Letter of Agency Document")</a></li>
+                                <li ng-if="selectedOffer.offer.documents.termsAndDisclosures"><a ng-href="{{selectedOffer.offer.documents.termsAndDisclosures}}" target="_blank">@Html.Sitecore().Field("Terms and Disclosures Document")</a></li>
                             </ul>
                         </div>
                     </div>
@@ -678,9 +675,8 @@
                         <div class="description sub-charge">@Html.Sitecore().Field("Plan Documents")</div>
                         <div class="rate sub-charge">
                             <ul>
-                                <li><a ng-href="{{selectedOffer.offer.documents.electricityFactsLabel}}">@Html.Sitecore().Field("Electricity Facts Label Document")</a></li>
-                                <li><a ng-href="{{selectedOffer.offer.documents.termsOfService}}">@Html.Sitecore().Field("Terms Of Service Document")</a></li>
-                                <li><a ng-href="{{selectedOffer.offer.documents.yourRightsAsACustomer}}">@Html.Sitecore().Field("Your Rights As A Customer Document")</a></li>
+                                <li ng-if="selectedOffer.offer.documents.letterOfAgency"><a ng-href="{{selectedOffer.offer.documents.letterOfAgency}}" target="_blank">@Html.Sitecore().Field("Letter of Agency Document")</a></li>
+                                <li ng-if="selectedOffer.offer.documents.termsAndDisclosures"><a ng-href="{{selectedOffer.offer.documents.termsAndDisclosures}}" target="_blank">@Html.Sitecore().Field("Terms and Disclosures Document")</a></li>
                             </ul>
                         </div>
                     </div>
@@ -920,8 +916,8 @@
                         <div class="description sub-charge"><strong>@Html.Sitecore().Field("Plan Documents Header")</strong></div>
                         <div class="docs">
                             <ul>
-                                <li><a ng-href="{{selectedOffer.offer.documents.letterOfAgency}}" target="_blank">@Html.Sitecore().Field("Letter of Agency Document")</a></li>
-                                <li><a ng-href="{{selectedOffer.offer.documents.termsAndDisclosures}}" target="_blank">@Html.Sitecore().Field("Terms and Disclosures Document")</a></li>
+                                <li ng-if="selectedOffer.offer.documents.letterOfAgency"><a ng-href="{{selectedOffer.offer.documents.letterOfAgency}}" target="_blank">@Html.Sitecore().Field("Letter of Agency Document")</a></li>
+                                <li ng-if="selectedOffer.offer.documents.termsAndDisclosures"><a ng-href="{{selectedOffer.offer.documents.termsAndDisclosures}}" target="_blank">@Html.Sitecore().Field("Terms and Disclosures Document")</a></li>
                             </ul>
                         </div>
                     </div>
@@ -991,8 +987,8 @@
                         <div class="description sub-charge"><strong>@Html.Sitecore().Field("Plan Documents Header")</strong></div>
                         <div class="docs">
                             <ul>
-                                <li><a ng-href="{{selectedOffer.offer.documents.letterOfAgency}}" target="_blank">@Html.Sitecore().Field("Letter of Agency Document")</a></li>
-                                <li><a ng-href="{{selectedOffer.offer.documents.termsAndDisclosures}}" target="_blank">@Html.Sitecore().Field("Terms and Disclosures Document")</a></li>
+                                <li ng-if="selectedOffer.offer.documents.letterOfAgency"><a ng-href="{{selectedOffer.offer.documents.letterOfAgency}}" target="_blank">@Html.Sitecore().Field("Letter of Agency Document")</a></li>
+                                <li ng-if="selectedOffer.offer.documents.termsAndDisclosures"><a ng-href="{{selectedOffer.offer.documents.termsAndDisclosures}}" target="_blank">@Html.Sitecore().Field("Terms and Disclosures Document")</a></li>
                             </ul>
                         </div>
                     </div>
@@ -1062,8 +1058,8 @@
                         <div class="description sub-charge"><strong>@Html.Sitecore().Field("Plan Documents Header")</strong></div>
                         <div class="docs">
                             <ul>
-                                <li><a ng-href="{{selectedOffer.offer.documents.letterOfAgency}}" target="_blank">@Html.Sitecore().Field("Letter of Agency Document")</a></li>
-                                <li><a ng-href="{{selectedOffer.offer.documents.termsAndDisclosures}}" target="_blank">@Html.Sitecore().Field("Terms and Disclosures Document")</a></li>
+                                <li ng-if="selectedOffer.offer.documents.letterOfAgency"><a ng-href="{{selectedOffer.offer.documents.letterOfAgency}}" target="_blank">@Html.Sitecore().Field("Letter of Agency Document")</a></li>
+                                <li ng-if="selectedOffer.offer.documents.termsAndDisclosures"><a ng-href="{{selectedOffer.offer.documents.termsAndDisclosures}}" target="_blank">@Html.Sitecore().Field("Terms and Disclosures Document")</a></li>
                             </ul>
                         </div>
                     </div>
@@ -1133,8 +1129,8 @@
                         <div class="description sub-charge"><strong>@Html.Sitecore().Field("Plan Documents Header")</strong></div>
                         <div class="docs">
                             <ul>
-                                <li><a ng-href="{{selectedOffer.offer.documents.letterOfAgency}}" target="_blank">@Html.Sitecore().Field("Letter of Agency Document")</a></li>
-                                <li><a ng-href="{{selectedOffer.offer.documents.termsAndDisclosures}}" target="_blank">@Html.Sitecore().Field("Terms and Disclosures Document")</a></li>
+                                <li ng-if="selectedOffer.offer.documents.letterOfAgency"><a ng-href="{{selectedOffer.offer.documents.letterOfAgency}}" target="_blank">@Html.Sitecore().Field("Letter of Agency Document")</a></li>
+                                <li ng-if="selectedOffer.offer.documents.termsAndDisclosures"><a ng-href="{{selectedOffer.offer.documents.termsAndDisclosures}}" target="_blank">@Html.Sitecore().Field("Terms and Disclosures Document")</a></li>
                             </ul>
                         </div>
                     </div>
