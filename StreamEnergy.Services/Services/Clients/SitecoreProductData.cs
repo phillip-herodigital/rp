@@ -23,7 +23,7 @@ namespace StreamEnergy.Services.Clients
             var items = Sitecore.Context.Database.SelectItems(query);
             if (items.Count() > 0) {
                 var item = items.First();
-                Sitecore.Data.Items.Item providerData = item.Axes.GetChild(providerName);
+                Sitecore.Data.Items.Item providerData = providerName != null ? item.Axes.GetChild(providerName.ToString()) : null;
                 if (providerData != null)
                 {
                     return new SitecoreProductInfo
