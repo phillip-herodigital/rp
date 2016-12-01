@@ -15,6 +15,14 @@ ngApp.controller('EnrollmentPlanSelectionCtrl', ['$scope', 'enrollmentService', 
         return !plan.isDisabled;
     };
 
+    $scope.filterNEPlans = function(plan) {
+        if (enrollmentService.renewalProviderID != null) {
+            var providerID = JSON.parse(plan.provider).Id;
+            return providerID == enrollmentService.renewalProviderID;
+        }
+        return plan;
+    };
+
     $scope.getAssociatedPlan = function(plan) {
         return _.find($scope.currentLocationInfo().offerInformationByType[0].value.availableOffers, function (availableOffer) {
             if (plan.tdu) {

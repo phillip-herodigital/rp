@@ -306,6 +306,28 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             stateHelper.Context.MailingAddress = account.Details.BillingAddress;
             stateHelper.Context.RenewalESIID = account.Details.BillingAddress.StateAbbreviation == "TX" ? subAccount.Id : null;
             stateHelper.Context.SocialSecurityNumber = string.IsNullOrEmpty(stateMachine.Context.SocialSecurityNumber) ? string.Concat("00000", last4ssn) : stateMachine.Context.SocialSecurityNumber;
+
+            string providerID = null;
+            if (subAccount is NewJerseyElectricityAccount)
+                providerID = ((NewJerseyElectricityAccount)subAccount).ProviderId;
+            else if (subAccount is NewYorkElectricityAccount)
+                providerID = ((NewYorkElectricityAccount)subAccount).ProviderId;
+            else if (subAccount is NewJerseyGasAccount)
+                providerID = ((NewJerseyGasAccount)subAccount).ProviderId;
+            else if (subAccount is NewYorkGasAccount)
+                providerID = ((NewYorkGasAccount)subAccount).ProviderId;
+            else if (subAccount is PennsylvaniaElectricityAccount)
+                providerID = ((PennsylvaniaElectricityAccount)subAccount).ProviderId;
+            else if (subAccount is PennsylvaniaGasAccount)
+                providerID = ((PennsylvaniaGasAccount)subAccount).ProviderId;
+            else if (subAccount is DCElectricityAccount)
+                providerID = ((DCElectricityAccount)subAccount).ProviderId;
+            else if (subAccount is MarylandElectricityAccount)
+                providerID = ((MarylandElectricityAccount)subAccount).ProviderId;
+            else if (subAccount is MarylandGasAccount)
+                providerID = ((MarylandGasAccount)subAccount).ProviderId;
+
+            stateHelper.Context.RenewalProviderID = providerID;
             stateHelper.Context.Services = new LocationServices[]
             {
                 new LocationServices 
@@ -690,6 +712,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 NewAccountUserName = stateMachine.Context.OnlineAccount == null ? "" : stateMachine.Context.OnlineAccount.Username,
                 LoggedInAccountDetails = stateMachine.Context.LoggedInAccountDetails,
                 RenewalESIID = stateMachine.Context.RenewalESIID,
+                RenewalProviderID = stateMachine.Context.RenewalProviderID,
                 PaymentError = stateMachine.Context.PaymentError,
                 NeedsRefresh = isNeedsRefresh,
                 ContactInfo = stateMachine.Context.ContactInfo,

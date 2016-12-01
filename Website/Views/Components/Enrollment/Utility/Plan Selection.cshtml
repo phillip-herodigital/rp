@@ -433,7 +433,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr class="hide-medium-large" ng-repeat-start="plan in typedOffers.value.availableOffers | orderBy:typedOffers.sortBy:typedOffers.reverse" ng-class="{'open': isOpen}" ng-init="plan.calculatedFootnotes = calculateFootnotes(plan.footnotes)">
+                <tr class="hide-medium-large" ng-repeat-start="plan in typedOffers.value.availableOffers | orderBy:typedOffers.sortBy:typedOffers.reverse | filter:filterNEPlans" ng-class="{'open': isOpen}" ng-init="plan.calculatedFootnotes = calculateFootnotes(plan.footnotes)">
                     <td class="plan-name" colspan="5">
                         <span ng-if="planSelection.selectedOffers[typedOffers.key] == plan.id" class="selected-icon">
                             <i class="icon-check"></i>
@@ -535,7 +535,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr class="hide-medium-large" ng-repeat-start="plan in typedOffers.value.availableOffers | orderBy:typedOffers.sortBy:typedOffers.reverse" ng-class="{'open': isOpen}" ng-init="plan.calculatedFootnotes = calculateFootnotes(plan.footnotes)" ng-hide="plan.hidePlan">
+                <tr class="hide-medium-large" ng-repeat-start="plan in typedOffers.value.availableOffers | orderBy:typedOffers.sortBy:typedOffers.reverse | filter:filterNEPlans" ng-class="{'open': isOpen}" ng-init="plan.calculatedFootnotes = calculateFootnotes(plan.footnotes)" ng-hide="plan.hidePlan">
                     <td class="plan-name" colspan="5">
                         <span ng-if="planSelection.selectedOffers[typedOffers.key] == plan.id" class="selected-icon">
                             <i class="icon-check"></i>
@@ -695,7 +695,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr class="hide-medium-large" ng-repeat-start="plan in typedOffers.value.availableOffers | orderBy:typedOffers.sortBy:typedOffers.reverse" ng-class="{'open': isOpen}" ng-init="plan.calculatedFootnotes = calculateFootnotes(plan.footnotes)">
+                <tr class="hide-medium-large" ng-repeat-start="plan in typedOffers.value.availableOffers | orderBy:typedOffers.sortBy:typedOffers.reverse | filter:filterNEPlans" ng-class="{'open': isOpen}" ng-init="plan.calculatedFootnotes = calculateFootnotes(plan.footnotes)">
                     <td class="plan-name" colspan="5">
                         <span ng-if="planSelection.selectedOffers[typedOffers.key] == plan.id" class="selected-icon">
                             <i class="icon-check"></i>
@@ -797,7 +797,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr class="hide-medium-large" ng-repeat-start="plan in typedOffers.value.availableOffers | orderBy:typedOffers.sortBy:typedOffers.reverse" ng-class="{'open': isOpen}" ng-init="plan.calculatedFootnotes = calculateFootnotes(plan.footnotes)" ng-hide="plan.hidePlan">
+                <tr class="hide-medium-large" ng-repeat-start="plan in typedOffers.value.availableOffers | orderBy:typedOffers.sortBy:typedOffers.reverse | filter:filterNEPlans" ng-class="{'open': isOpen}" ng-init="plan.calculatedFootnotes = calculateFootnotes(plan.footnotes)" ng-hide="plan.hidePlan">
                     <td class="plan-name" colspan="5">
                         <span ng-if="planSelection.selectedOffers[typedOffers.key] == plan.id" class="selected-icon">
                             <i class="icon-check"></i>
@@ -957,7 +957,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr class="hide-medium-large" ng-repeat-start="plan in typedOffers.value.availableOffers | orderBy:typedOffers.sortBy:typedOffers.reverse" ng-class="{'open': isOpen}" ng-init="plan.calculatedFootnotes = calculateFootnotes(plan.footnotes)">
+                <tr class="hide-medium-large" ng-repeat-start="plan in typedOffers.value.availableOffers | orderBy:typedOffers.sortBy:typedOffers.reverse | filter:filterNEPlans" ng-class="{'open': isOpen}" ng-init="plan.calculatedFootnotes = calculateFootnotes(plan.footnotes)">
                     <td class="plan-name" colspan="5">
                         <span ng-if="planSelection.selectedOffers[typedOffers.key] == plan.id" class="selected-icon">
                             <i class="icon-check"></i>
@@ -1059,7 +1059,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr class="hide-medium-large" ng-repeat-start="plan in typedOffers.value.availableOffers | orderBy:typedOffers.sortBy:typedOffers.reverse" ng-class="{'open': isOpen}" ng-init="plan.calculatedFootnotes = calculateFootnotes(plan.footnotes)" ng-hide="plan.hidePlan">
+                <tr class="hide-medium-large" ng-repeat-start="plan in typedOffers.value.availableOffers | orderBy:typedOffers.sortBy:typedOffers.reverse | filter:filterNEPlans" ng-class="{'open': isOpen}" ng-init="plan.calculatedFootnotes = calculateFootnotes(plan.footnotes)" ng-hide="plan.hidePlan">
                     <td class="plan-name" colspan="5">
                         <span ng-if="planSelection.selectedOffers[typedOffers.key] == plan.id" class="selected-icon">
                             <i class="icon-check"></i>
@@ -1219,7 +1219,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr class="hide-medium-large" ng-repeat-start="plan in typedOffers.value.availableOffers | orderBy:typedOffers.sortBy:typedOffers.reverse" ng-class="{'open': isOpen}" ng-init="plan.calculatedFootnotes = calculateFootnotes(plan.footnotes)">
+                <tr class="hide-medium-large" ng-repeat-start="plan in typedOffers.value.availableOffers | orderBy:typedOffers.sortBy:typedOffers.reverse | filter:filterNEPlans" ng-class="{'open': isOpen}" ng-init="plan.calculatedFootnotes = calculateFootnotes(plan.footnotes)">
                     <td class="plan-name" colspan="5">
                         <span ng-if="planSelection.selectedOffers[typedOffers.key] == plan.id" class="selected-icon">
                             <i class="icon-check"></i>
@@ -1321,7 +1321,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr class="hide-medium-large" ng-repeat-start="plan in typedOffers.value.availableOffers | orderBy:typedOffers.sortBy:typedOffers.reverse" ng-class="{'open': isOpen}" ng-init="plan.calculatedFootnotes = calculateFootnotes(plan.footnotes)" ng-hide="plan.hidePlan">
+                <tr class="hide-medium-large" ng-repeat-start="plan in typedOffers.value.availableOffers | orderBy:typedOffers.sortBy:typedOffers.reverse | filter:filterNEPlans" ng-class="{'open': isOpen}" ng-init="plan.calculatedFootnotes = calculateFootnotes(plan.footnotes)" ng-hide="plan.hidePlan">
                     <td class="plan-name" colspan="5">
                         <span ng-if="planSelection.selectedOffers[typedOffers.key] == plan.id" class="selected-icon">
                             <i class="icon-check"></i>
@@ -1482,7 +1482,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr class="hide-medium-large" ng-repeat-start="plan in typedOffers.value.availableOffers | orderBy:typedOffers.sortBy:typedOffers.reverse" ng-class="{'open': isOpen}" ng-init="plan.calculatedFootnotes = calculateFootnotes(plan.footnotes)" ng-hide="plan.hidePlan">
+                <tr class="hide-medium-large" ng-repeat-start="plan in typedOffers.value.availableOffers | orderBy:typedOffers.sortBy:typedOffers.reverse | filter:filterNEPlans" ng-class="{'open': isOpen}" ng-init="plan.calculatedFootnotes = calculateFootnotes(plan.footnotes)" ng-hide="plan.hidePlan">
                     <td class="plan-name" colspan="5">
                         <span ng-if="planSelection.selectedOffers[typedOffers.key] == plan.id" class="selected-icon">
                             <i class="icon-check"></i>

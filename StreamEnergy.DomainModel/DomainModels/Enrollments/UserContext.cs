@@ -31,6 +31,8 @@ namespace StreamEnergy.DomainModels.Enrollments
 
         public string RenewalESIID { get; set; }
 
+        public string RenewalProviderID { get; set; }
+
         public bool EnrolledInAutoPay { get; set; }
 
         public decimal AutoPayDiscount { get; set; }
