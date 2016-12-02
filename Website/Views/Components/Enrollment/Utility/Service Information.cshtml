@@ -1,13 +1,17 @@
 ﻿@model StreamEnergy.DomainModels.Enrollments.UserContext
+@{
+    var commercialQuote = (Request.QueryString["AccountType"] == "M");
+}
+
 <div id="utilityFlowService" class="enrollment" ng-show="stepsService.isStepVisible('utilityFlowService')" ng-controller="EnrollmentServiceInformationCtrl" ng-init="setTimeRemaining('utilityFlowService', '@Html.Sitecore().Field("Remaining Minutes Number")');">
-    @Html.Partial("~/Views/Components/Enrollment/Progress Bar.cshtml", new StreamEnergy.MyStream.Models.Enrollment.ProgressBar { StepNumber = 1, StepTextField = "Step 1 Description Text", HideCart = true })
+    @Html.Partial("~/Views/Components/Enrollment/Progress Bar.cshtml", new StreamEnergy.MyStream.Models.Enrollment.ProgressBar { StepNumber = 1, StepTextField = @commercialQuote?"Commercial Description Text":"Step 1 Description Text", HideCart = true })
     <div class="layout">
         <div class="wrapper cols-2">
             <section>
                 <form data-val-bind-messages="validations" ng-submit="completeStep();">
                     <article class="form enrollment__box">
                         <header>
-                            @Html.Sitecore().Field("Header Text")
+                                @Html.Sitecore().Field("Header Text")
                         </header>
                         <div class="content">
                             <div ng-if="errorMessage" ng-cloak>
@@ -27,6 +31,10 @@
                             </div>
                             @Html.Sitecore().Field("Body Text")
 
+                            <div class="content">
+                                @Html.Sitecore().Field("Searching Label")
+                                <div class="input-group-btn" id="enrollment-type-select" dropdown-select dropdown-items="supportedEnrollmentTypes" data-alignment="right"></div>
+                            </div>
                             @using (var currentService = Html.ClientRepeater(m => m.Services, "getActiveServiceIndex()"))
                             {
 
@@ -65,7 +73,7 @@
                             </div>
                             <hr>
                             <div class="item" ng-if="data.serviceState == 'TX' || data.serviceState == 'GA'">
-                                <label>@Html.Sitecore().Field("Options Label") <a href="#" tooltip="@Html.Sitecore().Field("Options Tooltip")"><i class="icon-tooltip"></i></a></label>
+                                <label>@Html.Sitecore().Field("Options Label") <a ng-show="$parent.customerType=='commercialquote'" href="#" tooltip="@Html.Sitecore().Field("Switching Popup")"><i class="icon-tooltip"></i></a><a ng-show="$parent.customerType=='residential'" href="#" tooltip="@Html.Sitecore().Field("Options Tooltip")"><i class="icon-tooltip"></i></a></label>
                                 <ul class="checkbox-list">
                                     <li ng-switch on="data.serviceState">
                                         <input type="radio" ng-model="data.isNewService" id="switching-providers" ng-value="false">

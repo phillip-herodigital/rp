@@ -62,7 +62,8 @@
                 @Html.Sitecore().Placeholder("ProgressBarCart")
                 <i class="icon-close" ng-click="enrollmentCartService.toggleCart()"></i>
             </div>
-            <a href="" class="need-help" ng-click="showModal('instructions/needHelp')">@item.Fields["Need Help Text"].Value</a>
+            <a ng-show="$parent.customerType=='residential'" href="" class="need-help" ng-click="showModal('instructions/needHelp')">@item.Fields["Need Help Text"].Value</a>
+            <a ng-show="$parent.customerType=='commercialquote'" href="" class="need-help" ng-click="showModal('instructions/needHelp2')">@item.Fields["Need Help Text"].Value</a>
         </div>
         <script type="text/ng-template" id="instructions/needHelp">
             <div class="mobile-enrollment-modal">
@@ -72,6 +73,17 @@
                 </div>
                 <div class="modal-body">
                     @Html.Raw(@item.Fields["Need Help Modal Text"].Value)
+                </div>
+            </div>
+        </script>
+        <script type="text/ng-template" id="instructions/needHelp2">
+            <div class="mobile-enrollment-modal">
+                <div class="modal-header">
+                    <a href="" ng-click="$dismiss()">Close</a>
+                    <h2>@item.Fields["Need Help Text"].Value</h2>
+                </div>
+                <div class="modal-body">
+                    @Html.Raw(@item.Fields["Commercial Need Help Modal Text"].Value)
                 </div>
             </div>
         </script>

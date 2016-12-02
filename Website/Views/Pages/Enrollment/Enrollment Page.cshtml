@@ -13,15 +13,16 @@
     }
     var settings = StreamEnergy.Unity.Container.Instance.Resolve<StreamEnergy.ISettings>();
     var trustEvKey = settings.GetSettingsField("TrustEV", "TrustEV Key").Value;
+    var commercialQuote = Request.QueryString["commercial"];
 }
 
 <script type="text/javascript">
 (function() {
     var tv = document.createElement('script'); tv.type = 'text/javascript'; tv.async = true; tv.src = 'https://app.trustev.com/api/v2.0/TrustevJS?key=@trustEvKey';
-var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(tv, s); })();
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(tv, s); })();
 </script>
 
-<div ng-controller="EnrollmentMainCtrl" ng-init="setServerData(@(Html.Action("ClientData", "Enrollment").ToHtmlString())); assignStepNames(@(Html.Action("EnrollmentNav", "Enrollment").ToHtmlString())); assignSupportedUtilityStates(@(Html.Action("EnrollmentSupportedUtilityStates", "Enrollment").ToHtmlString())); mobileEnrollmentService.setNetworks(@(Html.Action("MobileNetworks", "MobileEnrollment").ToHtmlString())); mobileEnrollmentService.setPhoneData(@(Html.Action("MobileEnrollmentPhones", "MobileEnrollment").ToHtmlString())); usStates = @(Html.Action("States", "Data").ToHtmlString()); phoneTypes = @(Html.Action("PhoneCategories", "Data").ToHtmlString()); mobileEnrollmentSettings = @(Html.Action("MobileEnrollmentSettings", "Data").ToHtmlString()); getMobilePlans('@Json.Encode(geoLocation)');">
+<div ng-controller="EnrollmentMainCtrl" ng-init="setServerData(@(Html.Action("ClientData", "Enrollment").ToHtmlString())); assignStepNames(@(Html.Action("EnrollmentNav", "Enrollment").ToHtmlString())); assignSupportedUtilityStates(@(Html.Action("EnrollmentSupportedUtilityStates", "Enrollment").ToHtmlString())); assignSupportedEnrollmentTypes(@(Html.Action("EnrollmentSupportedEnrollmentTypes", "Enrollment").ToHtmlString())); mobileEnrollmentService.setNetworks(@(Html.Action("MobileNetworks", "MobileEnrollment").ToHtmlString())); mobileEnrollmentService.setPhoneData(@(Html.Action("MobileEnrollmentPhones", "MobileEnrollment").ToHtmlString())); usStates = @(Html.Action("States", "Data").ToHtmlString()); phoneTypes = @(Html.Action("PhoneCategories", "Data").ToHtmlString()); mobileEnrollmentSettings = @(Html.Action("MobileEnrollmentSettings", "Data").ToHtmlString()); getMobilePlans('@Json.Encode(geoLocation)');">
     <div ng-if="isLoading" class="enrollment__loadingMessage">
         <span class="inner"><img class="loading" src="/frontend/assets/i/loading_screen.gif" width="44" height="44" /><br />@Html.Sitecore().Field("Processing")</span>
     </div>

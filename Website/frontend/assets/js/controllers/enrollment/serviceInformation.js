@@ -17,14 +17,18 @@ ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$location', '$f
     if ($location.absUrl().indexOf('AccountType=C') > 0) {
         $scope.$parent.customerType = 'commercial';
     }
-
+    else if ($location.absUrl().indexOf('AccountType=M') > 0) {
+        $scope.$parent.customerType = 'commercialquote'; 
+    }
+    else {
+        $scope.$parent.customerType = 'residential';
+    }
     $scope.getLocation = function (state, val) {
         return $scope.$parent.getLocation(state, val).then(function (values) {
             $scope.errorMessage = !values.length;
             return values;
         });
     };
-
     $scope.isDuplicateAddress = $scope.$parent.isDuplicateAddress;
 
     //Checking to see when the active service address has been updated
@@ -38,6 +42,8 @@ ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$location', '$f
         } else {
             $scope.data.serviceLocation = newValue.location;
             $scope.isCartFull = enrollmentCartService.isCartFull($scope.customerType);
+            $scope.commercialQuote = $location.absUrl().indexOf('AccountType=CQ') > 0;
+
             $scope.isNewServiceAddress = enrollmentCartService.isNewServiceAddress();
             var target = _(newValue.location.capabilities).find({ capabilityType: "ServiceStatus" });
             if (target) {

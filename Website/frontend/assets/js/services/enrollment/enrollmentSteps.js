@@ -114,6 +114,17 @@ ngApp.factory('enrollmentStepsService', ['$rootScope', 'scrollService', 'jQuery'
                     previous: ['utilityFlowService', 'utilityFlowPlans']
                 }
             },
+        'commercialenroll':
+            {
+                'serviceInformation': {
+                    name: 'utilityFlowService',
+                    previous: []
+                },
+                'planSettings': {
+                    name: 'accountInformation',
+                    previous: ['utilityFlowService']
+                }
+            },
         'phone':
             {
                 /*'verifyDevice': {

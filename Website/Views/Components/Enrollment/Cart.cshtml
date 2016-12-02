@@ -108,7 +108,15 @@
             <li><i class="icon-utility-provider"></i> @Html.Sitecore().Field("Documents Utility Provider")</li>-->
             </ul>
         </article>
-        <article class="enrollment__box outage-information" ng-if="customerType != 'commercial' && !isRenewal && cartHasUtility() && cartHasTxLocation()">
+        <article ng-if="customerType == 'commercialquote'" class="enrollment__box outage-information">
+            <header>
+                <p><strong>@Html.Sitecore().Field("Renew Existing Service Box Header")</strong></p>
+            </header>
+            <ul class="info">
+                <li>@Html.Sitecore().Field("Renew Existing Service Box Text")</li>
+            </ul>
+        </article>
+        <article class="enrollment__box outage-information" ng-if="customerType != 'commercial' && customerType != 'commercialquote' && !isRenewal && cartHasUtility() && cartHasTxLocation()">
             <header>
                 <p><strong>@Html.Sitecore().Field("Outage Header")</strong></p>
             </header>
