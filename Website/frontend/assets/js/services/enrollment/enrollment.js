@@ -94,6 +94,9 @@
         if (result.isRenewal) {
             enrollmentStepsService.setRenewal();
         }
+        if (enrollmentCartService.cartHasCommercialQuote()) {
+            enrollmentStepsService.setCommercialQuote();
+        }
 
         service.isAddLine = result.isAddLine;
         service.addLineAccountNumber = result.addLineAccountNumber;

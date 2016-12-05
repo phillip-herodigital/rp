@@ -49,7 +49,7 @@ namespace StreamEnergy.MyStream.Controllers
         public ActionResult EnrollmentSupportedEnrollmentTypes()
         {
             var item = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Taxonomy/Enrollment Types");
-            var data = item.Children.Select(child => new { enrollmenttype = child.Fields["Enrollment Type"].Value });
+            var data = item.Children.Select(child => new { enrollmenttype = child.Name, display = child.Fields["Enrollment Type"].Value });
 
             return this.Content(StreamEnergy.Json.Stringify(data));
         }
