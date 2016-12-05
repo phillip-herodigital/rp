@@ -23,7 +23,7 @@
                 <form data-val-bind-messages="validations" name="accountInfo" ng-submit="completeStep()">
                     @Html.ValidationSummary()
                     @* Loop through utility addresses *@
-                    <article ng-show="$parent.customerType=='residential'" class="enrollment__box form" ng-if="cartHasUtility()" ng-repeat="(index, item) in utilityAddresses()" ng-init="init();">
+                    <article ng-if="customerType=='residential'" class="enrollment__box form" ng-if="cartHasUtility()" ng-repeat="(index, item) in utilityAddresses()" ng-init="init();">
                         <header>
                             <h1>@Html.Sitecore().Field("Header Account Information")</h1>
                         </header>
@@ -63,7 +63,7 @@
                             </div>
                         </div>
                     </article>
-                    <article ng-show="$parent.customerType=='residential'" class="enrollment__box form" ng-if="!isRenewal">
+                    <article ng-if="customerType=='residential'" class="enrollment__box form" ng-if="!isRenewal">
                         <header>
                             <h1>@Html.Sitecore().Field("Contact Information Header")</h1>
                         </header>
@@ -357,7 +357,7 @@
                     </div>
 
                     </article>
-                    <article ng-show="customerType=='commercialquote'" class="enrollment__box form" ng-if="!isRenewal">
+                    <article ng-if="customerType=='commercialquote'" class="enrollment__box form" ng-if="!isRenewal">
                         <header>
                             <h1>@Html.Sitecore().Field("Contact Information Header")</h1>
                         </header>
@@ -475,7 +475,7 @@
                             
                         </div>
                     </article>
-                    <article ng-show="$parent.customerType=='commercialquote'" class="enrollment__box form" ng-if="!isRenewal">
+                    <article ng-if="customerType=='commercialquote'" class="enrollment__box form" ng-if="!isRenewal">
                         <header>
                             <h1>@Html.Sitecore().Field("Company Information Header")</h1>
                         </header>
