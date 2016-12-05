@@ -609,7 +609,7 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', 'sc
                 .intersection(['TexasElectricity', 'TexasElectricityRenewal',
                     'NewJerseyElectricity', 'NewJerseyElectricityRenewal',
                     'NewYorkElectricity', 'NewYorkElectricityRenewal',
-                    'MarlandElectricity', 'MarlandElectricityRenewal',
+                    'MarylandElectricity', 'MarylandElectricityRenewal',
                     'PennsylvaniaElectricity', 'PennsylvaniaElectricityRenewal',
                     'DCElectricity', 'DCElectricityRenewal',
                     'GeorgiaGas', 'GeorgiaGasRenewal',
