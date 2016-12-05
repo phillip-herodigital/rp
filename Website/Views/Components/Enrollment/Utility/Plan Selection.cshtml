@@ -392,7 +392,7 @@
                                 <li ng-if="plan.documents.termsAndDisclosures"><a ng-href="{{plan.documents.termsAndDisclosures}}" target="_blank">@Html.Sitecore().Field("Terms and Disclosures Document")</a></li>
                                 <li ng-if="plan.documents.disclaimer"><a ng-href="{{plan.documents.disclaimer}}" target="_blank">@Html.Sitecore().Field("Disclaimer")</a></li>
                             </ul>
-                            <dl class="plan-selection-fees ga-plan-selection-fees">
+                            <dl class="plan-selection-fees ga-plan-selection-fees" ng-if="plan.monthlyServiceCharge">
                                 <dt>@Html.Sitecore().Field("Monthly Service Charge Label")</dt>
                                 <dd>{{ plan.monthlyServiceCharge }}</dd>
                             </dl>
@@ -493,7 +493,7 @@
                                 <li ng-if="plan.documents.letterOfAgency"><a ng-href="{{plan.documents.letterOfAgency}}" target="_blank">@Html.Sitecore().Field("Letter of Agency Document")</a></li>
                                 <li ng-if="plan.documents.termsAndDisclosures"><a ng-href="{{plan.documents.termsAndDisclosures}}" target="_blank">@Html.Sitecore().Field("Terms and Disclosures Document")</a></li>
                             </ul>
-                            <dl class="plan-selection-fees ga-plan-selection-fees">
+                            <dl class="plan-selection-fees ga-plan-selection-fees" ng-if="plan.monthlyServiceCharge">
                                 <dt>@Html.Sitecore().Field("Monthly Service Charge Label")</dt>
                                 <dd>{{ plan.monthlyServiceCharge }}</dd>
                             </dl>
@@ -530,7 +530,7 @@
                     <th class="plan-header">@Html.Sitecore().Field("Electricity Plan Name")</th>
                     <th class="sortable" ng-click="typedOffers.sortBy = 'rate'; typedOffers.reverse=!typedOffers.reverse">@Html.Sitecore().Field("Electricity Rate")<sup>{{footnoteIndices['NewJerseyElectricity']['Electricity Rate Footnote']}}</sup> <i ng-show="typedOffers.sortBy == 'rate'" ng-class="{'icon-gray-arrow-up': typedOffers.reverse, 'icon-gray-arrow-down': !typedOffers.reverse }"></i></th>
                     <th class="sortable" ng-click="typedOffers.sortBy = 'termMonths'; typedOffers.reverse=!typedOffers.reverse">@Html.Sitecore().Field("Electricity Term")<sup>{{footnoteIndices['NewJerseyElectricity']['Electricity Term Footnote']}}</sup> <i ng-show="typedOffers.sortBy == 'termMonths'" ng-class="{'icon-gray-arrow-up': typedOffers.reverse, 'icon-gray-arrow-down': !typedOffers.reverse }"></i></th>
-                    <th class="sortable" ng-click="typedOffers.sortBy = 'terminationFee'; typedOffers.reverse=!typedOffers.reverse">@Html.Sitecore().Field("Electricity Fees") <i ng-show="typedOffers.sortBy == 'terminationFee'" ng-class="{'icon-gray-arrow-up': typedOffers.reverse, 'icon-gray-arrow-down': !typedOffers.reverse }"></i></th>
+                    <th class="sortable" ng-click="typedOffers.sortBy = 'cancellationFee'; typedOffers.reverse=!typedOffers.reverse">@Html.Sitecore().Field("Gas Fees") <i ng-show="typedOffers.sortBy == 'cancellationFee'" ng-class="{'icon-gray-arrow-up': typedOffers.reverse, 'icon-gray-arrow-down': !typedOffers.reverse }"></i></th>
                     <th>@Html.Sitecore().Field("Electricity Select Plan")</th>
                 </tr>
             </thead>
@@ -577,7 +577,7 @@
                         @Html.Sitecore().Field("Electricity Month To Month").Format(new { Sup = "{{plan.calculatedFootnotes.indices['Term Footnote']}}" })
                     </td>
                     <td class="fees">
-                        ${{ plan.terminationFee }}<span>@Html.Sitecore().Field("Electricity Early Termination Fee")<sup>{{plan.calculatedFootnotes.indices['Early Termination Fee Footnote']}}</sup></span>
+                        {{ plan.cancellationFee }}<span>@Html.Sitecore().Field("Electricity Early Termination Fee")<sup>{{plan.calculatedFootnotes.indices['Early Termination Fee Footnote']}}</sup></span>
                     </td>
                     <td class="select-plan hide-small">
                         <span ng-if="planSelection.selectedOffers[typedOffers.key] == plan.id" class="selected-icon">
@@ -655,7 +655,7 @@
                                 <li ng-if="plan.documents.letterOfAgency"><a ng-href="{{plan.documents.letterOfAgency}}" target="_blank">@Html.Sitecore().Field("Letter of Agency Document")</a></li>
                                 <li ng-if="plan.documents.termsAndDisclosures"><a ng-href="{{plan.documents.termsAndDisclosures}}" target="_blank">@Html.Sitecore().Field("Terms and Disclosures Document")</a></li>
                             </ul>
-                            <dl class="plan-selection-fees ga-plan-selection-fees">
+                            <dl class="plan-selection-fees ga-plan-selection-fees" ng-if="plan.monthlyServiceCharge">
                                 <dt>@Html.Sitecore().Field("Monthly Service Charge Label")</dt>
                                 <dd>{{ plan.monthlyServiceCharge }}</dd>
                             </dl>
@@ -755,7 +755,7 @@
                                 <li ng-if="plan.documents.letterOfAgency"><a ng-href="{{plan.documents.letterOfAgency}}" target="_blank">@Html.Sitecore().Field("Letter of Agency Document")</a></li>
                                 <li ng-if="plan.documents.termsAndDisclosures"><a ng-href="{{plan.documents.termsAndDisclosures}}" target="_blank">@Html.Sitecore().Field("Terms and Disclosures Document")</a></li>
                             </ul>
-                            <dl class="plan-selection-fees ga-plan-selection-fees">
+                            <dl class="plan-selection-fees ga-plan-selection-fees" ng-if="plan.monthlyServiceCharge">
                                 <dt>@Html.Sitecore().Field("Monthly Service Charge Label")</dt>
                                 <dd>{{ plan.monthlyServiceCharge }}</dd>
                             </dl>
@@ -792,7 +792,7 @@
                     <th class="plan-header">@Html.Sitecore().Field("Electricity Plan Name")</th>
                     <th class="sortable" ng-click="typedOffers.sortBy = 'rate'; typedOffers.reverse=!typedOffers.reverse">@Html.Sitecore().Field("Electricity Rate")<sup>{{footnoteIndices['NewYorkElectricity']['Electricity Rate Footnote']}}</sup> <i ng-show="typedOffers.sortBy == 'rate'" ng-class="{'icon-gray-arrow-up': typedOffers.reverse, 'icon-gray-arrow-down': !typedOffers.reverse }"></i></th>
                     <th class="sortable" ng-click="typedOffers.sortBy = 'termMonths'; typedOffers.reverse=!typedOffers.reverse">@Html.Sitecore().Field("Electricity Term")<sup>{{footnoteIndices['NewYorkElectricity']['Electricity Term Footnote']}}</sup> <i ng-show="typedOffers.sortBy == 'termMonths'" ng-class="{'icon-gray-arrow-up': typedOffers.reverse, 'icon-gray-arrow-down': !typedOffers.reverse }"></i></th>
-                    <th class="sortable" ng-click="typedOffers.sortBy = 'terminationFee'; typedOffers.reverse=!typedOffers.reverse">@Html.Sitecore().Field("Electricity Fees") <i ng-show="typedOffers.sortBy == 'terminationFee'" ng-class="{'icon-gray-arrow-up': typedOffers.reverse, 'icon-gray-arrow-down': !typedOffers.reverse }"></i></th>
+                    <th class="sortable" ng-click="typedOffers.sortBy = 'cancellationFee'; typedOffers.reverse=!typedOffers.reverse">@Html.Sitecore().Field("Gas Fees") <i ng-show="typedOffers.sortBy == 'cancellationFee'" ng-class="{'icon-gray-arrow-up': typedOffers.reverse, 'icon-gray-arrow-down': !typedOffers.reverse }"></i></th>
                     <th>@Html.Sitecore().Field("Electricity Select Plan")</th>
                 </tr>
             </thead>
@@ -839,7 +839,7 @@
                         @Html.Sitecore().Field("Electricity Month To Month").Format(new { Sup = "{{plan.calculatedFootnotes.indices['Term Footnote']}}" })
                     </td>
                     <td class="fees">
-                        ${{ plan.terminationFee }}<span>@Html.Sitecore().Field("Electricity Early Termination Fee")<sup>{{plan.calculatedFootnotes.indices['Early Termination Fee Footnote']}}</sup></span>
+                        {{ plan.cancellationFee }}<span>@Html.Sitecore().Field("Electricity Early Termination Fee")<sup>{{plan.calculatedFootnotes.indices['Early Termination Fee Footnote']}}</sup></span>
                     </td>
                     <td class="select-plan hide-small">
                         <span ng-if="planSelection.selectedOffers[typedOffers.key] == plan.id" class="selected-icon">
@@ -917,7 +917,7 @@
                                 <li ng-if="plan.documents.letterOfAgency"><a ng-href="{{plan.documents.letterOfAgency}}" target="_blank">@Html.Sitecore().Field("Letter of Agency Document")</a></li>
                                 <li ng-if="plan.documents.termsAndDisclosures"><a ng-href="{{plan.documents.termsAndDisclosures}}" target="_blank">@Html.Sitecore().Field("Terms and Disclosures Document")</a></li>
                             </ul>
-                            <dl class="plan-selection-fees ga-plan-selection-fees">
+                            <dl class="plan-selection-fees ga-plan-selection-fees" ng-if="plan.monthlyServiceCharge">
                                 <dt>@Html.Sitecore().Field("Monthly Service Charge Label")</dt>
                                 <dd>{{ plan.monthlyServiceCharge }}</dd>
                             </dl>
@@ -1017,7 +1017,7 @@
                                 <li ng-if="plan.documents.letterOfAgency"><a ng-href="{{plan.documents.letterOfAgency}}" target="_blank">@Html.Sitecore().Field("Letter of Agency Document")</a></li>
                                 <li ng-if="plan.documents.termsAndDisclosures"><a ng-href="{{plan.documents.termsAndDisclosures}}" target="_blank">@Html.Sitecore().Field("Terms and Disclosures Document")</a></li>
                             </ul>
-                            <dl class="plan-selection-fees ga-plan-selection-fees">
+                            <dl class="plan-selection-fees ga-plan-selection-fees" ng-if="plan.monthlyServiceCharge">
                                 <dt>@Html.Sitecore().Field("Monthly Service Charge Label")</dt>
                                 <dd>{{ plan.monthlyServiceCharge }}</dd>
                             </dl>
@@ -1054,7 +1054,7 @@
                     <th class="plan-header">@Html.Sitecore().Field("Electricity Plan Name")</th>
                     <th class="sortable" ng-click="typedOffers.sortBy = 'rate'; typedOffers.reverse=!typedOffers.reverse">@Html.Sitecore().Field("Electricity Rate")<sup>{{footnoteIndices['MarylandElectricity']['Electricity Rate Footnote']}}</sup> <i ng-show="typedOffers.sortBy == 'rate'" ng-class="{'icon-gray-arrow-up': typedOffers.reverse, 'icon-gray-arrow-down': !typedOffers.reverse }"></i></th>
                     <th class="sortable" ng-click="typedOffers.sortBy = 'termMonths'; typedOffers.reverse=!typedOffers.reverse">@Html.Sitecore().Field("Electricity Term")<sup>{{footnoteIndices['MarylandElectricity']['Electricity Term Footnote']}}</sup> <i ng-show="typedOffers.sortBy == 'termMonths'" ng-class="{'icon-gray-arrow-up': typedOffers.reverse, 'icon-gray-arrow-down': !typedOffers.reverse }"></i></th>
-                    <th class="sortable" ng-click="typedOffers.sortBy = 'terminationFee'; typedOffers.reverse=!typedOffers.reverse">@Html.Sitecore().Field("Electricity Fees") <i ng-show="typedOffers.sortBy == 'terminationFee'" ng-class="{'icon-gray-arrow-up': typedOffers.reverse, 'icon-gray-arrow-down': !typedOffers.reverse }"></i></th>
+                    <th class="sortable" ng-click="typedOffers.sortBy = 'cancellationFee'; typedOffers.reverse=!typedOffers.reverse">@Html.Sitecore().Field("Gas Fees") <i ng-show="typedOffers.sortBy == 'cancellationFee'" ng-class="{'icon-gray-arrow-up': typedOffers.reverse, 'icon-gray-arrow-down': !typedOffers.reverse }"></i></th>
                     <th>@Html.Sitecore().Field("Electricity Select Plan")</th>
                 </tr>
             </thead>
@@ -1101,7 +1101,7 @@
                         @Html.Sitecore().Field("Electricity Month To Month").Format(new { Sup = "{{plan.calculatedFootnotes.indices['Term Footnote']}}" })
                     </td>
                     <td class="fees">
-                        ${{ plan.terminationFee }}<span>@Html.Sitecore().Field("Electricity Early Termination Fee")<sup>{{plan.calculatedFootnotes.indices['Early Termination Fee Footnote']}}</sup></span>
+                        {{ plan.cancellationFee }}<span>@Html.Sitecore().Field("Electricity Early Termination Fee")<sup>{{plan.calculatedFootnotes.indices['Early Termination Fee Footnote']}}</sup></span>
                     </td>
                     <td class="select-plan hide-small">
                         <span ng-if="planSelection.selectedOffers[typedOffers.key] == plan.id" class="selected-icon">
@@ -1179,7 +1179,7 @@
                                 <li ng-if="plan.documents.letterOfAgency"><a ng-href="{{plan.documents.letterOfAgency}}" target="_blank">@Html.Sitecore().Field("Letter of Agency Document")</a></li>
                                 <li ng-if="plan.documents.termsAndDisclosures"><a ng-href="{{plan.documents.termsAndDisclosures}}" target="_blank">@Html.Sitecore().Field("Terms and Disclosures Document")</a></li>
                             </ul>
-                            <dl class="plan-selection-fees ga-plan-selection-fees">
+                            <dl class="plan-selection-fees ga-plan-selection-fees" ng-if="plan.monthlyServiceCharge">
                                 <dt>@Html.Sitecore().Field("Monthly Service Charge Label")</dt>
                                 <dd>{{ plan.monthlyServiceCharge }}</dd>
                             </dl>
@@ -1279,7 +1279,7 @@
                                 <li ng-if="plan.documents.letterOfAgency"><a ng-href="{{plan.documents.letterOfAgency}}" target="_blank">@Html.Sitecore().Field("Letter of Agency Document")</a></li>
                                 <li ng-if="plan.documents.termsAndDisclosures"><a ng-href="{{plan.documents.termsAndDisclosures}}" target="_blank">@Html.Sitecore().Field("Terms and Disclosures Document")</a></li>
                             </ul>
-                            <dl class="plan-selection-fees ga-plan-selection-fees">
+                            <dl class="plan-selection-fees ga-plan-selection-fees" ng-if="plan.monthlyServiceCharge">
                                 <dt>@Html.Sitecore().Field("Monthly Service Charge Label")</dt>
                                 <dd>{{ plan.monthlyServiceCharge }}</dd>
                             </dl>
@@ -1316,7 +1316,7 @@
                     <th class="plan-header">@Html.Sitecore().Field("Electricity Plan Name")</th>
                     <th class="sortable" ng-click="typedOffers.sortBy = 'rate'; typedOffers.reverse=!typedOffers.reverse">@Html.Sitecore().Field("Electricity Rate")<sup>{{footnoteIndices['PennsylvaniaElectricity']['Electricity Rate Footnote']}}</sup> <i ng-show="typedOffers.sortBy == 'rate'" ng-class="{'icon-gray-arrow-up': typedOffers.reverse, 'icon-gray-arrow-down': !typedOffers.reverse }"></i></th>
                     <th class="sortable" ng-click="typedOffers.sortBy = 'termMonths'; typedOffers.reverse=!typedOffers.reverse">@Html.Sitecore().Field("Electricity Term")<sup>{{footnoteIndices['PennsylvaniaElectricity']['Electricity Term Footnote']}}</sup> <i ng-show="typedOffers.sortBy == 'termMonths'" ng-class="{'icon-gray-arrow-up': typedOffers.reverse, 'icon-gray-arrow-down': !typedOffers.reverse }"></i></th>
-                    <th class="sortable" ng-click="typedOffers.sortBy = 'terminationFee'; typedOffers.reverse=!typedOffers.reverse">@Html.Sitecore().Field("Electricity Fees") <i ng-show="typedOffers.sortBy == 'terminationFee'" ng-class="{'icon-gray-arrow-up': typedOffers.reverse, 'icon-gray-arrow-down': !typedOffers.reverse }"></i></th>
+                    <th class="sortable" ng-click="typedOffers.sortBy = 'cancellationFee'; typedOffers.reverse=!typedOffers.reverse">@Html.Sitecore().Field("Gas Fees") <i ng-show="typedOffers.sortBy == 'cancellationFee'" ng-class="{'icon-gray-arrow-up': typedOffers.reverse, 'icon-gray-arrow-down': !typedOffers.reverse }"></i></th>
                     <th>@Html.Sitecore().Field("Electricity Select Plan")</th>
                 </tr>
             </thead>
@@ -1363,7 +1363,7 @@
                         @Html.Sitecore().Field("Electricity Month To Month").Format(new { Sup = "{{plan.calculatedFootnotes.indices['Term Footnote']}}" })
                     </td>
                     <td class="fees">
-                        ${{ plan.terminationFee }}<span>@Html.Sitecore().Field("Electricity Early Termination Fee")<sup>{{plan.calculatedFootnotes.indices['Early Termination Fee Footnote']}}</sup></span>
+                        {{ plan.cancellationFee }}<span>@Html.Sitecore().Field("Electricity Early Termination Fee")<sup>{{plan.calculatedFootnotes.indices['Early Termination Fee Footnote']}}</sup></span>
                     </td>
                     <td class="select-plan hide-small">
                         <span ng-if="planSelection.selectedOffers[typedOffers.key] == plan.id" class="selected-icon">
@@ -1441,7 +1441,7 @@
                                 <li ng-if="plan.documents.letterOfAgency"><a ng-href="{{plan.documents.letterOfAgency}}" target="_blank">@Html.Sitecore().Field("Letter of Agency Document")</a></li>
                                 <li ng-if="plan.documents.termsAndDisclosures"><a ng-href="{{plan.documents.termsAndDisclosures}}" target="_blank">@Html.Sitecore().Field("Terms and Disclosures Document")</a></li>
                             </ul>
-                            <dl class="plan-selection-fees ga-plan-selection-fees">
+                            <dl class="plan-selection-fees ga-plan-selection-fees" ng-if="plan.monthlyServiceCharge">
                                 <dt>@Html.Sitecore().Field("Monthly Service Charge Label")</dt>
                                 <dd>{{ plan.monthlyServiceCharge }}</dd>
                             </dl>
@@ -1477,7 +1477,7 @@
                     <th class="plan-header">@Html.Sitecore().Field("Electricity Plan Name")</th>
                     <th class="sortable" ng-click="typedOffers.sortBy = 'rate'; typedOffers.reverse=!typedOffers.reverse">@Html.Sitecore().Field("Electricity Rate")<sup>{{footnoteIndices['WashingtonDCElectricity']['Electricity Rate Footnote']}}</sup> <i ng-show="typedOffers.sortBy == 'rate'" ng-class="{'icon-gray-arrow-up': typedOffers.reverse, 'icon-gray-arrow-down': !typedOffers.reverse }"></i></th>
                     <th class="sortable" ng-click="typedOffers.sortBy = 'termMonths'; typedOffers.reverse=!typedOffers.reverse">@Html.Sitecore().Field("Electricity Term")<sup>{{footnoteIndices['WashingtonDCElectricity']['Electricity Term Footnote']}}</sup> <i ng-show="typedOffers.sortBy == 'termMonths'" ng-class="{'icon-gray-arrow-up': typedOffers.reverse, 'icon-gray-arrow-down': !typedOffers.reverse }"></i></th>
-                    <th class="sortable" ng-click="typedOffers.sortBy = 'terminationFee'; typedOffers.reverse=!typedOffers.reverse">@Html.Sitecore().Field("Electricity Fees") <i ng-show="typedOffers.sortBy == 'terminationFee'" ng-class="{'icon-gray-arrow-up': typedOffers.reverse, 'icon-gray-arrow-down': !typedOffers.reverse }"></i></th>
+                    <th class="sortable" ng-click="typedOffers.sortBy = 'cancellationFee'; typedOffers.reverse=!typedOffers.reverse">@Html.Sitecore().Field("Gas Fees") <i ng-show="typedOffers.sortBy == 'cancellationFee'" ng-class="{'icon-gray-arrow-up': typedOffers.reverse, 'icon-gray-arrow-down': !typedOffers.reverse }"></i></th>
                     <th>@Html.Sitecore().Field("Electricity Select Plan")</th>
                 </tr>
             </thead>
@@ -1524,7 +1524,7 @@
                         @Html.Sitecore().Field("Electricity Month To Month").Format(new { Sup = "{{plan.calculatedFootnotes.indices['Term Footnote']}}" })
                     </td>
                     <td class="fees">
-                        ${{ plan.terminationFee }}<span>@Html.Sitecore().Field("Electricity Early Termination Fee")<sup>{{plan.calculatedFootnotes.indices['Early Termination Fee Footnote']}}</sup></span>
+                        {{ plan.cancellationFee }}<span>@Html.Sitecore().Field("Electricity Early Termination Fee")<sup>{{plan.calculatedFootnotes.indices['Early Termination Fee Footnote']}}</sup></span>
                     </td>
                     <td class="select-plan hide-small">
                         <span ng-if="planSelection.selectedOffers[typedOffers.key] == plan.id" class="selected-icon">
@@ -1602,7 +1602,7 @@
                                 <li ng-if="plan.documents.letterOfAgency"><a ng-href="{{plan.documents.letterOfAgency}}" target="_blank">@Html.Sitecore().Field("Letter of Agency Document")</a></li>
                                 <li ng-if="plan.documents.termsAndDisclosures"><a ng-href="{{plan.documents.termsAndDisclosures}}" target="_blank">@Html.Sitecore().Field("Terms and Disclosures Document")</a></li>
                             </ul>
-                            <dl class="plan-selection-fees ga-plan-selection-fees">
+                            <dl class="plan-selection-fees ga-plan-selection-fees" ng-if="plan.monthlyServiceCharge">
                                 <dt>@Html.Sitecore().Field("Monthly Service Charge Label")</dt>
                                 <dd>{{ plan.monthlyServiceCharge }}</dd>
                             </dl>
