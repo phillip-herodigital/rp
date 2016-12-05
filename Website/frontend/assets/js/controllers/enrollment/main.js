@@ -36,10 +36,6 @@ ngApp.controller('EnrollmentMainCtrl', ['$scope', '$anchorScroll', '$location', 
     } else if ($scope.serviceType == 'pro') {
         enrollmentStepsService.setInitialFlow('protective');
     }
-    else if ($scope.serviceType == 'com')
-    {
-        enrollmentStepsService.setInitialFlow('commercialenroll');
-    }
     else {
         enrollmentStepsService.setInitialFlow('utility');
     }
@@ -117,7 +113,7 @@ ngApp.controller('EnrollmentMainCtrl', ['$scope', '$anchorScroll', '$location', 
     };
 
     $scope.assignSupportedEnrollmentTypes = function (supportedEnrollmentTypes) {
-        $scope.supportedEnrollmentTypes = _(supportedEnrollmentTypes).map(function (entry) { return { name: entry.enrollmenttype, value:entry.enrollmenttype } }).value();
+        $scope.supportedEnrollmentTypes = _(supportedEnrollmentTypes).map(function (entry) { return { name: entry.display, value:entry.enrollmenttype } }).value();
     };
 
     $scope.assignEnrollmentDefaultState = function (state) {

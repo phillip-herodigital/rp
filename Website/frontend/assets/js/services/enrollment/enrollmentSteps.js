@@ -114,17 +114,6 @@ ngApp.factory('enrollmentStepsService', ['$rootScope', 'scrollService', 'jQuery'
                     previous: ['utilityFlowService', 'utilityFlowPlans']
                 }
             },
-        'commercialenroll':
-            {
-                'serviceInformation': {
-                    name: 'utilityFlowService',
-                    previous: []
-                },
-                'planSettings': {
-                    name: 'accountInformation',
-                    previous: ['utilityFlowService']
-                }
-            },
         'phone':
             {
                 /*'verifyDevice': {
@@ -187,6 +176,18 @@ ngApp.factory('enrollmentStepsService', ['$rootScope', 'scrollService', 'jQuery'
                     name: 'utilityFlowPlans',
                     previous: []
                 }
+            };
+            isRenewal = true;
+        },
+
+        setCommercialQuote: function () {
+            delete steps.utilityFlowService;
+            delete steps.verifyIdentity;
+            flows.utility = {
+                'serviceInformation': {
+                    name: 'utilityFlowService',
+                    previous: []
+                },
             };
             isRenewal = true;
         },

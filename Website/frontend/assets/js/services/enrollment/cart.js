@@ -594,6 +594,12 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', 'sc
                 .intersection(['Mobile'])
                 .some();
         },
+        cartHasCommercialQuote: function () {
+            return _(services).pluck('location').pluck('capabilities').flatten()
+                .filter({ capabilityType: "CustomerType" }).pluck('customerType')
+                .intersection(['commercial'])
+                .some();
+        },
         getMobileAddresses: function() {
             return _(services)
                 .filter(function(service) { 
