@@ -2,7 +2,12 @@
 @using (new Sitecore.Data.Items.ContextItemSwitcher(Html.Sitecore().CurrentItem))
 {
     <div id="reviewOrder" class="enrollment showCart" ng-show="stepsService.isStepVisible('reviewOrder')" ng-controller="EnrollmentCompleteOrderCtrl" ng-init="setTimeRemaining('reviewOrder', '@Html.Sitecore().Field("Remaining Minutes Number")');">
-        @Html.Partial("~/Views/Components/Enrollment/Progress Bar.cshtml", new StreamEnergy.MyStream.Models.Enrollment.ProgressBar { StepNumber = 4, StepTextField = "Step 4 Description Text", HideCart = true })
+        <div ng-if="customerType != 'commercial'">
+            @Html.Partial("~/Views/Components/Enrollment/Progress Bar.cshtml", new StreamEnergy.MyStream.Models.Enrollment.ProgressBar { StepNumber = 4, StepTextField = "Step 4 Description Text", HideCart = true })
+        </div>
+        <div ng-if="customerType == 'commercial'">
+            @Html.Partial("~/Views/Components/Enrollment/Progress Bar.cshtml", new StreamEnergy.MyStream.Models.Enrollment.ProgressBar { StepNumber = 4, StepTextField = "Commercial Description Text", HideCart = true })
+        </div>
         <div class="layout">
             <div class="wrapper cols-2 enrollment__review-order">
                 <section>
@@ -405,23 +410,51 @@
     </table>
 </script>
 <script type="text/ng-template" id="completeOrder/commercialQuote">
-    <div class="service-description">
-        @Html.Sitecore().Field("Service Address Label") {{ location.location.address | address}}
-    </div>
     <table class="verify-order-table">
         <tbody>
             <tr class="line-item">
-                <td>@Html.Sitecore().Field("Service Address Label")</td>
-                <td class="description">
-                    @Html.Sitecore().Field("Service Address Label")
-                </td>
-                <td class="rate">
-                    {{selectedOffer.offer.rate | currency}} kWh
-                </td>
+                <td>@Html.Sitecore().Field("First Last Name Label")</td>
+                <td class="description">{{contactInfo.name.first + ' ' + contactInfo.name.last}}</td>
+            </tr>
+            <tr class="line-item">
+                <td>@Html.Sitecore().Field("Title Label")</td>
+                <td class="description">{{contactInfo.contactTitle}}</td>
+            </tr>
+            <tr class="line-item">
+                <td>@Html.Sitecore().Field("Phone Number Label")</td>
+                <td class="description">{{contactInfo.contactInfo.phone}}</td>
+            </tr>
+            <tr class="line-item">
+                <td>@Html.Sitecore().Field("Email Address Label")</td>
+                <td class="description">{{contactInfo.contactInfo.email}}</td>
             </tr>
         </tbody>
     </table>
     <hr class="content-divider">
+    <table class="verify-order-table">
+        <tbody>
+            <tr class="line-item">
+                <td>@Html.Sitecore().Field("Company Name Label")</td>
+                <td class="description">{{companyName}}</td>
+            </tr>
+            <tr class="line-item">
+                <td>@Html.Sitecore().Field("Preferred Sales Exec Label")</td>
+                <td class="description">{{associateName}}</td>
+            </tr>
+            <tr class="line-item">
+                <td>@Html.Sitecore().Field("ESI ID Label")</td>
+                <td class="description"></td>
+            </tr>
+            <tr class="line-item">
+                <td>@Html.Sitecore().Field("SSN Label")</td>
+                <td class="description">{{socialSecurityNumber}}</td>
+                </tr>
+            <tr class="line-item">
+                <td>@Html.Sitecore().Field("Under Contract Label")</td>
+                <td class="description"></td>
+            </tr>
+        </tbody>
+    </table>
 </script>
 <script type="text/ng-template" id="completeOrder/GeorgiaGasCommercialQuote">
     @*<h3>Electricity</h3>*@

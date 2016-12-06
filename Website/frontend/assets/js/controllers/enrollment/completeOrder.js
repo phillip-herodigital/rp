@@ -38,6 +38,7 @@ ngApp.controller('EnrollmentCompleteOrderCtrl', ['$scope', 'enrollmentService', 
     $scope.getProtectiveDiscount = enrollmentCartService.getProtectiveDiscount;
     $scope.getProtectiveTotal = enrollmentCartService.getProtectiveTotal;
     $scope.cartHasProtective = enrollmentCartService.cartHasProtective;
+    $scope.accountInformation = enrollmentService.accountInformation;
 
     _.intersectionObjects = _.intersect = function(array) {
     var slice = Array.prototype.slice;

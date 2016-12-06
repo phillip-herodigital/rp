@@ -4,7 +4,13 @@
 }
 
 <div id="utilityFlowService" class="enrollment" ng-show="stepsService.isStepVisible('utilityFlowService')" ng-controller="EnrollmentServiceInformationCtrl" ng-init="setTimeRemaining('utilityFlowService', '@Html.Sitecore().Field("Remaining Minutes Number")');">
-    @Html.Partial("~/Views/Components/Enrollment/Progress Bar.cshtml", new StreamEnergy.MyStream.Models.Enrollment.ProgressBar { StepNumber = 1, StepTextField = @commercialQuote?"Commercial Description Text":"Step 1 Description Text", HideCart = true })
+    
+    <div ng-if="customerType != 'commercial'">
+        @Html.Partial("~/Views/Components/Enrollment/Progress Bar.cshtml", new StreamEnergy.MyStream.Models.Enrollment.ProgressBar { StepNumber = 1, StepTextField = "Step 1 Description Text", HideCart = true })
+    </div>
+    <div ng-if="customerType == 'commercial'">
+        @Html.Partial("~/Views/Components/Enrollment/Progress Bar.cshtml", new StreamEnergy.MyStream.Models.Enrollment.ProgressBar { StepNumber = 4, StepTextField = "Commercial Description Text", HideCart = true })
+    </div>
     <div class="layout">
         <div class="wrapper cols-2">
             <section>
