@@ -272,6 +272,4 @@ ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', 'enrollmentServi
         }
         
     };
-    //*** NB: FOR TESTING ONLY ***
-    $scope.customerType = 'commercialquote';
 }]);

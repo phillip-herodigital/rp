@@ -15,7 +15,7 @@ ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$location', '$f
 
     // If the incoming URI indicates this is a commercial enrollment, change the default dropdown
     if ($location.absUrl().indexOf('ServiceType=com') > 0) {
-        $scope.$parent.customerType = 'commercialquote';
+        $scope.$parent.customerType = 'commercial';
         $scope.data.customerType = 'commercial';
     }
     else {
