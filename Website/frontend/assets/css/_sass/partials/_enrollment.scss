@@ -7657,3 +7657,24 @@ article.services-box {
         padding: 0;
     }
 }
+
+.service-type {
+	position: relative;
+	button {
+		background: none;
+		border: none;
+		box-shadow: none;
+		padding-bottom: 0px;
+		margin-bottom: 15px;
+		color: #333;
+		padding-left: 5px;
+		border-bottom: 1px solid #ccc;
+		border-radius: 0px;
+		outline: none;
+	}
+	ul.dropdown-menu {
+		position: absolute;
+		right: inherit;
+		top: 8px;
+	}
+}
