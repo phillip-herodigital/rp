@@ -624,7 +624,7 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', 'sc
             return _(services)
                 .filter(function(service) { 
                     if (_(service.offerInformationByType).pluck('key')
-                        .intersection(['TexasElectricity', 'TexasElectricityRenewal', 'GeorgiaGas', 'GeorgiaGasRenewal'])
+                        .intersection(['TexasElectricity', 'TexasElectricityRenewal', 'TexasElectricityCommercialQuote', 'GeorgiaGas', 'GeorgiaGasRenewal'])
                         .some()) {
                         return service;
                     } 
