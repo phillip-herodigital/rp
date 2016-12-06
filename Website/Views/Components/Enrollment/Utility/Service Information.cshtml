@@ -32,7 +32,7 @@
                             @Html.Sitecore().Field("Body Text")
 
                             @Html.Sitecore().Field("Searching Label")
-                             <div class="input-group-btn" id="enrollment-type-select" dropdown-select dropdown-items="supportedEnrollmentTypes" value="data.customerType" data-alignment="right" disabled="data.serviceState != 'TX'"></div>
+                             <div class="input-group-btn service-type" id="enrollment-type-select" dropdown-select dropdown-items="supportedEnrollmentTypes" value="data.customerType" data-alignment="right" disabled="data.serviceState != 'TX'"></div>
 
                             @using (var currentService = Html.ClientRepeater(m => m.Services, "getActiveServiceIndex()"))
                             {
