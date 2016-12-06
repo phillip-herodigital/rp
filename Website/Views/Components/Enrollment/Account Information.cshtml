@@ -328,7 +328,7 @@
                     </div>
 
                     </article>
-                    <article ng-if="customerType=='commercialquote'" class="enrollment__box form" ng-if="!isRenewal">
+                    <article ng-if="customerType== 'commercial'" class="enrollment__box form" ng-if="!isRenewal">
                         <header>
                             <h1>@Html.Sitecore().Field("Contact Information Header")</h1>
                         </header>
@@ -439,7 +439,7 @@
                             
                         </div>
                     </article>
-                    <article ng-if="customerType=='commercialquote'" class="enrollment__box form" ng-if="!isRenewal">
+                    <article ng-if="customerType== 'commercial'" class="enrollment__box form" ng-if="!isRenewal">
                         <header>
                             <h1>@Html.Sitecore().Field("Company Information Header")</h1>
                         </header>

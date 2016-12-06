@@ -24,7 +24,7 @@
                 <h1>@Html.Sitecore().Field("Cart Header")</h1>
             </header>
             <div class="content">
-                <div class="cart-item" ng-if="customerType == 'commercialquote'">
+                <div class="cart-item" ng-if="customerType == 'commercial'">
                     <h2>@Html.Sitecore().Field("Commercial Header")</h2>
                 </div>
                 <p class="alt" ng-if="!getCartCount() && !getCartItems().length">@Html.Sitecore().Field("Empty Cart Text")</p>
@@ -54,7 +54,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="cart-item" ng-repeat="(id, location) in getUtilityAddresses()" ng-if="cartHasUtility() || customerType=='commercialquote'">
+                <div class="cart-item" ng-repeat="(id, location) in getUtilityAddresses()" ng-if="cartHasUtility() || customerType== 'commercial'">
                     <div class="utility-plan">
                         <h2 ng-if="$first">@Html.Sitecore().Field("Energy Plan")</h2>
                         <address>
@@ -109,7 +109,7 @@
             <li><i class="icon-utility-provider"></i> @Html.Sitecore().Field("Documents Utility Provider")</li>-->
             </ul>
         </article>
-        <article ng-if="customerType == 'commercialquote'" class="enrollment__box outage-information">
+        <article ng-if="customerType == 'commercial'" class="enrollment__box outage-information">
             <header>
                 <p><strong>@Html.Sitecore().Field("Renew Existing Service Box Header")</strong></p>
             </header>
@@ -117,7 +117,7 @@
                 <li>@Html.Sitecore().Field("Renew Existing Service Box Text")</li>
             </ul>
         </article>
-        <article class="enrollment__box outage-information" ng-if="customerType != 'commercial' && customerType != 'commercialquote' && !isRenewal && cartHasUtility() && cartHasTxLocation()">
+        <article class="enrollment__box outage-information" ng-if="customerType != 'commercial' && !isRenewal && cartHasUtility() && cartHasTxLocation()">
             <header>
                 <p><strong>@Html.Sitecore().Field("Outage Header")</strong></p>
             </header>

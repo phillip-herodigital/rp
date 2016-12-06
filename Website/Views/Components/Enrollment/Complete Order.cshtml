@@ -9,23 +9,23 @@
                     <form data-val-bind-messages="validations" ng-submit="completeStep()" name="review-order">
                         <article class="form enrollment__box" ng-if="!isRenewal">
                             <header>
-                                <h1 ng-if="(customerType != 'commercial' && customerType != 'commercialquote') || cartHasMobile()">@Html.Sitecore().Field("Complete Order")</h1>
-                                <h1 ng-if="(customerType=='commercialquote') && !cartHasMobile()">@Html.Sitecore().Field("Confirm Information")</h1>
+                                <h1 ng-if="customerType != 'commercial' || cartHasMobile()">@Html.Sitecore().Field("Complete Order")</h1>
+                                <h1 ng-if="customerType== 'commercial' && !cartHasMobile()">@Html.Sitecore().Field("Confirm Information")</h1>
 
                             </header>
                             <div class="content">
-                                <div ng-if="customerType=='commercialquote'">
+                                <div ng-if="customerType== 'commercial'">
                                     @Html.Sitecore().Field("Service Address Label") {{ location.location.address | address}}
                                 </div>
-                                <div ng-if="customerType!='commercialquote'" ng-repeat="(id, location) in getCartItems()">
+                                <div ng-if="customerType!= 'commercial'" ng-repeat="(id, location) in getCartItems()">
                                     <div ng-repeat="offerInformation in location.offerInformationByType" ng-show="offerInformation.value.offerSelections.length">
-                                        <div ng-if="customerType!='commercialquote'" ng-include src="'completeOrder/' + offerInformation.key"></div>
+                                        <div ng-if="customerType!= 'commercial'" ng-include src="'completeOrder/' + offerInformation.key"></div>
                                     </div>
                                     <hr class="content-divider" ng-if="!$last">
                                 </div>
-                                <div ng-if="customerType=='commercialquote'" ng-include src="'completeOrder/commercialQuote'"></div>
+                                <div ng-if="customerType== 'commercial'" ng-include src="'completeOrder/commercialQuote'"></div>
                             </div>
-                            <footer ng-if="getCartTotal() > 0 && !cartHasMobile() && customerType!='commercialquote'">
+                            <footer ng-if="getCartTotal() > 0 && !cartHasMobile() && customerType!= 'commercial'">
                                 <div class="total" ng-if="!cartHasProtective()">
                                     @Html.Sitecore().Field("Total Due Now") <strong>{{ getCartTotal() | currency }}</strong>
                                 </div>
@@ -44,7 +44,7 @@
                             </div>
                         </article>
                         <div id="validation-summary"></div>
-                        <article class="enrollment__box card-details" ng-if="customerType!='commercialquote' && getCartTotal() > 0">
+                        <article class="enrollment__box card-details" ng-if="customerType!= 'commercial' && getCartTotal() > 0">
                             <header>
                                 <h1>@Html.Sitecore().Field("Card Details")</h1>
                                 <span class="icons">
@@ -72,11 +72,11 @@
                         </article>
                         <article class="enrollment__box">
                             <header>
-                                <h1 ng-if="customerType!='commercialquote'">@Html.Sitecore().Field("Terms Header")</h1>
-                                <h1 ng-if="customerType=='commercialquote'">@Html.Sitecore().Field("User Acceptance Header")</h1>
+                                <h1 ng-if="customerType!= 'commercial'">@Html.Sitecore().Field("Terms Header")</h1>
+                                <h1 ng-if="customerType== 'commercial'">@Html.Sitecore().Field("User Acceptance Header")</h1>
                             </header>
                             <div class="content form terms-agreement">
-                                <div class="item" @Html.Validation().ErrorClass(m => m.AgreeToTerms) ng-if="(customerType != 'commercial' && customerType != 'commercialquote')|| cartHasMobile()">
+                                <div class="item" @Html.Validation().ErrorClass(m => m.AgreeToTerms) ng-if="customerType != 'commercial'|| cartHasMobile()">
                                     <ul class="checkbox-list">
                                         <li>
                                             @Html.CheckBoxFor(m => m.AgreeToTerms, new { ng_model = "completeOrder.agreeToTerms", data_val = "true", data_val_required = "" })
@@ -89,7 +89,7 @@
                                         </li>
                                     </ul>
                                 </div>
-                                <div class="item" @Html.Validation().ErrorClass(m => m.AdditionalAuthorizations[StreamEnergy.DomainModels.Enrollments.AdditionalAuthorization.HistoricalUsageData]) ng-if="customerType == 'commercialquote' && !cartHasMobile()">
+                                <div class="item" @Html.Validation().ErrorClass(m => m.AdditionalAuthorizations[StreamEnergy.DomainModels.Enrollments.AdditionalAuthorization.HistoricalUsageData]) ng-if="customerType == 'commercial' && !cartHasMobile()">
                                     <ul class="checkbox-list">
                                         <li>
                                             <input type="checkbox" ng-model="completeOrder.additionalAuthorizations.historicalUsageData" name="@Html.IdFor(m => m.AdditionalAuthorizations[StreamEnergy.DomainModels.Enrollments.AdditionalAuthorization.HistoricalUsageData])" />
@@ -99,7 +99,7 @@
                                         </li>
                                     </ul>
                                 </div>
-                                <div class="item" @Html.Validation().ErrorClass(m => m.AdditionalAuthorizations[StreamEnergy.DomainModels.Enrollments.AdditionalAuthorization.Tcpa]) ng-if="customerType != 'commercialquote'">
+                                <div class="item" @Html.Validation().ErrorClass(m => m.AdditionalAuthorizations[StreamEnergy.DomainModels.Enrollments.AdditionalAuthorization.Tcpa]) ng-if="customerType != 'commercial'">
                                     <ul class="checkbox-list">
                                         <li>
                                             <input type="checkbox" ng-model="completeOrder.additionalAuthorizations.tcpa" />
@@ -109,7 +109,7 @@
                                         </li>
                                     </ul>
                                 </div>
-                                <div class="item" @Html.Validation().ErrorClass(m => m.AgreeToAutoPayTerms) ng-if="completeOrder.autopay && cartHasMobile() && customerType != 'commercialquote'">
+                                <div class="item" @Html.Validation().ErrorClass(m => m.AgreeToAutoPayTerms) ng-if="completeOrder.autopay && cartHasMobile() && customerType != 'commercial'">
                                     <ul class="checkbox-list">
                                         <li>
                                             @Html.CheckBoxFor(m => m.AgreeToAutoPayTerms, new { ng_model = "completeOrder.agreeToAutoPayTerms", data_val = "true", data_val_required = "" })
@@ -127,12 +127,12 @@
                         <div class="form terms-agreement">
                         </div>
                         <div class="buttons">
-                            <button type="submit" class="primary" ng-if="((customerType != 'commercial' && customerType !='commercialquote')|| cartHasMobile()) && !isRenewal" ng-click="completeOrder.nonExisting = true" ng-disabled="!completeOrder.agreeToTerms || (completeOrder.autopay && cartHasMobile() && !completeOrder.agreeToAutoPayTerms)" data-val-submit>@Html.Sitecore().Field("Button")</button>
-                            <button type="submit" class="primary" ng-if="customerType == 'commercialquote' && !isRenewal && !cartHasMobile()" ng-disabled="!completeOrder.additionalAuthorizations.historicalUsageData" data-val-submit>@Html.Sitecore().Field("Request Quote Button")</button>
+                            <button type="submit" class="primary" ng-if="((customerType != 'commercial' && customerType != 'commercial')|| cartHasMobile()) && !isRenewal" ng-click="completeOrder.nonExisting = true" ng-disabled="!completeOrder.agreeToTerms || (completeOrder.autopay && cartHasMobile() && !completeOrder.agreeToAutoPayTerms)" data-val-submit>@Html.Sitecore().Field("Button")</button>
+                            <button type="submit" class="primary" ng-if="customerType == 'commercial' && !isRenewal && !cartHasMobile()" ng-disabled="!completeOrder.additionalAuthorizations.historicalUsageData" data-val-submit>@Html.Sitecore().Field("Request Quote Button")</button>
                             <button type="submit" class="primary" ng-if="isRenewal" ng-disabled="!completeOrder.agreeToTerms" data-val-submit>@Html.Sitecore().Field("Renewal Button")</button>
                             <button type="button" class="tertiary" ng-if="!isRenewal" ng-click="resetEnrollment();">
-                                <span ng-if="customerType != 'commercialquote' || cartHasMobile()">@Html.Sitecore().Field("Cancel Enrollment Button")</span>
-                                <span ng-if="customerType == 'commercialquote' && !cartHasMobile()">@Html.Sitecore().Field("Cancel Quote Button")</span>
+                                <span ng-if="customerType != 'commercial' || cartHasMobile()">@Html.Sitecore().Field("Cancel Enrollment Button")</span>
+                                <span ng-if="customerType == 'commercial' && !cartHasMobile()">@Html.Sitecore().Field("Cancel Quote Button")</span>
                             </button>
                             <button type="button" class="tertiary" ng-if="isRenewal && utilityEnrollment.renewalType != 'anon'" ng-click="resetRenewal();">@Html.Sitecore().Field("Cancel Renewal Button")</button>
                             <button type="button" class="tertiary" ng-if="isRenewal && utilityEnrollment.renewalType == 'anon'" ng-click="resetAnonymousRenewal();">@Html.Sitecore().Field("Cancel Renewal Button")</button>
@@ -148,16 +148,16 @@
                     <div class="enrollment__cart">
                         <article class="enrollment__box" ng-controller="EnrollmentCartCtrl">
                             <header>
-                                <h1 ng-if="customerType!='commercialquote'">@Html.Sitecore().Field("Order Breakdown Header")</h1>
-                                <h1 ng-if="customerType=='commercialquote'">@Html.Sitecore().Field("Side Box Title")</h1>
+                                <h1 ng-if="customerType!= 'commercial'">@Html.Sitecore().Field("Order Breakdown Header")</h1>
+                                <h1 ng-if="customerType== 'commercial'">@Html.Sitecore().Field("Side Box Title")</h1>
                             </header>
                             <div class="content">
                                 <div>
-                                    <div class="billed-title" ng-if="customerType!='commercialquote'">@Html.Sitecore().Field("Billed Today Text")<i class="icon-billed-today"></i></div>
-                                    <div class="billed-title" ng-if="customerType=='commercialquote'">@Html.Sitecore().Field("Side Box Subhead")</div>
+                                    <div class="billed-title" ng-if="customerType!= 'commercial'">@Html.Sitecore().Field("Billed Today Text")<i class="icon-billed-today"></i></div>
+                                    <div class="billed-title" ng-if="customerType== 'commercial'">@Html.Sitecore().Field("Side Box Subhead")</div>
                                 </div>
                                 @Html.Sitecore().Field("Service Address Label") {{ location.location.address }}
-                                <div class="billed-today" ng-if="!isRenewal && getCartTotal() > 0 && customerType!='commercialquote'">
+                                <div class="billed-today" ng-if="!isRenewal && getCartTotal() > 0 && customerType!= 'commercial'">
                                     <div class="billed-title">@Html.Sitecore().Field("Billed Today Text")<i class="icon-billed-today"></i></div>
                                     <div ng-repeat="(id, location) in getCartItems()">
                                         <div ng-repeat="offerInformation in location.offerInformationByType" ng-show="offerInformation.value.offerSelections.length" class="offer">
@@ -170,8 +170,8 @@
                                         @Html.Sitecore().Field("Due Today Text") <span class="total">{{ getCartTotal() | currency }}</span>
                                     </div>
                                 </div>
-                                <hr ng-if="!isRenewal && !cartHasProtective() && customerType!='commercialquote' && getCartTotal() > 0">
-                                <div class="billed-monthly" ng-if="!cartHasProtective() && customerType!='commercialquote'">
+                                <hr ng-if="!isRenewal && !cartHasProtective() && customerType!= 'commercial' && getCartTotal() > 0">
+                                <div class="billed-monthly" ng-if="!cartHasProtective() && customerType!= 'commercial'">
                                     <div class="billed-title">@Html.Sitecore().Field("Billed Monthly Text")<i class="icon-billed-monthly"></i></div>
                                     <div ng-repeat="(id, location) in getCartItems()">
                                         <div ng-repeat="offerInformation in location.offerInformationByType" ng-show="offerInformation.value.offerSelections.length">
@@ -182,7 +182,7 @@
                                     </div>
                                     <div ng-include src="'completeOrderCartMonthlyExisting/Mobile'" ng-if="addLineSubAccounts != null && cartHasMobile()"></div>
                                 </div>
-                                <button type="submit" class="primary" ng-if="customerType == 'commercialquote' && !isRenewal && !cartHasMobile()" ng-disabled="!completeOrder.additionalAuthorizations.historicalUsageData" data-val-submit>@Html.Sitecore().Field("Request Quote Button")</button>
+                                <button type="submit" class="primary" ng-if="customerType == 'commercial' && !isRenewal && !cartHasMobile()" ng-disabled="!completeOrder.additionalAuthorizations.historicalUsageData" data-val-submit>@Html.Sitecore().Field("Request Quote Button")</button>
                             </div>
                         </article>
                     </div>
