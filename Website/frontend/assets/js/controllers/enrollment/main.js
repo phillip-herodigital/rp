@@ -96,9 +96,6 @@ ngApp.controller('EnrollmentMainCtrl', ['$scope', '$anchorScroll', '$location', 
     };
 
     $scope.assignStepNames = function (navTitles) {
-        if ($scope.customerType == 'commercial') {
-            navTitles.utilityFlowPlans = navTitles.utilityFlowPlansCommercial;
-        }
         angular.forEach(navTitles, function (translation, stepId) {
             var step = enrollmentStepsService.getStep(stepId);
             if (step){

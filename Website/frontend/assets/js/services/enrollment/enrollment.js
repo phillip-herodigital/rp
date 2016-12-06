@@ -447,8 +447,6 @@
      */
     service.getLocations = function (state, customerType, val) {
         var start = new Date().getTime();
-        if (customerType == 'commercialquote')
-            customerType = 'commercial';
         return $http.get('/api/address/lookup/' + state + '/' + customerType + '/' + val)
             .then(function (data) {
                 return data;
