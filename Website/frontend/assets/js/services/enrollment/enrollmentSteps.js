@@ -9,6 +9,7 @@ ngApp.factory('enrollmentStepsService', ['$rootScope', 'scrollService', 'jQuery'
     var initialFlow,
         currentFlow,
         isRenewal,
+        isCommercialQuote,
         isAddLine;
 
     //List of steps for the enrollment process
@@ -181,15 +182,15 @@ ngApp.factory('enrollmentStepsService', ['$rootScope', 'scrollService', 'jQuery'
         },
 
         setCommercialQuote: function () {
-            delete steps.utilityFlowService;
+            service.hideStep('utilityFlowPlans');
             delete steps.verifyIdentity;
             flows.utility = {
                 'serviceInformation': {
                     name: 'utilityFlowService',
                     previous: []
-                },
+                }
             };
-            isRenewal = true;
+            isCommercialQuote = true;
         },
 
         setAddLine: function (accountNumber) {
@@ -264,8 +265,11 @@ ngApp.factory('enrollmentStepsService', ['$rootScope', 'scrollService', 'jQuery'
             }
             else if (expectedState == 'planSettings' && (isRenewal)) {
                service.setStep('reviewOrder');
-               service.setMaxStep('reviewOrder');
-                
+               service.setMaxStep('reviewOrder');  
+            }
+            else if (expectedState == 'planSelection' && (isCommercialQuote)) {
+               service.setStep('accountInformation');
+               service.setMaxStep('accountInformation');  
             }
             else if (expectedState == "accountInformation" && isAddLine) {
                 service.setStep('reviewOrder');
