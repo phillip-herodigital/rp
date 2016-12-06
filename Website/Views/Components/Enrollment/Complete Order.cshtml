@@ -9,19 +9,23 @@
                     <form data-val-bind-messages="validations" ng-submit="completeStep()" name="review-order">
                         <article class="form enrollment__box" ng-if="!isRenewal">
                             <header>
-                                <h1 ng-if="(customerType != 'commercial' && customerType != 'commercialquote') || cartHasMobile()">@Html.Sitecore().Field("Complete Order")</h1>
-                                <h1 ng-if="(customerType == 'commercial'||customerType=='commercialquote') && !cartHasMobile()">@Html.Sitecore().Field("Complete Quote")</h1>
+                                <h1 ng-if="customerType != 'commercial' || cartHasMobile()">@Html.Sitecore().Field("Complete Order")</h1>
+                                <h1 ng-if="customerType== 'commercial' && !cartHasMobile()">@Html.Sitecore().Field("Confirm Information")</h1>
+
                             </header>
                             <div class="content">
-                                <p ng-if="customerType == 'commercial' && !cartHasMobile()">@Html.Sitecore().Field("Almost Done")</p>
-                                <div ng-repeat="(id, location) in getCartItems()">
+                                <div ng-if="customerType== 'commercial'">
+                                    @Html.Sitecore().Field("Service Address Label") {{ location.location.address | address}}
+                                </div>
+                                <div ng-if="customerType!= 'commercial'" ng-repeat="(id, location) in getCartItems()">
                                     <div ng-repeat="offerInformation in location.offerInformationByType" ng-show="offerInformation.value.offerSelections.length">
-                                        <div ng-include src="'completeOrder/' + offerInformation.key"></div>
+                                        <div ng-if="customerType!= 'commercial'" ng-include src="'completeOrder/' + offerInformation.key"></div>
                                     </div>
                                     <hr class="content-divider" ng-if="!$last">
                                 </div>
+                                <div ng-if="customerType== 'commercial'" ng-include src="'completeOrder/commercialQuote'"></div>
                             </div>
-                            <footer ng-if="getCartTotal() > 0 && !cartHasMobile()">
+                            <footer ng-if="getCartTotal() > 0 && !cartHasMobile() && customerType!= 'commercial'">
                                 <div class="total" ng-if="!cartHasProtective()">
                                     @Html.Sitecore().Field("Total Due Now") <strong>{{ getCartTotal() | currency }}</strong>
                                 </div>
@@ -40,7 +44,7 @@
                             </div>
                         </article>
                         <div id="validation-summary"></div>
-                        <article class="enrollment__box card-details" ng-if="customerType!='commercialquote' && getCartTotal() > 0">
+                        <article class="enrollment__box card-details" ng-if="customerType!= 'commercial' && getCartTotal() > 0">
                             <header>
                                 <h1>@Html.Sitecore().Field("Card Details")</h1>
                                 <span class="icons">
@@ -66,218 +70,13 @@
                                 <input name="autopay" id="autopay" type="checkbox" ng-model="completeOrder.autopay" ng-change="toggleAutoPay()" /><label for="autopay" class="autopay">@Html.Sitecore().Field("Activate AutoPay Button")</label>
                             </footer>
                         </article>
-                        <article class="enrollment__box enrollment__business-info" ng-if="customerType == 'commercial' && cartHasMobile()">
-                            <header>
-                                <h1>@Html.Sitecore().Field("Header - Business Information")</h1>
-                            </header>
-                            <div class="content">
-                                <p>@Html.Sitecore().Field("Text - Business Information")</p>
-                                <div class="group">
-                                    <div class="item group-col" @Html.Validation().ErrorClass(m => m.W9BusinessData.BusinessInformationName)>
-                                        <label for="@Html.IdFor(m => m.W9BusinessData.BusinessInformationName)">@Html.Sitecore().Field("Label - Name")</label>
-                                        @Html.TextBoxFor(m => m.W9BusinessData.BusinessInformationName, new { ng_model = "w9BusinessData.businessInformationName" })
-                                        @Html.ValidationMessageFor(model => model.W9BusinessData.BusinessInformationName)
-                                        <span class="note">@Html.Sitecore().Field("Note - Name")</span>
-                                    </div>
-                                    <div class="item group-col" @Html.Validation().ErrorClass(m => m.W9BusinessData.BusinessName)>
-                                        <label for="@Html.IdFor(m => m.W9BusinessData.BusinessName)">@Html.Sitecore().Field("Label - Business Name")</label>
-                                        @Html.TextBoxFor(m => m.W9BusinessData.BusinessName, new { ng_model = "w9BusinessData.businessName" })
-                                        @Html.ValidationMessageFor(model => model.W9BusinessData.BusinessName)
-                                        <span class="note">@Html.Sitecore().Field("Note - Business Name")</span>
-                                    </div>
-                                </div>
-                                <hr />
-                                <div class="item">
-                                    <label>@Html.Sitecore().Field("Federal Tax Classification")</label>
-                                    <ul class="checkbox-list inline">
-                                        <li>
-                                            <input type="radio" name="taxClassification" ng-model="w9BusinessData.taxClassification" value="IndividualSoleProprietor" checked /> <label>@Html.Sitecore().Field("Label - Individual")</label>
-                                        </li>
-                                        <li>
-                                            <input type="radio" name="taxClassification" ng-model="w9BusinessData.taxClassification" value="CCorporation" /> <label>@Html.Sitecore().Field("Label - C Corporation")</label>
-                                        </li>
-                                        <li>
-                                            <input type="radio" name="taxClassification" ng-model="w9BusinessData.taxClassification" value="SCorporation" /> <label>@Html.Sitecore().Field("Label - S Corporation")</label>
-                                        </li>
-                                        <li>
-                                            <input type="radio" name="taxClassification" ng-model="w9BusinessData.taxClassification" value="Partnership" /> <label>@Html.Sitecore().Field("Label - Partnership")</label>
-                                        </li>
-                                        <li>
-                                            <input type="radio" name="taxClassification" ng-model="w9BusinessData.taxClassification" value="TrustEstate" /> <label>@Html.Sitecore().Field("Label - Trust Estate")</label>
-                                        </li>
-                                        <li>
-                                            <input type="radio" name="taxClassification" ng-model="w9BusinessData.taxClassification" value="LLC" /> <label>@Html.Sitecore().Field("Label - Limited Liability Company")</label>
-                                            <select ng-model="w9BusinessData.llcClassification">
-                                                <option value="">Choose</option>
-                                                <option value="LLC - As an @Html.Sitecore().Field("Label - Individual")">As an @Html.Sitecore().Field("Label - Individual")</option>
-                                                <option value="LLC - As a @Html.Sitecore().Field("Label - Partnership")">As a @Html.Sitecore().Field("Label - Partnership")</option>
-                                                <option value="LLC - As a @Html.Sitecore().Field("Label - C Corporation")">As a @Html.Sitecore().Field("Label - C Corporation")</option>
-                                                <option value="LLC - As an @Html.Sitecore().Field("Label - S Corporation")">As an @Html.Sitecore().Field("Label - S Corporation")</option>
-                                            </select>
-                                        </li>
-                                        <li>
-                                            <input type="radio" name="taxClassification" ng-model="w9BusinessData.taxClassification" value="Other" /> <label>@Html.Sitecore().Field("Label - Other")</label>
-                                            <input type="text" ng-model="w9BusinessData.otherClassification" />
-                                        </li>
-                                    </ul>
-                                </div>
-                                <div class="item">
-                                    <label>@Html.Sitecore().Field("Text - Exemptions")</label>
-                                    <ul class="checkbox-list">
-                                        <li @Html.Validation().ErrorClass(m => m.W9BusinessData.ExemptCode)>
-                                            <input type="checkbox" ng-model="w9BusinessData.hasExemptCode" /> <label for="@Html.IdFor(m => m.W9BusinessData.ExemptCode)">@Html.Sitecore().Field("Label - Exempt Payee Code")</label>
-                                            @Html.TextBoxFor(m => m.W9BusinessData.ExemptCode, new { data_val_if = "w9BusinessData.hasExemptCode", ng_model = "w9BusinessData.exemptCode" })
-                                            @Html.ValidationMessageFor(model => model.W9BusinessData.ExemptCode)
-                                        </li>
-                                        <li @Html.Validation().ErrorClass(m => m.W9BusinessData.FatcaCode)>
-                                            <input type="checkbox" ng-model="hasFATCACode" /> <label for="@Html.IdFor(m => m.W9BusinessData.FatcaCode)">@Html.Sitecore().Field("Label - Exempt From FATCA")</label>
-                                            @Html.TextBoxFor(m => m.W9BusinessData.FatcaCode, new { data_val_if = "hasFATCACode", ng_model = "w9BusinessData.fatcaCode" })
-                                            @Html.ValidationMessageFor(model => model.W9BusinessData.FatcaCode)
-                                        </li>
-                                    </ul>
-                                </div>
-                                <hr />
-                                <h3>@Html.Sitecore().Field("Header - Business Address")</h3>
-                                <div class="item">
-                                    <ul class="checkbox-list">
-                                        <li>
-                                            <input type="checkbox" name="same-address-business" id="same-address-business" ng-model="businessAddressSame" />
-                                            <label for="same-address-business">@Html.Sitecore().Field("Same as Billing Address")</label>
-                                        </li>
-                                    </ul>
-                                </div>
-                                @using (var businessAddress = Html.Shortcut(m => m.W9BusinessData.BusinessAddress))
-                                {
-                                    <div ng-hide="businessAddressSame" class="item">
-                                        <div class="group">
-                                            <div class="item group-col" @(businessAddress.Validation().ErrorClass(m => m.Line1))>
-                                                <label for="@businessAddress.Fix(h => h.IdFor(m => m.Line1))">@Html.Sitecore().Field("Address 1")</label>
-                                                @businessAddress.Fix(h => h.TextBoxFor(m => m.Line1, new { data_val_if = "!businessAddressSame", ng_model = "w9BusinessData.businessAddress.line1" }))
-                                                @businessAddress.ValidationMessageFor(m => m.Line1)
-                                            </div>
-                                            <div class="item group-col" @businessAddress.Validation().ErrorClass(m => m.Line2)>
-                                                <label for="@businessAddress.Fix(h => h.IdFor(m => m.Line2))">@Html.Sitecore().Field("Address 2")</label>
-                                                @businessAddress.Fix(h => h.TextBoxFor(m => m.Line2, new { data_val_if = "!businessAddressSame", ng_model = "w9BusinessData.businessAddress.line2" }))
-                                                @businessAddress.ValidationMessageFor(m => m.Line2)
-                                            </div>
-                                        </div>
-                                        <div class="group">
-                                            <div class="item group-col" @businessAddress.Validation().ErrorClass(m => m.City)>
-                                                <label for="@businessAddress.Fix(h => h.IdFor(m => m.City))">@Html.Sitecore().Field("City")</label>
-                                                @businessAddress.Fix(h => h.TextBoxFor(m => m.City, new { data_val_if = "!businessAddressSame", ng_model = "w9BusinessData.businessAddress.city" }))
-                                                @businessAddress.ValidationMessageFor(m => m.City)
-                                            </div>
-                                            <div class="item" @businessAddress.Validation().ErrorClass(m => m.StateAbbreviation)>
-                                                <label for="@businessAddress.Fix(h => h.IdFor(m => m.StateAbbreviation))">@Html.Sitecore().Field("State")</label>
-                                                @businessAddress.Fix(h => h.DropDownListFor(m => m.StateAbbreviation,
-                                                        new SelectListItem[] { new SelectListItem { Text = Html.Sitecore().Field("Select Option Please Choose").ToString(), Value = "" } },
-                                                        new
-                                                        {
-                                                            data_val_if = "!businessAddressSame",
-                                                            ng_model = "w9BusinessData.businessAddress.stateAbbreviation",
-                                                            ng_options = "state.abbreviation as state.display for state in usStates"
-                                                        }))
-                                                @businessAddress.ValidationMessageFor(m => m.StateAbbreviation)
-                                            </div>
-                                            <div class="item zip-code" @businessAddress.Validation().ErrorClass(m => m.PostalCode5)>
-                                                <label for="@businessAddress.Fix(h => h.IdFor(m => m.PostalCode5))">@Html.Sitecore().Field("Zip Code")</label>
-                                                @businessAddress.Fix(h => h.TextBoxFor(m => m.PostalCode5, new { @class = "small", data_val_if = "!businessAddressSame", ng_model = "w9BusinessData.businessAddress.postalCode5" }))
-                                                @businessAddress.ValidationMessageFor(m => m.PostalCode5)
-                                            </div>
-                                        </div>
-                                    </div>
-                                }
-                                <div class="item" @Html.Validation().ErrorClass(m => m.W9BusinessData.CurrentAccountNumbers)>
-                                    <label for="@Html.IdFor(m => m.W9BusinessData.CurrentAccountNumbers)">@Html.Sitecore().Field("Label - List Account Numbers")</label>
-                                    @Html.TextBoxFor(m => m.W9BusinessData.CurrentAccountNumbers, new { ng_model = "w9BusinessData.currentAccountNumbers" })
-                                    @Html.ValidationMessageFor(model => model.W9BusinessData.CurrentAccountNumbers)
-                                </div>
-                                @* Use this info from the previous step
-                                    <hr />
-                                    <h3>@Html.Sitecore().Field("Header - Taxpayer Identification Number")</h3>
-                                    @Html.Sitecore().Field("Text - Taxpayer Identification Number")
-                                    <hr />
-                                    <div class="group or-sep">
-                                        <div class="item group-col" @Html.Validation().ErrorClass(m => m.TaxId)>
-                                            <input type="radio" name="tin" id="tin-ein" ng-model="tin" value="taxId" checked />
-                                            <label for="@Html.IdFor(m => m.TaxId)">@Html.Sitecore().Field("Label - Employer Identification Number")</label>
-                                            @Html.TextBoxFor(m => m.TaxId, new { data_val_if = "tin == 'taxId'", data_val_required = "", data_val = "true", data_val_regex = "", data_val_regex_pattern = "^\\d{2}[-]?\\d{7}$", ng_model = "taxId" })
-                                            @Html.ValidationMessageFor(model => model.TaxId)
-                                            <span class="note">@Html.Sitecore().Field("Note - Employer Identification Number")</span>
-                                        </div>
-                                        <div class="item group-col" @Html.Validation().ErrorClass(m => m.SocialSecurityNumber)>
-                                            <input type="radio" name="tin" id="tin-ssn" ng-model="tin" value="ssn" />
-                                            <label for="@Html.IdFor(m => m.SocialSecurityNumber)">@Html.Sitecore().Field("Label - Social Security Number")</label>
-                                            @Html.TextBoxFor(m => m.SocialSecurityNumber, new { data_val_if = "tin == 'ssn'", data_val_required = "", data_val = "true", data_val_regex = "", data_val_regex_pattern = "^\\d{3}[-]?\\d{2}[-]?\\d{4}$", ng_model = "socialSecurityNumber" })
-                                            @Html.ValidationMessageFor(model => model.SocialSecurityNumber)
-                                            <span class="note">@Html.Sitecore().Field("Note - Social Security Number")</span>
-                                        </div>
-                                    </div>
-                                *@
-                                <hr />
-                                <h3>@Html.Sitecore().Field("Header - Certification")</h3>
-                                <div class="terms-agreement">
-                                    <div class="item">
-                                        <ul class="checkbox-list">
-                                            <li @Html.Validation().ErrorClass(m => m.W9BusinessData.CustomerCertification)>
-                                                @Html.CheckBoxFor(m => m.W9BusinessData.CustomerCertification, new { ng_model = "w9BusinessData.customerCertification" })
-                                                <label for="@Html.IdFor(m => m.W9BusinessData.CustomerCertification)">@Html.Sitecore().Field("Label - Certification")</label>
-                                                @Html.ValidationMessageFor(model => model.W9BusinessData.CustomerCertification)
-                                            </li>
-                                        </ul>
-                                        <div class="terms">
-                                            @Html.Sitecore().Field("Text - Certification")
-                                        </div>
-                                    </div>
-                                </div>
-                                <hr />
-                                <div class="group">
-                                    <div class="item group-col">
-                                        <label>@Html.Sitecore().Field("Label - Signature") <a href="" tooltip-html-unsafe="@Html.Sitecore().Field("Signature Tooltip").ToHtmlString()"><i class="icon-tooltip"></i></a></label>
-                                        <div class="signature" ng-click="showSignatureModal('signature')" ng-class="{empty:!customerSignature}" @Html.Validation().ErrorClass(m => m.W9BusinessData.CustomerSignature)>
-                                            <span ng-if="!w9BusinessData.customerSignature">@Html.Sitecore().Field("Text - Add Signature")</span>
-                                            <span ng-if="w9BusinessData.customerSignature">
-                                                <span class="signature-name" ng-if="w9BusinessData.signatureImage == null">{{ w9BusinessData.customerSignature }}</span>
-                                                <span ng-if="w9BusinessData.signatureImage != null" class="signature-image"><img ng-src="data:image/png;base64,{{ w9BusinessData.signatureImage }}" /></span>
-                                                <a href="">@Html.Sitecore().Field("Text - Edit Signature")</a>
-                                            </span>
-                                            @Html.HiddenFor(m => m.W9BusinessData.CustomerSignature, new { ng_model = "w9BusinessData.customerSignature" })
-                                            @Html.ValidationMessageFor(model => model.W9BusinessData.CustomerSignature)
-                                        </div>
-                                        <ul class="checkbox-list">
-                                            <li>
-                                                <input type="checkbox" id="signatory" ng-model="signatory" /> <label for="signatory">@Html.Sitecore().Field("Label - Signatory")</label>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <div class="item group-col">
-                                        <label>@Html.Sitecore().Field("Label - Date")</label>
-                                        <strong>{{ currentDate | date:'MMM. d, yyyy'}}</strong>
-                                    </div>
-                                </div>
-                                <div class="group additional-name" ng-show="!signatory">
-                                    <hr />
-                                    <p>@Html.Sitecore().Field("Text - Please Fill Out Information")</p>
-                                    <div class="item group-col" @Html.Validation().ErrorClass(m => m.W9BusinessData.SignatoryName)>
-                                        <label for="@Html.IdFor(m => m.W9BusinessData.SignatoryName)">@Html.Sitecore().Field("Label - Type Your Name")</label>
-                                        @Html.TextBoxFor(m => m.W9BusinessData.SignatoryName, new { data_val_if = "!signatory", data_val = "true", data_val_required = "", ng_model = "w9BusinessData.signatoryName" })
-                                        @Html.ValidationMessageFor(model => model.W9BusinessData.SignatoryName)
-                                    </div>
-                                    <div class="item group-col" @Html.Validation().ErrorClass(m => m.W9BusinessData.SignatoryRelation)>
-                                        <label for="@Html.IdFor(m => m.W9BusinessData.SignatoryRelation)">@Html.Sitecore().Field("Label - Relation To US Person")</label>
-                                        @Html.TextBoxFor(m => m.W9BusinessData.SignatoryRelation, new { data_val_if = "!signatory", data_val = "true", data_val_required = "", ng_model = "w9BusinessData.signatoryRelation" })
-                                        @Html.ValidationMessageFor(model => model.W9BusinessData.SignatoryRelation)
-                                    </div>
-                                </div>
-                            </div>
-                        </article>
                         <article class="enrollment__box">
                             <header>
-                                <h1 ng-if="customerType!='commercialquote'">@Html.Sitecore().Field("Terms Header")</h1>
-                                <h1 ng-if="customerType=='commercialquote'">@Html.Sitecore().Field("User Acceptance Header")</h1>
+                                <h1 ng-if="customerType!= 'commercial'">@Html.Sitecore().Field("Terms Header")</h1>
+                                <h1 ng-if="customerType== 'commercial'">@Html.Sitecore().Field("User Acceptance Header")</h1>
                             </header>
                             <div class="content form terms-agreement">
-                                <div class="item" @Html.Validation().ErrorClass(m => m.AgreeToTerms) ng-if="(customerType != 'commercial' && customerType != 'commercialquote')|| cartHasMobile()">
+                                <div class="item" @Html.Validation().ErrorClass(m => m.AgreeToTerms) ng-if="customerType != 'commercial'|| cartHasMobile()">
                                     <ul class="checkbox-list">
                                         <li>
                                             @Html.CheckBoxFor(m => m.AgreeToTerms, new { ng_model = "completeOrder.agreeToTerms", data_val = "true", data_val_required = "" })
@@ -295,22 +94,12 @@
                                         <li>
                                             <input type="checkbox" ng-model="completeOrder.additionalAuthorizations.historicalUsageData" name="@Html.IdFor(m => m.AdditionalAuthorizations[StreamEnergy.DomainModels.Enrollments.AdditionalAuthorization.HistoricalUsageData])" />
                                             <label for="@Html.IdFor(m => m.AdditionalAuthorizations[StreamEnergy.DomainModels.Enrollments.AdditionalAuthorization.HistoricalUsageData])">
-                                                @Html.Sitecore().Field("Historical Usage Data Text")
-                                            </label>
-                                        </li>
-                                    </ul>
-                                </div>
-                                <div class="item" @Html.Validation().ErrorClass(m => m.AdditionalAuthorizations[StreamEnergy.DomainModels.Enrollments.AdditionalAuthorization.HistoricalUsageData]) ng-if="customerType == 'commercialquote' && !cartHasMobile()">
-                                    <ul class="checkbox-list">
-                                        <li>
-                                            <input type="checkbox" ng-model="completeOrder.additionalAuthorizations.historicalUsageData" name="@Html.IdFor(m => m.AdditionalAuthorizations[StreamEnergy.DomainModels.Enrollments.AdditionalAuthorization.HistoricalUsageData])" />
-                                            <label for="@Html.IdFor(m => m.AdditionalAuthorizations[StreamEnergy.DomainModels.Enrollments.AdditionalAuthorization.HistoricalUsageData])">
                                                 @Html.Sitecore().Field("User Acceptance Text")
                                             </label>
                                         </li>
                                     </ul>
                                 </div>
-                                <div class="item" @Html.Validation().ErrorClass(m => m.AdditionalAuthorizations[StreamEnergy.DomainModels.Enrollments.AdditionalAuthorization.Tcpa]) ng-if="customerType != 'commercialquote'">
+                                <div class="item" @Html.Validation().ErrorClass(m => m.AdditionalAuthorizations[StreamEnergy.DomainModels.Enrollments.AdditionalAuthorization.Tcpa]) ng-if="customerType != 'commercial'">
                                     <ul class="checkbox-list">
                                         <li>
                                             <input type="checkbox" ng-model="completeOrder.additionalAuthorizations.tcpa" />
@@ -320,7 +109,7 @@
                                         </li>
                                     </ul>
                                 </div>
-                                <div class="item" @Html.Validation().ErrorClass(m => m.AgreeToAutoPayTerms) ng-if="completeOrder.autopay && cartHasMobile() && customerType != 'commercialquote'">
+                                <div class="item" @Html.Validation().ErrorClass(m => m.AgreeToAutoPayTerms) ng-if="completeOrder.autopay && cartHasMobile() && customerType != 'commercial'">
                                     <ul class="checkbox-list">
                                         <li>
                                             @Html.CheckBoxFor(m => m.AgreeToAutoPayTerms, new { ng_model = "completeOrder.agreeToAutoPayTerms", data_val = "true", data_val_required = "" })
@@ -338,9 +127,8 @@
                         <div class="form terms-agreement">
                         </div>
                         <div class="buttons">
-                            <button type="submit" class="primary" ng-if="((customerType != 'commercial' && customerType !='commercialquote')|| cartHasMobile()) && !isRenewal" ng-click="completeOrder.nonExisting = true" ng-disabled="!completeOrder.agreeToTerms || (completeOrder.autopay && cartHasMobile() && !completeOrder.agreeToAutoPayTerms)" data-val-submit>@Html.Sitecore().Field("Button")</button>
-                            <button type="submit" class="primary" ng-if="customerType == 'commercial' && !isRenewal && !cartHasMobile()" ng-disabled="!completeOrder.additionalAuthorizations.historicalUsageData" data-val-submit>@Html.Sitecore().Field("Commercial Button")</button>
-                            <button type="submit" class="primary" ng-if="customerType == 'commercialquote' && !isRenewal && !cartHasMobile()" ng-disabled="!completeOrder.agreeToTerms" data-val-submit>@Html.Sitecore().Field("Request Quote Button")</button>
+                            <button type="submit" class="primary" ng-if="((customerType != 'commercial' && customerType != 'commercial')|| cartHasMobile()) && !isRenewal" ng-click="completeOrder.nonExisting = true" ng-disabled="!completeOrder.agreeToTerms || (completeOrder.autopay && cartHasMobile() && !completeOrder.agreeToAutoPayTerms)" data-val-submit>@Html.Sitecore().Field("Button")</button>
+                            <button type="submit" class="primary" ng-if="customerType == 'commercial' && !isRenewal && !cartHasMobile()" ng-disabled="!completeOrder.additionalAuthorizations.historicalUsageData" data-val-submit>@Html.Sitecore().Field("Request Quote Button")</button>
                             <button type="submit" class="primary" ng-if="isRenewal" ng-disabled="!completeOrder.agreeToTerms" data-val-submit>@Html.Sitecore().Field("Renewal Button")</button>
                             <button type="button" class="tertiary" ng-if="!isRenewal" ng-click="resetEnrollment();">
                                 <span ng-if="customerType != 'commercial' || cartHasMobile()">@Html.Sitecore().Field("Cancel Enrollment Button")</span>
@@ -360,15 +148,16 @@
                     <div class="enrollment__cart">
                         <article class="enrollment__box" ng-controller="EnrollmentCartCtrl">
                             <header>
-                                <h1 ng-if="customerType!='commercialquote'">@Html.Sitecore().Field("Order Breakdown Header")</h1>
-                                <h1 ng-if="customerType=='commercialquote'">@Html.Sitecore().Field("Side Box Title")</h1>
+                                <h1 ng-if="customerType!= 'commercial'">@Html.Sitecore().Field("Order Breakdown Header")</h1>
+                                <h1 ng-if="customerType== 'commercial'">@Html.Sitecore().Field("Side Box Title")</h1>
                             </header>
                             <div class="content">
                                 <div>
-                                    <div class="billed-title" ng-if="customerType!='commercialquote'">@Html.Sitecore().Field("Billed Today Text")<i class="icon-billed-today"></i></div>
-                                    <div class="billed-title" ng-if="customerType=='commercialquote'">@Html.Sitecore().Field("Side Box Subhead")</div>
+                                    <div class="billed-title" ng-if="customerType!= 'commercial'">@Html.Sitecore().Field("Billed Today Text")<i class="icon-billed-today"></i></div>
+                                    <div class="billed-title" ng-if="customerType== 'commercial'">@Html.Sitecore().Field("Side Box Subhead")</div>
                                 </div>
-                                <div class="billed-today" ng-if="!isRenewal && getCartTotal() > 0 && customerType!='commercialquote'">
+                                @Html.Sitecore().Field("Service Address Label") {{ location.location.address }}
+                                <div class="billed-today" ng-if="!isRenewal && getCartTotal() > 0 && customerType!= 'commercial'">
                                     <div class="billed-title">@Html.Sitecore().Field("Billed Today Text")<i class="icon-billed-today"></i></div>
                                     <div ng-repeat="(id, location) in getCartItems()">
                                         <div ng-repeat="offerInformation in location.offerInformationByType" ng-show="offerInformation.value.offerSelections.length" class="offer">
@@ -381,8 +170,8 @@
                                         @Html.Sitecore().Field("Due Today Text") <span class="total">{{ getCartTotal() | currency }}</span>
                                     </div>
                                 </div>
-                                <hr ng-if="!isRenewal && !cartHasProtective() && customerType!='commercialquote' && getCartTotal() > 0">
-                                <div class="billed-monthly" ng-if="!cartHasProtective() && customerType!='commercialquote'">
+                                <hr ng-if="!isRenewal && !cartHasProtective() && customerType!= 'commercial' && getCartTotal() > 0">
+                                <div class="billed-monthly" ng-if="!cartHasProtective() && customerType!= 'commercial'">
                                     <div class="billed-title">@Html.Sitecore().Field("Billed Monthly Text")<i class="icon-billed-monthly"></i></div>
                                     <div ng-repeat="(id, location) in getCartItems()">
                                         <div ng-repeat="offerInformation in location.offerInformationByType" ng-show="offerInformation.value.offerSelections.length">
@@ -393,6 +182,7 @@
                                     </div>
                                     <div ng-include src="'completeOrderCartMonthlyExisting/Mobile'" ng-if="addLineSubAccounts != null && cartHasMobile()"></div>
                                 </div>
+                                <button type="submit" class="primary" ng-if="customerType == 'commercial' && !isRenewal && !cartHasMobile()" ng-disabled="!completeOrder.additionalAuthorizations.historicalUsageData" data-val-submit>@Html.Sitecore().Field("Request Quote Button")</button>
                             </div>
                         </article>
                     </div>
@@ -613,6 +403,25 @@
             <tr ng-repeat-end></tr>
         </tbody>
     </table>
+</script>
+<script type="text/ng-template" id="completeOrder/commercialQuote">
+    <div class="service-description">
+        @Html.Sitecore().Field("Service Address Label") {{ location.location.address | address}}
+    </div>
+    <table class="verify-order-table">
+        <tbody>
+            <tr class="line-item">
+                <td>@Html.Sitecore().Field("Service Address Label")</td>
+                <td class="description">
+                    @Html.Sitecore().Field("Service Address Label")
+                </td>
+                <td class="rate">
+                    {{selectedOffer.offer.rate | currency}} kWh
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <hr class="content-divider">
 </script>
 <script type="text/ng-template" id="completeOrder/GeorgiaGasCommercialQuote">
     @*<h3>Electricity</h3>*@

@@ -72,7 +72,7 @@
                             </div>
                             <hr>
                             <div class="item" ng-if="data.serviceState == 'TX' || data.serviceState == 'GA'">
-                                <label>@Html.Sitecore().Field("Options Label") <a ng-show="$parent.customerType=='commercialquote'" href="#" tooltip="@Html.Sitecore().Field("Switching Popup")"><i class="icon-tooltip"></i></a><a ng-show="$parent.customerType=='residential'" href="#" tooltip="@Html.Sitecore().Field("Options Tooltip")"><i class="icon-tooltip"></i></a></label>
+                                <label>@Html.Sitecore().Field("Options Label") <a ng-show="$parent.customerType== 'commercial'" href="#" tooltip="@Html.Sitecore().Field("Switching Popup")"><i class="icon-tooltip"></i></a><a ng-show="$parent.customerType=='residential'" href="#" tooltip="@Html.Sitecore().Field("Options Tooltip")"><i class="icon-tooltip"></i></a></label>
                                 <ul class="checkbox-list">
                                     <li ng-switch on="data.serviceState">
                                         <input type="radio" ng-model="data.isNewService" id="switching-providers" ng-value="false">
