@@ -9,7 +9,6 @@
                     <h1 ng-if="cartHasProtective() || customerType != 'commercial' && confirmationSuccess && !isRenewal">@Html.Sitecore().Field("Order Confirmation")</h1>
                     <h1 ng-if="!cartHasProtective() && customerType != 'commercial' && !confirmationSuccess">@Html.Sitecore().Field("Order Submitted")</h1>
                     <h1 ng-if="confirmationSuccess && isRenewal">@Html.Sitecore().Field("Renewal Confirmation")</h1>
-                    <h1 ng-if="customerType == 'commercial' && !isRenewal">@Html.Sitecore().Field("Request Received")</h1>
                     <h1 ng-if="customerType == 'commercialquote' && !isRenewal">@Html.Sitecore().Field("Thank You for Requesting")</h1>
                     <a class="print" href="" ng-click="onPrint()"><i class="icon-printer"></i>@Html.Sitecore().Field("Print")</a>
                 </header>
@@ -46,11 +45,6 @@
                         </div>
                     </footer>
                 }
-            </article>
-            <article ng-if="customerType == 'commercial' && !isRenewal && !cartHasMobile()" class="commercial-next-steps enrollment__box">
-                <div class="content">
-                    @Html.Sitecore().Field("Commercial Next Steps")
-                </div>
             </article>
             <article ng-if="customerType!='commercialquote'" class="verify-order enrollment__box">
                 <header>

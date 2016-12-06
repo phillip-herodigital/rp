@@ -46,7 +46,7 @@
                                 <button type="submit" class="primary" data-val-submit>@Html.Sitecore().Field("Button")</button>
                                 <button type="submit" class="tertiary" ng-click="resetEnrollment();">
                                     <span ng-if="customerType != 'commercial'">@Html.Sitecore().Field("Cancel Enrollment Button")</span>
-                                    <span ng-if="customerType == 'commercial'">@Html.Sitecore().Field("Cancel Quote Button")</span>
+                                    <span ng-if="customerType == 'commercialquote'">@Html.Sitecore().Field("Cancel Quote Button")</span>
                                 </button>
                             </div>
                         </footer>
