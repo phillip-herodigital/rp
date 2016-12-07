@@ -237,7 +237,7 @@ namespace StreamEnergy.Services.Clients
 
             var result = Json.Read<Newtonsoft.Json.Linq.JObject>(await response.Content.ReadAsStringAsync());
 
-            return (JObject)result["Providers"].First();
+            return (JObject)result["Providers"].FirstOrDefault();
         }
 
         private string ToFeeQualifier(string feeName)

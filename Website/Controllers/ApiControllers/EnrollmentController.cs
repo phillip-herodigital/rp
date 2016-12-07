@@ -984,6 +984,7 @@ FROM [SwitchBack] WHERE ESIID=@esiId";
             stateMachine.Context.CompanyName = request.CompanyName;
             stateMachine.Context.DoingBusinessAs = request.DoingBusinessAs;
             stateMachine.Context.PreferredSalesExecutive = request.PreferredSalesExecutive;
+            stateMachine.Context.UnderContract = request.UnderContract;
 
             stateMachine.Context.PreviousProvider = request.PreviousProvider;
             stateMachine.Context.AssociateName = request.AssociateName;
