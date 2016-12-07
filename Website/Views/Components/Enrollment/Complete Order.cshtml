@@ -414,19 +414,19 @@
         <tbody>
             <tr class="line-item">
                 <td>@Html.Sitecore().Field("First Last Name Label")</td>
-                <td class="description">{{contactInfo.name.first + ' ' + contactInfo.name.last}}</td>
+                <td class="description">{{accountInformation.contactInfo.name.first}} {{accountInformation.contactInfo.name.last}}</td>
             </tr>
             <tr class="line-item">
                 <td>@Html.Sitecore().Field("Title Label")</td>
-                <td class="description">{{contactInfo.contactTitle}}</td>
+                <td class="description">{{accountInformation.contactInfo.contactTitle}}</td>
             </tr>
             <tr class="line-item">
                 <td>@Html.Sitecore().Field("Phone Number Label")</td>
-                <td class="description">{{contactInfo.contactInfo.phone}}</td>
+                <td class="description">{{accountInformation.contactInfo.phone.number}}</td>
             </tr>
             <tr class="line-item">
                 <td>@Html.Sitecore().Field("Email Address Label")</td>
-                <td class="description">{{contactInfo.contactInfo.email}}</td>
+                <td class="description">{{accountInformation.contactInfo.email.address}}</td>
             </tr>
         </tbody>
     </table>
@@ -435,11 +435,11 @@
         <tbody>
             <tr class="line-item">
                 <td>@Html.Sitecore().Field("Company Name Label")</td>
-                <td class="description">{{companyName}}</td>
+                <td class="description">{{accountInformation.companyName}}</td>
             </tr>
             <tr class="line-item">
                 <td>@Html.Sitecore().Field("Preferred Sales Exec Label")</td>
-                <td class="description">{{associateName}}</td>
+                <td class="description">{{accountInformation.associateName}}</td>
             </tr>
             <tr class="line-item">
                 <td>@Html.Sitecore().Field("ESI ID Label")</td>
@@ -447,7 +447,7 @@
             </tr>
             <tr class="line-item">
                 <td>@Html.Sitecore().Field("SSN Label")</td>
-                <td class="description">{{socialSecurityNumber}}</td>
+                <td class="description">{{accountInformation.socialSecurityNumber}}</td>
                 </tr>
             <tr class="line-item">
                 <td>@Html.Sitecore().Field("Under Contract Label")</td>
