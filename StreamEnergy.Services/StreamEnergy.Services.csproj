@@ -193,6 +193,7 @@
     <Compile Include="Services\Clients\AccountFactory.cs" />
     <Compile Include="Services\Clients\AccountService.cs" />
     <Compile Include="Services\Clients\AsyncSendingManager.cs" />
+    <Compile Include="Services\Clients\CommercialRFQAdapter.cs" />
     <Compile Include="Services\Clients\EmailContact.cs" />
     <Compile Include="Services\Clients\EnrollmentAccountDetails.cs" />
     <Compile Include="Services\Clients\GeorgiaAdapter.cs" />
