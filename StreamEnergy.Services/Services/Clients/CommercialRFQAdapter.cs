@@ -166,11 +166,15 @@ namespace StreamEnergy.Services.Clients
                 ServiceType = "CommercialUtility",
                 Key = account.EnrollmentAccountKey,
                 RequestUniqueKey = account.RequestUniqueKey,
-
                 Premise = new
                 {
                     EnrollmentType = serviceStatus.EnrollmentType.ToString("g"),
                     SelectedMoveInDate = (account.Offer.OfferOption is TexasElectricity.MoveInOfferOption) ? ((TexasElectricity.MoveInOfferOption)account.Offer.OfferOption).ConnectDate : DateTime.Now,
+                    UtilityProvider = new
+                    {
+                        Id = "",
+                        Name = texasService.Tdu,
+                    },
                     UtilityAccountNumber = texasService.EsiId,
                     ServiceAddress = StreamConnectUtilities.ToStreamConnectAddress(account.Location.Address),
                     ProductType = "Electricity",

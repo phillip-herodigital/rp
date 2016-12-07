@@ -383,6 +383,7 @@ namespace StreamEnergy.Services.Clients
                                CustomerType = customerType.CustomerType.ToString("g"),
                                FirstName = context.ContactInfo.Name.First,
                                LastName = context.ContactInfo.Name.Last,
+                               CompanyName = context.CompanyName,
                                BillingAddress = StreamConnectUtilities.ToStreamConnectAddress(context.MailingAddress),
                                HomePhone = context.ContactInfo.Phone.OfType<TypedPhone>().Where(p => p.Category == PhoneCategory.Home).Select(p => p.Number).SingleOrDefault(),
                                CellPhone = context.ContactInfo.Phone.OfType<TypedPhone>().Where(p => p.Category == PhoneCategory.Mobile).Select(p => p.Number).SingleOrDefault(),

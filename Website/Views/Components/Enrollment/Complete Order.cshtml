@@ -19,8 +19,8 @@
 
                             </header>
                             <div class="content">
-                                <div ng-if="customerType== 'commercial'">
-                                    @Html.Sitecore().Field("Service Address Label") {{ location.location.address | address}}
+                                <div ng-if="customerType== 'commercial'" ng-repeat="(id, location) in getCartItems()">
+                                    <div ng-include src="'completeOrder/commercialQuote'"></div>
                                 </div>
                                 <div ng-if="customerType!= 'commercial'" ng-repeat="(id, location) in getCartItems()">
                                     <div ng-repeat="offerInformation in location.offerInformationByType" ng-show="offerInformation.value.offerSelections.length">
@@ -28,7 +28,6 @@
                                     </div>
                                     <hr class="content-divider" ng-if="!$last">
                                 </div>
-                                <div ng-if="customerType== 'commercial'" ng-include src="'completeOrder/commercialQuote'"></div>
                             </div>
                             <footer ng-if="getCartTotal() > 0 && !cartHasMobile() && customerType!= 'commercial'">
                                 <div class="total" ng-if="!cartHasProtective()">
@@ -410,48 +409,58 @@
     </table>
 </script>
 <script type="text/ng-template" id="completeOrder/commercialQuote">
+    <div class="services-header">
+        <div class="service-title">
+            @Html.Sitecore().Field("Energy Services Text")
+        </div>
+        <div class="service-description">
+            @Html.Sitecore().Field("Service Address Label") {{ location.location.address | address}}
+        </div>
+    </div>
+    <h3>@Html.Sitecore().Field("Personal Information Label")</h3>
     <table class="verify-order-table">
         <tbody>
             <tr class="line-item">
-                <td>@Html.Sitecore().Field("First Last Name Label")</td>
+                <td class="label">@Html.Sitecore().Field("First Last Name Label")</td>
                 <td class="description">{{accountInformation.contactInfo.name.first}} {{accountInformation.contactInfo.name.last}}</td>
             </tr>
             <tr class="line-item">
-                <td>@Html.Sitecore().Field("Title Label")</td>
-                <td class="description">{{accountInformation.contactInfo.contactTitle}}</td>
+                <td class="label">@Html.Sitecore().Field("Title Label")</td>
+                <td class="description">{{accountInformation.contactTitle}}</td>
             </tr>
             <tr class="line-item">
-                <td>@Html.Sitecore().Field("Phone Number Label")</td>
-                <td class="description">{{accountInformation.contactInfo.phone.number}}</td>
+                <td class="label">@Html.Sitecore().Field("Phone Number Label")</td>
+                <td class="description">{{accountInformation.contactInfo.phone[0].number}}</td>
             </tr>
             <tr class="line-item">
-                <td>@Html.Sitecore().Field("Email Address Label")</td>
+                <td class="label">@Html.Sitecore().Field("Email Address Label")</td>
                 <td class="description">{{accountInformation.contactInfo.email.address}}</td>
             </tr>
         </tbody>
     </table>
     <hr class="content-divider">
+    <h3>@Html.Sitecore().Field("Company Information Label")</h3>
     <table class="verify-order-table">
         <tbody>
             <tr class="line-item">
-                <td>@Html.Sitecore().Field("Company Name Label")</td>
+                <td class="label">@Html.Sitecore().Field("Company Name Label")</td>
                 <td class="description">{{accountInformation.companyName}}</td>
             </tr>
             <tr class="line-item">
-                <td>@Html.Sitecore().Field("Preferred Sales Exec Label")</td>
-                <td class="description">{{accountInformation.associateName}}</td>
+                <td class="label">@Html.Sitecore().Field("Preferred Sales Exec Label")</td>
+                <td class="description">{{accountInformation.preferredSalesExecutive}}</td>
             </tr>
             <tr class="line-item">
-                <td>@Html.Sitecore().Field("ESI ID Label")</td>
-                <td class="description"></td>
+                <td class="label">@Html.Sitecore().Field("ESI ID Label")</td>
+                <td class="description">{{ location.location.capabilities[0].esiId }}</td>
             </tr>
             <tr class="line-item">
-                <td>@Html.Sitecore().Field("SSN Label")</td>
+                <td class="label">@Html.Sitecore().Field("SSN Label")</td>
                 <td class="description">{{accountInformation.socialSecurityNumber}}</td>
                 </tr>
             <tr class="line-item">
-                <td>@Html.Sitecore().Field("Under Contract Label")</td>
-                <td class="description"></td>
+                <td class="label">@Html.Sitecore().Field("Under Contract Label")</td>
+                <td class="description">{{accountInformation.underContract}}</td>
             </tr>
         </tbody>
     </table>
