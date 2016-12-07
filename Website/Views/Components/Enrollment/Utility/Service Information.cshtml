@@ -1,6 +1,6 @@
 ﻿@model StreamEnergy.DomainModels.Enrollments.UserContext
 @{
-    var commercialQuote = (Request.QueryString["AccountType"] == "M");
+    Sitecore.Data.Items.Item cartItem = Sitecore.Context.Database.GetItem("{E0880134-0098-4BED-AFB4-37FAE30B5C44}");
 }
 
 <div id="utilityFlowService" class="enrollment" ng-show="stepsService.isStepVisible('utilityFlowService')" ng-controller="EnrollmentServiceInformationCtrl" ng-init="setTimeRemaining('utilityFlowService', '@Html.Sitecore().Field("Remaining Minutes Number")');">
@@ -9,7 +9,7 @@
         @Html.Partial("~/Views/Components/Enrollment/Progress Bar.cshtml", new StreamEnergy.MyStream.Models.Enrollment.ProgressBar { StepNumber = 1, StepTextField = "Step 1 Description Text", HideCart = true })
     </div>
     <div ng-if="customerType == 'commercial'">
-        @Html.Partial("~/Views/Components/Enrollment/Progress Bar.cshtml", new StreamEnergy.MyStream.Models.Enrollment.ProgressBar { StepNumber = 4, StepTextField = "Commercial Description Text", HideCart = true })
+        @Html.Partial("~/Views/Components/Enrollment/Progress Bar.cshtml", new StreamEnergy.MyStream.Models.Enrollment.ProgressBar { StepNumber = 1, StepTextField = "Commercial Description Text", HideCart = true })
     </div>
     <div class="layout">
         <div class="wrapper cols-2">
@@ -98,7 +98,17 @@
                 </div>
             </section>
             <aside>
-                <div ng-include ng-if="true" src="'cart-template'"></div>
+                <div ng-include ng-if="customerType != 'commercial'" src="'cart-template'"></div>
+                <div class="enrollment__cart" ng-if="customerType == 'commercial'"  ng-controller="EnrollmentCartCtrl">
+                    <article ng-if="customerType == 'commercial'" class="enrollment__box outage-information">
+                        <header>
+                            <p><strong>@cartItem.Fields["Renew Existing Service Box Header"]</strong></p>
+                        </header>
+                        <ul class="info">
+                            <li>@Html.Raw(cartItem.Fields["Renew Existing Service Box Text"].Value)</li>
+                        </ul>
+                    </article>
+                    </div>
             </aside>
         </div>
     </div>
