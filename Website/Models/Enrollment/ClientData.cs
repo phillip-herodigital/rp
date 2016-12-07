@@ -48,6 +48,8 @@ namespace StreamEnergy.MyStream.Models.Enrollment
 
         public string RenewalESIID { get; set; }
 
+        public string RenewalProviderID { get; set; }
+
         public bool EnrolledInAutoPay { get; set; }
 
         public decimal AutoPayDiscount { get; set; }
@@ -67,8 +69,6 @@ namespace StreamEnergy.MyStream.Models.Enrollment
         public Address MailingAddress { get; set; }
 
         public Address PreviousAddress { get; set; }
-
-        public string PreviousProvider { get; set; }
 
         public string ProvisionedTelephoneNumber { get; set; }
 

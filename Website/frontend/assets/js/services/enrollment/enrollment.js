@@ -91,6 +91,7 @@
         service.paymentError = result.paymentError;
 
         service.isRenewal = result.isRenewal;
+        service.renewalProviderID = result.renewalProviderID;
         if (result.isRenewal) {
             enrollmentStepsService.setRenewal();
         }

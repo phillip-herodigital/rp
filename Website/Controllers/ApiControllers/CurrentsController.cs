@@ -74,6 +74,10 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                         DateTime publishDate = Sitecore.DateUtil.IsoDateToDateTime(currentItem.Fields["Publish Date"].Value);
                         expression = expression.And((CurrentsSearchResultItem item) => item.PublishDate < publishDate);
                     }
+                    if (currentItem.Versions.Count > 0)
+                    {
+                        expression = expression.And((CurrentsSearchResultItem t) => t["_latestversion"] == "1");
+                    }
                     
 					return (
                         from t in providerSearchContext.GetQueryable<CurrentsSearchResultItem>().Where(expression)
@@ -118,6 +122,10 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                     {
                         DateTime publishDate = Sitecore.DateUtil.IsoDateToDateTime(currentItem.Fields["Publish Date"].Value);
                         expression = expression.And((CurrentsSearchResultItem item) => item.PublishDate < publishDate);
+                    }
+                    if (currentItem.Versions.Count > 0)
+                    {
+                        expression = expression.And((CurrentsSearchResultItem t) => t["_latestversion"] == "1");
                     }
                     return (
                         from t in providerSearchContext.GetQueryable<CurrentsSearchResultItem>().Where(expression)

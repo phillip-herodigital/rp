@@ -7,6 +7,7 @@ using System.Web.Http;
 using StreamEnergy.DomainModels;
 using StreamEnergy.Services.Clients.SmartyStreets;
 
+
 namespace StreamEnergy.MyStream.Controllers.ApiControllers
 {
     [RoutePrefix("api/addresses")]
@@ -28,6 +29,20 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             results = (from entry in results.Zip(addresses, (cleansed, original) => new { cleansed, original })
                        select entry.cleansed.Except(new[] { entry.original }).ToArray()).ToArray();
             return results;
+        }
+
+        [HttpGet]
+        [Route("TypeAhead/{input}/{stateAbbreviation}")]
+        public async Task<IEnumerable<string>> TypeAhead(string input, string stateAbbreviation)
+        {
+            return await service.AddressTypeAhead(input, stateAbbreviation);
+        }
+
+        [HttpGet]
+        [Route("StreetAddressLookup/{input}")]
+        public async Task<AddressLookupResponse> StreetAddressLookup(string input)
+        {
+            return await service.StreetAddressLookup(input);
         }
 
         [HttpGet]

@@ -2,7 +2,7 @@
  *
  * This is used to control aspects of account information on enrollment page.
  */
-ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', 'enrollmentService', 'enrollmentCartService', '$modal', 'validation', 'analytics', function ($scope, enrollmentService, enrollmentCartService, $modal, validation, analytics) {
+ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', '$http', 'enrollmentService', 'enrollmentCartService', '$modal', 'validation', 'analytics', function ($scope, $http, enrollmentService, enrollmentCartService, $modal, validation, analytics) {
     $scope.accountInformation = enrollmentService.accountInformation;
     $scope.contacts = {};
     $scope.contacts.options = enrollmentService.loggedInAccountDetails;
@@ -165,23 +165,43 @@ ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', 'enrollmentServi
     };
 
     $scope.showAglcExample = function () {
-
         $modal.open({
             templateUrl: 'AglcExample',
             scope: $scope
         });
     };
 
-    $scope.getPreviousProviders = function () {
-        if (_(enrollmentCartService.services)
-            .map(function (l) {
-                return _(l.location.capabilities).filter({ capabilityType: "TexasElectricity" }).first();
-        }).filter().any()) {
-            return $scope.previousProviders;
-        } else {
-            return $scope.previousProvidersGeorgia;
+    $scope.setPreviousProviders = function (selectedOffer, scope) {
+        if (!selectedOffer.offerOption.previousProvider) {
+            $http.get('/api/enrollment/getPreviousProviders', { params: { optionRulesType: selectedOffer.optionRules.optionRulesType } }).then(function success(response) {
+                scope.previousProviders = response.data;
+            });
+        } 
+    };
+
+    $scope.setProvider = function (scope, providerName, accountNumber) {
+        scope.provider = _.find(scope.previousProviders, function (provider) {
+            return provider.name === providerName;
+        });
+        scope.provider.regEx = new RegExp(scope.provider.regEx);
+        $scope.validatePreviousAccountNumber(scope, providerName, accountNumber);
+    };
+
+    $scope.validatePreviousAccountNumber = function (scope, providerName, accountNumber) {
+        if (providerName && accountNumber) {
+            scope.invalidPreviousAccountNumber = !scope.provider.regEx.test(accountNumber);
+        }
+        else {
+            scope.invalidPreviousAccountNumber = false;
         }
     };
+
+    $scope.showExample = function (scope) {
+        $modal.open({
+            templateUrl: 'PreviousProviderAccountNumber',
+            scope: scope
+        });
+    }
 
     /**
      * In addition to normal validation, ensure that at least one item is in the shopping cart

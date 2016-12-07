@@ -358,6 +358,477 @@
             </div>
         </div>
 </script>
+<script type="text/ng-template" id="serviceConfirmation/NewJerseyElectricity">
+    <div ng-repeat="selectedOffer in offerInformation.value.offerSelections">
+        <div class="services-header">
+            <div class="service-title">
+                @Html.Sitecore().Field("Energy Services Text")
+            </div>
+        </div>
+        <div ng-if="!selectedOffer.confirmationSuccess" ng-cloak>
+            <div class="notice alert">
+                @Html.Sitecore().Field("Confirmation Error")
+            </div>
+        </div>
+        <dl ng-if="!selectedOffer.confirmationSuccess" class="clearfix">
+            <dt>@Html.Sitecore().Field("Account Number")</dt>
+            <dd>{{ selectedOffer.confirmationNumber }}</dd>
+        </dl>
+        <div class="electricity-services">
+            <div ng-repeat="selectedOffer in offerInformation.value.offerSelections">
+                <div class="plan-summary">
+                    <div class="plan-info">
+                        <div class="plan-summary-image">
+                            <i class="icon-electricity-blue"></i>
+                        </div>
+                        <div class="line-item clearfix">
+                            <div class="description">
+                                <h2>{{selectedOffer.offer.name}}</h2>
+                            </div>
+                            <div class="rate">${{selectedOffer.offer.rate}} @Html.Sitecore().Field("Per kWh")</div>
+                        </div>
+                        <div class="included-thermostat" ng-if="selectedOffer.offer.includesThermostat">
+                            @Html.Sitecore().Field("Thermostat Text")
+                        </div>
+                        <div class="included-skydrop" ng-if="selectedOffer.offer.includesSkydrop">
+                            @Html.Sitecore().Field("Skydrop Text")
+                        </div>
+                        <div class="service-info clearfix">
+                            <div class="label">@Html.Sitecore().Field("Service Address Label"):</div>
+                            <div class="info">
+                                <p>{{ service.location.address.line1}}<span ng-if="service.location.address.unitNumber"> unit {{ service.location.address.unitNumber}}</span></p>
+                                <p>{{ service.location.address.city}}, {{ service.location.address.stateAbbreviation}} {{ service.location.address.postalCode5}}<span ng-if="service.location.address.postalCodePlus4">-{{ service.location.address.postalCodePlus4}}</span></p>
+                            </div>
+                        </div>
+                        <div class="service-info clearfix" ng-if="isRenewal && accountInformation.renewalESIID">
+                            <div class="label">@Html.Sitecore().Field("ESI ID")</div><div class="info">{{accountInformation.renewalESIID}}</div>
+                        </div>
+                        <div class="service-info clearfix" ng-repeat="capability in service.location.capabilities" ng-if="!isRenewal && capability.esiId">
+                            <div class="label">@Html.Sitecore().Field("ESI ID")</div><div class="info">{{capability.esiId}}</div>
+                        </div>
+                        <div class="service-info clearfix" ng-if="selectedOffer.offer.tdu">
+                            <div class="label">@Html.Sitecore().Field("TDSP")</div><div class="info">{{selectedOffer.offer.tdu}}</div>
+                        </div>
+                        <div class="service-info clearfix" ng-if="selectedOffer.renewalConfirmation.contractStartDate">
+                            <div class="label">@Html.Sitecore().Field("Effective Date")</div><div class="info">{{selectedOffer.renewalConfirmation.contractStartDate | date:'M/d/yyyy'}}</div>
+                        </div>
+                        <div class="line-item clearfix" ng-if="!isRenewal && selectedOffer.offerOption.connectionFee != null">
+                            <div class="description sub-charge">
+                                <strong>@Html.Sitecore().Field("Installation Fee")  ({{selectedOffer.offerOption.connectDate | date:'M/d/yyyy'}})</strong>
+                            </div>
+                            <div class="rate">{{ selectedOffer.offerOption.connectionFee | currency }}</div>
+                        </div>
+                        <div class="line-item clearfix" ng-repeat="payment in selectedOffer.payments.requiredAmounts" ng-if="payment.dollarAmount > 0 && !isRenewal" ng-include src="'payments/' + payment.offerPaymentAmountType"></div>
+                    </div>
+                    <div class="contract-dates clearfix" ng-if="isRenewal && selectedOffer.renewalConfirmation.contractStartDate != null">
+                        <div class="contract-start">
+                            <span class="label">@Html.Sitecore().Field("Estimated Start Date") </span>{{selectedOffer.renewalConfirmation.contractStartDate | date:'M/d/yyyy'}}
+                        </div>
+                        <div class="arrow"></div>
+                        <div class="contract-end">
+                            <span class="label">@Html.Sitecore().Field("Estimated End Date") </span>{{selectedOffer.renewalConfirmation.contractEndDate | date:'M/d/yyyy'}}
+                        </div>
+                    </div>
+                    <div class="line-item clearfix" ng-if="selectedOffer.offer.terminationFee">
+                        <div class="description sub-charge">@Html.Sitecore().Field("ETF Text")</div>
+                        <div class="rate sub-charge">{{ selectedOffer.offer.terminationFee | currency }}</div>
+                    </div>
+                    <div class="line-item clearfix" ng-if="selectedOffer.offer.minimumUsageFee">
+                        <div class="description sub-charge">@Html.Sitecore().Field("Minimum Usage Fee Text")</div>
+                        <div class="rate sub-charge">{{ selectedOffer.offer.minimumUsageFee }}</div>
+                    </div>
+                    <div class="line-item clearfix">
+                        <div class="description sub-charge">@Html.Sitecore().Field("Plan Documents")</div>
+                        <div class="rate sub-charge">
+                            <ul>
+                                <li ng-if="selectedOffer.offer.documents.letterOfAgency"><a ng-href="{{selectedOffer.offer.documents.letterOfAgency}}" target="_blank">@Html.Sitecore().Field("Letter of Agency Document")</a></li>
+                                <li ng-if="selectedOffer.offer.documents.termsAndDisclosures"><a ng-href="{{selectedOffer.offer.documents.termsAndDisclosures}}" target="_blank">@Html.Sitecore().Field("Terms and Disclosures Document")</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <hr ng-hide="$parent.$parent.$parent.$parent.$last" />
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
+<script type="text/ng-template" id="serviceConfirmation/MarylandElectricity">
+    <div ng-repeat="selectedOffer in offerInformation.value.offerSelections">
+        <div class="services-header">
+            <div class="service-title">
+                @Html.Sitecore().Field("Energy Services Text")
+            </div>
+        </div>
+        <div ng-if="!selectedOffer.confirmationSuccess" ng-cloak>
+            <div class="notice alert">
+                @Html.Sitecore().Field("Confirmation Error")
+            </div>
+        </div>
+        <dl ng-if="!selectedOffer.confirmationSuccess" class="clearfix">
+            <dt>@Html.Sitecore().Field("Account Number")</dt>
+            <dd>{{ selectedOffer.confirmationNumber }}</dd>
+        </dl>
+        <div class="electricity-services">
+            <div ng-repeat="selectedOffer in offerInformation.value.offerSelections">
+                <div class="plan-summary">
+                    <div class="plan-info">
+                        <div class="plan-summary-image">
+                            <i class="icon-electricity-blue"></i>
+                        </div>
+                        <div class="line-item clearfix">
+                            <div class="description">
+                                <h2>{{selectedOffer.offer.name}}</h2>
+                            </div>
+                            <div class="rate">${{selectedOffer.offer.rate}} @Html.Sitecore().Field("Per kWh")</div>
+                        </div>
+                        <div class="included-thermostat" ng-if="selectedOffer.offer.includesThermostat">
+                            @Html.Sitecore().Field("Thermostat Text")
+                        </div>
+                        <div class="included-skydrop" ng-if="selectedOffer.offer.includesSkydrop">
+                            @Html.Sitecore().Field("Skydrop Text")
+                        </div>
+                        <div class="service-info clearfix">
+                            <div class="label">@Html.Sitecore().Field("Service Address Label"):</div>
+                            <div class="info">
+                                <p>{{ service.location.address.line1}}<span ng-if="service.location.address.unitNumber"> unit {{ service.location.address.unitNumber}}</span></p>
+                                <p>{{ service.location.address.city}}, {{ service.location.address.stateAbbreviation}} {{ service.location.address.postalCode5}}<span ng-if="service.location.address.postalCodePlus4">-{{ service.location.address.postalCodePlus4}}</span></p>
+                            </div>
+                        </div>
+                        <div class="service-info clearfix" ng-if="isRenewal && accountInformation.renewalESIID">
+                            <div class="label">@Html.Sitecore().Field("ESI ID")</div><div class="info">{{accountInformation.renewalESIID}}</div>
+                        </div>
+                        <div class="service-info clearfix" ng-repeat="capability in service.location.capabilities" ng-if="!isRenewal && capability.esiId">
+                            <div class="label">@Html.Sitecore().Field("ESI ID")</div><div class="info">{{capability.esiId}}</div>
+                        </div>
+                        <div class="service-info clearfix" ng-if="selectedOffer.offer.tdu">
+                            <div class="label">@Html.Sitecore().Field("TDSP")</div><div class="info">{{selectedOffer.offer.tdu}}</div>
+                        </div>
+                        <div class="service-info clearfix" ng-if="selectedOffer.renewalConfirmation.contractStartDate">
+                            <div class="label">@Html.Sitecore().Field("Effective Date")</div><div class="info">{{selectedOffer.renewalConfirmation.contractStartDate | date:'M/d/yyyy'}}</div>
+                        </div>
+                        <div class="line-item clearfix" ng-if="!isRenewal && selectedOffer.offerOption.connectionFee != null">
+                            <div class="description sub-charge">
+                                <strong>@Html.Sitecore().Field("Installation Fee")  ({{selectedOffer.offerOption.connectDate | date:'M/d/yyyy'}})</strong>
+                            </div>
+                            <div class="rate">{{ selectedOffer.offerOption.connectionFee | currency }}</div>
+                        </div>
+                        <div class="line-item clearfix" ng-repeat="payment in selectedOffer.payments.requiredAmounts" ng-if="payment.dollarAmount > 0 && !isRenewal" ng-include src="'payments/' + payment.offerPaymentAmountType"></div>
+                    </div>
+                    <div class="contract-dates clearfix" ng-if="isRenewal && selectedOffer.renewalConfirmation.contractStartDate != null">
+                        <div class="contract-start">
+                            <span class="label">@Html.Sitecore().Field("Estimated Start Date") </span>{{selectedOffer.renewalConfirmation.contractStartDate | date:'M/d/yyyy'}}
+                        </div>
+                        <div class="arrow"></div>
+                        <div class="contract-end">
+                            <span class="label">@Html.Sitecore().Field("Estimated End Date") </span>{{selectedOffer.renewalConfirmation.contractEndDate | date:'M/d/yyyy'}}
+                        </div>
+                    </div>
+                    <div class="line-item clearfix" ng-if="selectedOffer.offer.terminationFee">
+                        <div class="description sub-charge">@Html.Sitecore().Field("ETF Text")</div>
+                        <div class="rate sub-charge">{{ selectedOffer.offer.terminationFee | currency }}</div>
+                    </div>
+                    <div class="line-item clearfix" ng-if="selectedOffer.offer.minimumUsageFee">
+                        <div class="description sub-charge">@Html.Sitecore().Field("Minimum Usage Fee Text")</div>
+                        <div class="rate sub-charge">{{ selectedOffer.offer.minimumUsageFee }}</div>
+                    </div>
+                    <div class="line-item clearfix">
+                        <div class="description sub-charge">@Html.Sitecore().Field("Plan Documents")</div>
+                        <div class="rate sub-charge">
+                            <ul>
+                                <li ng-if="selectedOffer.offer.documents.letterOfAgency"><a ng-href="{{selectedOffer.offer.documents.letterOfAgency}}" target="_blank">@Html.Sitecore().Field("Letter of Agency Document")</a></li>
+                                <li ng-if="selectedOffer.offer.documents.termsAndDisclosures"><a ng-href="{{selectedOffer.offer.documents.termsAndDisclosures}}" target="_blank">@Html.Sitecore().Field("Terms and Disclosures Document")</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <hr ng-hide="$parent.$parent.$parent.$parent.$last" />
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
+<script type="text/ng-template" id="serviceConfirmation/PennsylvaniaElectricity">
+    <div ng-repeat="selectedOffer in offerInformation.value.offerSelections">
+        <div class="services-header">
+            <div class="service-title">
+                @Html.Sitecore().Field("Energy Services Text")
+            </div>
+        </div>
+        <div ng-if="!selectedOffer.confirmationSuccess" ng-cloak>
+            <div class="notice alert">
+                @Html.Sitecore().Field("Confirmation Error")
+            </div>
+        </div>
+        <dl ng-if="!selectedOffer.confirmationSuccess" class="clearfix">
+            <dt>@Html.Sitecore().Field("Account Number")</dt>
+            <dd>{{ selectedOffer.confirmationNumber }}</dd>
+        </dl>
+        <div class="electricity-services">
+            <div ng-repeat="selectedOffer in offerInformation.value.offerSelections">
+                <div class="plan-summary">
+                    <div class="plan-info">
+                        <div class="plan-summary-image">
+                            <i class="icon-electricity-blue"></i>
+                        </div>
+                        <div class="line-item clearfix">
+                            <div class="description">
+                                <h2>{{selectedOffer.offer.name}}</h2>
+                            </div>
+                            <div class="rate">${{selectedOffer.offer.rate}} @Html.Sitecore().Field("Per kWh")</div>
+                        </div>
+                        <div class="included-thermostat" ng-if="selectedOffer.offer.includesThermostat">
+                            @Html.Sitecore().Field("Thermostat Text")
+                        </div>
+                        <div class="included-skydrop" ng-if="selectedOffer.offer.includesSkydrop">
+                            @Html.Sitecore().Field("Skydrop Text")
+                        </div>
+                        <div class="service-info clearfix">
+                            <div class="label">@Html.Sitecore().Field("Service Address Label"):</div>
+                            <div class="info">
+                                <p>{{ service.location.address.line1}}<span ng-if="service.location.address.unitNumber"> unit {{ service.location.address.unitNumber}}</span></p>
+                                <p>{{ service.location.address.city}}, {{ service.location.address.stateAbbreviation}} {{ service.location.address.postalCode5}}<span ng-if="service.location.address.postalCodePlus4">-{{ service.location.address.postalCodePlus4}}</span></p>
+                            </div>
+                        </div>
+                        <div class="service-info clearfix" ng-if="isRenewal && accountInformation.renewalESIID">
+                            <div class="label">@Html.Sitecore().Field("ESI ID")</div><div class="info">{{accountInformation.renewalESIID}}</div>
+                        </div>
+                        <div class="service-info clearfix" ng-repeat="capability in service.location.capabilities" ng-if="!isRenewal && capability.esiId">
+                            <div class="label">@Html.Sitecore().Field("ESI ID")</div><div class="info">{{capability.esiId}}</div>
+                        </div>
+                        <div class="service-info clearfix" ng-if="selectedOffer.offer.tdu">
+                            <div class="label">@Html.Sitecore().Field("TDSP")</div><div class="info">{{selectedOffer.offer.tdu}}</div>
+                        </div>
+                        <div class="service-info clearfix" ng-if="selectedOffer.renewalConfirmation.contractStartDate">
+                            <div class="label">@Html.Sitecore().Field("Effective Date")</div><div class="info">{{selectedOffer.renewalConfirmation.contractStartDate | date:'M/d/yyyy'}}</div>
+                        </div>
+                        <div class="line-item clearfix" ng-if="!isRenewal && selectedOffer.offerOption.connectionFee != null">
+                            <div class="description sub-charge">
+                                <strong>@Html.Sitecore().Field("Installation Fee")  ({{selectedOffer.offerOption.connectDate | date:'M/d/yyyy'}})</strong>
+                            </div>
+                            <div class="rate">{{ selectedOffer.offerOption.connectionFee | currency }}</div>
+                        </div>
+                        <div class="line-item clearfix" ng-repeat="payment in selectedOffer.payments.requiredAmounts" ng-if="payment.dollarAmount > 0 && !isRenewal" ng-include src="'payments/' + payment.offerPaymentAmountType"></div>
+                    </div>
+                    <div class="contract-dates clearfix" ng-if="isRenewal && selectedOffer.renewalConfirmation.contractStartDate != null">
+                        <div class="contract-start">
+                            <span class="label">@Html.Sitecore().Field("Estimated Start Date") </span>{{selectedOffer.renewalConfirmation.contractStartDate | date:'M/d/yyyy'}}
+                        </div>
+                        <div class="arrow"></div>
+                        <div class="contract-end">
+                            <span class="label">@Html.Sitecore().Field("Estimated End Date") </span>{{selectedOffer.renewalConfirmation.contractEndDate | date:'M/d/yyyy'}}
+                        </div>
+                    </div>
+                    <div class="line-item clearfix" ng-if="selectedOffer.offer.terminationFee">
+                        <div class="description sub-charge">@Html.Sitecore().Field("ETF Text")</div>
+                        <div class="rate sub-charge">{{ selectedOffer.offer.terminationFee | currency }}</div>
+                    </div>
+                    <div class="line-item clearfix" ng-if="selectedOffer.offer.minimumUsageFee">
+                        <div class="description sub-charge">@Html.Sitecore().Field("Minimum Usage Fee Text")</div>
+                        <div class="rate sub-charge">{{ selectedOffer.offer.minimumUsageFee }}</div>
+                    </div>
+                    <div class="line-item clearfix">
+                        <div class="description sub-charge">@Html.Sitecore().Field("Plan Documents")</div>
+                        <div class="rate sub-charge">
+                            <ul>
+                                <li ng-if="selectedOffer.offer.documents.letterOfAgency"><a ng-href="{{selectedOffer.offer.documents.letterOfAgency}}" target="_blank">@Html.Sitecore().Field("Letter of Agency Document")</a></li>
+                                <li ng-if="selectedOffer.offer.documents.termsAndDisclosures"><a ng-href="{{selectedOffer.offer.documents.termsAndDisclosures}}" target="_blank">@Html.Sitecore().Field("Terms and Disclosures Document")</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <hr ng-hide="$parent.$parent.$parent.$parent.$last" />
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
+<script type="text/ng-template" id="serviceConfirmation/NewYorkElectricity">
+    <div ng-repeat="selectedOffer in offerInformation.value.offerSelections">
+        <div class="services-header">
+            <div class="service-title">
+                @Html.Sitecore().Field("Energy Services Text")
+            </div>
+        </div>
+        <div ng-if="!selectedOffer.confirmationSuccess" ng-cloak>
+            <div class="notice alert">
+                @Html.Sitecore().Field("Confirmation Error")
+            </div>
+        </div>
+        <dl ng-if="!selectedOffer.confirmationSuccess" class="clearfix">
+            <dt>@Html.Sitecore().Field("Account Number")</dt>
+            <dd>{{ selectedOffer.confirmationNumber }}</dd>
+        </dl>
+        <div class="electricity-services">
+            <div ng-repeat="selectedOffer in offerInformation.value.offerSelections">
+                <div class="plan-summary">
+                    <div class="plan-info">
+                        <div class="plan-summary-image">
+                            <i class="icon-electricity-blue"></i>
+                        </div>
+                        <div class="line-item clearfix">
+                            <div class="description">
+                                <h2>{{selectedOffer.offer.name}}</h2>
+                            </div>
+                            <div class="rate">${{selectedOffer.offer.rate}} @Html.Sitecore().Field("Per kWh")</div>
+                        </div>
+                        <div class="included-thermostat" ng-if="selectedOffer.offer.includesThermostat">
+                            @Html.Sitecore().Field("Thermostat Text")
+                        </div>
+                        <div class="included-skydrop" ng-if="selectedOffer.offer.includesSkydrop">
+                            @Html.Sitecore().Field("Skydrop Text")
+                        </div>
+                        <div class="service-info clearfix">
+                            <div class="label">@Html.Sitecore().Field("Service Address Label"):</div>
+                            <div class="info">
+                                <p>{{ service.location.address.line1}}<span ng-if="service.location.address.unitNumber"> unit {{ service.location.address.unitNumber}}</span></p>
+                                <p>{{ service.location.address.city}}, {{ service.location.address.stateAbbreviation}} {{ service.location.address.postalCode5}}<span ng-if="service.location.address.postalCodePlus4">-{{ service.location.address.postalCodePlus4}}</span></p>
+                            </div>
+                        </div>
+                        <div class="service-info clearfix" ng-if="isRenewal && accountInformation.renewalESIID">
+                            <div class="label">@Html.Sitecore().Field("ESI ID")</div><div class="info">{{accountInformation.renewalESIID}}</div>
+                        </div>
+                        <div class="service-info clearfix" ng-repeat="capability in service.location.capabilities" ng-if="!isRenewal && capability.esiId">
+                            <div class="label">@Html.Sitecore().Field("ESI ID")</div><div class="info">{{capability.esiId}}</div>
+                        </div>
+                        <div class="service-info clearfix" ng-if="selectedOffer.offer.tdu">
+                            <div class="label">@Html.Sitecore().Field("TDSP")</div><div class="info">{{selectedOffer.offer.tdu}}</div>
+                        </div>
+                        <div class="service-info clearfix" ng-if="selectedOffer.renewalConfirmation.contractStartDate">
+                            <div class="label">@Html.Sitecore().Field("Effective Date")</div><div class="info">{{selectedOffer.renewalConfirmation.contractStartDate | date:'M/d/yyyy'}}</div>
+                        </div>
+                        <div class="line-item clearfix" ng-if="!isRenewal && selectedOffer.offerOption.connectionFee != null">
+                            <div class="description sub-charge">
+                                <strong>@Html.Sitecore().Field("Installation Fee")  ({{selectedOffer.offerOption.connectDate | date:'M/d/yyyy'}})</strong>
+                            </div>
+                            <div class="rate">{{ selectedOffer.offerOption.connectionFee | currency }}</div>
+                        </div>
+                        <div class="line-item clearfix" ng-repeat="payment in selectedOffer.payments.requiredAmounts" ng-if="payment.dollarAmount > 0 && !isRenewal" ng-include src="'payments/' + payment.offerPaymentAmountType"></div>
+                    </div>
+                    <div class="contract-dates clearfix" ng-if="isRenewal && selectedOffer.renewalConfirmation.contractStartDate != null">
+                        <div class="contract-start">
+                            <span class="label">@Html.Sitecore().Field("Estimated Start Date") </span>{{selectedOffer.renewalConfirmation.contractStartDate | date:'M/d/yyyy'}}
+                        </div>
+                        <div class="arrow"></div>
+                        <div class="contract-end">
+                            <span class="label">@Html.Sitecore().Field("Estimated End Date") </span>{{selectedOffer.renewalConfirmation.contractEndDate | date:'M/d/yyyy'}}
+                        </div>
+                    </div>
+                    <div class="line-item clearfix" ng-if="selectedOffer.offer.terminationFee">
+                        <div class="description sub-charge">@Html.Sitecore().Field("ETF Text")</div>
+                        <div class="rate sub-charge">{{ selectedOffer.offer.terminationFee | currency }}</div>
+                    </div>
+                    <div class="line-item clearfix" ng-if="selectedOffer.offer.minimumUsageFee">
+                        <div class="description sub-charge">@Html.Sitecore().Field("Minimum Usage Fee Text")</div>
+                        <div class="rate sub-charge">{{ selectedOffer.offer.minimumUsageFee }}</div>
+                    </div>
+                    <div class="line-item clearfix">
+                        <div class="description sub-charge">@Html.Sitecore().Field("Plan Documents")</div>
+                        <div class="rate sub-charge">
+                            <ul>
+                                <li ng-if="selectedOffer.offer.documents.letterOfAgency"><a ng-href="{{selectedOffer.offer.documents.letterOfAgency}}" target="_blank">@Html.Sitecore().Field("Letter of Agency Document")</a></li>
+                                <li ng-if="selectedOffer.offer.documents.termsAndDisclosures"><a ng-href="{{selectedOffer.offer.documents.termsAndDisclosures}}" target="_blank">@Html.Sitecore().Field("Terms and Disclosures Document")</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <hr ng-hide="$parent.$parent.$parent.$parent.$last" />
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
+<script type="text/ng-template" id="serviceConfirmation/DCElectricity">
+    <div ng-repeat="selectedOffer in offerInformation.value.offerSelections">
+        <div class="services-header">
+            <div class="service-title">
+                @Html.Sitecore().Field("Energy Services Text")
+            </div>
+        </div>
+        <div ng-if="!selectedOffer.confirmationSuccess" ng-cloak>
+            <div class="notice alert">
+                @Html.Sitecore().Field("Confirmation Error")
+            </div>
+        </div>
+        <dl ng-if="!selectedOffer.confirmationSuccess" class="clearfix">
+            <dt>@Html.Sitecore().Field("Account Number")</dt>
+            <dd>{{ selectedOffer.confirmationNumber }}</dd>
+        </dl>
+        <div class="electricity-services">
+            <div ng-repeat="selectedOffer in offerInformation.value.offerSelections">
+                <div class="plan-summary">
+                    <div class="plan-info">
+                        <div class="plan-summary-image">
+                            <i class="icon-electricity-blue"></i>
+                        </div>
+                        <div class="line-item clearfix">
+                            <div class="description">
+                                <h2>{{selectedOffer.offer.name}}</h2>
+                            </div>
+                            <div class="rate">${{selectedOffer.offer.rate}} @Html.Sitecore().Field("Per kWh")</div>
+                        </div>
+                        <div class="included-thermostat" ng-if="selectedOffer.offer.includesThermostat">
+                            @Html.Sitecore().Field("Thermostat Text")
+                        </div>
+                        <div class="included-skydrop" ng-if="selectedOffer.offer.includesSkydrop">
+                            @Html.Sitecore().Field("Skydrop Text")
+                        </div>
+                        <div class="service-info clearfix">
+                            <div class="label">@Html.Sitecore().Field("Service Address Label"):</div>
+                            <div class="info">
+                                <p>{{ service.location.address.line1}}<span ng-if="service.location.address.unitNumber"> unit {{ service.location.address.unitNumber}}</span></p>
+                                <p>{{ service.location.address.city}}, {{ service.location.address.stateAbbreviation}} {{ service.location.address.postalCode5}}<span ng-if="service.location.address.postalCodePlus4">-{{ service.location.address.postalCodePlus4}}</span></p>
+                            </div>
+                        </div>
+                        <div class="service-info clearfix" ng-if="isRenewal && accountInformation.renewalESIID">
+                            <div class="label">@Html.Sitecore().Field("ESI ID")</div><div class="info">{{accountInformation.renewalESIID}}</div>
+                        </div>
+                        <div class="service-info clearfix" ng-repeat="capability in service.location.capabilities" ng-if="!isRenewal && capability.esiId">
+                            <div class="label">@Html.Sitecore().Field("ESI ID")</div><div class="info">{{capability.esiId}}</div>
+                        </div>
+                        <div class="service-info clearfix" ng-if="selectedOffer.offer.tdu">
+                            <div class="label">@Html.Sitecore().Field("TDSP")</div><div class="info">{{selectedOffer.offer.tdu}}</div>
+                        </div>
+                        <div class="service-info clearfix" ng-if="selectedOffer.renewalConfirmation.contractStartDate">
+                            <div class="label">@Html.Sitecore().Field("Effective Date")</div><div class="info">{{selectedOffer.renewalConfirmation.contractStartDate | date:'M/d/yyyy'}}</div>
+                        </div>
+                        <div class="line-item clearfix" ng-if="!isRenewal && selectedOffer.offerOption.connectionFee != null">
+                            <div class="description sub-charge">
+                                <strong>@Html.Sitecore().Field("Installation Fee")  ({{selectedOffer.offerOption.connectDate | date:'M/d/yyyy'}})</strong>
+                            </div>
+                            <div class="rate">{{ selectedOffer.offerOption.connectionFee | currency }}</div>
+                        </div>
+                        <div class="line-item clearfix" ng-repeat="payment in selectedOffer.payments.requiredAmounts" ng-if="payment.dollarAmount > 0 && !isRenewal" ng-include src="'payments/' + payment.offerPaymentAmountType"></div>
+                    </div>
+                    <div class="contract-dates clearfix" ng-if="isRenewal && selectedOffer.renewalConfirmation.contractStartDate != null">
+                        <div class="contract-start">
+                            <span class="label">@Html.Sitecore().Field("Estimated Start Date") </span>{{selectedOffer.renewalConfirmation.contractStartDate | date:'M/d/yyyy'}}
+                        </div>
+                        <div class="arrow"></div>
+                        <div class="contract-end">
+                            <span class="label">@Html.Sitecore().Field("Estimated End Date") </span>{{selectedOffer.renewalConfirmation.contractEndDate | date:'M/d/yyyy'}}
+                        </div>
+                    </div>
+                    <div class="line-item clearfix" ng-if="selectedOffer.offer.terminationFee">
+                        <div class="description sub-charge">@Html.Sitecore().Field("ETF Text")</div>
+                        <div class="rate sub-charge">{{ selectedOffer.offer.terminationFee | currency }}</div>
+                    </div>
+                    <div class="line-item clearfix" ng-if="selectedOffer.offer.minimumUsageFee">
+                        <div class="description sub-charge">@Html.Sitecore().Field("Minimum Usage Fee Text")</div>
+                        <div class="rate sub-charge">{{ selectedOffer.offer.minimumUsageFee }}</div>
+                    </div>
+                    <div class="line-item clearfix">
+                        <div class="description sub-charge">@Html.Sitecore().Field("Plan Documents")</div>
+                        <div class="rate sub-charge">
+                            <ul>
+                                <li><a ng-href="{{selectedOffer.offer.documents.electricityFactsLabel}}">@Html.Sitecore().Field("Electricity Facts Label Document")</a></li>
+                                <li><a ng-href="{{selectedOffer.offer.documents.termsOfService}}">@Html.Sitecore().Field("Terms Of Service Document")</a></li>
+                                <li><a ng-href="{{selectedOffer.offer.documents.yourRightsAsACustomer}}">@Html.Sitecore().Field("Your Rights As A Customer Document")</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <hr ng-hide="$parent.$parent.$parent.$parent.$last" />
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
 <script type="text/ng-template" id="serviceConfirmation/GeorgiaGas">
     <div ng-repeat="selectedOffer in offerInformation.value.offerSelections">
         <div class="services-header">
@@ -424,6 +895,290 @@
                                 <li><a ng-href="{{selectedOffer.offer.documents.letterOfAgency}}" target="_blank">@Html.Sitecore().Field("Letter of Agency Document")</a></li>
                                 <li><a ng-href="{{selectedOffer.offer.documents.termsAndDisclosures}}" target="_blank">@Html.Sitecore().Field("Terms and Disclosures Document")</a></li>
                                 <li ng-if="selectedOffer.offer.documents.disclaimer"><a ng-href="{{selectedOffer.offer.documents.disclaimer}}" target="_blank">@Html.Sitecore().Field("Disclaimer")</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr ng-hide="$parent.$parent.$parent.$last" />
+    </div>
+</script>
+<script type="text/ng-template" id="serviceConfirmation/NewJerseyGas">
+    <div ng-repeat="selectedOffer in offerInformation.value.offerSelections">
+        <div class="services-header">
+            <div class="service-title">
+                @Html.Sitecore().Field("Energy Services Text")
+            </div>
+            <div class="service-description">
+                @Html.Sitecore().Field("Service Address Label") {{ service.location.address | address}}
+            </div>
+        </div>
+        <div ng-if="!selectedOffer.confirmationSuccess" ng-cloak>
+            <div class="notice alert">
+                @Html.Sitecore().Field("Confirmation Error")
+            </div>
+        </div>
+        <dl ng-if="!selectedOffer.confirmationSuccess" class="clearfix">
+            <dt>@Html.Sitecore().Field("Account Number")</dt>
+            <dd>{{ selectedOffer.confirmationNumber }}</dd>
+        </dl>
+        <div class="gas-services">
+            <div ng-repeat="selectedOffer in offerInformation.value.offerSelections">
+                <div class="plan-summary">
+                    <div class="plan-summary-image">
+                        <i class="icon-gas-blue"></i>
+                    </div>
+                    <div class="line-item clearfix">
+                        <div class="description">
+                            <h2>{{selectedOffer.offer.name}}</h2>
+                        </div>
+                        <div class="rate">${{selectedOffer.offer.rate}}@Html.Sitecore().Field("Per Therm")</div>
+                    </div>
+                    <div class="line-item clearfix" ng-if="isRenewal && selectedOffer.renewalConfirmation.contractStartDate != null">
+                        <div class="description">
+                            @Html.Sitecore().Field("Contract Start Date Header")
+                        </div>
+                        <div class="rate">{{selectedOffer.renewalConfirmation.contractStartDate | date:'M/d/yyyy'}}</div>
+                    </div>
+                    <div class="line-item clearfix" ng-if="!isRenewal">
+                        <div class="description sub-charge">
+                            <strong>@Html.Sitecore().Field("Installation Fee")  ({{selectedOffer.offerOption.connectDate | date:'M/d/yyyy'}})</strong>
+                        </div>
+                        <div class="rate">{{ selectedOffer.offerOption.connectionFee | currency }}</div>
+                    </div>
+                    <div class="line-item clearfix" ng-if="!isRenewal">
+                        <div class="description sub-charge">
+                            <strong>@Html.Sitecore().Field("Utility Connect Fee")</strong>
+                        </div>
+                        <div class="rate">@Html.Sitecore().Field("GA Utility Connect Fee")</div>
+                    </div>
+                    <div class="line-item clearfix" ng-if="!isRenewal">
+                        <div class="description sub-charge">
+                            <strong>@Html.Sitecore().Field("Stream Connect Fee")</strong>
+                        </div>
+                        <div class="rate">@Html.Sitecore().Field("GA Stream Connect Fee")</div>
+                    </div>
+                    <div class="line-item clearfix" ng-repeat="payment in selectedOffer.payments.requiredAmounts" ng-if="payment.dollarAmount > 0 && !isRenewal && selectedOffer.depositType != 'DepositWaived'" ng-include src="'payments/' + payment.offerPaymentAmountType"></div>
+                    <div class="plan-documents clearfix">
+                        <div class="description sub-charge"><strong>@Html.Sitecore().Field("Plan Documents Header")</strong></div>
+                        <div class="docs">
+                            <ul>
+                                <li ng-if="selectedOffer.offer.documents.letterOfAgency"><a ng-href="{{selectedOffer.offer.documents.letterOfAgency}}" target="_blank">@Html.Sitecore().Field("Letter of Agency Document")</a></li>
+                                <li ng-if="selectedOffer.offer.documents.termsAndDisclosures"><a ng-href="{{selectedOffer.offer.documents.termsAndDisclosures}}" target="_blank">@Html.Sitecore().Field("Terms and Disclosures Document")</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr ng-hide="$parent.$parent.$parent.$last" />
+    </div>
+</script>
+<script type="text/ng-template" id="serviceConfirmation/MarylandGas">
+    <div ng-repeat="selectedOffer in offerInformation.value.offerSelections">
+        <div class="services-header">
+            <div class="service-title">
+                @Html.Sitecore().Field("Energy Services Text")
+            </div>
+            <div class="service-description">
+                @Html.Sitecore().Field("Service Address Label") {{ service.location.address | address}}
+            </div>
+        </div>
+        <div ng-if="!selectedOffer.confirmationSuccess" ng-cloak>
+            <div class="notice alert">
+                @Html.Sitecore().Field("Confirmation Error")
+            </div>
+        </div>
+        <dl ng-if="!selectedOffer.confirmationSuccess" class="clearfix">
+            <dt>@Html.Sitecore().Field("Account Number")</dt>
+            <dd>{{ selectedOffer.confirmationNumber }}</dd>
+        </dl>
+        <div class="gas-services">
+            <div ng-repeat="selectedOffer in offerInformation.value.offerSelections">
+                <div class="plan-summary">
+                    <div class="plan-summary-image">
+                        <i class="icon-gas-blue"></i>
+                    </div>
+                    <div class="line-item clearfix">
+                        <div class="description">
+                            <h2>{{selectedOffer.offer.name}}</h2>
+                        </div>
+                        <div class="rate">${{selectedOffer.offer.rate}}@Html.Sitecore().Field("Per Therm")</div>
+                    </div>
+                    <div class="line-item clearfix" ng-if="isRenewal && selectedOffer.renewalConfirmation.contractStartDate != null">
+                        <div class="description">
+                            @Html.Sitecore().Field("Contract Start Date Header")
+                        </div>
+                        <div class="rate">{{selectedOffer.renewalConfirmation.contractStartDate | date:'M/d/yyyy'}}</div>
+                    </div>
+                    <div class="line-item clearfix" ng-if="!isRenewal">
+                        <div class="description sub-charge">
+                            <strong>@Html.Sitecore().Field("Installation Fee")  ({{selectedOffer.offerOption.connectDate | date:'M/d/yyyy'}})</strong>
+                        </div>
+                        <div class="rate">{{ selectedOffer.offerOption.connectionFee | currency }}</div>
+                    </div>
+                    <div class="line-item clearfix" ng-if="!isRenewal">
+                        <div class="description sub-charge">
+                            <strong>@Html.Sitecore().Field("Utility Connect Fee")</strong>
+                        </div>
+                        <div class="rate">@Html.Sitecore().Field("GA Utility Connect Fee")</div>
+                    </div>
+                    <div class="line-item clearfix" ng-if="!isRenewal">
+                        <div class="description sub-charge">
+                            <strong>@Html.Sitecore().Field("Stream Connect Fee")</strong>
+                        </div>
+                        <div class="rate">@Html.Sitecore().Field("GA Stream Connect Fee")</div>
+                    </div>
+                    <div class="line-item clearfix" ng-repeat="payment in selectedOffer.payments.requiredAmounts" ng-if="payment.dollarAmount > 0 && !isRenewal && selectedOffer.depositType != 'DepositWaived'" ng-include src="'payments/' + payment.offerPaymentAmountType"></div>
+                    <div class="plan-documents clearfix">
+                        <div class="description sub-charge"><strong>@Html.Sitecore().Field("Plan Documents Header")</strong></div>
+                        <div class="docs">
+                            <ul>
+                                <li ng-if="selectedOffer.offer.documents.letterOfAgency"><a ng-href="{{selectedOffer.offer.documents.letterOfAgency}}" target="_blank">@Html.Sitecore().Field("Letter of Agency Document")</a></li>
+                                <li ng-if="selectedOffer.offer.documents.termsAndDisclosures"><a ng-href="{{selectedOffer.offer.documents.termsAndDisclosures}}" target="_blank">@Html.Sitecore().Field("Terms and Disclosures Document")</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr ng-hide="$parent.$parent.$parent.$last" />
+    </div>
+</script>
+<script type="text/ng-template" id="serviceConfirmation/PennsylvaniaGas">
+    <div ng-repeat="selectedOffer in offerInformation.value.offerSelections">
+        <div class="services-header">
+            <div class="service-title">
+                @Html.Sitecore().Field("Energy Services Text")
+            </div>
+            <div class="service-description">
+                @Html.Sitecore().Field("Service Address Label") {{ service.location.address | address}}
+            </div>
+        </div>
+        <div ng-if="!selectedOffer.confirmationSuccess" ng-cloak>
+            <div class="notice alert">
+                @Html.Sitecore().Field("Confirmation Error")
+            </div>
+        </div>
+        <dl ng-if="!selectedOffer.confirmationSuccess" class="clearfix">
+            <dt>@Html.Sitecore().Field("Account Number")</dt>
+            <dd>{{ selectedOffer.confirmationNumber }}</dd>
+        </dl>
+        <div class="gas-services">
+            <div ng-repeat="selectedOffer in offerInformation.value.offerSelections">
+                <div class="plan-summary">
+                    <div class="plan-summary-image">
+                        <i class="icon-gas-blue"></i>
+                    </div>
+                    <div class="line-item clearfix">
+                        <div class="description">
+                            <h2>{{selectedOffer.offer.name}}</h2>
+                        </div>
+                        <div class="rate">${{selectedOffer.offer.rate}}@Html.Sitecore().Field("Per Therm")</div>
+                    </div>
+                    <div class="line-item clearfix" ng-if="isRenewal && selectedOffer.renewalConfirmation.contractStartDate != null">
+                        <div class="description">
+                            @Html.Sitecore().Field("Contract Start Date Header")
+                        </div>
+                        <div class="rate">{{selectedOffer.renewalConfirmation.contractStartDate | date:'M/d/yyyy'}}</div>
+                    </div>
+                    <div class="line-item clearfix" ng-if="!isRenewal">
+                        <div class="description sub-charge">
+                            <strong>@Html.Sitecore().Field("Installation Fee")  ({{selectedOffer.offerOption.connectDate | date:'M/d/yyyy'}})</strong>
+                        </div>
+                        <div class="rate">{{ selectedOffer.offerOption.connectionFee | currency }}</div>
+                    </div>
+                    <div class="line-item clearfix" ng-if="!isRenewal">
+                        <div class="description sub-charge">
+                            <strong>@Html.Sitecore().Field("Utility Connect Fee")</strong>
+                        </div>
+                        <div class="rate">@Html.Sitecore().Field("GA Utility Connect Fee")</div>
+                    </div>
+                    <div class="line-item clearfix" ng-if="!isRenewal">
+                        <div class="description sub-charge">
+                            <strong>@Html.Sitecore().Field("Stream Connect Fee")</strong>
+                        </div>
+                        <div class="rate">@Html.Sitecore().Field("GA Stream Connect Fee")</div>
+                    </div>
+                    <div class="line-item clearfix" ng-repeat="payment in selectedOffer.payments.requiredAmounts" ng-if="payment.dollarAmount > 0 && !isRenewal && selectedOffer.depositType != 'DepositWaived'" ng-include src="'payments/' + payment.offerPaymentAmountType"></div>
+                    <div class="plan-documents clearfix">
+                        <div class="description sub-charge"><strong>@Html.Sitecore().Field("Plan Documents Header")</strong></div>
+                        <div class="docs">
+                            <ul>
+                                <li ng-if="selectedOffer.offer.documents.letterOfAgency"><a ng-href="{{selectedOffer.offer.documents.letterOfAgency}}" target="_blank">@Html.Sitecore().Field("Letter of Agency Document")</a></li>
+                                <li ng-if="selectedOffer.offer.documents.termsAndDisclosures"><a ng-href="{{selectedOffer.offer.documents.termsAndDisclosures}}" target="_blank">@Html.Sitecore().Field("Terms and Disclosures Document")</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr ng-hide="$parent.$parent.$parent.$last" />
+    </div>
+</script>
+<script type="text/ng-template" id="serviceConfirmation/NewYorkGas">
+    <div ng-repeat="selectedOffer in offerInformation.value.offerSelections">
+        <div class="services-header">
+            <div class="service-title">
+                @Html.Sitecore().Field("Energy Services Text")
+            </div>
+            <div class="service-description">
+                @Html.Sitecore().Field("Service Address Label") {{ service.location.address | address}}
+            </div>
+        </div>
+        <div ng-if="!selectedOffer.confirmationSuccess" ng-cloak>
+            <div class="notice alert">
+                @Html.Sitecore().Field("Confirmation Error")
+            </div>
+        </div>
+        <dl ng-if="!selectedOffer.confirmationSuccess" class="clearfix">
+            <dt>@Html.Sitecore().Field("Account Number")</dt>
+            <dd>{{ selectedOffer.confirmationNumber }}</dd>
+        </dl>
+        <div class="gas-services">
+            <div ng-repeat="selectedOffer in offerInformation.value.offerSelections">
+                <div class="plan-summary">
+                    <div class="plan-summary-image">
+                        <i class="icon-gas-blue"></i>
+                    </div>
+                    <div class="line-item clearfix">
+                        <div class="description">
+                            <h2>{{selectedOffer.offer.name}}</h2>
+                        </div>
+                        <div class="rate">${{selectedOffer.offer.rate}}@Html.Sitecore().Field("Per Therm")</div>
+                    </div>
+                    <div class="line-item clearfix" ng-if="isRenewal && selectedOffer.renewalConfirmation.contractStartDate != null">
+                        <div class="description">
+                            @Html.Sitecore().Field("Contract Start Date Header")
+                        </div>
+                        <div class="rate">{{selectedOffer.renewalConfirmation.contractStartDate | date:'M/d/yyyy'}}</div>
+                    </div>
+                    <div class="line-item clearfix" ng-if="!isRenewal">
+                        <div class="description sub-charge">
+                            <strong>@Html.Sitecore().Field("Installation Fee")  ({{selectedOffer.offerOption.connectDate | date:'M/d/yyyy'}})</strong>
+                        </div>
+                        <div class="rate">{{ selectedOffer.offerOption.connectionFee | currency }}</div>
+                    </div>
+                    <div class="line-item clearfix" ng-if="!isRenewal">
+                        <div class="description sub-charge">
+                            <strong>@Html.Sitecore().Field("Utility Connect Fee")</strong>
+                        </div>
+                        <div class="rate">@Html.Sitecore().Field("GA Utility Connect Fee")</div>
+                    </div>
+                    <div class="line-item clearfix" ng-if="!isRenewal">
+                        <div class="description sub-charge">
+                            <strong>@Html.Sitecore().Field("Stream Connect Fee")</strong>
+                        </div>
+                        <div class="rate">@Html.Sitecore().Field("GA Stream Connect Fee")</div>
+                    </div>
+                    <div class="line-item clearfix" ng-repeat="payment in selectedOffer.payments.requiredAmounts" ng-if="payment.dollarAmount > 0 && !isRenewal && selectedOffer.depositType != 'DepositWaived'" ng-include src="'payments/' + payment.offerPaymentAmountType"></div>
+                    <div class="plan-documents clearfix">
+                        <div class="description sub-charge"><strong>@Html.Sitecore().Field("Plan Documents Header")</strong></div>
+                        <div class="docs">
+                            <ul>
+                                <li ng-if="selectedOffer.offer.documents.letterOfAgency"><a ng-href="{{selectedOffer.offer.documents.letterOfAgency}}" target="_blank">@Html.Sitecore().Field("Letter of Agency Document")</a></li>
+                                <li ng-if="selectedOffer.offer.documents.termsAndDisclosures"><a ng-href="{{selectedOffer.offer.documents.termsAndDisclosures}}" target="_blank">@Html.Sitecore().Field("Terms and Disclosures Document")</a></li>
                             </ul>
                         </div>
                     </div>
