@@ -331,55 +331,56 @@
         </div>
     </div>
 </script>
-<script type="text/ng-template" id="indPlanList/TexasElectricity">
-</script>
-<script type="text/ng-template" id="indPlanList/NewJerseyElectricity">
-</script>
-<script type="text/ng-template" id="indPlanList/MarylandElectricity">
-</script>
-<script type="text/ng-template" id="indPlanList/PennsylvaniaElectricity">
-</script>
-<script type="text/ng-template" id="indPlanList/NewYorkElectricity">
-</script>
-<script type="text/ng-template" id="indPlanList/DCElectricity">
-</script>
-<script type="text/ng-template" id="indPlanList/GeorgiaGas">
-</script>
-<script type="text/ng-template" id="indPlanList/NewJerseyGas">
-</script>
-<script type="text/ng-template" id="indPlanList/NewYorkGas">
-</script>
-<script type="text/ng-template" id="indPlanList/MarylandGas">
-</script>
-<script type="text/ng-template" id="indPlanList/PennsylvaniaGas">
-</script>
-<script type="text/ng-template" id="indPlanList/Protective">
-</script>
-<script type="text/ng-template" id="searchbox.tpl.html">
-    <input type="text" id="gmap-search-input" placeholder="" />
-</script>
-
-<script type="text/ng-template" id="internationalDetails">
-    <div class="mobile-enrollment-modal">
-        <div class="modal-header">
-            <a href="" ng-click="$dismiss()">Close</a>
-            <h2>@Html.Sitecore().Field("Header - International Details")</h2>
+    <script type="text/ng-template" id="indPlanList/TexasElectricity">
+    </script>
+    <script type="text/ng-template" id="indPlanList/TexasElectricityCommercialQuote">
+    </script>
+    <script type="text/ng-template" id="indPlanList/NewJerseyElectricity">
+    </script>
+    <script type="text/ng-template" id="indPlanList/MarylandElectricity">
+    </script>
+    <script type="text/ng-template" id="indPlanList/PennsylvaniaElectricity">
+    </script>
+    <script type="text/ng-template" id="indPlanList/NewYorkElectricity">
+    </script>
+    <script type="text/ng-template" id="indPlanList/DCElectricity">
+    </script>
+    <script type="text/ng-template" id="indPlanList/GeorgiaGas">
+    </script>
+    <script type="text/ng-template" id="indPlanList/NewJerseyGas">
+    </script>
+    <script type="text/ng-template" id="indPlanList/NewYorkGas">
+    </script>
+    <script type="text/ng-template" id="indPlanList/MarylandGas">
+    </script>
+    <script type="text/ng-template" id="indPlanList/PennsylvaniaGas">
+    </script>
+    <script type="text/ng-template" id="indPlanList/Protective">
+    </script>
+    <script type="text/ng-template" id="searchbox.tpl.html">
+        <input type="text" id="gmap-search-input" placeholder="" />
+    </script>
+    <script type="text/ng-template" id="internationalDetails">
+        <div class="mobile-enrollment-modal">
+            <div class="modal-header">
+                <a href="" ng-click="$dismiss()">Close</a>
+                <h2>@Html.Sitecore().Field("Header - International Details")</h2>
+            </div>
+            <div class="modal-body">
+                @Html.Sitecore().Field("Content - International Details")
+            </div>
         </div>
-        <div class="modal-body">
-            @Html.Sitecore().Field("Content - International Details")
+    </script>
+    <script type="text/ng-template" id="add-another-line">
+        <div class="mobile-enrollment-modal add-another-line">
+            <div class="modal-header">
+                <a href="" ng-click="$dismiss()">Close</a>
+                <h2>@Html.Sitecore().Field("Heading")</h2>
+            </div>
+            <div class="modal-body">@Html.Sitecore().Field("Body Content")</div>
+            <div class="modal-footer clearfix">
+                <a href="" class="button primary" ng-click="$dismiss(); completeStep(true)">@Html.Sitecore().Field("Button - Add Another Line")</a>
+                <a href="" class="button secondary" ng-click="$dismiss()">@Html.Sitecore().Field("Button - Go Back")</a>
+            </div>
         </div>
-    </div>
-</script>
-<script type="text/ng-template" id="add-another-line">
-    <div class="mobile-enrollment-modal add-another-line">
-        <div class="modal-header">
-            <a href="" ng-click="$dismiss()">Close</a>
-            <h2>@Html.Sitecore().Field("Heading")</h2>
-        </div>
-        <div class="modal-body">@Html.Sitecore().Field("Body Content")</div>
-        <div class="modal-footer clearfix">
-            <a href="" class="button primary" ng-click="$dismiss(); completeStep(true)">@Html.Sitecore().Field("Button - Add Another Line")</a>
-            <a href="" class="button secondary" ng-click="$dismiss()">@Html.Sitecore().Field("Button - Go Back")</a>
-        </div>
-    </div>
-</script>
+    </script>

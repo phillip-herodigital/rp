@@ -238,7 +238,7 @@ namespace StreamEnergy.Services.Clients
 
             var result = Json.Read<Newtonsoft.Json.Linq.JObject>(await response.Content.ReadAsStringAsync());
 
-            return (JObject)result["Providers"].First();
+            return (JObject)result["Providers"].FirstOrDefault();
         }
 
         private string ToFeeQualifier(string feeName)
@@ -384,6 +384,7 @@ namespace StreamEnergy.Services.Clients
                                CustomerType = customerType.CustomerType.ToString("g"),
                                FirstName = context.ContactInfo.Name.First,
                                LastName = context.ContactInfo.Name.Last,
+                               CompanyName = context.CompanyName,
                                BillingAddress = StreamConnectUtilities.ToStreamConnectAddress(context.MailingAddress),
                                HomePhone = context.ContactInfo.Phone.OfType<TypedPhone>().Where(p => p.Category == PhoneCategory.Home).Select(p => p.Number).SingleOrDefault(),
                                CellPhone = context.ContactInfo.Phone.OfType<TypedPhone>().Where(p => p.Category == PhoneCategory.Mobile).Select(p => p.Number).SingleOrDefault(),

@@ -2,64 +2,35 @@
  *
  * This is used to control aspects of let's get started on enrollment page.
  */
-ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$http', '$location', '$filter', 'enrollmentService', 'enrollmentCartService', 'enrollmentStepsService', 'analytics', function ($scope, $http, $location, $filter, enrollmentService, enrollmentCartService, enrollmentStepsService, analytics) {
+ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$location', '$filter', 'enrollmentService', 'enrollmentCartService', 'enrollmentStepsService', 'analytics', function ($scope, $location, $filter, enrollmentService, enrollmentCartService, enrollmentStepsService, analytics) {
+    // TODO - chose state by geoIP
     if (!$scope.data || !$scope.data.serviceState) {
-        var state = getParameterByName("State")
-        if (state) {
-            $scope.data = { serviceState: state };
-        }
-        else if ($scope.geoLocation.state) {
-            $scope.data = { serviceState: $scope.geoLocation.state };
-        }
-        else {
-            $scope.data = { serviceState: "TX" };
+        if ($location.absUrl().indexOf('State=GA') > 0 || $location.absUrl().indexOf('St=GA') > 0) {
+            $scope.data = { serviceState: 'GA' };
+        } else {
+            $scope.data = { serviceState: 'TX' };
         }
     }
     $scope.getActiveServiceIndex = enrollmentCartService.getActiveServiceIndex;
 
     // If the incoming URI indicates this is a commercial enrollment, change the default dropdown
-    if (getParameterByName('AccountType') === "C") {
+    if ($location.absUrl().indexOf('ServiceType=com') > 0) {
         $scope.$parent.customerType = 'commercial';
+        $scope.data.customerType = 'commercial';
+    }
+    else {
+        $scope.$parent.customerType = 'residential';
+        $scope.data.customerType = 'residential';
     }
 
-    $scope.getLocation = function (state, val) {
-        if (state === "TX" || state === "GA") {
-            return $scope.$parent.getLocation(state, val).then(function (values) {
-                $scope.errorMessage = !values.length;
-                return values;
-            });
-        }
-        else {
-            return $http.get("/api/addresses/TypeAhead/" + val + "/" + state).then(function (value) {
-                $scope.errorMessage = !value.data.length;
-                return value.data;
-            }, function (error) {
-                console.log("NE enrollment address typeahead error")
-            });
-        }
-    };
 
-    $scope.selectTypeAheadAddress = function (input) {
-        $scope.isLoading = true;
-        $http.get("/api/addresses/StreetAddressLookup/" + input).then(function (value) {
-            $scope.isLoading = false;
-            $scope.errorMessage = !value.data.location;
-            if (value.data.location) {
-                if (value.data.metadata.rdi === "Residential")
-                {
-                    $scope.data.serviceLocation = value.data.location;
-                    $scope.showUnitNumber = value.data.metadata.record_type === "H";
-                }
-                else {
-                    $scope.errorMessage = $scope.commercialAddress = true;
-                }
-            }
-        }, function (error) {
-            $scope.isLoading = false;
-            console.log("address lookup error")
+
+    $scope.getLocation = function (state, val) {
+        return $scope.$parent.getLocation(state, val).then(function (values) {
+            $scope.errorMessage = !values.length;
+            return values;
         });
     };
-
     $scope.isDuplicateAddress = $scope.$parent.isDuplicateAddress;
 
     //Checking to see when the active service address has been updated
@@ -73,6 +44,8 @@ ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$http', '$locat
         } else {
             $scope.data.serviceLocation = newValue.location;
             $scope.isCartFull = enrollmentCartService.isCartFull($scope.customerType);
+            $scope.commercialQuote = $location.absUrl().indexOf('AccountType=CQ') > 0;
+
             $scope.isNewServiceAddress = enrollmentCartService.isNewServiceAddress();
             var target = _(newValue.location.capabilities).find({ capabilityType: "ServiceStatus" });
             if (target) {
@@ -103,13 +76,12 @@ ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$http', '$locat
         $scope.data.serviceLocation = null;
     });
 
-    $scope.$watch('data.serviceState', function (newVal) {
-        if (newVal && newVal != "TX" && newVal != "GA")
-        {
-            $scope.data.isNewService = false;
-        }
+    $scope.$watch('data.serviceState', function() {
         $scope.data.serviceLocation = null;
-        $scope.typeAheadModel = null;
+    });
+
+    $scope.$watch('data.customerType', function(newValue) {
+        $scope.$parent.customerType = newValue;
     });
 
     /**
@@ -118,11 +90,10 @@ ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$http', '$locat
      * we have the correct data
      * @return {Boolean}
      */
-    $scope.isFormValid = function () {
-        if ($scope.data.serviceLocation !== null && $scope.data.isNewService !== undefined && (!$scope.isCartFull || !$scope.isNewServiceAddress) && !$scope.isDuplicateAddress($scope.data.serviceLocation.address)) {
-            return typeof $scope.data.serviceLocation === 'object' && $scope.showUnitNumber ? $scope.data.serviceLocation.address.unitNumber : true;
-        }
-        else {
+    $scope.isFormValid = function() {
+        if ($scope.data.serviceLocation !== null && typeof $scope.data.serviceLocation == 'object' && $scope.data.isNewService !== undefined && (!$scope.isCartFull || !$scope.isNewServiceAddress) && !$scope.isDuplicateAddress($scope.data.serviceLocation.address)) {
+            return true;
+        } else {
             return false;
         }
     };
@@ -132,15 +103,14 @@ ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$http', '$locat
      * @return {[type]} [description]
      */
     $scope.completeStep = function () {
+
         //Someone bypassed the disabled button, lets send an error
-        if($scope.data.serviceLocation === null) {
+        if(typeof $scope.data.serviceLocation == 'string' || $scope.data.serviceLocation === null) {
             $scope.errorMessage = true;
             return;
         } 
 
-        if ($scope.data.serviceLocation.capabilities) {
-            $scope.data.serviceLocation.capabilities = _.filter($scope.data.serviceLocation.capabilities, function (cap) { return cap.capabilityType != "ServiceStatus" && cap.capabilityType != "CustomerType"; });
-        }
+        $scope.data.serviceLocation.capabilities = _.filter($scope.data.serviceLocation.capabilities, function (cap) { return cap.capabilityType != "ServiceStatus" && cap.capabilityType != "CustomerType"; });
         $scope.data.serviceLocation.capabilities.push({ "capabilityType": "ServiceStatus", "enrollmentType": $scope.data.isNewService ? 'moveIn' : 'switch' });
         $scope.data.serviceLocation.capabilities.push({ "capabilityType": "CustomerType", "customerType": $scope.customerType });
 
@@ -173,10 +143,4 @@ ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$http', '$locat
         });
     };
 
-    function getParameterByName(name) {
-        name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
-        var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
-            results = regex.exec($location.absUrl());
-        return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
-    }
 }]);

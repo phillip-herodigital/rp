@@ -234,7 +234,7 @@ ngApp.controller('EnrollmentCartCtrl', ['$scope', 'enrollmentStepsService', 'enr
             $scope.addUtilityPlanError = false;
             enrollmentCartService.removeService(service);
             // if this was the last service in the cart, go to the start
-            if (!$scope.cartHasMobile()) {
+            if (!$scope.cartHasMobile() && !$scope.cartHasUtility()) {
                 enrollmentStepsService.setFlow('utility', false).setStep('utilityFlowService');
             } else {
                 enrollmentCartService.setActiveServiceIndex(0);
@@ -242,6 +242,15 @@ ngApp.controller('EnrollmentCartCtrl', ['$scope', 'enrollmentStepsService', 'enr
             }
         })
     };
+
+    /**
+    * Add additional address
+    */
+    $scope.addUtilityAddress = function () {
+        enrollmentCartService.setActiveServiceIndex(enrollmentCartService.getActiveServiceIndex()+1);
+        enrollmentStepsService.setFlow('utility', false).setStep('utilityFlowService');
+    };
+
 
     /**
     * Handle the checkout button

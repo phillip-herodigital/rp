@@ -11,33 +11,33 @@ using StreamEnergy.DomainModels.Accounts;
 
 namespace StreamEnergy.Services.Clients
 {
-    class TexasAdapter : ILocationAdapter
+    class CommercialRFQAdapter : ILocationAdapter
     {
         private readonly ISitecoreProductData sitecoreProductData;
 
-        public TexasAdapter(ISitecoreProductData sitecoreProductData)
+        public CommercialRFQAdapter(ISitecoreProductData sitecoreProductData)
         {
             this.sitecoreProductData = sitecoreProductData;
         }
 
-        bool ILocationAdapter.IsFor(Location location)
+        bool ILocationAdapter.IsFor(IEnumerable<DomainModels.IServiceCapability> capabilities)
         {
-            return location.Capabilities.OfType<TexasElectricity.ServiceCapability>().Any();
+            return capabilities.OfType<TexasElectricity.CommercialQuote>().Any();
         }
 
         bool ILocationAdapter.IsFor(IEnumerable<IServiceCapability> capabilities, IOffer offer)
         {
-            return offer.OfferType == TexasElectricity.Offer.Qualifier;
+            return offer.OfferType == TexasElectricity.CommercialQuote.Qualifier;
         }
 
         bool ILocationAdapter.IsFor(Address serviceAddress, string productType)
         {
-            return serviceAddress.StateAbbreviation == "TX" && productType == "Electricity";
+            return false;
         }
 
         bool ILocationAdapter.IsFor(DomainModels.Accounts.ISubAccount subAccount)
         {
-            return subAccount is DomainModels.Accounts.TexasElectricityAccount;
+            return false;
         }
 
         bool ILocationAdapter.NeedProvider(Location location)
@@ -53,7 +53,7 @@ namespace StreamEnergy.Services.Clients
 
         string ILocationAdapter.GetSystemOfRecord()
         {
-            return "CIS1";
+            return "CommercialRFQ";
         }
 
         string ILocationAdapter.GetCommodityType()
@@ -65,19 +65,12 @@ namespace StreamEnergy.Services.Clients
         DomainModels.Enrollments.LocationOfferSet ILocationAdapter.LoadOffers(DomainModels.Enrollments.Location location, StreamConnect.ProductResponse streamConnectProductResponse)
         {
             var customerType = location.Capabilities.OfType<CustomerTypeCapability>().Single();
-            if (customerType.CustomerType == EnrollmentCustomerType.Residential)
+            return new LocationOfferSet
             {
-                return LoadTexasOffers(location, streamConnectProductResponse);
-            }
-            else
-            {
-                return new LocationOfferSet
-                {
-                    Offers = new[] {
-                            new TexasElectricity.CommercialQuote { }
-                        }
-                };
-            }
+                Offers = new[] {
+                        new TexasElectricity.CommercialQuote { }
+                    }
+            };
         }
 
 
@@ -85,7 +78,7 @@ namespace StreamEnergy.Services.Clients
         {
             if (location.Capabilities.OfType<TexasElectricity.ServiceCapability>().Count() != 1)
             {
-                return new LocationOfferSet { OfferSetErrors = { { "TexasElectricity", "MultipleTdu" } } };
+                return new LocationOfferSet { OfferSetErrors = { { "TexasElectricityCommercialQuote", "MultipleTdu" } } };
             }
             var texasService = location.Capabilities.OfType<TexasElectricity.ServiceCapability>().Single();
             var serviceStatus = location.Capabilities.OfType<ServiceStatusCapability>().Single();
@@ -164,28 +157,25 @@ namespace StreamEnergy.Services.Clients
 
         dynamic ILocationAdapter.ToEnrollmentAccount(Guid globalCustomerId, EnrollmentAccountDetails account, bool IsAutoPayEnabled, string ExistingAccountNumber, DateTime DOB, string Gender)
         {
-            var texasElectricityOffer = account.Offer.Offer as TexasElectricity.Offer;
             var texasService = account.Location.Capabilities.OfType<TexasElectricity.ServiceCapability>().Single();
             var serviceStatus = account.Location.Capabilities.OfType<ServiceStatusCapability>().Single();
             var customerType = account.Location.Capabilities.OfType<CustomerTypeCapability>().Single();
+
             return new
             {
-                ServiceType = "Utility",
+                ServiceType = "CommercialUtility",
                 Key = account.EnrollmentAccountKey,
                 RequestUniqueKey = account.RequestUniqueKey,
-
                 Premise = new
                 {
                     EnrollmentType = serviceStatus.EnrollmentType.ToString("g"),
                     SelectedMoveInDate = (account.Offer.OfferOption is TexasElectricity.MoveInOfferOption) ? ((TexasElectricity.MoveInOfferOption)account.Offer.OfferOption).ConnectDate : DateTime.Now,
-                    UtilityProvider = JObject.Parse(texasElectricityOffer.Provider),
-                    UtilityAccountNumber = texasService.EsiId,
-                    Product = new
+                    UtilityProvider = new
                     {
-                        ProductId = texasElectricityOffer.Id.Split(new[] { '/' }, 2)[1],
-                        ProductCode = texasElectricityOffer.Id.Split(new[] { '/' }, 2)[1],
-                        Term = texasElectricityOffer.TermMonths
+                        Id = "",
+                        Name = texasService.Tdu,
                     },
+                    UtilityAccountNumber = texasService.EsiId,
                     ServiceAddress = StreamConnectUtilities.ToStreamConnectAddress(account.Location.Address),
                     ProductType = "Electricity",
                     Deposit = StreamConnectUtilities.ToStreamConnectDeposit(account.OfferPayments, account.Offer.WaiveDeposit),
@@ -200,9 +190,7 @@ namespace StreamEnergy.Services.Clients
 
         string ILocationAdapter.GetProvider(DomainModels.Accounts.ISubAccount subAccount)
         {
-            var account = subAccount as DomainModels.Accounts.TexasElectricityAccount;
-
-            return account.ProviderId;
+            throw new NotImplementedException();
         }
 
         DomainModels.Accounts.ISubAccount ILocationAdapter.BuildSubAccount(Address serviceAddress, dynamic details)
@@ -334,9 +322,7 @@ namespace StreamEnergy.Services.Clients
 
         void ILocationAdapter.GetRenewalValues(IOffer offer, out string code, out string id)
         {
-            var texasElectricityOffer = offer as TexasElectricity.Offer;
-            id = texasElectricityOffer.Id.Split(new[] { '/' }, 2)[1];
-            code = texasElectricityOffer.Id.Split(new[] { '/' }, 2)[1];
+            throw new NotImplementedException();
         }
     }
 }

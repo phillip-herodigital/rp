@@ -50,7 +50,8 @@ ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', '$http', 'enroll
             .any();
 
         _(enrollmentCartService.services).map(function (l) {
-            return l.offerInformationByType[0].key
+            if (typeof l.offerInformationByType[0] != 'undefined')
+                return l.offerInformationByType[0].key
         }).uniq().each(function (t) {
             analytics.sendVariables(10, t);
         });

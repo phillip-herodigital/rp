@@ -451,6 +451,11 @@
             text-align: right;
         }
 
+        .label {
+            font-weight: 600;
+            width: 40%;
+        }
+
         h4 {
             margin: 0 0 10px;
         }
@@ -7656,4 +7661,25 @@ article.services-box {
     #draw-signature {
         padding: 0;
     }
+}
+
+.service-type {
+	position: relative;
+	button {
+		background: none;
+		border: none;
+		box-shadow: none;
+		padding-bottom: 0px;
+		margin-bottom: 15px;
+		color: #333;
+		padding-left: 5px;
+		border-bottom: 1px solid #ccc;
+		border-radius: 0px;
+		outline: none;
+	}
+	ul.dropdown-menu {
+		position: absolute;
+		right: inherit;
+		top: 8px;
+	}
 }

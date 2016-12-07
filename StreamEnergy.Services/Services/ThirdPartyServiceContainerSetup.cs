@@ -35,7 +35,8 @@ namespace StreamEnergy.Services
                     uc.Resolve<PennsylvaniaElectricityAdapter>(),
                     uc.Resolve<PennsylvaniaGasAdapter>(),
                     uc.Resolve<MobileAdapter>(),
-                    uc.Resolve<ProtectiveAdapter>()
+                    uc.Resolve<ProtectiveAdapter>(),
+                    uc.Resolve<CommercialRFQAdapter>()
                 }));
         }
     }

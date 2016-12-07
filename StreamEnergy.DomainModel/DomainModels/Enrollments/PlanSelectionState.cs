@@ -22,9 +22,11 @@ namespace StreamEnergy.DomainModels.Enrollments
 
         public override IEnumerable<System.Linq.Expressions.Expression<Func<UserContext, object>>> PreconditionValidations(UserContext data, InternalContext internalContext)
         {
-            yield return context => context.Services.PartialValidate(e => e.Location.Address.PostalCode5,
+            if (data.Services.SelectMany(s => s.Location.Capabilities).OfType<CustomerTypeCapability>().Any(ct => ct.CustomerType != EnrollmentCustomerType.Commercial))
+                yield return context => context.Services.PartialValidate(e => e.Location.Address.PostalCode5,
                                                                      e => e.Location.Capabilities,
                                                                      e => e.SelectedOffers);
+            yield break;
         }
 
         public override IEnumerable<ValidationResult> AdditionalValidations(UserContext context, InternalContext internalContext)
@@ -36,7 +38,10 @@ namespace StreamEnergy.DomainModels.Enrollments
 
         public override bool IgnoreValidation(System.ComponentModel.DataAnnotations.ValidationResult validationResult, UserContext context, InternalContext internalContext)
         {
-            return validationResult.MemberNames.All(m => System.Text.RegularExpressions.Regex.IsMatch(m, @"SelectedOffers\[[0-9]+\]\.OfferOption"));
+            if (context.Services.SelectMany(s => s.Location.Capabilities).OfType<CustomerTypeCapability>().Any(ct => ct.CustomerType == EnrollmentCustomerType.Commercial))
+                return true;
+            else
+                return validationResult.MemberNames.All(m => System.Text.RegularExpressions.Regex.IsMatch(m, @"SelectedOffers\[[0-9]+\]\.OfferOption"));
         }
 
         protected override Task<Type> InternalProcess(UserContext context, InternalContext internalContext)

@@ -9,13 +9,14 @@
                     <h1 ng-if="cartHasProtective() || customerType != 'commercial' && confirmationSuccess && !isRenewal">@Html.Sitecore().Field("Order Confirmation")</h1>
                     <h1 ng-if="!cartHasProtective() && customerType != 'commercial' && !confirmationSuccess">@Html.Sitecore().Field("Order Submitted")</h1>
                     <h1 ng-if="confirmationSuccess && isRenewal">@Html.Sitecore().Field("Renewal Confirmation")</h1>
-                    <h1 ng-if="customerType == 'commercial' && !isRenewal">@Html.Sitecore().Field("Request Received")</h1>
+                    <h1 ng-if="customerType == 'commercial' && !isRenewal">@Html.Sitecore().Field("Thank You for Requesting")</h1>
                     <a class="print" href="" ng-click="onPrint()"><i class="icon-printer"></i>@Html.Sitecore().Field("Print")</a>
                 </header>
                 <div class="content">
                     <p ng-if="customerType != 'commercial' && confirmationSuccess && !isRenewal && !cartHasMobile() && !cartHasProtective()">@Html.Sitecore().Field("Confirmation Paragraph") <span class="confirmation-number">{{getCartItems()[0].offerInformationByType[0].value.offerSelections[0].confirmationNumber}}</span>.</p>
                     <p ng-if="customerType != 'commercial' && !confirmationSuccess && !cartHasMobile() && !cartHasProtective()">@Html.Sitecore().Field("Submitted Paragraph")</p>
                     <p ng-if="confirmationSuccess && isRenewal">@Html.Sitecore().Field("Renewal Paragraph") <span class="confirmation-number">{{getCartItems()[0].offerInformationByType[0].value.offerSelections[0].confirmationNumber}}</span></p>
+                    <p ng-if="customerType == 'commercial'">@Html.Sitecore().Field("Thank You Box Text")</p>
                     <div class="mobile-header-content" ng-if="cartHasMobile()">
                         <div class="account-number">@Html.Sitecore().Field("Account Number") {{getCartItems()[0].offerInformationByType[0].value.offerSelections[0].confirmationNumber}}</div>
                         <div class="contact">{{ accountInformation.contactInfo.name.first }} {{ accountInformation.contactInfo.name.last }}</div>
@@ -45,14 +46,32 @@
                     </footer>
                 }
             </article>
-            <article ng-if="customerType == 'commercial' && !isRenewal && !cartHasMobile()" class="commercial-next-steps enrollment__box">
-                <div class="content">
-                    @Html.Sitecore().Field("Commercial Next Steps")
-                </div>
-            </article>
-            <article class="verify-order enrollment__box">
+            <article ng-if="customerType!= 'commercial'" class="verify-order enrollment__box">
                 <header>
                     <h1 class="order-complete-heading">@Html.Sitecore().Field("Header - Order Summary")</h1>
+                    <p class="order-complete-date" ng-show="isRenewal && confirmationSuccess">@Html.Sitecore().Field("Renewal Completed On") {{todaysDate}}</p>
+                    <p class="order-complete-date" ng-show="!isRenewal && confirmationSuccess">@Html.Sitecore().Field("Completed On") {{todaysDate}}</p>
+                </header>
+                <div class="form content">
+                    <div ng-repeat="(id, service) in getCartItems()">
+                        <div ng-repeat="offerInformation in service.offerInformationByType" ng-show="offerInformation.value.offerSelections.length">
+                            <div ng-include src="'serviceConfirmation/' + offerInformation.key"></div>
+                        </div>
+                    </div>
+                    <hr ng-if="cartHasTxLocation() && getCartTotal() > 0" />
+                    <div class="plan-summary" ng-if="getCartTotal() > 0 && !cartHasProtective()">
+                        <div class="line-item">
+                            <div class="total">
+                                @Html.Sitecore().Field("Order Total Text") <strong>{{ getCartTotal() | currency }}</strong>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </article>
+            <article ng-if="customerType== 'commercial'" class="verify-order enrollment__box">
+                <header>
+                    <h1 ng-if="customerType!= 'commercial'" class="order-complete-heading">@Html.Sitecore().Field("Header - Order Summary")</h1>
+                    <h1 ng-if="customerType== 'commercial'" class="order-complete-heading">@Html.Sitecore().Field("Request Summary")</h1>
                     <p class="order-complete-date" ng-show="isRenewal && confirmationSuccess">@Html.Sitecore().Field("Renewal Completed On") {{todaysDate}}</p>
                     <p class="order-complete-date" ng-show="!isRenewal && confirmationSuccess">@Html.Sitecore().Field("Completed On") {{todaysDate}}</p>
                 </header>
@@ -187,8 +206,8 @@
                             </div>
                         </div>
                     </div>
-                    <hr ng-if="cartHasTxLocation()" />
-                    <div class="terms" ng-if="cartHasTxLocation()">
+                    <hr ng-if="cartHasTxLocation() && customerType != 'commercial'" />
+                    <div class="terms" ng-if="cartHasTxLocation() && customerType != 'commercial'">
                         <div class="term">
                             <div class="check" ng-class="{background: accountInformation.agreeToTerms}"><span ng-hide="accountInformation.agreeToTerms">x</span></div>
                             <label for="streamTerms">@Html.Sitecore().Field("Stream Terms Label")</label>
@@ -210,8 +229,11 @@
 <script type="text/ng-template" id="serviceConfirmation/TexasElectricity">
     <div ng-repeat="selectedOffer in offerInformation.value.offerSelections">
         <div class="services-header">
-            <div class="service-title">
+            <div ng-if="customerType!= 'commercial'" class="service-title">
                 @Html.Sitecore().Field("Energy Services Text")
+            </div>
+            <div ng-if="customerType== 'commercial'" class="service-title">
+                @Html.Sitecore().Field("Request for Commercial")
             </div>
         </div>
         <div ng-if="!selectedOffer.confirmationSuccess" ng-cloak>
@@ -223,7 +245,7 @@
             <dt>@Html.Sitecore().Field("Account Number")</dt>
             <dd>{{ selectedOffer.confirmationNumber }}</dd>
         </dl>
-        <div class="electricity-services">
+        <div ng-if="customerType != 'commercial'" class="electricity-services">
             <div ng-repeat="selectedOffer in offerInformation.value.offerSelections">
                 <div class="plan-summary">
                     <div class="plan-info">
@@ -308,7 +330,33 @@
                 </div>
             </div>
         </div>
-    </div>
+        <div ng-if="customerType == 'commercial'" class="electricity-services">
+                <div class="plan-summary">
+                    <div class="plan-info">
+                        <div class="plan-summary-image">
+                            <i class="icon-electricity-blue"></i>
+                        </div>
+                        <div class="service-info clearfix">
+                            <div class="label">@Html.Sitecore().Field("Service Address Label"):</div>
+                            <div class="info">
+                                <p>{{ service.location.address.line1}}<span ng-if="service.location.address.unitNumber"> unit {{ service.location.address.unitNumber}}</span></p>
+                                <p>{{ service.location.address.city}}, {{ service.location.address.stateAbbreviation}} {{ service.location.address.postalCode5}}<span ng-if="service.location.address.postalCodePlus4">-{{ service.location.address.postalCodePlus4}}</span></p>
+                            </div>
+                        </div>
+                        <div class="service-info clearfix">
+                            <div class="label">@Html.Sitecore().Field("Company Name Label")</div><div class="info">{{accountInformation.businessInformationName}}</div>
+                        </div>
+                        <div class="service-info clearfix">
+                            <div class="label">@Html.Sitecore().Field("ESI Label")</div><div class="info">{{selectedOffer.offer.tdu}}</div>
+                        </div>
+                        <div class="service-info clearfix" ng-if="selectedOffer.renewalConfirmation.contractStartDate">
+                            <div class="label">@Html.Sitecore().Field("Tax ID Label")</div><div class="info">{{selectedOffer.renewalConfirmation.contractStartDate | date:'M/d/yyyy'}}</div>
+                        </div>
+                    </div>
+                    <hr ng-hide="$parent.$parent.$parent.$parent.$last" />
+                </div>
+            </div>
+        </div>
 </script>
 <script type="text/ng-template" id="serviceConfirmation/NewJerseyElectricity">
     <div ng-repeat="selectedOffer in offerInformation.value.offerSelections">

@@ -95,6 +95,9 @@
         if (result.isRenewal) {
             enrollmentStepsService.setRenewal();
         }
+        if (enrollmentCartService.cartHasCommercialQuote()) {
+            enrollmentStepsService.setCommercialQuote();
+        }
 
         service.isAddLine = result.isAddLine;
         service.addLineAccountNumber = result.addLineAccountNumber;
@@ -445,7 +448,6 @@
      */
     service.getLocations = function (state, customerType, val) {
         var start = new Date().getTime();
-
         return $http.get('/api/address/lookup/' + state + '/' + customerType + '/' + val)
             .then(function (data) {
                 return data;
