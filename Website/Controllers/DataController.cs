@@ -49,6 +49,22 @@ namespace StreamEnergy.MyStream.Controllers
             return this.Content(StreamEnergy.Json.Stringify(data));
         }
 
+        public ActionResult PreviousProviders()
+        {
+            var item = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Taxonomy/Previous Providers");
+            var data = item.Children.Select(child => new { name = child.Name, display = child.Fields["Display Text"].Value });
+
+            return this.Content(StreamEnergy.Json.Stringify(data));
+        }
+
+        public ActionResult PreviousProvidersGeorgia()
+        {
+            var item = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Taxonomy/Previous Providers Georgia");
+            var data = item.Children.Select(child => new { name = child.Name, display = child.Fields["Display Text"].Value });
+
+            return this.Content(StreamEnergy.Json.Stringify(data));
+        }
+
         public ActionResult UtilityProviders()
         {
             var item = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Taxonomy/Utility Providers");
