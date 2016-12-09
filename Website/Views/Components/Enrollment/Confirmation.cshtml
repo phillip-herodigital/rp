@@ -13,7 +13,7 @@
                     <a class="print" href="" ng-click="onPrint()"><i class="icon-printer"></i>@Html.Sitecore().Field("Print")</a>
                 </header>
                 <div class="content">
-                    <div ng-if="!confirmationSuccess" ng-cloak>
+                    <div ng-if="cartHasMobile() && !confirmationSuccess" ng-cloak>
                         <div class="notice alert">
                             @Html.Sitecore().Field("Confirmation Error Mobile")
                         </div>
