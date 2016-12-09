@@ -815,10 +815,10 @@
 <script type="text/ng-template" id="completeOrder/commercialQuote">
     <div class="services-header">
         <div class="service-title">
-            @Html.Sitecore().Field("Energy Services Text")
+            @Html.Sitecore().Field("Service Address Label") 
         </div>
         <div class="service-description">
-            @Html.Sitecore().Field("Service Address Label") {{ location.location.address | address}}
+            {{ location.location.address | address}}
         </div>
     </div>
     <h3>@Html.Sitecore().Field("Personal Information Label")</h3>
