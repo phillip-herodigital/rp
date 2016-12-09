@@ -206,8 +206,8 @@
                             </div>
                         </div>
                     </div>
-                    <hr ng-if="cartHasTxLocation()" />
-                    <div class="terms" ng-if="cartHasTxLocation()">
+                    <hr ng-if="cartHasTxLocation() && customerType != 'commercial'" />
+                    <div class="terms" ng-if="cartHasTxLocation() && customerType != 'commercial'">
                         <div class="term">
                             <div class="check" ng-class="{background: accountInformation.agreeToTerms}"><span ng-hide="accountInformation.agreeToTerms">x</span></div>
                             <label for="streamTerms">@Html.Sitecore().Field("Stream Terms Label")</label>

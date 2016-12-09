@@ -56,13 +56,13 @@
                 </div>
                 <div class="cart-item" ng-repeat="(id, location) in getUtilityAddresses()" ng-if="cartHasUtility() || cartHasCommercialQuote()">
                     <div class="utility-plan">
-                        <h2 ng-if="$first">@Html.Sitecore().Field("Commercial Header")</h2>
+                        <h2 ng-if="$first && !cartHasCommercialQuote()">@Html.Sitecore().Field("Energy Plan")</h2>
+                        <h2 ng-if="$first && cartHasCommercialQuote()">@Html.Sitecore().Field("Commercial Header")</h2>
                         <address>
                             <h3>@Html.Sitecore().Field("Service Address Text")</h3>
                             {{ location.location.address | address }}<br />
-                            <a href="" ng-click="editUtilityAddress(location)" ng-if="!isRenewal">@Html.Sitecore().Field("Edit Address Text")</a> | <a href="" ng-click="deleteUtilityAddress(location)">@Html.Sitecore().Field("Remove Address")</a>
+                            <a href="" ng-click="editUtilityAddress(location)" ng-if="!isRenewal">@Html.Sitecore().Field("Edit Address Text")</a>
                         </address>
-
                         <div class="notice error" ng-show="addUtilityPlanError && !isFormValid()">
                             @Html.Sitecore().Field("Select Utility Plan Text")
                             <div class="links" ng-if="!isRenewal">
@@ -85,16 +85,15 @@
                         </div>
                     </div>
                 </div>
-                <footer ng-show="cartHasUtility() || (mobileEnrollmentService.selectedNetwork.value && mobileEnrollment.phoneTypeTab != 'wsa')">
-                    <a href="" ng-click="addUtilityAddress()">@Html.Sitecore().Field("Add Address Text")</a>
-                    <div class="buttons">
-                        <button ng-click="cartCheckout()">@Html.Sitecore().Field("Checkout Button Text")</button>
-                    </div>
-                    @*<div class="time">
-                <i class="icon-clock"></i>
-                @Html.Sitecore().Field("Time Remaining").Format(new { time = "{{time()}}" })
-            </div>*@
-                </footer>
+            <footer ng-show="cartHasUtility() || (mobileEnrollmentService.selectedNetwork.value && mobileEnrollment.phoneTypeTab != 'wsa')">
+                <div class="buttons">
+                    <button ng-click="cartCheckout()">@Html.Sitecore().Field("Checkout Button Text")</button>
+                </div>
+                @*<div class="time">
+                    <i class="icon-clock"></i>
+                    @Html.Sitecore().Field("Time Remaining").Format(new { time = "{{time()}}" })
+                </div>*@
+            </footer>
         </article>
         <article class="enrollment__box documents" ng-if="false && customerType != 'commercial' && !isRenewal && getCartLocationsCount() > 0 && cartHasUtility()">
             <header>

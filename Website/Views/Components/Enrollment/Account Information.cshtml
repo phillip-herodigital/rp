@@ -362,6 +362,13 @@
                                 </div>
                             </div>
                             <div class="group">
+                                <div class="item group-col" @Html.Validation().ErrorClass(m => m.ContactTitle)>
+                                    <label for="@Html.IdFor(m => m.ContactTitle)">@Html.Sitecore().Field("Title Label")</label>
+                                    @Html.TextBoxFor(m => m.ContactTitle, new { ng_model = "accountInformation.contactTitle" })
+                                    @Html.ValidationMessageFor(model => model.ContactTitle)
+                                </div>
+                            </div>
+                            <div class="group">
                                 @using (var firstPhone = Html.ClientRepeater(m => m.ContactInfo.Phone, "0").Shortcut(m => (TypedPhone)m))
                                 {
                                     <div class="item group-col" @firstPhone.Validation().ErrorClass(m => m.Number)>
@@ -441,7 +448,14 @@
                                 @Html.TextBoxFor(m => m.PreferredSalesExecutive, new { ng_model = "accountInformation.preferredSalesExecutive" })
                                 @Html.ValidationMessageFor(m => m.PreferredSalesExecutive)
                             </div>
-                            
+                            <div class="item group-col" @Html.Validation().ErrorClass(m => m.Language)>
+                                <label>@Html.Sitecore().Field("Preferred Language Choice Label")</label>
+                                <ul class="checkbox-list">
+                                    <li><input type="radio" name="@Html.NameFor(m => m.Language)" ng-model="accountInformation.language" value="English" checked><label for="@Html.IdFor(m => m.Language)">@Html.Sitecore().Field("English Label")</label></li>
+                                    <li><input type="radio" name="@Html.NameFor(m => m.Language)" ng-model="accountInformation.language" value="Spanish"><label for="@Html.IdFor(m => m.Language)">@Html.Sitecore().Field("Spanish Label")</label></li>
+                                </ul>
+                                @Html.ValidationMessageFor(m => m.Language)
+                            </div>
                         </div>
                     </article>
                     <article ng-if="customerType=='commercial' && !isRenewal" class="enrollment__box form">
@@ -460,11 +474,16 @@
                                     </select>
                                 </div>
                             </div>
+                            <div class="item group-col" @Html.Validation().ErrorClass(m => m.CompanyName)>
+                                <label for="@Html.IdFor(m => m.CompanyName)">@Html.Sitecore().Field("Company Name Label")</label>
+                                @Html.TextBoxFor(m => m.CompanyName, new { ng_model = "accountInformation.companyName" })
+                                @Html.ValidationMessageFor(m => m.CompanyName)
+                            </div>
                             <div class="item group-col">
                                 <label>@Html.Sitecore().Field("Tax ID SSN Label")</label>
                                 <ul class="checkbox-list">
-                                    <li style="display: inline;"><input type="radio" name="idType" ng-model="accountInformation.ssnOrTaxid" value="taxId"><label for="taxid">@Html.Sitecore().Field("Checkbox List Tax ID")</label></li>&nbsp;&nbsp;
-                                    <li style="display: inline;"><input type="radio" name="idType" ng-model="accountInformation.ssnOrTaxid" value="ssn" checked><label for="ssn">@Html.Sitecore().Field("Checkbox List Social Security Number")</label></li>
+                                    <li style="display: inline;"><input type="radio" name="idType" ng-model="accountInformation.ssnOrTaxid" value="taxId" checked><label for="taxid">@Html.Sitecore().Field("Checkbox List Tax ID")</label></li>&nbsp;&nbsp;
+                                    <li style="display: inline;"><input type="radio" name="idType" ng-model="accountInformation.ssnOrTaxid" value="ssn"><label for="ssn">@Html.Sitecore().Field("Checkbox List Social Security Number")</label></li>
                                 </ul>
                             </div>
                             <div class="item group-col" ng-if="accountInformation.ssnOrTaxid == 'ssn'" @Html.Validation().ErrorClass(m => m.SocialSecurityNumber)>
@@ -479,16 +498,19 @@
                             </div>
                             <div class="item" ng-if="accountInformation.ssnOrTaxid == 'taxId'" @Html.Validation().ErrorClass(m => m.TaxId)>
                                 <label for="@Html.IdFor(m => m.TaxId)">@Html.Sitecore().Field("Tax ID Label")</label>
-                                @Html.TextBoxFor(m => m.TaxId, new { ng_model = "accountInformation.taxId", data_val = "true", data_val_required = "" })
+                                @Html.TextBoxFor(m => m.TaxId, new { ng_model = "accountInformation.socialSecurityNumber", data_val = "true", data_val_required = "" })
                                 @Html.ValidationMessageFor(m => m.TaxId)
                             </div>
                             @* Currently Under Contract*@
-                            <label>@Html.Sitecore().Field("Under Contract Label")</label>
-                            <ul class="checkbox-list" style="list-style-type:none;">
-                                <li><input type="radio" name="underContract" ng-model="accountInformation.underContract" value="yes" checked><label for="yes">@Html.Sitecore().Field("Yes Label")</label></li>
-                                <li><input type="radio" name="underContract" ng-model="accountInformation.underContract" value="no"><label for="no">@Html.Sitecore().Field("No Label")</label></li>
-                                <li><input type="radio" name="underContract" ng-model="accountInformation.underContract" value="unknown"><label for="unknown">@Html.Sitecore().Field("Not Sure Label")</label></li>
-                            </ul>
+                            <div class="item group-col" @Html.Validation().ErrorClass(m => m.UnderContract)>
+                                <label>@Html.Sitecore().Field("Under Contract Label")</label>
+                                <ul class="checkbox-list">
+                                    <li><input type="radio" name="@Html.NameFor(m => m.UnderContract)" ng-model="accountInformation.underContract" value="Yes" checked><label for="@Html.IdFor(m => m.UnderContract)">@Html.Sitecore().Field("Yes Label")</label></li>
+                                    <li><input type="radio" name="@Html.NameFor(m => m.UnderContract)" ng-model="accountInformation.underContract" value="No"><label for="@Html.IdFor(m => m.UnderContract)">@Html.Sitecore().Field("No Label")</label></li>
+                                    <li><input type="radio" name="@Html.NameFor(m => m.UnderContract)" ng-model="accountInformation.underContract" value="Unknown"><label for="@Html.IdFor(m => m.UnderContract)">@Html.Sitecore().Field("Not Sure Label")</label></li>
+                                </ul>
+                                @Html.ValidationMessageFor(m => m.UnderContract)
+                            </div>
 
                             <div ng-init="accountInformation.mailingAddressSame = cartHasUtility()">
                                 <h3>@Html.Sitecore().Field("Billing Address Label")</h3>

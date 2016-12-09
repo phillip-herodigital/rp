@@ -20,7 +20,8 @@ namespace StreamEnergy.DomainModels.Enrollments
 
         public override IEnumerable<System.Linq.Expressions.Expression<Func<UserContext, object>>> PreconditionValidations(UserContext data, InternalContext internalContext)
         {
-            yield return context => context.Services;
+            if (data.Services.SelectMany(s => s.Location.Capabilities).OfType<CustomerTypeCapability>().Any(ct => ct.CustomerType != EnrollmentCustomerType.Commercial))
+                yield return context => context.Services;
             if (!data.IsRenewal && !data.IsAddLine)
             {
                 yield return context => context.ContactInfo;
@@ -52,7 +53,7 @@ namespace StreamEnergy.DomainModels.Enrollments
         {
             var changedAddresses = context.Services.Select(s => s.Location).Where(loc => !internalContext.AllOffers.ContainsKey(loc)).ToArray();
 
-            if (context.Services != null)
+            if (context.Services != null && context.Services.SelectMany(s => s.Location.Capabilities).OfType<CustomerTypeCapability>().Any(ct => ct.CustomerType != EnrollmentCustomerType.Commercial))
             {
                 foreach (var service in context.Services)
                 {

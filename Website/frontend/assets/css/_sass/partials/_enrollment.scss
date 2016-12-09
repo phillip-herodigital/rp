@@ -451,6 +451,11 @@
             text-align: right;
         }
 
+        .label {
+            font-weight: 600;
+            width: 40%;
+        }
+
         h4 {
             margin: 0 0 10px;
         }
@@ -7675,6 +7680,6 @@ article.services-box {
 	ul.dropdown-menu {
 		position: absolute;
 		right: inherit;
-		top: 8px;
+		top: 35px;
 	}
 }

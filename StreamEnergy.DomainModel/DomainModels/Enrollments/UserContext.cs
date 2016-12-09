@@ -76,6 +76,8 @@ namespace StreamEnergy.DomainModels.Enrollments
 
         public string PreferredSalesExecutive { get; set; }
 
+        public string UnderContract { get; set; }
+
         /// <summary>
         /// ISO 639-1 codes, such as "en" and "es".
         /// </summary>
