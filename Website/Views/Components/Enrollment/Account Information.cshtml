@@ -498,7 +498,7 @@
                             </div>
                             <div class="item" ng-if="accountInformation.ssnOrTaxid == 'taxId'" @Html.Validation().ErrorClass(m => m.TaxId)>
                                 <label for="@Html.IdFor(m => m.TaxId)">@Html.Sitecore().Field("Tax ID Label")</label>
-                                @Html.TextBoxFor(m => m.TaxId, new { ng_model = "accountInformation.socialSecurityNumber", data_val = "true", data_val_required = "" })
+                                @Html.TextBoxFor(m => m.TaxId, new { ng_model = "accountInformation.taxId", data_val = "true", data_val_required = "" })
                                 @Html.ValidationMessageFor(m => m.TaxId)
                             </div>
                             @* Currently Under Contract*@
@@ -641,6 +641,7 @@
                         <button type = "submit" class="primary" ng-disabled="!isFormValid()" data-val-submit>@Html.Sitecore().Field("Button Label")</button>
                         <button type = "submit" class="tertiary" ng-click="resetEnrollment();">
                             <span ng-if="customerType != 'commercial'">@Html.Sitecore().Field("Cancel Enrollment Button")</span>
+                            <span ng-if="customerType == 'commercial'">@Html.Sitecore().Field("Cancel Quote Button")</span>
                         </button>
                     </div>
                 </form>
