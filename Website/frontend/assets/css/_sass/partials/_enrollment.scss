@@ -4027,6 +4027,16 @@
         }
     }
 
+    .commercial-cart {
+        font-size: 12px;
+        font-weight: 400;
+
+        .address-label {
+            text-transform: uppercase;
+            margin: 0;
+        }
+    }
+
     .billed-monthly, .billed-today {
         h3 {
             margin: 10px 0 0;
