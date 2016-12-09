@@ -20,7 +20,7 @@
         @Html.Partial("~/Views/Components/Enrollment/Progress Bar.cshtml", new StreamEnergy.MyStream.Models.Enrollment.ProgressBar { StepNumber = progressBarStep, StepTextField = string.Format("Step {0} Description Text", progressBarStep.ToString()), HideCart = hideCart })
     </div>
     <div ng-if="customerType == 'commercial'">
-        @Html.Partial("~/Views/Components/Enrollment/Progress Bar.cshtml", new StreamEnergy.MyStream.Models.Enrollment.ProgressBar { StepNumber = progressBarStep, StepTextField = "Commercial Description Text", HideCart = hideCart })
+        @Html.Partial("~/Views/Components/Enrollment/Progress Bar.cshtml", new StreamEnergy.MyStream.Models.Enrollment.ProgressBar { StepNumber = 2, StepTextField = "Commercial Description Text", HideCart = hideCart })
     </div>
     <div class="layout">
         <div class="wrapper cols-2 enrollment__account-information">
@@ -491,7 +491,7 @@
                             </ul>
 
                             <div ng-init="accountInformation.mailingAddressSame = cartHasUtility()">
-                                <h3>@Html.Sitecore().Field("Mailing Address Header")</h3>
+                                <h3>@Html.Sitecore().Field("Billing Address Label")</h3>
                                 <div class="item" ng-show="cartHasUtility()">
                                     <ul class="checkbox-list">
                                         <li>
