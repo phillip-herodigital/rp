@@ -31,6 +31,8 @@ namespace StreamEnergy.DomainModels.Enrollments
 
         public string RenewalESIID { get; set; }
 
+        public string RenewalProviderID { get; set; }
+
         public bool EnrolledInAutoPay { get; set; }
 
         public decimal AutoPayDiscount { get; set; }
@@ -72,9 +74,11 @@ namespace StreamEnergy.DomainModels.Enrollments
         [DisplayName("DBA")]
         public string DoingBusinessAs { get; set; }
 
+        public string PreferredSalesExecutive { get; set; }
+
         public string PreviousProvider { get; set; }
 
-        public string PreferredSalesExecutive { get; set; }
+        public string UnderContract { get; set; }
 
         /// <summary>
         /// ISO 639-1 codes, such as "en" and "es".

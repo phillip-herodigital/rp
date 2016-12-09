@@ -21,9 +21,9 @@ namespace StreamEnergy.Services.Clients
             this.sitecoreProductData = sitecoreProductData;
         }
 
-        bool ILocationAdapter.IsFor(IEnumerable<DomainModels.IServiceCapability> capabilities)
+        bool ILocationAdapter.IsFor(Location location)
         {
-            return capabilities.OfType<GeorgiaGas.ServiceCapability>().Any();            
+            return location.Capabilities.OfType<GeorgiaGas.ServiceCapability>().Any();            
         }
 
         bool ILocationAdapter.IsFor(IEnumerable<IServiceCapability> capabilities, IOffer offer)
@@ -94,6 +94,7 @@ namespace StreamEnergy.Services.Clients
                           let product = products.First()
                           let productData = sitecoreProductData.GetGeorgiaGasProductData(product.ProductCode.ToString())
                           where productData != null
+                          let hasDisclaimer = !string.IsNullOrEmpty(productData.Fields["Disclaimer"])
                           select new GeorgiaGas.Offer
                           {
                               Id = product.Provider["Name"].ToString() + "/" + product.ProductId,
@@ -104,6 +105,7 @@ namespace StreamEnergy.Services.Clients
                               EnrollmentType = serviceStatus.EnrollmentType,
 
                               Name = productData.Fields["Name"],
+                              PartialName = productData.Fields["Partial Name"],
                               Description = System.Web.HttpUtility.HtmlEncode(productData.Fields["Description"]),
 
                               Rate = ((IEnumerable<dynamic>)product.Rates).First(r => r.EnergyType == "Average").Value,
@@ -114,8 +116,12 @@ namespace StreamEnergy.Services.Clients
 
                               Footnotes = productData.Footnotes,
 
-                              Documents = new Dictionary<string, Uri>
+                              Documents = hasDisclaimer ? new Dictionary<string, Uri>
                               {
+                                  { "LetterOfAgency", new Uri(productData.Fields["Letter of Agency"], UriKind.Relative) },
+                                  { "Disclaimer", new Uri(productData.Fields["Disclaimer"], UriKind.Relative) },
+                                  { "TermsAndDisclosures", new Uri(productData.Fields["Terms and Disclosures"], UriKind.Relative) },
+                              } : new Dictionary<string, Uri> {
                                   { "LetterOfAgency", new Uri(productData.Fields["Letter of Agency"], UriKind.Relative) },
                                   { "TermsAndDisclosures", new Uri(productData.Fields["Terms and Disclosures"], UriKind.Relative) },
                               },
@@ -123,7 +129,11 @@ namespace StreamEnergy.Services.Clients
                               IncludesPromo = !string.IsNullOrEmpty(productData.Fields["Includes Promo"]),
                               PromoIcon = productData.Fields["Promo Icon"],
                               PromoDescription = productData.Fields["Promo Description"],
-
+                              IncludesSkybell = !string.IsNullOrEmpty(productData.Fields["Includes Skybell"]),
+                              SkybellColor = productData.Fields["Skybell Color"],
+                              SkybellDescription = productData.Fields["Skybell Description"],
+                              AssociatedPlanID = productData.Fields["Associated PlanID"],
+                              HidePlan = !string.IsNullOrEmpty(productData.Fields["Hide Plan"]),
                           }).ToArray()
             };
         }

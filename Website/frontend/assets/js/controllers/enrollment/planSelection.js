@@ -15,6 +15,36 @@ ngApp.controller('EnrollmentPlanSelectionCtrl', ['$scope', 'enrollmentService', 
         return !plan.isDisabled;
     };
 
+    $scope.filterNEPlans = function(plan) {
+        if (enrollmentService.renewalProviderID != null) {
+            var providerID = JSON.parse(plan.provider).Id;
+            return providerID == enrollmentService.renewalProviderID;
+        }
+        return plan;
+    };
+
+    $scope.getAssociatedPlan = function(plan) {
+        return _.find($scope.currentLocationInfo().offerInformationByType[0].value.availableOffers, function (availableOffer) {
+            if (plan.tdu) {
+                return availableOffer.associatedPlanID === plan.id.replace(plan.tdu + "/", "");
+            }
+            return availableOffer.associatedPlanID === plan.code;
+        });
+    }
+
+    $scope.selectAssociatedOffer = function (plan, associatedPlan) {
+        plan.hidePlan = true;
+        associatedPlan.hidePlan = false;
+        var planIndex = _.findIndex($scope.currentLocationInfo().offerInformationByType[0].value.availableOffers, function (availableOffer) {
+            return availableOffer.id === plan.id;
+        });
+        var associatedPlanIndex = _.findIndex($scope.currentLocationInfo().offerInformationByType[0].value.availableOffers, function (availableOffer) {
+            return availableOffer.id === associatedPlan.id;
+        });
+        $scope.currentLocationInfo().offerInformationByType[0].value.availableOffers[planIndex] = associatedPlan;
+        $scope.currentLocationInfo().offerInformationByType[0].value.availableOffers[associatedPlanIndex] = plan;
+    }
+
     //We need this for the button select model in the ng-repeats
     $scope.$watch(function () {
         var temp = enrollmentCartService.getActiveService();
@@ -44,7 +74,7 @@ ngApp.controller('EnrollmentPlanSelectionCtrl', ['$scope', 'enrollmentService', 
             angular.forEach(address.offerInformationByType, function (entry) {
                 if (entry.value && !_(entry.key).contains('Mobile') && entry.value.offerSelections && entry.value.offerSelections.length) {
                     $scope.planSelection.selectedOffers[entry.key] = entry.value.offerSelections[0].offerId;
-                } else if (entry.value && !_(entry.key).contains('Mobile') && entry.value.availableOffers.length == 1) {
+                } else if (entry.value && !_(entry.key).contains('Mobile') && entry.value.availableOffers.length == 1 && address.offerInformationByType.length === 1) {
                     $scope.planSelection.selectedOffers[entry.key] = entry.value.availableOffers[0].id;
                 }
             });
@@ -128,23 +158,9 @@ ngApp.controller('EnrollmentPlanSelectionCtrl', ['$scope', 'enrollmentService', 
      * @return {Boolean} [description]
      */
     $scope.isFormValid = function () {
-        var isValid = true;
-
-        //Simple check on length first
-        if($scope.sizeOf($scope.planSelection.selectedOffers) == 00) {
-            isValid = false;
-        }
-
-        var allNull = true;
-        //Then check if any values are null in case of deselection
-        angular.forEach($scope.planSelection.selectedOffers, function(value, key) {
-            if(value) {
-                allNull = false;
-            }
+        return $scope.sizeOf($scope.planSelection.selectedOffers) != 00 && _.some($scope.planSelection.selectedOffers, function (value) {
+            return value != null;
         });
-        isValid = isValid && !allNull;
-
-        return isValid;
     };
 
     /**
@@ -153,7 +169,6 @@ ngApp.controller('EnrollmentPlanSelectionCtrl', ['$scope', 'enrollmentService', 
      */
     $scope.completeStep = function (addAdditional) {
         if (!enrollmentCartService.getActiveService().location.address.line1) {
-
             $modal.open({
                 'scope': $scope,
                 'controller': 'EnrollmentZipToAddressCtrl as modal',
@@ -164,7 +179,17 @@ ngApp.controller('EnrollmentPlanSelectionCtrl', ['$scope', 'enrollmentService', 
             submitStep(addAdditional);
         }
 
-        var planId = ($scope.planSelection.selectedOffers.TexasElectricity || $scope.planSelection.selectedOffers.GeorgiaGas);
+        var planId = ($scope.planSelection.selectedOffers.TexasElectricity ||
+                      $scope.planSelection.selectedOffers.GeorgiaGas ||
+                      $scope.planSelection.selectedOffers.NewJerseyElectricity ||
+                      $scope.planSelection.selectedOffers.NewJerseyGas ||
+                      $scope.planSelection.selectedOffers.PennsylvaniaGas ||
+                      $scope.planSelection.selectedOffers.PennsylvaniaElectricity ||
+                      $scope.planSelection.selectedOffers.MarylandGas ||
+                      $scope.planSelection.selectedOffers.MarylandElectricity ||
+                      $scope.planSelection.selectedOffers.DCElectricity ||
+                      $scope.planSelection.selectedOffers.NewYorkElectricity ||
+                      $scope.planSelection.selectedOffers.NewYorkGas);
 
         var i = _.findIndex($scope.currentLocationInfo().offerInformationByType[0].value.availableOffers, function (o) {
             return (o.id == planId);
@@ -190,12 +215,33 @@ ngApp.controller('EnrollmentPlanSelectionCtrl', ['$scope', 'enrollmentService', 
                 enrollmentCartService.setActiveService();
                 enrollmentStepsService.setFlow('utility', true).setFromServerStep('serviceInformation');
             }
+            else {
+                angular.forEach(enrollmentCartService.services, function (service, index) {
+                    if (service.location.address.line1.indexOf("line1") != -1) {
+                        enrollmentCartService.services[index].location.address.line1 = "";
+                        enrollmentCartService.services[index].location.address.city = "";
+                    }
+                });
+            }
         };
 
         if (!hasSubmitted || !addAdditional) {
             if (!addAdditional) analytics.sendTags({
                 EnrollmentNumberOfEndpoints: enrollmentCartService.getServiceCount()
             });
+            var activeService = enrollmentCartService.getActiveService();
+            if (activeService.offerInformationByType.length > 1) {
+                angular.forEach(activeService.offerInformationByType, function (offerInfoByType) {
+                    if (offerInfoByType.value.offerSelections.length === 0) {
+                        _.remove(activeService.location.capabilities, function (capability) {
+                            return capability.capabilityType === offerInfoByType.key;
+                        });
+                    }
+                });
+                _.remove(activeService.offerInformationByType, function (offerInfoByType) {
+                    return offerInfoByType.value.offerSelections.length === 0;
+                });
+            }
             var selectedOffersPromise = enrollmentService.setSelectedOffers(addAdditional);
             selectedOffersPromise.then(onComplete, function (data) {
                 // error response

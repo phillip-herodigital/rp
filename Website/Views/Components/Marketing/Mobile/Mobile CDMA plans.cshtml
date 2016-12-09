@@ -7,15 +7,13 @@
                     @{ 
                         if (!string.IsNullOrEmpty(Html.Sitecore().Field("Best Deal 1").ToString()))
                         {
-                            <span class="best-deal">
-                                @Html.Sitecore().Field("Best Deal 1")
-                            </span>
+                            @Html.Sitecore().Field("Best Deal 1")
                         }
                     }
                     <p class="data">@Html.Sitecore().Field("Plan 1 GB")</p>
-                    <p class="lte">@Html.Sitecore().Field("LTE Data")</p>
+                    <p class="lte">@Html.Sitecore().Field("Plan 1 LTE Data")</p>
                     <h2>@Html.Sitecore().Field("Plan 1 Service")</h2>
-                    <p class="international">@Html.Sitecore().Field("Add International Service")</p>
+                    <div>@Html.Sitecore().Field("Plan 1 International Service")</div>
                     <p class="price no-international">@Html.Sitecore().Field("Plan 1 Price")</p>
                     <p>@Html.Sitecore().Field("Plan 1 Button")</p>
                 </div>
@@ -25,15 +23,13 @@
                     @{
                         if (!string.IsNullOrEmpty(Html.Sitecore().Field("Best Deal 2").ToString()))
                         {
-                            <span class="best-deal">
-                                @Html.Sitecore().Field("Best Deal 2")
-                            </span>
+                            @Html.Sitecore().Field("Best Deal 2")
                         }
                     }
                     <p class="data">@Html.Sitecore().Field("Plan 2 GB")</p>
-                    <p class="lte">@Html.Sitecore().Field("LTE Data")</p>
+                    <p class="lte">@Html.Sitecore().Field("Plan 2 LTE Data")</p>
                     <h2>@Html.Sitecore().Field("Plan 2 Service")</h2>
-                    <p class="international">@Html.Sitecore().Field("Add International Service")</p>
+                    <div>@Html.Sitecore().Field("Plan 2 International Service")</div>
                     <p class="price no-international">@Html.Sitecore().Field("Plan 2 Price")</p>
                     <p>@Html.Sitecore().Field("Plan 2 Button")</p>
                 </div>
@@ -43,17 +39,13 @@
                     @{        
                         if (!string.IsNullOrEmpty(Html.Sitecore().Field("Best Deal 3").ToString()))
                         {
-                            <span class="best-deal">
-                                @Html.Sitecore().Field("Best Deal 3")
-                            </span>
+                            @Html.Sitecore().Field("Best Deal 3")
                         }
                     }
                     <p class="data">@Html.Sitecore().Field("Plan 3 GB")</p>
-                    <p class="lte">@Html.Sitecore().Field("LTE Data")</p>
+                    <p class="lte">@Html.Sitecore().Field("Plan 3 LTE Data")</p>
                     <h2>@Html.Sitecore().Field("Plan 3 Service")</h2>
-                    <div class="international">
-                        <p>@Html.Sitecore().Field("Stream International")</p>
-                    </div>
+                    <div>@Html.Sitecore().Field("Plan 3 International Service")</div>
                     <p class="price">@Html.Sitecore().Field("Plan 3 Price")</p>
                     <p>@Html.Sitecore().Field("Plan 3 Button")</p>
                 </div>
@@ -63,17 +55,13 @@
                     @{
                         if (!string.IsNullOrEmpty(Html.Sitecore().Field("Best Deal 4").ToString()))
                         {
-                            <span class="best-deal">
-                                @Html.Sitecore().Field("Best Deal 4")
-                            </span>
+                            @Html.Sitecore().Field("Best Deal 4")
                         }
                     }
                     <p class="data">@Html.Sitecore().Field("Plan 4 GB")</p>
-                    <p class="lte">@Html.Sitecore().Field("LTE Data")</p>
+                    <p class="lte">@Html.Sitecore().Field("Plan 4 LTE Data")</p>
                     <h2>@Html.Sitecore().Field("Plan 4 Service")</h2>
-                    <div class="international">
-                        <p>@Html.Sitecore().Field("Stream International")</p>
-                    </div>
+                    <div>@Html.Sitecore().Field("Plan 4 International Service")</div>
                     <p class="price">@Html.Sitecore().Field("Plan 4 Price")</p>
                     <p>@Html.Sitecore().Field("Plan 4 Button")</p>
                 </div>

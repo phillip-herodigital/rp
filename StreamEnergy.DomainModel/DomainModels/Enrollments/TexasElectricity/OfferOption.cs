@@ -11,6 +11,7 @@ namespace StreamEnergy.DomainModels.Enrollments.TexasElectricity
     public class OfferOption : IOfferOption
     {
         public const string Qualifier = "TexasElectricity";
+        public string PreviousProvider { get; set; }
 
         void ISanitizable.Sanitize()
         {

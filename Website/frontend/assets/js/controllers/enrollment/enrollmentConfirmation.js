@@ -142,9 +142,6 @@ ngApp.controller('EnrollmentConfirmationCtrl', ['$scope', '$window', '$modal', '
             $scope.confirmationNumber = $scope.getCartItems()[0].offerInformationByType[0].value.offerSelections[0].confirmationNumber;
 
             // if it's a commercial enrollment, and we don't get a success message, redirect to the error page
-            if ($scope.customerType == 'commercial' && !$scope.confirmationSuccess) {
-                $window.location.href = '/enrollment/please-contact';
-            }
 
             $timeout(function () {
                 analytics.sendVariables(11, $scope.confirmationSuccess ? "Confirmed" : "Submitted");

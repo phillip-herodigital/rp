@@ -306,6 +306,28 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             stateHelper.Context.MailingAddress = account.Details.BillingAddress;
             stateHelper.Context.RenewalESIID = account.Details.BillingAddress.StateAbbreviation == "TX" ? subAccount.Id : null;
             stateHelper.Context.SocialSecurityNumber = string.IsNullOrEmpty(stateMachine.Context.SocialSecurityNumber) ? string.Concat("00000", last4ssn) : stateMachine.Context.SocialSecurityNumber;
+
+            string providerID = null;
+            if (subAccount is NewJerseyElectricityAccount)
+                providerID = ((NewJerseyElectricityAccount)subAccount).ProviderId;
+            else if (subAccount is NewYorkElectricityAccount)
+                providerID = ((NewYorkElectricityAccount)subAccount).ProviderId;
+            else if (subAccount is NewJerseyGasAccount)
+                providerID = ((NewJerseyGasAccount)subAccount).ProviderId;
+            else if (subAccount is NewYorkGasAccount)
+                providerID = ((NewYorkGasAccount)subAccount).ProviderId;
+            else if (subAccount is PennsylvaniaElectricityAccount)
+                providerID = ((PennsylvaniaElectricityAccount)subAccount).ProviderId;
+            else if (subAccount is PennsylvaniaGasAccount)
+                providerID = ((PennsylvaniaGasAccount)subAccount).ProviderId;
+            else if (subAccount is DCElectricityAccount)
+                providerID = ((DCElectricityAccount)subAccount).ProviderId;
+            else if (subAccount is MarylandElectricityAccount)
+                providerID = ((MarylandElectricityAccount)subAccount).ProviderId;
+            else if (subAccount is MarylandGasAccount)
+                providerID = ((MarylandGasAccount)subAccount).ProviderId;
+
+            stateHelper.Context.RenewalProviderID = providerID;
             stateHelper.Context.Services = new LocationServices[]
             {
                 new LocationServices 
@@ -351,6 +373,58 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             return ClientData(typeof(DomainModels.Enrollments.ServiceInformationState));
         }
 
+        [HttpGet]
+        public dynamic GetPreviousProviders([FromUri] string optionRulesType)
+        {
+            Item item;
+            switch (optionRulesType)
+            {
+                case "TexasElectricity":
+                    item = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Taxonomy/Previous Providers/TX");
+                    break;
+                case "GeorgiaGasSwitch":
+                    item = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Taxonomy/Previous Providers/GA");
+                    break;
+                case "NewJerseyElectricitySwitch":
+                    item = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Taxonomy/Previous Providers/NJ/Electricity");
+                    break;
+                case "NewJerseyGasSwitch":
+                    item = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Taxonomy/Previous Providers/NJ/Gas");
+                    break;
+                case "NewYorkElectricitySwitch":
+                    item = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Taxonomy/Previous Providers/NY/Electricity");
+                    break;
+                case "NewYorkGasSwitch":
+                    item = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Taxonomy/Previous Providers/NY/Gas");
+                    break;
+                case "DCElectricitySwitch":
+                    item = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Taxonomy/Previous Providers/DC");
+                    break;
+                case "MarylandElectricitySwitch":
+                    item = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Taxonomy/Previous Providers/MD/Electricity");
+                    break;
+                case "MarylandGasSwitch":
+                    item = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Taxonomy/Previous Providers/MD/Gas");
+                    break;
+                case "PennsylvaniaElectricitySwitch":
+                    item = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Taxonomy/Previous Providers/PA/Electricity");
+                    break;
+                case "PennsylvaniaGasSwitch":
+                    item = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Taxonomy/Previous Providers/PA/Gas");
+                    break;
+                default:
+                    return null;
+            }
+            return item.Children.Select(child => new {
+                Name = child.Fields["Name"].Value,
+                Display = child.Fields["Display Text"].Value,
+                FieldName = child.Fields["Field Name"].Value,
+                Format = child.Fields["Valid Format"].Value,
+                Example = child.Fields["Example"].Value,
+                RegEx = child.Fields["Account Number RegEx"].Value
+            });
+        }
+
         /// <summary>
         /// Gets all the client data for a previous customer for single-page enrollments
         /// </summary>
@@ -371,28 +445,28 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 using (SqlCommand command = connection.CreateCommand())
                 {
                     command.CommandText = @"
-SELECT TOP (1) 
-[ESIID],
-[TDU],
-[FirstName],
-[LastName],
-[ServiceLine1],
-[ServiceLine2],
-[ServiceCity],
-[ServiceStateAbbreviation],
-[ServicePostalCode5],
-[ServicePostalCodePlus4],
-[PrimaryPhoneNumber],
-[PrimaryPhoneType],
-[EmailAddress],
-[SocialSecurityNumber],
-[MailingLine1],
-[MailingLine2],
-[MailingCity],
-[MailingStateAbbreviation],
-[MailingPostalCode5],
-[MailingPostalCodePlus4]
-FROM [SwitchBack] WHERE ESIID=@esiId";
+                        SELECT TOP (1) 
+                        [ESIID],
+                        [TDU],
+                        [FirstName],
+                        [LastName],
+                        [ServiceLine1],
+                        [ServiceLine2],
+                        [ServiceCity],
+                        [ServiceStateAbbreviation],
+                        [ServicePostalCode5],
+                        [ServicePostalCodePlus4],
+                        [PrimaryPhoneNumber],
+                        [PrimaryPhoneType],
+                        [EmailAddress],
+                        [SocialSecurityNumber],
+                        [MailingLine1],
+                        [MailingLine2],
+                        [MailingCity],
+                        [MailingStateAbbreviation],
+                        [MailingPostalCode5],
+                        [MailingPostalCodePlus4]
+                        FROM [SwitchBack] WHERE ESIID=@esiId";
                     command.Parameters.AddWithValue("@esiId", esiId);
                     using (var reader = command.ExecuteReader())
                     {
@@ -497,7 +571,7 @@ FROM [SwitchBack] WHERE ESIID=@esiId";
                             stateHelper.Context.ContactInfo = userContext.ContactInfo;
                             stateHelper.Context.SecondaryContactInfo = userContext.SecondaryContactInfo;
                             stateHelper.Context.MailingAddress = userContext.MailingAddress;
-                            stateHelper.Context.SocialSecurityNumber = userContext.SocialSecurityNumber;
+                            stateHelper.Context.SocialSecurityNumber = "00000" + userContext.SocialSecurityNumber;
                             stateHelper.Context.Services = userContext.Services;
                             stateHelper.Context.IsSinglePage = true;
                             await stateMachine.ContextUpdated();
@@ -638,6 +712,7 @@ FROM [SwitchBack] WHERE ESIID=@esiId";
                 NewAccountUserName = stateMachine.Context.OnlineAccount == null ? "" : stateMachine.Context.OnlineAccount.Username,
                 LoggedInAccountDetails = stateMachine.Context.LoggedInAccountDetails,
                 RenewalESIID = stateMachine.Context.RenewalESIID,
+                RenewalProviderID = stateMachine.Context.RenewalProviderID,
                 PaymentError = stateMachine.Context.PaymentError,
                 NeedsRefresh = isNeedsRefresh,
                 ContactInfo = stateMachine.Context.ContactInfo,
@@ -646,7 +721,6 @@ FROM [SwitchBack] WHERE ESIID=@esiId";
                 SecondaryContactInfo = stateMachine.Context.SecondaryContactInfo,
                 MailingAddress = stateMachine.Context.MailingAddress,
                 PreviousAddress = stateMachine.Context.PreviousAddress,
-                PreviousProvider = stateMachine.Context.PreviousProvider,
                 AssociateInformation = stateMachine.InternalContext.AssociateInformation,
                 AssociateName = stateMachine.Context.AssociateName,
                 AssociateEmailSent = stateMachine.InternalContext.AssociateEmailSent,
@@ -984,8 +1058,8 @@ FROM [SwitchBack] WHERE ESIID=@esiId";
             stateMachine.Context.CompanyName = request.CompanyName;
             stateMachine.Context.DoingBusinessAs = request.DoingBusinessAs;
             stateMachine.Context.PreferredSalesExecutive = request.PreferredSalesExecutive;
+            stateMachine.Context.UnderContract = request.UnderContract;
 
-            stateMachine.Context.PreviousProvider = request.PreviousProvider;
             stateMachine.Context.AssociateName = request.AssociateName;
 
             stateMachine.Context.TrustEvSessionId = request.TrustEvSessionId;
@@ -1152,7 +1226,7 @@ FROM [SwitchBack] WHERE ESIID=@esiId";
             stateHelper.State = typeof(DomainModels.Enrollments.AccountInformationState);
 
             // Verify the SSN
-            if (stateMachine.Context.SocialSecurityNumber != request.SocialSecurityNumber.Substring(request.SocialSecurityNumber.Length - 4)) 
+            if (stateMachine.Context.SocialSecurityNumber.Substring(stateMachine.Context.SocialSecurityNumber.Length - 4) != request.SocialSecurityNumber.Substring(request.SocialSecurityNumber.Length - 4)) 
             {
                 var ineligibleResult = ClientData(typeof(DomainModels.Enrollments.PaymentInfoState));
                 ineligibleResult.Validations = Enumerable.Repeat(new TranslatedValidationResult { MemberName = "SSN Mismatch", Text = "SSN Mismatch" }, 1);

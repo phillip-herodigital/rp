@@ -52,7 +52,12 @@ namespace StreamEnergy.DomainModels.Enrollments
                 if (validationResult.MemberNames.Any(m => m.StartsWith("PreviousAddress")))
                     return true;
             }
-            return base.IgnoreValidation(validationResult, context, internalContext);
+            if (context.Services.SelectMany(s => s.Location.Capabilities).OfType<CustomerTypeCapability>().Any(ct => ct.CustomerType == EnrollmentCustomerType.Commercial))
+            {
+                if (validationResult.MemberNames.Any(m => m.StartsWith("Service")))
+                    return true;
+            }
+                return base.IgnoreValidation(validationResult, context, internalContext);
         }
 
         protected override async Task<Type> InternalProcess(UserContext context, InternalContext internalContext)

@@ -1,13 +1,23 @@
 ﻿@model StreamEnergy.DomainModels.Enrollments.UserContext
+@{
+    Sitecore.Data.Items.Item cartItem = Sitecore.Context.Database.GetItem("{E0880134-0098-4BED-AFB4-37FAE30B5C44}");
+}
+
 <div id="utilityFlowService" class="enrollment" ng-show="stepsService.isStepVisible('utilityFlowService')" ng-controller="EnrollmentServiceInformationCtrl" ng-init="setTimeRemaining('utilityFlowService', '@Html.Sitecore().Field("Remaining Minutes Number")');">
-    @Html.Partial("~/Views/Components/Enrollment/Progress Bar.cshtml", new StreamEnergy.MyStream.Models.Enrollment.ProgressBar { StepNumber = 1, StepTextField = "Step 1 Description Text", HideCart = true })
+    
+    <div ng-if="customerType != 'commercial'">
+        @Html.Partial("~/Views/Components/Enrollment/Progress Bar.cshtml", new StreamEnergy.MyStream.Models.Enrollment.ProgressBar { StepNumber = 1, StepTextField = "Step 1 Description Text", HideCart = true })
+    </div>
+    <div ng-if="customerType == 'commercial'">
+        @Html.Partial("~/Views/Components/Enrollment/Progress Bar.cshtml", new StreamEnergy.MyStream.Models.Enrollment.ProgressBar { StepNumber = 1, StepTextField = "Commercial Description Text", HideCart = true })
+    </div>
     <div class="layout">
         <div class="wrapper cols-2">
             <section>
                 <form data-val-bind-messages="validations" ng-submit="completeStep();">
                     <article class="form enrollment__box">
                         <header>
-                            @Html.Sitecore().Field("Header Text")
+                                @Html.Sitecore().Field("Header Text")
                         </header>
                         <div class="content">
                             <div ng-if="errorMessage" ng-cloak>
@@ -27,15 +37,11 @@
                             </div>
                             @Html.Sitecore().Field("Body Text")
 
+                            @Html.Sitecore().Field("Searching Label")
+                             <div class="input-group-btn service-type" id="enrollment-type-select" dropdown-select dropdown-items="supportedEnrollmentTypes" value="data.customerType" data-alignment="right" disabled="data.serviceState != 'TX' || cartLocationsCount > 0"></div>
+
                             @using (var currentService = Html.ClientRepeater(m => m.Services, "getActiveServiceIndex()"))
                             {
-
-                                <!--<div class="item customer-type">
-                                <label for="customer-type">@Html.Sitecore().Field("Interest Label")</label>
-                                <select id="customer-type" name="customer-type" ng-model="$parent.customerType" ng-disabled="cartLocationsCount > 0" ng-change="assignStepNames(@(Html.Action("EnrollmentNav", "Enrollment").ToHtmlString()))">
-                                    @Html.Sitecore().Field("Customer Types")
-                                </select>
-                            </div>-->
 
                                 <div class="item full service-address">
                                     <div class="input-group">
@@ -55,7 +61,7 @@
                                             autocomplete = "off"
                                         })
                                         </div>
-                                        <div class="input-group-btn" id="state-select" dropdown-select dropdown-items="supportedUtilityStates" value="data.serviceState" data-alignment="right"></div>
+                                        <div class="input-group-btn" id="state-select" dropdown-select dropdown-items="supportedUtilityStates" value="data.serviceState" disabled="data.customerType == 'commercial'" data-alignment="right"></div>
                                         @currentService.ValidationMessageFor(s => s.Location)
                                     </div><!-- /input-group -->
                                 </div>
@@ -65,7 +71,7 @@
                             </div>
                             <hr>
                             <div class="item" ng-if="data.serviceState == 'TX' || data.serviceState == 'GA'">
-                                <label>@Html.Sitecore().Field("Options Label") <a href="#" tooltip="@Html.Sitecore().Field("Options Tooltip")"><i class="icon-tooltip"></i></a></label>
+                                <label>@Html.Sitecore().Field("Options Label") <a ng-show="$parent.customerType== 'commercial'" href="#" tooltip="@Html.Sitecore().Field("Switching Popup")"><i class="icon-tooltip"></i></a><a ng-show="$parent.customerType=='residential'" href="#" tooltip="@Html.Sitecore().Field("Options Tooltip")"><i class="icon-tooltip"></i></a></label>
                                 <ul class="checkbox-list">
                                     <li ng-switch on="data.serviceState">
                                         <input type="radio" ng-model="data.isNewService" id="switching-providers" ng-value="false">
@@ -92,7 +98,17 @@
                 </div>
             </section>
             <aside>
-                <div ng-include ng-if="true" src="'cart-template'"></div>
+                <div ng-include ng-if="customerType != 'commercial'" src="'cart-template'"></div>
+                <div class="enrollment__cart" ng-if="customerType == 'commercial'"  ng-controller="EnrollmentCartCtrl">
+                    <article ng-if="customerType == 'commercial'" class="enrollment__box outage-information">
+                        <header>
+                            <p><strong>@cartItem.Fields["Renew Existing Service Box Header"]</strong></p>
+                        </header>
+                        <ul class="info">
+                            <li>@Html.Raw(cartItem.Fields["Renew Existing Service Box Text"].Value)</li>
+                        </ul>
+                    </article>
+                    </div>
             </aside>
         </div>
     </div>

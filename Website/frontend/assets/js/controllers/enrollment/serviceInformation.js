@@ -14,9 +14,16 @@ ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$location', '$f
     $scope.getActiveServiceIndex = enrollmentCartService.getActiveServiceIndex;
 
     // If the incoming URI indicates this is a commercial enrollment, change the default dropdown
-    if ($location.absUrl().indexOf('AccountType=C') > 0) {
+    if ($location.absUrl().indexOf('ServiceType=com') > 0) {
         $scope.$parent.customerType = 'commercial';
+        $scope.data.customerType = 'commercial';
     }
+    else {
+        $scope.$parent.customerType = 'residential';
+        $scope.data.customerType = 'residential';
+    }
+
+
 
     $scope.getLocation = function (state, val) {
         return $scope.$parent.getLocation(state, val).then(function (values) {
@@ -37,6 +44,8 @@ ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$location', '$f
         } else {
             $scope.data.serviceLocation = newValue.location;
             $scope.isCartFull = enrollmentCartService.isCartFull($scope.customerType);
+            $scope.commercialQuote = $location.absUrl().indexOf('AccountType=CQ') > 0;
+
             $scope.isNewServiceAddress = enrollmentCartService.isNewServiceAddress();
             var target = _(newValue.location.capabilities).find({ capabilityType: "ServiceStatus" });
             if (target) {
@@ -69,6 +78,10 @@ ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$location', '$f
 
     $scope.$watch('data.serviceState', function() {
         $scope.data.serviceLocation = null;
+    });
+
+    $scope.$watch('data.customerType', function(newValue) {
+        $scope.$parent.customerType = newValue;
     });
 
     /**
