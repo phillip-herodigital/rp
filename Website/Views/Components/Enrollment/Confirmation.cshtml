@@ -21,7 +21,7 @@
                     <p ng-if="customerType != 'commercial' && confirmationSuccess && !isRenewal && !cartHasMobile() && !cartHasProtective()">@Html.Sitecore().Field("Confirmation Paragraph") <span class="confirmation-number">{{getCartItems()[0].offerInformationByType[0].value.offerSelections[0].confirmationNumber}}</span>.</p>
                     <p ng-if="customerType != 'commercial' && !confirmationSuccess && !cartHasMobile() && !cartHasProtective()">@Html.Sitecore().Field("Submitted Paragraph")</p>
                     <p ng-if="confirmationSuccess && isRenewal">@Html.Sitecore().Field("Renewal Paragraph") <span class="confirmation-number">{{getCartItems()[0].offerInformationByType[0].value.offerSelections[0].confirmationNumber}}</span></p>
-                    <p ng-if="customerType == 'commercial'">@Html.Sitecore().Field("Thank You Box Text")</p>
+                    <p ng-if="customerType == 'commercial' && !isRenewal">@Html.Sitecore().Field("Thank You Box Text")</p>
                     <div class="mobile-header-content" ng-if="cartHasMobile()">
                         <div class="account-number">@Html.Sitecore().Field("Account Number") {{getCartItems()[0].offerInformationByType[0].value.offerSelections[0].confirmationNumber}}</div>
                         <div class="contact">{{ accountInformation.contactInfo.name.first }} {{ accountInformation.contactInfo.name.last }}</div>
