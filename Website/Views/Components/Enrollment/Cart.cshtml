@@ -14,7 +14,7 @@
                 <span class="associate-name">{{ associateInformation.associateId }}</span>
             </div>
         </article>
-        <article class="enrollment__box enrollment_cart" scroll-anchor="scrollFix"  ng-class="{'hide-sidebar-cart' : getCurrentStep().id == 'phoneFlowDevices' || getCurrentStep().id == 'phoneFlowPlans'}">
+        <article class="enrollment__box enrollment_cart" scroll-anchor="scrollFix" ng-hide="customerType == 'commercial' && getCartItems().length == 0" ng-class="{'hide-sidebar-cart' : getCurrentStep().id == 'phoneFlowDevices' || getCurrentStep().id == 'phoneFlowPlans'}">
             <header>
                 <div class="cart-items">
                     <i class="icon-cart"></i>
@@ -25,9 +25,6 @@
             </header>
             <div class="content">
                 <p class="alt" ng-if="!getCartCount() && !getCartItems().length">@Html.Sitecore().Field("Empty Cart Text")</p>
-                <div class="cart-item" ng-if="cartHasCommercialQuote() && getCartCount()">
-                    <h2>@Html.Sitecore().Field("Commercial Header")</h2>
-                </div>
                 <div class="cart-item" ng-if="cartHasMobile() && getCartCount()">
                     <div class="mobile-plan">
                         <div class="mobile-services-section">
@@ -85,9 +82,14 @@
                         </div>
                     </div>
                 </div>
+            </div>
             <footer ng-show="cartHasUtility() || (mobileEnrollmentService.selectedNetwork.value && mobileEnrollment.phoneTypeTab != 'wsa')">
-                <div class="buttons">
+                <div class="buttons" ng-if="!cartHasCommercialQuote()">
                     <button ng-click="cartCheckout()">@Html.Sitecore().Field("Checkout Button Text")</button>
+                </div>
+                <div class="buttons commercial">
+                    <a href="" class="add-address" ng-if="cartHasCommercialQuote() && getCurrentStep().id != 'utilityFlowService'" ng-click="cartCheckout(true)">@Html.Sitecore().Field("Add Address Text")</a>
+                    <button ng-click="cartCheckout()">@Html.Sitecore().Field("Continue Button")</button>
                 </div>
                 @*<div class="time">
                     <i class="icon-clock"></i>

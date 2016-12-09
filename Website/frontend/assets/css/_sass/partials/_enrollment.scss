@@ -3467,6 +3467,18 @@
     footer {
         padding: 10px 17px;
 
+        .commercial {
+            .add-address {
+                float: left;
+                padding: 15px 0;
+                font-size: 13px;
+            }
+            button {
+                padding: 10px;
+                width: 45%;
+            }
+        }
+
         button {
             float: right;
             width: auto;
