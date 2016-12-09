@@ -424,25 +424,6 @@
                                 @Html.ValidationMessageFor(model => model.ContactInfo.Email.Address)
                             </div>
 
-                            <div class="additional-field-item item">
-                                <ul class="checkbox-list">
-                                    <li><input type="checkbox" name="secondary-contact" id="secondary-contact" ng-model="additionalInformation.showSecondaryContact" ng-change="showSecondaryContactChanged()"><label for="secondary-contact">@Html.Sitecore().Field("Checkbox Add Secondary Contact")</label></li>
-                                </ul>
-                            </div>
-                            <div class="additional-field-group secondary-contact-group" ng-if="additionalInformation.showSecondaryContact">
-                                <div class="group">
-                                    <div class="item group-col" @Html.Validation().ErrorClass(m => m.SecondaryContactInfo.First)>
-                                        <label for="@Html.IdFor(m => m.SecondaryContactInfo.First)">@Html.Sitecore().Field("First Name Label")</label>
-                                        @Html.TextBoxFor(m => m.SecondaryContactInfo.First, new { data_val_if = "accountInformation.showSecondaryContact", ng_model = "accountInformation.secondaryContactInfo.first" })
-                                        @Html.ValidationMessageFor(m => m.SecondaryContactInfo.First)
-                                    </div>
-                                    <div class="item group-col" @Html.Validation().ErrorClass(m => m.SecondaryContactInfo.Last)>
-                                        <label for="@Html.IdFor(m => m.SecondaryContactInfo.Last)">@Html.Sitecore().Field("Last Name Label")</label>
-                                        @Html.TextBoxFor(m => m.SecondaryContactInfo.Last, new { data_val_if = "accountInformation.showSecondaryContact", ng_model = "accountInformation.secondaryContactInfo.last" })
-                                        @Html.ValidationMessageFor(m => m.SecondaryContactInfo.Last)
-                                    </div>
-                                </div>
-                            </div>
                             <div class="item group-col" @Html.Validation().ErrorClass(m => m.PreferredSalesExecutive)>
                                 <label for="@Html.IdFor(m => m.PreferredSalesExecutive)">@Html.Sitecore().Field("Preferred AE Label")&nbsp;<a href="#" tooltip="@Html.Sitecore().Field("Preferred AE Tooltip")"><i class="icon-tooltip"></i></a></label>
                                 @Html.TextBoxFor(m => m.PreferredSalesExecutive, new { ng_model = "accountInformation.preferredSalesExecutive" })
@@ -451,8 +432,8 @@
                             <div class="item group-col" @Html.Validation().ErrorClass(m => m.Language)>
                                 <label>@Html.Sitecore().Field("Preferred Language Choice Label")</label>
                                 <ul class="checkbox-list">
-                                    <li><input type="radio" name="@Html.NameFor(m => m.Language)" ng-model="accountInformation.language" value="English" checked><label for="@Html.IdFor(m => m.Language)">@Html.Sitecore().Field("English Label")</label></li>
-                                    <li><input type="radio" name="@Html.NameFor(m => m.Language)" ng-model="accountInformation.language" value="Spanish"><label for="@Html.IdFor(m => m.Language)">@Html.Sitecore().Field("Spanish Label")</label></li>
+                                    <li><input type="radio" name="@Html.NameFor(m => m.Language)" ng-model="accountInformation.language" value="en" checked><label for="@Html.IdFor(m => m.Language)">@Html.Sitecore().Field("English Label")</label></li>
+                                    <li><input type="radio" name="@Html.NameFor(m => m.Language)" ng-model="accountInformation.language" value="es"><label for="@Html.IdFor(m => m.Language)">@Html.Sitecore().Field("Spanish Label")</label></li>
                                 </ul>
                                 @Html.ValidationMessageFor(m => m.Language)
                             </div>
