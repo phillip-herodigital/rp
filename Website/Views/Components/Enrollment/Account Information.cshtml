@@ -20,7 +20,7 @@
         @Html.Partial("~/Views/Components/Enrollment/Progress Bar.cshtml", new StreamEnergy.MyStream.Models.Enrollment.ProgressBar { StepNumber = progressBarStep, StepTextField = string.Format("Step {0} Description Text", progressBarStep.ToString()), HideCart = hideCart })
     </div>
     <div ng-if="customerType == 'commercial'">
-        @Html.Partial("~/Views/Components/Enrollment/Progress Bar.cshtml", new StreamEnergy.MyStream.Models.Enrollment.ProgressBar { StepNumber = progressBarStep, StepTextField = "Commercial Description Text", HideCart = hideCart })
+        @Html.Partial("~/Views/Components/Enrollment/Progress Bar.cshtml", new StreamEnergy.MyStream.Models.Enrollment.ProgressBar { StepNumber = 2, StepTextField = "Commercial Description Text", HideCart = hideCart })
     </div>
     <div class="layout">
         <div class="wrapper cols-2 enrollment__account-information">
@@ -479,7 +479,7 @@
                             </div>
                             <div class="item" ng-if="accountInformation.ssnOrTaxid == 'taxId'" @Html.Validation().ErrorClass(m => m.TaxId)>
                                 <label for="@Html.IdFor(m => m.TaxId)">@Html.Sitecore().Field("Tax ID Label")</label>
-                                @Html.TextBoxFor(m => m.TaxId, new { ng_model = "accountInformation.socialSecurityNumber", data_val = "true", data_val_required = "" })
+                                @Html.TextBoxFor(m => m.TaxId, new { ng_model = "accountInformation.taxId", data_val = "true", data_val_required = "" })
                                 @Html.ValidationMessageFor(m => m.TaxId)
                             </div>
                             @* Currently Under Contract*@
@@ -494,7 +494,7 @@
                             </div>
 
                             <div ng-init="accountInformation.mailingAddressSame = cartHasUtility()">
-                                <h3>@Html.Sitecore().Field("Mailing Address Header")</h3>
+                                <h3>@Html.Sitecore().Field("Billing Address Label")</h3>
                                 <div class="item" ng-show="cartHasUtility()">
                                     <ul class="checkbox-list">
                                         <li>
@@ -622,6 +622,7 @@
                         <button type = "submit" class="primary" ng-disabled="!isFormValid()" data-val-submit>@Html.Sitecore().Field("Button Label")</button>
                         <button type = "submit" class="tertiary" ng-click="resetEnrollment();">
                             <span ng-if="customerType != 'commercial'">@Html.Sitecore().Field("Cancel Enrollment Button")</span>
+                            <span ng-if="customerType == 'commercial'">@Html.Sitecore().Field("Cancel Quote Button")</span>
                         </button>
                     </div>
                 </form>
