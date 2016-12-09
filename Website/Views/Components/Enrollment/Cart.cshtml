@@ -55,18 +55,13 @@
                     <div class="utility-plan">
                         <h2 ng-if="$first && !cartHasCommercialQuote()">@Html.Sitecore().Field("Energy Plan")</h2>
                         <h2 ng-if="$first && cartHasCommercialQuote()">@Html.Sitecore().Field("Commercial Header")</h2>
-                        <address>
-                            <h3>@Html.Sitecore().Field("Service Address Text")</h3>
-                            {{ location.location.address | address }}<br />
-                            <a href="" ng-click="editUtilityAddress(location)" ng-if="!isRenewal">@Html.Sitecore().Field("Edit Address Text")</a>
-                        </address>
                         <div class="notice error" ng-show="addUtilityPlanError && !isFormValid()">
                             @Html.Sitecore().Field("Select Utility Plan Text")
                             <div class="links" ng-if="!isRenewal">
                                 <a href="" ng-click="deleteUtilityAddress(location)">@Html.Sitecore().Field("Remove Address")</a><button ng-click="changeUtilityPlan(location)">@Html.Sitecore().Field("Select Utility Plan Button Text")</button>
                             </div>
                         </div>
-                        <div ng-repeat="offerInformation in location.offerInformationByType" ng-show="offerInformation.value.offerSelections.length">
+                        <div ng-repeat="offerInformation in location.offerInformationByType" ng-show="offerInformation.value.offerSelections.length || cartHasCommercialQuote()">
                             <div ng-include src="'cart/' + offerInformation.key"></div>
                         </div>
                     </div>
@@ -294,9 +289,19 @@
 </script>
 
 <script type="text/ng-template" id="cart/TexasElectricityCommercialQuote">
+    <address>
+        <h3>@Html.Sitecore().Field("Service Address Text")</h3>
+        {{ location.location.address | address }}<br />
+        <a href="" ng-click="editUtilityAddress(location)" ng-if="!isRenewal">@Html.Sitecore().Field("Edit Address Text")</a> | <a href="" ng-click="deleteUtilityAddress(location)">@Html.Sitecore().Field("Remove Address")</a>
+    </address>
 </script>
 
 <script type="text/ng-template" id="cart/GeorgiaGasCommercialQuote">
+    <address>
+        <h3>@Html.Sitecore().Field("Service Address Text")</h3>
+        {{ location.location.address | address }}<br />
+        <a href="" ng-click="editUtilityAddress(location)" ng-if="!isRenewal">@Html.Sitecore().Field("Edit Address Text")</a> | <a href="" ng-click="deleteUtilityAddress(location)">@Html.Sitecore().Field("Remove Address")</a>
+    </address>
 </script>
 
 <script type="text/ng-template" id="confirmAddressDeleteModal">
