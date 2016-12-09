@@ -1746,6 +1746,7 @@
     <Content Include="Views\Pages\Enrollment\Select Plan.cshtml" />
     <Content Include="Views\Components\Marketing\Mobile\Mobile Devices.cshtml" />
     <Content Include="Views\Components\Marketing\Skybell FAQs.cshtml" />
+    <Content Include="Views\Components\Marketing\Overview Header.cshtml" />
     <None Include="Web.Azure-Production Sitecore.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>
