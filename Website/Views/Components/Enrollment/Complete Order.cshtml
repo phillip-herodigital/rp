@@ -411,7 +411,7 @@
             </tr>
             <tr class="line-item">
                 <td class="label">@Html.Sitecore().Field("Phone Number Label")</td>
-                <td class="description">{{accountInformation.contactInfo.phone[0].number}}</td>
+                <td class="description">{{accountInformation.contactInfo.phone[0].number | phone}}</td>
             </tr>
             <tr class="line-item">
                 <td class="label">@Html.Sitecore().Field("Email Address Label")</td>
