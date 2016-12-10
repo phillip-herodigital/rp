@@ -174,7 +174,12 @@
                                             <div ng-include src="'completeOrderCart/' + offerInformation.key"></div>
                                         </div>
                                     </div>
-                                    <button type="submit" class="primary" ng-if="customerType == 'commercial' && !isRenewal && !cartHasMobile()" ng-click="completeStep()">@Html.Sitecore().Field("Request Quote Button")</button>
+                                    <footer>
+                                        <div class="buttons commercial">
+                                            <a href="" class="add-address" ng-click="addAddress()">@Html.Sitecore().Field("Add Address Text")</a>
+                                            <button type="submit" class="primary" ng-click="completeStep()">@Html.Sitecore().Field("Continue Button")</button>
+                                        </div>
+                                    </footer>
                                 </div>
                                 <div class="billed-today" ng-if="!isRenewal && getCartTotal() > 0 && customerType!= 'commercial'">
                                     <div class="billed-title">@Html.Sitecore().Field("Billed Today Text")<i class="icon-billed-today"></i></div>
