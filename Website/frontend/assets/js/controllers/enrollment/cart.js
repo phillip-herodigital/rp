@@ -16,6 +16,7 @@ ngApp.controller('EnrollmentCartCtrl', ['$scope', 'enrollmentStepsService', 'enr
     $scope.cartHasMobile = enrollmentCartService.cartHasMobile;
     $scope.cartHasUtility = enrollmentCartService.cartHasUtility;
     $scope.cartHasProtective = enrollmentCartService.cartHasProtective;
+    $scope.cartHasCommercialQuote = enrollmentCartService.cartHasCommercialQuote;
     $scope.mobileEnrollmentService = mobileEnrollmentService;
     $scope.getCartDevices = enrollmentCartService.getCartDevices;
     $scope.getDevicesCount = enrollmentCartService.getDevicesCount;
@@ -255,7 +256,7 @@ ngApp.controller('EnrollmentCartCtrl', ['$scope', 'enrollmentStepsService', 'enr
     /**
     * Handle the checkout button
     */
-    $scope.cartCheckout = function () {
+    $scope.cartCheckout = function (addAdditional) {
         var success = true;
         var service = enrollmentCartService.getActiveService();
         var serviceType = $scope.getActiveServiceType();
@@ -299,7 +300,7 @@ ngApp.controller('EnrollmentCartCtrl', ['$scope', 'enrollmentStepsService', 'enr
                     enrollmentService.setSelectedOffers(false);
                 }
             } else {
-                $scope.completeStep();
+                $scope.completeStep(addAdditional);
             }
         }
     };

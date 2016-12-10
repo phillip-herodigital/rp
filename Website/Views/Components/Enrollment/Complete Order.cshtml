@@ -170,14 +170,11 @@
                                 </div>
                                 <div class="commercial-cart" ng-if="customerType == 'commercial'">
                                     <div ng-repeat="item in getCartItems()">
-                                        <div class="clearfix">
-                                            <p class="address-label">@Html.Sitecore().Field("Service Address Label")</p>
-                                            {{ item.location.address | address}}
-                                        </div>
                                         <div class="clearfix" ng-repeat="offerInformation in item.offerInformationByType">
                                             <div ng-include src="'completeOrderCart/' + offerInformation.key"></div>
                                         </div>
                                     </div>
+                                    <button type="submit" class="primary" ng-if="customerType == 'commercial' && !isRenewal && !cartHasMobile()" ng-click="completeStep()">@Html.Sitecore().Field("Request Quote Button")</button>
                                 </div>
                                 <div class="billed-today" ng-if="!isRenewal && getCartTotal() > 0 && customerType!= 'commercial'">
                                     <div class="billed-title">@Html.Sitecore().Field("Billed Today Text")<i class="icon-billed-today"></i></div>
@@ -204,7 +201,6 @@
                                     </div>
                                     <div ng-include src="'completeOrderCartMonthlyExisting/Mobile'" ng-if="addLineSubAccounts != null && cartHasMobile()"></div>
                                 </div>
-                                <button type="submit" class="primary" ng-if="customerType == 'commercial' && !isRenewal && !cartHasMobile()" ng-disabled="!$parent.completeOrder.agreeToTerms" ng-click="$parent.completeStep()">@Html.Sitecore().Field("Request Quote Button")</button>
                             </div>
                         </article>
                     </div>
@@ -322,12 +318,20 @@
 </script>
 
 <script type="text/ng-template" id="completeOrderCart/TexasElectricityCommercialQuote">
+    <div class="address clearfix">
+        <p class="address-label">@Html.Sitecore().Field("Service Address Label")</p>
+        {{ item.location.address | address}}
+    </div>
     <dl class="clearfix" ng-repeat="selectedOffer in offerInformation.value.offerSelections" ng-if="selectedOffer.offerId != 'TexasElectricityCommercialQuote'">
         <dt>{{selectedOffer.offer.name}}</dt>
         <dd>{{selectedOffer.offer.rate | currency}} kWh</dd>
     </dl>
 </script>
 <script type="text/ng-template" id="completeOrderCart/GeorgiaGasCommercialQuote">
+    <div class="address clearfix">
+        <p class="address-label">@Html.Sitecore().Field("Service Address Label")</p>
+        {{ item.location.address | address}}
+    </div>
     <dl class="clearfix" ng-repeat="selectedOffer in offerInformation.value.offerSelections" ng-if="selectedOffer.offerId != 'GeorgiaGasCommercialQuote'">
         <dt>{{selectedOffer.offer.name}}</dt>
         <dd>{{selectedOffer.offer.rate | currency}} kWh</dd>
