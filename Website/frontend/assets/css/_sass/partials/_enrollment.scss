@@ -1956,6 +1956,21 @@
         background-color: #fcfcfc;
     }
 
+    .commercial-quote {
+        background-color: #fff;
+        .services-header {
+            margin-top: -20px;
+            padding: 10px 20px;
+            background-color: #fafafa;
+            margin-bottom: 20px;
+        }
+        h3 {
+            font-size: 18px;
+            color: #333;
+            padding-bottom: 15px;
+        }
+    }
+
     .mobile-services, .energy-services, .electricity-services, .gas-services {
         .plan-details {
         }
@@ -3467,6 +3482,19 @@
     footer {
         padding: 10px 17px;
 
+        .commercial {
+            .add-address {
+                float: left;
+                padding: 15px 0;
+                font-size: 13px;
+            }
+
+            button {
+                padding: 10px;
+                width: 45%;
+            }
+        }
+
         button {
             float: right;
             width: auto;
@@ -4012,6 +4040,20 @@
 
         i {
             float: right;
+        }
+    }
+
+    .commercial-cart {
+        font-size: 12px;
+        font-weight: 400;
+
+        .address {
+            margin-bottom: 20px;
+
+            .address-label {
+                text-transform: uppercase;
+                margin: 0;
+            }
         }
     }
 
