@@ -19,7 +19,15 @@
 
                             </header>
                             <div class="content">
-                                <div ng-if="customerType== 'commercial'" ng-repeat="(id, location) in getCartItems()">
+                                <div class="commercial-quote" ng-if="customerType== 'commercial'">
+                                    <div class="services-header"  ng-repeat="(id, location) in getCartItems()">
+                                        <div class="service-title">
+                                            @Html.Sitecore().Field("Service Address Label")
+                                        </div>
+                                        <div class="service-description">
+                                            {{ location.location.address | address}}
+                                        </div>
+                                    </div>
                                     <div ng-include src="'completeOrder/commercialQuote'"></div>
                                 </div>
                                 <div ng-if="customerType!= 'commercial'" ng-repeat="(id, location) in getCartItems()">
@@ -390,14 +398,6 @@
     </div>
 </script>
 <script type="text/ng-template" id="completeOrder/commercialQuote">
-    <div class="services-header">
-        <div class="service-title">
-            @Html.Sitecore().Field("Service Address Label") 
-        </div>
-        <div class="service-description">
-            {{ location.location.address | address}}
-        </div>
-    </div>
     <h3>@Html.Sitecore().Field("Personal Information Label")</h3>
     <table class="verify-order-table">
         <tbody>
@@ -427,13 +427,13 @@
                 <td class="label">@Html.Sitecore().Field("Company Name Label")</td>
                 <td class="description">{{accountInformation.companyName}}</td>
             </tr>
-            <tr class="line-item">
+            <tr class="line-item" ng-if="accountInformation.preferredSalesExecutive">
                 <td class="label">@Html.Sitecore().Field("Preferred Sales Exec Label")</td>
                 <td class="description">{{accountInformation.preferredSalesExecutive}}</td>
             </tr>
             <tr class="line-item">
                 <td class="label">@Html.Sitecore().Field("ESI ID Label")</td>
-                <td class="description">{{ location.location.capabilities[0].esiId }}</td>
+                <td class="description"><span ng-repeat="(id, location) in getCartItems()">{{ location.location.capabilities[0].esiId }}{{ $last ? '' : ', ' }}</span></td>
             </tr>
             <tr class="line-item">
                 <td class="label">@Html.Sitecore().Field("SSN Label")</td>
@@ -445,6 +445,7 @@
             </tr>
         </tbody>
     </table>
+    <p><a href="" ng-click="editAccountInfo()">@Html.Sitecore().Field("Edit Information Link")</a></p>
 </script>
 <script type="text/ng-template" id="completeOrder/GeorgiaGasCommercialQuote">
     @*<h3>Electricity</h3>*@

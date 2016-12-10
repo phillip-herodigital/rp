@@ -33,6 +33,7 @@
                         <p class="note">@Html.Sitecore().Field("Mobile Support Text")</p>
                     </div>
                 </div>
+
                 @if (Sitecore.Context.IsLoggedIn)
                 {
                     <footer ng-if="accountInformation.userName  && cartHasMobile()">
@@ -46,6 +47,16 @@
                     </footer>
                 }
             </article>
+
+            <article class="next-steps enrollment__box" ng-if="customerType == 'commercial' && !isRenewal">
+                <header>
+                    <h1>@Html.Sitecore().Field("Commercial Next Steps Header")</h1>
+                </header>
+                <div class="content">
+                    @Html.Sitecore().Field("Commercial Next Steps Content")
+                </div>
+            </article>
+
             <article ng-if="customerType!= 'commercial'" class="verify-order enrollment__box">
                 <header>
                     <h1 class="order-complete-heading">@Html.Sitecore().Field("Header - Order Summary")</h1>
