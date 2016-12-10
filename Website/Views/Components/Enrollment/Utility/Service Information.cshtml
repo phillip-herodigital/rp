@@ -71,7 +71,7 @@
                             </div>
                             <hr>
                             <div class="item" ng-if="data.serviceState == 'TX' || data.serviceState == 'GA'">
-                                <label>@Html.Sitecore().Field("Options Label") <a ng-show="$parent.customerType== 'commercial'" href="#" tooltip="@Html.Sitecore().Field("Switching Popup")"><i class="icon-tooltip"></i></a><a ng-show="$parent.customerType=='residential'" href="#" tooltip="@Html.Sitecore().Field("Options Tooltip")"><i class="icon-tooltip"></i></a></label>
+                                <label>@Html.Sitecore().Field("Options Label") <a ng-show="$parent.customerType == 'commercial'" href="" tooltip="@Html.Sitecore().Field("Switching Popup")"><i class="icon-tooltip"></i></a><a ng-show="$parent.customerType=='residential'" href="" tooltip="@Html.Sitecore().Field("Options Tooltip")"><i class="icon-tooltip"></i></a></label>
                                 <ul class="checkbox-list">
                                     <li ng-switch on="data.serviceState">
                                         <input type="radio" ng-model="data.isNewService" id="switching-providers" ng-value="false">
@@ -88,6 +88,7 @@
                         <footer>
                             <div class="buttons">
                                 <button type="submit" class="primary" ng-disabled="!isFormValid()" data-val-submit>@Html.Sitecore().Field("Continue Button Label")</button>
+                                <button type="button" class="secondary" ng-disabled="!isFormValid()" ng-show="data.customerType == 'commercial'" ng-click="completeStep(true)">@Html.Sitecore().Field("Add Address Text")</button>
                             </div>
                         </footer>
                     </article>
@@ -98,17 +99,7 @@
                 </div>
             </section>
             <aside>
-                <div ng-include ng-if="customerType != 'commercial'" src="'cart-template'"></div>
-                <div class="enrollment__cart" ng-if="customerType == 'commercial'"  ng-controller="EnrollmentCartCtrl">
-                    <article ng-if="customerType == 'commercial'" class="enrollment__box outage-information">
-                        <header>
-                            <p><strong>@cartItem.Fields["Renew Existing Service Box Header"]</strong></p>
-                        </header>
-                        <ul class="info">
-                            <li>@Html.Raw(cartItem.Fields["Renew Existing Service Box Text"].Value)</li>
-                        </ul>
-                    </article>
-                    </div>
+                <div ng-include src="'cart-template'"></div>
             </aside>
         </div>
     </div>

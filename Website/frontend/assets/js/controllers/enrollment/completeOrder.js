@@ -287,6 +287,23 @@ ngApp.controller('EnrollmentCompleteOrderCtrl', ['$scope', 'enrollmentService', 
         enrollmentStepsService.setFlow('utility', false).setStep('utilityFlowPlans');
     };
 
+    $scope.editAccountInfo = function () {
+        //update active service address, send to the correct page
+        if(enrollmentCartService.getCartVisibility()) {
+            enrollmentCartService.toggleCart();
+        }
+        enrollmentStepsService.setFlow('utility', false).setStep('accountInformation');
+    };
+
+    $scope.addAddress = function () {
+        //update active service address, send to the correct page
+        if(enrollmentCartService.getCartVisibility()) {
+            enrollmentCartService.toggleCart();
+        }
+        enrollmentCartService.setActiveService();
+        enrollmentStepsService.setFlow('utility', true).setFromServerStep('serviceInformation');
+    };
+
     $scope.showSignatureModal = function (templateUrl) {
         var $sigdiv;
         var signatureModalInstance = $modal.open({
