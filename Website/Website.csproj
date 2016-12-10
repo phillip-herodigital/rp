@@ -807,6 +807,7 @@
   <ItemGroup>
     <Compile Include="Conditions\CustomerFirstLoginCondition.cs" />
     <Compile Include="Conditions\CustomerAccountsCountCondition.cs" />
+    <Compile Include="Conditions\HasCommercialRFQEnrollmentCondition.cs" />
     <Compile Include="Conditions\HasProtectiveEnrollmentCondition.cs" />
     <Compile Include="Conditions\HasUtilityEnrollmentCondition.cs" />
     <Compile Include="Conditions\HasMobileEnrollmentCondition.cs" />
