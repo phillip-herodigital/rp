@@ -6,7 +6,7 @@
             @Html.Partial("~/Views/Components/Enrollment/Progress Bar.cshtml", new StreamEnergy.MyStream.Models.Enrollment.ProgressBar { StepNumber = 4, StepTextField = "Step 4 Description Text", HideCart = true })
         </div>
         <div ng-if="customerType == 'commercial'">
-            @Html.Partial("~/Views/Components/Enrollment/Progress Bar.cshtml", new StreamEnergy.MyStream.Models.Enrollment.ProgressBar { StepNumber = 4, StepTextField = "Commercial Description Text", HideCart = true })
+            @Html.Partial("~/Views/Components/Enrollment/Progress Bar.cshtml", new StreamEnergy.MyStream.Models.Enrollment.ProgressBar { StepNumber = 3, StepTextField = "Commercial Description Text", HideCart = true })
         </div>
         <div class="layout">
             <div class="wrapper cols-2 enrollment__review-order">
@@ -80,6 +80,7 @@
                                 <h1 ng-if="customerType== 'commercial'">@Html.Sitecore().Field("User Acceptance Header")</h1>
                             </header>
                             <div class="content form terms-agreement">
+                                
                                 <div class="item" @Html.Validation().ErrorClass(m => m.AgreeToTerms) ng-if="customerType != 'commercial'|| cartHasMobile()">
                                     <ul class="checkbox-list">
                                         <li>
@@ -96,10 +97,12 @@
                                 <div class="item" @Html.Validation().ErrorClass(m => m.AgreeToTerms) ng-if="customerType == 'commercial' && !cartHasMobile()">
                                     <ul class="checkbox-list">
                                         <li>
-                                            @Html.CheckBoxFor(m => m.AgreeToTerms, new { ng_model = "completeOrder.agreeToTerms", data_val = "true", data_val_required = "" })
+                                            @Html.CheckBoxFor(m => m.AgreeToTerms, new { ng_model = "completeOrder.agreeToTerms", data_val = "true", data_val_required = "Please indicate that you accept the user terms." })
+                                            
                                             <label for="@Html.IdFor(m => m.AgreeToTerms)">
                                                 @Html.Sitecore().Field("User Acceptance Text")
                                             </label>
+                                            @Html.ValidationMessageFor(m => m.AgreeToTerms)
                                         </li>
                                     </ul>
                                 </div>
@@ -132,7 +135,7 @@
                         </div>
                         <div class="buttons">
                             <button type="submit" class="primary" ng-if="((customerType != 'commercial' && customerType != 'commercial')|| cartHasMobile()) && !isRenewal" ng-click="completeOrder.nonExisting = true" ng-disabled="!completeOrder.agreeToTerms || (completeOrder.autopay && cartHasMobile() && !completeOrder.agreeToAutoPayTerms)" data-val-submit>@Html.Sitecore().Field("Button")</button>
-                            <button type="submit" class="primary" ng-if="customerType == 'commercial' && !isRenewal && !cartHasMobile()" ng-disabled="!completeOrder.agreeToTerms" data-val-submit>@Html.Sitecore().Field("Request Quote Button")</button>
+                            <button type="submit" class="primary" ng-if="customerType == 'commercial' && !isRenewal && !cartHasMobile()" ng-disabled="!completeOrder.agreeToTerms" ng-click="comm.$valid" data-val-submit>@Html.Sitecore().Field("Request Quote Button")</button>
                             <button type="submit" class="primary" ng-if="isRenewal" ng-disabled="!completeOrder.agreeToTerms" data-val-submit>@Html.Sitecore().Field("Renewal Button")</button>
                             <button type="button" class="tertiary" ng-if="!isRenewal" ng-click="resetEnrollment();">
                                 <span ng-if="customerType != 'commercial' || cartHasMobile()">@Html.Sitecore().Field("Cancel Enrollment Button")</span>
@@ -186,7 +189,7 @@
                                     </div>
                                     <div ng-include src="'completeOrderCartMonthlyExisting/Mobile'" ng-if="addLineSubAccounts != null && cartHasMobile()"></div>
                                 </div>
-                                <button type="submit" class="primary" ng-if="customerType == 'commercial' && !isRenewal && !cartHasMobile()" ng-disabled="!completeOrder.additionalAuthorizations.historicalUsageData" data-val-submit>@Html.Sitecore().Field("Request Quote Button")</button>
+                                <button type="submit" class="primary" ng-if="customerType == 'commercial' && !isRenewal && !cartHasMobile()" ng-disabled="!completeOrder.agreeToTerms" data-val-submit>@Html.Sitecore().Field("Request Quote Button")</button>
                             </div>
                         </article>
                     </div>
@@ -710,7 +713,7 @@
                         <a href="" ng-click="selectTab('draw')">@Html.Sitecore().Field("Tab - Draw Signature")</a>
                     </li>
                 </ul>
-                <form data-val-bind-messages="validations" ng-submit="submit()">
+                <form name="comm" data-val-bind-messages="validations" ng-submit="submit()">
                     <div class="tab-content" ng-show="selectedTab == 'type'">
                         <div class="item" @Html.Validation().ErrorClass(m => m.W9BusinessData.CustomerSignature)>
                             <label for="@Html.IdFor(m => m.W9BusinessData.CustomerSignature)">@Html.Sitecore().Field("Label - Enter Name")</label>
