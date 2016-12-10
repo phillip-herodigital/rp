@@ -6,7 +6,7 @@
             @Html.Partial("~/Views/Components/Enrollment/Progress Bar.cshtml", new StreamEnergy.MyStream.Models.Enrollment.ProgressBar { StepNumber = 4, StepTextField = "Step 4 Description Text", HideCart = true })
         </div>
         <div ng-if="customerType == 'commercial'">
-            @Html.Partial("~/Views/Components/Enrollment/Progress Bar.cshtml", new StreamEnergy.MyStream.Models.Enrollment.ProgressBar { StepNumber = 3, StepTextField = "Commercial Description Text", HideCart = true })
+            @Html.Partial("~/Views/Components/Enrollment/Progress Bar.cshtml", new StreamEnergy.MyStream.Models.Enrollment.ProgressBar { StepNumber = 4, StepTextField = "Commercial Description Text", HideCart = true })
         </div>
         <div class="layout">
             <div class="wrapper cols-2 enrollment__review-order">
@@ -19,7 +19,15 @@
 
                             </header>
                             <div class="content">
-                                <div ng-if="customerType== 'commercial'" ng-repeat="(id, location) in getCartItems()">
+                                <div class="commercial-quote" ng-if="customerType== 'commercial'">
+                                    <div class="services-header"  ng-repeat="(id, location) in getCartItems()">
+                                        <div class="service-title">
+                                            @Html.Sitecore().Field("Service Address Label")
+                                        </div>
+                                        <div class="service-description">
+                                            {{ location.location.address | address}}
+                                        </div>
+                                    </div>
                                     <div ng-include src="'completeOrder/commercialQuote'"></div>
                                 </div>
                                 <div ng-if="customerType!= 'commercial'" ng-repeat="(id, location) in getCartItems()">
@@ -80,7 +88,6 @@
                                 <h1 ng-if="customerType== 'commercial'">@Html.Sitecore().Field("User Acceptance Header")</h1>
                             </header>
                             <div class="content form terms-agreement">
-                                
                                 <div class="item" @Html.Validation().ErrorClass(m => m.AgreeToTerms) ng-if="customerType != 'commercial'|| cartHasMobile()">
                                     <ul class="checkbox-list">
                                         <li>
@@ -97,12 +104,10 @@
                                 <div class="item" @Html.Validation().ErrorClass(m => m.AgreeToTerms) ng-if="customerType == 'commercial' && !cartHasMobile()">
                                     <ul class="checkbox-list">
                                         <li>
-                                            @Html.CheckBoxFor(m => m.AgreeToTerms, new { ng_model = "completeOrder.agreeToTerms", data_val = "true", data_val_required = "Please indicate that you accept the user terms." })
-                                            
+                                            @Html.CheckBoxFor(m => m.AgreeToTerms, new { ng_model = "completeOrder.agreeToTerms", data_val = "true", data_val_required = "" })
                                             <label for="@Html.IdFor(m => m.AgreeToTerms)">
                                                 @Html.Sitecore().Field("User Acceptance Text")
                                             </label>
-                                            @Html.ValidationMessageFor(m => m.AgreeToTerms)
                                         </li>
                                     </ul>
                                 </div>
@@ -135,7 +140,7 @@
                         </div>
                         <div class="buttons">
                             <button type="submit" class="primary" ng-if="((customerType != 'commercial' && customerType != 'commercial')|| cartHasMobile()) && !isRenewal" ng-click="completeOrder.nonExisting = true" ng-disabled="!completeOrder.agreeToTerms || (completeOrder.autopay && cartHasMobile() && !completeOrder.agreeToAutoPayTerms)" data-val-submit>@Html.Sitecore().Field("Button")</button>
-                            <button type="submit" class="primary" ng-if="customerType == 'commercial' && !isRenewal && !cartHasMobile()" ng-disabled="!completeOrder.agreeToTerms" ng-click="comm.$valid" data-val-submit>@Html.Sitecore().Field("Request Quote Button")</button>
+                            <button type="submit" class="primary" ng-if="customerType == 'commercial' && !isRenewal && !cartHasMobile()" ng-disabled="!completeOrder.agreeToTerms" data-val-submit>@Html.Sitecore().Field("Request Quote Button")</button>
                             <button type="submit" class="primary" ng-if="isRenewal" ng-disabled="!completeOrder.agreeToTerms" data-val-submit>@Html.Sitecore().Field("Renewal Button")</button>
                             <button type="button" class="tertiary" ng-if="!isRenewal" ng-click="resetEnrollment();">
                                 <span ng-if="customerType != 'commercial' || cartHasMobile()">@Html.Sitecore().Field("Cancel Enrollment Button")</span>
@@ -163,7 +168,14 @@
                                     <div class="billed-title" ng-if="customerType!= 'commercial'">@Html.Sitecore().Field("Billed Today Text")<i class="icon-billed-today"></i></div>
                                     <div class="billed-title" ng-if="customerType== 'commercial'">@Html.Sitecore().Field("Side Box Subhead")</div>
                                 </div>
-                                @Html.Sitecore().Field("Service Address Label") {{ location.location.address }}
+                                <div class="commercial-cart" ng-if="customerType == 'commercial'">
+                                    <div ng-repeat="item in getCartItems()">
+                                        <div class="clearfix" ng-repeat="offerInformation in item.offerInformationByType">
+                                            <div ng-include src="'completeOrderCart/' + offerInformation.key"></div>
+                                        </div>
+                                    </div>
+                                    <button type="submit" class="primary" ng-if="customerType == 'commercial' && !isRenewal && !cartHasMobile()" ng-click="completeStep()">@Html.Sitecore().Field("Request Quote Button")</button>
+                                </div>
                                 <div class="billed-today" ng-if="!isRenewal && getCartTotal() > 0 && customerType!= 'commercial'">
                                     <div class="billed-title">@Html.Sitecore().Field("Billed Today Text")<i class="icon-billed-today"></i></div>
                                     <div ng-repeat="(id, location) in getCartItems()">
@@ -189,7 +201,6 @@
                                     </div>
                                     <div ng-include src="'completeOrderCartMonthlyExisting/Mobile'" ng-if="addLineSubAccounts != null && cartHasMobile()"></div>
                                 </div>
-                                <button type="submit" class="primary" ng-if="customerType == 'commercial' && !isRenewal && !cartHasMobile()" ng-disabled="!completeOrder.agreeToTerms" data-val-submit>@Html.Sitecore().Field("Request Quote Button")</button>
                             </div>
                         </article>
                     </div>
@@ -306,31 +317,25 @@
     <p>completeOrderCartMonthly/Protective</p>
 </script>
 
-<script type="text/ng-template" id="completeOrderCartToday/TexasElectricityCommercialQuote">
-    <dl class="clearfix" ng-repeat="selectedOffer in offerInformation.value.offerSelections">
+<script type="text/ng-template" id="completeOrderCart/TexasElectricityCommercialQuote">
+    <div class="address clearfix">
+        <p class="address-label">@Html.Sitecore().Field("Service Address Label")</p>
+        {{ item.location.address | address}}
+    </div>
+    <dl class="clearfix" ng-repeat="selectedOffer in offerInformation.value.offerSelections" ng-if="selectedOffer.offerId != 'TexasElectricityCommercialQuote'">
         <dt>{{selectedOffer.offer.name}}</dt>
         <dd>{{selectedOffer.offer.rate | currency}} kWh</dd>
     </dl>
 </script>
-<script type="text/ng-template" id="completeOrderCartToday/GeorgiaGasCommercialQuote">
-    <dl class="clearfix" ng-repeat="selectedOffer in offerInformation.value.offerSelections">
+<script type="text/ng-template" id="completeOrderCart/GeorgiaGasCommercialQuote">
+    <div class="address clearfix">
+        <p class="address-label">@Html.Sitecore().Field("Service Address Label")</p>
+        {{ item.location.address | address}}
+    </div>
+    <dl class="clearfix" ng-repeat="selectedOffer in offerInformation.value.offerSelections" ng-if="selectedOffer.offerId != 'GeorgiaGasCommercialQuote'">
         <dt>{{selectedOffer.offer.name}}</dt>
         <dd>{{selectedOffer.offer.rate | currency}} kWh</dd>
     </dl>
-</script>
-<script type="text/ng-template" id="completeOrderCartMonthly/TexasElectricityCommercialQuote">
-    <div ng-repeat="selectedOffer in offerInformation.value.offerSelections">
-        <dl class="clearfix">
-            <ng-include ng-repeat="payment in selectedOffer.payments.requiredAmounts" src="'paymentsCart/' + payment.offerPaymentAmountType" />
-        </dl>
-    </div>
-</script>
-<script type="text/ng-template" id="completeOrderCartMonthly/GeorgiaGasCommercialQuote">
-    <div ng-repeat="selectedOffer in offerInformation.value.offerSelections">
-        <dl class="clearfix">
-            <ng-include ng-repeat="payment in selectedOffer.payments.requiredAmounts" src="'paymentsCart/' + payment.offerPaymentAmountType" />
-        </dl>
-    </div>
 </script>
 <script type="text/ng-template" id="paymentsCart/Deposit">
     <dt>@Html.Sitecore().Field("Deposit Due")</dt>
@@ -392,34 +397,7 @@
         </div>
     </div>
 </script>
-<script type="text/ng-template" id="completeOrder/TexasElectricityCommercialQuote">
-    @*<h3>Electricity</h3>*@
-    <table class="verify-order-table">
-        <tbody>
-            <tr class="line-item" ng-repeat-start="selectedOffer in offerInformation.value.offerSelections">
-                <td class="description">
-                    paymentsDue/Deposit
-                    <h4>{{selectedOffer.offer.name}}</h4>
-                    @*<p>{{selectedOffer.offer.description}}</p>*@
-                </td>
-                <td class="rate">
-                    {{selectedOffer.offer.rate | currency}} kWh
-                </td>
-            </tr>
-            <tr ng-repeat="payment in selectedOffer.payments.requiredAmounts" ng-if="payment.dollarAmount > 0" ng-include src="'paymentsDue/' + payment.offerPaymentAmountType"></tr>
-            <tr ng-repeat-end></tr>
-        </tbody>
-    </table>
-</script>
 <script type="text/ng-template" id="completeOrder/commercialQuote">
-    <div class="services-header">
-        <div class="service-title">
-            @Html.Sitecore().Field("Service Address Label") 
-        </div>
-        <div class="service-description">
-            {{ location.location.address | address}}
-        </div>
-    </div>
     <h3>@Html.Sitecore().Field("Personal Information Label")</h3>
     <table class="verify-order-table">
         <tbody>
@@ -433,7 +411,7 @@
             </tr>
             <tr class="line-item">
                 <td class="label">@Html.Sitecore().Field("Phone Number Label")</td>
-                <td class="description">{{accountInformation.contactInfo.phone[0].number}}</td>
+                <td class="description">{{accountInformation.contactInfo.phone[0].number | phone}}</td>
             </tr>
             <tr class="line-item">
                 <td class="label">@Html.Sitecore().Field("Email Address Label")</td>
@@ -449,13 +427,13 @@
                 <td class="label">@Html.Sitecore().Field("Company Name Label")</td>
                 <td class="description">{{accountInformation.companyName}}</td>
             </tr>
-            <tr class="line-item">
+            <tr class="line-item" ng-if="accountInformation.preferredSalesExecutive">
                 <td class="label">@Html.Sitecore().Field("Preferred Sales Exec Label")</td>
                 <td class="description">{{accountInformation.preferredSalesExecutive}}</td>
             </tr>
             <tr class="line-item">
                 <td class="label">@Html.Sitecore().Field("ESI ID Label")</td>
-                <td class="description">{{ location.location.capabilities[0].esiId }}</td>
+                <td class="description"><span ng-repeat="(id, location) in getCartItems()">{{ location.location.capabilities[0].esiId }}{{ $last ? '' : ', ' }}</span></td>
             </tr>
             <tr class="line-item">
                 <td class="label">@Html.Sitecore().Field("SSN Label")</td>
@@ -467,6 +445,7 @@
             </tr>
         </tbody>
     </table>
+    <p><a href="" ng-click="editAccountInfo()">@Html.Sitecore().Field("Edit Information Link")</a></p>
 </script>
 <script type="text/ng-template" id="completeOrder/GeorgiaGasCommercialQuote">
     @*<h3>Electricity</h3>*@
@@ -713,7 +692,7 @@
                         <a href="" ng-click="selectTab('draw')">@Html.Sitecore().Field("Tab - Draw Signature")</a>
                     </li>
                 </ul>
-                <form name="comm" data-val-bind-messages="validations" ng-submit="submit()">
+                <form data-val-bind-messages="validations" ng-submit="submit()">
                     <div class="tab-content" ng-show="selectedTab == 'type'">
                         <div class="item" @Html.Validation().ErrorClass(m => m.W9BusinessData.CustomerSignature)>
                             <label for="@Html.IdFor(m => m.W9BusinessData.CustomerSignature)">@Html.Sitecore().Field("Label - Enter Name")</label>

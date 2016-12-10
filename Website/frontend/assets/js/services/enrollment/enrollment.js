@@ -68,7 +68,8 @@
 
         // copy out the account information the server has
         service.accountInformation.contactInfo = result.contactInfo || {};
-        service.contactTitle = result.contactTitle;
+        service.accountInformation.companyName = result.companyName;
+        service.accountInformation.contactTitle = result.contactTitle;
         service.accountInformation.secondaryContactInfo = result.secondaryContactInfo || {};
         service.accountInformation.language = result.language;
         service.accountInformation.last4ssn = result.last4SSN;

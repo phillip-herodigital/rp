@@ -247,9 +247,13 @@ ngApp.factory('enrollmentStepsService', ['$rootScope', 'scrollService', 'jQuery'
             return service;
         },
 
-        setFromServerStep: function (expectedState, isConfirmationPage) {
-            if (isConfirmationPage) {
-                if (expectedState != 'orderConfirmed') {
+        setFromServerStep: function (expectedState, overrideServerStep) {
+            if (overrideServerStep) {
+                if (expectedState == 'planSelection' && isCommercialQuote) {
+                    service.setStep('serviceInformation');
+                    service.setMaxStep('serviceInformation');
+                }
+                else if (expectedState != 'orderConfirmed') {
                     $window.location.href = '/enrollment';
                 }
                 return;
