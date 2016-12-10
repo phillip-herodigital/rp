@@ -104,10 +104,11 @@
                                 <div class="item" @Html.Validation().ErrorClass(m => m.AgreeToTerms) ng-if="customerType == 'commercial' && !cartHasMobile()">
                                     <ul class="checkbox-list">
                                         <li>
-                                            @Html.CheckBoxFor(m => m.AgreeToTerms, new { ng_model = "completeOrder.agreeToTerms", data_val = "true", data_val_required = "" })
+                                            @Html.CheckBoxFor(m => m.AgreeToTerms, new { ng_model = "completeOrder.agreeToTerms", data_val = "true", data_val_required = "Please agree to indicated authorization." })
                                             <label for="@Html.IdFor(m => m.AgreeToTerms)">
                                                 @Html.Sitecore().Field("User Acceptance Text")
                                             </label>
+                                            @Html.ValidationMessageFor(m => m.AgreeToTerms)
                                         </li>
                                     </ul>
                                 </div>
@@ -140,7 +141,7 @@
                         </div>
                         <div class="buttons">
                             <button type="submit" class="primary" ng-if="((customerType != 'commercial' && customerType != 'commercial')|| cartHasMobile()) && !isRenewal" ng-click="completeOrder.nonExisting = true" ng-disabled="!completeOrder.agreeToTerms || (completeOrder.autopay && cartHasMobile() && !completeOrder.agreeToAutoPayTerms)" data-val-submit>@Html.Sitecore().Field("Button")</button>
-                            <button type="submit" class="primary" ng-if="customerType == 'commercial' && !isRenewal && !cartHasMobile()" ng-disabled="!completeOrder.agreeToTerms" data-val-submit>@Html.Sitecore().Field("Request Quote Button")</button>
+                            <button type="submit" class="primary" ng-if="customerType == 'commercial' && !isRenewal && !cartHasMobile()" ng-click="comm.$valid" ng-disabled="!completeOrder.agreeToTerms" data-val-submit>@Html.Sitecore().Field("Request Quote Button")</button>
                             <button type="submit" class="primary" ng-if="isRenewal" ng-disabled="!completeOrder.agreeToTerms" data-val-submit>@Html.Sitecore().Field("Renewal Button")</button>
                             <button type="button" class="tertiary" ng-if="!isRenewal" ng-click="resetEnrollment();">
                                 <span ng-if="customerType != 'commercial' || cartHasMobile()">@Html.Sitecore().Field("Cancel Enrollment Button")</span>
@@ -697,7 +698,7 @@
                         <a href="" ng-click="selectTab('draw')">@Html.Sitecore().Field("Tab - Draw Signature")</a>
                     </li>
                 </ul>
-                <form data-val-bind-messages="validations" ng-submit="submit()">
+                <form name="comm" data-val-bind-messages="validations" ng-submit="submit()">
                     <div class="tab-content" ng-show="selectedTab == 'type'">
                         <div class="item" @Html.Validation().ErrorClass(m => m.W9BusinessData.CustomerSignature)>
                             <label for="@Html.IdFor(m => m.W9BusinessData.CustomerSignature)">@Html.Sitecore().Field("Label - Enter Name")</label>
