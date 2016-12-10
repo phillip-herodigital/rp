@@ -3473,6 +3473,7 @@
                 padding: 15px 0;
                 font-size: 13px;
             }
+
             button {
                 padding: 10px;
                 width: 45%;
@@ -4031,9 +4032,13 @@
         font-size: 12px;
         font-weight: 400;
 
-        .address-label {
-            text-transform: uppercase;
-            margin: 0;
+        .address {
+            margin-bottom: 20px;
+
+            .address-label {
+                text-transform: uppercase;
+                margin: 0;
+            }
         }
     }
 
