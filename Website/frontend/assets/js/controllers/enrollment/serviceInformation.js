@@ -26,7 +26,8 @@ ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$location', '$f
 
 
     $scope.getLocation = function (state, val) {
-        return $scope.$parent.getLocation(state, val).then(function (values) {
+        var zipOnly = $scope.data.customerType == 'commercial';
+        return $scope.$parent.getLocation(state, val, zipOnly).then(function (values) {
             $scope.errorMessage = !values.length;
             return values;
         });

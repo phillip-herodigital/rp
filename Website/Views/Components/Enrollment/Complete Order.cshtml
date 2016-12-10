@@ -11,7 +11,7 @@
         <div class="layout">
             <div class="wrapper cols-2 enrollment__review-order">
                 <section>
-                    <form data-val-bind-messages="validations" ng-submit="completeStep()" name="review-order">
+                    <form data-val-bind-messages="validations" ng-submit="completeStep()" name="reviewOrderForm">
                         <article class="form enrollment__box" ng-if="!isRenewal">
                             <header>
                                 <h1 ng-if="customerType != 'commercial' || cartHasMobile()">@Html.Sitecore().Field("Complete Order")</h1>
@@ -141,7 +141,7 @@
                         </div>
                         <div class="buttons">
                             <button type="submit" class="primary" ng-if="((customerType != 'commercial' && customerType != 'commercial')|| cartHasMobile()) && !isRenewal" ng-click="completeOrder.nonExisting = true" ng-disabled="!completeOrder.agreeToTerms || (completeOrder.autopay && cartHasMobile() && !completeOrder.agreeToAutoPayTerms)" data-val-submit>@Html.Sitecore().Field("Button")</button>
-                            <button type="submit" class="primary" ng-if="customerType == 'commercial' && !isRenewal && !cartHasMobile()" ng-click="comm.$valid" ng-disabled="!completeOrder.agreeToTerms" data-val-submit>@Html.Sitecore().Field("Request Quote Button")</button>
+                            <button type="submit" class="primary" ng-if="customerType == 'commercial' && !isRenewal && !cartHasMobile()" ng-click="reviewOrderForm.$valid" ng-disabled="!completeOrder.agreeToTerms" data-val-submit>@Html.Sitecore().Field("Request Quote Button")</button>
                             <button type="submit" class="primary" ng-if="isRenewal" ng-disabled="!completeOrder.agreeToTerms" data-val-submit>@Html.Sitecore().Field("Renewal Button")</button>
                             <button type="button" class="tertiary" ng-if="!isRenewal" ng-click="resetEnrollment();">
                                 <span ng-if="customerType != 'commercial' || cartHasMobile()">@Html.Sitecore().Field("Cancel Enrollment Button")</span>
@@ -175,7 +175,6 @@
                                             <div ng-include src="'completeOrderCart/' + offerInformation.key"></div>
                                         </div>
                                     </div>
-                                    <button type="submit" class="primary" ng-if="customerType == 'commercial' && !isRenewal && !cartHasMobile()" ng-click="completeStep()">@Html.Sitecore().Field("Request Quote Button")</button>
                                 </div>
                                 <div class="billed-today" ng-if="!isRenewal && getCartTotal() > 0 && customerType!= 'commercial'">
                                     <div class="billed-title">@Html.Sitecore().Field("Billed Today Text")<i class="icon-billed-today"></i></div>
@@ -203,6 +202,12 @@
                                     <div ng-include src="'completeOrderCartMonthlyExisting/Mobile'" ng-if="addLineSubAccounts != null && cartHasMobile()"></div>
                                 </div>
                             </div>
+                            <footer ng-if="customerType == 'commercial'">
+                                <div class="buttons commercial">
+                                    <a href="" class="add-address" ng-click="addAddress()">@Html.Sitecore().Field("Add Address Text")</a>
+                                    <button type="submit" class="primary" ng-click="completeStep()" ng-disabled="!reviewOrderForm.$valid">@Html.Sitecore().Field("Continue Button")</button>
+                                </div>
+                            </footer>
                         </article>
                     </div>
                 </aside>
@@ -693,7 +698,7 @@
                         <a href="" ng-click="selectTab('draw')">@Html.Sitecore().Field("Tab - Draw Signature")</a>
                     </li>
                 </ul>
-                <form name="comm" data-val-bind-messages="validations" ng-submit="submit()">
+                <form data-val-bind-messages="validations" ng-submit="submit()">
                     <div class="tab-content" ng-show="selectedTab == 'type'">
                         <div class="item" @Html.Validation().ErrorClass(m => m.W9BusinessData.CustomerSignature)>
                             <label for="@Html.IdFor(m => m.W9BusinessData.CustomerSignature)">@Html.Sitecore().Field("Label - Enter Name")</label>
