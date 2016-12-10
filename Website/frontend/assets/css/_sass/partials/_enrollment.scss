@@ -1956,6 +1956,21 @@
         background-color: #fcfcfc;
     }
 
+    .commercial-quote {
+        background-color: #fff;
+        .services-header {
+            margin-top: -20px;
+            padding: 10px 20px;
+            background-color: #fafafa;
+            margin-bottom: 20px;
+        }
+        h3 {
+            font-size: 18px;
+            color: #333;
+            padding-bottom: 15px;
+        }
+    }
+
     .mobile-services, .energy-services, .electricity-services, .gas-services {
         .plan-details {
         }
