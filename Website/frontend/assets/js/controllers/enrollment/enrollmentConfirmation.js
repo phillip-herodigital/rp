@@ -121,6 +121,8 @@ ngApp.controller('EnrollmentConfirmationCtrl', ['$scope', '$window', '$modal', '
                 var slashPosition = userName.indexOf("\\");
                 userName = userName.substring(slashPosition + 1);
             }
+            $scope.accountInformation.companyName = result.companyName;
+            $scope.accountInformation.contactTitle = result.contactTitle;
             $scope.accountInformation.userName = userName;
             $scope.accountInformation.last4ssn = result.last4SSN;
             $scope.accountInformation.secondaryContactInfo = result.secondaryContactInfo || {};
