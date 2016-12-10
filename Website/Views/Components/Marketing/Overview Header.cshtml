@@ -1,0 +1,27 @@
+﻿@using Sitecore.Data.Fields
+@{
+    ImageField backgroundField = Html.Sitecore().CurrentItem.Fields["Background"];
+    string backgroundURL = Sitecore.Resources.Media.MediaManager.GetMediaUrl(backgroundField.MediaItem);
+    }
+
+<article class="overview overview-header" style="background-image: url('@backgroundURL')">
+    <div class="wrapper">
+        <div class="header-content">
+            <h2>@Html.Sitecore().Field("Header")</h2>
+            <p class="introduction">@Html.Sitecore().Field("Intro")</p>
+        </div>
+        <div class="play-video" ng-click="showLightbox('intro-video')">
+            @Html.Sitecore().Field("Watch Overview")
+            @Html.Sitecore().Field("Video Thumbnail")
+        </div>
+        <div class="overview-links">
+            @for (int i = 1; i < 5; i++)
+            {
+                <div class="overview-link link-@i">
+                    <a href="@Html.Sitecore().Field("Link "+@i)">@Html.Sitecore().Field("Image "+@i)</a>
+                </div>
+            }
+        </div>
+    </div>
+</article>
+

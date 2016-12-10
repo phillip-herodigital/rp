@@ -3,7 +3,7 @@
         @Html.Sitecore().Field("Header")
         <div class="grid border four">
             <div class="col">
-                <div class="plan-details">
+                <div class="plan-details" style="background-image: url('@Html.Sitecore().Field("Plan 1 Header Image")');">
                     @{ 
                         if (!string.IsNullOrEmpty(Html.Sitecore().Field("Best Deal 1").ToString()))
                         {
@@ -19,7 +19,7 @@
                 </div>
             </div>
             <div class="col">
-                <div class="plan-details">
+                <div class="plan-details" style="background-image: url('@Html.Sitecore().Field("Plan 2 Header Image")');">
                     @{
                         if (!string.IsNullOrEmpty(Html.Sitecore().Field("Best Deal 2").ToString()))
                         {
@@ -35,8 +35,8 @@
                 </div>
             </div>
             <div class="col">
-                <div class="plan-details">
-                    @{        
+                <div class="plan-details" style="background-image: url('@Html.Sitecore().Field("Plan 3 Header Image")');">
+                    @{
                         if (!string.IsNullOrEmpty(Html.Sitecore().Field("Best Deal 3").ToString()))
                         {
                             @Html.Sitecore().Field("Best Deal 3")
@@ -51,7 +51,7 @@
                 </div>
             </div>
             <div class="col">
-                <div class="plan-details">
+                <div class="plan-details" style="background-image: url('@Html.Sitecore().Field("Plan 4 Header Image")');">
                     @{
                         if (!string.IsNullOrEmpty(Html.Sitecore().Field("Best Deal 4").ToString()))
                         {
