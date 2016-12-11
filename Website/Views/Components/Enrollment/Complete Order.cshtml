@@ -326,7 +326,8 @@
 <script type="text/ng-template" id="completeOrderCart/TexasElectricityCommercialQuote">
     <div class="address clearfix">
         <p class="address-label">@Html.Sitecore().Field("Service Address Label")</p>
-        {{ item.location.address | address}}
+        {{ item.location.address | address}}<br />
+        <a href="" ng-click="editUtilityAddress(location)" ng-if="!isRenewal">@Html.Sitecore().Field("Edit Address Text")</a> | <a href="" ng-click="deleteUtilityAddress(location)">@Html.Sitecore().Field("Remove Address")</a>
     </div>
     <dl class="clearfix" ng-repeat="selectedOffer in offerInformation.value.offerSelections" ng-if="selectedOffer.offerId != 'TexasElectricityCommercialQuote'">
         <dt>{{selectedOffer.offer.name}}</dt>
