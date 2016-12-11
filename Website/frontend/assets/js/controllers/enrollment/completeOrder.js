@@ -295,6 +295,31 @@ ngApp.controller('EnrollmentCompleteOrderCtrl', ['$scope', 'enrollmentService', 
         enrollmentStepsService.setFlow('utility', false).setStep('accountInformation');
     };
 
+    /**
+    * Edit Address
+    */
+    $scope.editUtilityAddress = function (service, isCartOpen) {
+        if(enrollmentCartService.getCartVisibility()) {
+            enrollmentCartService.toggleCart();
+        }
+        enrollmentCartService.setActiveService(service);
+        enrollmentStepsService.setFlow('utility', false).setStep('utilityFlowService');
+        //we should probably focus on the input field as well
+    };
+
+    /**
+    * Delete plan from cart
+    */
+    $scope.deleteUtilityPlan = function (service, selectedOffer) {
+        $modal.open({
+            'scope': $scope,
+            'templateUrl': 'confirmAddressDeleteModal'
+        }).result.then( function() { 
+            enrollmentCartService.removeOffer(service, selectedOffer);
+            enrollmentService.setSelectedOffers(); 
+        })
+    };
+
     $scope.addAddress = function () {
         //update active service address, send to the correct page
         if(enrollmentCartService.getCartVisibility()) {

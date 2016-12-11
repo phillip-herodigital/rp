@@ -6,7 +6,7 @@
             @Html.Partial("~/Views/Components/Enrollment/Progress Bar.cshtml", new StreamEnergy.MyStream.Models.Enrollment.ProgressBar { StepNumber = 4, StepTextField = "Step 4 Description Text", HideCart = true })
         </div>
         <div ng-if="customerType == 'commercial'">
-            @Html.Partial("~/Views/Components/Enrollment/Progress Bar.cshtml", new StreamEnergy.MyStream.Models.Enrollment.ProgressBar { StepNumber = 4, StepTextField = "Commercial Description Text", HideCart = true })
+            @Html.Partial("~/Views/Components/Enrollment/Progress Bar.cshtml", new StreamEnergy.MyStream.Models.Enrollment.ProgressBar { StepNumber = 3, StepTextField = "Commercial Description Text", HideCart = true })
         </div>
         <div class="layout">
             <div class="wrapper cols-2 enrollment__review-order">
@@ -478,7 +478,8 @@
 <script type="text/ng-template" id="completeOrderCart/TexasElectricityCommercialQuote">
     <div class="address clearfix">
         <p class="address-label">@Html.Sitecore().Field("Service Address Label")</p>
-        {{ item.location.address | address}}
+        {{ item.location.address | address}}<br />
+        <a href="" ng-click="editUtilityAddress(location)" ng-if="!isRenewal">@Html.Sitecore().Field("Edit Address Text")</a> | <a href="" ng-click="deleteUtilityAddress(location)">@Html.Sitecore().Field("Remove Address")</a>
     </div>
     <dl class="clearfix" ng-repeat="selectedOffer in offerInformation.value.offerSelections" ng-if="selectedOffer.offerId != 'TexasElectricityCommercialQuote'">
         <dt>{{selectedOffer.offer.name}}</dt>

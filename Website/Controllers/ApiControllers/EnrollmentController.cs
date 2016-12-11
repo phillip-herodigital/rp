@@ -718,6 +718,8 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 ContactInfo = stateMachine.Context.ContactInfo,
                 ContactTitle = stateMachine.Context.ContactTitle,
                 CompanyName = stateMachine.Context.CompanyName,
+                PreferredSalesExecutive = stateMachine.Context.PreferredSalesExecutive,
+                TaxID = stateMachine.Context.TaxId,
                 Last4SSN = string.IsNullOrEmpty(stateMachine.Context.SocialSecurityNumber) ? "" : stateMachine.Context.SocialSecurityNumber.Substring(5),
                 Language = stateMachine.Context.Language,
                 SecondaryContactInfo = stateMachine.Context.SecondaryContactInfo,
