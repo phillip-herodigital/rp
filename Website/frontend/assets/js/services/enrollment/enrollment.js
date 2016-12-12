@@ -70,6 +70,9 @@
         service.accountInformation.contactInfo = result.contactInfo || {};
         service.accountInformation.companyName = result.companyName;
         service.accountInformation.contactTitle = result.contactTitle;
+        service.accountInformation.preferredSalesExecutive = result.preferredSalesExecutive;
+        service.accountInformation.taxID = result.taxID;
+        service.accountInformation.socialSecurityNumber = result.socialSecurityNumber;
         service.accountInformation.secondaryContactInfo = result.secondaryContactInfo || {};
         service.accountInformation.language = result.language;
         service.accountInformation.last4ssn = result.last4SSN;
