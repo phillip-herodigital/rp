@@ -479,7 +479,7 @@
                             </div>
                             <div class="item" ng-if="accountInformation.ssnOrTaxid == 'taxId'" @Html.Validation().ErrorClass(m => m.TaxId)>
                                 <label for="@Html.IdFor(m => m.TaxId)">@Html.Sitecore().Field("Tax ID Label")</label>
-                                @Html.TextBoxFor(m => m.TaxId, new { ng_model = "accountInformation.socialSecurityNumber", data_val = "true", data_val_required = Html.Sitecore().Field("SSN or Tax ID Required").ToString(), data_val_regex = "", data_val_regex_pattern = "^\\d{2}[-]?\\d{7}$", required="required" })
+                                @Html.TextBoxFor(m => m.TaxId, new { ng_model = "accountInformation.socialSecurityNumber", data_val = "true", data_val_required = Html.Sitecore().Field("SSN or Tax ID Required").ToString(), data_val_regex = "", data_val_regex_pattern = "^\\d{2}[-]?\\d{7}(\\d{2})?$", required="required" })
                                 @Html.ValidationMessageFor(m => m.TaxId)
                             </div>
                             @* Currently Under Contract*@
