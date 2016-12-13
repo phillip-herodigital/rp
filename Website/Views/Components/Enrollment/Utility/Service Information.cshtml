@@ -39,7 +39,7 @@
                             @Html.Sitecore().Field("Body Text")
 
                             @Html.Sitecore().Field("Searching Label")
-                             <div class="input-group-btn service-type" id="enrollment-type-select" dropdown-select dropdown-items="supportedEnrollmentTypes" value="data.customerType" data-alignment="right" disabled="data.serviceState != 'TX' || cartLocationsCount > 0"></div>
+                            <div class="input-group-btn service-type" id="enrollment-type-select" dropdown-select dropdown-items="supportedEnrollmentTypes" value="data.customerType" data-alignment="right" disabled="data.serviceState != 'TX' || cartLocationsCount > 0"></div>
 
                             @using (var currentService = Html.ClientRepeater(m => m.Services, "getActiveServiceIndex()"))
                             {
@@ -50,17 +50,20 @@
                                             <label for="@currentService.IdFor(s => s.Location)" ng-switch on="data.serviceState">
                                                 <span ng-switch-when="TX">@Html.Sitecore().Field("TX Address Label")</span><span ng-switch-when="GA">@Html.Sitecore().Field("GA Address Label")</span><span ng-switch-default>@Html.Sitecore().Field("Zip Only Label")</span>:
                                             </label>
+                                            <div ng-if="data.customerType == 'commercial'">
+                                                <p>@Html.Sitecore().Field("Must Select Address")</p>
+                                            </div>
                                             @currentService.TextBoxFor(s => s.Location, new
-                                        {
-                                            @class = "typeahead state-select-typeahead",
-                                            ng_model = "data.serviceLocation",
-                                            placeholder = Html.Sitecore().CurrentItem.Fields["Address Placeholder"].Value,
-                                            typeahead = "location as location.address|address for location in getLocation(data.serviceState, $viewValue)",
-                                            ng_disabled = "data.serviceState == ''",
-                                            typeahead_loading = "loadingServiceAddress",
-                                            ng_class = "{'loading' : loadingServiceAddress}",
-                                            autocomplete = "off"
-                                        })
+                                            {
+                                                @class = "typeahead state-select-typeahead",
+                                                ng_model = "data.serviceLocation",
+                                                placeholder = Html.Sitecore().CurrentItem.Fields["Address Placeholder"].Value,
+                                                typeahead = "location as location.address|address for location in getLocation(data.serviceState, $viewValue)",
+                                                ng_disabled = "data.serviceState == ''",
+                                                typeahead_loading = "loadingServiceAddress",
+                                                ng_class = "{'loading' : loadingServiceAddress}",
+                                                autocomplete = "off"
+                                            })
                                         </div>
                                         <div class="input-group-btn" id="state-select" dropdown-select dropdown-items="supportedUtilityStates" value="data.serviceState" disabled="data.customerType == 'commercial'" data-alignment="right"></div>
                                         @currentService.ValidationMessageFor(s => s.Location)
