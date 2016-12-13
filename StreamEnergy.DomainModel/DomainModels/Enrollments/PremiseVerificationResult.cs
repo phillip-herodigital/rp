@@ -9,6 +9,7 @@ namespace StreamEnergy.DomainModels.Enrollments
     {
         Success,
         GeneralError,
-        MustMoveIn
+        MustMoveIn,
+        AlreadyInEnetrak
     }
 }

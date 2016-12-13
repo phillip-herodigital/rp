@@ -141,6 +141,8 @@ namespace StreamEnergy.Services.Clients
             {
                 if (result.FailureReason.Contains("Switch is not allowed."))
                     return PremiseVerificationResult.MustMoveIn;
+                if (result.FailureReason.Contains("already in the Enetrak queue"))
+                    return PremiseVerificationResult.AlreadyInEnetrak;
             }
             return PremiseVerificationResult.GeneralError;
         }
@@ -383,12 +385,17 @@ namespace StreamEnergy.Services.Clients
                                CustomerType = customerType.CustomerType.ToString("g"),
                                FirstName = context.ContactInfo.Name.First,
                                LastName = context.ContactInfo.Name.Last,
+                               ContactTitle = context.ContactTitle,
                                CompanyName = context.CompanyName,
                                BillingAddress = StreamConnectUtilities.ToStreamConnectAddress(context.MailingAddress),
                                HomePhone = context.ContactInfo.Phone.OfType<TypedPhone>().Where(p => p.Category == PhoneCategory.Home).Select(p => p.Number).SingleOrDefault(),
                                CellPhone = context.ContactInfo.Phone.OfType<TypedPhone>().Where(p => p.Category == PhoneCategory.Mobile).Select(p => p.Number).SingleOrDefault(),
                                WorkPhone = context.ContactInfo.Phone.OfType<TypedPhone>().Where(p => p.Category == PhoneCategory.Work).Select(p => p.Number).SingleOrDefault(),
                                SSN = context.SocialSecurityNumber,
+                               TaxId = context.TaxId,
+                               PreferredLanguage = context.Language,
+                               PreferredSalesExecutive = context.PreferredSalesExecutive,
+                               UnderContract = context.UnderContract,
                                CurrentProvider = context.PreviousProvider,
                                EmailAddress = context.ContactInfo.Email.Address,
                                Accounts = from account in systemOfRecordSet
