@@ -253,6 +253,10 @@ ngApp.factory('enrollmentStepsService', ['$rootScope', 'scrollService', 'jQuery'
                     service.setStep('serviceInformation');
                     service.setMaxStep('serviceInformation');
                 }
+                else if (expectedState == 'accountInformation' && isCommercialQuote) {
+                    service.setStep('reviewOrder');
+                    service.setMaxStep('reviewOrder');
+                }
                 else if (expectedState != 'orderConfirmed') {
                     $window.location.href = '/enrollment';
                 }

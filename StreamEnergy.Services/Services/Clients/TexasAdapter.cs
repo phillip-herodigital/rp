@@ -22,7 +22,7 @@ namespace StreamEnergy.Services.Clients
 
         bool ILocationAdapter.IsFor(IEnumerable<DomainModels.IServiceCapability> capabilities)
         {
-            return capabilities.OfType<TexasElectricity.ServiceCapability>().Any();
+            return capabilities.OfType<TexasElectricity.ServiceCapability>().Any() && capabilities.OfType<CustomerTypeCapability>().Any(cap => cap.CustomerType == EnrollmentCustomerType.Residential);
         }
 
         bool ILocationAdapter.IsFor(IEnumerable<IServiceCapability> capabilities, IOffer offer)
@@ -64,20 +64,7 @@ namespace StreamEnergy.Services.Clients
 
         DomainModels.Enrollments.LocationOfferSet ILocationAdapter.LoadOffers(DomainModels.Enrollments.Location location, StreamConnect.ProductResponse streamConnectProductResponse)
         {
-            var customerType = location.Capabilities.OfType<CustomerTypeCapability>().Single();
-            if (customerType.CustomerType == EnrollmentCustomerType.Residential)
-            {
-                return LoadTexasOffers(location, streamConnectProductResponse);
-            }
-            else
-            {
-                return new LocationOfferSet
-                {
-                    Offers = new[] {
-                            new TexasElectricity.CommercialQuote { }
-                        }
-                };
-            }
+            return LoadTexasOffers(location, streamConnectProductResponse);
         }
 
 

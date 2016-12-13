@@ -767,7 +767,13 @@ FROM [SwitchBack] WHERE ESIID=@esiId";
             }
             else if (stateMachine.State == typeof(AccountInformationState))
             {
-                return Models.Enrollment.ExpectedState.AccountInformation;
+                if (stateMachine.Context.Services.Any(service => service.Location.Capabilities.OfType<CustomerTypeCapability>().Any(cap => cap.CustomerType == EnrollmentCustomerType.Commercial)) && !string.IsNullOrEmpty(stateMachine.Context.CompanyName)) {
+                    return Models.Enrollment.ExpectedState.ReviewOrder;
+                }
+                else
+                {
+                    return Models.Enrollment.ExpectedState.AccountInformation;
+                }
             }
             else if (stateMachine.State == typeof(OrderConfirmationState))
             {

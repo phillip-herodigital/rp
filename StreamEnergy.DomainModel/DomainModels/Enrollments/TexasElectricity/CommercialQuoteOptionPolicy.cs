@@ -20,19 +20,11 @@ namespace StreamEnergy.DomainModels.Enrollments.TexasElectricity
             return offerOption is CommercialQuoteOption;
         }
 
-        public async Task<IOfferOptionRules> GetOptionRules(Location location, IOffer offer)
+        public Task<IOfferOptionRules> GetOptionRules(Location location, IOffer offer)
         {
-            var serviceStatus = location.Capabilities.OfType<ServiceStatusCapability>().FirstOrDefault();
-            IConnectDatePolicy policy = null;
-            if (serviceStatus != null && serviceStatus.EnrollmentType == EnrollmentType.MoveIn)
+            return Task.FromResult<IOfferOptionRules>(new CommercialQuoteOptionRules
             {
-                policy = await enrollmentService.LoadConnectDates(location, offer);
-            }
-
-            return new CommercialQuoteOptionRules
-            {
-                ConnectDates = policy,
-            };
+            });
         }
     }
 }

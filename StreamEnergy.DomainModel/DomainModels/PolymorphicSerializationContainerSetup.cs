@@ -31,11 +31,11 @@ namespace StreamEnergy.DomainModels
                 SupportedTypes = {
                     { Enrollments.TexasElectricity.OfferOption.Qualifier, typeof(Enrollments.TexasElectricity.OfferOption) },
                     { Enrollments.TexasElectricity.MoveInOfferOption.Qualifier, typeof(Enrollments.TexasElectricity.MoveInOfferOption) },
-                    { Enrollments.TexasElectricity.CommercialQuoteOptionRules.Qualifier, typeof(Enrollments.TexasElectricity.CommercialQuoteOption) },
+                    { Enrollments.TexasElectricity.CommercialQuoteOption.Qualifier, typeof(Enrollments.TexasElectricity.CommercialQuoteOption) },
                     { Enrollments.GeorgiaGas.SwitchOfferOption.Qualifier, typeof(Enrollments.GeorgiaGas.SwitchOfferOption) },
                     { Enrollments.GeorgiaGas.MoveInOfferOption.Qualifier, typeof(Enrollments.GeorgiaGas.MoveInOfferOption) },
                     { Enrollments.GeorgiaGas.RenewalOfferOption.Qualifier, typeof(Enrollments.GeorgiaGas.RenewalOfferOption) },
-                    { Enrollments.GeorgiaGas.CommercialQuoteOptionRules.Qualifier, typeof(Enrollments.GeorgiaGas.CommercialQuoteOption) },
+                    { Enrollments.GeorgiaGas.CommercialQuoteOption.Qualifier, typeof(Enrollments.GeorgiaGas.CommercialQuoteOption) },
                     { Enrollments.Mobile.OfferOption.Qualifier, typeof(Enrollments.Mobile.OfferOption) },
                     { Enrollments.Protective.OfferOption.Qualifier, typeof(Enrollments.Protective.OfferOption) },
                 }
