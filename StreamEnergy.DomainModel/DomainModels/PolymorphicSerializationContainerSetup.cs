@@ -47,7 +47,7 @@ namespace StreamEnergy.DomainModels
                 SupportedTypes = {
                     { Enrollments.TexasElectricity.OfferOption.Qualifier, typeof(Enrollments.TexasElectricity.OfferOption) },
                     { Enrollments.TexasElectricity.MoveInOfferOption.Qualifier, typeof(Enrollments.TexasElectricity.MoveInOfferOption) },
-                    { Enrollments.TexasElectricity.CommercialQuoteOptionRules.Qualifier, typeof(Enrollments.TexasElectricity.CommercialQuoteOption) },
+                    { Enrollments.TexasElectricity.CommercialQuoteOption.Qualifier, typeof(Enrollments.TexasElectricity.CommercialQuoteOption) },
                     { Enrollments.NewJerseyElectricity.SwitchOfferOption.Qualifier, typeof(Enrollments.NewJerseyElectricity.SwitchOfferOption) },
                     { Enrollments.NewJerseyElectricity.RenewalOfferOption.Qualifier, typeof(Enrollments.NewJerseyElectricity.RenewalOfferOption) },
                     { Enrollments.NewJerseyElectricity.CommercialQuoteOptionRules.Qualifier, typeof(Enrollments.NewJerseyElectricity.CommercialQuoteOption) },
