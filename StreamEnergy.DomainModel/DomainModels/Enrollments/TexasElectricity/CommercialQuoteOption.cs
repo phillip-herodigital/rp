@@ -16,6 +16,8 @@ namespace StreamEnergy.DomainModels.Enrollments.TexasElectricity
         {
         }
 
+        public string PreviousProvider { get; set; }
+
         public string OptionType
         {
             get { return CommercialQuoteOption.Qualifier; }
