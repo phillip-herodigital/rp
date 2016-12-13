@@ -6,21 +6,19 @@ using System.Text;
 namespace StreamEnergy.DomainModels.Enrollments.TexasElectricity
 {
     [Serializable]
-    class CommercialQuoteOptionRules : OfferOptionRules
+    class CommercialQuoteOptionRules : IOfferOptionRules
     {
-        public new const string Qualifier = "TexasElectricityCommercialQuote";
+        public const string Qualifier = "TexasElectricityCommercialQuote";
 
-        public override string OptionRulesType { get { return CommercialQuoteOptionRules.Qualifier; } }
+        public virtual string OptionRulesType { get { return Qualifier; } }
 
-        public IConnectDatePolicy ConnectDates { get; set; }
-
-        public override IOfferPaymentAmount[] GetPostBilledPayments(IOfferOption options)
+        public virtual IOfferPaymentAmount[] GetPostBilledPayments(IOfferOption options)
         {
-            var typedOffer = options as CommercialQuoteOption;
-            return new IOfferPaymentAmount[]
-            {
-                new ConnectionFeePaymentAmount { DollarAmount = ConnectDates.AvailableConnectDates.First(d => d.Date == typedOffer.ConnectDate).Fees["ConnectFee"] },
-            };
+            return new IOfferPaymentAmount[0];
+        }
+        public virtual IOfferOption GetInitialOptions()
+        {
+            return null;
         }
     }
 }

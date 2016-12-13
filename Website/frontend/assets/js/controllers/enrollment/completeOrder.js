@@ -316,7 +316,7 @@ ngApp.controller('EnrollmentCompleteOrderCtrl', ['$scope', 'enrollmentService', 
             'templateUrl': 'confirmAddressDeleteModal'
         }).result.then( function() { 
             enrollmentCartService.removeOffer(service, selectedOffer);
-            enrollmentService.setSelectedOffers(); 
+            enrollmentService.setSelectedOffers(true); 
         })
     };
 

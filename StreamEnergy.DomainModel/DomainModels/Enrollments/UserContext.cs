@@ -66,7 +66,7 @@ namespace StreamEnergy.DomainModels.Enrollments
         [RegularExpression(@"^\d{3}\D*\d{2}\D*\d{4}$", ErrorMessage = "Social Security Number Invalid")]
         public string SocialSecurityNumber { get; set; }
 
-        [RegularExpression(@"^\d{2}\D*\d{7}$", ErrorMessage = "Tax Id Invalid")]
+        [RegularExpression(@"^\d{2}\D*\d{7}(\d{2})?$", ErrorMessage = "Tax Id Invalid")]
         public string TaxId { get; set; }
 
         public string CompanyName { get; set; }

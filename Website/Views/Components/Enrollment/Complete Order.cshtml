@@ -479,7 +479,7 @@
     <div class="address clearfix">
         <p class="address-label">@Html.Sitecore().Field("Service Address Label")</p>
         {{ item.location.address | address}}<br />
-        <a href="" ng-click="editUtilityAddress(location)" ng-if="!isRenewal">@Html.Sitecore().Field("Edit Address Text")</a> | <a href="" ng-click="deleteUtilityAddress(location)">@Html.Sitecore().Field("Remove Address")</a>
+        <a href="" ng-click="editUtilityAddress(item)" ng-if="!isRenewal">@Html.Sitecore().Field("Edit Address Text")</a> | <a href="" ng-click="deleteUtilityAddress(item)">@Html.Sitecore().Field("Remove Address")</a>
     </div>
     <dl class="clearfix" ng-repeat="selectedOffer in offerInformation.value.offerSelections" ng-if="selectedOffer.offerId != 'TexasElectricityCommercialQuote'">
         <dt>{{selectedOffer.offer.name}}</dt>
@@ -867,7 +867,7 @@
             </tr>
             <tr class="line-item">
                 <td class="label">@Html.Sitecore().Field("SSN Label")</td>
-                <td class="description">{{accountInformation.socialSecurityNumber}}</td>
+                <td class="description">{{accountInformation.socialSecurityNumber}}{{accountInformation.taxID}}</td>
                 </tr>
             <tr class="line-item">
                 <td class="label">@Html.Sitecore().Field("Under Contract Label")</td>

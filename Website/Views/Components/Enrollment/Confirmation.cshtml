@@ -220,7 +220,7 @@
                             <p>@Html.Sitecore().Field("TCPA Terms Text")</p>
                         </div>
                     </div>
-                    <hr />
+                    <hr ng-if="customerType != 'commercial'" />
                     <div ng-if="customerType != 'commercial' && cartHasTxLocation()">@Html.Sitecore().Field("Terms Notice")</div>
                     <div ng-if="customerType == 'residential' && !cartHasTxLocation()&& !cartHasMobile()">@Html.Sitecore().Field("GA Terms Notice")</div>
                 </div>
@@ -321,33 +321,6 @@
                                 <li><a ng-href="{{selectedOffer.offer.documents.yourRightsAsACustomer}}">@Html.Sitecore().Field("Your Rights As A Customer Document")</a></li>
                                 <li ng-if="selectedOffer.offer.documents.disclaimer"><a ng-href="{{selectedOffer.offer.documents.disclaimer}}" target="_blank">@Html.Sitecore().Field("Disclaimer")</a></li>
                             </ul>
-                        </div>
-                    </div>
-                    <hr ng-hide="$parent.$parent.$parent.$parent.$last" />
-                </div>
-            </div>
-        </div>
-        <div ng-if="customerType == 'commercial'" class="electricity-services">
-                <div class="plan-summary">
-                    <div class="plan-info">
-                        <div class="plan-summary-image">
-                            <i class="icon-electricity-blue"></i>
-                        </div>
-                        <div class="service-info clearfix">
-                            <div class="label">@Html.Sitecore().Field("Service Address Label"):</div>
-                            <div class="info">
-                                <p>{{ service.location.address.line1}}<span ng-if="service.location.address.unitNumber"> unit {{ service.location.address.unitNumber}}</span></p>
-                                <p>{{ service.location.address.city}}, {{ service.location.address.stateAbbreviation}} {{ service.location.address.postalCode5}}<span ng-if="service.location.address.postalCodePlus4">-{{ service.location.address.postalCodePlus4}}</span></p>
-                            </div>
-                        </div>
-                        <div class="service-info clearfix">
-                            <div class="label">@Html.Sitecore().Field("Company Name Label")</div><div class="info">{{accountInformation.businessInformationName}}</div>
-                        </div>
-                        <div class="service-info clearfix">
-                            <div class="label">@Html.Sitecore().Field("ESI Label")</div><div class="info">{{selectedOffer.offer.tdu}}</div>
-                        </div>
-                        <div class="service-info clearfix" ng-if="selectedOffer.renewalConfirmation.contractStartDate">
-                            <div class="label">@Html.Sitecore().Field("Tax ID Label")</div><div class="info">{{selectedOffer.renewalConfirmation.contractStartDate | date:'M/d/yyyy'}}</div>
                         </div>
                     </div>
                     <hr ng-hide="$parent.$parent.$parent.$parent.$last" />
@@ -1187,7 +1160,9 @@
 </script>
 <script type="text/ng-template" id="serviceConfirmation/TexasElectricityCommercialQuote">
     <div class="services-header">
-        @Html.Sitecore().Field("Request for Commercial")
+        <div class="service-title">
+            @Html.Sitecore().Field("Request for Commercial")
+        </div>
     </div>
     <div ng-repeat="selectedOffer in offerInformation.value.offerSelections">
         <div class="electricity-services">
@@ -1196,24 +1171,24 @@
                     <div class="plan-summary-image">
                         <i class="icon-electricity-blue"></i>
                     </div>
-                    <div class="service-info clearfix">
+                    <div class="service-info commercial clearfix">
                         <div class="label">@Html.Sitecore().Field("Service Address Label"):</div>
                         <div class="info">
                             <p>{{ service.location.address.line1}}<span ng-if="service.location.address.unitNumber"> unit {{ service.location.address.unitNumber}}</span></p>
                             <p>{{ service.location.address.city}}, {{ service.location.address.stateAbbreviation}} {{ service.location.address.postalCode5}}<span ng-if="service.location.address.postalCodePlus4">-{{ service.location.address.postalCodePlus4}}</span></p>
                         </div>
                     </div>
-                    <div class="service-info clearfix">
+                    <div class="service-info commercial clearfix">
                         <div class="label">@Html.Sitecore().Field("Company Name Label")</div><div class="info">{{ accountInformation.companyName }}</div>
                     </div>
-                    <div class="service-info clearfix" ng-repeat="capability in service.location.capabilities" ng-if="capability.esiId">
+                    <div class="service-info commercial clearfix" ng-repeat="capability in service.location.capabilities" ng-if="capability.esiId">
                         <div class="label">@Html.Sitecore().Field("ESI Label")</div><div class="info">{{ capability.esiId }}</div>
                     </div>
-                    <div class="service-info clearfix">
-                        <div class="label">@Html.Sitecore().Field("Tax ID Label")</div><div class="info">{{ accountInformation.last4ssn }}</div>
+                    <div class="service-info commercial clearfix">
+                        <div class="label">@Html.Sitecore().Field("Tax ID Label")</div><div class="info">{{ accountInformation.last4ssn }}{{ accountInformation.taxID }}</div>
                     </div>
                 </div>
-                <hr ng-hide="$parent.$parent.$parent.$parent.$last" />
+                <hr ng-hide="$parent.$parent.$parent.$last" />
             </div>
         </div>
     </div>

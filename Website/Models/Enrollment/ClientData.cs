@@ -22,6 +22,7 @@ namespace StreamEnergy.MyStream.Models.Enrollment
         public string CompanyName { get; set; }
         public string PreferredSalesExecutive { get; set; }
         public string TaxID { get; set; }
+        public string UnderContract { get; set; }
 
         public string ContactTitle { get; set; }
         public Name SecondaryContactInfo { get; set; }

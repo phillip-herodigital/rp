@@ -1,6 +1,7 @@
 ﻿@model StreamEnergy.DomainModels.Enrollments.UserContext
 @{
     Sitecore.Data.Items.Item cartItem = Sitecore.Context.Database.GetItem("{E0880134-0098-4BED-AFB4-37FAE30B5C44}");
+    Sitecore.Data.Items.Item pbitem = Sitecore.Context.Database.GetItem("{881C1CD7-90B7-438C-B267-36B0A4167227}");  //Progress bar
 }
 
 <div id="utilityFlowService" class="enrollment" ng-show="stepsService.isStepVisible('utilityFlowService')" ng-controller="EnrollmentServiceInformationCtrl" ng-init="setTimeRemaining('utilityFlowService', '@Html.Sitecore().Field("Remaining Minutes Number")');">
@@ -66,6 +67,9 @@
                                     </div><!-- /input-group -->
                                 </div>
                             }
+                            <div ng-if="customerType == 'commercial'">
+                                @Html.Raw(Html.Sitecore().Field("Unable to Locate Address"))
+                            </div>
                             <div class="item warning" ng-if="isCartFull && isNewServiceAddress">
                                 @Html.Sitecore().Field("Maximum Addresses Message Text")
                             </div>
@@ -103,4 +107,16 @@
             </aside>
         </div>
     </div>
+    <script type="text/ng-template" id="instructions/needHelp3">
+        <div class="mobile-enrollment-modal">
+            <div class="modal-header">
+                <a href="" ng-click="$dismiss()">Close</a>
+                <h2>@pbitem.Fields["Need Help Text"].Value</h2>
+            </div>
+            <div class="modal-body">
+                @Html.Raw(@pbitem.Fields["Commercial Need Help Modal Text"].Value)
+            </div>
+        </div>
+    </script>
 </div>
+

@@ -72,81 +72,7 @@ namespace StreamEnergy.Services.Clients
                     }
             };
         }
-
-
-        private LocationOfferSet LoadTexasOffers(Location location, StreamConnect.ProductResponse streamConnectProductResponse)
-        {
-            if (location.Capabilities.OfType<TexasElectricity.ServiceCapability>().Count() != 1)
-            {
-                return new LocationOfferSet { OfferSetErrors = { { "TexasElectricityCommercialQuote", "MultipleTdu" } } };
-            }
-            var texasService = location.Capabilities.OfType<TexasElectricity.ServiceCapability>().Single();
-            var serviceStatus = location.Capabilities.OfType<ServiceStatusCapability>().Single();
-
-            var providerName = texasService.Tdu;
-
-            return new LocationOfferSet
-            {
-                Offers = (from product in streamConnectProductResponse.Products
-                          // Only supporting $/kwh for Texas enrollments, at least for now. Making sure that our `* 100` below doesn't cause a bug...
-                          where ((IEnumerable<dynamic>)product.Rates).All(r => r.Unit == "$/kwh")
-                          where texasService is TexasElectricity.RenewalCapability || product.Provider["Name"].ToString() == providerName
-                          group product by product.ProductCode into products
-                          let product = products.First()
-                          let productData = sitecoreProductData.GetTexasElectricityProductData(product.ProductCode.ToString(), product.Provider.Name.ToString())
-                          where productData != null
-                          let hasDisclaimer = !string.IsNullOrEmpty(productData.Fields["Disclaimer"])
-                          select new TexasElectricity.Offer
-                          {
-                              Id = product.Provider["Name"].ToString() + "/" + product.ProductId,
-                              Provider = product.Provider.ToString(),
-                              Tdu =  product.Provider["Name"].ToString() ,
-
-                              EnrollmentType = serviceStatus.EnrollmentType,
-
-                              Name = productData.Fields["Name"],
-                              PartialName = productData.Fields["Partial Name"],
-                              Description = System.Web.HttpUtility.HtmlEncode(productData.Fields["Description"]),
-
-                              Rate = ((IEnumerable<dynamic>)product.Rates).First(r => r.EnergyType == "Average").Value * 100,
-                              StreamEnergyCharge = ((IEnumerable<dynamic>)product.Rates).First(r => r.EnergyType == "Energy").Value * 100,
-                              MinimumUsageFee = productData.Fields["Minimum Usage Fee"],
-                              TduCharges = productData.Fields["TDU Charges"],
-                              TermMonths = product.Term,
-                              RateType = ((IEnumerable<dynamic>)product.Rates).Any(r => r.Type == "Fixed") ? RateType.Fixed : RateType.Variable,
-                              TerminationFee = ((IEnumerable<dynamic>)product.Fees).Where(fee => fee.Name == "Early Termination Fee").Select(fee => fee.Amount).FirstOrDefault(),
-                              IncludesThermostat = !string.IsNullOrEmpty(productData.Fields["Includes Thermostat"]),
-                              ThermostatDescription = productData.Fields["Thermostat Description"],
-                              IncludesSkydrop = !string.IsNullOrEmpty(productData.Fields["Includes Skydrop"]),
-                              SkydropDescription = productData.Fields["Skydrop Description"],
-                              IncludesPromo = !string.IsNullOrEmpty(productData.Fields["Includes Promo"]),
-                              PromoIcon = productData.Fields["Promo Icon"],
-                              PromoDescription = productData.Fields["Promo Description"],
-                              IncludesSkybell = !string.IsNullOrEmpty(productData.Fields["Includes Skybell"]),
-                              SkybellColor = productData.Fields["Skybell Color"],
-                              SkybellDescription = productData.Fields["Skybell Description"],
-                              AssociatedPlanID = productData.Fields["Associated PlanID"],
-                              HidePlan = !string.IsNullOrEmpty(productData.Fields["Hide Plan"]),
-                              IsDisabled = !string.IsNullOrEmpty(productData.Fields["Is Disabled"]),
-
-                              Footnotes = productData.Footnotes,
-
-                              Documents = hasDisclaimer ? new Dictionary<string, Uri>
-                              {
-                                  { "ElectricityFactsLabel", new Uri(productData.Fields["Energy Facts Label"], UriKind.Relative) },
-                                  { "TermsOfService", new Uri(productData.Fields["Terms Of Service"], UriKind.Relative) },
-                                  { "Disclaimer", new Uri(productData.Fields["Disclaimer"], UriKind.Relative) },
-                                  { "YourRightsAsACustomer", new Uri(productData.Fields["Your Rights As A Customer"], UriKind.Relative) },
-                              } : new Dictionary<string, Uri>
-                              {
-                                  { "ElectricityFactsLabel", new Uri(productData.Fields["Energy Facts Label"], UriKind.Relative) },
-                                  { "TermsOfService", new Uri(productData.Fields["Terms Of Service"], UriKind.Relative) },
-                                  { "YourRightsAsACustomer", new Uri(productData.Fields["Your Rights As A Customer"], UriKind.Relative) },
-                              }
-                          }).ToArray()
-            };
-        }
-
+     
         bool ILocationAdapter.SkipPremiseVerification(Location location)
         {
             var capability = location.Capabilities.OfType<TexasElectricity.ServiceCapability>().Single();
@@ -169,7 +95,7 @@ namespace StreamEnergy.Services.Clients
                 Premise = new
                 {
                     EnrollmentType = serviceStatus.EnrollmentType.ToString("g"),
-                    SelectedMoveInDate = (account.Offer.OfferOption is TexasElectricity.MoveInOfferOption) ? ((TexasElectricity.MoveInOfferOption)account.Offer.OfferOption).ConnectDate : DateTime.Now,
+                    SelectedMoveInDate = (account.Offer.OfferOption is TexasElectricity.CommercialQuoteOption) ? ((TexasElectricity.CommercialQuoteOption)account.Offer.OfferOption).ConnectDate : DateTime.Now,
                     UtilityProvider = new
                     {
                         Id = "",

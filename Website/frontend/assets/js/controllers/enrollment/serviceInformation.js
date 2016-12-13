@@ -2,7 +2,7 @@
  *
  * This is used to control aspects of let's get started on enrollment page.
  */
-ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$location', '$filter', 'enrollmentService', 'enrollmentCartService', 'enrollmentStepsService', 'analytics', function ($scope, $location, $filter, enrollmentService, enrollmentCartService, enrollmentStepsService, analytics) {
+ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$location', '$filter', 'enrollmentService', 'enrollmentCartService', '$modal', 'enrollmentStepsService', 'analytics', function ($scope, $location, $filter, enrollmentService, enrollmentCartService, $modal, enrollmentStepsService, analytics) {
     // TODO - chose state by geoIP
     if (!$scope.data || !$scope.data.serviceState) {
         if ($location.absUrl().indexOf('State=GA') > 0 || $location.absUrl().indexOf('St=GA') > 0) {
@@ -23,7 +23,13 @@ ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$location', '$f
         $scope.data.customerType = 'residential';
     }
 
-
+    $scope.showModal = function (templateUrl, size) {
+        $modal.open({
+            'scope': $scope,
+            'templateUrl': templateUrl,
+            'size': size ? size : ''
+        })
+    };
 
     $scope.getLocation = function (state, val) {
         var zipOnly = $scope.data.customerType == 'commercial';
@@ -118,17 +124,33 @@ ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$location', '$f
             var activeService = enrollmentCartService.getActiveService();
             if (activeService) {
                 activeService.location = $scope.data.serviceLocation;
-                enrollmentService.setSelectedOffers(addAdditional).then(function (value) {
-                    if (addAdditional) {
-                        enrollmentCartService.setActiveService();
-                    }
-                });
+                if (_(activeService.location.capabilities).find({ capabilityType: "CustomerType" }).customerType == "commercial") {
+                    enrollmentService.setServiceInformation(addAdditional).then(function (value) {
+                        enrollmentStepsService.setStep('reviewOrder');
+                        enrollmentStepsService.setMaxStep('reviewOrder');
+                    });
+                }
+                else {
+                    enrollmentService.setSelectedOffers(addAdditional).then(function (value) {
+                        if (addAdditional) {
+                            enrollmentCartService.setActiveService();
+                        }
+                    });
+                }
             }
             else {
                 enrollmentCartService.addService({ location: $scope.data.serviceLocation });
                 enrollmentService.setServiceInformation(addAdditional).then(function (value) {
-                    if (addAdditional) {
-                        enrollmentCartService.setActiveService();
+                    if (_(value.cart[0].location.capabilities).find({ capabilityType: "CustomerType" }).customerType == "commercial") {
+                        var activeService = enrollmentCartService.getActiveService();
+                        activeService.offerInformationByType[0].value.offerSelections = [{
+                            offerId: activeService.offerInformationByType[0].value.availableOffers[0].id,
+                        }];
+                        enrollmentService.setSelectedOffers(addAdditional).then(function (value) {
+                            if (addAdditional) {
+                                enrollmentCartService.setActiveService();
+                            }
+                        });
                     }
                 });
             }

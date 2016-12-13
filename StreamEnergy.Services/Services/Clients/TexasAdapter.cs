@@ -64,20 +64,7 @@ namespace StreamEnergy.Services.Clients
 
         DomainModels.Enrollments.LocationOfferSet ILocationAdapter.LoadOffers(DomainModels.Enrollments.Location location, StreamConnect.ProductResponse streamConnectProductResponse)
         {
-            var customerType = location.Capabilities.OfType<CustomerTypeCapability>().Single();
-            if (customerType.CustomerType == EnrollmentCustomerType.Residential)
-            {
-                return LoadTexasOffers(location, streamConnectProductResponse);
-            }
-            else
-            {
-                return new LocationOfferSet
-                {
-                    Offers = new[] {
-                            new TexasElectricity.CommercialQuote { }
-                        }
-                };
-            }
+            return LoadTexasOffers(location, streamConnectProductResponse);
         }
 
 
