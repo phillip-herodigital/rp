@@ -59,6 +59,14 @@ ngApp.controller('EnrollmentPlanSelectionCtrl', ['$scope', 'enrollmentService', 
                 address.location.capabilities[1].enrollmentType = 'moveIn';
                 enrollmentService.setSelectedOffers();
             })
+        } else if (address && address.eligibility == "alreadyInEnetrak") {
+            $modal.open({
+                'scope': $scope,
+                'templateUrl': 'alreadyInEnetrakModal'
+            }).result.then(function () { 
+                enrollmentCartService.removeService(address);
+                enrollmentStepsService.setFlow('utility', false).setFromServerStep('serviceInformation');
+            })
         } else if (address && address.eligibility == "generalError") {
             $window.location.href = '/enrollment/please-contact';
         }

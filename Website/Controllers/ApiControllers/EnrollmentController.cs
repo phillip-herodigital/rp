@@ -645,6 +645,7 @@ FROM [SwitchBack] WHERE ESIID=@esiId";
                 CompanyName = stateMachine.Context.CompanyName,
                 PreferredSalesExecutive = stateMachine.Context.PreferredSalesExecutive,
                 TaxID = stateMachine.Context.TaxId,
+                UnderContract = stateMachine.Context.UnderContract,
                 Last4SSN = string.IsNullOrEmpty(stateMachine.Context.SocialSecurityNumber) ? "" : stateMachine.Context.SocialSecurityNumber.Substring(5),
                 Language = stateMachine.Context.Language,
                 SecondaryContactInfo = stateMachine.Context.SecondaryContactInfo,

@@ -2,7 +2,7 @@
  *
  * This is used to control aspects of let's get started on enrollment page.
  */
-ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$location', '$filter', 'enrollmentService', 'enrollmentCartService', 'enrollmentStepsService', 'analytics', function ($scope, $location, $filter, enrollmentService, enrollmentCartService, enrollmentStepsService, analytics) {
+ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$location', '$filter', 'enrollmentService', 'enrollmentCartService', '$modal', 'enrollmentStepsService', 'analytics', function ($scope, $location, $filter, enrollmentService, enrollmentCartService, $modal, enrollmentStepsService, analytics) {
     // TODO - chose state by geoIP
     if (!$scope.data || !$scope.data.serviceState) {
         if ($location.absUrl().indexOf('State=GA') > 0 || $location.absUrl().indexOf('St=GA') > 0) {
@@ -23,7 +23,13 @@ ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$location', '$f
         $scope.data.customerType = 'residential';
     }
 
-
+    $scope.showModal = function (templateUrl, size) {
+        $modal.open({
+            'scope': $scope,
+            'templateUrl': templateUrl,
+            'size': size ? size : ''
+        })
+    };
 
     $scope.getLocation = function (state, val) {
         var zipOnly = $scope.data.customerType == 'commercial';
