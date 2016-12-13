@@ -75,7 +75,6 @@ namespace StreamEnergy.DomainModels
                     { Enrollments.NewYorkGas.SwitchOfferOption.Qualifier, typeof(Enrollments.NewYorkGas.SwitchOfferOption) },
                     { Enrollments.NewYorkGas.RenewalOfferOption.Qualifier, typeof(Enrollments.NewYorkGas.RenewalOfferOption) },
                     { Enrollments.NewYorkGas.CommercialQuoteOptionRules.Qualifier, typeof(Enrollments.NewYorkGas.CommercialQuoteOption) },
-                    { Enrollments.TexasElectricity.CommercialQuoteOption.Qualifier, typeof(Enrollments.TexasElectricity.CommercialQuoteOption) },
                     { Enrollments.GeorgiaGas.SwitchOfferOption.Qualifier, typeof(Enrollments.GeorgiaGas.SwitchOfferOption) },
                     { Enrollments.GeorgiaGas.MoveInOfferOption.Qualifier, typeof(Enrollments.GeorgiaGas.MoveInOfferOption) },
                     { Enrollments.GeorgiaGas.RenewalOfferOption.Qualifier, typeof(Enrollments.GeorgiaGas.RenewalOfferOption) },
