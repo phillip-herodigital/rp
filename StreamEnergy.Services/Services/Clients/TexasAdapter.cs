@@ -22,7 +22,7 @@ namespace StreamEnergy.Services.Clients
 
         bool ILocationAdapter.IsFor(Location location)
         {
-            return location.Capabilities.OfType<TexasElectricity.ServiceCapability>().Any();
+            return location.Capabilities.OfType<TexasElectricity.ServiceCapability>().Any() && location.Capabilities.OfType<CustomerTypeCapability>().Any(cap => cap.CustomerType == EnrollmentCustomerType.Residential);
         }
 
         bool ILocationAdapter.IsFor(IEnumerable<IServiceCapability> capabilities, IOffer offer)
