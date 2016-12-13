@@ -735,7 +735,7 @@ namespace StreamEnergy.Services.Clients
                 InitialPayments = initialPayments,
                 RequireReview = internalContext.IdentityCheck == null || !internalContext.IdentityCheck.Data.IdentityAccepted,
                 TrustEvCaseId = context.TrustEvCaseId,
-                ShouldFailOnPaymentFailure =  hasAllMobile || hasAllProtective,
+                ShouldFailOnPaymentFailure = hasAllMobile,
                 EnableAutoPay = context.EnrolledInAutoPay,
                 AddLineAccountNumber = context.AddLineAccountNumber ?? null
             });
