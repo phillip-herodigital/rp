@@ -171,6 +171,17 @@ ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', 'enrollmentServi
         });
     };
 
+    $scope.getPreviousProviders = function () {
+        if (_(enrollmentCartService.services)
+            .map(function (l) { 
+                return _(l.location.capabilities).filter({ capabilityType: "TexasElectricity" }).first();
+        }).filter().any()) {
+            return $scope.previousProviders;
+        } else {
+             return $scope.previousProvidersGeorgia;
+        }
+    };
+
     $scope.setPreviousProviders = function (selectedOffer, scope) {
         if (!selectedOffer.offerOption.previousProvider) {
             $http.get('/api/enrollment/getPreviousProviders', { params: { optionRulesType: selectedOffer.optionRules.optionRulesType } }).then(function success(response) {
