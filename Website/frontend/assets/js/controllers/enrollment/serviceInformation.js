@@ -140,17 +140,20 @@ ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$location', '$f
             }
             else {
                 enrollmentCartService.addService({ location: $scope.data.serviceLocation });
-                enrollmentService.setServiceInformation(addAdditional).then(function (value) {
-                    if (_(value.cart[0].location.capabilities).find({ capabilityType: "CustomerType" }).customerType == "commercial") {
-                        var activeService = enrollmentCartService.getActiveService();
-                        activeService.offerInformationByType[0].value.offerSelections = [{
-                            offerId: activeService.offerInformationByType[0].value.availableOffers[0].id,
-                        }];
-                        enrollmentService.setSelectedOffers(addAdditional).then(function (value) {
-                            if (addAdditional) {
-                                enrollmentCartService.setActiveService();
-                            }
-                        });
+                var commercialService = _(enrollmentCartService.getActiveService().location.capabilities).find({ capabilityType: "CustomerType" }).customerType == "commercial";
+                enrollmentService.setServiceInformation(commercialService).then(function (value) {
+                    if (commercialService) {
+                        activeService = enrollmentCartService.getActiveService();
+                        if (activeService.eligibility == "success") {
+                            activeService.offerInformationByType[0].value.offerSelections = [{
+                                offerId: activeService.offerInformationByType[0].value.availableOffers[0].id,
+                            }];
+                            enrollmentService.setSelectedOffers(addAdditional).then(function (value) {
+                                if (addAdditional) {
+                                    enrollmentCartService.setActiveService();
+                                }
+                            });
+                        }
                     }
                 });
             }
