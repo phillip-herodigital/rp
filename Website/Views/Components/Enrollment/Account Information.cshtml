@@ -463,8 +463,8 @@
                             <div class="item group-col">
                                 <label>@Html.Sitecore().Field("Tax ID SSN Label")</label>
                                 <ul class="checkbox-list">
-                                    <li style="display: inline;"><input type="radio" name="idType" ng-model="accountInformation.ssnOrTaxid" value="taxId" checked><label for="taxid">@Html.Sitecore().Field("Checkbox List Tax ID")</label></li>&nbsp;&nbsp;
-                                    <li style="display: inline;"><input type="radio" name="idType" ng-model="accountInformation.ssnOrTaxid" value="ssn"><label for="ssn">@Html.Sitecore().Field("Checkbox List Social Security Number")</label></li>
+                                    <li style="display: inline;"><input type="radio" name="idType" ng-model="accountInformation.ssnOrTaxid" ng-click="accountInformation.socialSecurityNumber = '';" value="taxId" checked><label for="taxid">@Html.Sitecore().Field("Checkbox List Tax ID")</label></li>&nbsp;&nbsp;
+                                    <li style="display: inline;"><input type="radio" name="idType" ng-model="accountInformation.ssnOrTaxid" ng-click="accountInformation.taxID = '';"value="ssn"><label for="ssn">@Html.Sitecore().Field("Checkbox List Social Security Number")</label></li>
                                 </ul>
                             </div>
                             <div class="item group-col" ng-if="accountInformation.ssnOrTaxid == 'ssn'" @Html.Validation().ErrorClass(m => m.SocialSecurityNumber)>
@@ -479,7 +479,7 @@
                             </div>
                             <div class="item" ng-if="accountInformation.ssnOrTaxid == 'taxId'" @Html.Validation().ErrorClass(m => m.TaxId)>
                                 <label for="@Html.IdFor(m => m.TaxId)">@Html.Sitecore().Field("Tax ID Label")</label>
-                                @Html.TextBoxFor(m => m.TaxId, new { ng_model = "accountInformation.taxID", data_val = "true", data_val_required = Html.Sitecore().Field("SSN or Tax ID Required").ToString(), data_val_regex = "", data_val_regex_pattern = "^\\d{2}[-]?\\d{7}(\\d{2})?$", required="required" })
+                                @Html.TextBoxFor(m => m.TaxId, new { ng_model = "accountInformation.taxID", data_val = "true", data_val_required = Html.Sitecore().Field("SSN or Tax ID Required").ToString(), data_val_regex = "", data_val_regex_pattern = "^\\d{2}[-]?\\d{7}(\\d{1})?(\\d{1})?$", required="required" })
                                 @Html.ValidationMessageFor(m => m.TaxId)
                             </div>
                             @* Currently Under Contract*@
