@@ -71,8 +71,9 @@
         service.accountInformation.companyName = result.companyName;
         service.accountInformation.contactTitle = result.contactTitle;
         service.accountInformation.preferredSalesExecutive = result.preferredSalesExecutive;
+        service.accountInformation.underContract = result.underContract;
         service.accountInformation.taxID = result.taxID;
-        service.accountInformation.socialSecurityNumber = result.socialSecurityNumber;
+        //service.accountInformation.socialSecurityNumber = result.socialSecurityNumber;
         service.accountInformation.secondaryContactInfo = result.secondaryContactInfo || {};
         service.accountInformation.language = result.language;
         service.accountInformation.last4ssn = result.last4SSN;
@@ -297,8 +298,11 @@
             contactInfo: service.accountInformation.contactInfo,
             contactTitle: service.accountInformation.contactTitle,
             companyName: service.accountInformation.companyName,
+            underContract: service.accountInformation.underContract,
+            language: service.accountInformation.language,
             doingBusinessAs: service.accountInformation.doingBusinessAs,
             socialSecurityNumber: service.accountInformation.socialSecurityNumber,
+            taxID: service.accountInformation.taxID,
             DOB: service.accountInformation.DOB,
             gender: service.accountInformation.gender,
             KIQFailOption: service.accountInformation.KIQFailOption,

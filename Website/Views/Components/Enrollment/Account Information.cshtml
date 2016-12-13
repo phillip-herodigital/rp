@@ -352,19 +352,19 @@
                             <div class="group">
                                 <div class="item group-col" @Html.Validation().ErrorClass(m => m.ContactInfo.Name.First)>
                                     <label for="@Html.IdFor(m => m.ContactInfo.Name.First)">@Html.Sitecore().Field("First Name Label")</label>
-                                    @Html.TextBoxFor(m => m.ContactInfo.Name.First, new { ng_model = "accountInformation.contactInfo.name.first", data_val = "true", data_val_required = "" })
+                                    @Html.TextBoxFor(m => m.ContactInfo.Name.First, new { ng_model = "accountInformation.contactInfo.name.first", required = "required", data_val="true", data_val_required= Html.Sitecore().Field("First Name Required").ToString() })
                                     @Html.ValidationMessageFor(model => model.ContactInfo.Name.First)
                                 </div>
                                 <div class="item group-col" @Html.Validation().ErrorClass(m => m.ContactInfo.Name.Last)>
                                     <label for="@Html.IdFor(m => m.ContactInfo.Name.Last)">@Html.Sitecore().Field("Last Name Label")</label>
-                                    @Html.TextBoxFor(m => m.ContactInfo.Name.Last, new { ng_model = "accountInformation.contactInfo.name.last", data_val = "true", data_val_required = "" })
+                                    @Html.TextBoxFor(m => m.ContactInfo.Name.Last, new { ng_model = "accountInformation.contactInfo.name.last", required = "required", data_val = "true", data_val_required = Html.Sitecore().Field("Last Name Required").ToString() })
                                     @Html.ValidationMessageFor(model => model.ContactInfo.Name.Last)
                                 </div>
                             </div>
                             <div class="group">
                                 <div class="item group-col" @Html.Validation().ErrorClass(m => m.ContactTitle)>
                                     <label for="@Html.IdFor(m => m.ContactTitle)">@Html.Sitecore().Field("Title Label")</label>
-                                    @Html.TextBoxFor(m => m.ContactTitle, new { ng_model = "accountInformation.contactTitle", data_val = "true", data_val_required = "" })
+                                    @Html.TextBoxFor(m => m.ContactTitle, new { ng_model = "accountInformation.contactTitle", required = "required", data_val = "true", data_val_required = Html.Sitecore().Field("Title Required").ToString() })
                                     @Html.ValidationMessageFor(model => model.ContactTitle)
                                 </div>
                             </div>
@@ -420,7 +420,7 @@
                             </div>
                             <div class="item group-col" @Html.Validation().ErrorClass(m => m.ContactInfo.Email.Address)>
                                 <label for="@Html.IdFor(m => m.ContactInfo.Email.Address)">@Html.Sitecore().Field("Email Address Label")</label>
-                                @Html.TextBoxFor(m => m.ContactInfo.Email.Address, new { type = "email", ng_model = "accountInformation.contactInfo.email.address", data_val = "true", data_val_required = "" })
+                                @Html.TextBoxFor(m => m.ContactInfo.Email.Address, new { type = "email", ng_model = "accountInformation.contactInfo.email.address", required = "required", data_val = "true", data_val_required = Html.Sitecore().Field("Address Required").ToString() })
                                 @Html.ValidationMessageFor(model => model.ContactInfo.Email.Address)
                             </div>
 
@@ -457,7 +457,7 @@
                             </div>
                             <div class="item group-col" @Html.Validation().ErrorClass(m => m.CompanyName)>
                                 <label for="@Html.IdFor(m => m.CompanyName)">@Html.Sitecore().Field("Company Name Label")</label>
-                                @Html.TextBoxFor(m => m.CompanyName, new { ng_model = "accountInformation.companyName", data_val = "true", data_val_required = "" })
+                                @Html.TextBoxFor(m => m.CompanyName, new { ng_model = "accountInformation.companyName", required = "required", data_val = "true", data_val_required = Html.Sitecore().Field("Company Name Required").ToString() })
                                 @Html.ValidationMessageFor(m => m.CompanyName)
                             </div>
                             <div class="item group-col">
@@ -474,12 +474,12 @@
                                     <a ng-if="!cartHasUtility() && cartHasMobile()" href="" tooltip="@Html.Sitecore().Field("Social Security Number Tooltip Mobile")"><i class="icon-tooltip"></i></a>
                                     <a ng-if="cartHasUtility() && cartHasMobile()" href="" tooltip="@Html.Sitecore().Field("Social Security Number Tooltip Integrated")"><i class="icon-tooltip"></i></a>
                                 </label>
-                                @Html.TextBoxFor(m => m.SocialSecurityNumber, new { ng_model = "accountInformation.socialSecurityNumber", @class = "maskField", data_val = "true", data_val_required = "", data_val_regex = "", data_val_regex_pattern = "^\\d{3}[-]?\\d{2}[-]?\\d{4}$", })
+                                @Html.TextBoxFor(m => m.SocialSecurityNumber, new { ng_model = "accountInformation.socialSecurityNumber", @class = "maskField", data_val = "true", data_val_required = Html.Sitecore().Field("SSN or Tax ID Required").ToString(), data_val_regex = "", data_val_regex_pattern = "^\\d{3}[-]?\\d{2}[-]?\\d{4}$", })
                                 @Html.ValidationMessageFor(m => m.SocialSecurityNumber)
                             </div>
                             <div class="item" ng-if="accountInformation.ssnOrTaxid == 'taxId'" @Html.Validation().ErrorClass(m => m.TaxId)>
                                 <label for="@Html.IdFor(m => m.TaxId)">@Html.Sitecore().Field("Tax ID Label")</label>
-                                @Html.TextBoxFor(m => m.TaxId, new { ng_model = "accountInformation.socialSecurityNumber", data_val = "true", data_val_required = "", data_val_regex = "", data_val_regex_pattern = "^\\d{2}[-]?\\d{7}$", })
+                                @Html.TextBoxFor(m => m.TaxId, new { ng_model = "accountInformation.taxID", data_val = "true", data_val_required = Html.Sitecore().Field("SSN or Tax ID Required").ToString(), data_val_regex = "", data_val_regex_pattern = "^\\d{2}[-]?\\d{7}(\\d{2})?$", required="required" })
                                 @Html.ValidationMessageFor(m => m.TaxId)
                             </div>
                             @* Currently Under Contract*@

@@ -55,6 +55,11 @@
                     <div class="utility-plan">
                         <h2 ng-if="$first && !cartHasCommercialQuote()">@Html.Sitecore().Field("Energy Plan")</h2>
                         <h2 ng-if="$first && cartHasCommercialQuote()">@Html.Sitecore().Field("Commercial Header")</h2>
+                        <address ng-if="!cartHasCommercialQuote()">
+                            <h3>@Html.Sitecore().Field("Service Address Text")</h3>
+                            {{ location.location.address | address }}<br />
+                            <a href="" ng-click="editUtilityAddress(location)" ng-if="!isRenewal">@Html.Sitecore().Field("Edit Address Text")</a>
+                        </address>
                         <div class="notice error" ng-show="addUtilityPlanError && !isFormValid()">
                             @Html.Sitecore().Field("Select Utility Plan Text")
                             <div class="links" ng-if="!isRenewal">
@@ -82,8 +87,8 @@
                 <div class="buttons" ng-if="!cartHasCommercialQuote()">
                     <button ng-click="cartCheckout()">@Html.Sitecore().Field("Checkout Button Text")</button>
                 </div>
-                <div class="buttons commercial">
-                    <a href="" class="add-address" ng-if="cartHasCommercialQuote() && getCurrentStep().id != 'utilityFlowService'" ng-click="cartCheckout(true)">@Html.Sitecore().Field("Add Address Text")</a>
+                <div class="buttons commercial" ng-if="cartHasCommercialQuote()">
+                    <a href="" class="add-address" ng-if="getCurrentStep().id != 'utilityFlowService'" ng-click="cartCheckout(true)">@Html.Sitecore().Field("Add Address Text")</a>
                     <button ng-click="cartCheckout()">@Html.Sitecore().Field("Continue Button")</button>
                 </div>
                 @*<div class="time">

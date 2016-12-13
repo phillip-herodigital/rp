@@ -809,6 +809,7 @@
     <Compile Include="Conditions\CustomerAccountsCountCondition.cs" />
     <Compile Include="Conditions\HasCommercialRFQEnrollmentCondition.cs" />
     <Compile Include="Conditions\HasProtectiveEnrollmentCondition.cs" />
+    <Compile Include="Conditions\HasNEEnrollmentCondition.cs" />
     <Compile Include="Conditions\HasUtilityEnrollmentCondition.cs" />
     <Compile Include="Conditions\HasMobileEnrollmentCondition.cs" />
     <Compile Include="Conditions\MobileAccountCondition.cs" />

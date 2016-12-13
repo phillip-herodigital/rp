@@ -720,6 +720,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
                 CompanyName = stateMachine.Context.CompanyName,
                 PreferredSalesExecutive = stateMachine.Context.PreferredSalesExecutive,
                 TaxID = stateMachine.Context.TaxId,
+                UnderContract = stateMachine.Context.UnderContract,
                 Last4SSN = string.IsNullOrEmpty(stateMachine.Context.SocialSecurityNumber) ? "" : stateMachine.Context.SocialSecurityNumber.Substring(5),
                 Language = stateMachine.Context.Language,
                 SecondaryContactInfo = stateMachine.Context.SecondaryContactInfo,
@@ -841,7 +842,13 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             }
             else if (stateMachine.State == typeof(AccountInformationState))
             {
-                return Models.Enrollment.ExpectedState.AccountInformation;
+                if (stateMachine.Context.Services.Any(service => service.Location.Capabilities.OfType<CustomerTypeCapability>().Any(cap => cap.CustomerType == EnrollmentCustomerType.Commercial)) && !string.IsNullOrEmpty(stateMachine.Context.CompanyName)) {
+                    return Models.Enrollment.ExpectedState.ReviewOrder;
+                }
+                else
+                {
+                    return Models.Enrollment.ExpectedState.AccountInformation;
+                }
             }
             else if (stateMachine.State == typeof(OrderConfirmationState))
             {

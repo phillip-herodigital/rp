@@ -1727,3 +1727,18 @@
         </div>
     </div>
 </script>
+
+<script type="text/ng-template" id="alreadyInEnetrakModal">
+    <div>
+        <div class="modal-header">
+            <a href="" ng-click="$dismiss()">Close</a>
+            <h2>@Html.Sitecore().Field("Already In Enetrak Header")</h2>
+        </div>
+        <div class="modal-body">
+            @Html.Sitecore().Field("Already In Enetrak Body")
+        </div>
+        <div class="modal-footer">
+            <button ng-click="$close()">@Html.Sitecore().Field("Continue Button")</button>
+        </div>
+    </div>
+</script>

@@ -6,21 +6,19 @@ using System.Text;
 namespace StreamEnergy.DomainModels.Enrollments.TexasElectricity
 {
     [Serializable]
-    public class CommercialQuoteOption : OfferOption
+    public class CommercialQuoteOption : IOfferOption
     {
-        public new const string Qualifier = "TexasElectricityCommercialQuote";
+        public const string Qualifier = "TexasElectricityCommercialQuote";
 
         public DateTime ConnectDate { get; set; }
 
-        // Note - do not use this fee other than for display; it can be affected by the client
-        public decimal ConnectionFee { get; set; }
-
-        public override string OptionType
+        void ISanitizable.Sanitize()
         {
-            get
-            {
-                return CommercialQuoteOption.Qualifier;
-            }
+        }
+
+        public string OptionType
+        {
+            get { return CommercialQuoteOption.Qualifier; }
         }
     }
 }

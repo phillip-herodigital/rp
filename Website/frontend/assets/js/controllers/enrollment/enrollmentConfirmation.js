@@ -125,6 +125,7 @@ ngApp.controller('EnrollmentConfirmationCtrl', ['$scope', '$window', '$modal', '
             $scope.accountInformation.contactTitle = result.contactTitle;
             $scope.accountInformation.userName = userName;
             $scope.accountInformation.last4ssn = result.last4SSN;
+            $scope.accountInformation.taxID = result.taxID;
             $scope.accountInformation.secondaryContactInfo = result.secondaryContactInfo || {};
             $scope.accountInformation.mailingAddress = result.mailingAddress || {};
             $scope.accountInformation.agreeToTerms = result.agreeToTerms;
