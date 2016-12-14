@@ -393,7 +393,7 @@ namespace StreamEnergy.Services.Clients
                                CellPhone = context.ContactInfo.Phone.OfType<TypedPhone>().Where(p => p.Category == PhoneCategory.Mobile).Select(p => p.Number).SingleOrDefault(),
                                WorkPhone = context.ContactInfo.Phone.OfType<TypedPhone>().Where(p => p.Category == PhoneCategory.Work).Select(p => p.Number).SingleOrDefault(),
                                SSN = context.SocialSecurityNumber,
-                               TaxId = context.TaxId,
+                               TIN = context.TaxId,
                                PreferredLanguage = context.Language,
                                PreferredSalesExecutive = context.PreferredSalesExecutive,
                                UnderContract = context.UnderContract,

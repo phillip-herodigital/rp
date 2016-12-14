@@ -124,20 +124,20 @@ ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$location', '$f
             var activeService = enrollmentCartService.getActiveService();
             if (activeService) {
                 activeService.location = $scope.data.serviceLocation;
-                if (_(activeService.location.capabilities).find({ capabilityType: "CustomerType" }).customerType == "commercial") {
-                    enrollmentService.setServiceInformation(addAdditional).then(function (value) {
+                if (enrollmentStepsService.isStepVisible("accountInformation")) {
+                    enrollmentStepsService.deActivateStep("accountInformation");
+                }
+                enrollmentService.setSelectedOffers(addAdditional).then(function (value) {
+                    if (addAdditional) {
+                        enrollmentCartService.setActiveService();
+                    }
+                    else if (_(activeService.location.capabilities).find({ capabilityType: "CustomerType" }).customerType == "commercial") {
                         enrollmentStepsService.setStep('reviewOrder');
                         enrollmentStepsService.setMaxStep('reviewOrder');
-                    });
-                }
-                else {
-                    enrollmentService.setSelectedOffers(addAdditional).then(function (value) {
-                        if (addAdditional) {
-                            enrollmentCartService.setActiveService();
-                        }
-                    });
-                }
+                    }
+                });
             }
+
             else {
                 enrollmentCartService.addService({ location: $scope.data.serviceLocation });
                 var commercialService = _(enrollmentCartService.getActiveService().location.capabilities).find({ capabilityType: "CustomerType" }).customerType == "commercial";
