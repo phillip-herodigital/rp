@@ -73,7 +73,7 @@ ngApp.controller('EnrollmentPlanSelectionCtrl', ['$scope', 'enrollmentService', 
                 'templateUrl': 'alreadyInEnetrakModal'
             }).result.then(function () { 
                 enrollmentCartService.removeService(address);
-                enrollmentStepsService.setFlow('utility', false).setFromServerStep('serviceInformation');
+                enrollmentStepsService.setFromServerStep('serviceInformation');
             })
         } else if (address && address.eligibility == "generalError") {
             $window.location.href = '/enrollment/please-contact';
