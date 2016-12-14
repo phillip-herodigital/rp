@@ -177,7 +177,6 @@
                                     </div>
                                 </div>
                                 <div class="billed-today" ng-if="!isRenewal && getCartTotal() > 0 && customerType!= 'commercial'">
-                                    <div class="billed-title">@Html.Sitecore().Field("Billed Today Text")<i class="icon-billed-today"></i></div>
                                     <div ng-repeat="(id, location) in getCartItems()">
                                         <div ng-repeat="offerInformation in location.offerInformationByType" ng-show="offerInformation.value.offerSelections.length" class="offer">
                                             <h3 ng-if="offerInformation.key == 'TexasElectricity' || offerInformation.key == 'GeorgiaGas'">@Html.Sitecore().Field("Energy Services Text")</h3>
