@@ -394,7 +394,7 @@ namespace StreamEnergy.Services.Clients
                                WorkPhone = context.ContactInfo.Phone.OfType<TypedPhone>().Where(p => p.Category == PhoneCategory.Work).Select(p => p.Number).SingleOrDefault(),
                                SSN = context.SocialSecurityNumber,
                                TIN = context.TaxId,
-                               PreferredLanguage = context.Language,
+                               LanguagePreference = context.Language,
                                PreferredSalesExecutive = context.PreferredSalesExecutive,
                                UnderContract = context.UnderContract,
                                CurrentProvider = context.PreviousProvider,
