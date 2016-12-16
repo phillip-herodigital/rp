@@ -96,6 +96,16 @@ ngApp.controller('EnrollmentConfirmationCtrl', ['$scope', '$window', '$modal', '
         return enrollmentCartService.calculateConfirmationTotal();
     }
 
+    $scope.getCommercialConfirmationNumbers = function() {
+        var cartItems = $scope.getCartItems();
+        return _(cartItems).filter().pluck('offerInformationByType').flatten().pluck('value').flatten().filter().pluck('offerSelections').flatten().filter().pluck('confirmationNumber').uniq().value().join(', ');
+    }
+
+    $scope.getCommercialConfirmationNumbersCount = function() {
+        var cartItems = $scope.getCartItems();
+        return _(cartItems).filter().pluck('offerInformationByType').flatten().pluck('value').flatten().filter().pluck('offerSelections').flatten().filter().pluck('confirmationNumber').uniq().value().length;
+    }
+
     /**
      * Get the server data and populate the form
      */
