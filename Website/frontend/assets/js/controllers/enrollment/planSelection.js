@@ -71,8 +71,12 @@ ngApp.controller('EnrollmentPlanSelectionCtrl', ['$scope', 'enrollmentService', 
             $modal.open({
                 'scope': $scope,
                 'templateUrl': 'alreadyInEnetrakModal'
-            }).result.then(function () { 
+            }).result.then(function () {
+                var activeServiceIndex = enrollmentCartService.getActiveServiceIndex()
                 enrollmentCartService.removeService(address);
+                if (enrollmentCartService.cartHasUtility()) {
+                    enrollmentCartService.setActiveService();
+                }
                 enrollmentStepsService.setFromServerStep('serviceInformation');
             })
         } else if (address && address.eligibility == "generalError") {
