@@ -83,7 +83,7 @@
                     </div>
                 </div>
             </div>
-            <footer ng-show="cartHasUtility() || (mobileEnrollmentService.selectedNetwork.value && mobileEnrollment.phoneTypeTab != 'wsa')">
+            <footer ng-if="getCurrentStep().id != 'utilityFlowService' && getActiveServiceType() != undefined" ng-show="cartHasUtility() || (mobileEnrollmentService.selectedNetwork.value && mobileEnrollment.phoneTypeTab != 'wsa')">
                 <div class="buttons" ng-if="!cartHasCommercialQuote()">
                     <button ng-click="cartCheckout()">@Html.Sitecore().Field("Checkout Button Text")</button>
                 </div>
