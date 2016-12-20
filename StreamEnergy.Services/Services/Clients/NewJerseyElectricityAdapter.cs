@@ -104,7 +104,7 @@ namespace StreamEnergy.Services.Clients
                               EnrollmentType = serviceStatus.EnrollmentType,
                               Name = productData.Fields["Name"],
                               Description = System.Web.HttpUtility.HtmlEncode(productData.Fields["Description"]),
-                              Rate = ((IEnumerable<dynamic>)product.Rates).First(r => r.EnergyType == "Average").Value,
+                              Rate = System.Convert.ToDecimal(productData.Fields["Rate"]),
                               TermMonths = product.Term,
                               RateType = ((IEnumerable<dynamic>)product.Rates).Any(r => r.Type == "Fixed") ? RateType.Fixed : RateType.Variable,
                               CancellationFee = productData.Fields["Early Termination Fee"],
