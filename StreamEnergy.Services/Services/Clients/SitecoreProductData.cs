@@ -112,9 +112,7 @@ namespace StreamEnergy.Services.Clients
             if (items.Count() > 0)
             {
                 Sitecore.Data.Items.Item item = items.First();
-                return new SitecoreProductInfo
-                {
-                    Fields = new NameValueCollection
+                NameValueCollection Fields = new NameValueCollection
                         {
                             { "Name", item["Product Name"] },
                             { "Partial Name", item["Partial Name"] },
@@ -132,7 +130,14 @@ namespace StreamEnergy.Services.Clients
                             { "Letter of Agency", ((Sitecore.Data.Fields.FileField)item.Fields["Letter of Agency"]).Src },
                             { "Terms and Disclosures", ((Sitecore.Data.Fields.FileField)item.Fields["Terms and Disclosures"]).Src },
                             { "Disclaimer", ((Sitecore.Data.Fields.FileField)item.Fields["Disclaimer"]).Src },
-                        },
+                        };
+                if (state == "New Jersey" || state == "Pennsylvania")
+                {
+                    Fields.Add("Rate", item["Rate"] ?? "0");
+                }
+                return new SitecoreProductInfo
+                {
+                    Fields = Fields,
                     Footnotes = LoadFootnotes(new[] { item }, new[] { "Rate Footnote", "Term Footnote", "Early Termination Fee Footnote" }).ToArray()
                 };
             }
