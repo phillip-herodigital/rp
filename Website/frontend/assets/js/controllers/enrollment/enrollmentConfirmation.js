@@ -96,6 +96,16 @@ ngApp.controller('EnrollmentConfirmationCtrl', ['$scope', '$window', '$modal', '
         return enrollmentCartService.calculateConfirmationTotal();
     }
 
+    $scope.getCommercialConfirmationNumbers = function() {
+        var cartItems = $scope.getCartItems();
+        return _(cartItems).filter().pluck('offerInformationByType').flatten().pluck('value').flatten().filter().pluck('offerSelections').flatten().filter().pluck('confirmationNumber').uniq().sort().value().join(', ');
+    }
+
+    $scope.getCommercialConfirmationNumbersCount = function() {
+        var cartItems = $scope.getCartItems();
+        return _(cartItems).filter().pluck('offerInformationByType').flatten().pluck('value').flatten().filter().pluck('offerSelections').flatten().filter().pluck('confirmationNumber').uniq().value().length;
+    }
+
     /**
      * Get the server data and populate the form
      */
@@ -121,8 +131,11 @@ ngApp.controller('EnrollmentConfirmationCtrl', ['$scope', '$window', '$modal', '
                 var slashPosition = userName.indexOf("\\");
                 userName = userName.substring(slashPosition + 1);
             }
+            $scope.accountInformation.companyName = result.companyName;
+            $scope.accountInformation.contactTitle = result.contactTitle;
             $scope.accountInformation.userName = userName;
             $scope.accountInformation.last4ssn = result.last4SSN;
+            $scope.accountInformation.taxID = result.taxID;
             $scope.accountInformation.secondaryContactInfo = result.secondaryContactInfo || {};
             $scope.accountInformation.mailingAddress = result.mailingAddress || {};
             $scope.accountInformation.agreeToTerms = result.agreeToTerms;
@@ -142,9 +155,6 @@ ngApp.controller('EnrollmentConfirmationCtrl', ['$scope', '$window', '$modal', '
             $scope.confirmationNumber = $scope.getCartItems()[0].offerInformationByType[0].value.offerSelections[0].confirmationNumber;
 
             // if it's a commercial enrollment, and we don't get a success message, redirect to the error page
-            if ($scope.customerType == 'commercial' && !$scope.confirmationSuccess) {
-                $window.location.href = '/enrollment/please-contact';
-            }
 
             $timeout(function () {
                 analytics.sendVariables(11, $scope.confirmationSuccess ? "Confirmed" : "Submitted");

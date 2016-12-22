@@ -2,7 +2,7 @@
  *
  * This is used to control aspects of account information on enrollment page.
  */
-ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', 'enrollmentService', 'enrollmentCartService', '$modal', 'validation', 'analytics', function ($scope, enrollmentService, enrollmentCartService, $modal, validation, analytics) {
+ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', 'enrollmentService', 'enrollmentCartService', 'enrollmentStepsService', '$modal', 'validation', 'analytics', function ($scope, enrollmentService, enrollmentCartService, enrollmentStepsService, $modal, validation, analytics) {
     $scope.accountInformation = enrollmentService.accountInformation;
     $scope.contacts = {};
     $scope.contacts.options = enrollmentService.loggedInAccountDetails;
@@ -50,7 +50,8 @@ ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', 'enrollmentServi
             .any();
 
         _(enrollmentCartService.services).map(function (l) {
-            return l.offerInformationByType[0].key
+            if (typeof l.offerInformationByType[0] != 'undefined')
+                return l.offerInformationByType[0].key
         }).uniq().each(function (t) {
             analytics.sendVariables(10, t);
         });
@@ -164,7 +165,6 @@ ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', 'enrollmentServi
     };
 
     $scope.showAglcExample = function () {
-
         $modal.open({
             templateUrl: 'AglcExample',
             scope: $scope
@@ -173,14 +173,46 @@ ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', 'enrollmentServi
 
     $scope.getPreviousProviders = function () {
         if (_(enrollmentCartService.services)
-            .map(function (l) {
+            .map(function (l) { 
                 return _(l.location.capabilities).filter({ capabilityType: "TexasElectricity" }).first();
         }).filter().any()) {
             return $scope.previousProviders;
         } else {
-            return $scope.previousProvidersGeorgia;
+             return $scope.previousProvidersGeorgia;
         }
     };
+
+    $scope.setPreviousProviders = function (selectedOffer, scope) {
+        if (!selectedOffer.offerOption.previousProvider) {
+            $http.get('/api/enrollment/getPreviousProviders', { params: { optionRulesType: selectedOffer.optionRules.optionRulesType } }).then(function success(response) {
+                scope.previousProviders = response.data;
+            });
+        } 
+    };
+
+    $scope.setProvider = function (scope, providerName, accountNumber) {
+        scope.provider = _.find(scope.previousProviders, function (provider) {
+            return provider.name === providerName;
+        });
+        scope.provider.regEx = new RegExp(scope.provider.regEx);
+        $scope.validatePreviousAccountNumber(scope, providerName, accountNumber);
+    };
+
+    $scope.validatePreviousAccountNumber = function (scope, providerName, accountNumber) {
+        if (providerName && accountNumber) {
+            scope.invalidPreviousAccountNumber = !scope.provider.regEx.test(accountNumber);
+        }
+        else {
+            scope.invalidPreviousAccountNumber = false;
+        }
+    };
+
+    $scope.showExample = function (scope) {
+        $modal.open({
+            templateUrl: 'PreviousProviderAccountNumber',
+            scope: scope
+        });
+    }
 
     /**
      * In addition to normal validation, ensure that at least one item is in the shopping cart
@@ -197,78 +229,80 @@ ngApp.controller('EnrollmentAccountInformationCtrl', ['$scope', 'enrollmentServi
     /**
     * Complete Enrollment Section
     */
-    $scope.completeStep = function () {
-        if (!$scope.additionalInformation.hasAssociateReferral) {
-
-            //Google analytics - track for no associate name.
-            analytics.sendVariables(13, 'NO_ASSOCIATE_NAME');
-            analytics.sendTags({
-                AssociateBoxFilled: false,
-            });
-            $scope.accountInformation.associateName = null;
-        } else {
-            if (typeof $scope.accountInformation.associateName != 'undefined') {
-                analytics.sendVariables(14, $scope.accountInformation.associateName);
+    $scope.completeStep = function (addAdditional) {
+        if (addAdditional) {
+            enrollmentCartService.setActiveService();
+            enrollmentStepsService.setFlow('utility', true).setFromServerStep('serviceInformation');
+        }
+        else {
+            if (!$scope.additionalInformation.hasAssociateReferral) {
+                //Google analytics - track for no associate name.
+                analytics.sendVariables(13, 'NO_ASSOCIATE_NAME');
                 analytics.sendTags({
-                    AssociateBoxFilled: true,
+                    AssociateBoxFilled: false,
+                });
+                $scope.accountInformation.associateName = null;
+            } else {
+                if (typeof $scope.accountInformation.associateName != 'undefined') {
+                    analytics.sendVariables(14, $scope.accountInformation.associateName);
+                    analytics.sendTags({
+                        AssociateBoxFilled: true,
+                    });
+                }
+            }
+            var addresses = [$scope.accountInformation.mailingAddress];
+            if ($scope.hasMoveIn && $scope.customerType != 'commercial') {
+                addresses.push($scope.accountInformation.previousAddress);
+            }
+
+            var continueWith = function () {
+                // update the cleansed address for mobile
+                if (($scope.cartHasMobile() || $scope.cartHasProtective()) && typeof $scope.accountInformation.previousAddress == 'undefined') {
+                    $scope.accountInformation.previousAddress = $scope.accountInformation.mailingAddress;
+                }
+                enrollmentService.setAccountInformation().then(function (data) {
+                    $scope.validations = data.validations;
                 });
             }
-        }
-        var addresses = [$scope.accountInformation.mailingAddress];
-        if ($scope.hasMoveIn && $scope.customerType != 'commercial') {
-            addresses.push($scope.accountInformation.previousAddress);
-        }
 
+            if ($scope.accountInfo.$valid && $scope.isFormValid()) {
+                enrollmentService.cleanseAddresses(addresses).then(function (data) {
+                    if ((data.length > 0 && data[0].length) || (data.length > 0 && typeof data[1] != 'undefined' && data[1].length)) {
+                        var addressOptions = {};
+                        if (data[0] && data[0].length) {
+                            data[0].unshift($scope.accountInformation.mailingAddress);
+                            addressOptions.mailingAddress = data[0];
+                        }
+                        if (data[1] && data[1].length) {
+                            data[1].unshift($scope.accountInformation.previousAddress);
+                            addressOptions.previousAddress = data[1];
+                        }
+                        if (addressOptions.mailingAddress || addressOptions.previousAddress) {
+                            $scope.addressOptions = addressOptions;
+                            var modalInstance = $modal.open({
+                                scope: $scope,
+                                templateUrl: 'cleanseAddressesModal'
+                            });
+                            modalInstance.result.then(function (selectedOptions) {
+                                if (addressOptions.mailingAddress && $scope.modal.mailingAddress != 'original') {
+                                    $scope.accountInformation.mailingAddress = $scope.addressOptions.mailingAddress[1];
+                                }
+                                if (addressOptions.previousAddress && $scope.modal.previousAddress != 'original') {
+                                    $scope.accountInformation.previousAddress = $scope.addressOptions.previousAddress[1];
+                                }
 
-        var continueWith = function () {
-            // update the cleansed address for mobile
-            if (($scope.cartHasMobile() || $scope.cartHasProtective()) && typeof $scope.accountInformation.previousAddress == 'undefined') {
-                $scope.accountInformation.previousAddress = $scope.accountInformation.mailingAddress;
+                                continueWith();
+                            });
+                        }
+                    }
+                    else {
+                        continueWith();
+                    }
+                });
+            } else {
+                validation.showValidationSummary = true;
+                validation.cancelSuppress($scope);
             }
-            enrollmentService.setAccountInformation().then(function (data) {
-                $scope.validations = data.validations;
-            });
-            
-        }
-
-        if ($scope.accountInfo.$valid && $scope.isFormValid()) {
-            enrollmentService.cleanseAddresses(addresses).then(function (data) {
-                if ((data.length > 0 && data[0].length) || (data.length > 0 && typeof data[1] != 'undefined' && data[1].length)) {
-                    var addressOptions = { };
-                    if (data[0] && data[0].length) {
-                        data[0].unshift($scope.accountInformation.mailingAddress);
-                        addressOptions.mailingAddress = data[0];
-                    }
-                    if (data[1] && data[1].length) {
-                        data[1].unshift($scope.accountInformation.previousAddress);
-                        addressOptions.previousAddress = data[1];
-                    }
-                    if (addressOptions.mailingAddress || addressOptions.previousAddress) {
-                        $scope.addressOptions = addressOptions;
-                        var modalInstance = $modal.open({
-                            scope: $scope,
-                            templateUrl: 'cleanseAddressesModal'
-                        });
-                        modalInstance.result.then(function (selectedOptions) {
-                            if (addressOptions.mailingAddress && $scope.modal.mailingAddress != 'original') {
-                                $scope.accountInformation.mailingAddress = $scope.addressOptions.mailingAddress[1];
-                            }
-                            if (addressOptions.previousAddress && $scope.modal.previousAddress != 'original') {
-                                $scope.accountInformation.previousAddress = $scope.addressOptions.previousAddress[1];
-                            }
-
-                            continueWith();
-                        });
-                    }
-                }
-                else {
-                    continueWith();
-                }
-            });
-        } else {
-            validation.showValidationSummary = true; 
-            validation.cancelSuppress($scope);
-        }
-        
-    };
+        };
+    }
 }]);

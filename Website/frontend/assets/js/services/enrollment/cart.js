@@ -594,6 +594,12 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', 'sc
                 .intersection(['Mobile'])
                 .some();
         },
+        cartHasCommercialQuote: function () {
+            return _(services).pluck('location').pluck('capabilities').flatten()
+                .filter({ capabilityType: "CustomerType" }).pluck('customerType')
+                .intersection(['commercial'])
+                .some();
+        },
         getMobileAddresses: function() {
             return _(services)
                 .filter(function(service) { 
@@ -606,7 +612,17 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', 'sc
         },
         cartHasUtility: function () {
             return _(services).pluck('location').pluck('capabilities').flatten().pluck('capabilityType')
-                .intersection(['TexasElectricity', 'TexasElectricityRenewal', 'GeorgiaGas', 'GeorgiaGasRenewal'])
+                .intersection(['TexasElectricity', 'TexasElectricityCommercialQuote', 'TexasElectricityRenewal',
+                    'NewJerseyElectricity', 'NewJerseyElectricityRenewal',
+                    'NewYorkElectricity', 'NewYorkElectricityRenewal',
+                    'MarylandElectricity', 'MarylandElectricityRenewal',
+                    'PennsylvaniaElectricity', 'PennsylvaniaElectricityRenewal',
+                    'DCElectricity', 'DCElectricityRenewal',
+                    'GeorgiaGas', 'GeorgiaGasRenewal',
+                    'NewJerseyGas', 'NewJerseyGasRenewal',
+                    'NewYorkGas', 'NewYorkGasRenewal',
+                    'MarylandGas', 'MarylandGasRenewal',
+                    'PennsylvaniaGas', 'PennsylvaniaGasRenewal'])
                 .some();
         },
         cartHasProtective: function () {
@@ -618,7 +634,17 @@ ngApp.factory('enrollmentCartService', ['enrollmentStepsService', '$filter', 'sc
             return _(services)
                 .filter(function(service) { 
                     if (_(service.offerInformationByType).pluck('key')
-                        .intersection(['TexasElectricity', 'TexasElectricityRenewal', 'GeorgiaGas', 'GeorgiaGasRenewal'])
+                        .intersection(['TexasElectricity', 'TexasElectricityCommercialQuote', 'TexasElectricityRenewal',
+                        'NewJerseyElectricity', 'NewJerseyElectricityRenewal',
+                        'NewYorkElectricity', 'NewYorkElectricityRenewal',
+                        'DCElectricity', 'DCElectricityRenewal',
+                        'MarylandElectricity', 'MarylandElectricityRenewal',
+                        'PennsylvaniaElectricity', 'PennsylvaniaElectricityRenewal',
+                        'GeorgiaGas', 'GeorgiaGasRenewal',
+                        'NewJerseyGas', 'NewJerseyGasRenewal',
+                        'NewYorkGas', 'NewYorkGasRenewal',
+                        'MarylandGas', 'MarylandGasRenewal',
+                        'PennsylvaniaGas', 'PennsylvaniaGasRenewal'])
                         .some()) {
                         return service;
                     } 

@@ -3468,7 +3468,8 @@ article.marketing.mobile.cdma-pricing-plans {
         }
         
         .plan-details {
-            background: url('../i/marketing/redesign/plan_background.png') top center no-repeat;
+            background-position: top center;
+            background-repeat: no-repeat;
             background-color: #fff;
             background-size: contain;
             box-shadow: 1px 1px 10px #ccc;

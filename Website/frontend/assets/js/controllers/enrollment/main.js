@@ -96,9 +96,6 @@ ngApp.controller('EnrollmentMainCtrl', ['$scope', '$anchorScroll', '$location', 
     };
 
     $scope.assignStepNames = function (navTitles) {
-        if ($scope.customerType == 'commercial') {
-            navTitles.utilityFlowPlans = navTitles.utilityFlowPlansCommercial;
-        }
         angular.forEach(navTitles, function (translation, stepId) {
             var step = enrollmentStepsService.getStep(stepId);
             if (step){
@@ -108,8 +105,11 @@ ngApp.controller('EnrollmentMainCtrl', ['$scope', '$anchorScroll', '$location', 
     };
 
     $scope.assignSupportedUtilityStates = function (supportedStates) {
-        var availableStates = _.filter(supportedStates, function(state){return state.abbreviation == 'TX' || state.abbreviation == 'GA'; });
-        $scope.supportedUtilityStates = _(availableStates).map(function (entry) { return { name: entry.display, value: entry.abbreviation, 'class': 'icon ' + entry.css } }).value();
+        $scope.supportedUtilityStates = _(supportedStates).map(function (entry) { return { name: entry.display, value: entry.abbreviation, 'class': 'icon ' + entry.css } }).value();
+    };
+
+    $scope.assignSupportedEnrollmentTypes = function (supportedEnrollmentTypes) {
+        $scope.supportedEnrollmentTypes = _(supportedEnrollmentTypes).map(function (entry) { return { name: entry.display, value:entry.enrollmenttype } }).value();
     };
 
     $scope.assignEnrollmentDefaultState = function (state) {

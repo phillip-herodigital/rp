@@ -13,35 +13,53 @@
                     </div>
                     <hr class="content-divider" />
                 </div>
-                <div ng-show="ctrl.renewErrorMessage">
-                    <div class="notice error">
-                        @Html.Sitecore().Field("Renewal Error Message Text")
+                <div ng-show="ctrl.availableForRenewal && ctrl.isCommercial">
+                    <div ng-show="ctrl.state === 'TX'">
+                        <div class="notice alert">
+                            @Html.Sitecore().Field("TX Renewable Commercial Message Text")
+                        </div>
+                        <hr class="content-divider" />
                     </div>
-                    <hr class="content-divider" />
+                    <div ng-show="ctrl.state === 'GA'">
+                        <div class="notice alert">
+                            @Html.Sitecore().Field("GA Renewable Commercial Message Text")
+                        </div>
+                        <hr class="content-divider" />
+                    </div>
+                    <div ng-show="ctrl.state != 'TX' && ctrl.state != 'TX'">
+                        <div class="notice alert">
+                            @Html.Sitecore().Field("NE Renewable Commercial Message Text")
+                        </div>
+                        <hr class="content-divider" />
+                    </div>
                 </div>
-                <div ng-show="ctrl.TXorGAErrorMessage">
-                    <div class="notice error">
-                        @Html.Sitecore().Field("TXorGA Error Message Text")
+                <div ng-hide="ctrl.availableForRenewal">
+                    <div ng-show="ctrl.isCommercial">
+                        <div ng-show="ctrl.state === 'TX'">
+                            <div class="notice alert">
+                                @Html.Sitecore().Field("TX NonRenewable Commercial Message Text")
+                            </div>
+                            <hr class="content-divider" />
+                        </div>
+                        <div ng-show="ctrl.state === 'GA'">
+                            <div class="notice alert">
+                                @Html.Sitecore().Field("GA NonRenewable Commercial Message Text")
+                            </div>
+                            <hr class="content-divider" />
+                        </div>
+                        <div ng-show="ctrl.state != 'TX' && ctrl.state != 'TX'">
+                            <div class="notice alert">
+                                @Html.Sitecore().Field("NE NonRenewable Commercial Message Text")
+                            </div>
+                            <hr class="content-divider" />
+                        </div>
                     </div>
-                    <hr class="content-divider" />
-                </div>
-                <div ng-show="ctrl.isCommercialTXMessage">
-                    <div class="notice alert">
-                        @Html.Sitecore().Field("Is TX Commercial Message Text")
+                    <div ng-hide="ctrl.isCommercial">
+                        <div class="notice alert">
+                            @Html.Sitecore().Field("Renewal Error Message Text")
+                        </div>
+                        <hr class="content-divider" />
                     </div>
-                    <hr class="content-divider" />
-                </div>
-                <div ng-show="ctrl.isCommercialGAMessage">
-                    <div class="notice alert">
-                        @Html.Sitecore().Field("Is GA Commercial Message Text")
-                    </div>
-                    <hr class="content-divider" />
-                </div>
-                <div ng-show="ctrl.isOtherCommericalMessage">
-                    <div class="notice alert">
-                        @Html.Sitecore().Field("Other Commerical Message Text")
-                    </div>
-                    <hr class="content-divider" />
                 </div>
                 @Html.Sitecore().Field("Intro Text")
                 <div class="item" @Html.Validation().ErrorClass(m => m.AccountNumber)>

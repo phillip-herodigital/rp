@@ -49,7 +49,7 @@ namespace StreamEnergy.MyStream.Conditions
 
             var confirmations = dependencies.stateHelper.StateMachine.InternalContext.PlaceOrderResult;
 
-            return confirmations.Where(entry => entry.Offer.OfferType == "TexasElectricity" || entry.Offer.OfferType == "GeorgiaGas").Any();
+            return confirmations.Where(entry => entry.Offer.OfferType.Contains("Electricity") || entry.Offer.OfferType.Contains("Gas")).Any();
         }
     }
 }

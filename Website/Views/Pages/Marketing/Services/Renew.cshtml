@@ -43,7 +43,7 @@
         <div class="col">
             @Html.Sitecore().Field("Location")
             <div class="input-group-btn" id="state-select" dropdown-select dropdown-items="stateEnrollData" value="selectedStateKey" data-alignment="right"></div>
-            <a class="button" target="_blank" ng-href="{{ selectedState.enrollmentURL }}">@Html.Sitecore().Field("Get Started")</a>
+            <a class="button" ng-href="{{ selectedState.enrollmentURL }}">@Html.Sitecore().Field("Get Started")</a>
         </div>
     </div>
 </article>

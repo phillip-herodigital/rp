@@ -451,6 +451,11 @@
             text-align: right;
         }
 
+        .label {
+            font-weight: 600;
+            width: 40%;
+        }
+
         h4 {
             margin: 0 0 10px;
         }
@@ -1872,6 +1877,12 @@
         hr {
             margin: 15px -18px;
         }
+        .address {
+            a {
+                font-size: 13px;
+                font-weight: 400;
+            }
+        }
     }
 
     .seperator {
@@ -1949,6 +1960,21 @@
 
     .content {
         background-color: #fcfcfc;
+    }
+
+    .commercial-quote {
+        background-color: #fff;
+        .services-header {
+            margin-top: -20px;
+            padding: 10px 20px;
+            background-color: #fafafa;
+            margin-bottom: 20px;
+        }
+        h3 {
+            font-size: 18px;
+            color: #333;
+            padding-bottom: 15px;
+        }
     }
 
     .mobile-services, .energy-services, .electricity-services, .gas-services {
@@ -2985,6 +3011,12 @@
                 }
             }
 
+            &.commercial {
+                .label {
+                    width: 40%;
+                }
+            }
+
             @include breakpoint(small) {
                 .label {
                     width: 100%;
@@ -3461,6 +3493,19 @@
 
     footer {
         padding: 10px 17px;
+
+        .commercial {
+            .add-address {
+                float: left;
+                padding: 15px 0;
+                font-size: 13px;
+            }
+
+            button {
+                padding: 10px;
+                width: 45%;
+            }
+        }
 
         button {
             float: right;
@@ -4007,6 +4052,20 @@
 
         i {
             float: right;
+        }
+    }
+
+    .commercial-cart {
+        font-size: 12px;
+        font-weight: 400;
+
+        .address {
+            margin-bottom: 20px;
+
+            .address-label {
+                text-transform: uppercase;
+                margin: 0;
+            }
         }
     }
 
@@ -7656,4 +7715,25 @@ article.services-box {
     #draw-signature {
         padding: 0;
     }
+}
+
+.service-type {
+	position: relative;
+	button {
+		background: none;
+		border: none;
+		box-shadow: none;
+		padding-bottom: 0px;
+		margin-bottom: 15px;
+		color: #333;
+		padding-left: 5px;
+		border-bottom: 1px solid #ccc;
+		border-radius: 0px;
+		outline: none;
+	}
+	ul.dropdown-menu {
+		position: absolute;
+		right: inherit;
+		top: 35px;
+	}
 }

@@ -38,6 +38,7 @@ ngApp.controller('EnrollmentCompleteOrderCtrl', ['$scope', 'enrollmentService', 
     $scope.getProtectiveDiscount = enrollmentCartService.getProtectiveDiscount;
     $scope.getProtectiveTotal = enrollmentCartService.getProtectiveTotal;
     $scope.cartHasProtective = enrollmentCartService.cartHasProtective;
+    $scope.accountInformation = enrollmentService.accountInformation;
 
     _.intersectionObjects = _.intersect = function(array) {
     var slice = Array.prototype.slice;
@@ -284,6 +285,48 @@ ngApp.controller('EnrollmentCompleteOrderCtrl', ['$scope', 'enrollmentService', 
         }
         enrollmentCartService.setActiveService(service);
         enrollmentStepsService.setFlow('utility', false).setStep('utilityFlowPlans');
+    };
+
+    $scope.editAccountInfo = function () {
+        //update active service address, send to the correct page
+        if(enrollmentCartService.getCartVisibility()) {
+            enrollmentCartService.toggleCart();
+        }
+        enrollmentStepsService.setFlow('utility', false).setStep('accountInformation');
+    };
+
+    /**
+    * Edit Address
+    */
+    $scope.editUtilityAddress = function (service, isCartOpen) {
+        if(enrollmentCartService.getCartVisibility()) {
+            enrollmentCartService.toggleCart();
+        }
+        enrollmentCartService.setActiveService(service);
+        enrollmentStepsService.setFlow('utility', false).setStep('utilityFlowService');
+        //we should probably focus on the input field as well
+    };
+
+    /**
+    * Delete plan from cart
+    */
+    $scope.deleteUtilityPlan = function (service, selectedOffer) {
+        $modal.open({
+            'scope': $scope,
+            'templateUrl': 'confirmAddressDeleteModal'
+        }).result.then( function() { 
+            enrollmentCartService.removeOffer(service, selectedOffer);
+            enrollmentService.setSelectedOffers(true); 
+        })
+    };
+
+    $scope.addAddress = function () {
+        //update active service address, send to the correct page
+        if(enrollmentCartService.getCartVisibility()) {
+            enrollmentCartService.toggleCart();
+        }
+        enrollmentCartService.setActiveService();
+        enrollmentStepsService.setFlow('utility', true).setFromServerStep('serviceInformation');
     };
 
     $scope.showSignatureModal = function (templateUrl) {

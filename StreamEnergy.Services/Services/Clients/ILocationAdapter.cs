@@ -10,7 +10,7 @@ namespace StreamEnergy.Services.Clients
 {
     public interface ILocationAdapter
     {
-        bool IsFor(IEnumerable<IServiceCapability> capabilities);
+        bool IsFor(Location location);
         bool IsFor(IEnumerable<IServiceCapability> capabilities, IOffer offer);
         bool IsFor(Address serviceAddress, string productType);
         bool IsFor(DomainModels.Accounts.ISubAccount subAccount);

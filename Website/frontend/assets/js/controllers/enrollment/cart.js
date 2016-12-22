@@ -16,6 +16,7 @@ ngApp.controller('EnrollmentCartCtrl', ['$scope', 'enrollmentStepsService', 'enr
     $scope.cartHasMobile = enrollmentCartService.cartHasMobile;
     $scope.cartHasUtility = enrollmentCartService.cartHasUtility;
     $scope.cartHasProtective = enrollmentCartService.cartHasProtective;
+    $scope.cartHasCommercialQuote = enrollmentCartService.cartHasCommercialQuote;
     $scope.mobileEnrollmentService = mobileEnrollmentService;
     $scope.getCartDevices = enrollmentCartService.getCartDevices;
     $scope.getDevicesCount = enrollmentCartService.getDevicesCount;
@@ -234,7 +235,7 @@ ngApp.controller('EnrollmentCartCtrl', ['$scope', 'enrollmentStepsService', 'enr
             $scope.addUtilityPlanError = false;
             enrollmentCartService.removeService(service);
             // if this was the last service in the cart, go to the start
-            if (!$scope.cartHasMobile()) {
+            if (!$scope.cartHasMobile() && !$scope.cartHasUtility()) {
                 enrollmentStepsService.setFlow('utility', false).setStep('utilityFlowService');
             } else {
                 enrollmentCartService.setActiveServiceIndex(0);
@@ -244,9 +245,18 @@ ngApp.controller('EnrollmentCartCtrl', ['$scope', 'enrollmentStepsService', 'enr
     };
 
     /**
+    * Add additional address
+    */
+    $scope.addUtilityAddress = function () {
+        enrollmentCartService.setActiveServiceIndex(enrollmentCartService.getActiveServiceIndex()+1);
+        enrollmentStepsService.setFlow('utility', false).setStep('utilityFlowService');
+    };
+
+
+    /**
     * Handle the checkout button
     */
-    $scope.cartCheckout = function () {
+    $scope.cartCheckout = function (addAdditional) {
         var success = true;
         var service = enrollmentCartService.getActiveService();
         var serviceType = $scope.getActiveServiceType();
@@ -290,7 +300,7 @@ ngApp.controller('EnrollmentCartCtrl', ['$scope', 'enrollmentStepsService', 'enr
                     enrollmentService.setSelectedOffers(false);
                 }
             } else {
-                $scope.completeStep();
+                $scope.completeStep(addAdditional);
             }
         }
     };

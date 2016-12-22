@@ -9,6 +9,7 @@ ngApp.factory('enrollmentStepsService', ['$rootScope', 'scrollService', 'jQuery'
     var initialFlow,
         currentFlow,
         isRenewal,
+        isCommercialQuote,
         isAddLine;
 
     //List of steps for the enrollment process
@@ -180,6 +181,18 @@ ngApp.factory('enrollmentStepsService', ['$rootScope', 'scrollService', 'jQuery'
             isRenewal = true;
         },
 
+        setCommercialQuote: function () {
+            service.hideStep('utilityFlowPlans');
+            delete steps.verifyIdentity;
+            flows.utility = {
+                'serviceInformation': {
+                    name: 'utilityFlowService',
+                    previous: []
+                }
+            };
+            isCommercialQuote = true;
+        },
+
         setAddLine: function (accountNumber) {
             delete steps.accountInformation;
             isAddLine = true;
@@ -234,9 +247,17 @@ ngApp.factory('enrollmentStepsService', ['$rootScope', 'scrollService', 'jQuery'
             return service;
         },
 
-        setFromServerStep: function (expectedState, isConfirmationPage) {
-            if (isConfirmationPage) {
-                if (expectedState != 'orderConfirmed') {
+        setFromServerStep: function (expectedState, overrideServerStep) {
+            if (overrideServerStep) {
+                if (expectedState == 'planSelection' && isCommercialQuote) {
+                    service.setStep('serviceInformation');
+                    service.setMaxStep('serviceInformation');
+                }
+                else if (expectedState == 'accountInformation' && isCommercialQuote) {
+                    service.setStep('reviewOrder');
+                    service.setMaxStep('reviewOrder');
+                }
+                else if (expectedState != 'orderConfirmed') {
                     $window.location.href = '/enrollment';
                 }
                 return;
@@ -252,8 +273,11 @@ ngApp.factory('enrollmentStepsService', ['$rootScope', 'scrollService', 'jQuery'
             }
             else if (expectedState == 'planSettings' && (isRenewal)) {
                service.setStep('reviewOrder');
-               service.setMaxStep('reviewOrder');
-                
+               service.setMaxStep('reviewOrder');  
+            }
+            else if (expectedState == 'planSelection' && (isCommercialQuote)) {
+               service.setStep('accountInformation');
+               service.setMaxStep('accountInformation');  
             }
             else if (expectedState == "accountInformation" && isAddLine) {
                 service.setStep('reviewOrder');

@@ -23,7 +23,7 @@ namespace StreamEnergy.Tasks
         private readonly PublishMode _mode;
         private readonly string _sourceDatabase;
         private readonly string _targetDatabase;
-        private readonly Injection _dependencies;
+        private Injection _dependencies;
         public List<Language> Languages
         {
             get
@@ -80,7 +80,6 @@ namespace StreamEnergy.Tasks
             Assert.ArgumentNotNullOrEmpty(targetDatabase, "targetDatabase");
             Assert.ArgumentNotNullOrEmpty(mode, "mode");
             Assert.ArgumentNotNullOrEmpty(languages, "languages");
-            this._dependencies = StreamEnergy.Unity.Container.Instance.Unity.Resolve<Injection>();
             this._sourceDatabase = sourceDatabase;
             this._targetDatabase = targetDatabase;
             this._languages = ParseLanguages(languages);
@@ -131,6 +130,17 @@ namespace StreamEnergy.Tasks
 
         public void Run()
         {
+            if (this._dependencies == null)
+            {
+                try
+                {
+                    this._dependencies = StreamEnergy.Unity.Container.Instance.Unity.Resolve<Injection>();
+                }
+                catch (Exception)
+                {
+                    return;
+                }
+            }
             if (this.IsPublishingTime() && this.IsPublishingEnabled())
             {
                 foreach (Language language in this._languages)

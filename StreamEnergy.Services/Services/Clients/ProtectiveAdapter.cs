@@ -21,9 +21,9 @@ namespace StreamEnergy.Services.Clients
         }
 
 
-        bool ILocationAdapter.IsFor(IEnumerable<DomainModels.IServiceCapability> capabilities)
+        bool ILocationAdapter.IsFor(Location location)
         {
-            return capabilities.Any(cap => cap is Protective.ServiceCapability);
+            return location.Capabilities.Any(cap => cap is Protective.ServiceCapability);
         }
 
         bool ILocationAdapter.IsFor(IEnumerable<DomainModels.IServiceCapability> capabilities, DomainModels.Enrollments.IOffer offer)

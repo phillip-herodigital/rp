@@ -2,7 +2,7 @@
  *
  * This is used to control aspects of let's get started on enrollment page.
  */
-ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$location', '$filter', 'enrollmentService', 'enrollmentCartService', 'enrollmentStepsService', 'analytics', function ($scope, $location, $filter, enrollmentService, enrollmentCartService, enrollmentStepsService, analytics) {
+ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$location', '$filter', 'enrollmentService', 'enrollmentCartService', '$modal', 'enrollmentStepsService', 'analytics', function ($scope, $location, $filter, enrollmentService, enrollmentCartService, $modal, enrollmentStepsService, analytics) {
     // TODO - chose state by geoIP
     if (!$scope.data || !$scope.data.serviceState) {
         if ($location.absUrl().indexOf('State=GA') > 0 || $location.absUrl().indexOf('St=GA') > 0) {
@@ -14,17 +14,30 @@ ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$location', '$f
     $scope.getActiveServiceIndex = enrollmentCartService.getActiveServiceIndex;
 
     // If the incoming URI indicates this is a commercial enrollment, change the default dropdown
-    if ($location.absUrl().indexOf('AccountType=C') > 0) {
+    if ($location.absUrl().indexOf('ServiceType=com') > 0) {
         $scope.$parent.customerType = 'commercial';
+        $scope.data.customerType = 'commercial';
+    }
+    else {
+        $scope.$parent.customerType = 'residential';
+        $scope.data.customerType = 'residential';
     }
 
+    $scope.showModal = function (templateUrl, size) {
+        $modal.open({
+            'scope': $scope,
+            'templateUrl': templateUrl,
+            'size': size ? size : ''
+        })
+    };
+
     $scope.getLocation = function (state, val) {
-        return $scope.$parent.getLocation(state, val).then(function (values) {
+        var zipOnly = $scope.data.customerType == 'commercial';
+        return $scope.$parent.getLocation(state, val, zipOnly).then(function (values) {
             $scope.errorMessage = !values.length;
             return values;
         });
     };
-
     $scope.isDuplicateAddress = $scope.$parent.isDuplicateAddress;
 
     //Checking to see when the active service address has been updated
@@ -38,6 +51,8 @@ ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$location', '$f
         } else {
             $scope.data.serviceLocation = newValue.location;
             $scope.isCartFull = enrollmentCartService.isCartFull($scope.customerType);
+            $scope.commercialQuote = $location.absUrl().indexOf('AccountType=CQ') > 0;
+
             $scope.isNewServiceAddress = enrollmentCartService.isNewServiceAddress();
             var target = _(newValue.location.capabilities).find({ capabilityType: "ServiceStatus" });
             if (target) {
@@ -72,6 +87,10 @@ ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$location', '$f
         $scope.data.serviceLocation = null;
     });
 
+    $scope.$watch('data.customerType', function(newValue) {
+        $scope.$parent.customerType = newValue;
+    });
+
     /**
      * Checking if the current form is valid to continue
      * Form level validation is done outside of here, this is checking to ensure
@@ -90,45 +109,70 @@ ngApp.controller('EnrollmentServiceInformationCtrl', ['$scope', '$location', '$f
      * Complete the Service Information Step
      * @return {[type]} [description]
      */
-    $scope.completeStep = function () {
+    $scope.completeStep = function (addAdditional) {
 
-        //Someone bypassed the disabled button, lets send an error
-        if(typeof $scope.data.serviceLocation == 'string' || $scope.data.serviceLocation === null) {
-            $scope.errorMessage = true;
-            return;
-        } 
+            //Someone bypassed the disabled button, lets send an error
+            if (typeof $scope.data.serviceLocation == 'string' || $scope.data.serviceLocation === null) {
+                $scope.errorMessage = true;
+                return;
+            }
 
-        $scope.data.serviceLocation.capabilities = _.filter($scope.data.serviceLocation.capabilities, function (cap) { return cap.capabilityType != "ServiceStatus" && cap.capabilityType != "CustomerType"; });
-        $scope.data.serviceLocation.capabilities.push({ "capabilityType": "ServiceStatus", "enrollmentType": $scope.data.isNewService ? 'moveIn' : 'switch' });
-        $scope.data.serviceLocation.capabilities.push({ "capabilityType": "CustomerType", "customerType": $scope.customerType });
+            $scope.data.serviceLocation.capabilities = _.filter($scope.data.serviceLocation.capabilities, function (cap) { return cap.capabilityType != "ServiceStatus" && cap.capabilityType != "CustomerType"; });
+            $scope.data.serviceLocation.capabilities.push({ "capabilityType": "ServiceStatus", "enrollmentType": $scope.data.isNewService ? 'moveIn' : 'switch' });
+            $scope.data.serviceLocation.capabilities.push({ "capabilityType": "CustomerType", "customerType": $scope.customerType });
 
+            var activeService = enrollmentCartService.getActiveService();
+            if (activeService) {
+                activeService.location = $scope.data.serviceLocation;
+                if (enrollmentStepsService.isStepVisible("accountInformation")) {
+                    enrollmentStepsService.deActivateStep("accountInformation");
+                }
+                enrollmentService.setSelectedOffers(addAdditional).then(function (value) {
+                    if (addAdditional) {
+                        enrollmentCartService.setActiveService();
+                    }
+                    else if (_(activeService.location.capabilities).find({ capabilityType: "CustomerType" }).customerType == "commercial") {
+                        enrollmentStepsService.setStep('reviewOrder');
+                        enrollmentStepsService.setMaxStep('reviewOrder');
+                    }
+                });
+            }
 
-        var activeService = enrollmentCartService.getActiveService();
-        if (activeService) {
-            activeService.location = $scope.data.serviceLocation;
-            enrollmentService.setSelectedOffers();
-        }
-        else {
-            enrollmentCartService.addService({ location: $scope.data.serviceLocation });
-            enrollmentService.setServiceInformation();
-        }
+            else {
+                enrollmentCartService.addService({ location: $scope.data.serviceLocation });
+                var commercialService = _(enrollmentCartService.getActiveService().location.capabilities).find({ capabilityType: "CustomerType" }).customerType == "commercial";
+                enrollmentService.setServiceInformation(commercialService).then(function (value) {
+                    if (commercialService) {
+                        activeService = enrollmentCartService.getActiveService();
+                        if (activeService.eligibility == "success") {
+                            activeService.offerInformationByType[0].value.offerSelections = [{
+                                offerId: activeService.offerInformationByType[0].value.availableOffers[0].id,
+                            }];
+                            enrollmentService.setSelectedOffers(addAdditional).then(function (value) {
+                                if (addAdditional) {
+                                    enrollmentCartService.setActiveService();
+                                }
+                            });
+                        }
+                    }
+                });
+            }
 
-        var provider = '';
-        var tx = _($scope.data.serviceLocation.capabilities).find({ capabilityType: "TexasElectricity" });
-        if (tx && tx.tdu) {
-            provider = tx.tdu;
-        } else if (_($scope.data.serviceLocation.capabilities).some({ capabilityType: "GeorgiaGas" })) {
-            provider = "AGLC";
-        }
-        analytics.sendVariables(1, $scope.data.serviceLocation.address.postalCode5, 2, provider, 5, $scope.data.isNewService ? "Move In" : "Switch");
-        analytics.sendTags({
-            EnrollmentZipCode: $scope.data.serviceLocation.address.postalCode5,
-            EnrollmentCity: $scope.data.serviceLocation.address.city,
-            EnrollmentState: $scope.data.serviceLocation.address.stateAbbreviation === "GA" ? "Georgia" : "Texas",
-            EnrollmentProvider: provider,
-            EnrollmentType: $scope.data.isNewService ? "New" : "Switch",
-            EnrollmentChannel: "mystream.com"
-        });
-    };
-
+            var provider = '';
+            var tx = _($scope.data.serviceLocation.capabilities).find({ capabilityType: "TexasElectricity" });
+            if (tx && tx.tdu) {
+                provider = tx.tdu;
+            } else if (_($scope.data.serviceLocation.capabilities).some({ capabilityType: "GeorgiaGas" })) {
+                provider = "AGLC";
+            }
+            analytics.sendVariables(1, $scope.data.serviceLocation.address.postalCode5, 2, provider, 5, $scope.data.isNewService ? "Move In" : "Switch");
+            analytics.sendTags({
+                EnrollmentZipCode: $scope.data.serviceLocation.address.postalCode5,
+                EnrollmentCity: $scope.data.serviceLocation.address.city,
+                EnrollmentState: $scope.data.serviceLocation.address.stateAbbreviation === "GA" ? "Georgia" : "Texas",
+                EnrollmentProvider: provider,
+                EnrollmentType: $scope.data.isNewService ? "New" : "Switch",
+                EnrollmentChannel: "mystream.com"
+            });
+        };
 }]);

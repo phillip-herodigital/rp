@@ -31,6 +31,8 @@ namespace StreamEnergy.DomainModels.Enrollments
 
         public string RenewalESIID { get; set; }
 
+        public string RenewalProviderID { get; set; }
+
         public bool EnrolledInAutoPay { get; set; }
 
         public decimal AutoPayDiscount { get; set; }
@@ -64,7 +66,7 @@ namespace StreamEnergy.DomainModels.Enrollments
         [RegularExpression(@"^\d{3}\D*\d{2}\D*\d{4}$", ErrorMessage = "Social Security Number Invalid")]
         public string SocialSecurityNumber { get; set; }
 
-        [RegularExpression(@"^\d{2}\D*\d{7}$", ErrorMessage = "Tax Id Invalid")]
+        [RegularExpression(@"^\d{2}\D*\d{7}(\d{1})?(\d{1})?$", ErrorMessage = "Tax Id Invalid")]
         public string TaxId { get; set; }
 
         public string CompanyName { get; set; }
@@ -72,9 +74,11 @@ namespace StreamEnergy.DomainModels.Enrollments
         [DisplayName("DBA")]
         public string DoingBusinessAs { get; set; }
 
+        public string PreferredSalesExecutive { get; set; }
+
         public string PreviousProvider { get; set; }
 
-        public string PreferredSalesExecutive { get; set; }
+        public string UnderContract { get; set; }
 
         /// <summary>
         /// ISO 639-1 codes, such as "en" and "es".

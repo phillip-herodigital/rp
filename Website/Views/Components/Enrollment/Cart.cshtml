@@ -14,7 +14,7 @@
                 <span class="associate-name">{{ associateInformation.associateId }}</span>
             </div>
         </article>
-        <article class="enrollment__box enrollment_cart" scroll-anchor="scrollFix"  ng-class="{'hide-sidebar-cart' : getCurrentStep().id == 'phoneFlowDevices' || getCurrentStep().id == 'phoneFlowPlans'}">
+        <article class="enrollment__box enrollment_cart" scroll-anchor="scrollFix" ng-hide="customerType == 'commercial' && getCartItems().length == 0" ng-class="{'hide-sidebar-cart' : getCurrentStep().id == 'phoneFlowDevices' || getCurrentStep().id == 'phoneFlowPlans'}">
             <header>
                 <div class="cart-items">
                     <i class="icon-cart"></i>
@@ -51,14 +51,14 @@
                         </div>
                     </div>
                 </div>
-                <div class="cart-item" ng-repeat="(id, location) in getUtilityAddresses()" ng-if="cartHasUtility()">
+                <div class="cart-item" ng-repeat="(id, location) in getUtilityAddresses()" ng-if="cartHasUtility() || cartHasCommercialQuote()">
                     <div class="utility-plan">
-                        <h2 ng-if="$first">@Html.Sitecore().Field("Energy Plan")</h2>
-                        <address>
+                        <h2 ng-if="$first && !cartHasCommercialQuote()">@Html.Sitecore().Field("Energy Plan")</h2>
+                        <h2 ng-if="$first && cartHasCommercialQuote()">@Html.Sitecore().Field("Commercial Header")</h2>
+                        <address ng-if="!cartHasCommercialQuote()">
                             <h3>@Html.Sitecore().Field("Service Address Text")</h3>
                             {{ location.location.address | address }}<br />
                             <a href="" ng-click="editUtilityAddress(location)" ng-if="!isRenewal">@Html.Sitecore().Field("Edit Address Text")</a>
-                            <span ng-if="customerType == 'commercial' || !isRenewal"> | <a href="" ng-click="deleteUtilityAddress(location)">@Html.Sitecore().Field("Remove Address")</a></span>
                         </address>
                         <div class="notice error" ng-show="addUtilityPlanError && !isFormValid()">
                             @Html.Sitecore().Field("Select Utility Plan Text")
@@ -66,7 +66,7 @@
                                 <a href="" ng-click="deleteUtilityAddress(location)">@Html.Sitecore().Field("Remove Address")</a><button ng-click="changeUtilityPlan(location)">@Html.Sitecore().Field("Select Utility Plan Button Text")</button>
                             </div>
                         </div>
-                        <div ng-repeat="offerInformation in location.offerInformationByType" ng-show="offerInformation.value.offerSelections.length">
+                        <div ng-repeat="offerInformation in location.offerInformationByType" ng-show="offerInformation.value.offerSelections.length || cartHasCommercialQuote()">
                             <div ng-include src="'cart/' + offerInformation.key"></div>
                         </div>
                     </div>
@@ -83,9 +83,13 @@
                     </div>
                 </div>
             </div>
-            <footer ng-show="cartHasUtility() || (mobileEnrollmentService.selectedNetwork.value && mobileEnrollment.phoneTypeTab != 'wsa')">
-                <div class="buttons">
+            <footer ng-if="getCurrentStep().id != 'utilityFlowService' && getActiveServiceType() != undefined" ng-show="cartHasUtility() || (mobileEnrollmentService.selectedNetwork.value && mobileEnrollment.phoneTypeTab != 'wsa')">
+                <div class="buttons" ng-if="!cartHasCommercialQuote()">
                     <button ng-click="cartCheckout()">@Html.Sitecore().Field("Checkout Button Text")</button>
+                </div>
+                <div class="buttons commercial" ng-if="cartHasCommercialQuote()">
+                    <a href="" class="add-address" ng-if="getCurrentStep().id != 'utilityFlowService'" ng-click="cartCheckout(true)">@Html.Sitecore().Field("Add Address Text")</a>
+                    <button ng-click="cartCheckout()">@Html.Sitecore().Field("Continue Button")</button>
                 </div>
                 @*<div class="time">
                     <i class="icon-clock"></i>
@@ -106,6 +110,14 @@
                 <li ng-if="cartHasMobile() && mobileEnrollmentService.hasLTEDevice"><i class="icon-imei"></i> @Html.Sitecore().Field("Documents ICCID Number")</li>
                 <!--<li><i class="icon-bill"></i>  @Html.Sitecore().Field("Documents Billing Account Number")</a></li>
             <li><i class="icon-utility-provider"></i> @Html.Sitecore().Field("Documents Utility Provider")</li>-->
+            </ul>
+        </article>
+        <article ng-if="customerType == 'commercial'" class="enrollment__box outage-information">
+            <header>
+                <p><strong>@Html.Sitecore().Field("Renew Existing Service Box Header")</strong></p>
+            </header>
+            <ul class="info">
+                <li>@Html.Sitecore().Field("Renew Existing Service Box Text")</li>
             </ul>
         </article>
         <article class="enrollment__box outage-information" ng-if="customerType != 'commercial' && !isRenewal && cartHasUtility() && cartHasTxLocation()">
@@ -192,6 +204,116 @@
     </div>
 </script>
 
+<script type="text/ng-template" id="cart/NewJerseyElectricity">
+    <div class="utility-cart-product clearfix" ng-repeat="selectedOffer in offerInformation.value.offerSelections">
+        <div class="description">
+            <div class="plan-text">
+                <span class="plan">{{ selectedOffer.offer.name }}</span><br />
+                <a href="" ng-click="changeUtilityPlan(location)">@Html.Sitecore().Field("Change Plan")</a>
+                <span ng-if="!isRenewal"> | <a href="" ng-click="scrollFix(); deleteUtilityPlan(location, selectedOffer)">@Html.Sitecore().Field("Remove Plan")</a></span>
+            </div>
+        </div>
+        <div class="rate">
+            ${{selectedOffer.offer.rate | number:4}}
+            <span class="energy-unit">@Html.Sitecore().Field("Per kWh")</span>
+        </div>
+        <div class="fees" ng-if="selectedOffer.offerOption.connectionFee">
+            @Html.Sitecore().Field("Connection Fee")
+        </div>
+        <div class="rate" ng-if="selectedOffer.offerOption.connectionFee">
+            {{selectedOffer.offerOption.connectionFee | currency}}
+        </div>
+    </div>
+</script>
+
+<script type="text/ng-template" id="cart/MarylandElectricity">
+    <div class="utility-cart-product clearfix" ng-repeat="selectedOffer in offerInformation.value.offerSelections">
+        <div class="description">
+            <div class="plan-text">
+                <span class="plan">{{ selectedOffer.offer.name }}</span><br />
+                <a href="" ng-click="changeUtilityPlan(location)">@Html.Sitecore().Field("Change Plan")</a>
+                <span ng-if="!isRenewal"> | <a href="" ng-click="scrollFix(); deleteUtilityPlan(location, selectedOffer)">@Html.Sitecore().Field("Remove Plan")</a></span>
+            </div>
+        </div>
+        <div class="rate">
+            ${{selectedOffer.offer.rate | number:4}}
+            <span class="energy-unit">@Html.Sitecore().Field("Per kWh")</span>
+        </div>
+        <div class="fees" ng-if="selectedOffer.offerOption.connectionFee">
+            @Html.Sitecore().Field("Connection Fee")
+        </div>
+        <div class="rate" ng-if="selectedOffer.offerOption.connectionFee">
+            {{selectedOffer.offerOption.connectionFee | currency}}
+        </div>
+    </div>
+</script>
+
+<script type="text/ng-template" id="cart/PennsylvaniaElectricity">
+    <div class="utility-cart-product clearfix" ng-repeat="selectedOffer in offerInformation.value.offerSelections">
+        <div class="description">
+            <div class="plan-text">
+                <span class="plan">{{ selectedOffer.offer.name }}</span><br />
+                <a href="" ng-click="changeUtilityPlan(location)">@Html.Sitecore().Field("Change Plan")</a>
+                <span ng-if="!isRenewal"> | <a href="" ng-click="scrollFix(); deleteUtilityPlan(location, selectedOffer)">@Html.Sitecore().Field("Remove Plan")</a></span>
+            </div>
+        </div>
+        <div class="rate">
+            ${{selectedOffer.offer.rate | number:4}}
+            <span class="energy-unit">@Html.Sitecore().Field("Per kWh")</span>
+        </div>
+        <div class="fees" ng-if="selectedOffer.offerOption.connectionFee">
+            @Html.Sitecore().Field("Connection Fee")
+        </div>
+        <div class="rate" ng-if="selectedOffer.offerOption.connectionFee">
+            {{selectedOffer.offerOption.connectionFee | currency}}
+        </div>
+    </div>
+</script>
+
+<script type="text/ng-template" id="cart/NewYorkElectricity">
+    <div class="utility-cart-product clearfix" ng-repeat="selectedOffer in offerInformation.value.offerSelections">
+        <div class="description">
+            <div class="plan-text">
+                <span class="plan">{{ selectedOffer.offer.name }}</span><br />
+                <a href="" ng-click="changeUtilityPlan(location)">@Html.Sitecore().Field("Change Plan")</a>
+                <span ng-if="!isRenewal"> | <a href="" ng-click="scrollFix(); deleteUtilityPlan(location, selectedOffer)">@Html.Sitecore().Field("Remove Plan")</a></span>
+            </div>
+        </div>
+        <div class="rate">
+            ${{selectedOffer.offer.rate | number:4}}
+            <span class="energy-unit">@Html.Sitecore().Field("Per kWh")</span>
+        </div>
+        <div class="fees" ng-if="selectedOffer.offerOption.connectionFee">
+            @Html.Sitecore().Field("Connection Fee")
+        </div>
+        <div class="rate" ng-if="selectedOffer.offerOption.connectionFee">
+            {{selectedOffer.offerOption.connectionFee | currency}}
+        </div>
+    </div>
+</script>
+
+<script type="text/ng-template" id="cart/DCElectricity">
+    <div class="utility-cart-product clearfix" ng-repeat="selectedOffer in offerInformation.value.offerSelections">
+        <div class="description">
+            <div class="plan-text">
+                <span class="plan">{{ selectedOffer.offer.name }}</span><br />
+                <a href="" ng-click="changeUtilityPlan(location)">@Html.Sitecore().Field("Change Plan")</a>
+                <span ng-if="!isRenewal"> | <a href="" ng-click="scrollFix(); deleteUtilityPlan(location, selectedOffer)">@Html.Sitecore().Field("Remove Plan")</a></span>
+            </div>
+        </div>
+        <div class="rate">
+            ${{selectedOffer.offer.rate | number:4}}
+            <span class="energy-unit">@Html.Sitecore().Field("Per kWh")</span>
+        </div>
+        <div class="fees" ng-if="selectedOffer.offerOption.connectionFee">
+            @Html.Sitecore().Field("Connection Fee")
+        </div>
+        <div class="rate" ng-if="selectedOffer.offerOption.connectionFee">
+            {{selectedOffer.offerOption.connectionFee | currency}}
+        </div>
+    </div>
+</script>
+
 <script type="text/ng-template" id="cart/GeorgiaGas">
     <div class="utility-cart-product clearfix" ng-repeat="selectedOffer in offerInformation.value.offerSelections">
         <div class="description">
@@ -203,6 +325,94 @@
         </div>
         <div class="rate">
             ${{selectedOffer.offer.rate}}
+            <span class="energy-unit">@Html.Sitecore().Field("Per Therm")</span>
+        </div>
+        <div class="fees" ng-if="selectedOffer.offerOption.connectionFee">
+            @Html.Sitecore().Field("Connection Fee")
+        </div>
+        <div class="rate" ng-if="selectedOffer.offerOption.connectionFee">
+            {{selectedOffer.offerOption.connectionFee | currency}}
+        </div>
+    </div>
+</script>
+
+<script type="text/ng-template" id="cart/NewJerseyGas">
+    <div class="utility-cart-product clearfix" ng-repeat="selectedOffer in offerInformation.value.offerSelections">
+        <div class="description">
+            <div class="plan-text">
+                <span class="plan">{{ selectedOffer.offer.name }}</span><br />
+                <a href="" ng-click="changeUtilityPlan(location)">@Html.Sitecore().Field("Change Plan")</a>
+                <span ng-if="!isRenewal"> | <a href="" ng-click="scrollFix(); deleteUtilityPlan(location, selectedOffer)">@Html.Sitecore().Field("Remove Plan")</a></span>
+            </div>
+        </div>
+        <div class="rate">
+            ${{selectedOffer.offer.rate | number:4}}
+            <span class="energy-unit">@Html.Sitecore().Field("Per Therm")</span>
+        </div>
+        <div class="fees" ng-if="selectedOffer.offerOption.connectionFee">
+            @Html.Sitecore().Field("Connection Fee")
+        </div>
+        <div class="rate" ng-if="selectedOffer.offerOption.connectionFee">
+            {{selectedOffer.offerOption.connectionFee | currency}}
+        </div>
+    </div>
+</script>
+
+<script type="text/ng-template" id="cart/MarylandGas">
+    <div class="utility-cart-product clearfix" ng-repeat="selectedOffer in offerInformation.value.offerSelections">
+        <div class="description">
+            <div class="plan-text">
+                <span class="plan">{{ selectedOffer.offer.name }}</span><br />
+                <a href="" ng-click="changeUtilityPlan(location)">@Html.Sitecore().Field("Change Plan")</a>
+                <span ng-if="!isRenewal"> | <a href="" ng-click="scrollFix(); deleteUtilityPlan(location, selectedOffer)">@Html.Sitecore().Field("Remove Plan")</a></span>
+            </div>
+        </div>
+        <div class="rate">
+            ${{selectedOffer.offer.rate | number:4}}
+            <span class="energy-unit">@Html.Sitecore().Field("Per Therm")</span>
+        </div>
+        <div class="fees" ng-if="selectedOffer.offerOption.connectionFee">
+            @Html.Sitecore().Field("Connection Fee")
+        </div>
+        <div class="rate" ng-if="selectedOffer.offerOption.connectionFee">
+            {{selectedOffer.offerOption.connectionFee | currency}}
+        </div>
+    </div>
+</script>
+
+<script type="text/ng-template" id="cart/PennsylvaniaGas">
+    <div class="utility-cart-product clearfix" ng-repeat="selectedOffer in offerInformation.value.offerSelections">
+        <div class="description">
+            <div class="plan-text">
+                <span class="plan">{{ selectedOffer.offer.name }}</span><br />
+                <a href="" ng-click="changeUtilityPlan(location)">@Html.Sitecore().Field("Change Plan")</a>
+                <span ng-if="!isRenewal"> | <a href="" ng-click="scrollFix(); deleteUtilityPlan(location, selectedOffer)">@Html.Sitecore().Field("Remove Plan")</a></span>
+            </div>
+        </div>
+        <div class="rate">
+            ${{selectedOffer.offer.rate | number:4}}
+            <span class="energy-unit">@Html.Sitecore().Field("Per Therm")</span>
+        </div>
+        <div class="fees" ng-if="selectedOffer.offerOption.connectionFee">
+            @Html.Sitecore().Field("Connection Fee")
+        </div>
+        <div class="rate" ng-if="selectedOffer.offerOption.connectionFee">
+            {{selectedOffer.offerOption.connectionFee | currency}}
+        </div>
+    </div>
+</script>
+
+<script type="text/ng-template" id="cart/NewYorkGas">
+    <div class="utility-cart-product clearfix" ng-repeat="selectedOffer in offerInformation.value.offerSelections">
+        <div class="description">
+            <div class="plan-text">
+                <span class="plan">{{ selectedOffer.offer.name }}</span><br />
+                <a href="" ng-click="changeUtilityPlan(location)">@Html.Sitecore().Field("Change Plan")</a>
+                <span ng-if="!isRenewal"> | <a href="" ng-click="scrollFix(); deleteUtilityPlan(location, selectedOffer)">@Html.Sitecore().Field("Remove Plan")</a></span>
+            </div>
+        </div>
+        <div class="rate">
+            ${{selectedOffer.offer.rate | number:4}}
             <span class="energy-unit">@Html.Sitecore().Field("Per Therm")</span>
         </div>
         <div class="fees" ng-if="selectedOffer.offerOption.connectionFee">
@@ -282,9 +492,19 @@
 </script>
 
 <script type="text/ng-template" id="cart/TexasElectricityCommercialQuote">
+    <address>
+        <h3>@Html.Sitecore().Field("Service Address Text")</h3>
+        {{ location.location.address | address }}<br />
+        <a href="" ng-click="editUtilityAddress(location)" ng-if="!isRenewal">@Html.Sitecore().Field("Edit Address Text")</a> | <a href="" ng-click="deleteUtilityAddress(location)">@Html.Sitecore().Field("Remove Address")</a>
+    </address>
 </script>
 
 <script type="text/ng-template" id="cart/GeorgiaGasCommercialQuote">
+    <address>
+        <h3>@Html.Sitecore().Field("Service Address Text")</h3>
+        {{ location.location.address | address }}<br />
+        <a href="" ng-click="editUtilityAddress(location)" ng-if="!isRenewal">@Html.Sitecore().Field("Edit Address Text")</a> | <a href="" ng-click="deleteUtilityAddress(location)">@Html.Sitecore().Field("Remove Address")</a>
+    </address>
 </script>
 
 <script type="text/ng-template" id="confirmAddressDeleteModal">

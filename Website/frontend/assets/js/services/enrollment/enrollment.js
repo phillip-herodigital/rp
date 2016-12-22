@@ -68,7 +68,12 @@
 
         // copy out the account information the server has
         service.accountInformation.contactInfo = result.contactInfo || {};
-        service.contactTitle = result.contactTitle;
+        service.accountInformation.companyName = result.companyName;
+        service.accountInformation.contactTitle = result.contactTitle;
+        service.accountInformation.preferredSalesExecutive = result.preferredSalesExecutive;
+        service.accountInformation.underContract = result.underContract;
+        service.accountInformation.taxID = result.taxID;
+        //service.accountInformation.socialSecurityNumber = result.socialSecurityNumber;
         service.accountInformation.secondaryContactInfo = result.secondaryContactInfo || {};
         service.accountInformation.language = result.language;
         service.accountInformation.last4ssn = result.last4SSN;
@@ -91,8 +96,12 @@
         service.paymentError = result.paymentError;
 
         service.isRenewal = result.isRenewal;
+        service.renewalProviderID = result.renewalProviderID;
         if (result.isRenewal) {
             enrollmentStepsService.setRenewal();
+        }
+        if (enrollmentCartService.cartHasCommercialQuote()) {
+            enrollmentStepsService.setCommercialQuote();
         }
 
         service.isAddLine = result.isAddLine;
@@ -289,8 +298,11 @@
             contactInfo: service.accountInformation.contactInfo,
             contactTitle: service.accountInformation.contactTitle,
             companyName: service.accountInformation.companyName,
+            underContract: service.accountInformation.underContract,
+            language: service.accountInformation.language,
             doingBusinessAs: service.accountInformation.doingBusinessAs,
             socialSecurityNumber: service.accountInformation.socialSecurityNumber,
+            taxID: service.accountInformation.taxID,
             DOB: service.accountInformation.DOB,
             gender: service.accountInformation.gender,
             KIQFailOption: service.accountInformation.KIQFailOption,
@@ -444,7 +456,6 @@
      */
     service.getLocations = function (state, customerType, val) {
         var start = new Date().getTime();
-
         return $http.get('/api/address/lookup/' + state + '/' + customerType + '/' + val)
             .then(function (data) {
                 return data;

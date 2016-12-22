@@ -20,9 +20,9 @@ namespace StreamEnergy.Services.Clients
             this.sitecoreProductData = sitecoreProductData;
         }
 
-        bool ILocationAdapter.IsFor(IEnumerable<DomainModels.IServiceCapability> capabilities)
+        bool ILocationAdapter.IsFor(Location location)
         {
-            return capabilities.OfType<TexasElectricity.ServiceCapability>().Any();
+            return location.Capabilities.OfType<TexasElectricity.ServiceCapability>().Any() && location.Capabilities.OfType<CustomerTypeCapability>().Any(cap => cap.CustomerType == EnrollmentCustomerType.Residential);
         }
 
         bool ILocationAdapter.IsFor(IEnumerable<IServiceCapability> capabilities, IOffer offer)
@@ -64,20 +64,7 @@ namespace StreamEnergy.Services.Clients
 
         DomainModels.Enrollments.LocationOfferSet ILocationAdapter.LoadOffers(DomainModels.Enrollments.Location location, StreamConnect.ProductResponse streamConnectProductResponse)
         {
-            var customerType = location.Capabilities.OfType<CustomerTypeCapability>().Single();
-            if (customerType.CustomerType == EnrollmentCustomerType.Residential)
-            {
-                return LoadTexasOffers(location, streamConnectProductResponse);
-            }
-            else
-            {
-                return new LocationOfferSet
-                {
-                    Offers = new[] {
-                            new TexasElectricity.CommercialQuote { }
-                        }
-                };
-            }
+            return LoadTexasOffers(location, streamConnectProductResponse);
         }
 
 
@@ -328,7 +315,7 @@ namespace StreamEnergy.Services.Clients
 
         bool ILocationAdapter.HasSpecialCommercialEnrollment(IEnumerable<IServiceCapability> capabilities)
         {
-            return capabilities.OfType<CustomerTypeCapability>().SingleOrDefault().CustomerType == EnrollmentCustomerType.Commercial;
+            return false;
         }
 
 

@@ -807,7 +807,9 @@
   <ItemGroup>
     <Compile Include="Conditions\CustomerFirstLoginCondition.cs" />
     <Compile Include="Conditions\CustomerAccountsCountCondition.cs" />
+    <Compile Include="Conditions\HasCommercialRFQEnrollmentCondition.cs" />
     <Compile Include="Conditions\HasProtectiveEnrollmentCondition.cs" />
+    <Compile Include="Conditions\HasNEEnrollmentCondition.cs" />
     <Compile Include="Conditions\HasUtilityEnrollmentCondition.cs" />
     <Compile Include="Conditions\HasMobileEnrollmentCondition.cs" />
     <Compile Include="Conditions\MobileAccountCondition.cs" />
@@ -1746,6 +1748,7 @@
     <Content Include="Views\Pages\Enrollment\Select Plan.cshtml" />
     <Content Include="Views\Components\Marketing\Mobile\Mobile Devices.cshtml" />
     <Content Include="Views\Components\Marketing\Skybell FAQs.cshtml" />
+    <Content Include="Views\Components\Marketing\Overview Header.cshtml" />
     <None Include="Web.Azure-Production Sitecore.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>

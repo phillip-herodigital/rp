@@ -4,7 +4,8 @@ ngApp.directive('dropdownSelect', [function () {
         restrict: 'AE', //element or attribute
         scope: {
             dropdownItems: '=',
-            value: '='
+            value: '=',
+            disabled: '='
         },
         replace: true,
         controller: ["$scope", function ($scope) {
@@ -29,7 +30,7 @@ ngApp.directive('dropdownSelect', [function () {
         }],
         template: '<div class="btn-dropdown" dropdown on-toggle="toggled(open)" is-open="status.isopen">' +
             '<button type="button" class="btn btn-primary dropdown-toggle {{selectedItem.class}}" ng-disabled="disabled" dropdown-toggle>' +
-            '{{selectedItem.name}} <span class="caret"><i class="icon-nav-arrow-collapsed"></i></span>' +
+            '{{selectedItem.name}} <span ng-show="!disabled" class="caret"><i class="icon-nav-arrow-collapsed"></i></span>' +
             '</button>' +
             '<ul class="dropdown-menu dropdown-menu-{{alignment}}" role="menu">' +
             '<li ng-repeat="item in dropdownItems"><a class="{{item.class}}" ng-click="selectItem(item);" href="">{{item.name}}</a></li>' +

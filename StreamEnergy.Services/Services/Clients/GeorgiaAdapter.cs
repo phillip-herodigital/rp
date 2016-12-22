@@ -21,9 +21,9 @@ namespace StreamEnergy.Services.Clients
             this.sitecoreProductData = sitecoreProductData;
         }
 
-        bool ILocationAdapter.IsFor(IEnumerable<DomainModels.IServiceCapability> capabilities)
+        bool ILocationAdapter.IsFor(Location location)
         {
-            return capabilities.OfType<GeorgiaGas.ServiceCapability>().Any();            
+            return location.Capabilities.OfType<GeorgiaGas.ServiceCapability>().Any();            
         }
 
         bool ILocationAdapter.IsFor(IEnumerable<IServiceCapability> capabilities, IOffer offer)

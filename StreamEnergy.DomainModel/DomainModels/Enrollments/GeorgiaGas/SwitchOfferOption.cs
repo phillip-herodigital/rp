@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StreamEnergy.DomainModels.Enrollments.GeorgiaGas
 {
@@ -16,6 +12,8 @@ namespace StreamEnergy.DomainModels.Enrollments.GeorgiaGas
         {
             get { return SwitchOfferOption.Qualifier; }
         }
+
+        public override string PreviousProvider { get; set; }
 
         [Required]
         public string AglcNumber { get; set; }
