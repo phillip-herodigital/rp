@@ -1,0 +1,111 @@
+// Usage @include breakpoint(small) { /* Styles here */ }
+@mixin breakpoint($point) {
+	$small: 767px; // Up to 767px
+	$medium: 1024px; // Up to 1024px
+	@if $point == large {
+		@media only screen and (min-width : $medium+1) { @content; }
+	}
+	@else if $point == medium-large {
+		@media only screen and (min-width: $small+1) { @content; }
+	}
+	@else if $point == medium {
+		@media only screen and (min-width: $small+1) and (max-width: $medium) { @content; }
+	}
+	@else if $point == small-medium {
+		@media only screen and (max-width: $medium) { @content; }
+	}
+	@else if $point == small {
+		@media only screen and (max-width: $small) { @content; }
+	}
+}
+
+@mixin image-replace($imgName, $retina: false) {
+	display: inline-block;
+	@if $retina == false {
+		width: image-width($imgName);
+		height: image-height($imgName);
+	}
+	@else {
+		width: ceil(image-width($imgName) / 2);
+		height: ceil(image-height($imgName) / 2);
+		background-size: ceil(image-width($imgName) / 2) ceil(image-height($imgName) / 2);
+	}
+	background-image: image-url($imgName);
+	background-repeat: no-repeat;
+	text-indent: -5000px;
+}
+
+@mixin retina-background($imgName) {
+	background-image: image-url("bg/#{$imgName}.png");
+
+	@if image-exists("bg2x/#{$imgName}") {
+		@media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3/2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
+			background-image: image-url("bg2x/#{$imgName}.png");
+			background-size: (image-width("bg2x/#{$imgName}.png") / 2) (image-height("bg2x/#{$imgName}.png") / 2);
+		}
+	}
+
+}
+
+@mixin retina-icon-background($imgName) { 
+	background-image: image-url("icon/#{$imgName}.png");
+
+	@if image-exists("bg2x/#{$imgName}") {
+		@media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3/2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
+			background-image: image-url("icon/#{$imgName}.png");
+			background-size: (image-width("icon/#{$imgName}.png") / 2) (image-height("bg2x/#{$imgName}.png") / 2);
+		}
+	}
+}
+@mixin layout-list {
+	@include no-bullet;
+	margin: 0;
+	padding: 0;
+}
+
+@mixin gradient($color){
+    @if $color == pink{
+        background: linear-gradient(to right, #eb218f 20%,#f02d8b 48%, #fa4284,#ff4280); /* Standard syntax */
+    }
+    @if $color == green{ 
+        background: linear-gradient(to right, #bcd73f , #86bb28); /* Standard syntax */
+    }
+    @if $color == blue{
+        background: linear-gradient(to right, #399bc0 , #1da2b0); /* Standard syntax */
+    }
+    @if $color == grey{
+         background: linear-gradient(to right, #989fa2 , #adb8bd); /* Standard syntax */
+    }
+    @if $color == orange{
+         background: linear-gradient(to right, #d87008 , #e78d0d); /* Standard syntax */
+    }
+}
+
+@mixin drop-shadow
+{
+    @include box-shadow(inset 0 15px 28px -28px rgba(0, 0, 0, 0.8));
+}
+
+@mixin radial-grandient($color){
+    $start: $color;
+    $end: $color;
+    @if $color == blue{
+        $start:#0053ba;
+        $end: #0041a5;
+    }
+    @if $color == darkblue{
+        $start:#0e344f;
+        $end: #13324b;
+    }
+    @if $color == orange{
+        $start: #e9940f;
+        $end: #d26907;
+    }
+
+    background-image:
+        radial-gradient(
+          $start,
+          $end
+        );
+
+}

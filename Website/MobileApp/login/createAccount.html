@@ -1,0 +1,27 @@
+﻿<article class="create-account logged-out" ng-controller="loginController">
+    <div class="icon-WelcomeText welcome-text"></div>
+    <form>
+        <h2>Create Account</h2>
+        <div class="group">
+            <div class="item" float-label>
+                <label>Account Number</label>
+                <input type="text" placeholder="Account Number" ng-model="accountNumber"/>
+            </div>
+            <div class="item" float-label>
+                <label>Last 4 of SSN / TIN</label>
+                <input type="password" placeholder="Last 4 of SSN / TIN" ng-model="SSN" />
+            </div>
+        </div>
+        
+        <div class="clearfix buttons">
+            <a class="button">Continue</a>
+        </div>
+        <div class="forgot">
+            Already have a <a href="#/login/">Stream Account</a>?
+        </div>
+
+        <div class="legal">
+            Copyright ©2016 Stream  |  All Rights Reserved
+        </div>
+    </form>
+</article>

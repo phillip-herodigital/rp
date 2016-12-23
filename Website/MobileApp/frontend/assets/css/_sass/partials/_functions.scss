@@ -1,0 +1,12 @@
+// Function to remove duplicates from a list
+@function remove-duplicates($list) {
+	$result: ();
+
+	@each $item in $list {
+		@if not index($result, $item) {
+			$result: append($result, $item, list-separator($list));
+		}
+	}
+
+	@return $result;
+}

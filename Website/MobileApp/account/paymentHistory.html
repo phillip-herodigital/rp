@@ -1,0 +1,51 @@
+﻿<article class="payment-history full-page account billing-history">
+    <div class="heading-bar section">
+        <span class="icon-manage-small icon"></span> <span>Manage</span>
+    </div>
+
+    <div class="section">
+        <h1>Payment History</h1>
+        <p>
+            Payments made for every account in your profile are displayed in the order of payment date. To view your payment history, please select the "View" button under Payment Details.
+        </p>
+    </div>
+
+    <div class="section selections" ng-init="formData.billingServiceTypes = 1; formData.BillingAccounts = 1">
+        <form>
+            <div class="item" float-label>
+                <label>Service Type</label>
+
+                <select ng-model="formData.billingServiceTypes">
+                    <option value="1" selected="selected">All Service Types</option>
+                </select>
+            </div>
+            <div class="item" float-label>
+                <label>Accounts</label>
+
+                <select ng-model="formData.BillingAccounts">
+
+                    <option value="1">All Accounts</option>
+                </select>
+            </div>
+        </form>
+    </div>
+
+    <div class="invoices section">
+        <div ng-repeat="payment in payments" class="invoice">
+            <div class="link">
+                <div class="info grid clearfix">
+                    <div class="left">Payment Date:: {{payment.DueDate}}</div>
+                    <div class="right">Amount: </div>
+                </div>
+                <div class="details grid clearfix">
+                    <div class="left">
+                        <b>Electricity</b> {{payment.AccountNumber}}
+                    </div>
+                    <div class="right">
+                        {{payment.Amount | currency}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</article>

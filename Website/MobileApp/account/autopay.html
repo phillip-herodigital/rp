@@ -1,0 +1,50 @@
+﻿<article class="manage auto-pay full-page account">
+    <div class="heading-bar section">
+        <span class="icon-gear-small icon"></span> <span>Settings</span>
+    </div>
+
+    <div class="section">
+        <h1>Manage Autopay</h1>
+        <p>
+            You will know that your bank draft request has been processed and is in effect when the following message appears on your invoice: automated draft scheduled.
+        </p>
+        <p>
+            If you have already received an invoice or currently have a balance that remains unpaid, you will need to make a separate one-time payment by your invoice due date. If you have already received an invoice for this month or you have an unpaid balance, please make a one-time payment by your invoice due date. AutoPay will begin on your next invoice.
+        </p>
+
+        <div class="settings" ng-init="formData.AutoPayEnabled = false;">
+            <form>
+                <div class="setting">
+                    <div class="item clearfix" ng-click="formData.AutoPayEnabled = true;">
+                        <span class="icon" ng-class="{'icon-radio-large-checked': formData.AutoPayEnabled, 'icon-radio-large':!formData.AutoPayEnabled}"></span>
+                        <div class="info stacked">
+                            <label>AutoPay On</label>
+                            <div class="sub-info">Will take effect on next billing cycle.</div>
+
+                            <div class="account-info" ng-show="formData.AutoPayEnabled == true;">
+                                <div class="item" float-label>
+                                    <label>Select Payment Method</label>
+                                    <select ng-model="formData.PaymentAccount">
+                                        <option value="">Select Payment Method</option>
+                                        <option value="AccountNumber" selected="selected">Patrick's Chase</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="item clearfix"  ng-click="formData.AutoPayEnabled = false;">
+                        <span class="icon" ng-class="{'icon-radio-large-checked': !formData.AutoPayEnabled, 'icon-radio-large':formData.AutoPayEnabled}"></span>
+                        <div class="info">
+                            <label>AutoPay Off</label>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div class="buttons">
+            <a class="button primary full">Save Changes</a>
+            <a class="button secondary full">Cancel</a>
+        </div>
+    </div>
+</article>

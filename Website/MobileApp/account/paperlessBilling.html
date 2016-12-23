@@ -1,0 +1,38 @@
+﻿<article class="manage auto-pay full-page account">
+    <div class="heading-bar section">
+        <span class="icon-gear-small icon"></span> <span>Settings</span>
+    </div>
+
+    <div class="section">
+        <h1>Manage Paperless Billing</h1>
+        <p>
+            Paperless billing is a convenient way to stay organized and impact the enviornment. Instaed of receiving a paper bill in the mail, we'll email you when your invoice is ready. It's fast and simple.
+        </p>
+
+        <div class="settings" ng-init="formData.PaperlessEnabled = false;">
+            <form>
+                <div class="setting">
+                    <div class="item clearfix"  ng-click="formData.PaperlessEnabled = true;">
+                        <span class="icon" ng-class="{'icon-radio-large-checked': formData.PaperlessEnabled, 'icon-radio-large':!formData.PaperlessEnabled}"></span>
+                        <div class="info stacked">
+                            <label>Paperless Billing On</label>
+                            <div class="sub-info">Will take effect on next billing cycle.</div>
+                        </div>
+                    </div>
+                    <div class="item clearfix" ng-click="formData.PaperlessEnabled = false;">
+                        <span class="icon" ng-class="{'icon-radio-large-checked': !formData.PaperlessEnabled, 'icon-radio-large':formData.PaperlessEnabled}"></span>
+                        <div class="info">
+                            <label>Paperless Billing Off</label>
+                            <div class="sub-info">Paper statements are currently being mailed to your home address.</div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div class="buttons">
+            <a class="button primary full">Save Changes</a>
+            <a class="button secondary full">Cancel</a>
+        </div>
+    </div>
+</article>

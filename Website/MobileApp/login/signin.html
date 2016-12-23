@@ -1,0 +1,38 @@
+﻿<article class="login logged-out" ng-controller="AuthLoginCtrl">
+    <div class="icon-MyAccountText"></div>
+    <form>
+        <h2>Sign in</h2>
+        <div class="notice error" ng-show="loginError" ng-bind-html="loginError" ng-cloak></div>
+        <div class="group">
+            <div class="item" float-label>
+                <label>Username</label>
+                <input type="text" ng-model ="formData.username" placeholder="Username" ng-model="username"/>
+            </div>
+            <div class="item" float-label>
+                <label>Password</label>
+                <input type="password" ng-model="formData.password" placeholder="password" ng-model="password" />
+            </div>
+        </div>
+        
+        <div class="radios clearfix">
+            <div class="left" ng-click="enableTouchID = false">
+                <span class="radio" ng-model="rememberMe" ng-class="{'icon-radio-checked': !enableTouchID, 'icon-radio':enableTouchID}"></span> <label>Save Username</label>
+            </div>
+            <div class="right" ng-click="enableTouchID = true">
+                <span class="radio" type="radio" ng-class="{'icon-radio-checked': enableTouchID, 'icon-radio':!enableTouchID}"></span> <label>Enable TouchID</label> 
+            </div>
+        </div>
+
+        <div class="clearfix buttons">
+            <!--<a class="button primary sign-in" ng-click="login()">Sign in</a>-->
+            <a class="button sign-in full" href="#dashboard">Sign in</a>
+        </div>
+        <div class="forgot">
+            Forgot <a href="#/login/recoverUsername">Username</a> or <a href="#/login/recoverPassword">Password</a>?
+        </div>
+
+        <div class="legal">
+            Copyright ©2016 Stream  |  All Rights Reserved
+        </div>
+    </form>
+</article>

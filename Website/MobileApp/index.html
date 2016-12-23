@@ -1,0 +1,98 @@
+﻿<!-- index.html -->
+<!DOCTYPE html>
+
+<!-- define angular app -->
+<html ng-app="scotchApp">
+<head>
+    <!-- SCROLLS -->
+
+    <link rel="stylesheet" href="/frontend/assets/css/global.css" />
+
+    <!-- SPELLS -->
+    <!-- load angular via CDN -->
+    <!--<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular.js"></script>-->
+    <script src="/frontend/assets/js/libs/angular.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular-route.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.13/angular-animate.js"></script>
+    <script src="/frontend/assets/js/libs/jquery-1.10.2.min.js"></script>
+    <script src="/frontend/assets/js/app.js"></script>
+    <script src="/frontend/assets/js/services/breakpoint.js"></script>
+    <script src="/frontend/assets/js/directives/float-labels.js"></script>
+    <script src="/frontend/assets/js/controllers/authentification/login.js"></script>
+
+    <script type="text/javascript" src="//use.typekit.net/obg4jvp.js"></script>
+    <script type="text/javascript">try { Typekit.load(); } catch (e) { }</script>
+
+    <meta http-equiv="Content-Security-Policy" content="default-src *; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' 'unsafe-eval'">
+
+</head>
+
+<!-- define angular controller -->
+<body ng-controller="mainController">
+
+    <div class="clearfix menu-page-container">
+        
+
+        <!-- MAIN CONTENT AND INJECTED VIEWS -->
+        <div id="main" class="main" ng-click="checkMenu()" ng-class="{'menu-open': showMenu}">
+            <div class="header">
+                <a class="back icon-back-arrow" ng-click="goBack();" ng-show="backBarisVisible()"></a>
+                
+                <a class="icon-logo logo" href="#"></a>
+                <a class="hamburger icon-navicon right" ng-click="showMenu = true; menuOpening = true;" ng-show="!showMenu"></a>
+                <a class="icon-close-x right" ng-show="showMenu" ng-click="showMenu = false;"></a>
+            </div>
+            
+            <div class="page-container">
+                <div class="page slide-left {{pageClass}} {{showBackBar}}" ng-view></div>
+            </div>
+            
+
+        </div>
+
+        <div class="menu" ng-class="{'open': showMenu}">
+            <div class="heading">Welcome {Name}</div>
+
+            <div class="links" ng-init="headerSettingsSubMenuOpen = false">
+                <div class="manage link">Manage</div>
+                <div class="shop link">Shop</div>
+                <div class="share link ">Share</div>
+                <div class="settings link expandable" ng-class="{'open': headerSettingsSubMenuOpen}" ng-click="headerSettingsSubMenuOpen = !headerSettingsSubMenuOpen; ">
+                    <div>Settings</div>
+                    <div class="sub-menu">
+                        <a href="#account/autopay" ng-click="showMenu = false;">AutoPay</a>
+                        <a href="#account/paperless-billing" ng-click="showMenu = false;">Paperless Billing</a>
+                        <a href="#account/payment-methods" ng-click="showMenu = false;">Payment Methods</a>
+                        <a>Enrolled Accounts</a>
+                        <a>Link Account</a>
+                        <a href="#account/login-info" ng-click="showMenu = false;">Login Information</a>
+                        <a>Account Information </a>
+                    </div>
+                    
+                
+                </div>
+                <div class="contact-us link">Contact Us</div>
+                <div class="story link">Our Story</div>
+            </div>
+
+
+            <div class="secondary">
+                <div class="button-links">
+                    <a class="sign-out">Sign Out </a>
+                    <a>Send Feedback</a>
+                    <a>Privacy Policy</a>
+                    <a>Terms of Service</a>
+                </div>
+                <div class="social">
+                    <a class="facebook icon-facebook"></a>
+                    <a class="twitter icon-twitter"></a>
+                    <a class="youtube icon-youtube"></a>
+                    <a class="instagram icon-instagram"></a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+</body>
+</html>
+

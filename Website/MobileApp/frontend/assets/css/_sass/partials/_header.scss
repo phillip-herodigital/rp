@@ -1,0 +1,27 @@
+.header {
+    @extend .clearfix;
+    @include radial-grandient(darkblue);
+    //background:#023451;
+    padding:30px 10px 10px 15px;
+
+	nav {
+		ul {
+			@include inline-block-list();
+		}
+	}	
+
+    a{
+        color:#9aaeb9;
+        font-size:17px;
+        text-decoration:none;
+    }
+
+    .back{
+        margin-right:20px;
+    }
+
+    .right{
+        float:right;
+    }
+
+}

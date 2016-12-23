@@ -1,0 +1,42 @@
+﻿.item[float-label-container] {
+    position: relative;
+    > label, > .label {
+        // @include bold-font(semi);
+        position:absolute;
+        margin:10px 0 0 15px;
+        z-index:10;
+        opacity: 0;
+        font-family:"proxima-nova-n3", "proxima-nova", Helvetica, Arial, sans-serif !important;
+        font-size: 13px !important;
+        font-weight: normal;
+        line-height: 1em;
+        pointer-events:none; 
+	}
+	&.fl-active {
+        &.monetary{
+            > label, .label{
+                margin-left:50px;
+            }
+        }
+        > label, .label {
+            margin-top: 7px;
+            opacity: 1;
+            color: $primary-text-light-grey !important;
+
+            & + input, & + select, & + textarea {
+                color: #000;
+                padding-top: 20px;
+                padding-bottom: 10px;
+            }
+
+            & + select {
+                padding-left: 15px;
+            }
+        }
+    }
+    &.fl-animate {
+        > label, .label {
+            transition: all .25s;
+        }
+    }
+}

@@ -1,0 +1,123 @@
+﻿<article class="account add-payment-method full-page">
+    <div class="section">
+        <h1>Add Payment Method</h1>
+
+        <div class="add-method">
+            <div class="options" ng-init="toggleView = 'card'">
+                <a class="" ng-click="toggleView = 'card'" ng-class="{'selected':toggleView == 'card'}">Credit Card</a>
+                <a class="" ng-click="toggleView = 'bank'" ng-class="{'selected':toggleView == 'bank'}">Bank Account</a>
+            </div>
+
+            <div class="" ng-show="toggleView == 'card'">
+                <p>
+                    To add or edit a credit card, either tap on “Scan License & Credit Card”, or fill out the form and click on the “Submit” button below. The Account Nickname will be used throughout this site to provide a friendly payment method name.
+                </p>
+
+                <div class="notice">
+                    <b>Note:</b> $2.95 credit card processing fee will be added to each transaction. There is no fee for using a <a ng-click="toggleView = 'bank'">Bank Account</a> to Make a Payment.
+                </div>
+                <div class="buttons">
+                    <a class="button full">
+                        <span class="icon icon-capture-card"></span> Scan Credit Card
+                    </a>
+                </div>
+
+                <form>
+                    <div class="card-section">
+                        <div class="credit-card-fields">
+                            <div class="item card-input" float-label>
+                                <label>Credit Card Number</label>
+                                <div class="type"></div>
+                                <input type="text" />
+                            </div>
+                            <div class="group supporting-info clearfix">
+                                <div class="item month" float-label>
+                                    <label>MM</label>
+                                    <input type="text" placeholder="MM" />
+                                </div>
+                                <div class="seperator">/</div>
+                                <div class="item year" float-label>
+                                    <label>YYYY</label>
+                                    <input type="text" placeholder="YYYY" />
+                                </div>
+                                <div class="item cvv" float-label>
+                                    <label>CVV</label>
+                                    <input type="text" placeholder="CVV" />
+                                </div>
+                            </div>
+                            <a class="example">Example</a>
+                        </div>
+                    </div>
+
+                    <div class="card-section">
+                        <div class="item" float-label>
+                            <label>Name On Card</label>
+                            <input placeholder="Name On Card" type="text" ng-model="formData.CardHolderName" />
+                        </div>
+                        <div class="item" float-label>
+                            <label>Billing Zip Code</label>
+                            <input placeholder="Billing Zip Code" type="text" ng-model="formData.CardPostalCode" />
+                        </div>
+                        <div class="item" float-label>
+                            <label>Account Nickname</label>
+                            <input placeholder="Name On Card" type="text" ng-model="formData.CardNickname" />
+                        </div>
+
+                        <p>
+                            Account Nickname will be used throughout this site to provide a friendly payment method name. 
+                        </p>
+                    </div>
+                    
+                    <div class="buttons">
+                        <a class="button full primary">Submit</a>
+                        <a class="button full secondary" ng-click="goBack();">Cancel</a>
+                    </div>
+                </form>
+            </div>
+
+            <div ng-show="toggleView == 'bank'">
+                <p>
+                    To add or edit a bank account, fill out the form and click on the “Submit” button below. The Account nickname will be used throughout this site to provide a friendly payment method name.
+                </p>
+
+                <form>
+                    <div class="item" float-label>
+                        <label>Account Type</label>
+                        <select ng-model="formData.AccountPaymentType">
+                            <option value="" selected="selected">Account Type</option>
+                            <option value="Checking">Checking</option>
+                            <option value="Savings">Savings</option>
+                        </select>
+                    </div>
+                    <div class="item" float-label>
+                        <label>Name on Bank Account</label>
+                        <input type="text" placeholder="Name on Bank Account" ng-model="formData.AccountName"/>
+                    </div>
+                    <div class="item" float-label>
+                        <label>Routing Number</label>
+                        <input type="text" placeholder="Routing Number" ng-model="formData.RoutingNumber"/>
+                    </div>
+                    <div class="item" float-label>
+                        <label>Account Number</label>
+                        <input type="text" placeholder="Account Number" ng-model="formData.AccountNumber"/>
+                    </div>
+                    <div>
+                        <img src="/frontend/assets/i/checkImage.jpg" />
+                    </div>
+                    <div class="item" float-label>
+                        <label>Account Nickname</label>
+                        <input type="text" placeholder="Account Nickname" ng-model="formData.AccountNickname" />
+                    </div>
+                    <p>
+                        Account Nickname will be used throughout this site to provide a friendly payment method name. 
+                    </p>
+                    <div class="buttons">
+                        <a class="button full primary">Submit</a>
+                        <a class="button full secondary" ng-click="goBack();">Cancel</a>
+                    </div>
+                </form>
+            </div>
+            
+        </div>
+    </div>
+</article>

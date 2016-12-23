@@ -1,0 +1,12 @@
+{
+    "name":  "Boilerplate",
+    "version": "0.0.1",
+    "dependencies": {
+    	"modernizr": "latest",
+    	"jquery": "~1",
+        "angular": "~1.2",
+        "angular-bootstrap": "latest",
+        "angular-ui-utils": "latest",
+        "respond": "latest"
+    }
+}

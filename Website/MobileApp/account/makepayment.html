@@ -1,0 +1,115 @@
+﻿<article class="make-payment full-page">
+    <div class="heading-bar clearfix grid section">
+        <div class="left">
+            <span class="icon-calendar icon"></span> <span>Simplify your life with AutoPay.</span>
+        </div>
+        <div class="right">
+            <a>Enroll Now</a>
+        </div>
+    </div>
+    <div class="summary clearfix section">
+        <div class="grid">
+            <div class="left">Make a Payment</div>
+            <div class="right">
+                <a class="bubble pink">1 alert</a>
+            </div>
+        </div>
+        <div class="message">
+            To make a payment, select the Account(s). Enter the amount you wish to pay and the payment method from the drop down menu. 
+        </div>
+    </div>
+
+    <div class="details section">
+        <div class="heading grid three">
+            <div class="left">Select</div>
+            <div class="middle">Account</div>
+            <div class="right">Balance</div>
+        </div>
+
+        <div class="payment-section">
+            <form>
+                <div class="block">
+                    <div class="grid three info">
+                        <div class="left">
+                            <span ng-class="{'icon-radio-large-checked':EnergyChecked, 'icon-radio-large':!EnergyChecked}" ng-click="EnergyChecked = !EnergyChecked"></span>
+                        </div>
+                        <div class="middle">
+                            <label>Energy</label>
+                            <span>10393910838</span>
+                        </div>
+                        <div class="right">
+                            <label>$163.42</label>
+                            <span>Due 12/15/16</span>
+                        </div>
+                    </div>
+
+                    <div class="group" ng-show="EnergyChecked">
+
+
+                        <div class="item" float-label>
+                            <label>Payment Amount:</label>
+                            <input type="text" ng-model="formData.PaymentAmount" placeholder="Payment Amount:" />
+                        </div>
+                        <div class="item" float-label>
+                            <label>Payment Amount:</label>
+                            <select ng-model="formData.PaymentMethod">
+                                <option selected="selected" value="">Select Payment Method</option>
+                                <option value="Patrick's Amex'">Patrick's Amex</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="block">
+                    <div class="grid three info">
+                        <div class="left">
+                            <span ng-class="{'icon-radio-large-checked':WirelessChecked, 'icon-radio-large':!WirelessChecked}" ng-click="WirelessChecked = !WirelessChecked"></span>
+                        </div>
+                        <div class="middle">
+                            <label>Wireless</label>
+                            <span>12345</span>
+                        </div>
+                        <div class="right">
+                            <label>$163.42</label>
+                            <span>Due 12/15/16</span>
+                        </div>
+                    </div>
+
+                    <div class="group" ng-show="WirelessChecked">
+                        <div class="item" float-label>
+                            <label>Payment Amount:</label>
+                            <input type="text" ng-model="formData.WirelessPaymentAmount" placeholder="Payment Amount:" />
+                        </div>
+                        <div class="item" float-label>
+                            <label>Payment Amount:</label>
+                            <select ng-model="formData.WirelessPaymentMethod">
+                                <option selected="selected" value="">Select Payment Method</option>
+                                <option value="Patrick's Amex'">Patrick's Amex</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="totals grid block">
+                    <div class="right">
+                        <dl>
+                            <dt>Total for 1 Account:</dt>
+                            <dd>$163.55</dd>
+                            <dt>Payment Date:</dt>
+                            <dd>12/07/2016</dd>
+                        </dl>
+                    </div>
+                </div>
+
+                <div class="buttons">
+                    <a class="button primary full">Continue</a>
+                </div>
+            </form>
+        </div>
+
+        <div class="verisign">
+            <span class="icon-verisign"></span>
+        </div>
+    </div>
+
+</article>

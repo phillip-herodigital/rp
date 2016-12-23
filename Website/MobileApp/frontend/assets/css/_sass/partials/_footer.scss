@@ -1,0 +1,5 @@
+.site-footer {
+	ul {
+		@include inline-block-list();
+	}
+}

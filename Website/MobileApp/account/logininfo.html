@@ -1,0 +1,55 @@
+﻿<article class="account full-page login-info" >
+    <div class="section">
+        <h1>Login Information</h1>
+        <form>
+            <div class="block">
+                <div class="item" float-label>
+                    <label>User Name</label>
+                    <input type="text" placeholder="Username" ng-model="formData.Username"/>
+                </div>
+                <div class="item" float-label>
+                    <label>Email Address</label>
+                    <input type="text" placeholder="Email Address" ng-model="formData.EmailAddress" />
+                </div>
+                <div>
+                    <a>Change My Password</a>
+                </div>
+            </div>
+
+            <div class="block">
+                <h1>Security Questions</h1>
+
+                <div class="item" float-label>
+                    <label>Select Secuity Question #1</label>
+                    <select ng-model="formData.quesiton1">
+                        <option selected="selected" value="">Select Secuity Question #1</option>
+                        <option value="hello">Some Question</option>
+                    </select>
+                </div>
+                <div class="item" float-label>
+                    <label>Answer</label>
+                    <input type="text" placeholder="Answer" ng-model="formData.Answer1"/>
+                </div>
+            </div>
+            <div class="block">
+                <div class="item" float-label>
+                    <label>Select Secuity Question #2</label>
+                    <select ng-model="formData.quesiton1">
+                        <option selected="selected" value="">Select Secuity Question #2</option>
+                        <option value="hello">Some Question</option>
+                    </select>
+                </div>
+                <div class="item" float-label>
+                    <label>Answer</label>
+                    <input type="text" placeholder="Answer" ng-model="formData.Answer2" />
+                </div>
+            </div>
+            
+            <div class="buttons">
+                <a class="button primary full">Save Changes</a>
+                <a class="button secondary full" ng-click="goBack();">Cancel</a>
+            </div>
+
+        </form>
+    </div>
+</article>
