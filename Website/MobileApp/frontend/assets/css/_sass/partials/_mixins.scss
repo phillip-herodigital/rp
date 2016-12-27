@@ -97,9 +97,18 @@
         $start:#0e344f;
         $end: #13324b;
     }
+    @if $color == lightblue{
+        $start:#0075df;
+        $end: #004ab8;
+    }
     @if $color == orange{
         $start: #e9940f;
         $end: #d26907;
+    }
+
+    @if $color == pink{
+        $start: #cf1573;
+        $end: #c00d61;
     }
 
     background-image:

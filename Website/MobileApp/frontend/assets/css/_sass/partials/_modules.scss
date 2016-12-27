@@ -41,7 +41,7 @@ article {
 }
 
 article.logged-out{ //all anonymous flow pages
-    background:url("/frontend/assets/i/loginBackground.jpg") no-repeat top left;
+    background:url("/mobileapp/frontend/assets/i/loginBackground.jpg") no-repeat top left;
     padding-top:45px; 
     color:white;
     position:absolute;
@@ -124,18 +124,92 @@ article.create-account{
 }
 
 article.shop{
+    .block-links{
+        &.wireless{
+            a, .link{
+                @include retina-background(girlphone);
+                background-size:cover;
+                background-repeat:none;
+            }
+        }
 
+        &.energy{
+             a, .link{
+                 @include radial-grandient(orange);
+            }
+        }
+
+        &.protective{
+            a, .link{
+                @include retina-background(girldesk);
+                background-size:cover;
+                background-repeat:none;
+            }
+        }
+        &.home{
+           a, .link{
+                @include retina-background(house);
+                background-size:cover;
+                background-repeat:none;
+            }
+        }
+
+        &.opportunity{
+            a, .link{
+                 @include radial-grandient(blue);
+            }
+
+            .icon{
+                margin-bottom:25px;
+            }
+        }
+
+        a, .link{
+            padding: 35px 55px 35px 25px;
+
+            .icon{
+                float:left;
+                margin-right: 25px;
+            }
+            .name{
+                background:none !important;
+            }
+        }
+
+
+
+    }
 }
 
 .live-life-connected{
     padding:90px 0 110px;
     text-align:center;
-    background:url("/frontend/assets/i/friends_in_arms.jpg") bottom left no-repeat;
+    background:url("/mobileapp/frontend/assets/i/friends_in_arms.jpg") bottom left no-repeat;
     background-size:100%;
 }
 
 article.block-links{
     padding:0;
+    background-repeat:repeat;
+    background-size:cover;
+
+    &.welcome{
+        .title{
+           @include radial-grandient(pink);
+           .icon{
+                margin-right:5px;
+            }
+        }
+         a, .link{
+            @include retina-background("welcometo");   
+            background-size:cover;
+            background-repeat:no-repeat;
+            padding:90px 10px;
+
+            
+        }
+    }
+
     &.join{
         .title, a{
             @include gradient(green);
@@ -149,7 +223,7 @@ article.block-links{
             
 
             .name{
-                background: url("/frontend/assets/i/icon/briefcase.png");
+                background: url("/mobileapp/frontend/assets/i/icon/briefcase.png");
                 background-position:left 50%;
                 background-repeat:no-repeat;
             }
@@ -165,11 +239,27 @@ article.block-links{
         }
 
         a, .link{
-            background:linear-gradient(to right, #bcd73f , #86bb28); 
-            
+            @include retina-background(diamonds-pink);
 
             .name{
-                background: url("/frontend/assets/i/icon/shop.png");
+                background: url("/mobileapp/frontend/assets/i/icon/shop.png");
+                background-position:left 50%;
+                background-repeat:no-repeat;
+            }
+                
+        }
+    }
+    &.share{
+        .title, a{
+            font-size:25px;
+            font-weight:normal; 
+        }
+
+        a, .link{
+            @include retina-background(diamonds-blue);
+
+            .name{
+                background: url("/mobileapp/frontend/assets/i/icon/share.png");
                 background-position:left 50%;
                 background-repeat:no-repeat;
             }
@@ -192,7 +282,7 @@ article.block-links{
             }
 
             .name{
-                background: url("/frontend/assets/i/icon/wrench.png");
+                background: url("/mobileapp/frontend/assets/i/icon/wrench.png");
                 background-position:left 50%;
                 background-repeat:no-repeat;
             }
@@ -201,7 +291,8 @@ article.block-links{
     }
     &.payment{
         a, .link{
-            background:linear-gradient(to right, #0c4c8f , #0c7bb6);
+            @include retina-background(diamonds-green);
+
             &.no-icon{
                 background-image:linear-gradient(to right, #0c4c8f , #0c7bb6);
 
@@ -211,7 +302,7 @@ article.block-links{
             }
 
             .name{
-                background: url("/frontend/assets/i/icon/bill.png");
+                background: url("/mobileapp/frontend/assets/i/icon/bill.png");
                 background-position:left 50%;
                 background-repeat:no-repeat;
             }
@@ -219,21 +310,22 @@ article.block-links{
         }
     }
     &.energy{
+        
         .title{
             background:linear-gradient(to right, #f19408 , #f6b03e);
         }
 
         a, .link{
-            background:linear-gradient(to right, #f19408 , #f6b03e);
+            @include retina-background(diamonds-orange);
 
             &.gas{
                 .name{
-                    background-image: url("/frontend/assets/i/icon/flame.png");
+                    background-image: url("/mobileapp/frontend/assets/i/icon/flame.png");
                 }
             }
 
             .name{
-                background: url("/frontend/assets/i/icon/light-bulb.png");
+                background: url("/mobileapp/frontend/assets/i/icon/light-bulb.png");
                 background-position:left 50%;
                 background-repeat:no-repeat;
                 
@@ -247,23 +339,23 @@ article.block-links{
         }
 
         a, .link{
-                
-            background-position:left 50%; 
-            background-repeat:no-repeat;
+
+            @include retina-background(diamonds-light-blue);
+            background-position:left 50%;
 
             &.plans{
-                background:linear-gradient(to right, #4397c5 , #04a8a1);
+                //background:linear-gradient(to right, #4397c5 , #04a8a1);
                 .name{
-                    background: url("/frontend/assets/i/icon/bars.png");
+                    background: url("/mobileapp/frontend/assets/i/icon/bars.png");
                     background-position:left 50%;
                     background-repeat:no-repeat;
                 }
             }
             &.devices{
-                background:linear-gradient(to right, #4397c5 , #04a8a1);
+                //background:linear-gradient(to right, #4397c5 , #04a8a1);
 
                 .name{
-                    background: url("/frontend/assets/i/icon/phone.png");
+                    background: url("/mobileapp/frontend/assets/i/icon/phone.png");
                     background-position:left 50%;
                     background-repeat:no-repeat;
                 }
@@ -279,7 +371,7 @@ article.block-links{
     }
 
     a, .link{
-        padding: 20px 10px;
+        padding: 30px 10px;
         display:block;
         text-decoration:none;
         position:relative;
@@ -289,23 +381,21 @@ article.block-links{
         box-shadow: 0 15px 28px -28px rgba(0, 0, 0, 0.8) inset;
         position:relative;
 
-        &.no-arrow{
+        &.arrow{
             &:after{
-                background:none;
+                content:"";
+                background-image:url("/mobileapp/frontend/assets/i/icon/arrow-large.png");
+                position:absolute;
+                z-index:2;
+                display:block;
+                top:calc(50% - 12px);
+                right:25px;
+                height:23px;
+                width:11px;
             }
         }
 
-        &:after{
-            content:"";
-            background-image:url("/frontend/assets/i/icon/arrow-large.png");
-            position:absolute;
-            z-index:2;
-            display:block;
-            top:calc(50% - 12px);
-            right:25px;
-            height:23px;
-            width:11px;
-        }
+        
 
         &.split{
             @include clearfix;

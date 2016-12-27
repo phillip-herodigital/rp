@@ -36,7 +36,7 @@ streamApp.controller('AuthLoginCtrl', ['$scope', '$http', '$window', '$sce', '$l
         // add the URL to the login submission object
         $scope.formData.uri = document.URL;
 
-        var loginAPI = 'https://test.mystream.com/api/authentication/login';
+        var loginAPI = '/api/authentication/login';
 
         $http({
             method: 'POST',
