@@ -94,6 +94,11 @@ streamApp.controller('mainController', function ($scope, $window, $location) {
         $location.path(path);
     }
 
+    $scope.GlobalData = function () {
+        return $window.GlobalData;
+    }
+
+
     $scope.checkMenu = function () {
         if (!$scope.menuOpening) {
             $scope.showMenu = false;

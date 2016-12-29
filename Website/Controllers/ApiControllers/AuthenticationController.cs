@@ -253,6 +253,17 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             return response;
         }
 
+        [HttpPost]
+        public HttpResponseMessage AppLogout() {
+            Dispose(true);
+            HttpContext.Current.Session.Abandon();
+            var response = Request.CreateResponse(HttpStatusCode.Found);
+            response.Headers.Location = new Uri(Request.RequestUri, "/mobileapp/index.html");
+
+            return response;
+
+        }
+
         [HttpGet]
         public HttpResponseMessage CallcenterLogout()
         {

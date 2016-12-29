@@ -56,12 +56,46 @@ streamApp.controller('AuthLoginCtrl', ['$scope', '$http', '$window', '$sce', '$l
 			    } else {
 			        // if successful, send the user to the return URL
 			        //$window.location.href = data.returnURI;
-			        alert("I succeeded");
+			        $scope.loadUserData();
+
 			        $scope.go("dashboard");
 			    }
-			}).error(function () {
-			    alert("error");
+			}).error(function (data, status) {
+			    //alert(data.message);
+                //alert(status)
 			});
     };
+
+    $scope.loadUserData = function () {
+        
+        var userDataAPI = '/api/MobileApp/loadAppData';
+        $http({
+            method: 'GET',
+            url: userDataAPI,
+            data: $scope.formData,
+            headers: { 'Content-Type': 'application/JSON' }
+        }).success((function (data, status, headers, config) {
+            //Set this to some caching services opposed to window variable long term
+            
+            if (!$window.GlobalData) $window.GlobalData = {};
+            $window.GlobalData.User = data.user;
+        }));
+    }
+
+    $scope.logout = function () {
+        var logoutApi = "/api/authentication/applogout";
+        var data = {'uri':"#"};
+        $http({
+            method: 'POST',
+            url: logoutApi,
+            data: data,
+            headers: { 'Content-Type': 'application/JSON' }
+        })
+			.success(function (data, status, headers, config) {
+			    $window.GlobalData.User = null;
+			    $scope.go("");
+			}).error(function () {
+			});
+    }
 
 }]);

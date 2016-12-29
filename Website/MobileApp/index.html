@@ -51,7 +51,7 @@
         </div>
 
         <div class="menu" ng-class="{'open': showMenu}">
-            <div class="heading">Welcome {Name}</div>
+            <div class="heading">Welcome {{GlobalData().User.name}}</div>
 
             <div class="links" ng-init="headerSettingsSubMenuOpen = false">
                 <div class="manage link">Manage</div>
@@ -78,7 +78,8 @@
 
             <div class="secondary">
                 <div class="button-links">
-                    <a class="sign-out">Sign Out </a>
+                    <!--<a class="sign-out" ng-controller="AuthLoginCtrl" href="/api/authentication/logout">Sign Out </a>-->
+                    <a class="sign-out" ng-controller="AuthLoginCtrl" ng-click="logout(); $parent.showMenu = false;" >Sign Out </a>
                     <a>Send Feedback</a>
                     <a>Privacy Policy</a>
                     <a>Terms of Service</a>
