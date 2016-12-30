@@ -3985,59 +3985,61 @@ article.overview .buttons .button {
   font-size: 18px;
 }
 
-/* line 830, _sass/partials/_modules.scss */
+/* line 832, _sass/partials/_modules.scss */
+article.payments .buttons button.primary, article.payments .buttons .button.primary {
+  background: #78a832;
+}
+/* line 838, _sass/partials/_modules.scss */
+article.payments .review {
+  background: #fff;
+  padding-top: 25px;
+  margin-bottom: 75px;
+}
+/* line 843, _sass/partials/_modules.scss */
+article.payments .review.section {
+  padding-top: 20px;
+}
+
+/* line 850, _sass/partials/_modules.scss */
 article.make-payment .section {
   padding: 10px 20px;
 }
-/* line 833, _sass/partials/_modules.scss */
+/* line 853, _sass/partials/_modules.scss */
 article.make-payment .heading-bar {
   background: #88c53f;
   color: #fff;
 }
-/* line 837, _sass/partials/_modules.scss */
+/* line 857, _sass/partials/_modules.scss */
 article.make-payment .heading-bar .left {
   font-size: 15px;
   margin-top: 3px;
 }
-/* line 841, _sass/partials/_modules.scss */
+/* line 861, _sass/partials/_modules.scss */
 article.make-payment .heading-bar .left .icon {
   margin-top: -2px;
 }
-/* line 846, _sass/partials/_modules.scss */
+/* line 866, _sass/partials/_modules.scss */
 article.make-payment .heading-bar .right a {
   text-decoration: none;
   color: #fff;
 }
-/* line 853, _sass/partials/_modules.scss */
+/* line 873, _sass/partials/_modules.scss */
 article.make-payment .summary {
   background: #fff;
   padding-top: 20px;
   padding-bottom: 20px;
 }
-/* line 858, _sass/partials/_modules.scss */
-article.make-payment .summary .left {
-  font-size: 24px;
-  width: calc(100% - 100px);
-}
-/* line 862, _sass/partials/_modules.scss */
-article.make-payment .summary .right {
-  width: 100px;
-  margin-top: 5px;
-}
-/* line 867, _sass/partials/_modules.scss */
+/* line 879, _sass/partials/_modules.scss */
 article.make-payment .summary .message {
   color: #a1a1a1;
   font-size: 18px;
   line-height: 1.3;
-  margin-top: 20px;
-  padding-top: 15px;
-  border-top: 1px solid #e3e3e3;
 }
-/* line 878, _sass/partials/_modules.scss */
+/* line 887, _sass/partials/_modules.scss */
 article.make-payment .details {
-  background: #f7f7f7;
+  background: #fff;
 }
-/* line 881, _sass/partials/_modules.scss */
+/* line 890, _sass/partials/_modules.scss */
 article.make-payment .details .heading {
   padding: 10px 20px;
   margin: -10px -20px;
@@ -4045,72 +4047,89 @@ article.make-payment .details .heading {
   margin-bottom: 20px;
   line-height: 1;
 }
-/* line 892, _sass/partials/_modules.scss */
+/* line 901, _sass/partials/_modules.scss */
 article.make-payment .details .grid.three .right {
   width: 120px;
 }
-/* line 897, _sass/partials/_modules.scss */
+/* line 906, _sass/partials/_modules.scss */
 article.make-payment .details .grid.info {
   color: #616262;
   font-size: 16px;
 }
-/* line 901, _sass/partials/_modules.scss */
+/* line 910, _sass/partials/_modules.scss */
+article.make-payment .details .grid.info .account {
+  font-size: 12px;
+  color: #878888;
+  font-weight: 600;
+}
+/* line 915, _sass/partials/_modules.scss */
 article.make-payment .details .grid.info label {
   font-weight: 600;
   font-size: 20px;
   color: #4a4a4a;
   display: block;
+  line-height: 1;
+  margin-bottom: 5px;
 }
-/* line 908, _sass/partials/_modules.scss */
+/* line 924, _sass/partials/_modules.scss */
 article.make-payment .details .grid.info + .group {
   margin-top: 25px;
 }
-/* line 913, _sass/partials/_modules.scss */
+/* line 929, _sass/partials/_modules.scss */
+article.make-payment .details .grid.info .auto-pay .icon {
+  margin: -4px 5px 0 0;
+}
+/* line 935, _sass/partials/_modules.scss */
 article.make-payment .details .grid .left {
   width: 60px;
 }
-/* line 916, _sass/partials/_modules.scss */
+/* line 938, _sass/partials/_modules.scss */
 article.make-payment .details .grid .middle {
   width: calc(100% - 120px - 60px);
 }
-/* line 919, _sass/partials/_modules.scss */
+/* line 941, _sass/partials/_modules.scss */
 article.make-payment .details .grid .right {
   width: calc(100% - 55px);
 }
-/* line 926, _sass/partials/_modules.scss */
+/* line 948, _sass/partials/_modules.scss */
 article.make-payment .details .payment-section .block {
   padding-bottom: 25px;
-  border-bottom: 1px solid #e0e3e4;
-  margin-bottom: 20px;
+  /*border-bottom:1px solid #e0e3e4;*/
+  margin-bottom: 5px;
+  background: #edeff0;
 }
-/* line 941, _sass/partials/_modules.scss */
+/* line 954, _sass/partials/_modules.scss */
+article.make-payment .details .payment-section .block:last-of-type {
+  margin-bottom: 0;
+}
+/* line 968, _sass/partials/_modules.scss */
 article.make-payment .verisign {
   margin: 25px;
   text-align: center;
 }
 
-/* line 947, _sass/partials/_modules.scss */
+/* line 974, _sass/partials/_modules.scss */
 article.account {
   margin-bottom: 100px;
 }
-/* line 949, _sass/partials/_modules.scss */
+/* line 976, _sass/partials/_modules.scss */
 article.account .section {
   background: #fff;
   padding: 15px 20px;
 }
-/* line 953, _sass/partials/_modules.scss */
+/* line 980, _sass/partials/_modules.scss */
 article.account .section.heading-bar {
   background-image: radial-gradient(#0053ba, #0041a5);
   color: #fff;
   font-size: 20px;
   font-weight: bold;
 }
-/* line 960, _sass/partials/_modules.scss */
+/* line 987, _sass/partials/_modules.scss */
 article.account .section.heading-bar .icon {
   margin-top: -5px;
   margin-right: 5px;
 }
-/* line 965, _sass/partials/_modules.scss */
+/* line 992, _sass/partials/_modules.scss */
 article.account .section p {
   font-size: 16px;
   color: #737373;
@@ -4118,47 +4137,47 @@ article.account .section p {
   margin: 0 0 25px 0;
 }
 
-/* line 977, _sass/partials/_modules.scss */
+/* line 1004, _sass/partials/_modules.scss */
 article.manage-payment-methods .payment-methods .payment-method {
   padding: 15px 0;
   border-bottom: 1px solid #d8d8d8;
   line-height: 1;
   margin-bottom: 20px;
 }
-/* line 983, _sass/partials/_modules.scss */
+/* line 1010, _sass/partials/_modules.scss */
 article.manage-payment-methods .payment-methods .payment-method:first-of-type {
   border-top: 1px solid #d8d8d8;
 }
-/* line 987, _sass/partials/_modules.scss */
+/* line 1014, _sass/partials/_modules.scss */
 article.manage-payment-methods .payment-methods .payment-method a {
   color: #004cb2;
   text-decoration: none;
 }
-/* line 991, _sass/partials/_modules.scss */
+/* line 1018, _sass/partials/_modules.scss */
 article.manage-payment-methods .payment-methods .payment-method .name {
   color: #4a4a4a;
   font-size: 20px;
   font-weight: bold;
 }
-/* line 997, _sass/partials/_modules.scss */
+/* line 1024, _sass/partials/_modules.scss */
 article.manage-payment-methods .payment-methods .payment-method .payment-details {
   color: #737373;
   margin-top: 10px;
 }
-/* line 1001, _sass/partials/_modules.scss */
+/* line 1028, _sass/partials/_modules.scss */
 article.manage-payment-methods .payment-methods .payment-method .payment-details .icon {
   margin-right: 5px;
 }
 
-/* line 1011, _sass/partials/_modules.scss */
+/* line 1038, _sass/partials/_modules.scss */
 article.billing-history .selections {
   background: #edeff0;
 }
-/* line 1015, _sass/partials/_modules.scss */
+/* line 1042, _sass/partials/_modules.scss */
 article.billing-history .invoices {
   padding: 0 0 50px 0;
 }
-/* line 1018, _sass/partials/_modules.scss */
+/* line 1045, _sass/partials/_modules.scss */
 article.billing-history .invoices .invoice {
   background-image: url('../i/icon/arrow-large-blue.png?1482429186');
   padding: 30px 40px 30px 20px;
@@ -4166,47 +4185,47 @@ article.billing-history .invoices .invoice {
   background-repeat: no-repeat;
   background-position: calc(100% - 20px) 53px;
 }
-/* line 1027, _sass/partials/_modules.scss */
+/* line 1054, _sass/partials/_modules.scss */
 article.billing-history .invoices .invoice:nth-child(even) {
   background-color: #f8f9f9;
 }
-/* line 1031, _sass/partials/_modules.scss */
+/* line 1058, _sass/partials/_modules.scss */
 article.billing-history .invoices .invoice .info {
   color: #737373;
   font-size: 15px;
   margin-bottom: 10px;
 }
-/* line 1036, _sass/partials/_modules.scss */
+/* line 1063, _sass/partials/_modules.scss */
 article.billing-history .invoices .invoice .details {
   font-size: 20px;
 }
 
-/* line 1045, _sass/partials/_modules.scss */
+/* line 1072, _sass/partials/_modules.scss */
 article.manage .settings .setting {
   padding: 25px 0;
   border-top: 1px solid #e3e3e3;
   border-bottom: 1px solid #e3e3e3;
   margin-bottom: 15px;
 }
-/* line 1051, _sass/partials/_modules.scss */
+/* line 1078, _sass/partials/_modules.scss */
 article.manage .settings .setting + .setting {
   border-top: none;
 }
-/* line 1055, _sass/partials/_modules.scss */
+/* line 1082, _sass/partials/_modules.scss */
 article.manage .settings .setting h1 {
   margin-top: 0;
   margin-bottom: 30px;
   font-size: 26px;
 }
-/* line 1063, _sass/partials/_modules.scss */
+/* line 1090, _sass/partials/_modules.scss */
 article.manage .settings .setting .item:last-of-type {
   margin-bottom: 0;
 }
-/* line 1067, _sass/partials/_modules.scss */
+/* line 1094, _sass/partials/_modules.scss */
 article.manage .settings .setting .item .icon {
   float: left;
 }
-/* line 1070, _sass/partials/_modules.scss */
+/* line 1097, _sass/partials/_modules.scss */
 article.manage .settings .setting .item .info {
   float: left;
   margin-left: 15px;
@@ -4216,39 +4235,39 @@ article.manage .settings .setting .item .info {
   line-height: 1;
   margin-top: 10px;
 }
-/* line 1079, _sass/partials/_modules.scss */
+/* line 1106, _sass/partials/_modules.scss */
 article.manage .settings .setting .item .info.stacked {
   margin-top: 0;
 }
-/* line 1083, _sass/partials/_modules.scss */
+/* line 1110, _sass/partials/_modules.scss */
 article.manage .settings .setting .item .info label {
   font-size: 20px;
   font-weight: bold;
   color: #4a4a4a;
 }
-/* line 1088, _sass/partials/_modules.scss */
+/* line 1115, _sass/partials/_modules.scss */
 article.manage .settings .setting .item .info .sub-info {
   margin-top: 5px;
 }
-/* line 1091, _sass/partials/_modules.scss */
+/* line 1118, _sass/partials/_modules.scss */
 article.manage .settings .setting .item .info .sub-info + .account-info {
   margin-top: 10px;
 }
-/* line 1100, _sass/partials/_modules.scss */
+/* line 1127, _sass/partials/_modules.scss */
 article.manage .settings .setting .phone-numbers .number {
   margin-bottom: 15px;
 }
-/* line 1103, _sass/partials/_modules.scss */
+/* line 1130, _sass/partials/_modules.scss */
 article.manage .settings .setting .phone-numbers .number:last-of-type {
   margin-bottom: 0;
 }
 
-/* line 1112, _sass/partials/_modules.scss */
+/* line 1139, _sass/partials/_modules.scss */
 article.add-payment-method .options {
   border-bottom: 1px solid #c4c4c4;
   margin-bottom: 10px;
 }
-/* line 1115, _sass/partials/_modules.scss */
+/* line 1142, _sass/partials/_modules.scss */
 article.add-payment-method .options a {
   font-size: 18px;
   color: #4a4a4a;
@@ -4258,22 +4277,22 @@ article.add-payment-method .options a {
   line-height: 1;
   padding-bottom: 9px;
 }
-/* line 1124, _sass/partials/_modules.scss */
+/* line 1151, _sass/partials/_modules.scss */
 article.add-payment-method .options a:last-of-type {
   margin-right: 0;
 }
-/* line 1128, _sass/partials/_modules.scss */
+/* line 1155, _sass/partials/_modules.scss */
 article.add-payment-method .options a.selected {
   color: #004cb2;
   border-bottom: 3px solid #004cb2;
 }
-/* line 1135, _sass/partials/_modules.scss */
+/* line 1162, _sass/partials/_modules.scss */
 article.add-payment-method img {
   margin: auto;
   display: inline-block;
   width: 100%;
 }
-/* line 1141, _sass/partials/_modules.scss */
+/* line 1168, _sass/partials/_modules.scss */
 article.add-payment-method .notice {
   padding: 20px 25px;
   background: #d9dee1;
@@ -4281,85 +4300,85 @@ article.add-payment-method .notice {
   color: #072235;
   margin-bottom: 10px;
 }
-/* line 1148, _sass/partials/_modules.scss */
+/* line 1175, _sass/partials/_modules.scss */
 article.add-payment-method .notice a {
   color: #004cb2;
   font-size: 16px;
 }
-/* line 1155, _sass/partials/_modules.scss */
+/* line 1182, _sass/partials/_modules.scss */
 article.add-payment-method .credit-card-fields {
   margin: 15px 0;
 }
-/* line 1159, _sass/partials/_modules.scss */
+/* line 1186, _sass/partials/_modules.scss */
 article.add-payment-method .card-section {
   padding-top: 15px;
   border-bottom: 1px solid #c4c4c4;
   margin-top: 15px;
 }
-/* line 1164, _sass/partials/_modules.scss */
+/* line 1191, _sass/partials/_modules.scss */
 article.add-payment-method .card-section:first-of-type {
   border-top: 1px solid #c4c4c4;
 }
-/* line 1168, _sass/partials/_modules.scss */
+/* line 1195, _sass/partials/_modules.scss */
 article.add-payment-method .card-section + .buttons {
   margin-top: 15px;
 }
-/* line 1172, _sass/partials/_modules.scss */
+/* line 1199, _sass/partials/_modules.scss */
 article.add-payment-method .card-section .credit-card-fields {
   padding-bottom: 15px;
 }
 
-/* line 1181, _sass/partials/_modules.scss */
+/* line 1208, _sass/partials/_modules.scss */
 article.login-info .block {
   margin-top: 20px;
   border-bottom: 1px solid #c4c4c4;
   padding-bottom: 20px;
 }
-/* line 1186, _sass/partials/_modules.scss */
+/* line 1213, _sass/partials/_modules.scss */
 article.login-info .block a {
   color: #004cb2;
   font-size: 18px;
 }
 
-/* line 1195, _sass/partials/_modules.scss */
+/* line 1222, _sass/partials/_modules.scss */
 article.linked-accounts .account {
   line-height: 1;
 }
-/* line 1197, _sass/partials/_modules.scss */
+/* line 1224, _sass/partials/_modules.scss */
 article.linked-accounts .account .title {
   color: #939393;
   font-size: 16px;
   font-weight: bold;
   margin-bottom: 10px;
 }
-/* line 1203, _sass/partials/_modules.scss */
+/* line 1230, _sass/partials/_modules.scss */
 article.linked-accounts .account .number {
   font-size: 26px;
   color: #4a4a4a;
   margin-bottom: 10px;
 }
-/* line 1209, _sass/partials/_modules.scss */
+/* line 1236, _sass/partials/_modules.scss */
 article.linked-accounts .account a {
   color: #004cb2;
   font-size: 18px;
   font-weight: bold;
 }
-/* line 1216, _sass/partials/_modules.scss */
+/* line 1243, _sass/partials/_modules.scss */
 article.linked-accounts .section {
   margin-bottom: 10px;
 }
-/* line 1219, _sass/partials/_modules.scss */
+/* line 1246, _sass/partials/_modules.scss */
 article.linked-accounts .section:last-of-type, article.linked-accounts .section.heading-bar {
   margin-bottom: 0;
 }
 
-/* line 1227, _sass/partials/_modules.scss */
+/* line 1254, _sass/partials/_modules.scss */
 article.account-info .section a {
   color: #004cb2;
   margin: 20px 0;
   display: block;
 }
-/* line 1232, _sass/partials/_modules.scss */
+/* line 1259, _sass/partials/_modules.scss */
 article.account-info .section a.button.primary {
   color: #fff;
 }

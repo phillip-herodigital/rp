@@ -1,0 +1,90 @@
+﻿<article class="account full-page account-info manage">
+    <div class="heading-bar section">
+        <span class="icon-gear-small icon"></span> <span>Settings</span>
+    </div>
+    <div class="section">
+        <form>
+            <h1>Account Information</h1>
+            <p>
+                Your Stream accounts are listed below. To update the contact and billing information for your Stream accounts, select the account, update your information, then click “Save”. 
+            </p>
+
+            <div class="item" float-label>
+                <label>Account</label>
+                <input type="text" placeholder="Account" ng-show="Accounts.length == 1" disabled="disabled" value="{{Accounts[0].AccountType}} {{Accounts[0].AccountNumber}}"/>
+                <select ng-show="Accounts.length > 1" ng-model="formData.AccountNumber">
+                    <option ng-repeat="account in Accounts" value="{{account.AccountNumber}}">{{account.AccountType}} {{account.AccountNumber}}</option>
+                </select>
+            </div>
+
+            <div ng-repeat="account in Accounts" ng-show="formData.AccountNumber == account.AccountNumber">
+                <div class="settings">
+                    <div class="setting">
+                        <h1>Contact Information</h1>
+                        <div class="item" float-label>
+                            <label>Account Holder Name</label>
+                            <input type="text" placeholder="Account Holder Name" value="{{account.HolderName}}" />
+                        </div>
+
+                        <div class="phone-numbers">
+                            <div class="number" ng-repeat="number in account.PhoneNumbers">
+                                <div class="item" float-label>
+                                    <label>Primary Phone Number</label>
+                                    <input type="text" placeholder="Primary Phone Number" ng-model="number.Number" />
+                                </div>
+                                <div class="item" float-label>
+                                    <label>Select Phone Type</label>
+                                    <select ng-model="number.PhoneType">
+                                        <option value="">Select Phone Type</option>
+                                        <option value="mobile">Mobile</option>
+                                        <option value="Home">Home</option>
+                                        <option value="Work">Work</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        
+                        <a class="additional" ng-click="addPhoneNumber(account);">+ Additional Phone Number</a>
+                        <div class="item" float-label>
+                            <label>Email Address</label>
+                            <input type="text" placeholder="Email Address" />
+                        </div>
+                    </div>
+
+                    <div class="setting address">
+                        <h1>Billing Address</h1>
+                        <div class="item" float-label>
+                            <label>Address 1</label>
+                            <input type="text" placeholder="Address 1" />
+                        </div>
+                        <div class="item" float-label>
+                            <label>Address 2</label>
+                            <input type="text" placeholder="Address 2" />
+                        </div>
+                        <div class="item" float-label>
+                            <label>City</label>
+                            <input type="text" placeholder="City" />
+                        </div>
+
+                        <div class="group clearfix">
+                            <div class="item state" float-label>
+                                <label>State</label>
+                                <input type="text" />
+                            </div>
+                            <div class="item zip-code" float-label>
+                                <label>Zip Code</label>
+                                <input type="text" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="buttons">
+                    <a class="button primary" ng-click="saveAccountInfo(account)">Save Changes</a>
+                    <a class="button secondary">Cancel</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</article>

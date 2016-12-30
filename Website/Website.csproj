@@ -1248,7 +1248,9 @@
     <Content Include="MobileApp\account\dashboard.html" />
     <Content Include="MobileApp\account\electricOverview.html" />
     <Content Include="MobileApp\account\gasOverview.html" />
+    <Content Include="MobileApp\account\info.html" />
     <Content Include="MobileApp\account\invoiceHistory.html" />
+    <Content Include="MobileApp\account\linkedaccounts.html" />
     <Content Include="MobileApp\account\logininfo.html" />
     <Content Include="MobileApp\account\makepayment.html" />
     <Content Include="MobileApp\account\paperlessBilling.html" />
@@ -2920,7 +2922,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Azure-Production Sitecore|AnyCPU'">
     <OutputPath>bin\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
-    <Optimize>true</Optimize>
+    <Optimize>false</Optimize>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>

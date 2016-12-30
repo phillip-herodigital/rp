@@ -36,7 +36,8 @@
             <div class="header">
                 <a class="back icon-back-arrow" ng-click="goBack();" ng-show="backBarisVisible()"></a>
                 
-                <a class="icon-logo logo" href="#"></a>
+                <a class="icon-logo logo" href="#" ng-show="!GlobalData()"></a>
+                <a class="icon-logo logo" href="#dashboard" ng-show="GlobalData()"></a>
                 <a class="hamburger icon-navicon right" ng-click="showMenu = true; menuOpening = true;" ng-show="!showMenu"></a>
                 <a class="icon-close-x right" ng-show="showMenu" ng-click="showMenu = false;"></a>
             </div>

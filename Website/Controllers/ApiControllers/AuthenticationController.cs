@@ -253,7 +253,7 @@ namespace StreamEnergy.MyStream.Controllers.ApiControllers
             return response;
         }
 
-        [HttpPost]
+        [HttpGet]
         public HttpResponseMessage AppLogout() {
             Dispose(true);
             HttpContext.Current.Session.Abandon();
