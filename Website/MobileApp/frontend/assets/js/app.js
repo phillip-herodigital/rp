@@ -67,7 +67,11 @@ streamApp.config(function ($routeProvider) {
          .when('/account/paperless-billing', {
              templateUrl: 'account/paperlessBilling.html',
              controller: 'managePaperlessController'
-         })    
+         })
+        .when('/account/linked-accounts', {
+            templateUrl: 'account/linkedAccounts.html',
+            controller: 'linkedAccountsController'
+        })
         .when('/dashboard', {
             templateUrl: 'dashboard.html',
             controller: 'dashboardController'
@@ -80,7 +84,10 @@ streamApp.config(function ($routeProvider) {
             templateUrl: 'account/loginInfo.html',
             controller: 'loginInfoController'
         })
-    
+        .when('/account/info', {
+            templateUrl: 'account/info.html',
+            controller: 'accountInformationController'
+        })
         .when('/account/dashboard', {
             templateUrl: 'account/dashboard.html',
             controller: 'accountDashboardController'
@@ -235,6 +242,11 @@ streamApp.controller('PaymentHistoryController', function ($scope, $window) {
     $scope.payments = payments;
 });
 
+streamApp.controller('linkedAccountsController', function ($scope, $window) {
+    $scope.pageClass = 'page-manage-autopay';
+    $window.showBackBar = true;
+});
+
 streamApp.controller('manageAutoPayController', function ($scope, $window) {
     $scope.pageClass = 'page-manage-autopay';
     $window.showBackBar = true;
@@ -246,6 +258,44 @@ streamApp.controller('managePaperlessController', function ($scope, $window) {
 streamApp.controller('loginInfoController', function ($scope, $window) {
     $scope.pageClass = 'page-login-info';
     $window.showBackBar = true;
+});
+
+streamApp.controller('accountInformationController', function ($scope, $window) {
+    $scope.pageClass = 'page-account-info';
+    $window.showBackBar = true;
+
+    var accounts = new Array();
+    $scope.formData = {};
+
+    $scope.saveAccountInfo = function(account){
+        alert(account.AccountType + " " +  account.AccountNumber)
+    }
+
+    var createPhoneNumber = function () {
+        return { 'Number': '', 'PhoneType': '' };
+    }
+
+    $scope.addPhoneNumber = function (account) {
+        account.PhoneNumbers.push(createPhoneNumber());
+    }
+
+    //test code
+    
+    var createAccount = function (acctNumber) {
+        var phoneNumbers = new Array();
+        phoneNumbers.push(createPhoneNumber());
+
+        return {
+            'AccountNumber': acctNumber, 'AccountType': 'Electricity',
+            'HolderName': 'Account Holder ' + acctNumber, 'PhoneNumbers': phoneNumbers
+        };
+    }
+    for (var i = 0; i < 5; i++) {
+        accounts.push(createAccount(i + 1));
+    }
+
+    $scope.Accounts = accounts;
+    $scope.formData.AccountNumber = accounts[0].AccountNumber;
 });
 
 

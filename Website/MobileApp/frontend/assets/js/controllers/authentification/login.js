@@ -38,32 +38,48 @@ streamApp.controller('AuthLoginCtrl', ['$scope', '$http', '$window', '$sce', '$l
 
         var loginAPI = '/api/authentication/login';
 
+
         $http({
             method: 'POST',
             url: loginAPI,
             data: $scope.formData,
             headers: { 'Content-Type': 'application/JSON' }
         })
-			.success(function (data, status, headers, config) {
-			    if (!data.success) {
-			        if (data.redirect) {
-			            $window.location.href = data.redirect;
-			        }
-			        $scope.isLoading = false;
-			        // if not successful, bind errors to error variables
-			        $scope.loginError = $sce.trustAsHtml(data.validations[0].text);
+        .then(function successCallback(response) {
+            var data = response.data;
+            if (!data.success) {
 
-			    } else {
-			        // if successful, send the user to the return URL
-			        //$window.location.href = data.returnURI;
-			        $scope.loadUserData();
+                if (data.redirect) {
+                    $window.location.href = data.redirect;
+                }
+                $scope.isLoading = false;
+                // if not successful, bind errors to error variables
+                $scope.loginError = $sce.trustAsHtml(data.validations[0].text);
 
-			        $scope.go("dashboard");
-			    }
-			}).error(function (data, status) {
-			    //alert(data.message);
-                //alert(status)
-			});
+            } else {
+                // if successful, send the user to the return URL
+                //$window.location.href = data.returnURI;
+                $scope.loadUserData();
+
+                $scope.go("dashboard");
+            }
+        },
+            function errorCallback(response) {
+                //This is purely test code for right now to avoid the iP anti/forgery issue in dev.
+                //Create a "fake" user to pass through.
+                if ($scope.formData.username.toLowerCase() == "fake" && $scope.formData.password.toLowerCase() == "fake") {
+                    $scope.go("dashboard");
+                }
+
+                //alert(response.statusText)
+            }
+        )
+
+			//.success(function (data, status, headers, config) {
+			    
+			//}).error(function (response) {
+			//    alert(response.statusText);
+			//});
     };
 
     $scope.loadUserData = function () {

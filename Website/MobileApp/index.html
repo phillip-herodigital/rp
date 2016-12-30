@@ -31,8 +31,6 @@
 <body ng-controller="mainController">
 
     <div class="clearfix menu-page-container">
-        
-
         <!-- MAIN CONTENT AND INJECTED VIEWS -->
         <div id="main" class="main" ng-click="checkMenu()" ng-class="{'menu-open': showMenu}">
             <div class="header">
@@ -46,8 +44,6 @@
             <div class="page-container">
                 <div class="page slide-left {{pageClass}} {{showBackBar}}" ng-view></div>
             </div>
-            
-
         </div>
 
         <div class="menu" ng-class="{'open': showMenu}">
@@ -64,9 +60,9 @@
                         <a href="#account/paperless-billing" ng-click="showMenu = false;">Paperless Billing</a>
                         <a href="#account/payment-methods" ng-click="showMenu = false;">Payment Methods</a>
                         <a>Enrolled Accounts</a>
-                        <a>Link Account</a>
+                        <a href="#account/linked-accounts" ng-click="showMenu = false;">Link Account</a>
                         <a href="#account/login-info" ng-click="showMenu = false;">Login Information</a>
-                        <a>Account Information </a>
+                        <a href="#account/info" ng-click="showMenu = false;">Account Information </a>
                     </div>
                     
                 

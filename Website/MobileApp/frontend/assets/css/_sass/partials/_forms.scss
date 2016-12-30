@@ -335,3 +335,14 @@ form,
         text-decoration:none;
     }
 }
+
+.address{
+    .state{
+        float:left;
+        width:calc(50% - 15px);
+    }
+    .zip-code{
+        float:right;
+        width:calc(50% - 15px);
+    }
+}
