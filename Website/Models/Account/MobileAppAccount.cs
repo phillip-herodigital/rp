@@ -1,0 +1,42 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+
+namespace StreamEnergy.MyStream.Models.Account
+{
+    public class MobileAppAccount
+    {
+        public string AccountNumber { get; set; }
+
+        public decimal AmountDue { get; set; }
+
+        public DateTime DueDate { get; set; }
+
+        public Boolean HasAutoPay { get; set; }
+
+        public bool CanMakeOneTimePayment { get; set; }
+
+        public DomainModels.Accounts.AvailablePaymentMethod[] AvailablePaymentMethods { get; set; }
+
+        public string UtilityProvider { get; set; }
+
+        public string AccountType { get; set; }
+
+        public string SystemOfRecord { get; set; }
+
+//        public string MobileNumber { get; set; }
+
+        public MobileAppPhoneLine[] MobileAppPhoneLines { get; set; }
+             
+        public DateTime BillingCycleStart { get; set; }
+
+        public DateTime BillingCycleEnd { get; set; }
+
+        public string PlanName { get; set; }
+
+        public DomainModels.Address ServiceAddress { get; set; }
+
+
+    }
+}
