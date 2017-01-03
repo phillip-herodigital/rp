@@ -2046,10 +2046,9 @@
   </Target>
   <PropertyGroup>
     <PreBuildEvent>cd "$(ProjectDir)frontend"
-..\..\VSRuby\Ruby200-x64\bin\compass compile
+call "..\..\VSRuby\Ruby200-x64\bin\compass" "compile"
 cd "$(ProjectDir)MobileApp\frontend"
-..\..\..\VSRuby\Ruby200-x64\bin\compass compile
-exit 0</PreBuildEvent>
+call "..\..\..\VSRuby\Ruby200-x64\bin\compass" "compile"</PreBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <PostBuildEvent>copy "$(SolutionDir)\Libraries\Sitecore\ComponentArt.UIFramework.lic" "$(ProjectDir)\$(OutDir)"</PostBuildEvent>
