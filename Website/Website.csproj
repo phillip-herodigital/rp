@@ -2047,7 +2047,7 @@
   <PropertyGroup>
     <PreBuildEvent>cd "$(ProjectDir)frontend"
 ..\..\VSRuby\Ruby200-x64\bin\compass compile
-cd "$(ProjectDir)\MobileApp\frontend"
+cd "$(ProjectDir)MobileApp\frontend"
 ..\..\..\VSRuby\Ruby200-x64\bin\compass compile
 exit 0</PreBuildEvent>
   </PropertyGroup>
