@@ -1261,6 +1261,7 @@
     <Content Include="MobileApp\account\wirelessOverview.html" />
     <Content Include="MobileApp\dashboard.html" />
     <Content Include="MobileApp\frontend\.gitignore" />
+    <Content Include="MobileApp\frontend\assets\css\global.css" />
     <Content Include="MobileApp\frontend\assets\i\bg2x\dashboard.png" />
     <Content Include="MobileApp\frontend\assets\i\bg2x\people_on_phone.png" />
     <Content Include="MobileApp\frontend\assets\i\bg\dashboard.png" />
@@ -1268,6 +1269,8 @@
     <Content Include="MobileApp\frontend\assets\i\checkImage.jpg" />
     <Content Include="MobileApp\frontend\assets\i\favicon.png" />
     <Content Include="MobileApp\frontend\assets\i\friends_in_arms.jpg" />
+    <Content Include="MobileApp\frontend\assets\i\icon-s6f6f9b1023.png" />
+    <Content Include="MobileApp\frontend\assets\i\icon2x-s3704ab13e1.png" />
     <Content Include="MobileApp\frontend\assets\i\icon2x\arrow-large-blue.png" />
     <Content Include="MobileApp\frontend\assets\i\icon2x\arrow-large-grey-down.png" />
     <Content Include="MobileApp\frontend\assets\i\icon2x\arrow-large-orange.png" />
