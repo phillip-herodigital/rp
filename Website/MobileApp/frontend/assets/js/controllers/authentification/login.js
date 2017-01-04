@@ -1,7 +1,7 @@
 ﻿/* 
 	Authentication - Login Controller
  */
-streamApp.controller('AuthLoginCtrl', ['$scope', '$http', '$window', '$sce', '$location', function ($scope, $http, $window, $sce, $location) {
+streamApp.controller('AuthLoginCtrl', ['$scope', '$http', '$window', '$sce', '$location', 'appDataService', function ($scope, $http, $window, $sce, $location, appDataService) {
     // create a blank object to hold the form information
     $scope.formData = {};
     $scope.isLoading = false;
@@ -43,7 +43,7 @@ streamApp.controller('AuthLoginCtrl', ['$scope', '$http', '$window', '$sce', '$l
             method: 'POST',
             url: loginAPI,
             data: $scope.formData,
-            headers: { 'Content-Type': 'application/JSON' }
+            //headers: { 'Content-Type': 'application/JSON' }
         })
         .then(function successCallback(response) {
             var data = response.data;
@@ -57,9 +57,8 @@ streamApp.controller('AuthLoginCtrl', ['$scope', '$http', '$window', '$sce', '$l
                 $scope.loginError = $sce.trustAsHtml(data.validations[0].text);
 
             } else {
-                // if successful, send the user to the return URL
-                //$window.location.href = data.returnURI;
-                $scope.loadUserData();
+                appDataService.loadData();
+                //update this to a promise
 
                 $scope.go("dashboard");
             }
@@ -82,35 +81,22 @@ streamApp.controller('AuthLoginCtrl', ['$scope', '$http', '$window', '$sce', '$l
 			//});
     };
 
-    $scope.loadUserData = function () {
-        
-        var userDataAPI = '/api/MobileApp/loadAppData';
-        $http({
-            method: 'GET',
-            url: userDataAPI,
-            data: $scope.formData,
-            headers: { 'Content-Type': 'application/JSON' }
-        }).success((function (data, status, headers, config) {
-            //Set this to some caching services opposed to window variable long term
-            
-            if (!$window.GlobalData) $window.GlobalData = {};
-            $window.GlobalData.User = data.user;
-        }));
-    }
-
     $scope.logout = function () {
         var logoutApi = "/api/authentication/applogout";
         var data = {'uri':"#"};
         $http({
-            method: 'POST',
+            method: 'GET',
             url: logoutApi,
             data: data,
             headers: { 'Content-Type': 'application/JSON' }
         })
 			.success(function (data, status, headers, config) {
-			    $window.GlobalData.User = null;
+			    //$window.GlobalData.User = null;
+			    appDataService.clearData();
+
 			    $scope.go("");
 			}).error(function () {
+			    appDataService.clearData();
 			});
     }
 

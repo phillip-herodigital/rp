@@ -15,7 +15,25 @@
             </div>
         </div>
     </article>
+
+
     <article class="block-links energy">
+
+        <div class="link split no-arrow" ng-repeat="account in accounts" ng-click="go('account/electric-overview')">
+            <div class="name left">
+                <div class="main-info">Electricty</div>
+                <div class="sub-info">{{account.serviceAddress.line1}} {{account.serviceAddress.line2}}</div>
+            </div>
+            <div class="info right">
+                <div class="main-info">
+                    Balance <strong>${{account.amountDue}}</strong>
+                </div>
+                <div class="sub-info">
+                    <span class="icon-calendar-small"></span> AUTOPAY: {{account.hasAutoPay ? "ON" : "OFF"}}
+                </div>
+            </div>
+        </div>
+
         <div class="link split no-arrow" ng-click="go('account/electric-overview')">
             <div class="name left">
                 <div class="main-info">Electricty</div>
