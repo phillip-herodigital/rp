@@ -92,12 +92,14 @@ namespace StreamEnergy.MyStream.MobileApp.controllers
                 return result;
             }
 
-            if (account.AccountType == "Mobile")
+            if (account.AccountType.Equals("Mobile"))
             {
 
                 MobileAccount mobileAccount = (MobileAccount)account.SubAccounts.First();
 
                 accountService.GetAccountUsageDetails(account, mobileAccount.LastBillDate, mobileAccount.NextBillDate, true);
+
+                List<MobileAppPhoneLine> phoneLines = new List<MobileAppPhoneLine>();
 
                 foreach (ISubAccount subAccount in account.SubAccounts)
                 {
@@ -117,7 +119,10 @@ namespace StreamEnergy.MyStream.MobileApp.controllers
                                                                                                                  MessagesUsage = usage != null ? usage.MessagesUsage : (decimal?)null,
                                                                                                                  MinutesUsage = usage != null ? usage.MinutesUsage : (decimal?)null,
                                                                                                              } : null;
+
+                    phoneLines.Add(phoneLine);
                 }
+                result.MobileAppPhoneLines = phoneLines.ToArray();
             }
             else
             {
