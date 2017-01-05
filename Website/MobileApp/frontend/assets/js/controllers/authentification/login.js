@@ -57,10 +57,10 @@ streamApp.controller('AuthLoginCtrl', ['$scope', '$http', '$window', '$sce', '$l
                 $scope.loginError = $sce.trustAsHtml(data.validations[0].text);
 
             } else {
-                appDataService.loadData();
-                //update this to a promise
-
-                $scope.go("dashboard");
+                appDataService.loadData().then(function () {
+                    $scope.go("dashboard");
+                });
+                
             }
         },
             function errorCallback(response) {

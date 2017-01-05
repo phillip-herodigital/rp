@@ -5,7 +5,7 @@
             <span class="icon-light-bulb-small icon"></span>  Electricity Account
         </div>
         <div class="right">
-            #<span>290184723</span>
+            #<span>{{account.accountNumber}}</span>
         </div>
     </div>
     
@@ -16,19 +16,19 @@
                 <div class="link grid">
                     <div class="left">
                         <label>Make a Payment</label>
-                        <div>Due 12/18/2016</div>
+                        <div>Due {{ account.dueDate | date:'MM/dd/yyyy' }}</div>
                     </div>
                     <div class="right">
-                        <label>$0.00</label>
+                        <label>{{account.amountDue | currency}}</label>
                         <div>Balance</div>
                     </div>
                 </div>
                 <div class="grid auto-pay-section">
                     <div class="left">
-                        <span class="icon-calendar-black icon"></span> <span>AutoPay: ON</span>
+                        <span class="icon-calendar-black icon"></span> <span>AutoPay: {{account.hasAutoPay ? "ON" : "OFF"}}</span>
                     </div>
                     <div class="right">
-                        <a>Manage</a>
+                        <a href="#account/autopay">Manage</a>
                     </div>
                 </div>
             </div>
@@ -37,8 +37,8 @@
         <div class="plan-details detail-block">
             <div class="plan-name">Secure Choice Plan <!--<span class="bubble grey">Fixed</span>--></div>
             <div class="address">
-                3291 Main Street, Apt. 982 <br />
-                Dallas, TX 74001
+                {{account.serviceAddress.line1}} {{account.serviceAddress.line2}}<br />
+                {{account.serviceAddress.city}}, {{account.serviceAddress.stateAbbreviation}} {{account.serviceAddress.postalCode5}}
             </div>
             <div class="account-breakdown grid clearfix">
                 <div class="left">

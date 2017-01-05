@@ -94,14 +94,15 @@
 
 
 streamApp.controller('mainController', ['$scope', '$http', '$window', '$location', 'appDataService', function ($scope, $http, $window, $location, appDataService) {
-    $scope.go = function (path) {
-        $location.path(path);
+    $scope.go = function (path, params) {
+        if(!params)
+            $location.path(path);
+        else
+            $location.path(path).search(params);
     }
 
     $scope.GlobalData = function () {
-        //return $window.GlobalData;
         var data = appDataService.Data();
-        //alert(data.User);
         return data;
     }
 
@@ -173,6 +174,22 @@ streamApp.controller('dashboardController', ['$scope', '$http', '$window', '$loc
         return account.serviceAddress.line1 + " " + account.serviceAddress.line2;
     }
 
+    var paymentDate;
+    var balance = 0;
+    for (var i = 0; i < accounts.length; i++) {
+        var acct = accounts[i];
+        if (!paymentDate){
+            paymentDate = acct.dueDate;
+            balance = acct.amountDue;
+        }
+        
+        else if(acct.dueDate < paymentDate){
+            paymentDate = acct.dueDate;
+        }
+    }
+    
+    $scope.paymentDate = new Date(paymentDate);
+    $scope.paymentBalance = balance;
 }]);
 
 
@@ -205,10 +222,24 @@ streamApp.controller('wirelessOverviewController', function ($scope, $window) {
     $window.showBackBar = true;
 });
 
-streamApp.controller('energyOverviewController', function ($scope, $window) {
+streamApp.controller('energyOverviewController', ['$scope', '$http', '$window', 'appDataService', '$routeParams', function ($scope, $http, $window, appDataService, $routeParams) {
     $scope.pageClass = 'page-energy-overview';
     $window.showBackBar = true;
-});
+
+    var data = appDataService.Data();
+    var accounts = data.accounts;
+    var accountNumber = $routeParams.accountNumber;
+    var acct;
+    for (var i = 0; i < accounts.length; i++) {
+        var account = accounts[i];
+        if (account.accountNumber == accountNumber) {
+            acct = account;
+            break;
+        }
+    }
+
+    $scope.account = acct;
+}]);
 
 streamApp.controller('paymentMethodsController', function ($scope, $window) {
     $scope.pageClass = 'page-manage-account';

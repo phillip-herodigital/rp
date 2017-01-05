@@ -3,6 +3,21 @@
         <div class="link split no-arrow" ng-click="go('account/makepayment')">
             <div class="name left">
                 <div class="main-info">Make a Payment</div>
+                <div class="sub-info">Next Payment Due: {{ paymentDate | date:'MM/dd/yyyy' }}</div>
+                
+            </div>
+            <div class="info right">
+                <div class="main-info">
+                    {{paymentBalance | currency}}
+                </div>
+                <div class="sub-info">
+                    Balance
+                </div>
+            </div>
+        </div>
+        <!--<div class="link split no-arrow" ng-click="go('account/makepayment')">
+            <div class="name left">
+                <div class="main-info">Make a Payment</div>
                 <div class="sub-info">Next Payment Due: 12/19/2016</div>
             </div>
             <div class="info right">
@@ -13,13 +28,13 @@
                     Balance
                 </div>
             </div>
-        </div>
+        </div>-->
     </article>
 
 
     <article class="block-links energy">
 
-        <div class="link split no-arrow" ng-repeat="account in accounts" ng-click="go('account/electric-overview')">
+        <div class="link split no-arrow" ng-repeat="account in accounts" ng-click="go('account/electric-overview',{'accountNumber':account.accountNumber})">
             <div class="name left">
                 <div class="main-info">Electricty</div>
                 <div class="sub-info">{{account.serviceAddress.line1}} {{account.serviceAddress.line2}}</div>
@@ -34,7 +49,7 @@
             </div>
         </div>
 
-        <div class="link split no-arrow" ng-click="go('account/electric-overview')">
+        <!--<div class="link split no-arrow" ng-click="go('account/electric-overview')">
             <div class="name left">
                 <div class="main-info">Electricty</div>
                 <div class="sub-info">3291 Main Street, Apt. 982</div>
@@ -61,7 +76,7 @@
                     <span class="icon-calendar-small"></span> AUTOPAY: ON
                 </div>
             </div>
-        </div>
+        </div>-->
     </article>
     <article class="block-links wireless">
         <div class="link split no-arrow devices" ng-click="go('account/wireless-overview')">
