@@ -2,7 +2,7 @@
 
     <div class="heading-bar grid section clearfix">
         <div class="left">
-            <span class="icon-light-bulb-small icon"></span>  Electricity Account
+            <span class="icon-light-bulb-small icon" ng-class="{'icon-light-bulb-small': account.utilityType !='gas', 'icon-flame-small': account.utilityType =='gas'}"></span> <span ng-show="account.utilityType =='gas'">Gas</span> <span ng-show="account.utilityType !='gas'">Electricity</span> Account
         </div>
         <div class="right">
             #<span>{{account.accountNumber}}</span>
@@ -40,12 +40,13 @@
                 {{account.serviceAddress.line1}} {{account.serviceAddress.line2}}<br />
                 {{account.serviceAddress.city}}, {{account.serviceAddress.stateAbbreviation}} {{account.serviceAddress.postalCode5}}
             </div>
-            <div class="account-breakdown grid clearfix">
-                <div class="left">
+            <div class="account-breakdown  clearfix">
+                <div>
                     <dl>
-                        <dt>4.9¢</dt>
+                        <dt>{{account.planRate | currency}}</dt>
                         <dd>
-                            <label>per kWh</label>
+                            <label ng-show="account.utilityType !='gas'">per kWh</label>
+                            <label ng-show="account.utilityType =='gas'">Therms</label>
                             <div>Energy Rate</div>
                         </dd>
                     </dl>

@@ -36,7 +36,10 @@
 
         <div class="link split no-arrow" ng-repeat="account in accounts" ng-click="go('account/electric-overview',{'accountNumber':account.accountNumber})">
             <div class="name left">
-                <div class="main-info">Electricty</div>
+                <div class="main-info">
+                    <span ng-show="account.utilityType !='gas'">Electricty</span>
+                    <span ng-show="account.utilityType =='gas'">Gas</span>
+                </div>
                 <div class="sub-info">{{account.serviceAddress.line1}} {{account.serviceAddress.line2}}</div>
             </div>
             <div class="info right">

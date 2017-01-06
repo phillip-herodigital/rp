@@ -1,6 +1,10 @@
 ﻿streamApp.config(function ($routeProvider) {
     $routeProvider
         // route for the home page
+        .when('', {
+            templateUrl: 'home',
+            controller: 'homeController'
+        })
         .when('/', {
             templateUrl: 'home',
             controller: 'homeController'
