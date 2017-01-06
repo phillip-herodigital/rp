@@ -822,6 +822,7 @@
     <Compile Include="Conditions\HasThermostatPlanCondition.cs" />
     <Compile Include="Conditions\MaintenanceModeCondition.cs" />
     <Compile Include="MobileApp\controllers\MobileAppController.cs" />
+    <Compile Include="MobileApp\controllers\PagesController.cs" />
     <Compile Include="MobileApp\models\MobileAppResponse.cs" />
     <Compile Include="Models\Account\MobileAppAccount.cs" />
     <Compile Include="Models\Account\MobileAppPhoneLine.cs" />
@@ -1275,6 +1276,7 @@
     <Content Include="MobileApp\frontend\assets\js\libs\modernizr-2.6.2.js" />
     <Content Include="MobileApp\frontend\assets\js\libs\ui-bootstrap-tpls-0.6.0.js" />
     <Content Include="MobileApp\frontend\assets\js\libs\ui-utils-0.0.4.min.js" />
+    <Content Include="MobileApp\frontend\assets\js\services\appData.js" />
     <Content Include="MobileApp\frontend\assets\js\services\breakpoint.js" />
     <Content Include="MobileApp\frontend\Gruntfile.js" />
     <Content Include="MobileApp\frontend\index.html" />
@@ -1317,6 +1319,11 @@
     <Content Include="MobileApp\frontend\Gemfile.lock" />
     <Content Include="MobileApp\frontend\package.json" />
     <Content Include="MobileApp\frontend\README.md" />
+    <Content Include="MobileApp\Views\layouts\Mobile App Layout.cshtml" />
+    <Content Include="MobileApp\Views\pages\Login\signin.cshtml" />
+    <Content Include="MobileApp\Views\pages\index.cshtml" />
+    <Content Include="MobileApp\Views\web.config" />
+    <Content Include="MobileApp\Views\pages\home.cshtml" />
     <None Include="Properties\PublishProfiles\PackageForUpgrade.pubxml" />
     <None Include="Properties\PublishProfiles\Package.pubxml" />
     <None Include="Scripts\_references.js" />

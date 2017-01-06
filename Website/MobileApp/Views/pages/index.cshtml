@@ -1,4 +1,8 @@
-﻿<!-- index.html -->
+﻿@{
+    Layout = null;
+}
+
+<!-- index.html -->
 <!DOCTYPE html>
 
 <!-- define angular app -->
@@ -38,13 +42,12 @@
         <div id="main" class="main" ng-click="checkMenu()" ng-class="{'menu-open': showMenu}">
             <div class="header">
                 <a class="back icon-back-arrow" ng-click="goBack();" ng-show="backBarisVisible()"></a>
-                
+
                 <a class="icon-logo logo" href="#" ng-show="!GlobalData()"></a>
                 <a class="icon-logo logo" href="#dashboard" ng-show="GlobalData()"></a>
                 <a class="hamburger icon-navicon right" ng-click="showMenu = true; menuOpening = true;" ng-show="!showMenu"></a>
                 <a class="icon-close-x right" ng-show="showMenu" ng-click="showMenu = false;"></a>
             </div>
-            
             <div class="page-container">
                 <div class="page slide-left {{pageClass}} {{showBackBar}}" ng-view></div>
             </div>
@@ -68,8 +71,8 @@
                         <a href="#account/login-info" ng-click="showMenu = false;">Login Information</a>
                         <a href="#account/info" ng-click="showMenu = false;">Account Information </a>
                     </div>
-                    
-                
+
+
                 </div>
                 <div class="contact-us link">Contact Us</div>
                 <div class="story link">Our Story</div>
@@ -79,7 +82,7 @@
             <div class="secondary">
                 <div class="button-links">
                     <!--<a class="sign-out" ng-controller="AuthLoginCtrl" href="/api/authentication/logout">Sign Out </a>-->
-                    <a class="sign-out" ng-controller="AuthLoginCtrl" ng-click="logout(); $parent.showMenu = false;" >Sign Out </a>
+                    <a class="sign-out" ng-controller="AuthLoginCtrl" ng-click="logout(); $parent.showMenu = false;">Sign Out </a>
                     <a>Send Feedback</a>
                     <a>Privacy Policy</a>
                     <a>Terms of Service</a>
@@ -93,7 +96,6 @@
             </div>
         </div>
     </div>
-    
+
 </body>
 </html>
-

@@ -31,6 +31,9 @@ namespace StreamEnergy.MyStream.MobileApp.controllers
         //private readonly IDatabase redis;
         private const string redisPrefix = "AddNewAccount_FindAccount_";
 
+        private const string ELECTRICITY = "electricity";
+        private const string GAS = "gas";
+
         public MobileAppController(IUnityContainer container, HttpSessionStateBase session, DomainModels.Accounts.IAccountService accountService, DomainModels.Payments.IPaymentService paymentService, StreamEnergy.MyStream.Controllers.ApiControllers.AuthenticationController authentication, ICurrentUser currentUser)
         {
             this.container = container;
@@ -92,12 +95,14 @@ namespace StreamEnergy.MyStream.MobileApp.controllers
                 return result;
             }
 
-            if (account.AccountType == "Mobile")
+            if (account.AccountType.Equals("Mobile"))
             {
 
                 MobileAccount mobileAccount = (MobileAccount)account.SubAccounts.First();
 
                 accountService.GetAccountUsageDetails(account, mobileAccount.LastBillDate, mobileAccount.NextBillDate, true);
+
+                List<MobileAppPhoneLine> phoneLines = new List<MobileAppPhoneLine>();
 
                 foreach (ISubAccount subAccount in account.SubAccounts)
                 {
@@ -117,21 +122,103 @@ namespace StreamEnergy.MyStream.MobileApp.controllers
                                                                                                                  MessagesUsage = usage != null ? usage.MessagesUsage : (decimal?)null,
                                                                                                                  MinutesUsage = usage != null ? usage.MinutesUsage : (decimal?)null,
                                                                                                              } : null;
+
+                    phoneLines.Add(phoneLine);
                 }
+                result.MobileAppPhoneLines = phoneLines.ToArray();
             }
             else
             {
+                // TODO: refactory the interface instead?
                 foreach (ISubAccount subAccount in account.SubAccounts)
                 {
-                    if (subAccount is GeorgiaGasAccount)
+                    if (subAccount is DCElectricityAccount)
+                    {
+                        result.ServiceAddress = ((DCElectricityAccount)subAccount).ServiceAddress;
+                        result.PlanName = ((DCElectricityAccount)subAccount).ProductName;
+                        result.PlanRate = ((DCElectricityAccount)subAccount).Rate;
+                        result.PlanRateType = ((DCElectricityAccount)subAccount).RateType.ToString();
+                        result.UtilityType = ELECTRICITY;
+                    }
+                    else if (subAccount is GeorgiaGasAccount)
                     {
                         result.ServiceAddress = ((GeorgiaGasAccount)subAccount).ServiceAddress;
                         result.PlanName = ((GeorgiaGasAccount)subAccount).ProductName;
+                        result.PlanRate = ((GeorgiaGasAccount)subAccount).Rate;
+                        result.PlanRateType = ((GeorgiaGasAccount)subAccount).RateType.ToString();
+                        result.UtilityType = GAS;
+                    }
+                    else if (subAccount is MarylandElectricityAccount)
+                    {
+                        result.ServiceAddress = ((MarylandElectricityAccount)subAccount).ServiceAddress;
+                        result.PlanName = ((MarylandElectricityAccount)subAccount).ProductName;
+                        result.PlanRate = ((MarylandElectricityAccount)subAccount).Rate;
+                        result.PlanRateType = ((MarylandElectricityAccount)subAccount).RateType.ToString();
+                        result.UtilityType = ELECTRICITY;
+                    }
+                    else if (subAccount is MarylandGasAccount)
+                    {
+                        result.ServiceAddress = ((MarylandGasAccount)subAccount).ServiceAddress;
+                        result.PlanName = ((MarylandGasAccount)subAccount).ProductName;
+                        result.PlanRate = ((MarylandGasAccount)subAccount).Rate;
+                        result.PlanRateType = ((MarylandGasAccount)subAccount).RateType.ToString();
+                        result.UtilityType = GAS;
+                    }
+                    else if (subAccount is NewJerseyElectricityAccount)
+                    {
+                        result.ServiceAddress = ((NewJerseyElectricityAccount)subAccount).ServiceAddress;
+                        result.PlanName = ((NewJerseyElectricityAccount)subAccount).ProductName;
+                        result.PlanRate = ((NewJerseyElectricityAccount)subAccount).Rate;
+                        result.PlanRateType = ((NewJerseyElectricityAccount)subAccount).RateType.ToString();
+                        result.UtilityType = ELECTRICITY;
+                    }
+                    else if (subAccount is NewJerseyGasAccount)
+                    {
+                        result.ServiceAddress = ((NewJerseyGasAccount)subAccount).ServiceAddress;
+                        result.PlanName = ((NewJerseyGasAccount)subAccount).ProductName;
+                        result.PlanRate = ((NewJerseyGasAccount)subAccount).Rate;
+                        result.PlanRateType = ((NewJerseyGasAccount)subAccount).RateType.ToString();
+                        result.UtilityType = GAS;
+                    }
+                    else if (subAccount is NewYorkElectricityAccount)
+                    {
+                        result.ServiceAddress = ((NewYorkElectricityAccount)subAccount).ServiceAddress;
+                        result.PlanName = ((NewYorkElectricityAccount)subAccount).ProductName;
+                        result.PlanRate = ((NewYorkElectricityAccount)subAccount).Rate;
+                        result.PlanRateType = ((NewYorkElectricityAccount)subAccount).RateType.ToString();
+                        result.UtilityType = ELECTRICITY;
+                    }
+                    else if (subAccount is NewYorkGasAccount)
+                    {
+                        result.ServiceAddress = ((NewYorkGasAccount)subAccount).ServiceAddress;
+                        result.PlanName = ((NewYorkGasAccount)subAccount).ProductName;
+                        result.PlanRate = ((NewYorkGasAccount)subAccount).Rate;
+                        result.PlanRateType = ((NewYorkGasAccount)subAccount).RateType.ToString();
+                        result.UtilityType = GAS;
+                    }
+                    else if (subAccount is PennsylvaniaElectricityAccount)
+                    {
+                        result.ServiceAddress = ((PennsylvaniaElectricityAccount)subAccount).ServiceAddress;
+                        result.PlanName = ((PennsylvaniaElectricityAccount)subAccount).ProductName;
+                        result.PlanRate = ((PennsylvaniaElectricityAccount)subAccount).Rate;
+                        result.PlanRateType = ((PennsylvaniaElectricityAccount)subAccount).RateType.ToString();
+                        result.UtilityType = ELECTRICITY;
+                    }
+                    else if (subAccount is PennsylvaniaGasAccount)
+                    {
+                        result.ServiceAddress = ((PennsylvaniaGasAccount)subAccount).ServiceAddress;
+                        result.PlanName = ((PennsylvaniaGasAccount)subAccount).ProductName;
+                        result.PlanRate = ((PennsylvaniaGasAccount)subAccount).Rate;
+                        result.PlanRateType = ((PennsylvaniaGasAccount)subAccount).RateType.ToString();
+                        result.UtilityType = GAS;
                     }
                     else if (subAccount is TexasElectricityAccount)
                     {
                         result.ServiceAddress = ((TexasElectricityAccount)subAccount).ServiceAddress;
                         result.PlanName = ((TexasElectricityAccount)subAccount).ProductName;
+                        result.PlanRate = ((TexasElectricityAccount)subAccount).Rate;
+                        result.PlanRateType = ((TexasElectricityAccount)subAccount).RateType.ToString();
+                        result.UtilityType = ELECTRICITY;
                     }
                 }
             }
