@@ -12,16 +12,17 @@
             If you have already received an invoice or currently have a balance that remains unpaid, you will need to make a separate one-time payment by your invoice due date. If you have already received an invoice for this month or you have an unpaid balance, please make a one-time payment by your invoice due date. AutoPay will begin on your next invoice.
         </p>
 
-        <div class="settings" ng-init="formData.AutoPayEnabled = false;">
+        <div class="settings" ng-init="account.hasAutoPay = false;">
             <form>
-                <div class="setting">
-                    <div class="item clearfix" ng-click="formData.AutoPayEnabled = true;">
-                        <span class="icon" ng-class="{'icon-radio-large-checked': formData.AutoPayEnabled, 'icon-radio-large':!formData.AutoPayEnabled}"></span>
+                <div class="setting" ng-repeat="account in accounts">
+                    <h1>{{account.utilityType == 'gas' ? "Gas" : "Electricity"}} {{account.accountNumber}}</h1>
+                    <div class="item clearfix" ng-click="account.hasAutoPay = true;">
+                        <span class="icon" ng-class="{'icon-radio-large-checked': account.hasAutoPay, 'icon-radio-large':!account.hasAutoPay}"></span>
                         <div class="info stacked">
                             <label>AutoPay On</label>
                             <div class="sub-info">Will take effect on next billing cycle.</div>
 
-                            <div class="account-info" ng-show="formData.AutoPayEnabled == true;">
+                            <div class="account-info" ng-show="account.hasAutoPay == true;">
                                 <div class="item" float-label>
                                     <label>Select Payment Method</label>
                                     <select ng-model="formData.PaymentAccount">
@@ -32,8 +33,8 @@
                             </div>
                         </div>
                     </div>
-                    <div class="item clearfix"  ng-click="formData.AutoPayEnabled = false;">
-                        <span class="icon" ng-class="{'icon-radio-large-checked': !formData.AutoPayEnabled, 'icon-radio-large':formData.AutoPayEnabled}"></span>
+                    <div class="item clearfix"  ng-click="account.hasAutoPay= false;">
+                        <span class="icon" ng-class="{'icon-radio-large-checked': !account.hasAutoPay, 'icon-radio-large':account.hasAutoPay}"></span>
                         <div class="info">
                             <label>AutoPay Off</label>
                         </div>

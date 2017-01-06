@@ -298,10 +298,15 @@ streamApp.controller('linkedAccountsController', function ($scope, $window) {
     $window.showBackBar = true;
 });
 
-streamApp.controller('manageAutoPayController', function ($scope, $window) {
+streamApp.controller('manageAutoPayController', ['$scope', '$http', '$window', 'appDataService', '$routeParams', function ($scope, $http, $window, appDataService, $routeParams) {
     $scope.pageClass = 'page-manage-autopay';
     $window.showBackBar = true;
-});
+
+    var data = appDataService.Data();
+
+    $scope.accounts = data.accounts;
+}]);
+
 streamApp.controller('managePaperlessController', function ($scope, $window) {
     $scope.pageClass = 'page-manage-paperless';
     $window.showBackBar = true;

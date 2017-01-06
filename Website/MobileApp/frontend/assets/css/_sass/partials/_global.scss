@@ -2,6 +2,11 @@
 	@include box-sizing(border-box); 
 }
 
+
+html{
+    -webkit-user-select: none;
+}
+
 html, body {
     margin: 0;
     padding: 0;
