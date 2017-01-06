@@ -303,8 +303,14 @@ streamApp.controller('manageAutoPayController', ['$scope', '$http', '$window', '
     $window.showBackBar = true;
 
     var data = appDataService.Data();
+    
 
-    $scope.accounts = data.accounts;
+    $scope.accounts = angular.copy(data.accounts);
+
+    var saveChanges = function () {
+        //call api to save the changes
+        alert("IMPLEMENT SAVE CHANGES CALL");
+    }
 }]);
 
 streamApp.controller('managePaperlessController', function ($scope, $window) {
