@@ -35,8 +35,12 @@ namespace StreamEnergy.MyStream.Models.Account
 
         public string PlanName { get; set; }
 
+        public string UtilityType { get; set; }
+
+        public decimal PlanRate { get; set; }
+
+        public string PlanRateType { get; set; }
+
         public DomainModels.Address ServiceAddress { get; set; }
-
-
     }
 }
