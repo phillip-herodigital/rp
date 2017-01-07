@@ -30,9 +30,9 @@
         if (clearData)
             setData(null);
 
-        if (getData()) {
-            return getData(); //temporary test code!!!
-        }
+        //if (getData()) {
+        //    return getData(); //temporary test code!!!
+        //}
 
         var userDataAPI = '/api/MobileApp/loadAppData';
 
