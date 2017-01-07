@@ -6,7 +6,11 @@
             if (cd) {
                 $window.GlobalData = cd;
             }
+            else {
+                $window.GlobalData = {};
+            }
         }
+    
 
         return $window.GlobalData;
     }
