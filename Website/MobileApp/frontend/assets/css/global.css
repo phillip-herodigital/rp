@@ -3236,9 +3236,12 @@ form .checkbox-list.inline li,
 }
 /* line 19, _sass/partials/_header.scss */
 .header .back {
-  margin-right: 20px;
+  padding-right: 15px;
+  margin-right: 10px;
+  padding-left: 5px;
+  background-position-x: 5px;
 }
-/* line 23, _sass/partials/_header.scss */
+/* line 26, _sass/partials/_header.scss */
 .header .right {
   float: right;
 }

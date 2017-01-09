@@ -43,9 +43,8 @@
         <div id="main" class="main" ng-click="checkMenu()" ng-class="{'menu-open': showMenu}">
             <div class="header">
                 <a class="back icon-back-arrow" ng-click="goBack();" ng-show="backBarisVisible()"></a>
-
-                <a class="icon-logo logo" ng-click="go('')" ng-show="!GlobalData()"></a>
-                <a class="icon-logo logo"  ng-click="go('dashboard')" ng-show="GlobalData()"></a>
+                <a class="icon-logo logo" ng-click="go('')" ng-show="!GlobalData() || !GlobalData().user"></a>
+                <a class="icon-logo logo"  ng-click="go('dashboard')" ng-show="GlobalData().user"></a>
                 <a class="hamburger icon-navicon right" ng-click="showMenu = true; menuOpening = true;" ng-show="!showMenu"></a>
                 <a class="icon-close-x right" ng-show="showMenu" ng-click="showMenu = false;"></a>
             </div>
