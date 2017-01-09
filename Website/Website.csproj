@@ -1272,6 +1272,7 @@
     <Content Include="MobileApp\frontend\assets\js\libs\angular-1.2.js" />
     <Content Include="MobileApp\frontend\assets\js\libs\angular-1.2.min.js" />
     <Content Include="MobileApp\frontend\assets\js\libs\angular.min.js" />
+    <Content Include="MobileApp\frontend\assets\js\libs\fastclick.js" />
     <Content Include="MobileApp\frontend\assets\js\libs\jquery-1.10.2.min.js" />
     <Content Include="MobileApp\frontend\assets\js\libs\modernizr-2.6.2.js" />
     <Content Include="MobileApp\frontend\assets\js\libs\ui-bootstrap-tpls-0.6.0.js" />
