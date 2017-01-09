@@ -97,6 +97,12 @@ article.home{
     .buttons{
         margin-bottom:40px;
     }
+
+    .message{
+        a{
+            text-decoration:underline;
+        }
+    }
 }
 
 article.login{
