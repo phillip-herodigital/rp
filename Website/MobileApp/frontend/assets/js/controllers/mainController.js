@@ -215,7 +215,9 @@ streamApp.controller('dashboardController', ['$scope', '$http', '$window', '$loc
         var billingDate = new Date(account.billingCycleEnd);
         
         var aDay = 24 * 60 * 60 * 1000;
-        var diff = Math.abs((billingDate.getTime() - new Date().getTime()) / aDay);
+        var diff = Math.ceil((billingDate.getTime() - new Date().getTime()) / aDay);
+
+        if (diff < 0) return 0;
 
         return diff;
     }
@@ -223,7 +225,7 @@ streamApp.controller('dashboardController', ['$scope', '$http', '$window', '$loc
     $scope.getDataPercentage = function (deviceUsage) {
         if (deviceUsage.length < 2 || deviceUsage[1].number <=0) return 0;
 
-        var pct = Math.abs((deviceUsage[0].number / deviceUsage[1] / number) * 100);
+        var pct = Math.abs((deviceUsage[0].number / deviceUsage[1].number) * 100);
 
         return pct > 100 ? 100 : pct;
     }

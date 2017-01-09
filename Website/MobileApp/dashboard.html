@@ -62,7 +62,7 @@
                 <div class="grid three snapshot"  ng-repeat="line in account.mobileAppPhoneLines">
                     <div class="left">{{line.phoneNumber}}</div>
                     <div class="middle">
-                        <div class="progress-bar red" ng-class="'red', getDataPercentage(line.deviceUsage) == 100">
+                        <div class="progress-bar red" ng-class="{'red':getDataPercentage(line.deviceUsage) == 100}">
                             <div class="current-bar" style="width:{{getDataPercentage(line.deviceUsage)}}%"></div>
                         </div>
                     </div>
