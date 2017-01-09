@@ -15,26 +15,11 @@
                 </div>
             </div>
         </div>
-        <!--<div class="link split no-arrow" ng-click="go('account/makepayment')">
-            <div class="name left">
-                <div class="main-info">Make a Payment</div>
-                <div class="sub-info">Next Payment Due: 12/19/2016</div>
-            </div>
-            <div class="info right">
-                <div class="main-info">
-                    $163.42
-                </div>
-                <div class="sub-info">
-                    Balance
-                </div>
-            </div>
-        </div>-->
     </article>
 
 
     <article class="block-links energy">
-
-        <div class="link split no-arrow" ng-repeat="account in accounts" ng-click="go('account/electric-overview',{'accountNumber':account.accountNumber})">
+        <div class="link split no-arrow"  ng-class="{'gas':account.utilityType.toLowerCase() == 'gas'}"  ng-repeat="account in utilityAccounts" ng-click="go('account/electric-overview',{'accountNumber':account.accountNumber})">
             <div class="name left">
                 <div class="main-info">
                     <span ng-show="account.utilityType !='gas'">Electricty</span>
@@ -52,39 +37,43 @@
             </div>
         </div>
 
-        <!--<div class="link split no-arrow" ng-click="go('account/electric-overview')">
-            <div class="name left">
-                <div class="main-info">Electricty</div>
-                <div class="sub-info">3291 Main Street, Apt. 982</div>
-            </div>
-            <div class="info right">
-                <div class="main-info">
-                    Balance <strong>$145.39</strong>
-                </div>
-                <div class="sub-info">
-                    <span class="icon-calendar-small"></span> AUTOPAY: ON
-                </div>
-            </div>
-        </div>
-        <div class="link split no-arrow gas"  ng-click="go('account/gas-overview')">
-            <div class="name left">
-                <div class="main-info">Gas</div>
-                <div class="sub-info">3291 Main Street, Apt. 982</div>
-            </div>
-            <div class="info right">
-                <div class="main-info">
-                    Balance <strong>$145.39</strong>
-                </div>
-                <div class="sub-info">
-                    <span class="icon-calendar-small"></span> AUTOPAY: ON
-                </div>
-            </div>
-        </div>-->
+        
     </article>
     <article class="block-links wireless">
-        <div class="link split no-arrow devices" ng-click="go('account/wireless-overview')">
+
+        <div class="link split no-arrow devices" ng-repeat="account in mobileAccounts" ng-click="go('account/wireless-overview')">
             <!--<span class="new icon-new"></span>-->
             <!--<span class="notification">1</span>-->
+            <div class="clearfix">
+                <div class="name left">
+                    <div class="main-info">Wireless</div>
+                    <div class="sub-info">{{billingCycleDaysLeft(account)}} Days left in Billing Cycle</div>
+                </div>
+                <div class="info right">
+                    <div class="main-info">
+                        Balance <strong>{{amountDue | currency}}</strong>
+                    </div>
+                    <div class="sub-info">
+                        <span class="icon-calendar-small"></span> AUTOPAY: ON
+                    </div>
+                </div>
+            </div>
+            <div class="snapshots" ng-show="account.mobileAppPhoneLines">
+                <div class="grid three snapshot"  ng-repeat="line in account.mobileAppPhoneLines">
+                    <div class="left">{{line.phoneNumber}}</div>
+                    <div class="middle">
+                        <div class="progress-bar red" ng-class="'red', getDataPercentage(line.deviceUsage) == 100">
+                            <div class="current-bar" style="width:{{getDataPercentage(line.deviceUsage)}}%"></div>
+                        </div>
+                    </div>
+                    <div class="right"><b>{{formatDataUsage(line.deviceUsage[0].number)}}</b> of <b>{{formatDataUsage(line.deviceUsage[1].number)}}</b></div>
+                </div>
+                
+            </div>
+        </div>
+
+        <!--<div class="link split no-arrow devices" ng-click="go('account/wireless-overview')">
+           
             <div class="clearfix">
                 <div class="name left">
                     <div class="main-info">Wireless</div>
@@ -121,8 +110,6 @@
             </div>
         </div>
         <div class="link split no-arrow devices" ng-click="go('wireless/overview')">
-            <!--<span class="new icon-new"></span>-->
-            <!--<span class="notification">1</span>-->
             <div class="clearfix">
                 <div class="name left">
                     <div class="main-info">Wireless</div>
@@ -148,7 +135,7 @@
                     <div class="right"><b>1.73</b> of <b>4GB</b> </div>
                 </div>
             </div>
-        </div>
+        </div>-->
     </article>
 
     <!--<article class="block-links myaccount">

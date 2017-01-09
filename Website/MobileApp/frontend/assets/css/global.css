@@ -630,31 +630,32 @@ a {
   width: 100%;
   height: calc(100vh - 62px);
   overflow-y: auto;
+  z-index: 11;
 }
-/* line 261, _sass/partials/_global.scss */
+/* line 262, _sass/partials/_global.scss */
 .page article {
   padding-left: 25px;
   padding-right: 25px;
 }
-/* line 265, _sass/partials/_global.scss */
+/* line 266, _sass/partials/_global.scss */
 .page article.full-page {
   padding: 0;
 }
 
 /* PAGES
 ============================================================================= */
-/* line 274, _sass/partials/_global.scss */
+/* line 275, _sass/partials/_global.scss */
 .page-home .test-scroll {
   margin-top: 700px;
 }
 
-/* line 278, _sass/partials/_global.scss */
+/* line 279, _sass/partials/_global.scss */
 .page-about {
   background: #E59400;
   color: #a55400;
 }
 
-/* line 279, _sass/partials/_global.scss */
+/* line 280, _sass/partials/_global.scss */
 .page-contact {
   background: #ffa6bb;
   color: #9e0000;
@@ -662,12 +663,12 @@ a {
 
 /* ANIMATIONS
 ============================================================================= */
-/* line 286, _sass/partials/_global.scss */
+/* line 287, _sass/partials/_global.scss */
 .page.ng-leave {
   z-index: 9999;
   animation: slideOutLeft 0.25s both ease-in;
 }
-/* line 291, _sass/partials/_global.scss */
+/* line 292, _sass/partials/_global.scss */
 .page.ng-enter {
   z-index: 8888;
   -webkit-animation: slideInRight 0.25s both ease-in;
@@ -675,12 +676,12 @@ a {
   animation: slideInRight 0.25s both ease-in;
 }
 
-/* line 303, _sass/partials/_global.scss */
+/* line 304, _sass/partials/_global.scss */
 .going-back .page.ng-leave {
   z-index: 9999;
   animation: slideOutRight 0.25s both ease-in;
 }
-/* line 308, _sass/partials/_global.scss */
+/* line 309, _sass/partials/_global.scss */
 .going-back .page.ng-enter {
   z-index: 8888;
   -webkit-animation: slideInLeft 0.25s both ease-in;
@@ -703,7 +704,7 @@ a {
 	-moz-animation:scaleUp 0.5s both ease-in;
 	animation:scaleUp 0.5s both ease-in;    
 }*/
-/* line 335, _sass/partials/_global.scss */
+/* line 336, _sass/partials/_global.scss */
 .page-home.ng-enter {
   -webkit-animation: none;
   -moz-animation: none;
@@ -711,14 +712,14 @@ a {
 }
 
 /* about ------------------------ */
-/* line 342, _sass/partials/_global.scss */
+/* line 343, _sass/partials/_global.scss */
 .page-about.ng-leave {
   -webkit-animation: slideOutLeft 0.5s both ease-in;
   -moz-animation: slideOutLeft 0.5s both ease-in;
   animation: slideOutLeft 0.5s both ease-in;
 }
 
-/* line 347, _sass/partials/_global.scss */
+/* line 348, _sass/partials/_global.scss */
 .page-about.ng-enter {
   -webkit-animation: slideInRight 0.5s both ease-in;
   -moz-animation: slideInRight 0.5s both ease-in;
@@ -726,7 +727,7 @@ a {
 }
 
 /* contact ---------------------- */
-/* line 354, _sass/partials/_global.scss */
+/* line 355, _sass/partials/_global.scss */
 .page-contact.ng-leave {
   -webkit-transform-origin: 50% 50%;
   -webkit-animation: rotateOutNewspaper .5s both ease-in;
@@ -736,7 +737,7 @@ a {
   animation: rotateOutNewspaper .5s both ease-in;
 }
 
-/* line 362, _sass/partials/_global.scss */
+/* line 363, _sass/partials/_global.scss */
 .page-contact.ng-enter {
   -webkit-animation: slideInUp 0.5s both ease-in;
   -moz-animation: slideInUp 0.5s both ease-in;
@@ -745,103 +746,103 @@ a {
 
 /* rotate and fall */
 @-webkit-keyframes rotateFall {
-  /* line 370, _sass/partials/_global.scss */
+  /* line 371, _sass/partials/_global.scss */
   0% {
     -webkit-transform: rotateZ(0deg);
   }
 
-  /* line 371, _sass/partials/_global.scss */
+  /* line 372, _sass/partials/_global.scss */
   20% {
     -webkit-transform: rotateZ(10deg);
     -webkit-animation-timing-function: ease-out;
   }
 
-  /* line 372, _sass/partials/_global.scss */
+  /* line 373, _sass/partials/_global.scss */
   40% {
     -webkit-transform: rotateZ(17deg);
   }
 
-  /* line 373, _sass/partials/_global.scss */
+  /* line 374, _sass/partials/_global.scss */
   60% {
     -webkit-transform: rotateZ(16deg);
   }
 
-  /* line 374, _sass/partials/_global.scss */
+  /* line 375, _sass/partials/_global.scss */
   100% {
     -webkit-transform: translateY(100%) rotateZ(17deg);
   }
 }
 @-moz-keyframes rotateFall {
-  /* line 377, _sass/partials/_global.scss */
+  /* line 378, _sass/partials/_global.scss */
   0% {
     -moz-transform: rotateZ(0deg);
   }
 
-  /* line 378, _sass/partials/_global.scss */
+  /* line 379, _sass/partials/_global.scss */
   20% {
     -moz-transform: rotateZ(10deg);
     -moz-animation-timing-function: ease-out;
   }
 
-  /* line 379, _sass/partials/_global.scss */
+  /* line 380, _sass/partials/_global.scss */
   40% {
     -moz-transform: rotateZ(17deg);
   }
 
-  /* line 380, _sass/partials/_global.scss */
+  /* line 381, _sass/partials/_global.scss */
   60% {
     -moz-transform: rotateZ(16deg);
   }
 
-  /* line 381, _sass/partials/_global.scss */
+  /* line 382, _sass/partials/_global.scss */
   100% {
     -moz-transform: translateY(100%) rotateZ(17deg);
   }
 }
 @keyframes rotateFall {
-  /* line 384, _sass/partials/_global.scss */
+  /* line 385, _sass/partials/_global.scss */
   0% {
     transform: rotateZ(0deg);
   }
 
-  /* line 385, _sass/partials/_global.scss */
+  /* line 386, _sass/partials/_global.scss */
   20% {
     transform: rotateZ(10deg);
     animation-timing-function: ease-out;
   }
 
-  /* line 386, _sass/partials/_global.scss */
+  /* line 387, _sass/partials/_global.scss */
   40% {
     transform: rotateZ(17deg);
   }
 
-  /* line 387, _sass/partials/_global.scss */
+  /* line 388, _sass/partials/_global.scss */
   60% {
     transform: rotateZ(16deg);
   }
 
-  /* line 388, _sass/partials/_global.scss */
+  /* line 389, _sass/partials/_global.scss */
   100% {
     transform: translateY(100%) rotateZ(17deg);
   }
 }
 /* scale up */
 @keyframes scaleUp {
-  /* line 393, _sass/partials/_global.scss */
+  /* line 394, _sass/partials/_global.scss */
   from {
     opacity: 0.3;
     transform: scale(0.8);
   }
 }
 @-moz-keyframes scaleUp {
-  /* line 396, _sass/partials/_global.scss */
+  /* line 397, _sass/partials/_global.scss */
   from {
     opacity: 0.3;
     -moz-transform: scale(0.8);
   }
 }
 @-webkit-keyframes scaleUp {
-  /* line 399, _sass/partials/_global.scss */
+  /* line 400, _sass/partials/_global.scss */
   from {
     opacity: 0.3;
     -webkit-transform: scale(0.8);
@@ -849,217 +850,217 @@ a {
 }
 /* slide in from the right */
 @keyframes slideInRight {
-  /* line 404, _sass/partials/_global.scss */
+  /* line 405, _sass/partials/_global.scss */
   from {
     transform: translateX(100%);
   }
 
-  /* line 405, _sass/partials/_global.scss */
+  /* line 406, _sass/partials/_global.scss */
   to {
     transform: translateX(0);
   }
 }
 @-moz-keyframes slideInRight {
-  /* line 408, _sass/partials/_global.scss */
+  /* line 409, _sass/partials/_global.scss */
   from {
     -moz-transform: translateX(100%);
   }
 
-  /* line 409, _sass/partials/_global.scss */
+  /* line 410, _sass/partials/_global.scss */
   to {
     -moz-transform: translateX(0);
   }
 }
 @-webkit-keyframes slideInRight {
-  /* line 412, _sass/partials/_global.scss */
+  /* line 413, _sass/partials/_global.scss */
   from {
     -webkit-transform: translateX(100%);
   }
 
-  /* line 413, _sass/partials/_global.scss */
+  /* line 414, _sass/partials/_global.scss */
   to {
     -webkit-transform: translateX(0);
   }
 }
 /* slide in from the right */
 @keyframes slideInLeft {
-  /* line 418, _sass/partials/_global.scss */
+  /* line 419, _sass/partials/_global.scss */
   from {
     transform: translateX(-100%);
   }
 
-  /* line 419, _sass/partials/_global.scss */
+  /* line 420, _sass/partials/_global.scss */
   to {
     transform: translateX(0);
   }
 }
 @-moz-keyframes slideInLeft {
-  /* line 422, _sass/partials/_global.scss */
+  /* line 423, _sass/partials/_global.scss */
   from {
     -moz-transform: translateX(-100%);
   }
 
-  /* line 423, _sass/partials/_global.scss */
+  /* line 424, _sass/partials/_global.scss */
   to {
     -moz-transform: translateX(0);
   }
 }
 @-webkit-keyframes slideInLeft {
-  /* line 426, _sass/partials/_global.scss */
+  /* line 427, _sass/partials/_global.scss */
   from {
     -webkit-transform: translateX(-100%);
   }
 
-  /* line 427, _sass/partials/_global.scss */
+  /* line 428, _sass/partials/_global.scss */
   to {
     -webkit-transform: translateX(0);
   }
 }
 /* slide in from the Left */
 @keyframes slideInRight {
-  /* line 432, _sass/partials/_global.scss */
+  /* line 433, _sass/partials/_global.scss */
   from {
     transform: translateX(100%);
   }
 
-  /* line 433, _sass/partials/_global.scss */
+  /* line 434, _sass/partials/_global.scss */
   to {
     transform: translateX(0);
   }
 }
 @-moz-keyframes slideInRight {
-  /* line 436, _sass/partials/_global.scss */
+  /* line 437, _sass/partials/_global.scss */
   from {
     -moz-transform: translateX(100%);
   }
 
-  /* line 437, _sass/partials/_global.scss */
+  /* line 438, _sass/partials/_global.scss */
   to {
     -moz-transform: translateX(0);
   }
 }
 @-webkit-keyframes slideInRight {
-  /* line 440, _sass/partials/_global.scss */
+  /* line 441, _sass/partials/_global.scss */
   from {
     -webkit-transform: translateX(100%);
   }
 
-  /* line 441, _sass/partials/_global.scss */
+  /* line 442, _sass/partials/_global.scss */
   to {
     -webkit-transform: translateX(0);
   }
 }
 /* slide in from the bottom */
 @keyframes slideInUp {
-  /* line 446, _sass/partials/_global.scss */
+  /* line 447, _sass/partials/_global.scss */
   from {
     transform: translateY(100%);
   }
 
-  /* line 447, _sass/partials/_global.scss */
+  /* line 448, _sass/partials/_global.scss */
   to {
     transform: translateY(0);
   }
 }
 @-moz-keyframes slideInUp {
-  /* line 450, _sass/partials/_global.scss */
+  /* line 451, _sass/partials/_global.scss */
   from {
     -moz-transform: translateY(100%);
   }
 
-  /* line 451, _sass/partials/_global.scss */
+  /* line 452, _sass/partials/_global.scss */
   to {
     -moz-transform: translateY(0);
   }
 }
 @-webkit-keyframes slideInUp {
-  /* line 454, _sass/partials/_global.scss */
+  /* line 455, _sass/partials/_global.scss */
   from {
     -webkit-transform: translateY(100%);
   }
 
-  /* line 455, _sass/partials/_global.scss */
+  /* line 456, _sass/partials/_global.scss */
   to {
     -webkit-transform: translateY(0);
   }
 }
 /* slide in from the bottom */
 @keyframes slideOutLeft {
-  /* line 460, _sass/partials/_global.scss */
+  /* line 461, _sass/partials/_global.scss */
   to {
     transform: translateX(-100%);
   }
 }
 @-moz-keyframes slideOutLeft {
-  /* line 463, _sass/partials/_global.scss */
+  /* line 464, _sass/partials/_global.scss */
   to {
     -moz-transform: translateX(-100%);
   }
 }
 @-webkit-keyframes slideOutLeft {
-  /* line 466, _sass/partials/_global.scss */
+  /* line 467, _sass/partials/_global.scss */
   to {
     -webkit-transform: translateX(-100%);
   }
 }
 @keyframes slideOutRight {
-  /* line 470, _sass/partials/_global.scss */
+  /* line 471, _sass/partials/_global.scss */
   to {
     transform: translateX(100%);
   }
 }
 @-moz-keyframes slideOutRight {
-  /* line 473, _sass/partials/_global.scss */
+  /* line 474, _sass/partials/_global.scss */
   to {
     -moz-transform: translateX(100%);
   }
 }
 @-webkit-keyframes slideOutRight {
-  /* line 476, _sass/partials/_global.scss */
+  /* line 477, _sass/partials/_global.scss */
   to {
     -webkit-transform: translateX(100%);
   }
 }
 /* rotate out newspaper */
 @-webkit-keyframes rotateOutNewspaper {
-  /* line 481, _sass/partials/_global.scss */
+  /* line 482, _sass/partials/_global.scss */
   to {
     -webkit-transform: translateZ(-3000px) rotateZ(360deg);
     opacity: 0;
   }
 }
 @-moz-keyframes rotateOutNewspaper {
-  /* line 484, _sass/partials/_global.scss */
+  /* line 485, _sass/partials/_global.scss */
   to {
     -moz-transform: translateZ(-3000px) rotateZ(360deg);
     opacity: 0;
   }
 }
 @keyframes rotateOutNewspaper {
-  /* line 487, _sass/partials/_global.scss */
+  /* line 488, _sass/partials/_global.scss */
   to {
     transform: translateZ(-3000px) rotateZ(360deg);
     opacity: 0;
   }
 }
-/* line 490, _sass/partials/_global.scss */
+/* line 491, _sass/partials/_global.scss */
 .bubble {
   padding: 3px 6px;
   color: #fff;
   font-size: 16px;
   border-radius: 10px;
 }
-/* line 496, _sass/partials/_global.scss */
+/* line 497, _sass/partials/_global.scss */
 .bubble.pink {
   background: #ff5480;
 }
-/* line 499, _sass/partials/_global.scss */
+/* line 500, _sass/partials/_global.scss */
 .bubble.grey {
   background: #989fa2;
   color: #fff;
 }
 
-/* line 505, _sass/partials/_global.scss */
+/* line 506, _sass/partials/_global.scss */
 .progress-bar {
   overflow: hidden;
   *zoom: 1;
@@ -1070,16 +1071,16 @@ a {
   border: 1px solid #e6e6e6;
   border-radius: 15px;
 }
-/* line 516, _sass/partials/_global.scss */
+/* line 517, _sass/partials/_global.scss */
 .progress-bar.blue .current-bar {
   background: linear-gradient(to right, #399bc0, #1da2b0);
   /* Standard syntax */
 }
-/* line 521, _sass/partials/_global.scss */
+/* line 522, _sass/partials/_global.scss */
 .progress-bar.red .current-bar {
   background: #dc4848;
 }
-/* line 526, _sass/partials/_global.scss */
+/* line 527, _sass/partials/_global.scss */
 .progress-bar .current-bar {
   background: linear-gradient(to right, #989fa2, #adb8bd);
   /* Standard syntax */
@@ -1088,32 +1089,32 @@ a {
   border-radius: 15px;
 }
 
-/* line 534, _sass/partials/_global.scss */
+/* line 535, _sass/partials/_global.scss */
 .grid {
   overflow: hidden;
   *zoom: 1;
   position: relative;
 }
-/* line 539, _sass/partials/_global.scss */
+/* line 540, _sass/partials/_global.scss */
 .grid .left {
   float: left;
 }
-/* line 542, _sass/partials/_global.scss */
+/* line 543, _sass/partials/_global.scss */
 .grid .middle {
   float: left;
 }
-/* line 545, _sass/partials/_global.scss */
+/* line 546, _sass/partials/_global.scss */
 .grid .right {
   float: right;
   text-align: right;
 }
-/* line 549, _sass/partials/_global.scss */
+/* line 550, _sass/partials/_global.scss */
 .grid .right.bottom {
   position: absolute;
   bottom: 0;
   right: 0;
 }
-/* line 555, _sass/partials/_global.scss */
+/* line 556, _sass/partials/_global.scss */
 .grid .right a {
   text-decoration: none;
 }

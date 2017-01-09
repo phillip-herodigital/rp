@@ -257,6 +257,7 @@ a{
 
     height:calc(100vh - 62px); //Update this to probably come from the JS
     overflow-y:auto;
+    z-index:11;
 
     article{
         padding-left:25px;

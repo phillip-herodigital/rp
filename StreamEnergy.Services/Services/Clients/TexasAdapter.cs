@@ -251,7 +251,7 @@ namespace StreamEnergy.Services.Clients
             List<Sitecore.Data.Items.Item> products = Sitecore.Context.Database.GetItem("{59E32706-A8B5-4E47-9918-D3DE64E2C7F8}").Children.ToList(); // /sitecore/content/Data/Taxonomy/Products/Texas
             Sitecore.Data.Items.Item product = products.FirstOrDefault(a => a.Name == productId);
 
-            return product != null ? !string.IsNullOrEmpty(product.Fields["Includes Promo"].Value) : false;
+            return product != null && product.Fields["Includes Promo"] != null ? !string.IsNullOrEmpty(product.Fields["Includes Promo"].Value) : false;
         }
 
         string ILocationAdapter.GetProductId(DomainModels.Accounts.ISubAccount subAccount)
