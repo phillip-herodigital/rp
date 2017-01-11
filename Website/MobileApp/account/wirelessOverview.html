@@ -1,7 +1,7 @@
 ﻿<article class="wireless-overview full-page overview">
 
     <div class="heading-bar  section">
-        <span class="icon-phone-small icon"></span>  Wireless Account: <span>30328</span>
+        <span class="icon-phone-small icon"></span>  Wireless Account: <span>{{account.accountNumber}}</span>
     </div>
     <!--<div class="summary clearfix grid section">
         <div class="left">My Wireless Summary</div>
@@ -17,67 +17,52 @@
                 <div class="link grid">
                     <div class="left">
                         <label>Make a Payment</label>
-                        <div>Due 12/18/2016</div>
+                        <div>Due {{ account.dueDate | date:'MM/dd/yyyy' }}</div>
                     </div>
                     <div class="right">
-                        <label>$0.00</label>
+                        <label>{{account.amountDue | currency}}</label>
                         <div>Balance</div>
                     </div>
                 </div>
                 <div class="grid auto-pay-section">
                     <div class="left">
-                        <span class="icon-calendar-black icon"></span> <span>AutoPay: ON</span>
+                        <span class="icon-calendar-black icon"></span> <span>AutoPay: {{account.hasAutoPay ? "ON" : "OFF"}}</span>
                     </div>
                     <div class="right">
-                        <a>Manage</a>
+                        <a ng-click="go('account/autopay')">Manage</a>
                     </div>
                 </div>
             </div>
-
-            <!--<div class="grid clearfix">
-                <div class="left">
-                    <label>Current Balance</label>
-                    <div>Payment due 12/18/2016</div>
-                </div>
-                <div class="right">
-                    <label>$47.51</label>
-                </div>
-            </div>
-
-            <div class="buttons full">
-                <a class="button primary">Continue</a>
-                <a class="button secondary">Manage AutoPay</a>
-            </div>-->
 
             <div class="grid clearfix">
                 <div class="left">
                     <label>Billing Cycle</label>
-                    <div>Nov 11 - Dec 10, 2016</div>
+                    <div>{{ account.billingCycleStart | date:'MMM dd' }} - {{ account.billingCycleEnd | date:'MMM dd, yyyy' }}</div>
                 </div>
                 <div class="right bottom">
-                    <label>2 days left</label>
+                    <label>{{accountService.BillingCycleDaysLeft(account)}} days left</label>
                 </div>
             </div>
             <div class="progress-bar">
-                <div class="current-bar" style="width:75%"></div>
+                <div class="current-bar" style="width:{{DaysRemainingPercentage(account)}}%"></div>
             </div>
         </div>
 
-        <div class="detail-block data-usage over-usage">
+        <div class="detail-block data-usage over-usage"  ng-repeat="line in account.mobileAppPhoneLines">
             <div class="grid clearfix">
                 <div class="left">
-                    <label>815-294-2847</label>
+                    <label>{{line.phoneNumber}}</label>
                 </div>
                 <div class="right bottom amount-used">
-                    <label>3.14 of 6GB Used</label>
+                    <label>{{accountService.FormatDataUsage(line.deviceUsage[0].number)}} of {{accountService.FormatDataUsage(line.deviceUsage[1].number)}} Used</label>
                 </div>
             </div>
 
-            <div class="progress-bar red">
-                <div class="current-bar" style="width:100%"></div>
+            <div class="progress-bar"  ng-class="{'red':accountService.getDataPercentage(line.deviceUsage) == 100}">
+                <div class="current-bar" style="width:{{accountService.getDataPercentage(line.deviceUsage)}}%"></div>
             </div>
             <div class="estimated">
-                Estimated usage: <b>4.5GB</b>
+                Estimated usage: <b>{{estimatedUsage(account)}}</b>
             </div>
 
             <div class="account-breakdown">
@@ -104,7 +89,7 @@
                 </div>
             </div>
         </div>
-        <div class="detail-block data-usage">
+        <!--<div class="detail-block data-usage">
             <div class="grid clearfix">
                 <div class="left">
                     <label>815-294-2847</label>
@@ -143,7 +128,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div>-->
         
         <div class="buttons full section">
             <a class="button blue-text">+ Add Another Line</a>

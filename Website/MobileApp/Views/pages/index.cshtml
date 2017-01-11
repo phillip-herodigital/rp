@@ -33,6 +33,7 @@
     <script src="/mobileapp/frontend/assets/js/services/breakpoint.js"></script>
     <script src="/mobileapp/frontend/assets/js/directives/float-labels.js"></script>
     <script src="/mobileapp/frontend/assets/js/services/appData.js"></script>
+    <script src="/mobileapp/frontend/assets/js/services/accounts.js"></script>
     <script src="/mobileapp/frontend/assets/js/controllers/mainController.js"></script>
     <script src="/mobileapp/frontend/assets/js/controllers/authentification/login.js"></script>
 
@@ -60,6 +61,8 @@
             </div>
             <div class="page-container">
                 <div class="page slide-left {{pageClass}} {{showBackBar}}" ng-view></div>
+            
+                <route-loading-indicator class="route-loading" />
             </div>
         </div>
 

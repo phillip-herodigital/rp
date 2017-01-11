@@ -53,7 +53,7 @@ namespace StreamEnergy.MyStream.MobileApp.controllers
         [HttpGet]
         public async Task<MobileAppResponse> LoadAppData()
         {
-            if (Sitecore.Context.User == null)
+            if (Sitecore.Context.User == null || currentUser == null || currentUser.StreamConnectCustomerId == new Guid("{00000000-0000-0000-0000-000000000000}"))
             {
                 return null;
             }
@@ -226,5 +226,11 @@ namespace StreamEnergy.MyStream.MobileApp.controllers
             return result;
         }
 
+
+        [HttpGet]
+        public async Task<int> GetAppVersion()
+        {
+            return 1;
+        }
     }
 }

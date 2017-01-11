@@ -51,6 +51,22 @@
         }))
     }
 
+    var getAccount = function(accountNumber){
+        var data = getData();
+        var accounts = data.accounts;
+        var acct;
+
+        for (var i = 0; i < accounts.length; i++) {
+            var account = accounts[i];
+            if (account.accountNumber == accountNumber) {
+                acct = account;
+                break;
+            }
+        }
+
+        return acct;
+    }
+
     return {
         Data: function(){
             return getData();
@@ -60,6 +76,9 @@
         },
         clearData: function () {
             setData(null);
+        },
+        GetAccount: function(accountNumber){
+            return getAccount(accountNumber);
         }
     }
 }]);

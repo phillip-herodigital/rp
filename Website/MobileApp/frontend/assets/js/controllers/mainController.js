@@ -93,20 +93,71 @@
         });
 });
 
+//Create the route loading indicator
+var routeLoadingIndicator = function ($rootScope) {
+    return {
+        restrict: 'E',
+        template: "<div class='col-lg-12' ng-show='isRouteLoading'><h1>Loading <i class='fa fa-cog fa-spin'></i></h1></div>",
+        link: function (scope, elem, attrs) {
+            scope.isRouteLoading = false;
+
+            $rootScope.$on('$routeChangeStart', function () {
+                scope.isRouteLoading = true;
+            });
+
+            $rootScope.$on('$routeChangeSuccess', function () {
+                scope.isRouteLoading = false;
+            });
+        }
+    };
+};
+routeLoadingIndicator.$inject = ['$rootScope'];
+streamApp.directive('routeLoadingIndicator', routeLoadingIndicator);
 
 // create the controller and inject Angular's $scope
 
 
 streamApp.controller('mainController', ['$scope', '$http', '$window', '$location', 'appDataService', function ($scope, $http, $window, $location, appDataService) {
+    var loadAppVersion = function () {
+        $window.lastCheckedVersion = new Date();
+        var versionAPI = '/api/MobileApp/GetAppVersion';
+        return $http({
+            method: 'GET',
+            url: versionAPI
+        }).then((function (data) {
+            $window.AppVersion = data.data;
+            return data.data;
+        }))
+    }
+
     $scope.go = function (path, params) {
-        if(!params)
-            $location.path(path);
-        else
-            $location.path(path).search(params);
+        if (!$window.AppVersion) {
+            loadAppVersion();
+        }
+
+        var opts = {};
+
+        params = params ? params : {};
+        $.extend(opts, { 'version': $window.AppVersion }, params);
+
+        //if(!params)
+        //    $location.path(path);
+        //else
+        //    $location.path(path).search(params);
+
+        $location.path(path).search(opts);
     }
 
     $scope.GlobalData = function () {
+        if (!$window.DataInitialized) { //On first window load attempt to load data from server
+            appDataService.loadData();
+            $window.DataInitialized = true;
+        }
+
         var data = appDataService.Data();
+        
+        
+
         return data;
     }
 
@@ -277,27 +328,65 @@ streamApp.controller('shopController', function ($scope, $window) {
     $window.showBackBar = true;
 });
 
-streamApp.controller('wirelessOverviewController', function ($scope, $window) {
+streamApp.controller('wirelessOverviewController', ['$scope', '$http', '$window', 'appDataService', 'accountService', '$routeParams', function ($scope, $http, $window, appDataService, accountService, $routeParams) {
     $scope.pageClass = 'page-wireless-overview';
     $window.showBackBar = true;
-});
 
-streamApp.controller('energyOverviewController', ['$scope', '$http', '$window', 'appDataService', '$routeParams', function ($scope, $http, $window, appDataService, $routeParams) {
+    var accountNumber = $routeParams.accountNumber;
+    var acct = accountService.GetAccount(accountNumber);
+    var aDay = 24 * 60 * 60 * 1000;
+
+    $scope.account = acct;
+    $scope.accountService = accountService;
+
+    $scope.estimatedUsage = function (account) {
+        var usage = 0;
+
+        for (var i = 0; i < account.mobileAppPhoneLines.length; i++) { //Get all usage for lines
+            var line = account.mobileAppPhoneLines[i];
+            if (!line.deviceUsage) continue;
+
+            usage += line.deviceUsage[0].number;
+        }
+        
+        var start = new Date(account.billingCycleStart);
+        var diff = Math.ceil((new Date().getTime() - start.getTime() ) / aDay);
+        
+        var usePerDay = usage / diff;
+        var total = (usePerDay * accountService.BillingCycleDaysLeft(account)) + usage;
+        return accountService.FormatDataUsage(total);
+    }
+
+    $scope.DaysRemainingPercentage = function (account) {
+        var start = new Date(account.billingCycleStart);
+        var end = new Date(account.billingCycleEnd);
+        var diff = Math.ceil((end.getTime() - start.getTime()) / aDay);
+        var diff2 =  Math.ceil((new Date().getTime() - start.getTime() ) / aDay);
+        if (diff <= 0)
+            return 100;
+
+        return Math.ceil((diff2 / diff) * 100);
+    }
+}]);
+
+streamApp.controller('energyOverviewController', ['$scope', '$http', '$window', 'appDataService', 'accountService', '$routeParams', function ($scope, $http, $window, appDataService, accountService, $routeParams) {
     $scope.pageClass = 'page-energy-overview';
     $window.showBackBar = true;
 
-    var data = appDataService.Data();
-    var accounts = data.accounts;
+    //var data = appDataService.Data();
+    //var accounts = data.accounts;
+    //var accountNumber = $routeParams.accountNumber;
+    //var acct;
+    //for (var i = 0; i < accounts.length; i++) {
+    //    var account = accounts[i];
+    //    if (account.accountNumber == accountNumber) {
+    //        acct = account;
+    //        break;
+    //    }
+    //}
     var accountNumber = $routeParams.accountNumber;
-    var acct;
-    for (var i = 0; i < accounts.length; i++) {
-        var account = accounts[i];
-        if (account.accountNumber == accountNumber) {
-            acct = account;
-            break;
-        }
-    }
-
+    //var acct = appDataService.GetAccount(accountNumber);
+    var acct = accountService.GetAccount(accountNumber);
     $scope.account = acct;
 }]);
 

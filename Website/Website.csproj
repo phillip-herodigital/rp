@@ -1277,6 +1277,7 @@
     <Content Include="MobileApp\frontend\assets\js\libs\modernizr-2.6.2.js" />
     <Content Include="MobileApp\frontend\assets\js\libs\ui-bootstrap-tpls-0.6.0.js" />
     <Content Include="MobileApp\frontend\assets\js\libs\ui-utils-0.0.4.min.js" />
+    <Content Include="MobileApp\frontend\assets\js\services\accounts.js" />
     <Content Include="MobileApp\frontend\assets\js\services\appData.js" />
     <Content Include="MobileApp\frontend\assets\js\services\breakpoint.js" />
     <Content Include="MobileApp\frontend\Gruntfile.js" />

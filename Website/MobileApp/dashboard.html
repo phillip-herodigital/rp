@@ -41,7 +41,7 @@
     </article>
     <article class="block-links wireless">
 
-        <div class="link split no-arrow devices" ng-repeat="account in mobileAccounts" ng-click="go('account/wireless-overview')">
+        <div class="link split no-arrow devices" ng-repeat="account in mobileAccounts" ng-click="go('account/wireless-overview',{'accountNumber':account.accountNumber})">
             <!--<span class="new icon-new"></span>-->
             <!--<span class="notification">1</span>-->
             <div class="clearfix">
