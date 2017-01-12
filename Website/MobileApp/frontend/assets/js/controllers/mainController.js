@@ -373,51 +373,121 @@ streamApp.controller('energyOverviewController', ['$scope', '$http', '$window', 
     $scope.pageClass = 'page-energy-overview';
     $window.showBackBar = true;
 
-    //var data = appDataService.Data();
-    //var accounts = data.accounts;
-    //var accountNumber = $routeParams.accountNumber;
-    //var acct;
-    //for (var i = 0; i < accounts.length; i++) {
-    //    var account = accounts[i];
-    //    if (account.accountNumber == accountNumber) {
-    //        acct = account;
-    //        break;
-    //    }
-    //}
     var accountNumber = $routeParams.accountNumber;
-    //var acct = appDataService.GetAccount(accountNumber);
     var acct = accountService.GetAccount(accountNumber);
     $scope.account = acct;
+    $scope.accountNumber;
 }]);
 
-streamApp.controller('paymentMethodsController', function ($scope, $window) {
+streamApp.controller('paymentMethodsController', ['$scope', '$http', '$window', 'appDataService', 'accountService', '$routeParams', function ($scope, $http, $window, appDataService, accountService, $routeParams) {
     $scope.pageClass = 'page-manage-account';
     $window.showBackBar = true;
-});
+    var data = appDataService.Data();
+    //var accounts = angular.copy(data.accounts);
+
+    var paymentMethods = new Array();
+    var addedMethods = new Array();
+
+    for (var i = 0; i < data.accounts.length; i++) {
+        var account = data.accounts[i];
+
+        if (!account.availablePaymentMethods || account.availablePaymentMethods.length < 1)
+            continue;
+
+        for (var j = 0; j < account.availablePaymentMethods.length; j++) {
+            var pm = account.availablePaymentMethods[j];
+            var key = pm.paymentMethodType;
+            if (addedMethods[key])//should set this to an account number
+                continue;
+
+            addedMethods[key] = pm;
+
+            paymentMethods.push(pm);
+        }
+    }
+
+    $scope.paymentMethods = paymentMethods;
+}]);
 
 streamApp.controller('addPaymentMethodController', function ($scope, $window) {
     $scope.pageClass = 'page-add-payment-method';
     $window.showBackBar = true;
 });
 
-streamApp.controller('InvoiceHistoryController', function ($scope, $window) {
+streamApp.controller('InvoiceHistoryController', ['$scope', '$http', '$window', 'appDataService', 'accountService', '$routeParams', function ($scope, $http, $window, appDataService, accountService, $routeParams) {
     $scope.pageClass = 'page-invoice-history';
     $window.showBackBar = true;
+    $scope.formData = {};
+
+    var data = appDataService.Data();
 
     var invoices = new Array();
+    var serviceTypes = new Array();
 
-    //obvious test code here.  Replace this with invoice call
-    var createInvoice = function (invoiceNumber) {
-        return { 'AccountNumber': "#290184723", 'Balance': 214.70, 'AccountType': "Energy", "InvoiceNumber": invoiceNumber + 1, "DueDate": "10/25/2016" };
+    var createInvoice = function (acct, baseInvoice) {
+        var invoice = angular.extend({ 'accountNumber': acct.accountNumber }, baseInvoice);
+        return invoice;
     }
 
+    for (var i = 0; i < data.accounts.length; i++) {
+        var acct = data.accounts[i];
+        if (!acct || !acct.invoiceHistory || acct.invoiceHistory < 1)
+            continue;
 
-    for (var i = 0; i < 6; i++) {
-        invoices.push(createInvoice(i));
+        if (serviceTypes.indexOf(acct.accountType) == -1) {
+            serviceTypes.push(acct.accountType)
+        }
+
+        for (var j = 0; j < acct.invoiceHistory.length; j++) {
+            var invoice = acct.invoiceHistory[j];
+            invoices.push(createInvoice(acct, invoice));
+        }
     }
 
     $scope.invoices = invoices;
-});
+    $scope.accounts = data.accounts;
+    $scope.serviceTypes = serviceTypes;
+
+    $scope.getInvoiceAccount = function (invoice) {
+        var accountNumber = invoice.accountNumber
+
+        return accountService.GetAccount(accountNumber);
+    }
+
+    $scope.showAccountOption = function (account) {
+        return !$scope.formData.invoiceServiceType || $scope.formData.invoiceServiceType == account.accountType;
+    }
+
+    $scope.checkResetAccountOption = function (serviceType) {
+        if ($scope.formData.invoiceServiceType != serviceType) { $scope.formData.InvoiceAccount = '' }
+    }
+
+    $scope.$watch($scope.formData.invoiceServiceType, function () {
+        
+        if (!$scope.formData.InvoiceAccount ||
+            !$scope.formData.invoiceServiceType ||
+            $scope.formData.InvoiceAccount.accountType == $scope.formData.invoiceServiceType) {
+            return;
+        }
+                
+        $scope.formData.InvoiceAccount = ''
+
+
+        //if ($scope.formData.invoiceServiceType != serviceType) { $scope.formData.InvoiceAccount = '' }
+    });
+
+    $scope.showInvoice = function (invoice) {
+        var invoiceAcct = $scope.getInvoiceAccount(invoice);
+
+        if (($scope.formData.invoiceServiceType && $scope.formData.invoiceServiceType != invoiceAcct.accountType) ||
+            ($scope.formData.InvoiceAccount && $scope.formData.InvoiceAccount != invoiceAcct.accountNumber)
+            ) {
+            return false;
+        }
+        else
+            return true;
+    }
+}]);
 
 streamApp.controller('PaymentHistoryController', function ($scope, $window) {
     $scope.pageClass = 'page-payment-history';
@@ -448,20 +518,27 @@ streamApp.controller('manageAutoPayController', ['$scope', '$http', '$window', '
     $window.showBackBar = true;
 
     var data = appDataService.Data();
-    
-
     $scope.accounts = angular.copy(data.accounts);
 
-    var saveChanges = function () {
+    $scope.saveChanges = function () {
         //call api to save the changes
         alert("IMPLEMENT SAVE CHANGES CALL");
     }
 }]);
 
-streamApp.controller('managePaperlessController', function ($scope, $window) {
+streamApp.controller('managePaperlessController', ['$scope', '$http', '$window', 'appDataService', '$routeParams', function ($scope, $http, $window, appDataService, $routeParams) {
     $scope.pageClass = 'page-manage-paperless';
     $window.showBackBar = true;
-});
+
+    var data = appDataService.Data();
+    $scope.accounts = angular.copy(data.accounts);
+
+    $scope.saveChanges = function () {
+        //call api to save the changes
+        alert("IMPLEMENT SAVE CHANGES CALL");
+    }
+}]);
+
 streamApp.controller('loginInfoController', function ($scope, $window) {
     $scope.pageClass = 'page-login-info';
     $window.showBackBar = true;

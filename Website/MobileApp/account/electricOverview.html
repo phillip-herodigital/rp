@@ -65,8 +65,8 @@
         </div>
 
         <div class="buttons full section">
-            <a class="button orange-text">Invoice History</a>
-            <a class="button orange-text">Payment History</a>
+            <a class="button orange-text" ng-click="go('account/invoice-history', {'accountNumber': accountNumber})">Invoice History</a>
+            <a class="button orange-text" ng-click="go('account/payment-history', {'accountNumber': accountNumber})">Payment History</a>
         </div>
     </div>
 </article>

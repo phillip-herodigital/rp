@@ -9,17 +9,17 @@
             Paperless billing is a convenient way to stay organized and impact the enviornment. Instaed of receiving a paper bill in the mail, we'll email you when your invoice is ready. It's fast and simple.
         </p>
 
-        <div class="settings" ng-init="formData.PaperlessEnabled = false;">
+        <div class="settings">
             <form>
-                <div class="setting">
-                    <div class="item clearfix"  ng-click="formData.PaperlessEnabled = true;">
+                <div class="setting" ng-repeat="account in accounts">
+                    <div class="item clearfix"  ng-click="account.PaperlessEnabled = true;">
                         <span class="icon" ng-class="{'icon-radio-large-checked': formData.PaperlessEnabled, 'icon-radio-large':!formData.PaperlessEnabled}"></span>
                         <div class="info stacked">
                             <label>Paperless Billing On</label>
                             <div class="sub-info">Will take effect on next billing cycle.</div>
                         </div>
                     </div>
-                    <div class="item clearfix" ng-click="formData.PaperlessEnabled = false;">
+                    <div class="item clearfix" ng-click="account.PaperlessEnabled = false;">
                         <span class="icon" ng-class="{'icon-radio-large-checked': !formData.PaperlessEnabled, 'icon-radio-large':formData.PaperlessEnabled}"></span>
                         <div class="info">
                             <label>Paperless Billing Off</label>

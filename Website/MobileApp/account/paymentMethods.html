@@ -10,24 +10,15 @@
         </p>
 
         <div class="payment-methods">
-            <div class="payment-method">
+
+            <div class="payment-method" ng-repeat="paymentMethod in paymentMethods">
                 <div class="grid clearfix">
-                    <div class="left name">Patrick’s Amex</div>
+                    <div class="left name">{{paymentMethod.paymentMethodType}}</div>
                     <a class="right">Delete</a>
                 </div>
 
                 <div class="payment-details">
                     <span class="icon-card icon"></span> Credit | American Express ***0938
-                </div>
-            </div>
-            <div class="payment-method">
-                <div class="grid clearfix">
-                    <div class="left name">Patrick’s Chase</div>
-                    <a class="right">Delete</a>
-                </div>
-
-                <div class="payment-details">
-                    <span class="icon-bank icon"></span> ACH |Chase ***0938
                 </div>
             </div>
         </div>

@@ -42,5 +42,7 @@ namespace StreamEnergy.MyStream.Models.Account
         public string PlanRateType { get; set; }
 
         public DomainModels.Address ServiceAddress { get; set; }
+
+        public DomainModels.Accounts.Invoice[] InvoiceHistory { get; set; }
     }
 }

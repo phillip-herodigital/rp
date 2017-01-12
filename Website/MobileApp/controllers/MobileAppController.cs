@@ -88,6 +88,7 @@ namespace StreamEnergy.MyStream.MobileApp.controllers
                 HasAutoPay = account.AutoPay != null ? account.AutoPay.IsEnabled : false,
                 CanMakeOneTimePayment = account.GetCapability<PaymentSchedulingAccountCapability>().CanMakeOneTimePayment,
                 AvailablePaymentMethods = account.GetCapability<PaymentMethodAccountCapability>().AvailablePaymentMethods.ToArray(),
+                InvoiceHistory = account.Invoices
             };
 
             if (account.SubAccounts == null || account.SubAccounts.Length <= 0)
