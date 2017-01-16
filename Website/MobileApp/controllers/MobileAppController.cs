@@ -23,16 +23,13 @@ namespace StreamEnergy.MyStream.MobileApp.controllers
         private readonly DomainModels.Payments.IPaymentService paymentService;
         private readonly Sitecore.Security.Domains.Domain domain;
         private readonly Sitecore.Data.Database database;
-       // private readonly IValidationService validation;
         private readonly StreamEnergy.MyStream.Controllers.ApiControllers.AuthenticationController authentication;
         private readonly ICurrentUser currentUser;
-        //private readonly EnrollmentController enrollmentController;
-        //private readonly IEnrollmentService enrollmentService;
-        //private readonly IDatabase redis;
-        private const string redisPrefix = "AddNewAccount_FindAccount_";
 
         private const string ELECTRICITY = "electricity";
         private const string GAS = "gas";
+        private const string EMAIL = "Email";
+        private const string DIRECT_MAIL = "DirectMail";
 
         public MobileAppController(IUnityContainer container, HttpSessionStateBase session, DomainModels.Accounts.IAccountService accountService, DomainModels.Payments.IPaymentService paymentService, StreamEnergy.MyStream.Controllers.ApiControllers.AuthenticationController authentication, ICurrentUser currentUser)
         {
@@ -42,12 +39,8 @@ namespace StreamEnergy.MyStream.MobileApp.controllers
             this.domain = Sitecore.Context.Site.Domain;
             this.database = Sitecore.Context.Database;
             this.item = Sitecore.Context.Database.GetItem("/sitecore/content/Data/Components/Account/Profile");
-            //this.validation = validation;
             this.authentication = authentication;
             this.currentUser = currentUser;
-            //this.enrollmentController = enrollmentController;
-            //this.redis = redis;
-            //this.enrollmentService = enrollmentService;
         }
 
         [HttpGet]
@@ -58,21 +51,102 @@ namespace StreamEnergy.MyStream.MobileApp.controllers
                 return null;
             }
 
+            var profile = UserProfile.Locate(container, User.Identity.Name);
+            var questionsRoot = database.GetItem("/sitecore/content/Data/Taxonomy/Security Questions");
+
             currentUser.Accounts = await accountService.GetAccountBalances(currentUser.StreamConnectCustomerId);
+            currentUser.Customer = await accountService.GetCustomerByCustomerId(currentUser.StreamConnectCustomerId);
+
             var accountInvoices = await accountService.GetInvoices(currentUser.StreamConnectCustomerId, currentUser.Accounts);
+            var userPaymentMethods = await paymentService.GetSavedPaymentMethods(currentUser.StreamConnectCustomerId);
 
             return new MobileAppResponse
             {
                 User = new MobileAppUser
                 {
                     Name = Sitecore.Context.User.LocalName,
-                    UserName = Sitecore.Context.GetUserName()
+                    UserName = Sitecore.Context.GetUserName(),
+                    Email = currentUser.Customer.EmailAddress,
+                    PaymentMethods = userPaymentMethods,
+                    AvailableSecurityQuestions =
+                    from questionItem in (questionsRoot != null ? questionsRoot.Children : Enumerable.Empty<Sitecore.Data.Items.Item>())
+                    select new StreamEnergy.MyStream.Models.Authentication.SecurityQuestion
+                    {
+                        Id = questionItem.ID.Guid,
+                        Text = questionItem["Question"]
+                    },
+                    Challenges =
+                    from challenge in (profile.ChallengeQuestions ?? new ChallengeResponse[] { }).GroupBy(c => c.QuestionKey).Select(grp => grp.First()).ToDictionary(c => c.QuestionKey, c => (string)null) ?? new Dictionary<Guid, string>()
+                    let questionItem = database.GetItem(new Sitecore.Data.ID(challenge.Key))
+                    select new StreamEnergy.MyStream.Models.Authentication.AnsweredSecurityQuestion
+                    {
+                        SelectedQuestion = new StreamEnergy.MyStream.Models.Authentication.SecurityQuestion
+                        {
+                            Id = challenge.Key,
+                            Text = questionItem != null ? questionItem["Question"] : ""
+                        }
+                    }
                 },
 
                 Accounts = from account in currentUser.Accounts
                            let invoiceAcct = accountInvoices.FirstOrDefault(t => t.AccountNumber == account.AccountNumber && t.Invoices != null)
                            select FetchAccountData(account, invoiceAcct != null ? invoiceAcct.Invoices.OrderByDescending(i => i.DueDate).FirstOrDefault() : null)
             };
+        }
+
+        [HttpPut]
+        public async Task<MobileAppResponse> UpdateAutoPay(string AccountNumber, bool enabled, string sPaymentMethodId)
+        {
+            if (currentUser.Accounts == null)
+            {
+                currentUser.Accounts = await accountService.GetAccountBalances(currentUser.StreamConnectCustomerId);
+            }
+
+            var account = currentUser.Accounts.Where(acct => acct.AccountNumber == AccountNumber).FirstOrDefault();
+
+            if (account != null)
+            {
+                if (enabled)
+                {
+                    account.AutoPay.IsEnabled = true;
+                    account.AutoPay.PaymentMethodId = new Guid(sPaymentMethodId);
+                }
+                else
+                {
+                    account.AutoPay.IsEnabled = false;
+                    account.AutoPay.PaymentMethodId = null;
+                }
+                await accountService.SetAccountDetails(account, account.Details);
+            }
+
+            return await LoadAppData();
+        }
+
+        [HttpPut]
+        public async Task<MobileAppResponse> UpdatePaperlessBilling(string AccountNumber, bool enabled)
+        {
+            if (currentUser.Accounts == null)
+            {
+                currentUser.Accounts = await accountService.GetAccountBalances(currentUser.StreamConnectCustomerId);
+            }
+
+            var account = currentUser.Accounts.Where(acct => acct.AccountNumber == AccountNumber).FirstOrDefault();
+
+            if (account != null)
+            {
+                if (enabled)
+                {
+                    account.Details.BillingDeliveryPreference = EMAIL;
+                }
+                else
+                {
+                    account.Details.BillingDeliveryPreference = DIRECT_MAIL;
+                }
+
+                await accountService.SetAccountDetails(account, account.Details);
+            }
+
+            return await LoadAppData();
         }
 
         private MobileAppAccount FetchAccountData(Account account, DomainModels.Accounts.Invoice invoice)
@@ -86,6 +160,8 @@ namespace StreamEnergy.MyStream.MobileApp.controllers
                 SystemOfRecord = account.SystemOfRecord,
                 UtilityProvider = account.GetCapability<ExternalPaymentAccountCapability>().UtilityProvider,
                 HasAutoPay = account.AutoPay != null ? account.AutoPay.IsEnabled : false,
+                IsPaperless = account.Details.BillingDeliveryPreference == EMAIL,
+                BillingDeliveryPreference = account.Details.BillingDeliveryPreference,
                 CanMakeOneTimePayment = account.GetCapability<PaymentSchedulingAccountCapability>().CanMakeOneTimePayment,
                 AvailablePaymentMethods = account.GetCapability<PaymentMethodAccountCapability>().AvailablePaymentMethods.ToArray(),
             };
