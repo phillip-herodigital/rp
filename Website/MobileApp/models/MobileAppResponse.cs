@@ -15,7 +15,16 @@ namespace StreamEnergy.MyStream.MobileApp.models
     }
 
     public class MobileAppUser {
+
         public string Name;
+
         public string UserName;
+
+        public string Email;
+
+        public IEnumerable<DomainModels.Payments.SavedPaymentRecord> PaymentMethods;
+        public IEnumerable<StreamEnergy.MyStream.Models.Authentication.SecurityQuestion> AvailableSecurityQuestions { get; set; }
+        public IEnumerable<StreamEnergy.MyStream.Models.Authentication.AnsweredSecurityQuestion> Challenges { get; set; }
+
     }
 }

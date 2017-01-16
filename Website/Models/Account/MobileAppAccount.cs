@@ -15,6 +15,10 @@ namespace StreamEnergy.MyStream.Models.Account
 
         public Boolean HasAutoPay { get; set; }
 
+        public Boolean IsPaperless { get; set; }
+
+        public string BillingDeliveryPreference { get; set; }
+
         public bool CanMakeOneTimePayment { get; set; }
 
         public DomainModels.Accounts.AvailablePaymentMethod[] AvailablePaymentMethods { get; set; }

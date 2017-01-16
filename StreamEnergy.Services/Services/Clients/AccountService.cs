@@ -115,7 +115,10 @@ namespace StreamEnergy.Services.Clients
         {
             var service = ((IAccountService)this);
             List<Account> results = new List<Account>();
-            foreach (var entry in from account in existingAccountObjects ?? await service.GetAccounts(globalCustomerId)
+
+            var accounts = await service.GetAccounts(globalCustomerId);
+
+            foreach (var entry in from account in existingAccountObjects ?? accounts
                                   select new { service, account })
             {
                 if (entry.account.Balance == null || forceRefresh)
