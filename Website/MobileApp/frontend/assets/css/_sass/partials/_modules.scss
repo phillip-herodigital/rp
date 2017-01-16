@@ -195,7 +195,7 @@ article.shop{
 }
 
 article.block-links{
-    padding:0;
+    padding:0; 
     background-repeat:repeat;
     background-size:cover;
 
@@ -241,14 +241,14 @@ article.block-links{
             @include gradient(green); 
                 
             font-size:25px;
-            font-weight:normal; 
+            font-weight:normal;
         }
 
         a, .link{
             @include retina-background(diamonds-pink);
 
             .name{
-                background: url("/mobileapp/frontend/assets/i/icon/shop.png");
+                background: url("/mobileapp/frontend/assets/i/icon/shopping-cart-thin.png");
                 background-position:left 50%;
                 background-repeat:no-repeat;
             }
@@ -334,6 +334,7 @@ article.block-links{
                 background: url("/mobileapp/frontend/assets/i/icon/light-bulb.png");
                 background-position:left 50%;
                 background-repeat:no-repeat;
+                min-height:45px;
                 
             }
         }
@@ -377,7 +378,7 @@ article.block-links{
     }
 
     a, .link{
-        padding: 30px 10px;
+        padding: 40px 10px 30px;
         display:block;
         text-decoration:none;
         position:relative;
@@ -401,7 +402,6 @@ article.block-links{
             }
         }
 
-        
 
         &.split{
             @include clearfix;
@@ -429,6 +429,8 @@ article.block-links{
                     font-size:15px;
                     font-weight:200; 
                     font-family:"proxima-nova-light";
+                    line-height:1.2;
+                    opacity:.75;
                 }
             }
         }
@@ -441,9 +443,16 @@ article.block-links{
             font-size:24px;
             line-height:1;
             padding-left:35px;
+
+            .main-info{
+                color:#e1f9f0;
+            }
+
             .sub-info{
                 font-size:14px;
                 font-weight:lighter;
+                opacity:.85;
+                line-height:1.2;
             }
         }
 
@@ -493,10 +502,10 @@ article.block-links{
 
                 &.grid{
                     .left{
-                        width:75px;
+                        width:80px;
                         font-size:12px;
                         font-weight:lighter;
-                        margin-right:10px;
+                        margin-right:5px;
                     }
 
                     .middle{

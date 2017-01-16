@@ -29,9 +29,10 @@
             </div>
             <div class="info right">
                 <div class="main-info">
-                    Balance <strong>${{account.amountDue}}</strong>
+                    <strong>${{account.amountDue}}</strong>
                 </div>
                 <div class="sub-info">
+                    <div>Balance</div>
                     <span class="icon-calendar-small"></span> AUTOPAY: {{account.hasAutoPay ? "ON" : "OFF"}}
                 </div>
             </div>
@@ -40,7 +41,6 @@
         
     </article>
     <article class="block-links wireless">
-
         <div class="link split no-arrow devices" ng-repeat="account in mobileAccounts" ng-click="go('account/wireless-overview',{'accountNumber':account.accountNumber})">
             <!--<span class="new icon-new"></span>-->
             <!--<span class="notification">1</span>-->
@@ -51,16 +51,17 @@
                 </div>
                 <div class="info right">
                     <div class="main-info">
-                        Balance <strong>{{amountDue | currency}}</strong>
+                        <strong>{{account.amountDue | currency}}</strong>
                     </div>
                     <div class="sub-info">
+                        <div>Balance</div>
                         <span class="icon-calendar-small"></span> AUTOPAY: ON
                     </div>
                 </div>
             </div>
             <div class="snapshots" ng-show="account.mobileAppPhoneLines">
                 <div class="grid three snapshot"  ng-repeat="line in account.mobileAppPhoneLines">
-                    <div class="left">{{line.phoneNumber}}</div>
+                    <div class="left">{{line.phoneNumber | tel}}</div>
                     <div class="middle">
                         <div class="progress-bar red" ng-class="{'red':getDataPercentage(line.deviceUsage) == 100}">
                             <div class="current-bar" style="width:{{getDataPercentage(line.deviceUsage)}}%"></div>

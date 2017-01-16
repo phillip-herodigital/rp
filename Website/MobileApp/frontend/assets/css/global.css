@@ -537,7 +537,7 @@ a {
 }
 /* line 166, _sass/partials/_global.scss */
 .menu .links .link.share {
-  background-image: url('../i/icon/share.png?1481142664');
+  background-image: url('../i/icon/share.png?1484606032');
 }
 /* line 169, _sass/partials/_global.scss */
 .menu .links .link.settings {
@@ -1879,7 +1879,7 @@ form .checkbox-list.inline li,
 
 /* line 75, _sass/partials/_sprites.scss */
 .icon-MyAccountText {
-  background-image: url('../i/icon-s6f6f9b1023.png');
+  background-image: url('../i/icon-sf239c8997c.png');
   background-position: 0 0;
   height: 75px;
   width: 238px;
@@ -1887,7 +1887,7 @@ form .checkbox-list.inline li,
 @media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3 / 2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
   /* line 75, _sass/partials/_sprites.scss */
   .icon-MyAccountText {
-    background-image: url('../i/icon2x-s3704ab13e1.png');
+    background-image: url('../i/icon2x-s3430082978.png');
     background-size: 250.5px 2403px;
     background-position: 0 0;
     height: 74.5px;
@@ -1901,7 +1901,7 @@ form .checkbox-list.inline li,
 
 /* line 75, _sass/partials/_sprites.scss */
 .icon-MyStreamText {
-  background-image: url('../i/icon-s6f6f9b1023.png');
+  background-image: url('../i/icon-sf239c8997c.png');
   background-position: 0 -79px;
   height: 71px;
   width: 215px;
@@ -1909,7 +1909,7 @@ form .checkbox-list.inline li,
 @media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3 / 2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
   /* line 75, _sass/partials/_sprites.scss */
   .icon-MyStreamText {
-    background-image: url('../i/icon2x-s3704ab13e1.png');
+    background-image: url('../i/icon2x-s3430082978.png');
     background-size: 250.5px 2403px;
     background-position: 0 -77px;
     height: 71px;
@@ -1923,7 +1923,7 @@ form .checkbox-list.inline li,
 
 /* line 75, _sass/partials/_sprites.scss */
 .icon-WelcomeText {
-  background-image: url('../i/icon-s6f6f9b1023.png');
+  background-image: url('../i/icon-sf239c8997c.png');
   background-position: 0 -154px;
   height: 56px;
   width: 209px;
@@ -1931,7 +1931,7 @@ form .checkbox-list.inline li,
 @media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3 / 2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
   /* line 75, _sass/partials/_sprites.scss */
   .icon-WelcomeText {
-    background-image: url('../i/icon2x-s3704ab13e1.png');
+    background-image: url('../i/icon2x-s3430082978.png');
     background-size: 250.5px 2403px;
     background-position: 0 -150px;
     height: 55.5px;
@@ -1945,7 +1945,7 @@ form .checkbox-list.inline li,
 
 /* line 75, _sass/partials/_sprites.scss */
 .icon-arrow-large-blue {
-  background-image: url('../i/icon-s6f6f9b1023.png');
+  background-image: url('../i/icon-sf239c8997c.png');
   background-position: 0 -214px;
   height: 21px;
   width: 11px;
@@ -1953,7 +1953,7 @@ form .checkbox-list.inline li,
 @media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3 / 2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
   /* line 75, _sass/partials/_sprites.scss */
   .icon-arrow-large-blue {
-    background-image: url('../i/icon2x-s3704ab13e1.png');
+    background-image: url('../i/icon2x-s3430082978.png');
     background-size: 250.5px 2403px;
     background-position: 0 -207px;
     height: 20.5px;
@@ -1967,7 +1967,7 @@ form .checkbox-list.inline li,
 
 /* line 75, _sass/partials/_sprites.scss */
 .icon-arrow-large-grey-down {
-  background-image: url('../i/icon-s6f6f9b1023.png');
+  background-image: url('../i/icon-sf239c8997c.png');
   background-position: 0 -239px;
   height: 12px;
   width: 23px;
@@ -1975,7 +1975,7 @@ form .checkbox-list.inline li,
 @media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3 / 2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
   /* line 75, _sass/partials/_sprites.scss */
   .icon-arrow-large-grey-down {
-    background-image: url('../i/icon2x-s3704ab13e1.png');
+    background-image: url('../i/icon2x-s3430082978.png');
     background-size: 250.5px 2403px;
     background-position: 0 -230px;
     height: 11.5px;
@@ -1989,7 +1989,7 @@ form .checkbox-list.inline li,
 
 /* line 75, _sass/partials/_sprites.scss */
 .icon-arrow-large-orange {
-  background-image: url('../i/icon-s6f6f9b1023.png');
+  background-image: url('../i/icon-sf239c8997c.png');
   background-position: 0 -255px;
   height: 17px;
   width: 9px;
@@ -1997,7 +1997,7 @@ form .checkbox-list.inline li,
 @media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3 / 2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
   /* line 75, _sass/partials/_sprites.scss */
   .icon-arrow-large-orange {
-    background-image: url('../i/icon2x-s3704ab13e1.png');
+    background-image: url('../i/icon2x-s3430082978.png');
     background-size: 250.5px 2403px;
     background-position: 0 -243px;
     height: 16.5px;
@@ -2011,7 +2011,7 @@ form .checkbox-list.inline li,
 
 /* line 75, _sass/partials/_sprites.scss */
 .icon-arrow-large {
-  background-image: url('../i/icon-s6f6f9b1023.png');
+  background-image: url('../i/icon-sf239c8997c.png');
   background-position: 0 -276px;
   height: 23px;
   width: 11px;
@@ -2019,7 +2019,7 @@ form .checkbox-list.inline li,
 @media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3 / 2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
   /* line 75, _sass/partials/_sprites.scss */
   .icon-arrow-large {
-    background-image: url('../i/icon2x-s3704ab13e1.png');
+    background-image: url('../i/icon2x-s3430082978.png');
     background-size: 250.5px 2403px;
     background-position: 0 -262px;
     height: 22.5px;
@@ -2033,7 +2033,7 @@ form .checkbox-list.inline li,
 
 /* line 75, _sass/partials/_sprites.scss */
 .icon-arrow {
-  background-image: url('../i/icon-s6f6f9b1023.png');
+  background-image: url('../i/icon-sf239c8997c.png');
   background-position: 0 -303px;
   height: 10px;
   width: 5px;
@@ -2041,7 +2041,7 @@ form .checkbox-list.inline li,
 @media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3 / 2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
   /* line 75, _sass/partials/_sprites.scss */
   .icon-arrow {
-    background-image: url('../i/icon2x-s3704ab13e1.png');
+    background-image: url('../i/icon2x-s3430082978.png');
     background-size: 250.5px 2403px;
     background-position: 0 -286px;
     height: 9px;
@@ -2055,7 +2055,7 @@ form .checkbox-list.inline li,
 
 /* line 75, _sass/partials/_sprites.scss */
 .icon-back-arrow {
-  background-image: url('../i/icon-s6f6f9b1023.png');
+  background-image: url('../i/icon-sf239c8997c.png');
   background-position: 0 -317px;
   height: 17px;
   width: 9px;
@@ -2063,7 +2063,7 @@ form .checkbox-list.inline li,
 @media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3 / 2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
   /* line 75, _sass/partials/_sprites.scss */
   .icon-back-arrow {
-    background-image: url('../i/icon2x-s3704ab13e1.png');
+    background-image: url('../i/icon2x-s3430082978.png');
     background-size: 250.5px 2403px;
     background-position: 0 -297px;
     height: 16.5px;
@@ -2077,7 +2077,7 @@ form .checkbox-list.inline li,
 
 /* line 75, _sass/partials/_sprites.scss */
 .icon-bank {
-  background-image: url('../i/icon-s6f6f9b1023.png');
+  background-image: url('../i/icon-sf239c8997c.png');
   background-position: 0 -338px;
   height: 18px;
   width: 16px;
@@ -2085,7 +2085,7 @@ form .checkbox-list.inline li,
 @media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3 / 2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
   /* line 75, _sass/partials/_sprites.scss */
   .icon-bank {
-    background-image: url('../i/icon2x-s3704ab13e1.png');
+    background-image: url('../i/icon2x-s3430082978.png');
     background-size: 250.5px 2403px;
     background-position: 0 -316px;
     height: 18px;
@@ -2099,7 +2099,7 @@ form .checkbox-list.inline li,
 
 /* line 75, _sass/partials/_sprites.scss */
 .icon-bars {
-  background-image: url('../i/icon-s6f6f9b1023.png');
+  background-image: url('../i/icon-sf239c8997c.png');
   background-position: 0 -360px;
   height: 66px;
   width: 42px;
@@ -2107,7 +2107,7 @@ form .checkbox-list.inline li,
 @media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3 / 2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
   /* line 75, _sass/partials/_sprites.scss */
   .icon-bars {
-    background-image: url('../i/icon2x-s3704ab13e1.png');
+    background-image: url('../i/icon2x-s3430082978.png');
     background-size: 250.5px 2403px;
     background-position: 0 -336px;
     height: 65.5px;
@@ -2121,7 +2121,7 @@ form .checkbox-list.inline li,
 
 /* line 75, _sass/partials/_sprites.scss */
 .icon-bill-small {
-  background-image: url('../i/icon-s6f6f9b1023.png');
+  background-image: url('../i/icon-sf239c8997c.png');
   background-position: 0 -430px;
   height: 14px;
   width: 22px;
@@ -2129,7 +2129,7 @@ form .checkbox-list.inline li,
 @media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3 / 2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
   /* line 75, _sass/partials/_sprites.scss */
   .icon-bill-small {
-    background-image: url('../i/icon2x-s3704ab13e1.png');
+    background-image: url('../i/icon2x-s3430082978.png');
     background-size: 250.5px 2403px;
     background-position: 0 -403px;
     height: 13.5px;
@@ -2143,7 +2143,7 @@ form .checkbox-list.inline li,
 
 /* line 75, _sass/partials/_sprites.scss */
 .icon-bill {
-  background-image: url('../i/icon-s6f6f9b1023.png');
+  background-image: url('../i/icon-sf239c8997c.png');
   background-position: 0 -448px;
   height: 32px;
   width: 25px;
@@ -2151,7 +2151,7 @@ form .checkbox-list.inline li,
 @media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3 / 2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
   /* line 75, _sass/partials/_sprites.scss */
   .icon-bill {
-    background-image: url('../i/icon2x-s3704ab13e1.png');
+    background-image: url('../i/icon2x-s3430082978.png');
     background-size: 250.5px 2403px;
     background-position: 0 -419px;
     height: 31px;
@@ -2165,7 +2165,7 @@ form .checkbox-list.inline li,
 
 /* line 75, _sass/partials/_sprites.scss */
 .icon-briefcase-large {
-  background-image: url('../i/icon-s6f6f9b1023.png');
+  background-image: url('../i/icon-sf239c8997c.png');
   background-position: 0 -484px;
   height: 43px;
   width: 52px;
@@ -2173,7 +2173,7 @@ form .checkbox-list.inline li,
 @media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3 / 2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
   /* line 75, _sass/partials/_sprites.scss */
   .icon-briefcase-large {
-    background-image: url('../i/icon2x-s3704ab13e1.png');
+    background-image: url('../i/icon2x-s3430082978.png');
     background-size: 250.5px 2403px;
     background-position: 0 -452px;
     height: 42.5px;
@@ -2187,7 +2187,7 @@ form .checkbox-list.inline li,
 
 /* line 75, _sass/partials/_sprites.scss */
 .icon-briefcase {
-  background-image: url('../i/icon-s6f6f9b1023.png');
+  background-image: url('../i/icon-sf239c8997c.png');
   background-position: 0 -531px;
   height: 65px;
   width: 58px;
@@ -2195,7 +2195,7 @@ form .checkbox-list.inline li,
 @media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3 / 2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
   /* line 75, _sass/partials/_sprites.scss */
   .icon-briefcase {
-    background-image: url('../i/icon2x-s3704ab13e1.png');
+    background-image: url('../i/icon2x-s3430082978.png');
     background-size: 250.5px 2403px;
     background-position: 0 -496px;
     height: 64px;
@@ -2209,7 +2209,7 @@ form .checkbox-list.inline li,
 
 /* line 75, _sass/partials/_sprites.scss */
 .icon-calendar-black {
-  background-image: url('../i/icon-s6f6f9b1023.png');
+  background-image: url('../i/icon-sf239c8997c.png');
   background-position: 0 -600px;
   height: 15px;
   width: 16px;
@@ -2217,7 +2217,7 @@ form .checkbox-list.inline li,
 @media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3 / 2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
   /* line 75, _sass/partials/_sprites.scss */
   .icon-calendar-black {
-    background-image: url('../i/icon2x-s3704ab13e1.png');
+    background-image: url('../i/icon2x-s3430082978.png');
     background-size: 250.5px 2403px;
     background-position: 0 -562px;
     height: 15px;
@@ -2231,7 +2231,7 @@ form .checkbox-list.inline li,
 
 /* line 75, _sass/partials/_sprites.scss */
 .icon-calendar-small {
-  background-image: url('../i/icon-s6f6f9b1023.png');
+  background-image: url('../i/icon-sf239c8997c.png');
   background-position: 0 -619px;
   height: 11px;
   width: 12px;
@@ -2239,7 +2239,7 @@ form .checkbox-list.inline li,
 @media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3 / 2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
   /* line 75, _sass/partials/_sprites.scss */
   .icon-calendar-small {
-    background-image: url('../i/icon2x-s3704ab13e1.png');
+    background-image: url('../i/icon2x-s3430082978.png');
     background-size: 250.5px 2403px;
     background-position: 0 -579px;
     height: 10px;
@@ -2253,7 +2253,7 @@ form .checkbox-list.inline li,
 
 /* line 75, _sass/partials/_sprites.scss */
 .icon-calendar {
-  background-image: url('../i/icon-s6f6f9b1023.png');
+  background-image: url('../i/icon-sf239c8997c.png');
   background-position: 0 -634px;
   height: 22px;
   width: 26px;
@@ -2261,7 +2261,7 @@ form .checkbox-list.inline li,
 @media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3 / 2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
   /* line 75, _sass/partials/_sprites.scss */
   .icon-calendar {
-    background-image: url('../i/icon2x-s3704ab13e1.png');
+    background-image: url('../i/icon2x-s3430082978.png');
     background-size: 250.5px 2403px;
     background-position: 0 -591px;
     height: 21.5px;
@@ -2275,7 +2275,7 @@ form .checkbox-list.inline li,
 
 /* line 75, _sass/partials/_sprites.scss */
 .icon-capture-card {
-  background-image: url('../i/icon-s6f6f9b1023.png');
+  background-image: url('../i/icon-sf239c8997c.png');
   background-position: 0 -660px;
   height: 30px;
   width: 42px;
@@ -2283,7 +2283,7 @@ form .checkbox-list.inline li,
 @media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3 / 2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
   /* line 75, _sass/partials/_sprites.scss */
   .icon-capture-card {
-    background-image: url('../i/icon2x-s3704ab13e1.png');
+    background-image: url('../i/icon2x-s3430082978.png');
     background-size: 250.5px 2403px;
     background-position: 0 -615px;
     height: 30px;
@@ -2297,7 +2297,7 @@ form .checkbox-list.inline li,
 
 /* line 75, _sass/partials/_sprites.scss */
 .icon-card {
-  background-image: url('../i/icon-s6f6f9b1023.png');
+  background-image: url('../i/icon-sf239c8997c.png');
   background-position: 0 -694px;
   height: 12px;
   width: 16px;
@@ -2305,7 +2305,7 @@ form .checkbox-list.inline li,
 @media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3 / 2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
   /* line 75, _sass/partials/_sprites.scss */
   .icon-card {
-    background-image: url('../i/icon2x-s3704ab13e1.png');
+    background-image: url('../i/icon2x-s3430082978.png');
     background-size: 250.5px 2403px;
     background-position: 0 -647px;
     height: 12px;
@@ -2319,7 +2319,7 @@ form .checkbox-list.inline li,
 
 /* line 75, _sass/partials/_sprites.scss */
 .icon-close-x {
-  background-image: url('../i/icon-s6f6f9b1023.png');
+  background-image: url('../i/icon-sf239c8997c.png');
   background-position: 0 -710px;
   height: 18px;
   width: 18px;
@@ -2327,7 +2327,7 @@ form .checkbox-list.inline li,
 @media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3 / 2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
   /* line 75, _sass/partials/_sprites.scss */
   .icon-close-x {
-    background-image: url('../i/icon2x-s3704ab13e1.png');
+    background-image: url('../i/icon2x-s3430082978.png');
     background-size: 250.5px 2403px;
     background-position: 0 -661px;
     height: 18px;
@@ -2341,7 +2341,7 @@ form .checkbox-list.inline li,
 
 /* line 75, _sass/partials/_sprites.scss */
 .icon-contact-us {
-  background-image: url('../i/icon-s6f6f9b1023.png');
+  background-image: url('../i/icon-sf239c8997c.png');
   background-position: 0 -732px;
   height: 33px;
   width: 36px;
@@ -2349,7 +2349,7 @@ form .checkbox-list.inline li,
 @media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3 / 2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
   /* line 75, _sass/partials/_sprites.scss */
   .icon-contact-us {
-    background-image: url('../i/icon2x-s3704ab13e1.png');
+    background-image: url('../i/icon2x-s3430082978.png');
     background-size: 250.5px 2403px;
     background-position: 0 -681px;
     height: 32.5px;
@@ -2363,7 +2363,7 @@ form .checkbox-list.inline li,
 
 /* line 75, _sass/partials/_sprites.scss */
 .icon-facebook {
-  background-image: url('../i/icon-s6f6f9b1023.png');
+  background-image: url('../i/icon-sf239c8997c.png');
   background-position: 0 -769px;
   height: 20px;
   width: 9px;
@@ -2371,7 +2371,7 @@ form .checkbox-list.inline li,
 @media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3 / 2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
   /* line 75, _sass/partials/_sprites.scss */
   .icon-facebook {
-    background-image: url('../i/icon2x-s3704ab13e1.png');
+    background-image: url('../i/icon2x-s3430082978.png');
     background-size: 250.5px 2403px;
     background-position: 0 -715px;
     height: 18.5px;
@@ -2385,7 +2385,7 @@ form .checkbox-list.inline li,
 
 /* line 75, _sass/partials/_sprites.scss */
 .icon-fingerprint {
-  background-image: url('../i/icon-s6f6f9b1023.png');
+  background-image: url('../i/icon-sf239c8997c.png');
   background-position: 0 -793px;
   height: 51px;
   width: 51px;
@@ -2393,7 +2393,7 @@ form .checkbox-list.inline li,
 @media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3 / 2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
   /* line 75, _sass/partials/_sprites.scss */
   .icon-fingerprint {
-    background-image: url('../i/icon2x-s3704ab13e1.png');
+    background-image: url('../i/icon2x-s3430082978.png');
     background-size: 250.5px 2403px;
     background-position: 0 -736px;
     height: 51px;
@@ -2407,7 +2407,7 @@ form .checkbox-list.inline li,
 
 /* line 75, _sass/partials/_sprites.scss */
 .icon-flame-small {
-  background-image: url('../i/icon-s6f6f9b1023.png');
+  background-image: url('../i/icon-sf239c8997c.png');
   background-position: 0 -848px;
   height: 23px;
   width: 15px;
@@ -2415,7 +2415,7 @@ form .checkbox-list.inline li,
 @media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3 / 2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
   /* line 75, _sass/partials/_sprites.scss */
   .icon-flame-small {
-    background-image: url('../i/icon2x-s3704ab13e1.png');
+    background-image: url('../i/icon2x-s3430082978.png');
     background-size: 250.5px 2403px;
     background-position: 0 -789px;
     height: 22px;
@@ -2429,7 +2429,7 @@ form .checkbox-list.inline li,
 
 /* line 75, _sass/partials/_sprites.scss */
 .icon-flame {
-  background-image: url('../i/icon-s6f6f9b1023.png');
+  background-image: url('../i/icon-sf239c8997c.png');
   background-position: 0 -875px;
   height: 37px;
   width: 25px;
@@ -2437,7 +2437,7 @@ form .checkbox-list.inline li,
 @media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3 / 2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
   /* line 75, _sass/partials/_sprites.scss */
   .icon-flame {
-    background-image: url('../i/icon2x-s3704ab13e1.png');
+    background-image: url('../i/icon2x-s3430082978.png');
     background-size: 250.5px 2403px;
     background-position: 0 -813px;
     height: 37px;
@@ -2451,7 +2451,7 @@ form .checkbox-list.inline li,
 
 /* line 75, _sass/partials/_sprites.scss */
 .icon-gear-small {
-  background-image: url('../i/icon-s6f6f9b1023.png');
+  background-image: url('../i/icon-sf239c8997c.png');
   background-position: 0 -916px;
   height: 19px;
   width: 19px;
@@ -2459,7 +2459,7 @@ form .checkbox-list.inline li,
 @media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3 / 2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
   /* line 75, _sass/partials/_sprites.scss */
   .icon-gear-small {
-    background-image: url('../i/icon2x-s3704ab13e1.png');
+    background-image: url('../i/icon2x-s3430082978.png');
     background-size: 250.5px 2403px;
     background-position: 0 -852px;
     height: 19px;
@@ -2473,7 +2473,7 @@ form .checkbox-list.inline li,
 
 /* line 75, _sass/partials/_sprites.scss */
 .icon-gear {
-  background-image: url('../i/icon-s6f6f9b1023.png');
+  background-image: url('../i/icon-sf239c8997c.png');
   background-position: 0 -939px;
   height: 38px;
   width: 38px;
@@ -2481,7 +2481,7 @@ form .checkbox-list.inline li,
 @media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3 / 2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
   /* line 75, _sass/partials/_sprites.scss */
   .icon-gear {
-    background-image: url('../i/icon2x-s3704ab13e1.png');
+    background-image: url('../i/icon2x-s3430082978.png');
     background-size: 250.5px 2403px;
     background-position: 0 -873px;
     height: 38px;
@@ -2495,7 +2495,7 @@ form .checkbox-list.inline li,
 
 /* line 75, _sass/partials/_sprites.scss */
 .icon-home {
-  background-image: url('../i/icon-s6f6f9b1023.png');
+  background-image: url('../i/icon-sf239c8997c.png');
   background-position: 0 -981px;
   height: 46px;
   width: 50px;
@@ -2503,7 +2503,7 @@ form .checkbox-list.inline li,
 @media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3 / 2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
   /* line 75, _sass/partials/_sprites.scss */
   .icon-home {
-    background-image: url('../i/icon2x-s3704ab13e1.png');
+    background-image: url('../i/icon2x-s3430082978.png');
     background-size: 250.5px 2403px;
     background-position: 0 -913px;
     height: 46px;
@@ -2517,7 +2517,7 @@ form .checkbox-list.inline li,
 
 /* line 75, _sass/partials/_sprites.scss */
 .icon-instagram {
-  background-image: url('../i/icon-s6f6f9b1023.png');
+  background-image: url('../i/icon-sf239c8997c.png');
   background-position: 0 -1031px;
   height: 19px;
   width: 18px;
@@ -2525,7 +2525,7 @@ form .checkbox-list.inline li,
 @media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3 / 2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
   /* line 75, _sass/partials/_sprites.scss */
   .icon-instagram {
-    background-image: url('../i/icon2x-s3704ab13e1.png');
+    background-image: url('../i/icon2x-s3430082978.png');
     background-size: 250.5px 2403px;
     background-position: 0 -961px;
     height: 18.5px;
@@ -2539,7 +2539,7 @@ form .checkbox-list.inline li,
 
 /* line 75, _sass/partials/_sprites.scss */
 .icon-life-life-conntected-color {
-  background-image: url('../i/icon-s6f6f9b1023.png');
+  background-image: url('../i/icon-sf239c8997c.png');
   background-position: 0 -1054px;
   height: 276px;
   width: 250px;
@@ -2547,7 +2547,7 @@ form .checkbox-list.inline li,
 @media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3 / 2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
   /* line 75, _sass/partials/_sprites.scss */
   .icon-life-life-conntected-color {
-    background-image: url('../i/icon2x-s3704ab13e1.png');
+    background-image: url('../i/icon2x-s3430082978.png');
     background-size: 250.5px 2403px;
     background-position: 0 -981px;
     height: 276.5px;
@@ -2561,7 +2561,7 @@ form .checkbox-list.inline li,
 
 /* line 75, _sass/partials/_sprites.scss */
 .icon-life-life-conntected {
-  background-image: url('../i/icon-s6f6f9b1023.png');
+  background-image: url('../i/icon-sf239c8997c.png');
   background-position: 0 -1334px;
   height: 207px;
   width: 218px;
@@ -2569,7 +2569,7 @@ form .checkbox-list.inline li,
 @media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3 / 2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
   /* line 75, _sass/partials/_sprites.scss */
   .icon-life-life-conntected {
-    background-image: url('../i/icon2x-s3704ab13e1.png');
+    background-image: url('../i/icon2x-s3430082978.png');
     background-size: 250.5px 2403px;
     background-position: 0 -1260px;
     height: 207px;
@@ -2583,7 +2583,7 @@ form .checkbox-list.inline li,
 
 /* line 75, _sass/partials/_sprites.scss */
 .icon-light-bulb-large {
-  background-image: url('../i/icon-s6f6f9b1023.png');
+  background-image: url('../i/icon-sf239c8997c.png');
   background-position: 0 -1545px;
   height: 63px;
   width: 39px;
@@ -2591,7 +2591,7 @@ form .checkbox-list.inline li,
 @media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3 / 2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
   /* line 75, _sass/partials/_sprites.scss */
   .icon-light-bulb-large {
-    background-image: url('../i/icon2x-s3704ab13e1.png');
+    background-image: url('../i/icon2x-s3430082978.png');
     background-size: 250.5px 2403px;
     background-position: 0 -1469px;
     height: 63px;
@@ -2605,7 +2605,7 @@ form .checkbox-list.inline li,
 
 /* line 75, _sass/partials/_sprites.scss */
 .icon-light-bulb-small {
-  background-image: url('../i/icon-s6f6f9b1023.png');
+  background-image: url('../i/icon-sf239c8997c.png');
   background-position: 0 -1612px;
   height: 17px;
   width: 10px;
@@ -2613,7 +2613,7 @@ form .checkbox-list.inline li,
 @media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3 / 2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
   /* line 75, _sass/partials/_sprites.scss */
   .icon-light-bulb-small {
-    background-image: url('../i/icon2x-s3704ab13e1.png');
+    background-image: url('../i/icon2x-s3430082978.png');
     background-size: 250.5px 2403px;
     background-position: 0 -1534px;
     height: 16px;
@@ -2627,7 +2627,7 @@ form .checkbox-list.inline li,
 
 /* line 75, _sass/partials/_sprites.scss */
 .icon-light-bulb {
-  background-image: url('../i/icon-s6f6f9b1023.png');
+  background-image: url('../i/icon-sf239c8997c.png');
   background-position: 0 -1633px;
   height: 42px;
   width: 26px;
@@ -2635,7 +2635,7 @@ form .checkbox-list.inline li,
 @media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3 / 2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
   /* line 75, _sass/partials/_sprites.scss */
   .icon-light-bulb {
-    background-image: url('../i/icon2x-s3704ab13e1.png');
+    background-image: url('../i/icon2x-s3430082978.png');
     background-size: 250.5px 2403px;
     background-position: 0 -1552px;
     height: 41.5px;
@@ -2649,7 +2649,7 @@ form .checkbox-list.inline li,
 
 /* line 75, _sass/partials/_sprites.scss */
 .icon-logo copy {
-  background-image: url('../i/icon-s6f6f9b1023.png');
+  background-image: url('../i/icon-sf239c8997c.png');
   background-position: 0 -1679px;
   height: 21px;
   width: 105px;
@@ -2661,7 +2661,7 @@ form .checkbox-list.inline li,
 
 /* line 75, _sass/partials/_sprites.scss */
 .icon-logo {
-  background-image: url('../i/icon-s6f6f9b1023.png');
+  background-image: url('../i/icon-sf239c8997c.png');
   background-position: 0 -1704px;
   height: 21px;
   width: 105px;
@@ -2669,7 +2669,7 @@ form .checkbox-list.inline li,
 @media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3 / 2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
   /* line 75, _sass/partials/_sprites.scss */
   .icon-logo {
-    background-image: url('../i/icon2x-s3704ab13e1.png');
+    background-image: url('../i/icon2x-s3430082978.png');
     background-size: 250.5px 2403px;
     background-position: 0 -1595px;
     height: 21px;
@@ -2683,7 +2683,7 @@ form .checkbox-list.inline li,
 
 /* line 75, _sass/partials/_sprites.scss */
 .icon-manage-small {
-  background-image: url('../i/icon-s6f6f9b1023.png');
+  background-image: url('../i/icon-sf239c8997c.png');
   background-position: 0 -1729px;
   height: 18px;
   width: 19px;
@@ -2691,7 +2691,7 @@ form .checkbox-list.inline li,
 @media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3 / 2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
   /* line 75, _sass/partials/_sprites.scss */
   .icon-manage-small {
-    background-image: url('../i/icon2x-s3704ab13e1.png');
+    background-image: url('../i/icon2x-s3430082978.png');
     background-size: 250.5px 2403px;
     background-position: 0 -1618px;
     height: 17.5px;
@@ -2705,7 +2705,7 @@ form .checkbox-list.inline li,
 
 /* line 75, _sass/partials/_sprites.scss */
 .icon-manage {
-  background-image: url('../i/icon-s6f6f9b1023.png');
+  background-image: url('../i/icon-sf239c8997c.png');
   background-position: 0 -1751px;
   height: 27px;
   width: 29px;
@@ -2713,7 +2713,7 @@ form .checkbox-list.inline li,
 @media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3 / 2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
   /* line 75, _sass/partials/_sprites.scss */
   .icon-manage {
-    background-image: url('../i/icon2x-s3704ab13e1.png');
+    background-image: url('../i/icon2x-s3430082978.png');
     background-size: 250.5px 2403px;
     background-position: 0 -1638px;
     height: 27px;
@@ -2727,7 +2727,7 @@ form .checkbox-list.inline li,
 
 /* line 75, _sass/partials/_sprites.scss */
 .icon-navicon {
-  background-image: url('../i/icon-s6f6f9b1023.png');
+  background-image: url('../i/icon-sf239c8997c.png');
   background-position: 0 -1782px;
   height: 18px;
   width: 25px;
@@ -2735,7 +2735,7 @@ form .checkbox-list.inline li,
 @media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3 / 2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
   /* line 75, _sass/partials/_sprites.scss */
   .icon-navicon {
-    background-image: url('../i/icon2x-s3704ab13e1.png');
+    background-image: url('../i/icon2x-s3430082978.png');
     background-size: 250.5px 2403px;
     background-position: 0 -1667px;
     height: 17.5px;
@@ -2749,7 +2749,7 @@ form .checkbox-list.inline li,
 
 /* line 75, _sass/partials/_sprites.scss */
 .icon-new {
-  background-image: url('../i/icon-s6f6f9b1023.png');
+  background-image: url('../i/icon-sf239c8997c.png');
   background-position: 0 -1804px;
   height: 60px;
   width: 58px;
@@ -2757,7 +2757,7 @@ form .checkbox-list.inline li,
 @media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3 / 2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
   /* line 75, _sass/partials/_sprites.scss */
   .icon-new {
-    background-image: url('../i/icon2x-s3704ab13e1.png');
+    background-image: url('../i/icon2x-s3430082978.png');
     background-size: 250.5px 2403px;
     background-position: 0 -1686px;
     height: 59px;
@@ -2771,7 +2771,7 @@ form .checkbox-list.inline li,
 
 /* line 75, _sass/partials/_sprites.scss */
 .icon-phone-large {
-  background-image: url('../i/icon-s6f6f9b1023.png');
+  background-image: url('../i/icon-sf239c8997c.png');
   background-position: 0 -1868px;
   height: 64px;
   width: 33px;
@@ -2779,7 +2779,7 @@ form .checkbox-list.inline li,
 @media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3 / 2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
   /* line 75, _sass/partials/_sprites.scss */
   .icon-phone-large {
-    background-image: url('../i/icon2x-s3704ab13e1.png');
+    background-image: url('../i/icon2x-s3430082978.png');
     background-size: 250.5px 2403px;
     background-position: 0 -1747px;
     height: 63px;
@@ -2793,7 +2793,7 @@ form .checkbox-list.inline li,
 
 /* line 75, _sass/partials/_sprites.scss */
 .icon-phone-small {
-  background-image: url('../i/icon-s6f6f9b1023.png');
+  background-image: url('../i/icon-sf239c8997c.png');
   background-position: 0 -1936px;
   height: 19px;
   width: 10px;
@@ -2801,7 +2801,7 @@ form .checkbox-list.inline li,
 @media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3 / 2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
   /* line 75, _sass/partials/_sprites.scss */
   .icon-phone-small {
-    background-image: url('../i/icon2x-s3704ab13e1.png');
+    background-image: url('../i/icon2x-s3430082978.png');
     background-size: 250.5px 2403px;
     background-position: 0 -1812px;
     height: 18.5px;
@@ -2815,7 +2815,7 @@ form .checkbox-list.inline li,
 
 /* line 75, _sass/partials/_sprites.scss */
 .icon-phone {
-  background-image: url('../i/icon-s6f6f9b1023.png');
+  background-image: url('../i/icon-sf239c8997c.png');
   background-position: 0 -1959px;
   height: 38px;
   width: 20px;
@@ -2823,7 +2823,7 @@ form .checkbox-list.inline li,
 @media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3 / 2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
   /* line 75, _sass/partials/_sprites.scss */
   .icon-phone {
-    background-image: url('../i/icon2x-s3704ab13e1.png');
+    background-image: url('../i/icon2x-s3430082978.png');
     background-size: 250.5px 2403px;
     background-position: 0 -1833px;
     height: 37.5px;
@@ -2837,7 +2837,7 @@ form .checkbox-list.inline li,
 
 /* line 75, _sass/partials/_sprites.scss */
 .icon-profile {
-  background-image: url('../i/icon-s6f6f9b1023.png');
+  background-image: url('../i/icon-sf239c8997c.png');
   background-position: 0 -2001px;
   height: 35px;
   width: 34px;
@@ -2845,7 +2845,7 @@ form .checkbox-list.inline li,
 @media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3 / 2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
   /* line 75, _sass/partials/_sprites.scss */
   .icon-profile {
-    background-image: url('../i/icon2x-s3704ab13e1.png');
+    background-image: url('../i/icon2x-s3430082978.png');
     background-size: 250.5px 2403px;
     background-position: 0 -1872px;
     height: 34.5px;
@@ -2859,7 +2859,7 @@ form .checkbox-list.inline li,
 
 /* line 75, _sass/partials/_sprites.scss */
 .icon-radio-checked {
-  background-image: url('../i/icon-s6f6f9b1023.png');
+  background-image: url('../i/icon-sf239c8997c.png');
   background-position: 0 -2040px;
   height: 32px;
   width: 32px;
@@ -2867,7 +2867,7 @@ form .checkbox-list.inline li,
 @media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3 / 2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
   /* line 75, _sass/partials/_sprites.scss */
   .icon-radio-checked {
-    background-image: url('../i/icon2x-s3704ab13e1.png');
+    background-image: url('../i/icon2x-s3430082978.png');
     background-size: 250.5px 2403px;
     background-position: 0 -1909px;
     height: 31.5px;
@@ -2881,7 +2881,7 @@ form .checkbox-list.inline li,
 
 /* line 75, _sass/partials/_sprites.scss */
 .icon-radio-large-checked {
-  background-image: url('../i/icon-s6f6f9b1023.png');
+  background-image: url('../i/icon-sf239c8997c.png');
   background-position: 0 -2076px;
   height: 40px;
   width: 40px;
@@ -2889,7 +2889,7 @@ form .checkbox-list.inline li,
 @media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3 / 2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
   /* line 75, _sass/partials/_sprites.scss */
   .icon-radio-large-checked {
-    background-image: url('../i/icon2x-s3704ab13e1.png');
+    background-image: url('../i/icon2x-s3430082978.png');
     background-size: 250.5px 2403px;
     background-position: 0 -1942px;
     height: 40px;
@@ -2903,7 +2903,7 @@ form .checkbox-list.inline li,
 
 /* line 75, _sass/partials/_sprites.scss */
 .icon-radio-large {
-  background-image: url('../i/icon-s6f6f9b1023.png');
+  background-image: url('../i/icon-sf239c8997c.png');
   background-position: 0 -2120px;
   height: 43px;
   width: 43px;
@@ -2911,7 +2911,7 @@ form .checkbox-list.inline li,
 @media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3 / 2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
   /* line 75, _sass/partials/_sprites.scss */
   .icon-radio-large {
-    background-image: url('../i/icon2x-s3704ab13e1.png');
+    background-image: url('../i/icon2x-s3430082978.png');
     background-size: 250.5px 2403px;
     background-position: 0 -1984px;
     height: 40px;
@@ -2925,7 +2925,7 @@ form .checkbox-list.inline li,
 
 /* line 75, _sass/partials/_sprites.scss */
 .icon-radio {
-  background-image: url('../i/icon-s6f6f9b1023.png');
+  background-image: url('../i/icon-sf239c8997c.png');
   background-position: 0 -2167px;
   height: 32px;
   width: 32px;
@@ -2933,7 +2933,7 @@ form .checkbox-list.inline li,
 @media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3 / 2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
   /* line 75, _sass/partials/_sprites.scss */
   .icon-radio {
-    background-image: url('../i/icon2x-s3704ab13e1.png');
+    background-image: url('../i/icon2x-s3430082978.png');
     background-size: 250.5px 2403px;
     background-position: 0 -2026px;
     height: 31.5px;
@@ -2947,7 +2947,7 @@ form .checkbox-list.inline li,
 
 /* line 75, _sass/partials/_sprites.scss */
 .icon-select-arrow {
-  background-image: url('../i/icon-s6f6f9b1023.png');
+  background-image: url('../i/icon-sf239c8997c.png');
   background-position: 0 -2203px;
   height: 9px;
   width: 17px;
@@ -2955,7 +2955,7 @@ form .checkbox-list.inline li,
 @media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3 / 2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
   /* line 75, _sass/partials/_sprites.scss */
   .icon-select-arrow {
-    background-image: url('../i/icon2x-s3704ab13e1.png');
+    background-image: url('../i/icon2x-s3430082978.png');
     background-size: 250.5px 2403px;
     background-position: 0 -2060px;
     height: 8.5px;
@@ -2969,7 +2969,7 @@ form .checkbox-list.inline li,
 
 /* line 75, _sass/partials/_sprites.scss */
 .icon-share {
-  background-image: url('../i/icon-s6f6f9b1023.png');
+  background-image: url('../i/icon-sf239c8997c.png');
   background-position: 0 -2216px;
   height: 35px;
   width: 31px;
@@ -2977,7 +2977,7 @@ form .checkbox-list.inline li,
 @media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3 / 2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
   /* line 75, _sass/partials/_sprites.scss */
   .icon-share {
-    background-image: url('../i/icon2x-s3704ab13e1.png');
+    background-image: url('../i/icon2x-s3430082978.png');
     background-size: 250.5px 2403px;
     background-position: 0 -2070px;
     height: 34.5px;
@@ -2991,7 +2991,7 @@ form .checkbox-list.inline li,
 
 /* line 75, _sass/partials/_sprites.scss */
 .icon-shield {
-  background-image: url('../i/icon-s6f6f9b1023.png');
+  background-image: url('../i/icon-sf239c8997c.png');
   background-position: 0 -2255px;
   height: 53px;
   width: 45px;
@@ -2999,7 +2999,7 @@ form .checkbox-list.inline li,
 @media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3 / 2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
   /* line 75, _sass/partials/_sprites.scss */
   .icon-shield {
-    background-image: url('../i/icon2x-s3704ab13e1.png');
+    background-image: url('../i/icon2x-s3430082978.png');
     background-size: 250.5px 2403px;
     background-position: 0 -2107px;
     height: 53px;
@@ -3013,7 +3013,7 @@ form .checkbox-list.inline li,
 
 /* line 75, _sass/partials/_sprites.scss */
 .icon-shop {
-  background-image: url('../i/icon-s6f6f9b1023.png');
+  background-image: url('../i/icon-sf239c8997c.png');
   background-position: 0 -2312px;
   height: 31px;
   width: 31px;
@@ -3021,7 +3021,7 @@ form .checkbox-list.inline li,
 @media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3 / 2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
   /* line 75, _sass/partials/_sprites.scss */
   .icon-shop {
-    background-image: url('../i/icon2x-s3704ab13e1.png');
+    background-image: url('../i/icon2x-s3430082978.png');
     background-size: 250.5px 2403px;
     background-position: 0 -2162px;
     height: 30.5px;
@@ -3035,7 +3035,7 @@ form .checkbox-list.inline li,
 
 /* line 75, _sass/partials/_sprites.scss */
 .icon-shopping-cart-thin {
-  background-image: url('../i/icon-s6f6f9b1023.png');
+  background-image: url('../i/icon-sf239c8997c.png');
   background-position: 0 -2347px;
   height: 19px;
   width: 22px;
@@ -3043,7 +3043,7 @@ form .checkbox-list.inline li,
 @media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3 / 2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
   /* line 75, _sass/partials/_sprites.scss */
   .icon-shopping-cart-thin {
-    background-image: url('../i/icon2x-s3704ab13e1.png');
+    background-image: url('../i/icon2x-s3430082978.png');
     background-size: 250.5px 2403px;
     background-position: 0 -2194px;
     height: 18.5px;
@@ -3057,7 +3057,7 @@ form .checkbox-list.inline li,
 
 /* line 75, _sass/partials/_sprites.scss */
 .icon-shopping-cart {
-  background-image: url('../i/icon-s6f6f9b1023.png');
+  background-image: url('../i/icon-sf239c8997c.png');
   background-position: 0 -2370px;
   height: 27px;
   width: 31px;
@@ -3065,7 +3065,7 @@ form .checkbox-list.inline li,
 @media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3 / 2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
   /* line 75, _sass/partials/_sprites.scss */
   .icon-shopping-cart {
-    background-image: url('../i/icon2x-s3704ab13e1.png');
+    background-image: url('../i/icon2x-s3430082978.png');
     background-size: 250.5px 2403px;
     background-position: 0 -2215px;
     height: 26.5px;
@@ -3079,7 +3079,7 @@ form .checkbox-list.inline li,
 
 /* line 75, _sass/partials/_sprites.scss */
 .icon-story {
-  background-image: url('../i/icon-s6f6f9b1023.png');
+  background-image: url('../i/icon-sf239c8997c.png');
   background-position: 0 -2401px;
   height: 34px;
   width: 34px;
@@ -3087,7 +3087,7 @@ form .checkbox-list.inline li,
 @media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3 / 2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
   /* line 75, _sass/partials/_sprites.scss */
   .icon-story {
-    background-image: url('../i/icon2x-s3704ab13e1.png');
+    background-image: url('../i/icon2x-s3430082978.png');
     background-size: 250.5px 2403px;
     background-position: 0 -2243px;
     height: 33.5px;
@@ -3101,7 +3101,7 @@ form .checkbox-list.inline li,
 
 /* line 75, _sass/partials/_sprites.scss */
 .icon-twitter {
-  background-image: url('../i/icon-s6f6f9b1023.png');
+  background-image: url('../i/icon-sf239c8997c.png');
   background-position: 0 -2439px;
   height: 15px;
   width: 18px;
@@ -3109,7 +3109,7 @@ form .checkbox-list.inline li,
 @media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3 / 2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
   /* line 75, _sass/partials/_sprites.scss */
   .icon-twitter {
-    background-image: url('../i/icon2x-s3704ab13e1.png');
+    background-image: url('../i/icon2x-s3430082978.png');
     background-size: 250.5px 2403px;
     background-position: 0 -2279px;
     height: 15px;
@@ -3123,7 +3123,7 @@ form .checkbox-list.inline li,
 
 /* line 75, _sass/partials/_sprites.scss */
 .icon-verisign {
-  background-image: url('../i/icon-s6f6f9b1023.png');
+  background-image: url('../i/icon-sf239c8997c.png');
   background-position: 0 -2458px;
   height: 40px;
   width: 78px;
@@ -3131,7 +3131,7 @@ form .checkbox-list.inline li,
 @media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3 / 2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
   /* line 75, _sass/partials/_sprites.scss */
   .icon-verisign {
-    background-image: url('../i/icon2x-s3704ab13e1.png');
+    background-image: url('../i/icon2x-s3430082978.png');
     background-size: 250.5px 2403px;
     background-position: 0 -2296px;
     height: 40px;
@@ -3145,7 +3145,7 @@ form .checkbox-list.inline li,
 
 /* line 75, _sass/partials/_sprites.scss */
 .icon-wrench-small {
-  background-image: url('../i/icon-s6f6f9b1023.png');
+  background-image: url('../i/icon-sf239c8997c.png');
   background-position: 0 -2502px;
   height: 19px;
   width: 18px;
@@ -3153,7 +3153,7 @@ form .checkbox-list.inline li,
 @media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3 / 2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
   /* line 75, _sass/partials/_sprites.scss */
   .icon-wrench-small {
-    background-image: url('../i/icon2x-s3704ab13e1.png');
+    background-image: url('../i/icon2x-s3430082978.png');
     background-size: 250.5px 2403px;
     background-position: 0 -2338px;
     height: 18.5px;
@@ -3167,7 +3167,7 @@ form .checkbox-list.inline li,
 
 /* line 75, _sass/partials/_sprites.scss */
 .icon-wrench {
-  background-image: url('../i/icon-s6f6f9b1023.png');
+  background-image: url('../i/icon-sf239c8997c.png');
   background-position: 0 -2525px;
   height: 27px;
   width: 26px;
@@ -3175,7 +3175,7 @@ form .checkbox-list.inline li,
 @media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3 / 2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
   /* line 75, _sass/partials/_sprites.scss */
   .icon-wrench {
-    background-image: url('../i/icon2x-s3704ab13e1.png');
+    background-image: url('../i/icon2x-s3430082978.png');
     background-size: 250.5px 2403px;
     background-position: 0 -2358px;
     height: 26.5px;
@@ -3189,7 +3189,7 @@ form .checkbox-list.inline li,
 
 /* line 75, _sass/partials/_sprites.scss */
 .icon-youtube {
-  background-image: url('../i/icon-s6f6f9b1023.png');
+  background-image: url('../i/icon-sf239c8997c.png');
   background-position: 0 -2556px;
   height: 17px;
   width: 23px;
@@ -3197,7 +3197,7 @@ form .checkbox-list.inline li,
 @media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 3 / 2), (min--moz-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 144dppx) {
   /* line 75, _sass/partials/_sprites.scss */
   .icon-youtube {
-    background-image: url('../i/icon2x-s3704ab13e1.png');
+    background-image: url('../i/icon2x-s3430082978.png');
     background-size: 250.5px 2403px;
     background-position: 0 -2387px;
     height: 16.5px;
@@ -3507,7 +3507,7 @@ article.block-links.shop a, article.block-links.shop .link {
 }
 /* line 250, _sass/partials/_modules.scss */
 article.block-links.shop a .name, article.block-links.shop .link .name {
-  background: url("/mobileapp/frontend/assets/i/icon/shop.png");
+  background: url("/mobileapp/frontend/assets/i/icon/shopping-cart-thin.png");
   background-position: left 50%;
   background-repeat: no-repeat;
 }
@@ -3583,38 +3583,39 @@ article.block-links.energy a .name, article.block-links.energy .link .name {
   background: url("/mobileapp/frontend/assets/i/icon/light-bulb.png");
   background-position: left 50%;
   background-repeat: no-repeat;
+  min-height: 45px;
 }
-/* line 343, _sass/partials/_modules.scss */
+/* line 344, _sass/partials/_modules.scss */
 article.block-links.wireless .title {
   background: linear-gradient(to right, #4397c5, #04a8a1);
 }
-/* line 347, _sass/partials/_modules.scss */
+/* line 348, _sass/partials/_modules.scss */
 article.block-links.wireless a, article.block-links.wireless .link {
   background-image: url('../i/bg/diamonds-light-blue.png?1482516201');
   background-position: left 50%;
 }
-/* line 354, _sass/partials/_modules.scss */
+/* line 355, _sass/partials/_modules.scss */
 article.block-links.wireless a.plans .name, article.block-links.wireless .link.plans .name {
   background: url("/mobileapp/frontend/assets/i/icon/bars.png");
   background-position: left 50%;
   background-repeat: no-repeat;
 }
-/* line 363, _sass/partials/_modules.scss */
+/* line 364, _sass/partials/_modules.scss */
 article.block-links.wireless a.devices .name, article.block-links.wireless .link.devices .name {
   background: url("/mobileapp/frontend/assets/i/icon/phone.png");
   background-position: left 50%;
   background-repeat: no-repeat;
 }
-/* line 372, _sass/partials/_modules.scss */
+/* line 373, _sass/partials/_modules.scss */
 article.block-links .title {
   font-size: 16px;
   padding: 10px 25px;
   color: #fff;
   font-weight: bold;
 }
-/* line 379, _sass/partials/_modules.scss */
+/* line 380, _sass/partials/_modules.scss */
 article.block-links a, article.block-links .link {
-  padding: 30px 10px;
+  padding: 40px 10px 30px;
   display: block;
   text-decoration: none;
   position: relative;
@@ -3624,7 +3625,7 @@ article.block-links a, article.block-links .link {
   box-shadow: 0 15px 28px -28px rgba(0, 0, 0, 0.8) inset;
   position: relative;
 }
-/* line 391, _sass/partials/_modules.scss */
+/* line 392, _sass/partials/_modules.scss */
 article.block-links a.arrow:after, article.block-links .link.arrow:after {
   content: "";
   background-image: url("/mobileapp/frontend/assets/i/icon/arrow-large.png");
@@ -3666,31 +3667,39 @@ article.block-links a.split .right .sub-info, article.block-links .link.split .r
   font-size: 15px;
   font-weight: 200;
   font-family: "proxima-nova-light";
+  line-height: 1.2;
+  opacity: .75;
 }
-/* line 436, _sass/partials/_modules.scss */
+/* line 438, _sass/partials/_modules.scss */
 article.block-links a span, article.block-links .link span {
   display: block;
   line-height: 1;
 }
-/* line 440, _sass/partials/_modules.scss */
+/* line 442, _sass/partials/_modules.scss */
 article.block-links a .name, article.block-links .link .name {
   font-size: 24px;
   line-height: 1;
   padding-left: 35px;
 }
-/* line 444, _sass/partials/_modules.scss */
+/* line 447, _sass/partials/_modules.scss */
+article.block-links a .name .main-info, article.block-links .link .name .main-info {
+  color: #e1f9f0;
+}
+/* line 451, _sass/partials/_modules.scss */
 article.block-links a .name .sub-info, article.block-links .link .name .sub-info {
   font-size: 14px;
   font-weight: lighter;
+  opacity: .85;
+  line-height: 1.2;
 }
-/* line 454, _sass/partials/_modules.scss */
+/* line 463, _sass/partials/_modules.scss */
 article.block-links a .description, article.block-links .link .description {
   font-size: 15px;
   margin-top: 5px;
   opacity: 0.75;
   line-height: 1;
 }
-/* line 461, _sass/partials/_modules.scss */
+/* line 470, _sass/partials/_modules.scss */
 article.block-links a .new, article.block-links .link .new {
   position: absolute;
   width: 55px;
@@ -3700,7 +3709,7 @@ article.block-links a .new, article.block-links .link .new {
   top: 0;
   left: 0;
 }
-/* line 471, _sass/partials/_modules.scss */
+/* line 480, _sass/partials/_modules.scss */
 article.block-links a .notification, article.block-links .link .notification {
   position: absolute;
   background: #ff5480;
@@ -3712,66 +3721,66 @@ article.block-links a .notification, article.block-links .link .notification {
   right: -21px;
   text-align: left;
 }
-/* line 483, _sass/partials/_modules.scss */
+/* line 492, _sass/partials/_modules.scss */
 article.block-links a .snapshots, article.block-links .link .snapshots {
   padding-left: 35px;
   margin-top: 15px;
 }
-/* line 486, _sass/partials/_modules.scss */
+/* line 495, _sass/partials/_modules.scss */
 article.block-links a .snapshots .snapshot, article.block-links .link .snapshots .snapshot {
   margin-bottom: 10px;
 }
-/* line 490, _sass/partials/_modules.scss */
+/* line 499, _sass/partials/_modules.scss */
 article.block-links a .snapshots .snapshot:last-of-type, article.block-links .link .snapshots .snapshot:last-of-type {
   margin-bottom: 0;
 }
-/* line 495, _sass/partials/_modules.scss */
+/* line 504, _sass/partials/_modules.scss */
 article.block-links a .snapshots .snapshot.grid .left, article.block-links .link .snapshots .snapshot.grid .left {
-  width: 75px;
+  width: 80px;
   font-size: 12px;
   font-weight: lighter;
-  margin-right: 10px;
+  margin-right: 5px;
 }
-/* line 502, _sass/partials/_modules.scss */
+/* line 511, _sass/partials/_modules.scss */
 article.block-links a .snapshots .snapshot.grid .middle, article.block-links .link .snapshots .snapshot.grid .middle {
   width: calc(100% - 85px - 75px);
 }
-/* line 506, _sass/partials/_modules.scss */
+/* line 515, _sass/partials/_modules.scss */
 article.block-links a .snapshots .snapshot.grid .right, article.block-links .link .snapshots .snapshot.grid .right {
   width: 65px;
   font-size: 12px;
 }
 
-/* line 525, _sass/partials/_modules.scss */
+/* line 534, _sass/partials/_modules.scss */
 article.account-dashboard .block-links .link.split .left {
   width: 73%;
 }
-/* line 528, _sass/partials/_modules.scss */
+/* line 537, _sass/partials/_modules.scss */
 article.account-dashboard .block-links .link.split .right {
   width: 27%;
 }
-/* line 531, _sass/partials/_modules.scss */
+/* line 540, _sass/partials/_modules.scss */
 article.account-dashboard .block-links .link.split .right .sub-info {
   opacity: .75;
 }
 
-/* line 540, _sass/partials/_modules.scss */
+/* line 549, _sass/partials/_modules.scss */
 article.overview {
   padding-bottom: 90px !important;
 }
-/* line 542, _sass/partials/_modules.scss */
+/* line 551, _sass/partials/_modules.scss */
 article.overview .section {
   padding: 15px 20px;
 }
-/* line 547, _sass/partials/_modules.scss */
+/* line 556, _sass/partials/_modules.scss */
 article.overview.energy-overview .heading-bar {
   background-image: radial-gradient(#e9940f, #d26907);
 }
-/* line 552, _sass/partials/_modules.scss */
+/* line 561, _sass/partials/_modules.scss */
 article.overview.energy-overview .heading-bar .left {
   width: calc(100% - 80px);
 }
-/* line 556, _sass/partials/_modules.scss */
+/* line 565, _sass/partials/_modules.scss */
 article.overview.energy-overview .heading-bar .right {
   color: #f0fbfb;
   font-size: 16px;
@@ -3780,19 +3789,19 @@ article.overview.energy-overview .heading-bar .right {
   margin-top: 5px;
   opacity: .65;
 }
-/* line 570, _sass/partials/_modules.scss */
+/* line 579, _sass/partials/_modules.scss */
 article.overview.energy-overview .details .detail-block.balance .payment-block .link {
   background-image: url('../i/icon/arrow-large-orange.png?1481915386');
 }
-/* line 574, _sass/partials/_modules.scss */
+/* line 583, _sass/partials/_modules.scss */
 article.overview.energy-overview .details .detail-block.balance .payment-block .auto-pay-section a {
   color: #e08a0a;
 }
-/* line 582, _sass/partials/_modules.scss */
+/* line 591, _sass/partials/_modules.scss */
 article.overview.energy-overview .details .detail-block.plan-details .plan-name {
   color: #e08a0a;
 }
-/* line 589, _sass/partials/_modules.scss */
+/* line 598, _sass/partials/_modules.scss */
 article.overview .heading-bar {
   background: linear-gradient(to right, #399bc0, #1da2b0);
   /* Standard syntax */
@@ -3800,33 +3809,33 @@ article.overview .heading-bar {
   font-size: 20px;
   padding: 10px 20px;
 }
-/* line 594, _sass/partials/_modules.scss */
+/* line 603, _sass/partials/_modules.scss */
 article.overview .heading-bar .icon {
   margin-top: -4px;
 }
-/* line 600, _sass/partials/_modules.scss */
+/* line 609, _sass/partials/_modules.scss */
 article.overview .summary {
   background: #fff;
 }
-/* line 604, _sass/partials/_modules.scss */
+/* line 613, _sass/partials/_modules.scss */
 article.overview .summary.grid .left {
   font-size: 24px;
   width: calc(100% - 100px);
 }
-/* line 608, _sass/partials/_modules.scss */
+/* line 617, _sass/partials/_modules.scss */
 article.overview .summary.grid .right {
   width: 100px;
   margin-top: 5px;
 }
-/* line 617, _sass/partials/_modules.scss */
+/* line 626, _sass/partials/_modules.scss */
 article.overview .grid .left {
   width: calc(100% - 155px);
 }
-/* line 620, _sass/partials/_modules.scss */
+/* line 629, _sass/partials/_modules.scss */
 article.overview .grid .right {
   width: 155px;
 }
-/* line 626, _sass/partials/_modules.scss */
+/* line 635, _sass/partials/_modules.scss */
 article.overview .details .detail-block {
   border-bottom: #e3e3e3 1px solid;
   padding: 15px 20px;
@@ -3835,19 +3844,19 @@ article.overview .details .detail-block {
   font-size: 16px;
   color: #737373;
 }
-/* line 636, _sass/partials/_modules.scss */
+/* line 645, _sass/partials/_modules.scss */
 article.overview .details .detail-block:last-of-type {
   border-bottom: 0;
 }
-/* line 641, _sass/partials/_modules.scss */
+/* line 650, _sass/partials/_modules.scss */
 article.overview .details .detail-block.balance .buttons {
   margin-top: 20px;
 }
-/* line 645, _sass/partials/_modules.scss */
+/* line 654, _sass/partials/_modules.scss */
 article.overview .details .detail-block.balance .right {
   margin-top: 10px;
 }
-/* line 649, _sass/partials/_modules.scss */
+/* line 658, _sass/partials/_modules.scss */
 article.overview .details .detail-block.balance .payment-block {
   box-shadow: 0px 0px 6.4px 1.6px rgba(108, 108, 108, 0.08);
   background: #fff;
@@ -3855,7 +3864,7 @@ article.overview .details .detail-block.balance .payment-block {
   font-weight: lighter;
   margin-bottom: 20px;
 }
-/* line 656, _sass/partials/_modules.scss */
+/* line 665, _sass/partials/_modules.scss */
 article.overview .details .detail-block.balance .payment-block .link {
   background-image: url('../i/icon/arrow-large-blue.png?1482429186');
   padding: 15px 30px 15px 15px;
@@ -3863,216 +3872,216 @@ article.overview .details .detail-block.balance .payment-block .link {
   background-repeat: no-repeat;
   background-position: calc(100% - 10px) 20px;
 }
-/* line 666, _sass/partials/_modules.scss */
+/* line 675, _sass/partials/_modules.scss */
 article.overview .details .detail-block.balance .payment-block .auto-pay-section {
   padding: 15px;
 }
-/* line 669, _sass/partials/_modules.scss */
+/* line 678, _sass/partials/_modules.scss */
 article.overview .details .detail-block.balance .payment-block .auto-pay-section a {
   color: #004cb2;
   font-size: 16px;
 }
-/* line 675, _sass/partials/_modules.scss */
+/* line 684, _sass/partials/_modules.scss */
 article.overview .details .detail-block.balance .payment-block .right {
   margin-top: 0;
   line-height: 1;
   width: 105px;
 }
-/* line 679, _sass/partials/_modules.scss */
+/* line 688, _sass/partials/_modules.scss */
 article.overview .details .detail-block.balance .payment-block .right label {
   font-size: 26px;
   font-weight: normal;
 }
-/* line 685, _sass/partials/_modules.scss */
+/* line 694, _sass/partials/_modules.scss */
 article.overview .details .detail-block.balance .payment-block .left {
   line-height: 1;
   width: calc(100% - 105px);
 }
-/* line 688, _sass/partials/_modules.scss */
+/* line 697, _sass/partials/_modules.scss */
 article.overview .details .detail-block.balance .payment-block .left label {
   font-weight: 20px;
   font-weight: bold;
   display: block;
   margin-bottom: 5px;
 }
-/* line 695, _sass/partials/_modules.scss */
+/* line 704, _sass/partials/_modules.scss */
 article.overview .details .detail-block.balance .payment-block .left .icon {
   margin: -3px 5px 0 0;
 }
-/* line 706, _sass/partials/_modules.scss */
+/* line 715, _sass/partials/_modules.scss */
 article.overview .details .detail-block.data-usage.over-usage .amount-used label {
   color: #dc4848;
 }
-/* line 711, _sass/partials/_modules.scss */
+/* line 720, _sass/partials/_modules.scss */
 article.overview .details .detail-block.data-usage.over-usage .estimated b {
   color: #dc4848;
 }
-/* line 717, _sass/partials/_modules.scss */
+/* line 726, _sass/partials/_modules.scss */
 article.overview .details .detail-block.data-usage .progress-bar {
   margin-bottom: 10px;
 }
-/* line 721, _sass/partials/_modules.scss */
+/* line 730, _sass/partials/_modules.scss */
 article.overview .details .detail-block.data-usage a {
   color: #004cb2;
   font-size: 16px;
 }
-/* line 726, _sass/partials/_modules.scss */
+/* line 735, _sass/partials/_modules.scss */
 article.overview .details .detail-block.data-usage .left {
   width: calc(100% - 160px);
   font-size: 16px;
 }
-/* line 730, _sass/partials/_modules.scss */
+/* line 739, _sass/partials/_modules.scss */
 article.overview .details .detail-block.data-usage .right {
   width: 160px;
 }
-/* line 735, _sass/partials/_modules.scss */
+/* line 744, _sass/partials/_modules.scss */
 article.overview .details .detail-block.plan-details .plan-name {
   font-size: 20px;
   font-weight: bold;
   color: #004cb2;
   margin-bottom: 10px;
 }
-/* line 741, _sass/partials/_modules.scss */
+/* line 750, _sass/partials/_modules.scss */
 article.overview .details .detail-block.plan-details .plan-name .bubble {
   margin-left: 5px;
   font-size: 12px;
   font-weight: bold;
 }
-/* line 747, _sass/partials/_modules.scss */
+/* line 756, _sass/partials/_modules.scss */
 article.overview .details .detail-block.plan-details .address {
   font-size: 17px;
   font-weight: 600;
   line-height: 1.5;
   color: #4a4a4a;
 }
-/* line 754, _sass/partials/_modules.scss */
+/* line 763, _sass/partials/_modules.scss */
 article.overview .details .detail-block .account-breakdown {
   line-height: 1;
   border-top: 1px solid #e3e3e3;
   padding-top: 20px;
   margin-top: 20px;
 }
-/* line 761, _sass/partials/_modules.scss */
+/* line 770, _sass/partials/_modules.scss */
 article.overview .details .detail-block .account-breakdown.only-description .left {
   width: 65%;
 }
-/* line 764, _sass/partials/_modules.scss */
+/* line 773, _sass/partials/_modules.scss */
 article.overview .details .detail-block .account-breakdown.only-description .right {
   width: 35%;
 }
-/* line 768, _sass/partials/_modules.scss */
+/* line 777, _sass/partials/_modules.scss */
 article.overview .details .detail-block .account-breakdown.only-description .right dl dd {
   width: 100%;
 }
-/* line 776, _sass/partials/_modules.scss */
+/* line 785, _sass/partials/_modules.scss */
 article.overview .details .detail-block .account-breakdown label + label {
   margin-top: 25px;
   display: block;
   font-size: 16px;
   margin-bottom: 5px;
 }
-/* line 784, _sass/partials/_modules.scss */
+/* line 793, _sass/partials/_modules.scss */
 article.overview .details .detail-block .account-breakdown dl {
   margin: 0;
 }
-/* line 786, _sass/partials/_modules.scss */
+/* line 795, _sass/partials/_modules.scss */
 article.overview .details .detail-block .account-breakdown dl dt {
   margin-right: 10px;
   max-width: calc(45% - 15px);
   font-size: 28px;
 }
-/* line 791, _sass/partials/_modules.scss */
+/* line 800, _sass/partials/_modules.scss */
 article.overview .details .detail-block .account-breakdown dl dd {
   width: 55%;
   font-size: 12px;
   color: #737373;
   text-align: left;
 }
-/* line 798, _sass/partials/_modules.scss */
+/* line 807, _sass/partials/_modules.scss */
 article.overview .details .detail-block .account-breakdown dl dd label {
   font-size: 14px;
   color: #4a4a4a;
   font-weight: bold;
 }
-/* line 806, _sass/partials/_modules.scss */
+/* line 815, _sass/partials/_modules.scss */
 article.overview .details .detail-block .account-breakdown .left {
   width: calc(50% - 20px);
 }
-/* line 809, _sass/partials/_modules.scss */
+/* line 818, _sass/partials/_modules.scss */
 article.overview .details .detail-block .account-breakdown .right {
   width: calc(50%);
   text-align: left;
 }
-/* line 816, _sass/partials/_modules.scss */
+/* line 825, _sass/partials/_modules.scss */
 article.overview .details .detail-block label {
   font-weight: 600;
   font-size: 20px;
   color: #4a4a4a;
 }
-/* line 822, _sass/partials/_modules.scss */
+/* line 831, _sass/partials/_modules.scss */
 article.overview .details .detail-block .progress-bar {
   margin-top: 10px;
 }
-/* line 829, _sass/partials/_modules.scss */
+/* line 838, _sass/partials/_modules.scss */
 article.overview .buttons .button {
   font-size: 18px;
 }
 
-/* line 838, _sass/partials/_modules.scss */
+/* line 847, _sass/partials/_modules.scss */
 article.payments .buttons button.primary, article.payments .buttons .button.primary {
   background: #78a832;
 }
-/* line 844, _sass/partials/_modules.scss */
+/* line 853, _sass/partials/_modules.scss */
 article.payments .review {
   background: #fff;
   padding-top: 25px;
   margin-bottom: 75px;
 }
-/* line 849, _sass/partials/_modules.scss */
+/* line 858, _sass/partials/_modules.scss */
 article.payments .review.section {
   padding-top: 20px;
 }
 
-/* line 856, _sass/partials/_modules.scss */
+/* line 865, _sass/partials/_modules.scss */
 article.make-payment .section {
   padding: 10px 20px;
 }
-/* line 859, _sass/partials/_modules.scss */
+/* line 868, _sass/partials/_modules.scss */
 article.make-payment .heading-bar {
   background: #88c53f;
   color: #fff;
 }
-/* line 863, _sass/partials/_modules.scss */
+/* line 872, _sass/partials/_modules.scss */
 article.make-payment .heading-bar .left {
   font-size: 15px;
   margin-top: 3px;
 }
-/* line 867, _sass/partials/_modules.scss */
+/* line 876, _sass/partials/_modules.scss */
 article.make-payment .heading-bar .left .icon {
   margin-top: -2px;
 }
-/* line 872, _sass/partials/_modules.scss */
+/* line 881, _sass/partials/_modules.scss */
 article.make-payment .heading-bar .right a {
   text-decoration: none;
   color: #fff;
 }
-/* line 879, _sass/partials/_modules.scss */
+/* line 888, _sass/partials/_modules.scss */
 article.make-payment .summary {
   background: #fff;
   padding-top: 20px;
   padding-bottom: 20px;
 }
-/* line 885, _sass/partials/_modules.scss */
+/* line 894, _sass/partials/_modules.scss */
 article.make-payment .summary .message {
   color: #a1a1a1;
   font-size: 18px;
   line-height: 1.3;
 }
-/* line 893, _sass/partials/_modules.scss */
+/* line 902, _sass/partials/_modules.scss */
 article.make-payment .details {
   background: #fff;
 }
-/* line 896, _sass/partials/_modules.scss */
+/* line 905, _sass/partials/_modules.scss */
 article.make-payment .details .heading {
   padding: 10px 20px;
   margin: -10px -20px;
@@ -4080,22 +4089,22 @@ article.make-payment .details .heading {
   margin-bottom: 20px;
   line-height: 1;
 }
-/* line 907, _sass/partials/_modules.scss */
+/* line 916, _sass/partials/_modules.scss */
 article.make-payment .details .grid.three .right {
   width: 120px;
 }
-/* line 912, _sass/partials/_modules.scss */
+/* line 921, _sass/partials/_modules.scss */
 article.make-payment .details .grid.info {
   color: #616262;
   font-size: 16px;
 }
-/* line 916, _sass/partials/_modules.scss */
+/* line 925, _sass/partials/_modules.scss */
 article.make-payment .details .grid.info .account {
   font-size: 12px;
   color: #878888;
   font-weight: 600;
 }
-/* line 921, _sass/partials/_modules.scss */
+/* line 930, _sass/partials/_modules.scss */
 article.make-payment .details .grid.info label {
   font-weight: 600;
   font-size: 20px;
@@ -4104,65 +4113,65 @@ article.make-payment .details .grid.info label {
   line-height: 1;
   margin-bottom: 5px;
 }
-/* line 930, _sass/partials/_modules.scss */
+/* line 939, _sass/partials/_modules.scss */
 article.make-payment .details .grid.info + .group {
   margin-top: 25px;
 }
-/* line 935, _sass/partials/_modules.scss */
+/* line 944, _sass/partials/_modules.scss */
 article.make-payment .details .grid.info .auto-pay .icon {
   margin: -4px 5px 0 0;
 }
-/* line 941, _sass/partials/_modules.scss */
+/* line 950, _sass/partials/_modules.scss */
 article.make-payment .details .grid .left {
   width: 60px;
 }
-/* line 944, _sass/partials/_modules.scss */
+/* line 953, _sass/partials/_modules.scss */
 article.make-payment .details .grid .middle {
   width: calc(100% - 120px - 60px);
 }
-/* line 947, _sass/partials/_modules.scss */
+/* line 956, _sass/partials/_modules.scss */
 article.make-payment .details .grid .right {
   width: calc(100% - 55px);
 }
-/* line 954, _sass/partials/_modules.scss */
+/* line 963, _sass/partials/_modules.scss */
 article.make-payment .details .payment-section .block {
   padding-bottom: 25px;
   /*border-bottom:1px solid #e0e3e4;*/
   margin-bottom: 5px;
   background: #edeff0;
 }
-/* line 960, _sass/partials/_modules.scss */
+/* line 969, _sass/partials/_modules.scss */
 article.make-payment .details .payment-section .block:last-of-type {
   margin-bottom: 0;
 }
-/* line 974, _sass/partials/_modules.scss */
+/* line 983, _sass/partials/_modules.scss */
 article.make-payment .verisign {
   margin: 25px;
   text-align: center;
 }
 
-/* line 980, _sass/partials/_modules.scss */
+/* line 989, _sass/partials/_modules.scss */
 article.account {
   margin-bottom: 100px;
 }
-/* line 982, _sass/partials/_modules.scss */
+/* line 991, _sass/partials/_modules.scss */
 article.account .section {
   background: #fff;
   padding: 15px 20px;
 }
-/* line 986, _sass/partials/_modules.scss */
+/* line 995, _sass/partials/_modules.scss */
 article.account .section.heading-bar {
   background-image: radial-gradient(#0053ba, #0041a5);
   color: #fff;
   font-size: 20px;
   font-weight: bold;
 }
-/* line 993, _sass/partials/_modules.scss */
+/* line 1002, _sass/partials/_modules.scss */
 article.account .section.heading-bar .icon {
   margin-top: -5px;
   margin-right: 5px;
 }
-/* line 998, _sass/partials/_modules.scss */
+/* line 1007, _sass/partials/_modules.scss */
 article.account .section p {
   font-size: 16px;
   color: #737373;
@@ -4170,47 +4179,47 @@ article.account .section p {
   margin: 0 0 25px 0;
 }
 
-/* line 1010, _sass/partials/_modules.scss */
+/* line 1019, _sass/partials/_modules.scss */
 article.manage-payment-methods .payment-methods .payment-method {
   padding: 15px 0;
   border-bottom: 1px solid #d8d8d8;
   line-height: 1;
   margin-bottom: 20px;
 }
-/* line 1016, _sass/partials/_modules.scss */
+/* line 1025, _sass/partials/_modules.scss */
 article.manage-payment-methods .payment-methods .payment-method:first-of-type {
   border-top: 1px solid #d8d8d8;
 }
-/* line 1020, _sass/partials/_modules.scss */
+/* line 1029, _sass/partials/_modules.scss */
 article.manage-payment-methods .payment-methods .payment-method a {
   color: #004cb2;
   text-decoration: none;
 }
-/* line 1024, _sass/partials/_modules.scss */
+/* line 1033, _sass/partials/_modules.scss */
 article.manage-payment-methods .payment-methods .payment-method .name {
   color: #4a4a4a;
   font-size: 20px;
   font-weight: bold;
 }
-/* line 1030, _sass/partials/_modules.scss */
+/* line 1039, _sass/partials/_modules.scss */
 article.manage-payment-methods .payment-methods .payment-method .payment-details {
   color: #737373;
   margin-top: 10px;
 }
-/* line 1034, _sass/partials/_modules.scss */
+/* line 1043, _sass/partials/_modules.scss */
 article.manage-payment-methods .payment-methods .payment-method .payment-details .icon {
   margin-right: 5px;
 }
 
-/* line 1044, _sass/partials/_modules.scss */
+/* line 1053, _sass/partials/_modules.scss */
 article.billing-history .selections {
   background: #edeff0;
 }
-/* line 1048, _sass/partials/_modules.scss */
+/* line 1057, _sass/partials/_modules.scss */
 article.billing-history .invoices {
   padding: 0 0 50px 0;
 }
-/* line 1051, _sass/partials/_modules.scss */
+/* line 1060, _sass/partials/_modules.scss */
 article.billing-history .invoices .invoice {
   background-image: url('../i/icon/arrow-large-blue.png?1482429186');
   padding: 30px 40px 30px 20px;
@@ -4218,47 +4227,47 @@ article.billing-history .invoices .invoice {
   background-repeat: no-repeat;
   background-position: calc(100% - 20px) 53px;
 }
-/* line 1060, _sass/partials/_modules.scss */
+/* line 1069, _sass/partials/_modules.scss */
 article.billing-history .invoices .invoice:nth-child(even) {
   background-color: #f8f9f9;
 }
-/* line 1064, _sass/partials/_modules.scss */
+/* line 1073, _sass/partials/_modules.scss */
 article.billing-history .invoices .invoice .info {
   color: #737373;
   font-size: 15px;
   margin-bottom: 10px;
 }
-/* line 1069, _sass/partials/_modules.scss */
+/* line 1078, _sass/partials/_modules.scss */
 article.billing-history .invoices .invoice .details {
   font-size: 20px;
 }
 
-/* line 1078, _sass/partials/_modules.scss */
+/* line 1087, _sass/partials/_modules.scss */
 article.manage .settings .setting {
   padding: 25px 0;
   border-top: 1px solid #e3e3e3;
   border-bottom: 1px solid #e3e3e3;
   margin-bottom: 15px;
 }
-/* line 1084, _sass/partials/_modules.scss */
+/* line 1093, _sass/partials/_modules.scss */
 article.manage .settings .setting + .setting {
   border-top: none;
 }
-/* line 1088, _sass/partials/_modules.scss */
+/* line 1097, _sass/partials/_modules.scss */
 article.manage .settings .setting h1 {
   margin-top: 0;
   margin-bottom: 30px;
   font-size: 26px;
 }
-/* line 1096, _sass/partials/_modules.scss */
+/* line 1105, _sass/partials/_modules.scss */
 article.manage .settings .setting .item:last-of-type {
   margin-bottom: 0;
 }
-/* line 1100, _sass/partials/_modules.scss */
+/* line 1109, _sass/partials/_modules.scss */
 article.manage .settings .setting .item .icon {
   float: left;
 }
-/* line 1103, _sass/partials/_modules.scss */
+/* line 1112, _sass/partials/_modules.scss */
 article.manage .settings .setting .item .info {
   float: left;
   margin-left: 15px;
@@ -4268,39 +4277,39 @@ article.manage .settings .setting .item .info {
   line-height: 1;
   margin-top: 10px;
 }
-/* line 1112, _sass/partials/_modules.scss */
+/* line 1121, _sass/partials/_modules.scss */
 article.manage .settings .setting .item .info.stacked {
   margin-top: 0;
 }
-/* line 1116, _sass/partials/_modules.scss */
+/* line 1125, _sass/partials/_modules.scss */
 article.manage .settings .setting .item .info label {
   font-size: 20px;
   font-weight: bold;
   color: #4a4a4a;
 }
-/* line 1121, _sass/partials/_modules.scss */
+/* line 1130, _sass/partials/_modules.scss */
 article.manage .settings .setting .item .info .sub-info {
   margin-top: 5px;
 }
-/* line 1124, _sass/partials/_modules.scss */
+/* line 1133, _sass/partials/_modules.scss */
 article.manage .settings .setting .item .info .sub-info + .account-info {
   margin-top: 10px;
 }
-/* line 1133, _sass/partials/_modules.scss */
+/* line 1142, _sass/partials/_modules.scss */
 article.manage .settings .setting .phone-numbers .number {
   margin-bottom: 15px;
 }
-/* line 1136, _sass/partials/_modules.scss */
+/* line 1145, _sass/partials/_modules.scss */
 article.manage .settings .setting .phone-numbers .number:last-of-type {
   margin-bottom: 0;
 }
 
-/* line 1145, _sass/partials/_modules.scss */
+/* line 1154, _sass/partials/_modules.scss */
 article.add-payment-method .options {
   border-bottom: 1px solid #c4c4c4;
   margin-bottom: 10px;
 }
-/* line 1148, _sass/partials/_modules.scss */
+/* line 1157, _sass/partials/_modules.scss */
 article.add-payment-method .options a {
   font-size: 18px;
   color: #4a4a4a;
@@ -4310,22 +4319,22 @@ article.add-payment-method .options a {
   line-height: 1;
   padding-bottom: 9px;
 }
-/* line 1157, _sass/partials/_modules.scss */
+/* line 1166, _sass/partials/_modules.scss */
 article.add-payment-method .options a:last-of-type {
   margin-right: 0;
 }
-/* line 1161, _sass/partials/_modules.scss */
+/* line 1170, _sass/partials/_modules.scss */
 article.add-payment-method .options a.selected {
   color: #004cb2;
   border-bottom: 3px solid #004cb2;
 }
-/* line 1168, _sass/partials/_modules.scss */
+/* line 1177, _sass/partials/_modules.scss */
 article.add-payment-method img {
   margin: auto;
   display: inline-block;
   width: 100%;
 }
-/* line 1174, _sass/partials/_modules.scss */
+/* line 1183, _sass/partials/_modules.scss */
 article.add-payment-method .notice {
   padding: 20px 25px;
   background: #d9dee1;
@@ -4333,85 +4342,85 @@ article.add-payment-method .notice {
   color: #072235;
   margin-bottom: 10px;
 }
-/* line 1181, _sass/partials/_modules.scss */
+/* line 1190, _sass/partials/_modules.scss */
 article.add-payment-method .notice a {
   color: #004cb2;
   font-size: 16px;
 }
-/* line 1188, _sass/partials/_modules.scss */
+/* line 1197, _sass/partials/_modules.scss */
 article.add-payment-method .credit-card-fields {
   margin: 15px 0;
 }
-/* line 1192, _sass/partials/_modules.scss */
+/* line 1201, _sass/partials/_modules.scss */
 article.add-payment-method .card-section {
   padding-top: 15px;
   border-bottom: 1px solid #c4c4c4;
   margin-top: 15px;
 }
-/* line 1197, _sass/partials/_modules.scss */
+/* line 1206, _sass/partials/_modules.scss */
 article.add-payment-method .card-section:first-of-type {
   border-top: 1px solid #c4c4c4;
 }
-/* line 1201, _sass/partials/_modules.scss */
+/* line 1210, _sass/partials/_modules.scss */
 article.add-payment-method .card-section + .buttons {
   margin-top: 15px;
 }
-/* line 1205, _sass/partials/_modules.scss */
+/* line 1214, _sass/partials/_modules.scss */
 article.add-payment-method .card-section .credit-card-fields {
   padding-bottom: 15px;
 }
 
-/* line 1214, _sass/partials/_modules.scss */
+/* line 1223, _sass/partials/_modules.scss */
 article.login-info .block {
   margin-top: 20px;
   border-bottom: 1px solid #c4c4c4;
   padding-bottom: 20px;
 }
-/* line 1219, _sass/partials/_modules.scss */
+/* line 1228, _sass/partials/_modules.scss */
 article.login-info .block a {
   color: #004cb2;
   font-size: 18px;
 }
 
-/* line 1228, _sass/partials/_modules.scss */
+/* line 1237, _sass/partials/_modules.scss */
 article.linked-accounts .account {
   line-height: 1;
 }
-/* line 1230, _sass/partials/_modules.scss */
+/* line 1239, _sass/partials/_modules.scss */
 article.linked-accounts .account .title {
   color: #939393;
   font-size: 16px;
   font-weight: bold;
   margin-bottom: 10px;
 }
-/* line 1236, _sass/partials/_modules.scss */
+/* line 1245, _sass/partials/_modules.scss */
 article.linked-accounts .account .number {
   font-size: 26px;
   color: #4a4a4a;
   margin-bottom: 10px;
 }
-/* line 1242, _sass/partials/_modules.scss */
+/* line 1251, _sass/partials/_modules.scss */
 article.linked-accounts .account a {
   color: #004cb2;
   font-size: 18px;
   font-weight: bold;
 }
-/* line 1249, _sass/partials/_modules.scss */
+/* line 1258, _sass/partials/_modules.scss */
 article.linked-accounts .section {
   margin-bottom: 10px;
 }
-/* line 1252, _sass/partials/_modules.scss */
+/* line 1261, _sass/partials/_modules.scss */
 article.linked-accounts .section:last-of-type, article.linked-accounts .section.heading-bar {
   margin-bottom: 0;
 }
 
-/* line 1260, _sass/partials/_modules.scss */
+/* line 1269, _sass/partials/_modules.scss */
 article.account-info .section a {
   color: #004cb2;
   margin: 20px 0;
   display: block;
 }
-/* line 1265, _sass/partials/_modules.scss */
+/* line 1274, _sass/partials/_modules.scss */
 article.account-info .section a.button.primary {
   color: #fff;
 }

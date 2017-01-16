@@ -89,50 +89,15 @@
                 </div>
             </div>
         </div>
-        <!--<div class="detail-block data-usage">
-            <div class="grid clearfix">
-                <div class="left">
-                    <label>815-294-2847</label>
-                </div>
-                <div class="right bottom amount-used">
-                    <label>3.14 of 6GB Used</label>
-                </div>
-            </div>
 
-            <div class="progress-bar blue">
-                <div class="current-bar" style="width:52%"></div>
-            </div>
-            <div class="clearfix estimated">
-                Estimated usage: <b>4.5GB</b>
-            </div>
-            <div class="account-breakdown">
-                <div class="grid clearfix">
-                    <div class="left">
-                        <dl>
-                            <dt>237</dt>
-                            <dd>
-                                <label>Messages</label>
-                                <div>of unlimited</div>
-                            </dd>
-                        </dl>
-
-                    </div>
-                    <div class="right bottom">
-                        <dl>
-                            <dt>1,891</dt>
-                            <dd>
-                                <label>Minutes</label>
-                                <div>of unlimited</div>
-                            </dd>
-                        </dl>
-                    </div>
-                </div>
-            </div>
-        </div>-->
         
-        <div class="buttons full section">
+        <!--<div class="buttons full section">
             <a class="button blue-text">+ Add Another Line</a>
             <a class="button blue-text">Mobile Support</a>
+        </div>-->
+        <div class="buttons full section">
+            <a class="button blue-text" ng-click="go('account/invoice-history', {'accountNumber': accountNumber})">Invoice History</a>
+            <a class="button blue-text" ng-click="go('account/payment-history', {'accountNumber': accountNumber})">Payment History</a>
         </div>
     </div>
 </article>

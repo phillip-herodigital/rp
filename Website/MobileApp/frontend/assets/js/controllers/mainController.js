@@ -333,6 +333,8 @@ streamApp.controller('wirelessOverviewController', ['$scope', '$http', '$window'
     $window.showBackBar = true;
 
     var accountNumber = $routeParams.accountNumber;
+    $scope.accountNumber = accountNumber;
+
     var acct = accountService.GetAccount(accountNumber);
     var aDay = 24 * 60 * 60 * 1000;
 
