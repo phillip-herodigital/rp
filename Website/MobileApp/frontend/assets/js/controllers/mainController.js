@@ -549,10 +549,36 @@ streamApp.controller('managePaperlessController', ['$scope', '$http', '$window',
     }
 }]);
 
-streamApp.controller('loginInfoController', function ($scope, $window) {
+streamApp.controller('loginInfoController', ['$scope', '$http', '$window', 'appDataService', '$routeParams', function ($scope, $http, $window, appDataService, $routeParams) {
     $scope.pageClass = 'page-login-info';
     $window.showBackBar = true;
-});
+
+    var data = angular.copy(appDataService.Data());
+    var challenges = data.user.challenges;
+    var userNameParts = data.user.userName.split("\\");
+    
+    $scope.userName = userNameParts[userNameParts.length - 1];
+    $scope.data = data
+    $scope.formData = {};
+
+    $scope.formData.Question1 = challenges[0].selectedQuestion.id;
+    $scope.formData.Question2 = challenges[1].selectedQuestion.id;
+
+    $scope.saveChanges = function () {
+        //call api to save the changes
+        var un = "";
+        userNameParts[userNameParts.length - 1] = $scope.userName;
+
+        for (var i = 0; i < userNameParts.length; i++) {
+            un += (un ? "\\" : "") + userNameParts[i];
+        }
+
+        alert("userName - " + un);
+
+    }
+
+    
+}]);
 
 streamApp.controller('accountInformationController', function ($scope, $window) {
     $scope.pageClass = 'page-account-info';
