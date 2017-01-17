@@ -387,28 +387,36 @@ streamApp.controller('paymentMethodsController', ['$scope', '$http', '$window', 
     var data = appDataService.Data();
     //var accounts = angular.copy(data.accounts);
 
-    var paymentMethods = new Array();
-    var addedMethods = new Array();
+    //var paymentMethods = new Array();
+    //var addedMethods = new Array();
 
-    for (var i = 0; i < data.accounts.length; i++) {
-        var account = data.accounts[i];
+    //for (var i = 0; i < data.accounts.length; i++) {
+    //    var account = data.accounts[i];
 
-        if (!account.availablePaymentMethods || account.availablePaymentMethods.length < 1)
-            continue;
+    //    if (!account.availablePaymentMethods || account.availablePaymentMethods.length < 1)
+    //        continue;
 
-        for (var j = 0; j < account.availablePaymentMethods.length; j++) {
-            var pm = account.availablePaymentMethods[j];
-            var key = pm.paymentMethodType;
-            if (addedMethods[key])//should set this to an account number
-                continue;
+    //    for (var j = 0; j < account.availablePaymentMethods.length; j++) {
+    //        var pm = account.availablePaymentMethods[j];
+    //        var key = pm.paymentMethodType;
+    //        if (addedMethods[key])//should set this to an account number
+    //            continue;
 
-            addedMethods[key] = pm;
+    //        addedMethods[key] = pm;
 
-            paymentMethods.push(pm);
-        }
+    //        paymentMethods.push(pm);
+    //    }
+    //}
+
+    //$scope.paymentMethods = paymentMethods;
+
+    $scope.paymentMethods = data.user.paymentMethods;
+
+    $scope.getAccountDisplay = function (accountNumber) {
+        return accountNumber.substr(accountNumber.length - 7);
     }
 
-    $scope.paymentMethods = paymentMethods;
+    
 }]);
 
 streamApp.controller('addPaymentMethodController', function ($scope, $window) {

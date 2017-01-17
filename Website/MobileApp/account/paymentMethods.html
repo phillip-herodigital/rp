@@ -13,12 +13,13 @@
 
             <div class="payment-method" ng-repeat="paymentMethod in paymentMethods">
                 <div class="grid clearfix">
-                    <div class="left name">{{paymentMethod.paymentMethodType}}</div>
+                    <div class="left name">{{paymentMethod.paymentMethod.displayName}}</div>
                     <a class="right">Delete</a>
                 </div>
 
                 <div class="payment-details">
-                    <span class="icon-card icon"></span> Credit | American Express ***0938
+                    <span class="icon" ng-class="{'icon-card': paymentMethod.paymentMethod.underlyingPaymentType == 'TokenizedCard', 'icon-bank': paymentMethod.paymentMethod.underlyingPaymentType == 'TokenizedBank'}"></span> 
+                    {{paymentMethod.paymentMethod.underlyingPaymentDisplayName}} | {{paymentMethod.paymentMethod.underlyingType}} {{getAccountDisplay(paymentMethod.paymentMethod.redactedData)}}
                 </div>
             </div>
         </div>
