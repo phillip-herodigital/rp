@@ -47,6 +47,6 @@ namespace StreamEnergy.MyStream.Models.Account
 
         public DomainModels.Address ServiceAddress { get; set; }
 
-        public DomainModels.Accounts.Invoice[] InvoiceHistory { get; set; }
+        public MyStream.Models.Account.Invoice[] InvoiceHistory { get; set; }
     }
 }
