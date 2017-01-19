@@ -4424,3 +4424,16 @@ article.account-info .section a {
 article.account-info .section a.button.primary {
   color: #fff;
 }
+
+/* line 1281, _sass/partials/_modules.scss */
+article.pdf-viewer {
+  padding: 0;
+  height: 100%;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+}
+/* line 1288, _sass/partials/_modules.scss */
+article.pdf-viewer iframe {
+  width: 100%;
+  height: 100%;
+}

@@ -32,7 +32,7 @@
     </div>
 
     <div class="invoices section">
-        <div ng-repeat="invoice in invoices" class="invoice" ng-show="showInvoice(invoice)">
+        <div ng-repeat="invoice in invoices" class="invoice" ng-show="showInvoice(invoice)" ng-click="viewInvoice(invoice)">
             <div class="link">
                 <div class="info grid clearfix">
                     <div class="left">Invoice #: {{invoice.invoiceNumber}}</div>

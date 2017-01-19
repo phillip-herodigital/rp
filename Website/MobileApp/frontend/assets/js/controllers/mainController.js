@@ -55,6 +55,10 @@
             templateUrl: 'account/invoiceHistory.html',
             controller: 'InvoiceHistoryController'
         })
+        .when('/account/view-pdf', {
+            templateUrl: 'account/pdfViewer.html',
+            controller: 'PDFViewerController'
+        })
         .when('/account/payment-history', {
             templateUrl: 'account/paymentHistory.html',
             controller: 'PaymentHistoryController'
@@ -118,6 +122,30 @@ streamApp.directive('routeLoadingIndicator', routeLoadingIndicator);
 
 
 streamApp.controller('mainController', ['$scope', '$http', '$window', '$location', 'appDataService', function ($scope, $http, $window, $location, appDataService) {
+   
+    //Load device specific scripts for cordova;
+
+    var ua = navigator.userAgent;
+    var prefix = "/mobileapp/frontend/assets/js/libs/platforms/"
+    if (ua.toLowerCase().match("iphone") || ua.match("ipad")) {
+        prefix += "ios";
+    }
+    else if (ua.toLowerCase().match("android")) {
+        prefix += "android";
+    }
+    else {
+        prefix += "browser";
+    }
+    //$.getScript(prefix + "/cordova.js");
+
+    var head = document.getElementsByTagName('head')[0];
+    var script = document.createElement('script');
+    script.type = 'text/javascript';
+    script.src = prefix + "/cordova.js";
+    head.appendChild(script);
+
+
+
     var loadAppVersion = function () {
         $window.lastCheckedVersion = new Date();
         var versionAPI = '/api/MobileApp/GetAppVersion';
@@ -424,6 +452,22 @@ streamApp.controller('addPaymentMethodController', function ($scope, $window) {
     $window.showBackBar = true;
 });
 
+streamApp.controller('PDFViewerController', ['$scope', '$http', '$window', 'appDataService', 'accountService', '$routeParams','$sce', function ($scope, $http, $window, appDataService, accountService, $routeParams,$sce) {
+    $scope.pageClass = 'page-view-pdf';
+    $window.showBackBar = true;
+
+    var pdfUrl = $routeParams.pdfurl;
+
+    $scope.pdfUrl = pdfUrl;
+    
+    $http.get(pdfUrl,{ responseType: 'arraybuffer' })
+      .success(function (response) {
+          var file = new Blob([(response)], { type: 'application/pdf' });
+          var fileURL = URL.createObjectURL(file);
+          $scope.content = $sce.trustAsResourceUrl(fileURL);
+      });
+
+}]);
 streamApp.controller('InvoiceHistoryController', ['$scope', '$http', '$window', 'appDataService', 'accountService', '$routeParams', function ($scope, $http, $window, appDataService, accountService, $routeParams) {
     $scope.pageClass = 'page-invoice-history';
     $window.showBackBar = true;
@@ -496,6 +540,32 @@ streamApp.controller('InvoiceHistoryController', ['$scope', '$http', '$window', 
         }
         else
             return true;
+    }
+    $scope.viewInvoice = function (invoice) {
+        var url = "http://192.168.1.139/mobileapp/pdfurl-guide.pdf";
+
+        url = "/mobileapp/pdfurl-guide.pdf";
+        $scope.go("/account/view-pdf", { 'pdfurl': url })
+
+        return;
+        
+
+        
+        //url = "http://www.google.com";
+        try {
+            if (cordova && cordova.InAppBrowser) {
+                cordova.InAppBrowser.open(url, "_system");
+
+            }
+            else {
+
+                $window.open(url, "_blank");
+            }
+        }
+        catch (e) {
+        }
+       
+        
     }
 }]);
 
