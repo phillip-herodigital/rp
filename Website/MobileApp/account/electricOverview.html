@@ -2,7 +2,7 @@
 
     <div class="heading-bar grid section clearfix">
         <div class="left">
-            <span class="icon-light-bulb-small icon" ng-class="{'icon-light-bulb-small': account.utilityType !='gas', 'icon-flame-small': account.utilityType =='gas'}"></span> <span ng-show="account.utilityType =='gas'">Gas</span> <span ng-show="account.utilityType !='gas'">Electricity</span> Account
+            <span class="icon" ng-class="{'icon-light-bulb-small': account.utilityType !='gas', 'icon-flame-small': account.utilityType =='gas'}"></span> <span ng-show="account.utilityType =='gas'">Gas</span> <span ng-show="account.utilityType !='gas'">Electricity</span> Account
         </div>
         <div class="right">
             #<span>{{account.accountNumber}}</span>
@@ -46,7 +46,7 @@
                         <dt>{{account.planRate | currency}}</dt>
                         <dd>
                             <label ng-show="account.utilityType !='gas'">per kWh</label>
-                            <label ng-show="account.utilityType =='gas'">Therms</label>
+                            <label ng-show="account.utilityType =='gas'">therms</label>
                             <div>Energy Rate</div>
                         </dd>
                     </dl>
