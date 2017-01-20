@@ -57,7 +57,7 @@ article.logged-out{ //all anonymous flow pages
     }
 
     .message{
-        margin:35px 0 20px;
+        margin:25px 0 20px;
         font-size:20px;
         span{
             margin:0 15px;
@@ -107,6 +107,10 @@ article.home{
 
 article.login{
 
+	.icon-MyAccountText {
+		margin-bottom: 10px;
+	}
+
     form{
         color:#f0fbfb;
 
@@ -131,6 +135,7 @@ article.create-account{
 
 article.shop{
     .block-links{
+		margin-top: 1px;
         &.wireless{
             a, .link{
                 @include retina-background(girlphone);
@@ -141,7 +146,14 @@ article.shop{
 
         &.energy{
              a, .link{
-                 @include radial-grandient(orange);
+                 /**@include radial-grandient(orange);**/
+				@include retina-background(energy-background);
+                background-size:cover;
+                background-repeat:none;
+            }
+
+			.icon{
+                margin-bottom:20px;
             }
         }
 
@@ -162,7 +174,9 @@ article.shop{
 
         &.opportunity{
             a, .link{
-                 @include radial-grandient(blue);
+                @include retina-background(opportunity);
+                background-size:cover;
+                background-repeat:none;
             }
 
             .icon{
@@ -179,6 +193,7 @@ article.shop{
             }
             .name{
                 background:none !important;
+				font-weight: normal;
             }
         }
 
@@ -198,6 +213,7 @@ article.block-links{
     padding:0; 
     background-repeat:repeat;
     background-size:cover;
+	font-weight: normal;
 
     &.welcome{
         .title{
@@ -332,10 +348,8 @@ article.block-links{
 
             .name{
                 background: url("/mobileapp/frontend/assets/i/icon/light-bulb.png");
-                background-position:left 50%;
-                background-repeat:no-repeat;
-                min-height:45px;
-                
+                background-position:left top;
+                background-repeat:no-repeat;             
             }
         }
     }
@@ -349,6 +363,7 @@ article.block-links{
 
             @include retina-background(diamonds-light-blue);
             background-position:left 50%;
+			background-size: cover;
 
             &.plans{
                 //background:linear-gradient(to right, #4397c5 , #04a8a1);
@@ -405,10 +420,12 @@ article.block-links{
 
         &.split{
             @include clearfix;
+			border-top: 1px solid #cfd5d8;
 
             .left{
                 float:left;
                 width:60%; 
+				min-height: 50px;
                 
             }
             .right{
@@ -422,15 +439,16 @@ article.block-links{
 
 
                 .main-info{
-                    font-size:18px;
-                    font-weight:600;
+                    /**font-size:18px;
+                    font-weight:600;**/
+					font-size: 24px;
+					line-height: 1;
                 }
                 .sub-info{
                     font-size:15px;
-                    font-weight:200; 
-                    font-family:"proxima-nova-light";
+                    //font-family:"proxima-nova-light";
                     line-height:1.2;
-                    opacity:.75;
+                    opacity:.6;
                 }
             }
         }
@@ -444,14 +462,14 @@ article.block-links{
             line-height:1;
             padding-left:35px;
 
-            .main-info{
+            /**.main-info{
                 color:#e1f9f0;
-            }
+            }**/
 
             .sub-info{
                 font-size:14px;
                 font-weight:lighter;
-                opacity:.85;
+                opacity:.6;
                 line-height:1.2;
             }
         }
@@ -463,7 +481,8 @@ article.block-links{
         .description{
             font-size:15px;
             margin-top:5px;
-            opacity: 0.75;
+            opacity:.7;
+			font-weight: normal;
             line-height:1;
         }
 
@@ -557,6 +576,8 @@ article.overview{
             //@include gradient(orange);
 
             @include radial-grandient(orange);
+			padding: 10px 36px 10px 33px;
+			margin-top: 1px;
 
             .left{
                 width:calc(100% - 80px);
@@ -636,7 +657,7 @@ article.overview{
             border-bottom:$primary-border 1px solid;
             //padding:20px 5px 15px;
             padding:15px 20px;
-            margin-bottom:2px; 
+            margin-bottom:1px; 
             background:#f7f7f7;
 
             font-size:16px;
@@ -660,7 +681,6 @@ article.overview{
 
                     background:#fff;
                     font-size:16px;
-                    font-weight:lighter;
                     margin-bottom:20px;
                     .link{
                         @include retina-icon-background(arrow-large-blue);
@@ -783,10 +803,10 @@ article.overview{
 
                 label{
                     & + label{
-                        margin-top:25px;
+                        //margin-top:20px;
                         display:block;
                         font-size:16px;
-                        margin-bottom:5px;
+                        //margin-bottom:5px;
                     }
                 }
 

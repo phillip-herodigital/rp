@@ -3,7 +3,7 @@
         <div class="link split no-arrow" ng-click="go('account/makepayment')">
             <div class="name left">
                 <div class="main-info">Make a Payment</div>
-                <div class="sub-info">Next Payment Due: {{ paymentDate | date:'MM/dd/yyyy' }}</div>
+                <div class="sub-info">Next payment due: {{ paymentDate | date:'MM/dd/yyyy' }}</div>
                 
             </div>
             <div class="info right">
@@ -29,11 +29,11 @@
             </div>
             <div class="info right">
                 <div class="main-info">
-                    <strong>${{account.amountDue}}</strong>
+                    ${{account.amountDue}}
                 </div>
                 <div class="sub-info">
                     <div>Balance</div>
-                    <span class="icon-calendar-small"></span> AUTOPAY: {{account.hasAutoPay ? "ON" : "OFF"}}
+                    <span class="icon-calendar-small"></span> AutoPay: {{account.hasAutoPay ? "On" : "Off"}}
                 </div>
             </div>
         </div>
@@ -47,15 +47,15 @@
             <div class="clearfix">
                 <div class="name left">
                     <div class="main-info">Wireless</div>
-                    <div class="sub-info">{{billingCycleDaysLeft(account)}} Days left in Billing Cycle</div>
+                    <div class="sub-info">{{billingCycleDaysLeft(account)}} days left in Billing Cycle</div>
                 </div>
                 <div class="info right">
                     <div class="main-info">
-                        <strong>{{account.amountDue | currency}}</strong>
+                        {{account.amountDue | currency}}
                     </div>
                     <div class="sub-info">
                         <div>Balance</div>
-                        <span class="icon-calendar-small"></span> AUTOPAY: ON
+                        <span class="icon-calendar-small"></span> AutoPay: On
                     </div>
                 </div>
             </div>
@@ -160,7 +160,7 @@
         <div class="link split no-arrow">
             <div class="name left">
                 <div class="main-info">Share</div>
-                <div class="sub-info">Lorem ipsem Dolor Sit Amet</div>
+                <div class="sub-info">Tell your Friends and Family about Stream</div>
             </div>
 
         </div>

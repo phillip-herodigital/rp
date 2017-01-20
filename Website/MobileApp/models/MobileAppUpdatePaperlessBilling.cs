@@ -5,8 +5,9 @@ using System.Web;
 
 namespace StreamEnergy.MyStream.MobileApp.models
 {
-    public class MobileAppUpdatePaperlessBillingRequest
+    public class MobileAppUpdatePaperlessBilling
     {
-        public MobileAppUpdatePaperlessBilling[] UpdatePaperlessBillings;
+        public string AccountNumber { get; set; }
+        public bool Enabled { get; set; }
     }
 }

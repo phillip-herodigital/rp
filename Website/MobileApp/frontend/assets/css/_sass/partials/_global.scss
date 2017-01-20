@@ -109,7 +109,7 @@ a{
     }
 
     .heading{
-        @include gradient(blue);
+        background: linear-gradient(to right, #0053ba, #0041a5);
         padding:15px 15px 10px;
         color:#fff;
         font-size: 16px;
@@ -164,7 +164,7 @@ a{
                 @include retina-icon-background(shopping-cart);
             }
             &.share{
-                @include retina-icon-background(share);
+                @include retina-icon-background(share-grey);
             }
             &.settings{
                 @include retina-icon-background(gear);
@@ -182,7 +182,8 @@ a{
 
                 > *{
                     display:block;
-                    margin-bottom:25px;
+                    margin-bottom:15px;
+					padding-bottom: 10px;
 
                     &:last-of-type{
                         margin-bottom:0;
@@ -194,6 +195,11 @@ a{
                     font-size:20px;
                     color:$primary-text-grey;
                     font-weight:normal;
+					border-bottom: 1px solid #f1f1f2;
+					margin-right: 50px;
+					&:last-of-type {
+						border-bottom: none;
+					}
                 }
             }
         }
@@ -202,7 +208,7 @@ a{
     .secondary{
         @include drop-shadow;
 
-        padding:45px 10% 0;
+        padding:25px 10% 0;
 
         .social{
             padding:30px 5%;
