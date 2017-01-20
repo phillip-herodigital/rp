@@ -21,7 +21,7 @@ namespace StreamEnergy.MyStream.Models.Account
 
         public bool CanMakeOneTimePayment { get; set; }
 
-        public DomainModels.Accounts.AvailablePaymentMethod[] AvailablePaymentMethods { get; set; }
+        public DomainModels.Payments.SavedPaymentRecord[] PaymentMethods { get; set; }
 
         public string UtilityProvider { get; set; }
 
