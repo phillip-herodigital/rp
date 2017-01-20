@@ -2,6 +2,8 @@
 using StreamEnergy.DomainModels.Accounts;
 using StreamEnergy.MyStream.MobileApp.models;
 using StreamEnergy.MyStream.Models.Account;
+using StreamEnergy.DomainModels.Payments;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,6 +32,10 @@ namespace StreamEnergy.MyStream.MobileApp.controllers
         private const string GAS = "gas";
         private const string EMAIL = "Email";
         private const string DIRECT_MAIL = "DirectMail";
+        private const string CREDIT = "credit";
+        private const string BANKING = "banking";
+        private const string CHECKING = "checking";
+        private const string SAVINGS = "savings";
 
         public MobileAppController(IUnityContainer container, HttpSessionStateBase session, DomainModels.Accounts.IAccountService accountService, DomainModels.Payments.IPaymentService paymentService, StreamEnergy.MyStream.Controllers.ApiControllers.AuthenticationController authentication, ICurrentUser currentUser)
         {
@@ -57,8 +63,28 @@ namespace StreamEnergy.MyStream.MobileApp.controllers
             currentUser.Accounts = await accountService.GetAccountBalances(currentUser.StreamConnectCustomerId);
             currentUser.Customer = await accountService.GetCustomerByCustomerId(currentUser.StreamConnectCustomerId);
 
-            var accountInvoices = await accountService.GetInvoices(currentUser.StreamConnectCustomerId, currentUser.Accounts);
+            var accountsWithInvoices = await accountService.GetInvoices(currentUser.StreamConnectCustomerId, currentUser.Accounts);
             var userPaymentMethods = await paymentService.GetSavedPaymentMethods(currentUser.StreamConnectCustomerId);
+
+            var rawAccounts = from account in currentUser.Accounts
+                           let invoiceAcct = accountsWithInvoices.FirstOrDefault(t => t.AccountNumber == account.AccountNumber && t.Invoices != null)
+                           select FetchAccountData(account, invoiceAcct != null ? invoiceAcct.Invoices.OrderByDescending(i => i.DueDate).FirstOrDefault() : null);
+
+            var accounts = rawAccounts.ToList();
+
+            foreach (MobileAppAccount account in accounts)
+            {
+                Account acct = accountsWithInvoices.Where(a => a.AccountNumber == account.AccountNumber).FirstOrDefault();
+                if (acct != null && acct.Invoices != null)
+                {
+                    var invoices = new List<Models.Account.Invoice>();
+                    foreach (DomainModels.Accounts.Invoice inv in acct.Invoices)
+                    {
+                        invoices.Add(CreateViewInvoice(acct, inv));
+                    }
+                    account.InvoiceHistory = invoices.ToArray();
+                }
+            }
 
             return new MobileAppResponse
             {
@@ -87,29 +113,26 @@ namespace StreamEnergy.MyStream.MobileApp.controllers
                         }
                     }
                 },
-
-                Accounts = from account in currentUser.Accounts
-                           let invoiceAcct = accountInvoices.FirstOrDefault(t => t.AccountNumber == account.AccountNumber && t.Invoices != null)
-                           select FetchAccountData(account, invoiceAcct != null ? invoiceAcct.Invoices.OrderByDescending(i => i.DueDate).FirstOrDefault() : null)
+                Accounts = accounts
             };
         }
 
         [HttpPut]
-        public async Task<MobileAppResponse> UpdateAutoPay(string AccountNumber, bool enabled, string sPaymentMethodId)
+        public async Task<MobileAppResponse> UpdateAutoPay(MobileUpdateAutopayRequest request)
         {
             if (currentUser.Accounts == null)
             {
                 currentUser.Accounts = await accountService.GetAccountBalances(currentUser.StreamConnectCustomerId);
             }
 
-            var account = currentUser.Accounts.Where(acct => acct.AccountNumber == AccountNumber).FirstOrDefault();
+            var account = currentUser.Accounts.Where(acct => acct.AccountNumber == request.AccountNumber).FirstOrDefault();
 
             if (account != null)
             {
-                if (enabled)
+                if (request.Enabled)
                 {
                     account.AutoPay.IsEnabled = true;
-                    account.AutoPay.PaymentMethodId = new Guid(sPaymentMethodId);
+                    account.AutoPay.PaymentMethodId = new Guid(request.PaymentMethodId);
                 }
                 else
                 {
@@ -123,18 +146,18 @@ namespace StreamEnergy.MyStream.MobileApp.controllers
         }
 
         [HttpPut]
-        public async Task<MobileAppResponse> UpdatePaperlessBilling(string AccountNumber, bool enabled)
+        public async Task<MobileAppResponse> UpdatePaperlessBilling(MobileAppUpdatePaperlessBillingRequest request)
         {
             if (currentUser.Accounts == null)
             {
                 currentUser.Accounts = await accountService.GetAccountBalances(currentUser.StreamConnectCustomerId);
             }
 
-            var account = currentUser.Accounts.Where(acct => acct.AccountNumber == AccountNumber).FirstOrDefault();
+            var account = currentUser.Accounts.Where(acct => acct.AccountNumber == request.AccountNumber).FirstOrDefault();
 
             if (account != null)
-            {
-                if (enabled)
+            { 
+                if (request.Enabled)
                 {
                     account.Details.BillingDeliveryPreference = EMAIL;
                 }
@@ -145,6 +168,50 @@ namespace StreamEnergy.MyStream.MobileApp.controllers
 
                 await accountService.SetAccountDetails(account, account.Details);
             }
+
+            return await LoadAppData();
+        }
+        
+        [HttpPut]
+        public async Task<MobileAppResponse> AddPayment(MobileAddPaymentRequest request)
+        {
+            IPaymentInfo paymentInfo = null;
+
+            if (request.PaymentType == CREDIT)
+            {
+                paymentInfo = new TokenizedCard
+                {
+                    CardToken = request.CardToken,
+                    Type = request.CardType,
+                    ExpirationDate = parseExpiryDateString(request.ExpirationDate),
+                    Name = request.AccountOwnerName,
+                    BillingZipCode = request.BillingZipCode
+                };
+            }
+            else if( request.PaymentType == BANKING)
+            {
+                paymentInfo = new TokenizedBank
+                {
+                    Name = request.AccountOwnerName,
+                    AccountToken = request.AccountToken,
+                    Category = parseBankingCategoryString(request.BankingCategory),
+                    RoutingNumber = request.RoutingNumber
+                };
+            }
+
+            if (paymentInfo != null)
+            {
+                await paymentService.SavePaymentMethod(currentUser.StreamConnectCustomerId, paymentInfo, request.Nickname);
+            }
+
+            return await LoadAppData();
+        }
+
+        [HttpDelete]
+        public async Task<MobileAppResponse> RemovePayment(MobileRemovePayamentRequest request)
+        {
+
+            await paymentService.DeletePaymentMethod(currentUser.StreamConnectCustomerId, new Guid(request.PaymentAccountId));
 
             return await LoadAppData();
         }
@@ -163,8 +230,7 @@ namespace StreamEnergy.MyStream.MobileApp.controllers
                 IsPaperless = account.Details.BillingDeliveryPreference == EMAIL,
                 BillingDeliveryPreference = account.Details.BillingDeliveryPreference,
                 CanMakeOneTimePayment = account.GetCapability<PaymentSchedulingAccountCapability>().CanMakeOneTimePayment,
-                AvailablePaymentMethods = account.GetCapability<PaymentMethodAccountCapability>().AvailablePaymentMethods.ToArray(),
-                InvoiceHistory = account.Invoices
+                AvailablePaymentMethods = account.GetCapability<PaymentMethodAccountCapability>().AvailablePaymentMethods.ToArray()
             };
 
             if (account.SubAccounts == null || account.SubAccounts.Length <= 0)
@@ -308,6 +374,47 @@ namespace StreamEnergy.MyStream.MobileApp.controllers
         public async Task<int> GetAppVersion()
         {
             return 1;
+        }
+        // TODO: figure out how to reconcile this with the same meth in AccountController
+        private static Models.Account.Invoice CreateViewInvoice(Account account, DomainModels.Accounts.Invoice invoice)
+        {
+            var result = new StreamEnergy.MyStream.Models.Account.Invoice
+            {
+                AccountNumber = account.AccountNumber,
+                ServiceType = account.AccountType,
+                InvoiceNumber = invoice.InvoiceNumber,
+                InvoiceDate = invoice.InvoiceDate,
+                InvoiceAmount = invoice.InvoiceAmount,
+                DueDate = invoice.DueDate,
+                CanRequestExtension = account.GetCapability<InvoiceExtensionAccountCapability>().CanRequestExtension,
+            };
+
+            if (invoice.PdfAvailable)
+            {
+                result.Actions.Add("viewPdf", "/api/account/invoicePdf?account=" + account.AccountNumber + "&invoice=" + invoice.InvoiceNumber);
+            }
+
+            return result;
+        }
+
+
+        private DateTime parseExpiryDateString(string expiryDateString)
+        {
+            if (expiryDateString == null || expiryDateString.Length != 7 || expiryDateString.IndexOf('/') != 2)
+            {
+                return DateTime.Today;
+            }
+
+            return new DateTime(int.Parse(expiryDateString.Substring(3, 4)), int.Parse(expiryDateString.Substring(0, 2)), 1);
+        }
+
+        private BankAccountCategory parseBankingCategoryString(string bankingCategoryString)
+        {
+            if (bankingCategoryString != null && bankingCategoryString.Equals(SAVINGS))
+            {
+                return BankAccountCategory.Savings;
+            }
+            return BankAccountCategory.Checking;
         }
     }
 }

@@ -387,28 +387,36 @@ streamApp.controller('paymentMethodsController', ['$scope', '$http', '$window', 
     var data = appDataService.Data();
     //var accounts = angular.copy(data.accounts);
 
-    var paymentMethods = new Array();
-    var addedMethods = new Array();
+    //var paymentMethods = new Array();
+    //var addedMethods = new Array();
 
-    for (var i = 0; i < data.accounts.length; i++) {
-        var account = data.accounts[i];
+    //for (var i = 0; i < data.accounts.length; i++) {
+    //    var account = data.accounts[i];
 
-        if (!account.availablePaymentMethods || account.availablePaymentMethods.length < 1)
-            continue;
+    //    if (!account.availablePaymentMethods || account.availablePaymentMethods.length < 1)
+    //        continue;
 
-        for (var j = 0; j < account.availablePaymentMethods.length; j++) {
-            var pm = account.availablePaymentMethods[j];
-            var key = pm.paymentMethodType;
-            if (addedMethods[key])//should set this to an account number
-                continue;
+    //    for (var j = 0; j < account.availablePaymentMethods.length; j++) {
+    //        var pm = account.availablePaymentMethods[j];
+    //        var key = pm.paymentMethodType;
+    //        if (addedMethods[key])//should set this to an account number
+    //            continue;
 
-            addedMethods[key] = pm;
+    //        addedMethods[key] = pm;
 
-            paymentMethods.push(pm);
-        }
+    //        paymentMethods.push(pm);
+    //    }
+    //}
+
+    //$scope.paymentMethods = paymentMethods;
+
+    $scope.paymentMethods = data.user.paymentMethods;
+
+    $scope.getAccountDisplay = function (accountNumber) {
+        return accountNumber.substr(accountNumber.length - 7);
     }
 
-    $scope.paymentMethods = paymentMethods;
+    
 }]);
 
 streamApp.controller('addPaymentMethodController', function ($scope, $window) {
@@ -541,10 +549,36 @@ streamApp.controller('managePaperlessController', ['$scope', '$http', '$window',
     }
 }]);
 
-streamApp.controller('loginInfoController', function ($scope, $window) {
+streamApp.controller('loginInfoController', ['$scope', '$http', '$window', 'appDataService', '$routeParams', function ($scope, $http, $window, appDataService, $routeParams) {
     $scope.pageClass = 'page-login-info';
     $window.showBackBar = true;
-});
+
+    var data = angular.copy(appDataService.Data());
+    var challenges = data.user.challenges;
+    var userNameParts = data.user.userName.split("\\");
+    
+    $scope.userName = userNameParts[userNameParts.length - 1];
+    $scope.data = data
+    $scope.formData = {};
+
+    $scope.formData.Question1 = challenges[0].selectedQuestion.id;
+    $scope.formData.Question2 = challenges[1].selectedQuestion.id;
+
+    $scope.saveChanges = function () {
+        //call api to save the changes
+        var un = "";
+        userNameParts[userNameParts.length - 1] = $scope.userName;
+
+        for (var i = 0; i < userNameParts.length; i++) {
+            un += (un ? "\\" : "") + userNameParts[i];
+        }
+
+        alert("userName - " + un);
+
+    }
+
+    
+}]);
 
 streamApp.controller('accountInformationController', function ($scope, $window) {
     $scope.pageClass = 'page-account-info';
