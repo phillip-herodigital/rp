@@ -153,7 +153,7 @@ namespace StreamEnergy.MyStream.MobileApp.controllers
             return await LoadAppData();
         }
 
-        [HttpPut]
+        [HttpPost]
         public async Task<MobileAppResponse> UpdatePaperlessBilling(MobileAppUpdatePaperlessBillingRequest request)
         {
             if (request.UpdatePaperlessBillings != null && request.UpdatePaperlessBillings.Length > 0)

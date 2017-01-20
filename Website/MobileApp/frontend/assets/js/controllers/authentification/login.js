@@ -1,7 +1,7 @@
 ﻿/* 
 	Authentication - Login Controller
  */
-streamApp.controller('AuthLoginCtrl', ['$scope', '$http', '$window', '$sce', '$location', 'appDataService', function ($scope, $http, $window, $sce, $location, appDataService) {
+streamApp.controller('AuthLoginCtrl', ['$scope', '$http', '$window', '$sce', '$location', 'appDataService', '$rootScope', function ($scope, $http, $window, $sce, $location, appDataService, $rootScope) {
     // create a blank object to hold the form information
     $scope.formData = {};
     $scope.isLoading = false;
@@ -38,7 +38,7 @@ streamApp.controller('AuthLoginCtrl', ['$scope', '$http', '$window', '$sce', '$l
 
         var loginAPI = '/api/authentication/login';
 
-
+        $rootScope.displayLoadingIndicator = true;
         $http({
             method: 'POST',
             url: loginAPI,
@@ -48,37 +48,27 @@ streamApp.controller('AuthLoginCtrl', ['$scope', '$http', '$window', '$sce', '$l
         .then(function successCallback(response) {
             var data = response.data;
             if (!data.success) {
-
+                
                 if (data.redirect) {
                     $window.location.href = data.redirect;
                 }
+                $rootScope.displayLoadingIndicator = false;
                 $scope.isLoading = false;
                 // if not successful, bind errors to error variables
                 $scope.loginError = $sce.trustAsHtml(data.validations[0].text);
 
             } else {
                 appDataService.loadData().then(function () {
+                    $rootScope.displayLoadingIndicator = false;
                     $scope.go("dashboard");
                 });
                 
             }
         },
             function errorCallback(response) {
-                //This is purely test code for right now to avoid the iP anti/forgery issue in dev.
-                //Create a "fake" user to pass through.
-                if ($scope.formData.username.toLowerCase() == "fake" && $scope.formData.password.toLowerCase() == "fake") {
-                    $scope.go("dashboard");
-                }
-
-                //alert(response.statusText)
+                $rootScope.displayLoadingIndicator = false;
             }
         )
-
-			//.success(function (data, status, headers, config) {
-			    
-			//}).error(function (response) {
-			//    alert(response.statusText);
-			//});
     };
 
     $scope.logout = function () {

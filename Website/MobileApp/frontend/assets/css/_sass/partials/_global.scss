@@ -252,6 +252,7 @@ a{
 
 .page-container{
     position:relative;
+    height:calc(100vh - 62px);
 }
 
 .page        { 
@@ -567,19 +568,27 @@ a{
 
 //Route loading screen
 .route-loading{
-    position:absolute;
-    top:0;
-    bottom:0;
-    left:0;
-    right:0;
-    opacity:.5;
-    background:black;
-    height:100%;
-    z-index:50;
-    h1{
-        color:white;
-        text-align:center;
+
+    .col-lg-12{
         position:absolute;
-        top:50%;
+        top:0;
+        bottom:0;
+        left:0;
+        right:0;
+        opacity:.15;
+        background:black;
+        height:100%;
+        z-index:50;
+        
+        img
+        {
+            width:50%;
+            display:block;
+            margin:auto;
+            position:absolute;
+            top:calc(50vh / 2);
+            left:calc(50vw / 2)
+        }
     }
+    
 }

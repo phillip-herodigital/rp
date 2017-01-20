@@ -98,10 +98,10 @@
 });
 
 //Create the route loading indicator
-var routeLoadingIndicator = function ($rootScope) {
+var routeLoadingIndicator = function ($rootScope, $window) {
     return {
         restrict: 'E',
-        template: "<div class='col-lg-12' ng-show='isRouteLoading'><h1>Loading <i class='fa fa-cog fa-spin'></i></h1></div>",
+        template: "<div class='col-lg-12' ng-show='showLoadingIndicator()'><img src='/MobileApp/frontend/assets/i/stream_loader.gif'></div>",
         link: function (scope, elem, attrs) {
             scope.isRouteLoading = false;
 
@@ -112,10 +112,18 @@ var routeLoadingIndicator = function ($rootScope) {
             $rootScope.$on('$routeChangeSuccess', function () {
                 scope.isRouteLoading = false;
             });
+
+            $rootScope.$watch('displayLoadingIndicator', function () {
+                scope.displayLoadingIndicator = $rootScope.displayLoadingIndicator;
+            });
+
+            scope.showLoadingIndicator = function () {
+                return scope.isRouteLoading || scope.displayLoadingIndicator;
+            }
         }
     };
 };
-routeLoadingIndicator.$inject = ['$rootScope'];
+routeLoadingIndicator.$inject = ['$rootScope', '$window'];
 streamApp.directive('routeLoadingIndicator', routeLoadingIndicator);
 
 // create the controller and inject Angular's $scope
@@ -547,7 +555,10 @@ streamApp.controller('InvoiceHistoryController', ['$scope', '$http', '$window', 
     $scope.viewInvoice = function (invoice) {
         var url = invoice.actions.viewPdf;
 
+        //test code to load static pdf
         //url = "/mobileapp/pdfurl-guide.pdf";
+
+
         $scope.go("/account/view-pdf", { 'file': url })
 
         return;
@@ -609,7 +620,7 @@ streamApp.controller('manageAutoPayController', ['$scope', '$http', '$window', '
     }
 }]);
 
-streamApp.controller('managePaperlessController', ['$scope', '$http', '$window', 'appDataService', '$routeParams', function ($scope, $http, $window, appDataService, $routeParams) {
+streamApp.controller('managePaperlessController', ['$scope', '$http', '$window', 'appDataService', '$routeParams', '$rootScope', function ($scope, $http, $window, appDataService, $routeParams, $rootScope) {
     $scope.pageClass = 'page-manage-paperless';
     $window.showBackBar = true;
 
@@ -618,7 +629,35 @@ streamApp.controller('managePaperlessController', ['$scope', '$http', '$window',
 
     $scope.saveChanges = function () {
         //call api to save the changes
-        alert("IMPLEMENT SAVE CHANGES CALL");
+
+        $rootScope.displayLoadingIndicator = true;
+
+        var info = new Array();
+
+        for (var i = 0; i < $scope.accounts.length; i++) {
+            var acct = $scope.accounts[i];
+
+            var obj = { 'AccountNumber': acct.accountNumber, 'Enabled': acct.PaperlessEnabled }
+            info.push(obj);
+        }
+
+        var request = { 'UpdatePaperlessBillings': info };
+
+        var api = '/api/MobileApp/UpdatePaperlessBilling';
+
+        $http({
+            method: 'POST',
+            url: api,
+            data: request,
+            headers: { 'Content-Type': 'application/JSON' }
+        }).then((function (data) {
+            //Set this to some caching services opposed to window variable long term
+            appDataService.setData(data.data);
+
+            $rootScope.displayLoadingIndicator = false;
+            return data.data;
+        }))
+        //alert("IMPLEMENT SAVE CHANGES CALL");
     }
 }]);
 

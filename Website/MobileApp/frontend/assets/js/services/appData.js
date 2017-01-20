@@ -74,6 +74,9 @@
         loadData: function (clearData) {
             return loadUserData(clearData);
         },
+        setData: function (data) {
+            setData(data);
+        },
         clearData: function () {
             setData(null);
         },
