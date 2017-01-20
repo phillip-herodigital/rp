@@ -456,10 +456,13 @@ streamApp.controller('PDFViewerController', ['$scope', '$http', '$window', 'appD
     $scope.pageClass = 'page-view-pdf';
     $window.showBackBar = true;
 
-    var pdfUrl = $routeParams.pdfurl;
+    var pdfUrl = $routeParams.file;
 
     $scope.pdfUrl = pdfUrl;
     
+    document.getElementById('iFrameContainer').src = "/MobileApp/frontend/assets/js/libs/pdf/web/viewer.html?file=" + pdfUrl;
+    return;
+
     $http.get(pdfUrl,{ responseType: 'arraybuffer' })
       .success(function (response) {
           var file = new Blob([(response)], { type: 'application/pdf' });
@@ -542,10 +545,10 @@ streamApp.controller('InvoiceHistoryController', ['$scope', '$http', '$window', 
             return true;
     }
     $scope.viewInvoice = function (invoice) {
-        var url = "http://192.168.1.139/mobileapp/pdfurl-guide.pdf";
+        var url = invoice.actions.viewPdf;
 
-        url = "/mobileapp/pdfurl-guide.pdf";
-        $scope.go("/account/view-pdf", { 'pdfurl': url })
+        //url = "/mobileapp/pdfurl-guide.pdf";
+        $scope.go("/account/view-pdf", { 'file': url })
 
         return;
         

@@ -14,14 +14,14 @@
                 <div class="setting" ng-repeat="account in accounts">
                     <h1>{{account.utilityType == 'gas' ? "Gas" : "Electricity"}} {{account.accountNumber}}</h1>
                     <div class="item clearfix"  ng-click="account.PaperlessEnabled = true;">
-                        <span class="icon" ng-class="{'icon-radio-large-checked': formData.PaperlessEnabled, 'icon-radio-large':!formData.PaperlessEnabled}"></span>
+                        <span class="icon" ng-class="{'icon-radio-large-checked': account.PaperlessEnabled, 'icon-radio-large':!formData.PaperlessEnabled}"></span>
                         <div class="info stacked">
                             <label>Paperless Billing On</label>
                             <div class="sub-info">Will take effect on next billing cycle.</div>
                         </div>
                     </div>
                     <div class="item clearfix" ng-click="account.PaperlessEnabled = false;">
-                        <span class="icon" ng-class="{'icon-radio-large-checked': !formData.PaperlessEnabled, 'icon-radio-large':formData.PaperlessEnabled}"></span>
+                        <span class="icon" ng-class="{'icon-radio-large-checked': !account.PaperlessEnabled, 'icon-radio-large':formData.PaperlessEnabled}"></span>
                         <div class="info">
                             <label>Paperless Billing Off</label>
                             <div class="sub-info">Paper statements are currently being mailed to your home address.</div>

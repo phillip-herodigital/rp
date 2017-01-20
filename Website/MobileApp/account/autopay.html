@@ -27,7 +27,7 @@
                                     <label>Select Payment Method</label>
                                     <select ng-model="formData.PaymentAccount">
                                         <option value="">Select Payment Method</option>
-                                        <option value="AccountNumber" selected="selected">Patrick's Chase</option>
+                                        <option ng-repeat="paymentMethod in account.availablePaymentMethods">Patrick's Chase</option>
                                     </select>
                                 </div>
                             </div>
