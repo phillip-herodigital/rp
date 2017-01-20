@@ -824,10 +824,12 @@
     <Compile Include="MobileApp\controllers\MobileAppController.cs" />
     <Compile Include="MobileApp\controllers\PagesController.cs" />
     <Compile Include="MobileApp\models\MobileAddPaymentRequest.cs" />
+    <Compile Include="MobileApp\models\MobileAppUpdatePaperlessBilling.cs" />
     <Compile Include="MobileApp\models\MobileRemovePayamentRequest.cs" />
     <Compile Include="MobileApp\models\MobileUpdateAutopayRequest.cs" />
     <Compile Include="MobileApp\models\MobileAppResponse.cs" />
     <Compile Include="MobileApp\models\MobileAppUpdatePaperlessBillingRequest.cs" />
+    <Compile Include="MobileApp\models\MobileAppUpdateAutopay.cs" />
     <Compile Include="Models\Account\MobileAppAccount.cs" />
     <Compile Include="Models\Account\MobileAppPhoneLine.cs" />
     <Compile Include="Models\Enrollment\SetAutoPayRequest.cs" />
