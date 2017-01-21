@@ -607,16 +607,71 @@ streamApp.controller('linkedAccountsController', function ($scope, $window) {
     $window.showBackBar = true;
 });
 
-streamApp.controller('manageAutoPayController', ['$scope', '$http', '$window', 'appDataService', '$routeParams', function ($scope, $http, $window, appDataService, $routeParams) {
+streamApp.controller('manageAutoPayController', ['$scope', '$http', '$window', 'appDataService', '$routeParams', '$rootScope', function ($scope, $http, $window, appDataService, $routeParams, $rootScope) {
     $scope.pageClass = 'page-manage-autopay';
     $window.showBackBar = true;
 
     var data = appDataService.Data();
+
     $scope.accounts = angular.copy(data.accounts);
+    $scope.AutoPayPaymentDetails = {};
+
+    for (var i = 0; i < $scope.accounts; i++) {
+        var acct = $scope.accounts[i];
+
+        var apm = "";
+
+        for (var j = 0; j < acct.paymentMethods.length; j++) {
+            var pm = acct[j];
+
+            if (pm.usedInAutoPay) {
+                apm = pm.paymentMethod.accountNumber;
+            }
+        }
+
+        //var obj = { 'accountNumber': acct.accountNumber, 'AutoPayPaymentMethod': apm };
+
+        $scope.AutoPayPaymentDetails[acct.accountNumber] = apm;
+    }
+
+    $scope.getAutoPayAccountDetials = function (accountNumber) {
+        return $scope.AutoPayPaymentDetails[accountNumber];
+    }
 
     $scope.saveChanges = function () {
         //call api to save the changes
-        alert("IMPLEMENT SAVE CHANGES CALL");
+        $rootScope.displayLoadingIndicator = true;
+
+        //get autoPaydetails
+        var data = new Array();
+        for (var i = 0; i < $scope.accounts.length; i++) {
+            var acct = $scope.accounts[i];
+            var pid = '';
+
+            if (acct.hasAutoPay) {
+                pid = $scope.AutoPayPaymentDetails[acct.accountNumber];
+            }
+
+            var obj = { 'AccountNumber': acct.accountNumber, 'Enabled': acct.hasAutoPay, 'PaymentMethodId': pid };
+            data.push(obj);
+        }
+
+        var api = '/api/MobileApp/UpdateAutoPay';
+        var request = { 'UpdateAutopays': data };
+        $http({
+            method: 'POST',
+            url: api,
+            data: request,
+            headers: { 'Content-Type': 'application/JSON' }
+        }).then((function (data) {
+            //Set this to some caching services opposed to window variable long term
+            appDataService.setData(data.data);
+
+            $rootScope.displayLoadingIndicator = false;
+            return data.data;
+        }))
+
+        //alert("IMPLEMENT SAVE CHANGES CALL");
     }
 }]);
 

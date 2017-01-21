@@ -25,9 +25,9 @@
                             <div class="account-info" ng-show="account.hasAutoPay == true;">
                                 <div class="item" float-label>
                                     <label>Select Payment Method</label>
-                                    <select ng-model="formData.PaymentAccount">
+                                    <select ng-model="AutoPayPaymentDetails[account.accountNumber]">
                                         <option value="">Select Payment Method</option>
-                                        <option ng-repeat="paymentMethod in account.availablePaymentMethods">Patrick's Chase</option>
+                                        <option ng-repeat="pm in account.paymentMethods" value="{{pm.paymentMethod.id}}">{{pm.paymentMethod.displayName}}</option>
                                     </select>
                                 </div>
                             </div>

@@ -136,7 +136,7 @@ namespace StreamEnergy.MyStream.MobileApp.controllers
             };
         }
 
-        [HttpPut]
+        [HttpPost]
         public async Task<MobileAppResponse> UpdateAutoPay(MobileUpdateAutopayRequest request)
         {
             if (request.UpdateAutopays != null && request.UpdateAutopays.Length > 0)

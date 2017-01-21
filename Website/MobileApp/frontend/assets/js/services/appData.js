@@ -1,4 +1,4 @@
-﻿streamApp.factory('appDataService', ['$http', '$q', '$cookieStore', '$window', function ($http, $q, $cookieStore, $window) {
+﻿streamApp.factory('appDataService', ['$http', '$q', '$cookieStore', '$window', '$rootScope', function ($http, $q, $cookieStore, $window, $rootScope) {
     var getData = function(){
         if (!$window.GlobalData) { //set off of a cookie
             var cd = $cookieStore.get('globalData');
@@ -39,7 +39,7 @@
         //}
 
         var userDataAPI = '/api/MobileApp/loadAppData';
-
+        $rootScope.displayLoadingIndicator = true;
         return $http({
             method: 'GET',
             url: userDataAPI,
@@ -47,6 +47,8 @@
         }).then((function (data) {
             //Set this to some caching services opposed to window variable long term
             setData(data.data);
+            $rootScope.displayLoadingIndicator = false;
+
             return data.data;
         }))
     }
