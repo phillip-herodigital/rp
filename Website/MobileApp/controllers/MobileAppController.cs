@@ -136,7 +136,7 @@ namespace StreamEnergy.MyStream.MobileApp.controllers
             };
         }
 
-        [HttpPost]
+        [HttpPut]
         public async Task<MobileAppResponse> UpdateAutoPay(MobileUpdateAutopayRequest request)
         {
             if (request.UpdateAutopays != null && request.UpdateAutopays.Length > 0)
@@ -153,7 +153,7 @@ namespace StreamEnergy.MyStream.MobileApp.controllers
             return await LoadAppData();
         }
 
-        [HttpPost]
+        [HttpPut]
         public async Task<MobileAppResponse> UpdatePaperlessBilling(MobileAppUpdatePaperlessBillingRequest request)
         {
             if (request.UpdatePaperlessBillings != null && request.UpdatePaperlessBillings.Length > 0)
@@ -163,9 +163,7 @@ namespace StreamEnergy.MyStream.MobileApp.controllers
                     currentUser.Accounts = await accountService.GetAccountBalances(currentUser.StreamConnectCustomerId);
                 }
 
-                var tasks = request.UpdatePaperlessBillings.Select(update => UpdatePaperlessBillingAsync(update)).ToList();
-
-                var things = Task.WhenAll(tasks);
+                request.UpdatePaperlessBillings.Select(update => UpdatePaperlessBilling(update)).ToList();
             }
                 
             return await LoadAppData();
@@ -396,7 +394,7 @@ namespace StreamEnergy.MyStream.MobileApp.controllers
             return true;
         }
 
-        private async Task<bool> UpdatePaperlessBillingAsync(MobileAppUpdatePaperlessBilling updatePaperlessBilling)
+        private bool UpdatePaperlessBilling(MobileAppUpdatePaperlessBilling updatePaperlessBilling)
         {
             var account = currentUser.Accounts.Where(acct => acct.AccountNumber == updatePaperlessBilling.AccountNumber).FirstOrDefault();
 
@@ -411,7 +409,7 @@ namespace StreamEnergy.MyStream.MobileApp.controllers
                     account.Details.BillingDeliveryPreference = DIRECT_MAIL;
                 }
 
-                await accountService.SetAccountDetails(account, account.Details);
+                accountService.SetAccountDetails(account, account.Details);
             }
             return true;
         }
