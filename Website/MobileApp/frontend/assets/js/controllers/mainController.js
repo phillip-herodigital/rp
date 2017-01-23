@@ -692,7 +692,7 @@ streamApp.controller('managePaperlessController', ['$scope', '$http', '$window',
         for (var i = 0; i < $scope.accounts.length; i++) {
             var acct = $scope.accounts[i];
 
-            var obj = { 'AccountNumber': acct.accountNumber, 'Enabled': acct.PaperlessEnabled }
+            var obj = { 'AccountNumber': acct.accountNumber, 'Enabled': acct.isPaperless }
             info.push(obj);
         }
 
