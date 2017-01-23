@@ -136,7 +136,7 @@ namespace StreamEnergy.MyStream.MobileApp.controllers
             };
         }
 
-        [HttpPut]
+        [HttpPost]
         public async Task<MobileAppResponse> UpdateAutoPay(MobileUpdateAutopayRequest request)
         {
             if (request.UpdateAutopays != null && request.UpdateAutopays.Length > 0)
@@ -152,7 +152,7 @@ namespace StreamEnergy.MyStream.MobileApp.controllers
             return await LoadAppData();
         }
 
-        [HttpPut]
+        [HttpPost]
         public async Task<MobileAppResponse> UpdatePaperlessBilling(MobileAppUpdatePaperlessBillingRequest request)
         {
             if (request.UpdatePaperlessBillings != null && request.UpdatePaperlessBillings.Length > 0)
@@ -169,7 +169,7 @@ namespace StreamEnergy.MyStream.MobileApp.controllers
             return await LoadAppData();
         }
         
-        [HttpPut]
+        [HttpPost]
         public async Task<MobileAppResponse> AddPayment(MobileAddPaymentRequest request)
         {
             IPaymentInfo paymentInfo = null;
