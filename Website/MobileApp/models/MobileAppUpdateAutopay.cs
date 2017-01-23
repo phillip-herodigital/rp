@@ -10,5 +10,7 @@ namespace StreamEnergy.MyStream.MobileApp.models
         public string AccountNumber { get; set; }
         public bool Enabled { get; set; }
         public string PaymentMethodId { get; set; }
+
+        public string SecurityCode { get; set; }
     }
 }

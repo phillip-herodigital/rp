@@ -388,7 +388,12 @@ namespace StreamEnergy.MyStream.MobileApp.controllers
                     account.AutoPay.IsEnabled = false;
                     account.AutoPay.PaymentMethodId = null;
                 }
-                await accountService.SetAccountDetails(account, account.Details);
+                await paymentService.SetAutoPayStatus(account, new AutoPaySetting
+                {
+                    IsEnabled = account.AutoPay.IsEnabled,
+                    PaymentMethodId = account.AutoPay.IsEnabled ? account.AutoPay.PaymentMethodId : Guid.Empty
+                },
+                updateAutopay.SecurityCode);
             }
 
             return true;
