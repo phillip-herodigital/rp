@@ -14,7 +14,7 @@
             <div class="payment-method" ng-repeat="paymentMethod in paymentMethods">
                 <div class="grid clearfix">
                     <div class="left name">{{paymentMethod.paymentMethod.displayName}}</div>
-                    <a class="right">Delete</a>
+                    <a class="right" ng-click="removePaymentMethod(paymentMethod.paymentMethod.id)">Delete</a>
                 </div>
 
                 <div class="payment-details">

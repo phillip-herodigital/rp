@@ -417,34 +417,10 @@ streamApp.controller('energyOverviewController', ['$scope', '$http', '$window', 
     $scope.accountNumber;
 }]);
 
-streamApp.controller('paymentMethodsController', ['$scope', '$http', '$window', 'appDataService', 'accountService', '$routeParams', function ($scope, $http, $window, appDataService, accountService, $routeParams) {
+streamApp.controller('paymentMethodsController', ['$scope', '$http', '$window', 'appDataService', 'accountService', '$routeParams', '$rootScope', function ($scope, $http, $window, appDataService, accountService, $routeParams, $rootScope) {
     $scope.pageClass = 'page-manage-account';
     $window.showBackBar = true;
     var data = appDataService.Data();
-    //var accounts = angular.copy(data.accounts);
-
-    //var paymentMethods = new Array();
-    //var addedMethods = new Array();
-
-    //for (var i = 0; i < data.accounts.length; i++) {
-    //    var account = data.accounts[i];
-
-    //    if (!account.availablePaymentMethods || account.availablePaymentMethods.length < 1)
-    //        continue;
-
-    //    for (var j = 0; j < account.availablePaymentMethods.length; j++) {
-    //        var pm = account.availablePaymentMethods[j];
-    //        var key = pm.paymentMethodType;
-    //        if (addedMethods[key])//should set this to an account number
-    //            continue;
-
-    //        addedMethods[key] = pm;
-
-    //        paymentMethods.push(pm);
-    //    }
-    //}
-
-    //$scope.paymentMethods = paymentMethods;
 
     $scope.paymentMethods = data.user.paymentMethods;
 
@@ -452,13 +428,126 @@ streamApp.controller('paymentMethodsController', ['$scope', '$http', '$window', 
         return accountNumber.substr(accountNumber.length - 7);
     }
 
-    
+    $scope.removePaymentMethod = function (PaymentAccountId) {
+        $rootScope.displayLoadingIndicator = true;
+        var api = '/api/MobileApp/RemovePayment';
+        var data = { 'PaymentAccountId': PaymentAccountId };
+        //PaymentAccountId
+
+        $http({
+            method: 'POST',
+            url: api,
+            data: data,
+            headers: { 'Content-Type': 'application/JSON' }
+        }).then((function (data) {
+            //Set this to some caching services opposed to window variable long term
+            appDataService.setData(data.data);
+
+            $rootScope.displayLoadingIndicator = false;
+            $scope.paymentMethods = data.data.user.paymentMethods;
+
+            $scope.$digest();
+
+
+            return data.data;
+        }))
+    }
 }]);
 
-streamApp.controller('addPaymentMethodController', function ($scope, $window) {
+streamApp.controller('addPaymentMethodController', ['$scope', '$http', '$window', 'appDataService', 'accountService', '$routeParams', '$rootScope', function ($scope, $http, $window, appDataService, accountService, $routeParams, $rootScope) {
     $scope.pageClass = 'page-add-payment-method';
     $window.showBackBar = true;
-});
+
+    $scope.CardInfo = {};
+    $scope.BankIno = {};
+
+    $scope.GetCardType = function GetCardType(number) {
+        // visa
+        var re = new RegExp("^4");
+        if (number.match(re) != null)
+            return "Visa";
+
+        // Mastercard
+        re = new RegExp("^5[1-5]");
+        if (number.match(re) != null)
+            return "Mastercard";
+
+        // AMEX
+        re = new RegExp("^3[47]");
+        if (number.match(re) != null)
+            return "AMEX";
+
+        // Discover
+        re = new RegExp("^(6011|622(12[6-9]|1[3-9][0-9]|[2-8][0-9]{2}|9[0-1][0-9]|92[0-5]|64[4-9])|65)");
+        if (number.match(re) != null)
+            return "Discover";
+
+        // Diners
+        re = new RegExp("^36");
+        if (number.match(re) != null)
+            return "Diners";
+
+        // Diners - Carte Blanche
+        re = new RegExp("^30[0-5]");
+        if (number.match(re) != null)
+            return "Diners - Carte Blanche";
+
+        // JCB
+        re = new RegExp("^35(2[89]|[3-8][0-9])");
+        if (number.match(re) != null)
+            return "JCB";
+
+        // Visa Electron
+        re = new RegExp("^(4026|417500|4508|4844|491(3|7))");
+        if (number.match(re) != null)
+            return "Visa Electron";
+
+        return "";
+    };
+
+    $scope.SavePaymentMethod = function () {
+        //Update to add validations in
+        $rootScope.displayLoadingIndicator = true;
+
+        var data = {'PaymentType': $scope.toggleView};
+        
+        if ($scope.toggleView == "credit") {
+            //add a credit card
+            data.AccountOwnerName = $scope.CardInfo.CardHolderName;
+            data.Nickname = $scope.CardInfo.CardNickname;
+            data.CardToken = $scope.CardInfo.Number;
+            data.CardType = $scope.GetCardType($scope.CardInfo.Number);
+            data.ExpirationDate = $scope.CardInfo.Month + "/" + $scope.CardInfo.Year;
+            data.SecurityCode = $scope.CardInfo.SecurityCode;
+            data.BillingZipCode = $scope.CardInfo.CardPostalCode;
+
+        }
+
+        else {
+            data.AccountOwnerName = $scope.bankingInfo.AccountName;
+            data.Nickname = $scope.bankingInfo.AccountNickname;
+            data.BankingCategory = $scope.bankingInfo.Type;
+            data.RoutingNumber = $scope.bankingInfo.RoutingNumber;
+            data.AccountToken = $scope.bankingInfo.AccountNumber;
+        }
+
+        var api = '/api/MobileApp/AddPayment';
+
+        $http({
+            method: 'POST',
+            url: api,
+            data: data,
+            headers: { 'Content-Type': 'application/JSON' }
+        }).then((function (data) {
+            //Set this to some caching services opposed to window variable long term
+            appDataService.setData(data.data);
+
+            $rootScope.displayLoadingIndicator = false;
+            $scope.goBack();
+            //return data.data;
+        }))
+    }
+}]);
 
 streamApp.controller('PDFViewerController', ['$scope', '$http', '$window', 'appDataService', 'accountService', '$routeParams','$sce', function ($scope, $http, $window, appDataService, accountService, $routeParams,$sce) {
     $scope.pageClass = 'page-view-pdf';

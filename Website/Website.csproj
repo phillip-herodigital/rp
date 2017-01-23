@@ -1276,6 +1276,7 @@
     <Content Include="MobileApp\frontend\assets\js\controllers\mainController.js" />
     <Content Include="MobileApp\frontend\assets\js\controllers\template.js" />
     <Content Include="MobileApp\frontend\assets\js\directives\float-labels.js" />
+    <Content Include="MobileApp\frontend\assets\js\directives\tokenize-field.js" />
     <Content Include="MobileApp\frontend\assets\js\libs\angular-1.2.js" />
     <Content Include="MobileApp\frontend\assets\js\libs\angular-1.2.min.js" />
     <Content Include="MobileApp\frontend\assets\js\libs\angular.min.js" />

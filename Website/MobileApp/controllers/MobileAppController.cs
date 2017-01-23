@@ -182,7 +182,8 @@ namespace StreamEnergy.MyStream.MobileApp.controllers
                     Type = request.CardType,
                     ExpirationDate = parseExpiryDateString(request.ExpirationDate),
                     Name = request.AccountOwnerName,
-                    BillingZipCode = request.BillingZipCode
+                    BillingZipCode = request.BillingZipCode,
+                    SecurityCode = request.SecurityCode
                 };
             }
             else if( request.PaymentType == BANKING)
@@ -204,7 +205,7 @@ namespace StreamEnergy.MyStream.MobileApp.controllers
             return await LoadAppData();
         }
 
-        [HttpDelete]
+        [HttpPost]
         public async Task<MobileAppResponse> RemovePayment(MobileRemovePayamentRequest request)
         {
 

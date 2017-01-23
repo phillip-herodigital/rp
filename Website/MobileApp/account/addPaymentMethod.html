@@ -3,24 +3,24 @@
         <h1>Add Payment Method</h1>
 
         <div class="add-method">
-            <div class="options" ng-init="toggleView = 'card'">
-                <a class="" ng-click="toggleView = 'card'" ng-class="{'selected':toggleView == 'card'}">Credit Card</a>
-                <a class="" ng-click="toggleView = 'bank'" ng-class="{'selected':toggleView == 'bank'}">Bank Account</a>
+            <div class="options" ng-init="toggleView = 'credit'">
+                <a class="" ng-click="toggleView = 'credit'" ng-class="{'selected':toggleView == 'credit'}">Credit Card</a>
+                <a class="" ng-click="toggleView = 'banking'" ng-class="{'selected':toggleView == 'banking'}">Bank Account</a>
             </div>
 
-            <div class="" ng-show="toggleView == 'card'">
+            <div class="" ng-show="toggleView == 'credit'">
                 <p>
                     To add or edit a credit card, either tap on “Scan License & Credit Card,” or fill out the form and click on the “Submit” button below. The Account Nickname will be used throughout this site to provide a friendly payment method name.
                 </p>
 
                 <div class="notice">
-                    <b>Note:</b> $2.95 credit card processing fee will be added to each transaction. There is no fee for using a <a ng-click="toggleView = 'bank'">Bank Account</a> to make a payment.
+                    <b>Note:</b> $2.95 credit card processing fee will be added to each transaction. There is no fee for using a <a ng-click="toggleView = 'banking'">Bank Account</a> to make a payment.
                 </div>
-                <div class="buttons">
+                <!--<div class="buttons">
                     <a class="button full">
                         <span class="icon icon-capture-card"></span> Scan Credit Card
                     </a>
-                </div>
+                </div>-->
 
                 <form>
                     <div class="card-section">
@@ -28,21 +28,21 @@
                             <div class="item card-input" float-label>
                                 <label>Credit Card Number</label>
                                 <div class="type"></div>
-                                <input type="text" />
+                                <input type="text"  ng-model="CardInfo.Number" />
                             </div>
                             <div class="group supporting-info clearfix">
                                 <div class="item month" float-label>
                                     <label>MM</label>
-                                    <input type="text" placeholder="MM" />
+                                    <input type="text" placeholder="MM" ng-model="CardInfo.Month"/>
                                 </div>
                                 <div class="seperator">/</div>
                                 <div class="item year" float-label>
                                     <label>YYYY</label>
-                                    <input type="text" placeholder="YYYY" />
+                                    <input type="text" placeholder="YYYY" ng-model="CardInfo.Year" />
                                 </div>
                                 <div class="item cvv" float-label>
                                     <label>CVV</label>
-                                    <input type="text" placeholder="CVV" />
+                                    <input type="text" placeholder="CVV" ng-model="CardInfo.SecurityCode" />
                                 </div>
                             </div>
                             <a class="example">Example</a>
@@ -52,15 +52,15 @@
                     <div class="card-section">
                         <div class="item" float-label>
                             <label>Name On Card</label>
-                            <input placeholder="Name On Card" type="text" ng-model="formData.CardHolderName" />
+                            <input placeholder="Name On Card" type="text" ng-model="CardInfo.CardHolderName" />
                         </div>
                         <div class="item" float-label>
                             <label>Billing Zip Code</label>
-                            <input placeholder="Billing Zip Code" type="text" ng-model="formData.CardPostalCode" />
+                            <input placeholder="Billing Zip Code" type="text" ng-model="CardInfo.CardPostalCode" />
                         </div>
                         <div class="item" float-label>
                             <label>Account Nickname</label>
-                            <input placeholder="Name On Card" type="text" ng-model="formData.CardNickname" />
+                            <input placeholder="Account Nickname" type="text" ng-model="CardInfo.CardNickname" />
                         </div>
 
                         <p>
@@ -69,13 +69,13 @@
                     </div>
                     
                     <div class="buttons">
-                        <a class="button full primary">Submit</a>
+                        <a class="button full primary" ng-click="SavePaymentMethod();">Submit</a>
                         <a class="button full secondary" ng-click="goBack();">Cancel</a>
                     </div>
                 </form>
             </div>
 
-            <div ng-show="toggleView == 'bank'">
+            <div ng-show="toggleView == 'banking'">
                 <p>
                     To add or edit a bank account, fill out the form and click on the “Submit” button below. The Account Nickname will be used throughout this site to provide a friendly payment method name.
                 </p>
@@ -83,7 +83,7 @@
                 <form>
                     <div class="item" float-label>
                         <label>Account Type</label>
-                        <select ng-model="formData.AccountPaymentType">
+                        <select ng-model="bankingInfo.Type">
                             <option value="" selected="selected">Account Type</option>
                             <option value="Checking">Checking</option>
                             <option value="Savings">Savings</option>
@@ -91,28 +91,28 @@
                     </div>
                     <div class="item" float-label>
                         <label>Name on Bank Account</label>
-                        <input type="text" placeholder="Name on Bank Account" ng-model="formData.AccountName"/>
+                        <input type="text" placeholder="Name on Bank Account" ng-model="bankingInfo.AccountName"/>
                     </div>
                     <div class="item" float-label>
                         <label>Routing Number</label>
-                        <input type="text" placeholder="Routing Number" ng-model="formData.RoutingNumber"/>
+                        <input type="text" placeholder="Routing Number" ng-model="bankingInfo.RoutingNumber"/>
                     </div>
                     <div class="item" float-label>
                         <label>Account Number</label>
-                        <input type="text" placeholder="Account Number" ng-model="formData.AccountNumber"/>
+                        <input type="text" placeholder="Account Number" ng-model="bankingInfo.AccountNumber"   data-val-digits tokenize-field="{'type':'bank','tokenizerDomain':'https://streamenergy.cardconnect.com:6443'}" />  <!--UPDATE THIS WHEN INTEGRATED INTO SITECORE!!-->
                     </div>
                     <div>
                         <img src="/frontend/assets/i/checkImage.jpg" />
                     </div>
                     <div class="item" float-label>
                         <label>Account Nickname</label>
-                        <input type="text" placeholder="Account Nickname" ng-model="formData.AccountNickname" />
+                        <input type="text" placeholder="Account Nickname" ng-model="bankingInfo.AccountNickname" />
                     </div>
                     <p>
                         Account Nickname will be used throughout this site to provide a friendly payment method name. 
                     </p>
                     <div class="buttons">
-                        <a class="button full primary">Submit</a>
+                        <a class="button full primary" ng-click="SavePaymentMethod();">Submit</a>
                         <a class="button full secondary" ng-click="goBack();">Cancel</a>
                     </div>
                 </form>
