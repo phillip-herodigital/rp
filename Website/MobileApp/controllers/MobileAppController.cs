@@ -147,8 +147,7 @@ namespace StreamEnergy.MyStream.MobileApp.controllers
                 }
 
                 var tasks = request.UpdateAutopays.Select(update => UpdateAutopayAsync(update)).ToList();
-
-                var things = Task.WhenAll(tasks);
+                await Task.WhenAll(tasks);
             }
             return await LoadAppData();
         }
@@ -163,7 +162,8 @@ namespace StreamEnergy.MyStream.MobileApp.controllers
                     currentUser.Accounts = await accountService.GetAccountBalances(currentUser.StreamConnectCustomerId);
                 }
 
-                request.UpdatePaperlessBillings.Select(update => UpdatePaperlessBilling(update)).ToList();
+                var tasks = request.UpdatePaperlessBillings.Select(update => UpdatePaperlessBillingAsync(update)).ToList();
+                await Task.WhenAll(tasks);
             }
                 
             return await LoadAppData();
@@ -394,7 +394,7 @@ namespace StreamEnergy.MyStream.MobileApp.controllers
             return true;
         }
 
-        private bool UpdatePaperlessBilling(MobileAppUpdatePaperlessBilling updatePaperlessBilling)
+        private async Task<bool> UpdatePaperlessBillingAsync(MobileAppUpdatePaperlessBilling updatePaperlessBilling)
         {
             var account = currentUser.Accounts.Where(acct => acct.AccountNumber == updatePaperlessBilling.AccountNumber).FirstOrDefault();
 
@@ -409,7 +409,7 @@ namespace StreamEnergy.MyStream.MobileApp.controllers
                     account.Details.BillingDeliveryPreference = DIRECT_MAIL;
                 }
 
-                accountService.SetAccountDetails(account, account.Details);
+                await accountService.SetAccountDetails(account, account.Details);
             }
             return true;
         }
