@@ -25,10 +25,14 @@
                             <div class="account-info" ng-show="account.hasAutoPay == true;">
                                 <div class="item" float-label>
                                     <label>Select Payment Method</label>
-                                    <select ng-model="AutoPayPaymentDetails[account.accountNumber]">
+                                    <select ng-model="AutoPayPaymentDetails[account.accountNumber].PaymentAccountNumber">
                                         <option value="">Select Payment Method</option>
                                         <option ng-repeat="pm in account.paymentMethods" value="{{pm.paymentMethod.id}}">{{pm.paymentMethod.displayName}}</option>
                                     </select>
+                                </div>
+                                <div class="item" float-label ng-show="autoPayAccountNeedsSecurityCode(account)">
+                                    <label>CVV</label>
+                                    <input type="text" ng-model="AutoPayPaymentDetails[account.accountNumber].SecurityCode"/>
                                 </div>
                             </div>
                         </div>

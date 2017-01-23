@@ -616,26 +616,40 @@ streamApp.controller('manageAutoPayController', ['$scope', '$http', '$window', '
     $scope.accounts = angular.copy(data.accounts);
     $scope.AutoPayPaymentDetails = {};
 
-    for (var i = 0; i < $scope.accounts; i++) {
+    for (var i = 0; i < $scope.accounts.length; i++) {
         var acct = $scope.accounts[i];
 
         var apm = "";
 
         for (var j = 0; j < acct.paymentMethods.length; j++) {
-            var pm = acct[j];
+            var pm = acct.paymentMethods[j];
 
             if (pm.usedInAutoPay) {
                 apm = pm.paymentMethod.accountNumber;
             }
         }
 
-        //var obj = { 'accountNumber': acct.accountNumber, 'AutoPayPaymentMethod': apm };
+        var obj = { 'PaymentAccountNumber': apm }
 
-        $scope.AutoPayPaymentDetails[acct.accountNumber] = apm;
+        $scope.AutoPayPaymentDetails[acct.accountNumber] = obj;
     }
 
     $scope.getAutoPayAccountDetials = function (accountNumber) {
-        return $scope.AutoPayPaymentDetails[accountNumber];
+        return $scope.AutoPayPaymentDetails[accountNumber].PaymentAccountNumber;
+    }
+
+    $scope.autoPayAccountNeedsSecurityCode = function (account) {
+
+        var pmd = $scope.AutoPayPaymentDetails[account.accountNumber];
+        for (var i = 0; i < account.paymentMethods.length; i++) {
+            var method = account.paymentMethods[i].paymentMethod;
+
+            if (method.id == pmd.PaymentAccountNumber) {
+                return method.underlyingPaymentType == "TokenizedCard";
+            }
+        }
+
+        return false;
     }
 
     $scope.saveChanges = function () {
@@ -646,13 +660,14 @@ streamApp.controller('manageAutoPayController', ['$scope', '$http', '$window', '
         var data = new Array();
         for (var i = 0; i < $scope.accounts.length; i++) {
             var acct = $scope.accounts[i];
-            var pid = '';
+            var pid = '', securityCode = '';
 
             if (acct.hasAutoPay) {
-                pid = $scope.AutoPayPaymentDetails[acct.accountNumber];
+                pid = $scope.AutoPayPaymentDetails[acct.accountNumber].PaymentAccountNumber;
+                securityCode = $scope.AutoPayPaymentDetails[acct.accountNumber].SecurityCode;
             }
 
-            var obj = { 'AccountNumber': acct.accountNumber, 'Enabled': acct.hasAutoPay, 'PaymentMethodId': pid };
+            var obj = { 'AccountNumber': acct.accountNumber, 'Enabled': acct.hasAutoPay, 'PaymentMethodId': pid, 'SecurityCode':securityCode  };
             data.push(obj);
         }
 
