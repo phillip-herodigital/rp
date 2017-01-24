@@ -39,6 +39,7 @@
     <script src="/mobileapp/frontend/assets/js/services/accounts.js"></script>
     <script src="/mobileapp/frontend/assets/js/controllers/mainController.js"></script>
     <script src="/mobileapp/frontend/assets/js/controllers/authentification/login.js"></script>
+    <script src="~/MobileApp/frontend/assets/js/directives/bankAccountPayment.js"></script>
     <script src="~/MobileApp/frontend/assets/js/directives/tokenize-field.js"></script>
 
    
@@ -46,7 +47,9 @@
     <script type="text/javascript" src="//use.typekit.net/obg4jvp.js"></script>
     <script type="text/javascript">try { Typekit.load(); } catch (e) { }</script>
 
-    <meta http-equiv="Content-Security-Policy" content="default-src *; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' 'unsafe-eval'">
+    @*<meta http-equiv="Content-Security-Policy" content="default-src *; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' 'unsafe-eval'">*@
+    <meta http-equiv="Content-Security-Policy" content="default-src *; style-src 'self' http://* 'unsafe-inline'; script-src 'self' http://* 'unsafe-inline' 'unsafe-eval'" />
+
     <meta name="format-detection" content="telephone=no">
     <meta name='viewport' content='width=device-width, initial-scale=1, user-scalable=no' />
 

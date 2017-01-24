@@ -459,8 +459,12 @@ streamApp.controller('addPaymentMethodController', ['$scope', '$http', '$window'
     $window.showBackBar = true;
 
     $scope.CardInfo = {};
-    $scope.BankIno = {};
-
+    $scope.bankingInfo = {};
+    $scope.bankCtrl = {};
+    $scope.formData = {
+        nickname: '',
+        paymentAccount: {}
+    };
     $scope.GetCardType = function GetCardType(number) {
         // visa
         var re = new RegExp("^4");
@@ -524,28 +528,43 @@ streamApp.controller('addPaymentMethodController', ['$scope', '$http', '$window'
         }
 
         else {
-            data.AccountOwnerName = $scope.bankingInfo.AccountName;
-            data.Nickname = $scope.bankingInfo.AccountNickname;
-            data.BankingCategory = $scope.bankingInfo.Type;
-            data.RoutingNumber = $scope.bankingInfo.RoutingNumber;
-            data.AccountToken = $scope.bankingInfo.AccountNumber;
+            //data.AccountOwnerName = $scope.bankCtrl.nameOnBank;
+            //data.Nickname = $scope.bankCtrl.AccountNickname;
+            //data.BankingCategory = $scope.bankCtrl.category;
+            //data.RoutingNumber = $scope.bankCtrl.routingNumber;
+            //data.AccountToken = $scope.bankingInfo.AccountNumber;
+           // data.AccountToken = $scope.bankingInfo.accountToken
+
+            var nameOn = $scope.bankingInfo.nameOnBank;
+
+            $scope.formData.bankAccount().then(function (paymentInfo) {
+                data.AccountToken = paymentInfo.accountToken;
+                data.AccountOwnerName = $scope.bankingInfo.nameOnBank;
+                data.Nickname = $scope.bankingInfo.AccountNickname;
+                data.BankingCategory = paymentInfo.category;
+                data.RoutingNumber = paymentInfo.routingNumber;
+                var api = '/api/MobileApp/AddPayment';
+                
+                $http({
+                    method: 'POST',
+                    url: api,
+                    data: data,
+                    headers: { 'Content-Type': 'application/JSON' }
+                }).then(function (data) {
+                    //Set this to some caching services opposed to window variable long term
+                    appDataService.setData(data.data);
+
+                    $rootScope.displayLoadingIndicator = false;
+                    $scope.goBack();
+                })
+            }, function (data) {
+                //Tie in the rejected functionality
+                alert("rejected");
+                $rootScope.displayLoadingIndicator = false;
+            });
         }
 
-        var api = '/api/MobileApp/AddPayment';
-
-        $http({
-            method: 'POST',
-            url: api,
-            data: data,
-            headers: { 'Content-Type': 'application/JSON' }
-        }).then((function (data) {
-            //Set this to some caching services opposed to window variable long term
-            appDataService.setData(data.data);
-
-            $rootScope.displayLoadingIndicator = false;
-            $scope.goBack();
-            //return data.data;
-        }))
+        
     }
 }]);
 
