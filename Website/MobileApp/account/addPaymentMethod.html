@@ -51,7 +51,7 @@
 
                     <div class="card-section">
                         <div class="item" float-label>
-                            <label>Name On Card</label>
+                            <label>Name on Card</label>
                             <input placeholder="Name On Card" type="text" ng-model="CardInfo.CardHolderName" />
                         </div>
                         <div class="item" float-label>
@@ -82,33 +82,33 @@
 
                 <form>
                     <div bank-account-payment="formData.bankAccount" data-val-if="true">
-                        <div class="item" float-label>
-                            <label>Account Type</label>
+                    <div class="item" float-label>
+                        <label>Account Type</label>
                             <select ng-model="bankCtrl.category">
-                                <option value="" selected="selected">Account Type</option>
-                                <option value="Checking">Checking</option>
-                                <option value="Savings">Savings</option>
-                            </select>
-                        </div>
-                        <div class="item" float-label>
-                            <label>Name on Bank Account</label>
+                            <option value="" selected="selected">Account Type</option>
+                            <option value="Checking">Checking</option>
+                            <option value="Savings">Savings</option>
+                        </select>
+                    </div>
+                    <div class="item" float-label>
+                        <label>Name on Bank Account</label>
                             <input type="text" placeholder="Name on Bank Account" ng-model="bankingInfo.nameOnBank" />
-                        </div>
-                        <div class="item" float-label>
-                            <label>Routing Number</label>
+                    </div>
+                    <div class="item" float-label>
+                        <label>Routing Number</label>
                             <input type="text" placeholder="Routing Number" ng-model="bankCtrl.routingNumber" />
-                        </div>
-                        <div class="item" float-label>
-                            <label>Account Number</label>
+                    </div>
+                    <div class="item" float-label>
+                        <label>Account Number</label>
                             <input type="text" placeholder="Account Number" ng-model="bankCtrl.accountToken" data-val-digits tokenize-field="{'type':'bank','tokenizerDomain':'https://streamenergy.cardconnect.com:6443'}" />  <!--UPDATE THIS WHEN INTEGRATED INTO SITECORE!!-->
-                        </div>
-                        <div>
-                            <img src="/frontend/assets/i/checkImage.jpg" />
-                        </div>
-                        <div class="item" float-label>
-                            <label>Account Nickname</label>
-                            <input type="text" placeholder="Account Nickname" ng-model="bankingInfo.AccountNickname" />
-                        </div>
+                    </div>
+                    <div>
+                        <img src="/MobileApp/frontend/assets/i/checkImage.jpg" />
+                    </div>
+                    <div class="item" float-label>
+                        <label>Account Nickname</label>
+                        <input type="text" placeholder="Account Nickname" ng-model="bankingInfo.AccountNickname" />
+                    </div>
                     </div>
                     <p>
                         Account Nickname will be used throughout this site to provide a friendly payment method name. 

@@ -12,7 +12,7 @@
         <div class="settings">
             <form>
                 <div class="setting" ng-repeat="account in accounts">
-                    <h1>{{account.utilityType == 'gas' ? "Gas" : "Electricity"}} {{account.accountNumber}}</h1>
+                    <h1>{{account.utilityType == 'gas' ? "Gas" : "Electricity"}} #{{account.accountNumber}}</h1>
                     <div class="item clearfix"  ng-click="account.isPaperless = true;">
                         <span class="icon" ng-class="{'icon-radio-large-checked': account.isPaperless, 'icon-radio-large':!account.isPaperless}"></span>
                         <div class="info stacked">

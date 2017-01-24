@@ -9,6 +9,10 @@
             You can easily manage how you would like to pay your invoices by choosing your payment method. To save a new method, select one of the payment options below and follow the instructions. To update current account information, delete the account and enter a new account with the updated information.
         </p>
 
+        <div class="buttons">
+            <a class="button primary full" ng-click="go('account/add-payment-method')">Add Payment Method</a>
+        </div>
+
         <div class="payment-methods">
 
             <div class="payment-method" ng-repeat="paymentMethod in paymentMethods">
@@ -23,9 +27,10 @@
                 </div>
             </div>
         </div>
-        <div class="buttons">
-            <a class="button primary full" ng-click="go('account/add-payment-method')">Add Payment Method</a>
-        </div>
+        
+        <p>
+            If you would like to pay by phone, mail your payment or find a PayStation near you, check out our <a>Other Payment Options</a>.
+        </p>
     </div>
     
 </article>
