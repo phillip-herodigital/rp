@@ -252,6 +252,18 @@ article.block-links{
                 
         }
     }
+	&.power-center{
+        a, .link{
+            @include retina-background(diamonds-blue);
+
+            .name{
+                background: url("/mobileapp/frontend/assets/i/icon/power-center.png");
+                background-position:left 50%;
+                background-repeat:no-repeat;
+            }
+                
+        }
+    }
      &.shop{
         .title, a{
             @include gradient(green); 
@@ -278,7 +290,7 @@ article.block-links{
         }
 
         a, .link{
-            @include retina-background(diamonds-blue);
+            @include retina-background(diamonds-dark-blue);
 
             .name{
                 background: url("/mobileapp/frontend/assets/i/icon/share.png");
@@ -1012,6 +1024,12 @@ article.account{
         background:#fff;
         padding:15px 20px;
 
+		p a {
+			color:$primary-blue;
+            text-decoration:none;
+			font-size: 16px;
+		}
+
         &.heading-bar{
             @include radial-grandient(blue);
 
@@ -1040,15 +1058,19 @@ article.manage-payment-methods{
             padding: 15px 0;
             border-bottom:1px solid #d8d8d8;
             line-height:1;
-            margin-bottom:20px;
+
+			&:last-of-type {
+				margin-bottom:20px;
+			}
 
             &:first-of-type{
                 border-top:1px solid #d8d8d8;
+				margin-top: 20px;
             }
 
             a{
-                color:$primary-blue;
-                text-decoration:none;
+				font-size: 18px;
+				color:$primary-blue;
             }
             .name{
                 color: $primary-text-grey;
@@ -1103,12 +1125,20 @@ article.billing-history{
 }
 
 article.manage{
+	a {
+		color:$primary-blue;
+		font-size: 16px;
+		text-decoration: none;
+	}
     .settings{
         .setting{
             padding:25px 0;
             border-top:1px solid $primary-border;
             border-bottom:1px solid $primary-border;
-            margin-bottom:15px;
+            
+			&:last-child { 
+				margin-bottom:15px;
+			}
 
             & + .setting{
                 border-top:none;
@@ -1194,6 +1224,10 @@ article.add-payment-method {
         }
     }
 
+	.add-method select {
+		color: #a9a9a9;
+	}
+
     img{
         margin:auto;
         display:inline-block;
@@ -1233,6 +1267,10 @@ article.add-payment-method {
 
         .credit-card-fields{
             padding-bottom:15px;
+			
+			a.example {
+				margin-top: 0px;
+			}
         }
     }
 
