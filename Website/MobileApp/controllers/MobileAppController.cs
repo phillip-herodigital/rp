@@ -21,11 +21,11 @@ namespace StreamEnergy.MyStream.MobileApp.controllers
 
         private readonly Sitecore.Data.Items.Item item;
         private readonly IUnityContainer container;
-        private readonly DomainModels.Accounts.IAccountService accountService;
-        private readonly DomainModels.Payments.IPaymentService paymentService;
+        private readonly IAccountService accountService;
+        private readonly IPaymentService paymentService;
         private readonly Sitecore.Security.Domains.Domain domain;
         private readonly Sitecore.Data.Database database;
-        private readonly StreamEnergy.MyStream.Controllers.ApiControllers.AuthenticationController authentication;
+        private readonly Controllers.ApiControllers.AuthenticationController authentication;
         private readonly ICurrentUser currentUser;
 
         private const string ELECTRICITY = "electricity";
@@ -67,6 +67,12 @@ namespace StreamEnergy.MyStream.MobileApp.controllers
 
             var accountsWithInvoices = await accountService.GetInvoices(currentUser.StreamConnectCustomerId, currentUser.Accounts);
             var userPaymentMethods = await paymentService.GetSavedPaymentMethods(currentUser.StreamConnectCustomerId);
+
+            var tasks = currentUser.Accounts.Select(account => paymentService.GetAutoPayStatus(account, true)).ToList();
+            await Task.WhenAll(tasks);
+            var tasksRa = tasks.ToArray();
+            var it = 0;
+            currentUser.Accounts.Select(account => account.AutoPay = tasksRa[it++].Result);            
 
             var rawAccounts = from account in currentUser.Accounts
                            let invoiceAcct = accountsWithInvoices.FirstOrDefault(t => t.AccountNumber == account.AccountNumber && t.Invoices != null)
@@ -225,6 +231,7 @@ namespace StreamEnergy.MyStream.MobileApp.controllers
                 SystemOfRecord = account.SystemOfRecord,
                 UtilityProvider = account.GetCapability<ExternalPaymentAccountCapability>().UtilityProvider,
                 HasAutoPay = account.AutoPay != null ? account.AutoPay.IsEnabled : false,
+                AutoPayPaymentMethodId = account.AutoPay != null ? account.AutoPay.PaymentMethodId.ToString() : null,
                 IsPaperless = account.Details.BillingDeliveryPreference == EMAIL,
                 BillingDeliveryPreference = account.Details.BillingDeliveryPreference,
                 CanMakeOneTimePayment = account.GetCapability<PaymentSchedulingAccountCapability>().CanMakeOneTimePayment
